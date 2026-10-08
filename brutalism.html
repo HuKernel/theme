@@ -4,302 +4,621 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>风格 C · Brutalism</title>
+<title>Brutalism 粗野主义 / UI 设计提示词库</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Rubik:wght@400;500;600;700&display=swap');
-
+/* Token 计划: 混凝土单色系——纸灰 #E8E6E1 / 结构黑 #0A0A0A / 次级 #454540 / 警示橙 #FF4D00(仅作实心块与粗线, 橙底一律黑字 6.3:1) / 系统默认无衬线 + 等宽 / 边框 2px 实线 / 圆角 0 / 阴影 0 / 过渡 0 */
 :root {
-  --pink: #EC4899;
-  --pink-deep: #831843;
-  --orange: #EA580C;
-  --bg: #FDF2F8;
-  --card: #FFFFFF;
-  --border: 3px solid #000;
-  --shadow: 6px 6px 0 #000;
+  --paper: #E8E6E1;
+  --panel: #DAD7D0;
+  --ink: #0A0A0A;
+  --sub: #454540;
+  --warn: #FF4D00;
+  --white: #FFFFFF;
+  --grey-l: #A8A5A0;
+  --grey-d: #1C1C1B;
+  --bd: 2px solid var(--ink);
+  --sans: 'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --mono: ui-monospace, 'SF Mono', Consolas, 'Courier New', 'PingFang SC', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'Rubik', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--pink-deep);
-  line-height: 1.5;
+html { scroll-padding-top: 72px; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.6; }
+::selection { background: var(--ink); color: var(--paper); }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--warn);
+  outline-offset: 2px;
 }
 
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+/* ── 图纸外框: 暴露的结构竖线 ── */
+.sheet { max-width: 1440px; margin: 0 auto; border-left: var(--bd); border-right: var(--bd); background: var(--paper); }
 
-/* ---------- 顶栏 ---------- */
-.topbar {
-  border-bottom: var(--border);
-  background: var(--card);
-  position: sticky; top: 0; z-index: 10;
+/* ── 顶栏 ── */
+.top {
+  background: var(--ink);
+  color: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: var(--bd);
 }
-.topbar-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  height: 68px;
-}
-.logo {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 900; font-size: 20px; text-transform: uppercase;
-  display: flex; align-items: center; gap: 12px;
-  text-decoration: none; color: #000;
-}
-.logo-mark {
-  width: 36px; height: 36px;
-  background: var(--pink); border: var(--border);
-  display: grid; place-items: center; color: #000;
-  box-shadow: var(--shadow);
-}
-nav { display: flex; gap: 8px; }
-nav a {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700; font-size: 14px; text-transform: uppercase;
-  color: #000; text-decoration: none;
-  padding: 8px 12px; border: var(--border); background: var(--card);
-  box-shadow: 4px 4px 0 #000;
-  transition: none;
-}
-nav a:hover, nav a:focus-visible { background: var(--pink); }
+.top-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 0 clamp(16px, 4vw, 48px); }
+.brand { font-weight: 700; font-size: 18px; color: var(--paper); text-decoration: none; letter-spacing: 0.02em; }
+.brand strong { color: var(--warn); }
+.top nav { display: flex; gap: 2px; }
+.top nav a { font-family: var(--mono); font-size: 13px; color: var(--paper); text-decoration: none; padding: 9px 12px; }
+.top nav a:hover { background: var(--warn); color: var(--ink); }
+.top-cta { font-family: var(--mono); font-size: 13px; font-weight: 700; background: var(--warn); color: var(--ink); text-decoration: none; padding: 10px 18px; border: 2px solid var(--warn); }
+.top-cta:hover { background: var(--paper); border-color: var(--paper); }
 
-.btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800; font-size: 15px; text-transform: uppercase;
-  padding: 12px 24px;
-  border: var(--border); border-radius: 0;
-  cursor: pointer; text-decoration: none;
-  box-shadow: var(--shadow);
-  transition: none;
-}
-.btn-pink { background: var(--pink); color: #000; }
-.btn-pink:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
-.btn-pink:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #000; }
-.btn-orange { background: var(--orange); color: #000; }
-.btn-orange:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
-.btn-orange:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #000; }
+/* ── 按钮: 实心块, 无圆角无阴影无过渡 ── */
+.btn { display: inline-block; font-size: 15px; font-weight: 700; padding: 14px 26px; text-decoration: none; cursor: pointer; border: var(--bd); }
+.btn-solid { background: var(--ink); color: var(--paper); }
+.btn-solid:hover { background: var(--warn); color: var(--ink); border-color: var(--ink); }
+.btn-ghost { background: var(--paper); color: var(--ink); }
+.btn-ghost:hover { background: var(--white); }
+.btn-warn { display: block; width: 100%; background: var(--warn); color: var(--ink); font-size: 17px; padding: 16px 34px; margin-top: 10px; }
+.btn-warn:hover { background: var(--ink); color: var(--warn); }
 
-a:focus-visible, button:focus-visible {
-  outline: 4px solid var(--orange); outline-offset: 3px;
-}
-
-/* ---------- Hero ---------- */
+/* ── Hero: 巨字一次压下, 底缘裁切出血 ── */
 .hero {
-  padding: 72px 0 56px;
-  display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+  padding: 44px clamp(16px, 4vw, 48px) 0;
+  overflow: hidden;
+  border-bottom: var(--bd);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 55px,
+    rgba(10, 10, 10, 0.07) 55px 56px);
 }
-.tag {
-  display: inline-block;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800; font-size: 13px; text-transform: uppercase;
-  background: #000; color: var(--bg);
-  padding: 6px 12px; margin-bottom: 22px;
-  transform: rotate(-2deg);
+.hero-meta { font-family: var(--mono); font-size: 12.5px; color: var(--sub); margin-bottom: 10px; }
+.hero-meta::before { content: "+ "; }
+.hero-word { font-weight: 700; line-height: 0.82; letter-spacing: -0.03em; margin-bottom: -0.14em; animation: slam 0.55s steps(7) both; }
+.hero-word span { display: block; white-space: nowrap; }
+.l1, .l2 { font-size: clamp(110px, 23vw, 330px); }
+.sq { display: inline-block; width: 0.4em; height: 0.4em; background: var(--warn); margin-left: 0.05em; }
+@keyframes slam {
+  from { transform: translateY(-104%); }
+  to { transform: translateY(0); }
 }
-h1 {
-  font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-size: clamp(40px, 6.5vw, 72px);
-  font-weight: 900; line-height: 1.02;
-  text-transform: uppercase; letter-spacing: -0.02em;
-  color: #000;
-  margin-bottom: 22px;
-}
-h1 .hl {
-  background: var(--pink); color: #000;
-  padding: 0 10px;
-  box-decoration-break: clone; -webkit-box-decoration-break: clone;
-}
-h1 .hl-o { background: var(--orange); }
-.sub {
-  font-size: 17px; font-weight: 500;
-  max-width: 480px; margin-bottom: 32px;
-  border-left: 6px solid var(--orange); padding-left: 16px;
-}
-.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-low { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2px; background: var(--ink); border-top: var(--bd); }
+.hero-main { background: var(--paper); padding: 26px clamp(4px, 1vw, 18px) 30px 0; }
+.hero-sub { font-size: 16.5px; color: var(--sub); max-width: 560px; margin-bottom: 24px; }
+.hero-sub b { color: var(--ink); }
+.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
 
-/* Hero 侧标语牌 */
-.hero-note {
-  border: var(--border); background: var(--card);
-  box-shadow: var(--shadow);
-  padding: 28px; transform: rotate(2deg);
-}
-.hero-note b {
-  font-family: 'Outfit', sans-serif;
-  display: block; font-size: 64px; font-weight: 900;
-  color: var(--pink); line-height: 1;
-}
-.hero-note span { font-weight: 700; font-size: 15px; }
-.hero-note small { display: block; margin-top: 10px; font-size: 12.5px; color: #475569; }
+/* 出厂吊牌 */
+.lifting { background: var(--white); border-left: var(--bd); padding: 20px 22px 22px; }
+.lifting-head { font-family: var(--mono); font-size: 12px; font-weight: 700; background: var(--ink); color: var(--paper); padding: 6px 10px; margin: 0 -10px 16px; }
+.t-row { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 13px; padding: 7px 0; border-bottom: 1px solid var(--ink); }
+.t-row dt { color: var(--sub); }
+.t-row dd { font-weight: 700; }
+.t-row .ok { background: var(--warn); padding: 0 6px; }
 
-/* ---------- 跑马灯 ---------- */
-.marquee {
-  border-top: var(--border); border-bottom: var(--border);
-  background: #000; color: var(--bg);
-  overflow: hidden; white-space: nowrap;
-  padding: 12px 0;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 0.08em;
-}
-.marquee-track { display: inline-block; animation: scroll 22s linear infinite; }
-.marquee-track span { margin: 0 28px; }
-.marquee-track .p { color: var(--pink); }
-.marquee-track .o { color: var(--orange); }
-@keyframes scroll { to { transform: translateX(-50%); } }
+/* ── 静态走带条 ── */
+.ticker { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 13px; padding: 11px clamp(16px, 4vw, 48px); border-bottom: var(--bd); white-space: nowrap; overflow: hidden; }
+.ticker .num { color: var(--warn); font-weight: 700; }
+.ticker .sep { color: var(--grey-l); margin: 0 10px; }
 
-/* ---------- 功能卡 ---------- */
-.section-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 40px; font-weight: 900; text-transform: uppercase;
-  color: #000; margin: 64px 0 32px;
-  display: inline-block;
-  background: var(--orange); padding: 4px 16px;
-  border: var(--border); box-shadow: var(--shadow);
-}
-.grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
-  margin-bottom: 24px;
-}
-.card {
-  border: var(--border); background: var(--card);
-  box-shadow: var(--shadow);
-  padding: 26px 24px;
-}
-.card:nth-child(2) { transform: rotate(-1deg); }
-.card:nth-child(3) { transform: rotate(1deg); }
-.card-head {
-  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
-}
-.card-num {
-  font-family: 'Outfit', sans-serif;
-  width: 42px; height: 42px; flex: none;
-  display: grid; place-items: center;
-  font-size: 20px; font-weight: 900;
-  background: var(--pink); border: var(--border); color: #000;
-}
-.card:nth-child(3) .card-num { background: var(--orange); }
-.card h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 19px; font-weight: 800; color: #000;
-}
-.card p { font-size: 14.5px; font-weight: 500; }
-
-/* ---------- 指标 ---------- */
-.stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
-  margin: 40px 0 72px;
-}
-.stat {
-  border: var(--border); box-shadow: var(--shadow);
-  padding: 24px; text-align: center;
-  background: #000; color: var(--bg);
-}
-.stat:nth-child(2) { background: var(--pink); color: #000; }
-.stat:nth-child(3) { background: var(--orange); color: #000; }
-.stat b {
-  font-family: 'Outfit', sans-serif;
-  display: block; font-size: 46px; font-weight: 900; line-height: 1.05;
-}
-.stat span { font-weight: 700; font-size: 14px; text-transform: uppercase; }
-
-footer {
-  border-top: var(--border);
-  padding: 26px 0; text-align: center;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 700; font-size: 13px; text-transform: uppercase;
+/* ── 警示带: 实心斜纹, 无动画 ── */
+.tape {
+  height: 26px;
+  border-top: var(--bd);
+  border-bottom: var(--bd);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--ink) 0 22px,
+    var(--warn) 22px 44px);
 }
 
-@media (max-width: 768px) {
-  nav { display: none; }
-  .hero { grid-template-columns: 1fr; }
-  .grid, .stats { grid-template-columns: 1fr; }
+/* ── 分节通用 ── */
+.sec { padding: 60px clamp(16px, 4vw, 48px); border-bottom: var(--bd); }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+.sec-head h2 { font-size: clamp(30px, 4.2vw, 46px); font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
+.sec-head h2 em { font-style: normal; font-family: var(--mono); font-size: 0.42em; color: var(--sub); vertical-align: 0.5em; margin-right: 14px; }
+.sec-note { font-family: var(--mono); font-size: 12.5px; color: var(--sub); max-width: 380px; }
+
+/* ── 产能: 暴露网格的块面拼合 ── */
+.blocks { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; background: var(--ink); border: var(--bd); }
+.bk { padding: 26px 24px; background: var(--white); }
+.bk b { display: block; font-size: clamp(40px, 4.6vw, 60px); font-weight: 700; line-height: 1; margin-bottom: 8px; }
+.bk span { display: block; font-family: var(--mono); font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.bk small { font-size: 13px; color: var(--sub); line-height: 1.5; display: block; }
+.bk-a { grid-column: span 5; }
+.bk-b { grid-column: span 3; background: var(--panel); }
+.bk-c { grid-column: span 4; background: var(--warn); }
+.bk-c small { color: var(--ink); }
+.bk-d { grid-column: span 4; background: var(--grey-d); color: var(--white); }
+.bk-d small { color: var(--grey-l); }
+.bk-e { grid-column: span 4; }
+.bk-f { grid-column: span 4; background: var(--panel); }
+
+/* ── 规格表: 密表格, 全表同一 grid 模板保证行行对齐 ── */
+.scroll { overflow-x: auto; }
+.spec { display: grid; grid-template-columns: 0.9fr 1.2fr 1.1fr 0.9fr 1fr 0.8fr 1.9fr; gap: 2px; background: var(--ink); border: var(--bd); min-width: 900px; font-family: var(--mono); font-size: 12.5px; }
+.spec-row { display: contents; }
+.spec .c { background: var(--white); padding: 10px 12px; line-height: 1.45; }
+.spec .ch { background: var(--ink); color: var(--paper); font-weight: 700; }
+.spec .rh { font-weight: 700; font-size: 13.5px; }
+.spec .hot { background: var(--warn); font-weight: 700; }
+.spec-note { font-family: var(--mono); font-size: 12px; color: var(--sub); margin-top: 14px; }
+
+/* ── 构件清单: 台账行, 同一 grid 模板 ── */
+.parts { display: grid; grid-template-columns: 0.7fr 1.5fr 1.8fr 0.6fr 0.9fr 1.2fr; gap: 2px; background: var(--ink); border: var(--bd); font-family: var(--mono); font-size: 13px; }
+.parts .p-row { display: contents; }
+.parts .c { background: var(--paper); padding: 14px; line-height: 1.5; }
+.parts .ch { background: var(--ink); color: var(--paper); font-weight: 700; }
+.parts .rh { font-weight: 700; }
+.parts .nm { font-family: var(--sans); font-size: 15px; font-weight: 700; }
+
+/* ── 巨字过场: 一屏一句话 ── */
+.statement {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(56px, 9vw, 110px) clamp(16px, 4vw, 48px) 0;
+  overflow: hidden;
+  border-bottom: var(--bd);
+}
+.statement h2 { font-size: clamp(52px, 10.5vw, 150px); font-weight: 700; line-height: 0.9; letter-spacing: -0.02em; white-space: nowrap; margin-bottom: -0.12em; }
+.statement p { font-family: var(--mono); font-size: 14px; color: var(--grey-l); padding: 22px 0 30px; border-top: 1px solid #3A3A37; margin-top: 26px; }
+
+/* ── 工艺: 四格暴露网格 ── */
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--ink); border: var(--bd); }
+.step { background: var(--white); padding: 24px 22px 26px; }
+.sn { display: block; font-family: var(--mono); font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+.sn::after { content: ""; display: block; width: 34px; height: 7px; background: var(--warn); margin-top: 8px; }
+.step h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.step .d { font-size: 13.5px; color: var(--sub); line-height: 1.55; }
+.step .m { font-family: var(--mono); font-size: 12.5px; font-weight: 700; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--ink); }
+
+/* ── 案例: 三栏台账 ── */
+.works { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 2px; background: var(--ink); border: var(--bd); }
+.wk { background: var(--white); padding: 26px 24px; }
+.wk:nth-child(even) { background: var(--panel); }
+.yr { display: inline-block; font-family: var(--mono); font-size: 13px; font-weight: 700; background: var(--warn); color: var(--ink); padding: 3px 9px; margin-bottom: 14px; }
+.wk h3 { font-size: 19px; font-weight: 700; line-height: 1.3; margin-bottom: 14px; }
+.c-row { font-family: var(--mono); font-size: 12.5px; padding: 8px 0; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; gap: 10px; }
+.c-row dt { color: var(--sub); }
+.c-row dd { font-weight: 700; }
+
+/* ── 询价: 表单 + 信息块 ── */
+.order { display: grid; grid-template-columns: 1.35fr 1fr; gap: 2px; background: var(--ink); border: var(--bd); }
+.ord-form { background: var(--white); padding: 30px clamp(20px, 3vw, 34px); }
+.f { margin-bottom: 18px; }
+.f label { display: block; font-family: var(--mono); font-size: 13px; font-weight: 700; margin-bottom: 7px; }
+.f input, .f textarea { width: 100%; font-family: var(--mono); font-size: 14px; padding: 12px; border: var(--bd); border-radius: 0; background: var(--white); color: var(--ink); }
+.f textarea { resize: vertical; min-height: 84px; }
+.f-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ord-note { font-family: var(--mono); font-size: 12px; color: var(--sub); margin-top: 14px; }
+.ord-info { background: var(--grey-d); color: var(--paper); padding: 30px 28px; }
+.ord-info h3 { font-size: 20px; font-weight: 700; margin-bottom: 18px; }
+.i-row { font-family: var(--mono); font-size: 13px; padding: 10px 0; border-bottom: 1px solid #3A3A37; display: flex; justify-content: space-between; gap: 12px; }
+.i-row dt { color: var(--grey-l); }
+.i-row dd { font-weight: 700; }
+.ord-info .fine { font-family: var(--mono); font-size: 12px; color: var(--grey-l); margin-top: 18px; line-height: 1.7; }
+.ord-info .fine b { color: var(--warn); }
+
+/* ── 图签 + 页脚 ── */
+footer { background: var(--ink); color: var(--paper); padding: 40px clamp(16px, 4vw, 48px) 30px; }
+.tb { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; background: #454540; border: 2px solid #454540; }
+.tb-cell { background: var(--ink); padding: 12px 14px; }
+.tb-cell small { display: block; font-family: var(--mono); font-size: 11px; color: var(--grey-l); margin-bottom: 5px; }
+.tb-cell b { font-size: 14px; font-weight: 700; }
+.foot-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 24px; font-family: var(--mono); font-size: 13px; }
+.foot-row a {
+  color: var(--warn);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  padding: 6px 10px;
+}
+.foot-row a:hover { background: var(--warn); color: var(--ink); text-decoration: none; }
+
+/* ── 响应式 ── */
+@media (max-width: 960px) {
+  .top nav { display: none; }
+  .bk-a, .bk-b, .bk-c, .bk-d, .bk-e, .bk-f { grid-column: span 6; }
+  .flow { grid-template-columns: repeat(2, 1fr); }
+  .works { grid-template-columns: 1fr; }
+  .order { grid-template-columns: 1fr; }
+  .tb { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .hero-low { grid-template-columns: 1fr; }
+  .lifting { border-left: none; border-top: var(--bd); }
+  .hero-main { padding: 24px 0 26px; }
+  .bk-a, .bk-b, .bk-c, .bk-d, .bk-e, .bk-f { grid-column: span 12; }
+  .flow { grid-template-columns: 1fr; }
+  .f-2 { grid-template-columns: 1fr; }
+  .tb { grid-template-columns: repeat(2, 1fr); }
+  .statement h2 { white-space: normal; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .hero-word { animation: none; }
 }
 </style>
 </head>
 <body>
+<div class="sheet">
 
-<header class="topbar">
-  <div class="container topbar-inner">
-    <a class="logo" href="#">
-      <span class="logo-mark" aria-hidden="true">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
-      </span>
-      地下一层
-    </a>
-    <nav aria-label="主导航">
-      <a href="#features">功能</a>
-      <a href="#stats">成效</a>
-      <a href="#">场地守则</a>
-    </nav>
-    <a class="btn btn-pink" href="#">看本周演出</a>
+  <header class="top">
+    <div class="top-in">
+      <a class="brand" href="#top">灰岩预制构件厂<strong> 007</strong></a>
+      <nav aria-label="页内导航">
+        <a href="#capacity">产能</a>
+        <a href="#spec">规格表</a>
+        <a href="#parts">构件</a>
+        <a href="#process">工艺</a>
+        <a href="#works">案例</a>
+      </nav>
+      <a class="top-cta" href="#order">询价</a>
+    </div>
+  </header>
+
+  <section class="hero" id="top" aria-label="厂区总述">
+    <p class="hero-meta">预制混凝土构件 / 武汉 青山 白玉路 / 建厂 1974</p>
+    <h1 class="hero-word">
+      <span class="l1">混凝土</span>
+      <span class="l2">不说谎<span class="sq" aria-hidden="true"></span></span>
+    </h1>
+    <div class="hero-low">
+      <div class="hero-main">
+        <p class="hero-sub">不贴砖, 不刷漆, 不做样板间。<b>强度等级刻在构件侧面, 自重写在吊装牌上</b>。这栋楼由什么构成, 走近就能读到。</p>
+        <p class="hero-cta">
+          <a class="btn btn-solid" href="#spec">查看强度规格表</a>
+          <a class="btn btn-ghost" href="#works">看工程案例</a>
+        </p>
+      </div>
+      <aside class="lifting" aria-label="出厂吊牌样例">
+        <p class="lifting-head">出厂吊牌 / 随构件同行</p>
+        <dl>
+          <div class="t-row"><dt>构件编号</dt><dd>GJ-2026-1187</dd></div>
+          <div class="t-row"><dt>混凝土等级</dt><dd>C50</dd></div>
+          <div class="t-row"><dt>自重 / 吊点</dt><dd>3.1 t / 4 点</dd></div>
+          <div class="t-row"><dt>出池日期</dt><dd>2026-09-30</dd></div>
+          <div class="t-row"><dt>28 天实测</dt><dd>57.8 MPa</dd></div>
+          <div class="t-row"><dt>检验员</dt><dd><span class="ok">07 合格</span></dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    强度等级 <span class="num">C25 / C30 / C35 / C40 / C45 / C50 / C60</span><span class="sep">/</span>常备库存 <span class="num">C40</span><span class="sep">/</span>排产 <span class="num">3 天</span><span class="sep">/</span>交付 <span class="num">26 天</span><span class="sep">/</span>实测报告随车<span class="sep">/</span>武汉城市圈送货到工地
   </div>
-</header>
 
-<main>
-  <section class="hero container">
-    <div>
-      <span class="tag">本周演出 4 场 · 21:00 准时开演 · 不直播</span>
-      <h1>声音<br><span class="hl">大一点</span>，<br><span class="hl hl-o">世界就小一点</span></h1>
-      <p class="sub">老防空洞改的场子，隔音是水泥的，耳朵是自己的。来看现场，别看屏幕。</p>
-      <div class="cta-row">
-        <a class="btn btn-orange" href="#">本周演出</a>
-        <a class="btn btn-pink" href="#">场地守则</a>
+  <section class="sec" id="capacity" aria-labelledby="h-cap">
+    <header class="sec-head">
+      <h2 id="h-cap"><em>01</em>产能</h2>
+      <p class="sec-note">两条自动化搅拌线 / 一条预制构件线 / 三班满负荷</p>
+    </header>
+    <div class="blocks">
+      <div class="bk bk-a">
+        <b>42 万吨</b>
+        <span>年混凝土产能</span>
+        <small>两条自动化搅拌线, 三班满负荷运转, 峰值日供 2400 立方米。</small>
+      </div>
+      <div class="bk bk-b">
+        <b>780 块</b>
+        <span>月均构件出厂</span>
+        <small>板 / 梁 / 柱 / 墙板四类</small>
+      </div>
+      <div class="bk bk-c">
+        <b>99.2 %</b>
+        <span>28 天强度合格率</span>
+        <small>近三年 4186 组试块实测</small>
+      </div>
+      <div class="bk bk-d">
+        <b>375 km</b>
+        <span>最大供货半径</span>
+        <small>覆盖湖北全境及邻省 21 市</small>
+      </div>
+      <div class="bk bk-e">
+        <b>1974</b>
+        <span>建厂年份</span>
+        <small>前身为市建材局构件一厂</small>
+      </div>
+      <div class="bk bk-f">
+        <b>26 天</b>
+        <span>平均交付周期</span>
+        <small>自图纸确认至构件出厂</small>
       </div>
     </div>
-    <aside class="hero-note">
-      <b>4</b>
-      <span>场演出本周：周四后摇，周六硬核</span>
-      <small>260 人容量 · 20:30 开门 · 准时开演</small>
-    </aside>
   </section>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>周四后摇</span><span class="p">◆</span><span>周六硬核</span><span class="o">◆</span><span>Open Mic</span><span class="p">◆</span><span>不直播</span><span class="o">◆</span>
-      <span>周四后摇</span><span class="p">◆</span><span>周六硬核</span><span class="o">◆</span><span>Open Mic</span><span class="p">◆</span><span>不直播</span><span class="o">◆</span>
-    </div>
-  </div>
+  <div class="tape" aria-hidden="true"></div>
 
-  <section id="features" class="container">
-    <h2 class="section-title">一个场子 = 一星期三场好演出</h2>
-    <div class="grid">
-      <article class="card">
-        <div class="card-head">
-          <span class="card-num">01</span>
-          <h3>周四 · 后摇</h3>
+  <section class="sec" id="spec" aria-labelledby="h-spec">
+    <header class="sec-head">
+      <h2 id="h-spec"><em>02</em>强度规格表</h2>
+      <p class="sec-note">全等级常备配合比 / 每车留样三组 / 数据可追溯至拌合记录</p>
+    </header>
+    <div class="scroll">
+      <div class="spec" role="table" aria-label="混凝土强度等级规格表">
+        <div class="spec-row" role="row">
+          <div class="c ch" role="columnheader">强度等级</div>
+          <div class="c ch" role="columnheader">28 天抗压 MPa</div>
+          <div class="c ch" role="columnheader">坍落度 mm</div>
+          <div class="c ch" role="columnheader">水灰比 ≤</div>
+          <div class="c ch" role="columnheader">骨料 mm</div>
+          <div class="c ch" role="columnheader">养护 d</div>
+          <div class="c ch" role="columnheader">适用部位</div>
         </div>
-        <p>三支本地新队，压轴那支 40 分钟不说话。</p>
+        <div class="spec-row" role="row">
+          <div class="c rh" role="rowheader">C25</div>
+          <div class="c" role="cell">≥ 25</div>
+          <div class="c" role="cell">35 - 90</div>
+          <div class="c" role="cell">0.60</div>
+          <div class="c" role="cell">20 - 40</div>
+          <div class="c" role="cell">7</div>
+          <div class="c" role="cell">基础垫层 / 场地硬化</div>
+        </div>
+        <div class="spec-row" role="row">
+          <div class="c rh" role="rowheader">C30</div>
+          <div class="c" role="cell">≥ 30</div>
+          <div class="c" role="cell">75 - 120</div>
+          <div class="c" role="cell">0.55</div>
+          <div class="c" role="cell">20 - 40</div>
+          <div class="c" role="cell">7</div>
+          <div class="c" role="cell">楼梯 / 过梁 / 小型构件</div>
+        </div>
+        <div class="spec-row" role="row">
+          <div class="c rh" role="rowheader">C35</div>
+          <div class="c" role="cell">≥ 35</div>
+          <div class="c" role="cell">75 - 120</div>
+          <div class="c" role="cell">0.52</div>
+          <div class="c" role="cell">20 - 31.5</div>
+          <div class="c" role="cell">7</div>
+          <div class="c" role="cell">空心楼板 / 叠合板</div>
+        </div>
+        <div class="spec-row" role="row">
+          <div class="c rh hot" role="rowheader">C40</div>
+          <div class="c hot" role="cell">≥ 40</div>
+          <div class="c hot" role="cell">120 ± 20</div>
+          <div class="c hot" role="cell">0.48</div>
+          <div class="c hot" role="cell">20 - 31.5</div>
+          <div class="c hot" role="cell">7</div>
+          <div class="c hot" role="cell">框架梁柱 / 常备库存</div>
+        </div>
+        <div class="spec-row" role="row">
+          <div class="c rh" role="rowheader">C45</div>
+          <div class="c" role="cell">≥ 45</div>
+          <div class="c" role="cell">120 ± 20</div>
+          <div class="c" role="cell">0.44</div>
+          <div class="c" role="cell">16 - 31.5</div>
+          <div class="c" role="cell">7</div>
+          <div class="c" role="cell">剪力墙板 / 电梯井道</div>
+        </div>
+        <div class="spec-row" role="row">
+          <div class="c rh" role="rowheader">C50</div>
+          <div class="c" role="cell">≥ 50</div>
+          <div class="c" role="cell">160 ± 20</div>
+          <div class="c" role="cell">0.40</div>
+          <div class="c" role="cell">16 - 25</div>
+          <div class="c" role="cell">3 蒸</div>
+          <div class="c" role="cell">预应力梁 / 桥面板</div>
+        </div>
+        <div class="spec-row" role="row">
+          <div class="c rh" role="rowheader">C60</div>
+          <div class="c" role="cell">≥ 60</div>
+          <div class="c" role="cell">180 ± 20</div>
+          <div class="c" role="cell">0.36</div>
+          <div class="c" role="cell">16 - 25</div>
+          <div class="c" role="cell">3 蒸</div>
+          <div class="c" role="cell">箱梁 / 抗渗 P8 节段</div>
+        </div>
+      </div>
+    </div>
+    <p class="spec-note">注 / 坍落度为泵送入模实测值 / 抗压强度按 150 mm 立方体标养 28 天实测 / 高亮行为常备库存等级, 当日可调度</p>
+  </section>
+
+  <section class="sec" id="parts" aria-labelledby="h-parts">
+    <header class="sec-head">
+      <h2 id="h-parts"><em>03</em>构件清单</h2>
+      <p class="sec-note">标准图集构件当日排产 / 非标构件需提供深化图纸</p>
+    </header>
+    <div class="parts" role="table" aria-label="预制构件台账">
+      <div class="p-row" role="row">
+        <div class="c ch" role="columnheader">编号</div>
+        <div class="c ch" role="columnheader">构件</div>
+        <div class="c ch" role="columnheader">规格 mm</div>
+        <div class="c ch" role="columnheader">强度</div>
+        <div class="c ch" role="columnheader">单重</div>
+        <div class="c ch" role="columnheader">备注</div>
+      </div>
+      <div class="p-row" role="row">
+        <div class="c rh" role="rowheader">GJ-01</div>
+        <div class="c nm" role="cell">预应力空心楼板</div>
+        <div class="c" role="cell">3580 × 590 × 120</div>
+        <div class="c" role="cell">C35</div>
+        <div class="c" role="cell">782 kg</div>
+        <div class="c" role="cell">标准层板</div>
+      </div>
+      <div class="p-row" role="row">
+        <div class="c rh" role="rowheader">GJ-02</div>
+        <div class="c nm" role="cell">桁架钢筋叠合板</div>
+        <div class="c" role="cell">2480 × 1120 × 60</div>
+        <div class="c" role="cell">C40</div>
+        <div class="c" role="cell">468 kg</div>
+        <div class="c" role="cell">现浇层 60 mm</div>
+      </div>
+      <div class="p-row" role="row">
+        <div class="c rh" role="rowheader">GJ-03</div>
+        <div class="c nm" role="cell">预制板式楼梯</div>
+        <div class="c" role="cell">4160 × 990 × 160</div>
+        <div class="c" role="cell">C40</div>
+        <div class="c" role="cell">2.9 t</div>
+        <div class="c" role="cell">整梯一段</div>
+      </div>
+      <div class="p-row" role="row">
+        <div class="c rh" role="rowheader">GJ-04</div>
+        <div class="c nm" role="cell">夹芯保温外墙板</div>
+        <div class="c" role="cell">2980 × 1180 × 210</div>
+        <div class="c" role="cell">C50</div>
+        <div class="c" role="cell">3.1 t</div>
+        <div class="c" role="cell">保温一体</div>
+      </div>
+      <div class="p-row" role="row">
+        <div class="c rh" role="rowheader">GJ-05</div>
+        <div class="c nm" role="cell">预制框架柱</div>
+        <div class="c" role="cell">5400 × 400 × 400</div>
+        <div class="c" role="cell">C50</div>
+        <div class="c" role="cell">2.2 t</div>
+        <div class="c" role="cell">灌浆套筒连接</div>
+      </div>
+      <div class="p-row" role="row">
+        <div class="c rh" role="rowheader">GJ-06</div>
+        <div class="c nm" role="cell">预制女儿墙板</div>
+        <div class="c" role="cell">2980 × 900 × 120</div>
+        <div class="c" role="cell">C35</div>
+        <div class="c" role="cell">0.8 t</div>
+        <div class="c" role="cell">线脚预留</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="statement" aria-label="厂训">
+    <h2>重量即证明<span class="sq" aria-hidden="true"></span></h2>
+    <p>一根 GJ-05 柱自重 2.2 吨 / 一块 GJ-04 墙板 3.1 吨 / 数字刻在吊装牌上, 谁也糊弄不了。</p>
+  </section>
+
+  <section class="sec" id="process" aria-labelledby="h-proc">
+    <header class="sec-head">
+      <h2 id="h-proc"><em>04</em>工艺</h2>
+      <p class="sec-note">单件构件全流程 18 小时 / 模具周转率 1:2.4</p>
+    </header>
+    <div class="flow">
+      <div class="step">
+        <span class="sn" aria-hidden="true">01</span>
+        <h3>支模</h3>
+        <p class="d">钢模平台预拼, 平台车送位, 拼缝公差控制在正负 2 毫米以内。</p>
+        <p class="m">90 min / 件</p>
+      </div>
+      <div class="step">
+        <span class="sn" aria-hidden="true">02</span>
+        <h3>绑筋</h3>
+        <p class="d">桁架钢筋整体入模, 保护层垫块梅花布置, 双层网片定位焊。</p>
+        <p class="m">60 min / 件</p>
+      </div>
+      <div class="step">
+        <span class="sn" aria-hidden="true">03</span>
+        <h3>浇筑</h3>
+        <p class="d">布料机分层布料, 附着振捣加插入棒复振, 表面一次压光。</p>
+        <p class="m">45 min / 件</p>
+      </div>
+      <div class="step">
+        <span class="sn" aria-hidden="true">04</span>
+        <h3>蒸养</h3>
+        <p class="d">升温 2 小时, 60 摄氏度恒温 8 小时, 降温 2 小时后出池翻检。</p>
+        <p class="m">12 h / 池</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="works" aria-labelledby="h-works">
+    <header class="sec-head">
+      <h2 id="h-works"><em>05</em>工程案例</h2>
+      <p class="sec-note">近三年供货项目 37 个 / 以下为代表性三项</p>
+    </header>
+    <div class="works">
+      <article class="wk">
+        <span class="yr">2025</span>
+        <h3>武汉地铁某标准站 / 装配式侧墙</h3>
+        <dl>
+          <div class="c-row"><dt>供货构件</dt><dd>480 块</dd></div>
+          <div class="c-row"><dt>强度等级</dt><dd>C50 / P8</dd></div>
+          <div class="c-row"><dt>工期对比</dt><dd>较现浇缩短 41 天</dd></div>
+        </dl>
       </article>
-      <article class="card">
-        <div class="card-head">
-          <span class="card-num">02</span>
-          <h3>周六 · 硬核</h3>
-        </div>
-        <p>全场开火车，护场在两侧，眼镜收好。</p>
+      <article class="wk">
+        <span class="yr">2024</span>
+        <h3>青山临江大道高架 / 节段箱梁</h3>
+        <dl>
+          <div class="c-row"><dt>供货构件</dt><dd>36 榀</dd></div>
+          <div class="c-row"><dt>强度等级</dt><dd>C60</dd></div>
+          <div class="c-row"><dt>湿接缝检查</dt><dd>零渗漏</dd></div>
+        </dl>
       </article>
-      <article class="card">
-        <div class="card-head">
-          <span class="card-num">03</span>
-          <h3>月末 · OpenMic</h3>
-        </div>
-        <p>新人开放麦，设备免费用，冷场也是经历。</p>
+      <article class="wk">
+        <span class="yr">2023</span>
+        <h3>光谷生物园厂房 / 排架柱与吊车梁</h3>
+        <dl>
+          <div class="c-row"><dt>供货构件</dt><dd>210 根</dd></div>
+          <div class="c-row"><dt>强度等级</dt><dd>C40</dd></div>
+          <div class="c-row"><dt>施工条件</dt><dd>冬期不停工</dd></div>
+        </dl>
       </article>
     </div>
   </section>
 
-  <section id="stats" class="container">
-    <div class="stats">
-      <div class="stat"><b>260人</b><span>场地容量</span></div>
-      <div class="stat"><b>4场</b><span>本周演出</span></div>
-      <div class="stat"><b>21:00</b><span>准时开演</span></div>
+  <div class="tape" aria-hidden="true"></div>
+
+  <section class="sec" id="order" aria-labelledby="h-order">
+    <header class="sec-head">
+      <h2 id="h-order"><em>06</em>询价</h2>
+      <p class="sec-note">工作日 24 小时内报价 / 大宗项目可驻场配合深化设计</p>
+    </header>
+    <div class="order">
+      <form class="ord-form" action="#order" method="get">
+        <div class="f">
+          <label for="f-co">单位名称</label>
+          <input id="f-co" name="company" type="text" autocomplete="organization">
+        </div>
+        <div class="f">
+          <label for="f-item">构件类型与数量</label>
+          <textarea id="f-item" name="items">例 / GJ-01 空心楼板 320 块, 交货地 武汉光谷</textarea>
+        </div>
+        <div class="f-2">
+          <div class="f">
+            <label for="f-name">联系人</label>
+            <input id="f-name" name="name" type="text" autocomplete="name">
+          </div>
+          <div class="f">
+            <label for="f-tel">联系电话</label>
+            <input id="f-tel" name="tel" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="f">
+          <label for="f-date">期望交期</label>
+          <input id="f-date" name="date" type="text" placeholder="例 / 2027-03-15 前">
+        </div>
+        <button class="btn btn-warn" type="submit">提交询价</button>
+        <p class="ord-note">提交后由生产科复核排产 / 非标构件请附深化图纸</p>
+      </form>
+      <aside class="ord-info" aria-label="联系方式">
+        <h3>询价通道</h3>
+        <dl>
+          <div class="i-row"><dt>电话</dt><dd>027-8687 4127</dd></div>
+          <div class="i-row"><dt>传真</dt><dd>027-8687 4128</dd></div>
+          <div class="i-row"><dt>邮箱</dt><dd>order@hy-precast.cn</dd></div>
+          <div class="i-row"><dt>厂址</dt><dd>武汉市青山区白玉路 3 号</dd></div>
+          <div class="i-row"><dt>接图格式</dt><dd>dwg / step / ifc</dd></div>
+          <div class="i-row"><dt>值班</dt><dd>生产科三班 / 技术科白班</dd></div>
+        </dl>
+        <p class="fine"><b>夜间吊装请提前 48 小时备案</b> / 场内限速 5 km / 进门换证, 出门交牌。</p>
+      </aside>
     </div>
   </section>
-</main>
 
-<footer>地下一层 · 风格样张 C（Brutalism）</footer>
+  <footer>
+    <div class="tb" role="table" aria-label="图纸标题栏">
+      <div class="tb-cell" role="cell"><small>项目</small><b>UI 设计提示词库</b></div>
+      <div class="tb-cell" role="cell"><small>图名</small><b>Brutalism 粗野主义</b></div>
+      <div class="tb-cell" role="cell"><small>图号</small><b>BRT-001</b></div>
+      <div class="tb-cell" role="cell"><small>比例</small><b>1 : 1</b></div>
+      <div class="tb-cell" role="cell"><small>日期</small><b>2026-10-08</b></div>
+      <div class="tb-cell" role="cell"><small>版次</small><b>02 / 重制</b></div>
+    </div>
+    <div class="foot-row">
+      <p>UI 设计提示词库 / Brutalism 粗野主义</p>
+      <a href="style-catalog.html">返回风格目录</a>
+    </div>
+  </footer>
 
+</div>
 </body>
 </html>

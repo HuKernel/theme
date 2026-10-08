@@ -3,323 +3,751 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Memphis Design 孟菲斯风格演示 / 1981 年米兰孟菲斯团体家具复刻系列目录 / UI 设计提示词库">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>风格 H · Memphis Design</title>
+<title>Memphis Design 孟菲斯 / UI 设计提示词库</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;500;600;700;800&display=swap');
 
-:root {
-  --pink: #FF71CE;
-  --yellow: #FFCE5C;
-  --teal: #86CCCA;
-  --purple: #6A7BB4;
-  --ink: #16161D;
-  --bg: #FFFDF6;
-  --pattern: 22px;
-}
+/* token 计划: 主色 #FF71CE/#FFCE5C/#86CCCA/#6A7BB4 + 深变体 #C2185B/#4A5A8E 保正文 4.5:1 / 墨线 2.5px 细描边无投影 / 微旋转 -3°~3° / 点阵 22px 栅格 */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.55;
-  overflow-x: hidden;
-}
-
-/* 波点底纹 */
-body::before {
-  content: ''; position: fixed; inset: 0; z-index: -1;
-  background-image: radial-gradient(rgba(22, 22, 29, 0.08) 1.5px, transparent 1.5px);
-  background-size: var(--pattern) var(--pattern);
+:root{
+  --pink:#FF71CE;
+  --yellow:#FFCE5C;
+  --teal:#86CCCA;
+  --purple:#6A7BB4;
+  --pink-ink:#C2185B;
+  --purple-ink:#4A5A8E;
+  --ink:#17141F;
+  --paper:#FFFDF6;
+  --cream:#FFF3D9;
+  --teal-soft:#DDEFEF;
+  --pink-soft:#FFDCF0;
+  --line:2.5px;
+  --r:16px;
+  --gap:clamp(16px,2.4vw,26px);
+  --wrap:1200px;
+  --disp:'Archivo Black','PingFang SC','Microsoft YaHei',sans-serif;
+  --body:'Outfit','PingFang SC','Microsoft YaHei',sans-serif;
 }
 
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.65;
+  overflow-x:hidden;
+}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(18px,3.5vw,40px)}
+.defs{position:absolute;width:0;height:0;overflow:hidden}
 
-/* ---------- 几何装饰 ---------- */
-.deco { position: absolute; pointer-events: none; }
-.deco-tri {
-  width: 0; height: 0;
-  border-left: 34px solid transparent; border-right: 34px solid transparent;
-  border-bottom: 58px solid var(--yellow);
-}
-.deco-circle {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: var(--teal);
-}
-.deco-ring {
-  width: 70px; height: 70px; border-radius: 50%;
-  border: 12px solid var(--pink); background: transparent;
-}
-.deco-zig { color: var(--purple); }
-.deco-cross { color: var(--pink); }
+/* ---------- 跳转链接 / 焦点 ---------- */
+.skip{position:absolute;left:-999px;top:12px;z-index:50;background:var(--yellow);color:var(--ink);border:var(--line) solid var(--ink);border-radius:10px;padding:10px 18px;font-weight:700;text-decoration:none}
+.skip:focus{left:12px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--pink-ink);outline-offset:3px;border-radius:6px}
+.panel :focus-visible{outline-color:var(--yellow)}
 
-/* ---------- 顶栏 ---------- */
-.topbar { padding: 26px 0 6px; position: relative; }
-.topbar-inner {
-  display: flex; align-items: center; justify-content: space-between;
-  height: 66px; padding: 0 20px;
-  background: #fff;
-  border: 3px solid var(--ink);
-  border-radius: 18px;
-  box-shadow: 8px 8px 0 var(--yellow);
-  position: relative; z-index: 1;
-}
-.logo {
-  font-weight: 800; font-size: 18px;
-  display: flex; align-items: center; gap: 12px;
-  text-decoration: none; color: var(--ink);
-}
-.logo-mark {
-  width: 38px; height: 38px;
-  background: var(--pink);
-  border: 3px solid var(--ink); border-radius: 50%;
-  display: grid; place-items: center;
-  transform: rotate(-8deg);
-}
-nav { display: flex; gap: 6px; }
-nav a {
-  font-weight: 600; font-size: 14.5px;
-  color: var(--ink); text-decoration: none;
-  padding: 7px 14px; border-radius: 999px;
-  border: 2.5px dashed transparent;
-  transition: background 180ms ease, border-color 180ms ease;
-}
-nav a:hover, nav a:focus-visible {
-  background: var(--teal);
-  border-color: var(--ink);
-}
+/* ---------- 顶部导航 ---------- */
+.top{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:var(--line) solid var(--ink)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand-mark{flex:none}
+.brand span{font-family:var(--disp);font-size:19px;line-height:1.15}
+.brand em{display:block;font-family:var(--body);font-style:normal;font-weight:600;font-size:11.5px;color:var(--purple-ink)}
+.menu{display:flex;gap:8px;flex-wrap:wrap}
+.menu a{color:var(--ink);text-decoration:none;font-weight:700;font-size:15px;padding:7px 14px;border-radius:999px;border:2px solid transparent;transition:background .15s,border-color .15s}
+.menu a:hover{background:var(--yellow);border-color:var(--ink)}
 
-.btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  font: inherit; font-weight: 700; font-size: 15px;
-  padding: 12px 26px; border-radius: 999px;
-  cursor: pointer; text-decoration: none;
-  border: 3px solid var(--ink);
-  box-shadow: 5px 5px 0 var(--ink);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+/* ---------- 首屏 ---------- */
+.hero{border-bottom:var(--line) solid var(--ink);position:relative}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,56px);align-items:center;padding-top:clamp(36px,6vh,64px);padding-bottom:clamp(28px,4vh,44px)}
+.chip-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:700;font-size:14px;transform:rotate(-2deg)}
+.chip-pink{background:var(--pink);color:var(--ink)}
+.chip-teal{background:var(--teal);color:var(--ink);transform:rotate(1.5deg)}
+.hero h1{
+  font-family:var(--disp);
+  font-size:clamp(2.5rem,5.4vw,4rem);
+  line-height:1.18;
+  letter-spacing:.01em;
+  margin-bottom:18px;
+  animation:rise .6s cubic-bezier(.2,.8,.3,1) both;
 }
-.btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
-.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
-.btn-pink { background: var(--pink); color: var(--ink); }
-.btn-yellow { background: var(--yellow); color: var(--ink); }
-.btn-white { background: #fff; color: var(--ink); }
+.hl-pink{font-style:normal;background:var(--pink);padding:0 .14em;border-radius:.16em;display:inline-block;transform:rotate(-1.5deg)}
+.hl-yellow{font-style:normal;background:var(--yellow);padding:0 .14em;border-radius:.16em;display:inline-block;transform:rotate(1.2deg)}
+.lead{max-width:34em;font-size:clamp(1rem,1.4vw,1.13rem);font-weight:500;color:var(--ink);margin-bottom:26px;animation:rise .6s cubic-bezier(.2,.8,.3,1) .08s both}
+.lead b{color:var(--pink-ink)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px;animation:rise .6s cubic-bezier(.2,.8,.3,1) .16s both}
+.btn{display:inline-block;font-family:var(--body);font-weight:800;font-size:15.5px;padding:12px 26px;border:var(--line) solid var(--ink);border-radius:999px;text-decoration:none;color:var(--ink);background:var(--paper);transition:transform .15s ease,background .15s ease,color .15s ease}
+.btn:hover{transform:translateY(-3px) rotate(-1deg)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:var(--pink);color:var(--ink)}
+.btn-line:hover{background:var(--yellow)}
+.meta-strip{display:grid;grid-template-columns:repeat(4,auto);gap:8px 22px;list-style:none;border-top:2px dashed var(--ink);padding-top:16px;animation:rise .6s cubic-bezier(.2,.8,.3,1) .24s both}
+.meta-strip li{font-size:13.5px;font-weight:600;color:var(--purple-ink)}
+.meta-strip li b{color:var(--ink)}
+.hero-art{display:flex;justify-content:center}
+.collage{width:100%;max-width:540px;height:auto;display:block}
 
-a:focus-visible, button:focus-visible {
-  outline: 3px solid var(--purple); outline-offset: 3px;
+/* 拼贴落定动效（仅首屏一次） */
+.st{transform-box:fill-box;transform-origin:center;animation:settle .7s cubic-bezier(.22,1.3,.36,1) both;animation-delay:var(--d,0s)}
+@keyframes settle{
+  from{opacity:0;transform:scale(.15) rotate(-32deg)}
+  to{opacity:1;transform:scale(1) rotate(0deg)}
 }
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* ---------- Hero ---------- */
-.hero {
-  padding: 84px 0 64px;
-  display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 44px; align-items: center;
-  position: relative;
-}
-.tag {
-  display: inline-block;
-  font-weight: 700; font-size: 13.5px;
-  background: var(--purple); color: #fff;
-  border: 3px solid var(--ink);
-  padding: 6px 16px; border-radius: 999px;
-  margin-bottom: 24px;
-  transform: rotate(-2deg);
-}
-h1 {
-  font-size: clamp(36px, 5.2vw, 60px);
-  font-weight: 900; line-height: 1.08; letter-spacing: -0.01em;
-  margin-bottom: 20px;
-}
-h1 .u-pink {
-  background: linear-gradient(transparent 62%, var(--pink) 62%, var(--pink) 92%, transparent 92%);
-}
-h1 .u-teal {
-  background: linear-gradient(transparent 62%, var(--teal) 62%, var(--teal) 92%, transparent 92%);
-}
-.sub {
-  font-size: 17px; font-weight: 500;
-  max-width: 460px; margin-bottom: 34px;
-}
-.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.squiggle-band{border-top:var(--line) solid var(--ink);background:var(--cream)}
+.squiggle-band svg{display:block;width:100%;height:16px}
 
-/* Hero 卡：贴纸感数据牌 */
-.sticker {
-  background: #fff;
-  border: 3px solid var(--ink);
-  border-radius: 22px;
-  box-shadow: 10px 10px 0 var(--teal);
-  padding: 30px;
-  transform: rotate(2.5deg);
-  position: relative;
-}
-.sticker::after {
-  content: ''; position: absolute; top: -16px; right: 26px;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--yellow);
-  border: 3px solid var(--ink);
-}
-.sticker b {
-  display: block; font-size: 58px; font-weight: 900; line-height: 1;
-}
-.sticker b span { color: var(--pink); }
-.sticker p { font-weight: 600; font-size: 15px; margin-top: 6px; }
-.sticker small { display: block; margin-top: 10px; color: #5C5C66; font-size: 12.5px; }
+/* ---------- 小节标题 ---------- */
+section{padding:clamp(48px,7vh,80px) 0}
+.sec-head{display:flex;align-items:center;gap:18px;margin-bottom:clamp(24px,4vh,40px)}
+.sec-no{flex:none;width:52px;height:52px;display:grid;place-items:center;background:var(--yellow);border:var(--line) solid var(--ink);border-radius:12px;font-family:var(--disp);font-size:20px;transform:rotate(-4deg)}
+.sec-head h2{font-family:var(--disp);font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.2}
+.sec-en{font-size:14px;font-weight:600;color:var(--purple-ink)}
+.sec-note{font-size:14px;font-weight:500;color:var(--ink);max-width:46em;margin-bottom:clamp(20px,3vh,32px)}
+.sec-note b{color:var(--pink-ink)}
 
-/* ---------- 功能卡 ---------- */
-.section-title {
-  font-size: 34px; font-weight: 900;
-  margin: 70px 0 34px;
-  display: flex; align-items: center; gap: 16px;
-}
-.section-title .sq {
-  width: 20px; height: 20px; flex: none;
-  background: var(--yellow);
-  border: 3px solid var(--ink);
-  transform: rotate(12deg);
-}
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-.card {
-  background: #fff;
-  border: 3px solid var(--ink);
-  border-radius: 20px;
-  padding: 26px 24px;
-  position: relative;
-  transition: transform 180ms ease;
-}
-.card:nth-child(1) { box-shadow: 8px 8px 0 var(--pink); }
-.card:nth-child(2) { box-shadow: 8px 8px 0 var(--yellow); transform: rotate(-1deg); }
-.card:nth-child(3) { box-shadow: 8px 8px 0 var(--teal); }
-.card:hover { transform: rotate(0deg) translateY(-4px); }
-.card-icon {
-  width: 48px; height: 48px; border-radius: 14px;
-  border: 3px solid var(--ink);
-  display: grid; place-items: center; margin-bottom: 16px;
-}
-.card:nth-child(1) .card-icon { background: var(--pink); }
-.card:nth-child(2) .card-icon { background: var(--teal); }
-.card:nth-child(3) .card-icon { background: var(--yellow); }
-.card h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
-.card p { font-size: 14.5px; font-weight: 500; color: #3D3D47; }
+/* ---------- 01 复刻系列 ---------- */
+#series{background:var(--paper)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--gap)}
+.card{display:flex;flex-direction:column;background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--r);overflow:hidden;transition:transform .18s ease}
+.card:hover{transform:translateY(-4px) rotate(-.6deg)}
+.card-strip{height:12px;border-bottom:2px solid var(--ink);background:repeating-linear-gradient(-45deg,var(--ink) 0 5px,var(--yellow) 5px 10px)}
+.card-head{padding:16px 18px 10px}
+.card-no{display:inline-block;background:var(--ink);color:var(--yellow);border-radius:8px;padding:2px 10px;font-weight:800;font-size:12.5px;transform:rotate(-2deg)}
+.card-head h3{font-family:var(--disp);font-size:1.28rem;margin-top:10px}
+.card-en{font-size:13px;font-weight:600;color:var(--purple-ink)}
+.card-fig{background:var(--cream);border-top:2px dashed var(--ink);border-bottom:2px dashed var(--ink);padding:8px}
+.card-fig svg{width:100%;height:auto;display:block}
+.card-meta{list-style:none;padding:14px 18px 4px;display:grid;gap:5px}
+.card-meta li{font-size:13.5px;font-weight:500}
+.card-meta li b{font-weight:800}
+.card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px 18px}
+.price{font-family:var(--disp);font-size:.95rem}
+.price small{display:block;font-family:var(--body);font-weight:600;font-size:11.5px;color:var(--purple-ink)}
+.btn-mini{font-family:var(--body);font-weight:800;font-size:13.5px;padding:8px 16px;border:2px solid var(--ink);border-radius:999px;background:var(--teal);color:var(--ink);cursor:pointer;transition:background .15s,transform .15s}
+.btn-mini:hover{background:var(--yellow);transform:rotate(-2deg)}
+.cards-note{margin-top:22px;font-size:13.5px;font-weight:500;color:var(--ink);border-top:2px dashed var(--ink);padding-top:14px}
+.cards-note a{color:var(--pink-ink);font-weight:700}
 
-/* ---------- 指标 ---------- */
-.stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
-  margin: 40px 0 76px;
-}
-.stat {
-  text-align: center; padding: 26px 16px;
-  background: #fff;
-  border: 3px solid var(--ink); border-radius: 999px;
-  position: relative;
-}
-.stat:nth-child(1) { background: var(--yellow); }
-.stat:nth-child(2) { background: var(--teal); transform: rotate(-1.5deg); }
-.stat:nth-child(3) { background: var(--pink); }
-.stat b { display: block; font-size: 34px; font-weight: 900; }
-.stat span { font-weight: 600; font-size: 14px; }
+/* ---------- 02 图案布料 ---------- */
+#patterns{background:var(--cream);border-top:var(--line) solid var(--ink);border-bottom:var(--line) solid var(--ink)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--gap)}
+.swatch{background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--r);overflow:hidden;transition:transform .18s ease}
+.swatch:hover{transform:translateY(-4px) rotate(.8deg)}
+.swatch-art svg{width:100%;height:auto;display:block}
+.swatch-info{border-top:2px solid var(--ink);padding:14px 16px 18px}
+.swatch-info h3{font-family:var(--disp);font-size:1.05rem}
+.swatch-info p{font-size:13px;font-weight:500;color:var(--ink);margin-top:4px}
+.swatch-info p b{color:var(--pink-ink)}
 
-footer {
-  text-align: center; padding: 28px 0 40px;
-  font-weight: 600; font-size: 13px;
+/* ---------- 03 米兰年表 ---------- */
+#history{background:var(--teal-soft);border-bottom:var(--line) solid var(--ink)}
+.history-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:var(--gap);align-items:start}
+.timeline{list-style:none;border-left:3px dashed var(--ink);padding-left:28px;display:grid;gap:26px}
+.timeline h3{font-family:var(--disp);font-size:1.12rem;margin:10px 0 4px}
+.timeline p{font-size:14.5px;font-weight:500;max-width:36em}
+.year{display:inline-block;border:2px solid var(--ink);border-radius:10px;padding:3px 12px;font-weight:800;font-size:13.5px;transform:rotate(-2deg)}
+.y-pink{background:var(--pink);color:var(--ink)}
+.y-yellow{background:var(--yellow);color:var(--ink)}
+.y-teal{background:var(--teal);color:var(--ink)}
+.y-purple{background:var(--purple-ink);color:var(--paper)}
+.aside-card{background:var(--paper);border:var(--line) solid var(--ink);border-radius:var(--r);padding:22px 22px 26px}
+.aside-card h3{font-family:var(--disp);font-size:1.1rem;margin:12px 0 8px}
+.aside-card p{font-size:14px;font-weight:500}
+.aside-card .src{margin-top:14px;font-size:12.5px;font-weight:600;color:var(--purple-ink)}
+
+/* ---------- 04 订购信息 ---------- */
+#order{background:var(--paper)}
+.order-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:stretch}
+.manifesto{list-style:none;display:grid;gap:16px;align-content:center}
+.manifesto li{display:flex;gap:14px;align-items:flex-start}
+.manifesto svg{flex:none;margin-top:4px}
+.manifesto b{font-family:var(--disp);font-weight:400;font-size:1.06rem;display:block;margin-bottom:2px}
+.manifesto p{font-size:14px;font-weight:500}
+.panel{position:relative;background:var(--ink);color:var(--paper);border-radius:var(--r);padding:clamp(26px,3.5vw,40px);display:flex;flex-direction:column;justify-content:center;gap:16px;overflow:hidden}
+.panel .corner{position:absolute;right:18px;top:18px}
+.panel h3{font-family:var(--disp);font-size:clamp(1.4rem,2.4vw,1.8rem);line-height:1.3}
+.panel h3 span{color:var(--yellow)}
+.panel p{font-size:14.5px;font-weight:500;color:var(--paper)}
+.panel .contact{border-top:2px dashed var(--paper);padding-top:14px;font-size:13.5px;font-weight:600}
+.panel .contact b{color:var(--yellow)}
+.panel .cta-row{margin-bottom:0;animation:none}
+.panel .btn-ink{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+.panel .btn-ink:hover{background:var(--paper);border-color:var(--paper)}
+.panel .btn-line{background:transparent;color:var(--paper);border-color:var(--paper)}
+.panel .btn-line:hover{background:var(--purple-ink);border-color:var(--purple-ink)}
+
+/* ---------- 页脚 ---------- */
+.site-foot{background:var(--ink);color:var(--paper);padding:34px 0 40px}
+.foot-brand{display:flex;align-items:center;gap:12px;font-family:var(--disp);font-size:1.05rem}
+.foot-note{margin-top:12px;font-size:13px;font-weight:500;max-width:52em}
+.foot-note a{color:var(--yellow);font-weight:800;text-underline-offset:3px}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:920px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{order:-1}
+  .collage{max-width:440px}
+  .history-grid{grid-template-columns:1fr}
+  .order-grid{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .meta-strip{grid-template-columns:repeat(2,auto)}
+  .card-foot{flex-wrap:wrap}
+  .sec-no{width:44px;height:44px;font-size:17px}
+}
+@media (min-width:1440px){
+  :root{--wrap:1280px}
 }
 
-@media (max-width: 768px) {
-  nav { display: none; }
-  .hero { grid-template-columns: 1fr; }
-  .grid, .stats { grid-template-columns: 1fr; }
-  .deco { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+/* ---------- 动效降级 ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .card:hover,.swatch:hover,.btn:hover,.btn-mini:hover{transform:none}
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">跳到主要内容</a>
 
-<header class="topbar">
-  <div class="container" style="position:relative">
-    <span class="deco deco-tri" style="top:-18px; left:-6px; transform:rotate(-14deg)" aria-hidden="true"></span>
-    <span class="deco deco-cross" style="top:-14px; right:38%" aria-hidden="true">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg>
-    </span>
-    <div class="topbar-inner">
-      <a class="logo" href="#">
-        <span class="logo-mark" aria-hidden="true">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
-        </span>
-        西环街市
-      </a>
-      <nav aria-label="主导航">
-        <a href="#features">功能</a>
-        <a href="#stats">成效</a>
-        <a href="#">摊位地图</a>
-      </nav>
-      <a class="btn btn-pink" href="#">看行情</a>
-    </div>
+<!-- 共享图案定义（全内联 SVG，供各处 fill 引用） -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="p-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="3.4" fill="#17141F"/>
+      <circle cx="17" cy="17" r="3.4" fill="#17141F"/>
+    </pattern>
+    <pattern id="p-bact" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M6 9c4-6 12-4 12 2s-7 9-11 6-5-6-1-8z" fill="#17141F"/>
+      <path d="M21 24c3-4 9-3 9 1s-5 7-8 5-4-4-1-6z" fill="#17141F"/>
+    </pattern>
+    <pattern id="p-stripeY" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="9" height="18" fill="#17141F"/>
+      <rect x="9" width="9" height="18" fill="#FFCE5C"/>
+    </pattern>
+    <pattern id="p-tri" width="30" height="26" patternUnits="userSpaceOnUse">
+      <path d="M15 4 26 22H4z" fill="#FFFDF6"/>
+    </pattern>
+    <pattern id="p-fig" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="1.6" fill="#17141F" fill-opacity=".3"/>
+      <circle cx="14" cy="14" r="1.6" fill="#17141F" fill-opacity=".3"/>
+    </pattern>
+    <pattern id="p-band" width="22" height="16" patternUnits="userSpaceOnUse">
+      <path d="M0 8q5.5-9 11 0t11 0" fill="none" stroke="#17141F" stroke-width="2.6" stroke-linecap="round"/>
+    </pattern>
+    <pattern id="p-zig" width="24" height="18" patternUnits="userSpaceOnUse">
+      <path d="M2 14 8 4l6 10 6-10 6 10" fill="none" stroke="#17141F" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+    </pattern>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" width="40" height="34" viewBox="0 0 40 34" aria-hidden="true">
+        <path d="M3 24q5-16 10 0t10 0 10 0" fill="none" stroke="#17141F" stroke-width="7" stroke-linecap="round"/>
+        <path d="M3 24q5-16 10 0t10 0 10 0" fill="none" stroke="#FF71CE" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="36" cy="7" r="4" fill="#FFCE5C" stroke="#17141F" stroke-width="2"/>
+      </svg>
+      <span>孟菲斯工坊<em>Memphis Milano 复刻目录</em></span>
+    </a>
+    <nav class="menu" aria-label="页面导航">
+      <a href="#series">复刻系列</a>
+      <a href="#patterns">图案布料</a>
+      <a href="#history">米兰年表</a>
+      <a href="#order">订购信息</a>
+    </nav>
   </div>
 </header>
 
-<main>
-  <section class="hero container" style="position:relative">
-    <span class="deco deco-ring" style="top:12px; right:4%; transform:rotate(10deg)" aria-hidden="true"></span>
-    <span class="deco deco-zig" style="bottom:6px; left:-10px" aria-hidden="true">
-      <svg width="90" height="22" viewBox="0 0 90 22" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16 12 6l10 10L32 6l10 10L52 6l10 10L72 6l10 10"/></svg>
-    </span>
-    <div>
-      <span class="tag">今日行情 · 鲜鱼到港 04:30 · 摊位 214 家</span>
-      <h1>凌晨四点半的码头，<br>决定你<span class="u-pink">中午的汤</span></h1>
-      <p class="sub">街市每日行情：什么当造、什么涨价、哪档的姜最辣。摊贩的话比广告可信。</p>
-      <div class="cta-row">
-        <a class="btn btn-yellow" href="#">看今日行情</a>
-        <a class="btn btn-white" href="#">摊位地图</a>
+<main id="main">
+
+  <!-- ============ 首屏 / 产品目录开篇 ============ -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="chip-row">
+          <span class="chip chip-pink">1981 / 米兰</span>
+          <span class="chip chip-teal">家具复刻编号发售</span>
+        </p>
+        <h1>把<em class="hl-pink">装饰</em>还给<em class="hl-yellow">家具</em></h1>
+        <p class="lead">1981 年，Ettore Sottsass 在米兰召集一群年轻设计师，用层压板、粉彩和蚯蚓线向冷冰冰的功能主义开火。我们与意大利工坊合作，按原始工艺与配色复刻其中六件经典，<b>每件限量 81 份</b>，逐件编号。</p>
+        <div class="cta-row">
+          <a class="btn btn-ink" href="#series">查看复刻系列</a>
+          <a class="btn btn-line" href="#order">索取复刻目录</a>
+        </div>
+        <ul class="meta-strip">
+          <li>成立 / <b>1981 年</b></li>
+          <li>城市 / <b>米兰</b></li>
+          <li>首展 / <b>Arc '74 画廊</b></li>
+          <li>团名出处 / <b>Bob Dylan 唱片</b></li>
+        </ul>
+      </div>
+      <div class="hero-art">
+        <!-- 一次拼贴落定的几何贴纸群 -->
+        <svg class="collage" viewBox="0 0 520 470" aria-hidden="true" focusable="false">
+          <rect x="10" y="10" width="500" height="450" rx="30" fill="#FFFDF6" stroke="#17141F" stroke-width="3" stroke-dasharray="0.5 15" stroke-linecap="round"/>
+          <g class="st" style="--d:.05s">
+            <path d="M42 96q34-64 68 0t68 0 68 0" fill="none" stroke="#17141F" stroke-width="19" stroke-linecap="round"/>
+            <path d="M42 96q34-64 68 0t68 0 68 0" fill="none" stroke="#FF71CE" stroke-width="11" stroke-linecap="round"/>
+          </g>
+          <g class="st" style="--d:.14s" transform="translate(372 44)">
+            <path d="M52 0 63 30l33 3-25 22 8 32-27-18-27 18 8-32-25-22 33-3z" fill="#FFCE5C" stroke="#17141F" stroke-width="3" stroke-linejoin="round"/>
+          </g>
+          <g class="st" style="--d:.22s" transform="translate(336 196)">
+            <g fill="#86CCCA" stroke="#17141F" stroke-width="2.5">
+              <circle cx="0" cy="0" r="7"/><circle cx="36" cy="0" r="7"/><circle cx="72" cy="0" r="7"/><circle cx="108" cy="0" r="7"/>
+              <circle cx="18" cy="30" r="7"/><circle cx="54" cy="30" r="7"/><circle cx="90" cy="30" r="7"/>
+              <circle cx="0" cy="60" r="7"/><circle cx="36" cy="60" r="7"/><circle cx="72" cy="60" r="7"/><circle cx="108" cy="60" r="7"/>
+            </g>
+          </g>
+          <g class="st" style="--d:.3s" transform="translate(64 168)">
+            <path d="M78 0 156 136H0z" fill="#FFCE5C" stroke="#17141F" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M78 44 118 112H38z" fill="#FF71CE" stroke="#17141F" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M78 82 96 114H60z" fill="#6A7BB4" stroke="#17141F" stroke-width="3" stroke-linejoin="round"/>
+          </g>
+          <g class="st" style="--d:.38s" transform="rotate(-18 330 292)">
+            <rect x="216" y="276" width="228" height="34" fill="url(#p-stripeY)" stroke="#17141F" stroke-width="3"/>
+          </g>
+          <g class="st" style="--d:.46s" transform="translate(52 320)">
+            <circle r="40" fill="none" stroke="#6A7BB4" stroke-width="17"/>
+            <circle r="40" fill="none" stroke="#17141F" stroke-width="3"/>
+            <circle r="58" fill="none" stroke="#17141F" stroke-width="3" stroke-dasharray="0.5 12" stroke-linecap="round"/>
+          </g>
+          <g class="st" style="--d:.54s" transform="translate(402 366)">
+            <path d="M-48 22a48 48 0 0 1 96 0z" fill="#FF71CE" stroke="#17141F" stroke-width="3" stroke-linejoin="round"/>
+          </g>
+          <g class="st" style="--d:.62s" transform="translate(210 388)">
+            <path d="M0 0q12-22 24 0t24 0 24 0 24 0" fill="none" stroke="#17141F" stroke-width="12" stroke-linecap="round"/>
+            <path d="M0 0q12-22 24 0t24 0 24 0 24 0" fill="none" stroke="#86CCCA" stroke-width="6" stroke-linecap="round"/>
+          </g>
+          <g class="st" style="--d:.7s" transform="translate(296 120)">
+            <path d="M0-16V16M-16 0H16" stroke="#17141F" stroke-width="18" stroke-linecap="round"/>
+            <path d="M0-16V16M-16 0H16" stroke="#86CCCA" stroke-width="10" stroke-linecap="round"/>
+          </g>
+          <circle cx="318" cy="52" r="4.5" fill="#17141F"/>
+          <circle cx="486" cy="252" r="4.5" fill="#17141F"/>
+          <circle cx="150" cy="446" r="4.5" fill="#17141F"/>
+        </svg>
       </div>
     </div>
-
-    <aside class="sticker" aria-label="数据示例">
-      <b>214<span>家</span></b>
-      <p>家在市摊位，今晨全部开档</p>
-      <small>行情每日 05:30 更新 · 风雨无阻</small>
-    </aside>
-  </section>
-
-  <section id="features" class="container">
-    <h2 class="section-title"><span class="sq" aria-hidden="true"></span>一个智能体，三份工作</h2>
-    <div class="grid">
-      <article class="card">
-        <div class="card-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        </div>
-        <h3>今日鲜鱼</h3>
-        <p>黄花鱼大造，一字刀鲳涨价两成，买鱼看眼不看价牌。</p>
-      </article>
-      <article class="card">
-        <div class="card-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3>当造蔬果</h3>
-        <p>本地菜心甜到不用焯，白露后苦瓜转面。</p>
-      </article>
-      <article class="card">
-        <div class="card-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-        </div>
-        <h3>摊位榜</h3>
-        <p>213 号档的豆腐每天十点前售罄，不是饥饿营销。</p>
-      </article>
+    <div class="squiggle-band" aria-hidden="true">
+      <svg preserveAspectRatio="none"><rect width="100%" height="16" fill="url(#p-band)"/></svg>
     </div>
   </section>
 
-  <section id="stats" class="container">
-    <div class="stats">
-      <div class="stat"><b>214家</b><span>在市摊位</span></div>
-      <div class="stat"><b>04:30</b><span>渔获到港</span></div>
-      <div class="stat"><b>±20%</b><span>日价波幅</span></div>
+  <!-- ============ 01 复刻系列 ============ -->
+  <section id="series">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no" aria-hidden="true">01</span>
+        <div>
+          <h2>复刻系列</h2>
+          <p class="sec-en">Reissues / 六件首展经典，按 1981 年工艺小批量重制</p>
+        </div>
+      </div>
+      <p class="sec-note">首批复刻以 1981 年 9 月米兰 Arc '74 画廊首展作品为蓝本，贴面印刷、烤漆与金属件均按原始色号还原。所有尺寸为原始档案<b>约数</b>，逐件手工装配。</p>
+
+      <div class="cards">
+
+        <article class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-no">复刻 001</span>
+            <h3>Carlton 置物架</h3>
+            <p class="card-en">Ettore Sottsass / 1981 / 房间隔断架</p>
+          </div>
+          <div class="card-fig">
+            <svg viewBox="0 0 240 170" role="img" aria-label="Carlton 置物架的孟菲斯风格剪影">
+              <rect width="240" height="170" fill="#FFFDF6"/>
+              <rect width="240" height="170" fill="url(#p-fig)"/>
+              <g stroke="#17141F" stroke-width="3" stroke-linejoin="round">
+                <rect x="50" y="20" width="17" height="130" fill="#FFCE5C" transform="rotate(7 58 85)"/>
+                <rect x="172" y="20" width="17" height="130" fill="#86CCCA" transform="rotate(-7 180 85)"/>
+                <rect x="22" y="60" width="196" height="15" fill="#FF71CE" transform="rotate(-3 120 67)"/>
+                <rect x="30" y="102" width="182" height="15" fill="#6A7BB4" transform="rotate(2 120 109)"/>
+                <rect x="97" y="66" width="46" height="46" fill="#FFFDF6"/>
+                <rect x="104" y="73" width="15" height="15" fill="#FF71CE"/>
+                <circle cx="130" cy="99" r="7.5" fill="#FFCE5C"/>
+              </g>
+              <rect x="42" y="16" width="158" height="14" fill="url(#p-stripeY)" stroke="#17141F" stroke-width="3" transform="rotate(9 121 23)"/>
+            </svg>
+          </div>
+          <ul class="card-meta">
+            <li>材质 / <b>印花层压板与实木框架</b></li>
+            <li>尺寸 / 约 W189 x D41 x H196 cm</li>
+          </ul>
+          <div class="card-foot">
+            <p class="price">001/081<small>限量 81 件</small></p>
+            <button class="btn-mini" type="button">加入意向单</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-no">复刻 002</span>
+            <h3>Tahiti 台灯</h3>
+            <p class="card-en">Ettore Sottsass / 1981 / 落地兽形灯</p>
+          </div>
+          <div class="card-fig">
+            <svg viewBox="0 0 240 170" role="img" aria-label="Tahiti 台灯的孟菲斯风格剪影">
+              <rect width="240" height="170" fill="#FFFDF6"/>
+              <rect width="240" height="170" fill="url(#p-fig)"/>
+              <g stroke="#17141F" stroke-width="3">
+                <path d="M120 98 76 148M120 98l44 50M120 98v52" fill="none" stroke-linecap="round"/>
+                <rect x="64" y="146" width="112" height="11" rx="5.5" fill="#FF71CE"/>
+                <ellipse cx="118" cy="68" rx="40" ry="37" fill="#86CCCA"/>
+                <path d="M154 58 197 50l-36 32z" fill="#FFCE5C" stroke-linejoin="round"/>
+                <path d="M92 36l8-14 8 13 9-13 8 14z" fill="#FF71CE" stroke-linejoin="round"/>
+              </g>
+              <circle cx="106" cy="60" r="9.5" fill="#FFFDF6" stroke="#17141F" stroke-width="3"/>
+              <circle cx="106" cy="60" r="3.6" fill="#17141F"/>
+            </svg>
+          </div>
+          <ul class="card-meta">
+            <li>材质 / <b>烤漆金属灯架与灯座</b></li>
+            <li>高度 / 约 57 cm，含 E14 灯口</li>
+          </ul>
+          <div class="card-foot">
+            <p class="price">002/081<small>限量 81 件</small></p>
+            <button class="btn-mini" type="button">加入意向单</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-no">复刻 003</span>
+            <h3>Casablanca 边柜</h3>
+            <p class="card-en">Ettore Sottsass / 1981 / Bacterio 菌纹贴面</p>
+          </div>
+          <div class="card-fig">
+            <svg viewBox="0 0 240 170" role="img" aria-label="Casablanca 边柜的孟菲斯风格剪影">
+              <rect width="240" height="170" fill="#FFFDF6"/>
+              <rect width="240" height="170" fill="url(#p-fig)"/>
+              <path d="M56 130l-10 26M184 130l10 26" stroke="#17141F" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="45" cy="158" r="6" fill="#FFCE5C" stroke="#17141F" stroke-width="2.5"/>
+              <circle cx="195" cy="158" r="6" fill="#FFCE5C" stroke="#17141F" stroke-width="2.5"/>
+              <rect x="28" y="58" width="184" height="72" rx="7" fill="#FF71CE" stroke="#17141F" stroke-width="3"/>
+              <rect x="28" y="58" width="184" height="72" rx="7" fill="url(#p-bact)"/>
+              <path d="M92 58v72M148 58v72" stroke="#17141F" stroke-width="3"/>
+              <rect x="20" y="48" width="200" height="12" rx="6" fill="#FFCE5C" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <ul class="card-meta">
+            <li>材质 / <b>菌纹印刷层压板柜体</b></li>
+            <li>尺寸 / 约 W180 x D45 x H78 cm</li>
+          </ul>
+          <div class="card-foot">
+            <p class="price">003/081<small>限量 81 件</small></p>
+            <button class="btn-mini" type="button">加入意向单</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-no">复刻 004</span>
+            <h3>First 座椅</h3>
+            <p class="card-en">Michele De Lucchi / 1983 / 几何构件椅</p>
+          </div>
+          <div class="card-fig">
+            <svg viewBox="0 0 240 170" role="img" aria-label="First 座椅的孟菲斯风格剪影">
+              <rect width="240" height="170" fill="#FFFDF6"/>
+              <rect width="240" height="170" fill="url(#p-fig)"/>
+              <g stroke="#17141F" stroke-width="3" stroke-linejoin="round">
+                <rect x="70" y="34" width="88" height="52" fill="#FF71CE"/>
+                <circle cx="114" cy="60" r="15" fill="#86CCCA"/>
+                <rect x="70" y="86" width="88" height="27" fill="#FFCE5C"/>
+                <rect x="80" y="113" width="13" height="36" fill="#17141F"/>
+                <rect x="137" y="113" width="13" height="36" fill="#17141F"/>
+                <rect x="46" y="78" width="24" height="11" rx="5" fill="#86CCCA"/>
+                <rect x="158" y="78" width="24" height="11" rx="5" fill="#86CCCA"/>
+              </g>
+              <circle cx="86" cy="152" r="7" fill="#6A7BB4" stroke="#17141F" stroke-width="2.5"/>
+              <circle cx="144" cy="152" r="7" fill="#6A7BB4" stroke="#17141F" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <ul class="card-meta">
+            <li>材质 / <b>烤漆钢管与实木坐板</b></li>
+            <li>尺寸 / 约 W62 x D64 x H79 cm</li>
+          </ul>
+          <div class="card-foot">
+            <p class="price">004/081<small>限量 81 件</small></p>
+            <button class="btn-mini" type="button">加入意向单</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-no">复刻 005</span>
+            <h3>Bel Air 单椅</h3>
+            <p class="card-en">Peter Shire / 1982 / 管架休闲椅</p>
+          </div>
+          <div class="card-fig">
+            <svg viewBox="0 0 240 170" role="img" aria-label="Bel Air 单椅的孟菲斯风格剪影">
+              <rect width="240" height="170" fill="#FFFDF6"/>
+              <rect width="240" height="170" fill="url(#p-fig)"/>
+              <path d="M62 154V86q0-30 30-30h56q30 0 30 30v68" fill="none" stroke="#17141F" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="120" cy="66" r="27" fill="#FF71CE" stroke="#17141F" stroke-width="3"/>
+              <rect x="78" y="106" width="84" height="19" rx="9.5" fill="#86CCCA" stroke="#17141F" stroke-width="3"/>
+              <path d="M82 125v27M158 125v27" stroke="#17141F" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="70" cy="102" r="11" fill="#FFCE5C" stroke="#17141F" stroke-width="3"/>
+              <circle cx="170" cy="102" r="11" fill="#FFCE5C" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <ul class="card-meta">
+            <li>材质 / <b>烤漆钢管框架与织物坐面</b></li>
+            <li>尺寸 / 约 W72 x D70 x H98 cm</li>
+          </ul>
+          <div class="card-foot">
+            <p class="price">005/081<small>限量 81 件</small></p>
+            <button class="btn-mini" type="button">加入意向单</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-strip"></div>
+          <div class="card-head">
+            <span class="card-no">复刻 006</span>
+            <h3>Plaza 梳妆台</h3>
+            <p class="card-en">Ettore Sottsass / 1981 / 五角镜梳妆桌</p>
+          </div>
+          <div class="card-fig">
+            <svg viewBox="0 0 240 170" role="img" aria-label="Plaza 梳妆台的孟菲斯风格剪影">
+              <rect width="240" height="170" fill="#FFFDF6"/>
+              <rect width="240" height="170" fill="url(#p-fig)"/>
+              <path d="M120 14 180 52l-22 62H82L60 52z" fill="#6A7BB4" stroke="#17141F" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M120 34 158 60l-14 40H96L82 60z" fill="#FFFDF6"/>
+              <rect x="66" y="126" width="108" height="11" rx="5" fill="#FFCE5C" stroke="#17141F" stroke-width="3"/>
+              <path d="M80 137l40 22 40-22" fill="none" stroke="#17141F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="120" cy="76" r="6" fill="#FF71CE" stroke="#17141F" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <ul class="card-meta">
+            <li>材质 / <b>层压板台面与镜面玻璃</b></li>
+            <li>尺寸 / 约 W120 x D44 x H146 cm</li>
+          </ul>
+          <div class="card-foot">
+            <p class="price">006/081<small>限量 81 件</small></p>
+            <button class="btn-mini" type="button">加入意向单</button>
+          </div>
+        </article>
+
+      </div>
+      <p class="cards-note">复刻均附意大利工坊出具的编号证书与保养手册 / 现货于米兰展厅陈列，可在 <a href="#order">订购信息</a> 预约到场验看。</p>
     </div>
   </section>
+
+  <!-- ============ 02 图案布料 ============ -->
+  <section id="patterns">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no" aria-hidden="true">02</span>
+        <div>
+          <h2>图案布料</h2>
+          <p class="sec-en">Fabrics and laminates / 图案是孟菲斯的另一半灵魂</p>
+        </div>
+      </div>
+      <p class="sec-note">Nathalie Du Pasquier 与 George Sowden 的印花定义了孟菲斯的表面语言。以下五种图案可指定用于复刻系列的柜门贴面与坐面织物，<b>同款图案免费换配一次</b>。</p>
+
+      <div class="swatches">
+
+        <article class="swatch">
+          <div class="swatch-art">
+            <svg viewBox="0 0 220 150" role="img" aria-label="Bacterio 菌纹图案样张">
+              <rect width="220" height="150" fill="#FF71CE"/>
+              <rect width="220" height="150" fill="url(#p-bact)"/>
+              <rect x="6" y="6" width="208" height="138" fill="none" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="swatch-info">
+            <h3>Bacterio 菌纹</h3>
+            <p>索特萨斯 1980 年手绘的变形虫图案 / <b>柜门贴面首选</b></p>
+          </div>
+        </article>
+
+        <article class="swatch">
+          <div class="swatch-art">
+            <svg viewBox="0 0 220 150" role="img" aria-label="蚯蚓线图案样张">
+              <rect width="220" height="150" fill="#FFCE5C"/>
+              <rect x="15" y="31" width="190" height="88" fill="url(#p-band)" opacity=".92"/>
+              <rect x="6" y="6" width="208" height="138" fill="none" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="swatch-info">
+            <h3>蚯蚓线 Squiggle</h3>
+            <p>连续波浪手绘线稿 / <b>坐面织物与抱枕</b></p>
+          </div>
+        </article>
+
+        <article class="swatch">
+          <div class="swatch-art">
+            <svg viewBox="0 0 220 150" role="img" aria-label="圆点阵图案样张">
+              <rect width="220" height="150" fill="#86CCCA"/>
+              <rect width="220" height="150" fill="url(#p-dots)"/>
+              <rect x="6" y="6" width="208" height="138" fill="none" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="swatch-info">
+            <h3>圆点阵 Polka</h3>
+            <p>22px 栅格错位圆点 / <b>抽屉内衬与包装</b></p>
+          </div>
+        </article>
+
+        <article class="swatch">
+          <div class="swatch-art">
+            <svg viewBox="0 0 220 150" role="img" aria-label="三角旗图案样张">
+              <rect width="220" height="150" fill="#4A5A8E"/>
+              <rect width="220" height="150" fill="url(#p-tri)"/>
+              <rect x="6" y="6" width="208" height="138" fill="none" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="swatch-info">
+            <h3>三角旗 Pennant</h3>
+            <p>米白三角连续阵列 / <b>屏风与窗帘布料</b></p>
+          </div>
+        </article>
+
+        <article class="swatch">
+          <div class="swatch-art">
+            <svg viewBox="0 0 220 150" role="img" aria-label="黑白条纹图案样张">
+              <rect width="220" height="150" fill="#FFFDF6"/>
+              <rect x="15" y="28" width="190" height="94" fill="url(#p-stripeY)"/>
+              <rect x="6" y="6" width="208" height="138" fill="none" stroke="#17141F" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="swatch-info">
+            <h3>斜条纹 Stripe</h3>
+            <p>墨色与明黄 45 度相间 / <b>家具包边与滚边</b></p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 米兰年表 ============ -->
+  <section id="history">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no" aria-hidden="true">03</span>
+        <div>
+          <h2>米兰年表</h2>
+          <p class="sec-en">Memphis Group chronicle / 1980 至 1988</p>
+        </div>
+      </div>
+
+      <div class="history-grid">
+        <ol class="timeline">
+          <li>
+            <span class="year y-yellow">1980 年 12 月</span>
+            <h3>深夜聚会定下团名</h3>
+            <p>索特萨斯在米兰家中召集 Michele De Lucchi、Matteo Thun、Martine Bedin 等年轻设计师，约定做一场"反设计"的展览。团名取自那晚反复播放的 Bob Dylan 唱片 Stuck Inside of Mobile with the Memphis Blues Again。</p>
+          </li>
+          <li>
+            <span class="year y-pink">1981 年 9 月</span>
+            <h3>Arc '74 画廊首展</h3>
+            <p>首个系列共 55 件作品亮相：书架、台灯、边柜与梳妆台，用层压板、粉彩与几何印花把功能主义请下神坛，一夜震动米兰家具展。</p>
+          </li>
+          <li>
+            <span class="year y-teal">1985 年</span>
+            <h3>索特萨斯退出</h3>
+            <p>创始人回归建筑事务所，团队继续发布新作，粉彩逐渐让位于更冷静的图形与材质实验。</p>
+          </li>
+          <li>
+            <span class="year y-purple">1988 年</span>
+            <h3>团体解散</h3>
+            <p>八年、上百件家具与物件，孟菲斯把后现代主义从杂志页搬进了普通人的客厅，至今仍在为平面与界面设计供能。</p>
+          </li>
+        </ol>
+
+        <aside class="aside-card">
+          <svg width="46" height="40" viewBox="0 0 46 40" aria-hidden="true">
+            <path d="M4 30q8-18 16 0t16 0" fill="none" stroke="#17141F" stroke-width="6" stroke-linecap="round"/>
+            <path d="M4 30q8-18 16 0t16 0" fill="none" stroke="#FF71CE" stroke-width="3" stroke-linecap="round"/>
+            <path d="M40 6 44 14l-8 1z" fill="#FFCE5C" stroke="#17141F" stroke-width="2"/>
+          </svg>
+          <h3>被时装大师整屋收藏</h3>
+          <p>1980 年代，Karl Lagerfeld 把蒙特卡洛的整间公寓塞满孟菲斯家具；2019 年这批藏品经苏富比拍出，让复刻市场再热一轮。</p>
+          <p class="src">史料 / 孟菲斯团体公开展览与拍卖记录</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 订购信息 ============ -->
+  <section id="order">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no" aria-hidden="true">04</span>
+        <div>
+          <h2>订购信息</h2>
+          <p class="sec-en">Order / 2026 复刻目录开放登记</p>
+        </div>
+      </div>
+
+      <div class="order-grid">
+        <ul class="manifesto">
+          <li>
+            <svg width="30" height="28" viewBox="0 0 30 28" aria-hidden="true"><path d="M15 2 28 25H2z" fill="#FFCE5C" stroke="#17141F" stroke-width="2.5" stroke-linejoin="round"/></svg>
+            <div><b>功能不是免罪牌</b><p>好用不等于无聊，日常物件也该让人笑出声。</p></div>
+          </li>
+          <li>
+            <svg width="30" height="28" viewBox="0 0 30 28" aria-hidden="true"><circle cx="15" cy="14" r="11.5" fill="#86CCCA" stroke="#17141F" stroke-width="2.5"/><circle cx="15" cy="14" r="4.5" fill="#FFFDF6" stroke="#17141F" stroke-width="2.5"/></svg>
+            <div><b>装饰不是罪</b><p>图案是家具的方言，颜色与印花承担一半表达。</p></div>
+          </li>
+          <li>
+            <svg width="34" height="28" viewBox="0 0 34 28" aria-hidden="true"><path d="M3 18q6-14 12 0t12 0" fill="none" stroke="#17141F" stroke-width="6" stroke-linecap="round"/><path d="M3 18q6-14 12 0t12 0" fill="none" stroke="#FF71CE" stroke-width="3" stroke-linecap="round"/></svg>
+            <div><b>平价材料配得上高级创意</b><p>层压板与塑料和实木一样庄严，观念才是奢侈品的全部。</p></div>
+          </li>
+        </ul>
+
+        <div class="panel">
+          <svg class="corner" width="72" height="20" viewBox="0 0 72 20" aria-hidden="true">
+            <circle cx="10" cy="10" r="6" fill="#FF71CE" stroke="#FFFDF6" stroke-width="2"/>
+            <circle cx="28" cy="10" r="6" fill="#FFCE5C" stroke="#FFFDF6" stroke-width="2"/>
+            <circle cx="46" cy="10" r="6" fill="#86CCCA" stroke="#FFFDF6" stroke-width="2"/>
+            <circle cx="64" cy="10" r="6" fill="#FFFDF6"/>
+          </svg>
+          <h3>2026 复刻目录<span>开放登记</span></h3>
+          <p>六件复刻各限 81 件，按原始工艺在意大利小批量制作，预计 2026 年秋分批发货。留下邮箱即可获得印刷目录与优先订购码。</p>
+          <div class="cta-row">
+            <a class="btn btn-ink" href="mailto:catalog@memphis-milano.example">索取复刻目录</a>
+            <a class="btn btn-line" href="#series">回看六件复刻</a>
+          </div>
+          <p class="contact">展厅 / <b>米兰布雷拉设计区（预约制）</b> / 咨询 / <b>catalog@memphis-milano.example</b></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<footer>西环街市 · 风格样张 H（Memphis Design）</footer>
+<div class="squiggle-band" aria-hidden="true">
+  <svg preserveAspectRatio="none"><rect width="100%" height="16" fill="url(#p-band)"/></svg>
+</div>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p class="foot-brand">
+      <svg width="30" height="26" viewBox="0 0 40 34" aria-hidden="true">
+        <path d="M3 24q5-16 10 0t10 0 10 0" fill="none" stroke="#FF71CE" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="36" cy="7" r="4" fill="#FFCE5C" stroke="#FFFDF6" stroke-width="2"/>
+      </svg>
+      UI 设计提示词库 / Memphis Design 孟菲斯
+    </p>
+    <p class="foot-note">孟菲斯团体于 1981 至 1988 年活跃于米兰 / 首版作品名称与设计师署名归各自权利人 / 本页复刻工坊与报价为风格演示虚构 / <a href="style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
 
 </body>
 </html>

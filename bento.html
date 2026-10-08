@@ -2,294 +2,808 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bento Box Grid 便当网格 / UI 设计提示词库</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>风格 G · Bento Box Grid</title>
+<meta name="description" content="Bento Box Grid 便当网格演示页 / 用不同尺寸的圆角格子拼出个人年度数据总览 / UI 设计提示词库">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* ============================================================
+   tokens: page #F5F5F7 / card #FFFFFF / ink #1D1D1F / ink-2 #515154
+   accent #0F766E / radius 24px / gap 16px
+   shadow 0 4px 6px rgba(0,0,0,.05) / hover-scale 1.02
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
   --page-bg: #F5F5F7;
-  --card-bg: #FFFFFF;
+  --card: #FFFFFF;
   --ink: #1D1D1F;
-  --muted-fg: #6E6E73;
-  --brand: #7C3AED;
-  --brand-soft: #F3EEFF;
-  --green: #059669;
+  --ink-2: #515154;
+  --accent: #0F766E;
+  --accent-dark: #0B4F4A;
   --radius: 24px;
   --gap: 16px;
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 14px 30px rgba(0, 0, 0, 0.12);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   background: var(--page-bg);
   color: var(--ink);
-  line-height: 1.55;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  line-height: 1.5;
 }
 
-.container { max-width: 1120px; margin: 0 auto; padding: 24px; }
-
-/* ---------- 顶栏 ---------- */
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px; margin-bottom: 28px;
-}
-.logo {
-  font-weight: 700; font-size: 17px;
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--ink);
-}
-.logo-mark {
-  width: 32px; height: 32px; border-radius: 10px;
-  background: var(--ink); color: #fff;
-  display: grid; place-items: center;
-}
-nav { display: flex; gap: 24px; }
-nav a { font-size: 14.5px; color: var(--muted-fg); text-decoration: none; }
-nav a:hover, nav a:focus-visible { color: var(--ink); }
-
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 10px 20px; border-radius: 999px;
-  cursor: pointer; text-decoration: none;
-  border: none;
-  transition: transform 200ms ease, opacity 200ms ease;
-}
-.btn-dark { background: var(--ink); color: #fff; }
-.btn-dark:hover { transform: scale(1.03); opacity: 0.92; }
-
-a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 8px;
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 52px 22px 44px;
 }
 
-/* ---------- Bento 网格 ---------- */
+/* ---------- 页头 ---------- */
+.page-head {
+  margin-bottom: 30px;
+}
+
+.kicker {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 4.4vw, 3.05rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  margin-top: 10px;
+}
+
+.lede {
+  margin-top: 12px;
+  max-width: 44em;
+  color: var(--ink-2);
+  font-size: 1rem;
+}
+
+.meta {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+
+/* ---------- bento 网格：4 列 / 1x1 + 2x1 + 2x2 混拼，行高一致、间距均匀 ---------- */
 .bento {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 210px;
+  grid-auto-rows: minmax(176px, auto);
   gap: var(--gap);
 }
-.tile {
-  background: var(--card-bg);
+
+.card {
+  background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-hover);
+}
+
+.c-hero {
+  grid-column: span 2;
+  grid-row: span 2;
+  background: var(--ink);
+  color: #F5F5F7;
   padding: 26px;
-  overflow: hidden; position: relative;
-  display: flex; flex-direction: column;
-  transition: transform 200ms ease;
-}
-.tile:hover { transform: scale(1.02); }
-
-.tile-hero { grid-column: span 2; grid-row: span 2; justify-content: center; }
-.oven-line { display: flex; align-items: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-.oven-line span { display: grid; gap: 1px; }
-.oven-line b { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 800; }
-.oven-line small { font-size: 11px; color: #6E6E73; }
-.oven-line i { flex: 1; min-width: 18px; height: 0; border-top: 2px dotted #C7C7CC; }
-.tile-hero .kicker {
-  font-size: 13px; font-weight: 600; color: var(--brand);
-  margin-bottom: 14px;
-}
-.tile-hero h1 {
-  font-size: clamp(28px, 3.4vw, 40px);
-  font-weight: 800; line-height: 1.18; letter-spacing: -0.02em;
-  margin-bottom: 14px;
-}
-.tile-hero h1 span { color: var(--brand); }
-.tile-hero p { font-size: 15px; color: var(--muted-fg); max-width: 400px; margin-bottom: 24px; }
-.cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.btn-outline {
-  background: transparent; color: var(--ink);
-  box-shadow: inset 0 0 0 1.5px #D2D2D7;
-}
-.btn-outline:hover { background: #FAFAFC; }
-
-/* 对话演示瓦片 */
-.tile-chat { grid-column: span 2; }
-.tile-chat .t-head {
-  font-size: 13px; font-weight: 600; color: var(--muted-fg); margin-bottom: 12px;
-}
-.chat { display: grid; gap: 10px; }
-.chat .m {
-  font-size: 13.5px; padding: 9px 14px; border-radius: 14px;
-  max-width: 85%;
-}
-.chat .m.bot { background: var(--brand-soft); color: #4C1D95; border-bottom-left-radius: 4px; }
-.chat .m.user {
-  background: var(--ink); color: #fff; justify-self: end;
-  border-bottom-right-radius: 4px;
 }
 
-/* 指标瓦片 */
-.tile-stat b {
-  font-size: 38px; font-weight: 800; letter-spacing: -0.02em;
-  display: block; line-height: 1.1;
-}
-.tile-stat span { font-size: 13.5px; color: var(--muted-fg); }
-.tile-stat .spark {
-  margin-top: auto; height: 44px;
-  display: flex; align-items: flex-end; gap: 5px;
-}
-.tile-stat .spark i {
-  flex: 1; border-radius: 3px 3px 0 0;
-  background: var(--brand-soft);
-}
-.tile-stat .spark i.hot { background: var(--brand); }
-.tile-stat.green b { color: var(--green); }
-.tile-stat.green .spark i.hot { background: var(--green); }
-
-/* 功能瓦片 */
-.tile-feature .f-icon {
-  width: 40px; height: 40px; border-radius: 12px;
-  background: var(--brand-soft); color: var(--brand);
-  display: grid; place-items: center; margin-bottom: 14px;
-}
-.tile-feature h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 5px; }
-.tile-feature p { font-size: 13px; color: var(--muted-fg); }
-
-/* CTA 瓦片 */
-.tile-cta {
-  background: linear-gradient(135deg, #7C3AED, #6366F1);
-  color: #fff; justify-content: center; align-items: flex-start;
-}
-.tile-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.tile-cta p { font-size: 13.5px; opacity: 0.85; margin-bottom: 18px; }
-.tile-cta .btn { background: #fff; color: #4C1D95; }
-
-.t-label {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--muted-fg);
-  margin-bottom: 10px;
+.c-big {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
-footer {
-  text-align: center; padding: 34px 0 20px;
-  font-size: 13px; color: var(--muted-fg);
+.c-wide {
+  grid-column: span 2;
 }
 
-@media (max-width: 900px) {
-  .bento { grid-template-columns: repeat(2, 1fr); }
-  .tile-hero { grid-column: span 2; }
+/* 小格关键数沉底，同一横排的数字基线对齐 */
+.c-s .k {
+  margin-top: auto;
+  padding-top: 12px;
 }
-@media (max-width: 600px) {
-  .bento { grid-template-columns: 1fr; grid-auto-rows: auto; }
-  .tile { grid-column: span 1 !important; min-height: 170px; }
-  nav { display: none; }
+
+/* 便当配色格：中性底里掺几格低饱和 tint，像便当的分格菜色 */
+.t-mint {
+  background: #E7F3EE;
+}
+
+.t-sky {
+  background: #E9F1FA;
+}
+
+.t-butter {
+  background: #FAF0DC;
+}
+
+.t-blush {
+  background: #FAEDE7;
+}
+
+/* ---------- 格内通用排版 ---------- */
+.label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: 0.01em;
+}
+
+.c-hero .label {
+  color: #A9A9AD;
+}
+
+.k {
+  font-size: clamp(1.55rem, 1.6vw, 1.8rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.n {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  margin-top: 4px;
+  line-height: 1.45;
+}
+
+.chead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.chead .v {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 主格（暗色 2x2）：大数字 + 年走势面积图 ---------- */
+.big {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.big .num {
+  font-size: clamp(3rem, 4.6vw, 4.1rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.big .unit {
+  font-size: 1rem;
+  color: #A9A9AD;
+  font-weight: 600;
+}
+
+.delta {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: #C9C9CE;
+  font-variant-numeric: tabular-nums;
+}
+
+.spark {
+  width: 100%;
+  height: auto;
+  margin-top: auto;
+  padding-top: 18px;
+  display: block;
+}
+
+.caption {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #A9A9AD;
+}
+
+.cta {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  background: #F5F5F7;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 9px 18px;
+  margin-top: 14px;
+  align-self: flex-start;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cta:hover {
+  transform: scale(1.02);
+  background: #FFFFFF;
+}
+
+.cta:active {
+  transform: scale(0.98);
+}
+
+.cta[disabled] {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* ---------- 宽格：12 个月柱状图 ---------- */
+.chart {
+  height: 118px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.bcol {
+  flex: 1;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 7px;
+  min-width: 0;
+  height: 100%;
+}
+
+.bar {
+  align-self: end;
+  width: 100%;
+  border-radius: 5px;
+  background: var(--accent);
+  min-height: 4px;
+}
+
+.bar.max {
+  background: var(--accent-dark);
+}
+
+.bmon {
+  font-size: 0.72rem;
+  color: var(--ink-2);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 宽格：横向占比条（名称 / 轨道 / 数值三列对齐） ---------- */
+.hrows {
+  margin-top: 16px;
+}
+
+.hrow {
+  display: grid;
+  grid-template-columns: 6em 1fr 5.5em;
+  gap: 10px;
+  align-items: center;
+}
+
+.hrow + .hrow {
+  margin-top: 13px;
+}
+
+.hname {
+  font-size: 0.88rem;
+}
+
+.track {
+  display: block;
+  height: 8px;
+  border-radius: 99px;
+  background: rgba(15, 118, 110, 0.12);
+  overflow: hidden;
+}
+
+.hbar {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+}
+
+.hval {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ---------- 大格（2x2）：24 小时创作时钟环形图 ---------- */
+.clockrow {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex: 1;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.clock {
+  position: relative;
+  width: 196px;
+  max-width: 100%;
+  flex: none;
+  margin: 14px auto 6px;
+}
+
+.clock svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cc {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+.cc .t {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cc .s {
+  font-size: 0.74rem;
+  color: var(--ink-2);
+}
+
+.legend {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.lrow {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-size: 0.88rem;
+}
+
+.sw {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  flex: none;
+  align-self: center;
+}
+
+.lpct {
+  margin-left: auto;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.lhrs {
+  min-width: 4.6em;
+  text-align: right;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 年度之最引言格 ---------- */
+.quote {
+  font-size: clamp(1.15rem, 1.6vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.c-quote .n {
+  margin-top: 10px;
+}
+
+/* ---------- 页脚 ---------- */
+.note-line {
+  margin-top: 18px;
+  font-size: 0.78rem;
+  color: var(--ink-2);
+}
+
+.foot {
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(29, 29, 31, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--ink-2);
+}
+
+.foot a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.foot .fine {
+  margin-left: auto;
+}
+
+/* ---------- 焦点可见 ---------- */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.c-hero a:focus-visible,
+.c-hero button:focus-visible {
+  outline-color: #8FE3B0;
+}
+
+/* ---------- 一次亮相：整盘一次落定（容器单次淡入 + 格子位移归位，非逐格淡入） ---------- */
+@keyframes bento-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bento-settle {
+  from { transform: translateY(16px) scale(0.96); }
+  to { transform: translateY(0) scale(1); }
+}
+
+.bento {
+  animation: bento-fade 0.45s ease-out backwards;
+}
+
+.card {
+  animation: bento-settle 0.6s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 36ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .bento,
+  .card {
+    animation: none;
+  }
+
+  .card,
+  .cta {
+    transition: none;
+  }
+
+  .card:hover,
+  .cta:hover,
+  .cta:active {
+    transform: none;
+  }
+}
+
+/* ---------- 响应式：1023px 降为 2 列，639px 降为 1 列，保持便当拼盘感 ---------- */
+@media (max-width: 1023px) {
+  .wrap {
+    padding: 40px 18px 36px;
+  }
+
+  .bento {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(152px, auto);
+  }
+}
+
+@media (max-width: 639px) {
+  .wrap {
+    padding: 30px 16px 32px;
+  }
+
+  .bento {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(128px, auto);
+  }
+
+  .c-hero,
+  .c-big,
+  .c-wide {
+    grid-column: span 1;
+  }
+
+  .c-hero,
+  .c-big {
+    grid-row: span 1;
+  }
+
+  .spark {
+    margin-top: 18px;
+  }
+
+  .foot .fine {
+    margin-left: 0;
+  }
 }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="container">
-  <header class="topbar">
-    <a class="logo" href="#">
-      <span class="logo-mark" aria-hidden="true">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
-      </span>
-      麦芒
-    </a>
-    <nav aria-label="主导航">
-      <a href="#bento">功能</a>
-      <a href="#">炉单</a>
-      <a href="#">到店</a>
-    </nav>
-    <a class="btn btn-dark" href="#">看炉单</a>
-  </header>
+<header class="page-head">
+  <p class="kicker">拾光年鉴 2026 / 个人年度数据总览</p>
+  <h1>一格一格，摆好这一年</h1>
+  <p class="lede">137 篇作品、1,284 小时专注、512 公里跑步、7 座城市——重要的数据占大格，闪光的瞬间占小格，整份年鉴像一份摆好的便当。</p>
+  <p class="meta">数据周期 2026.01.01 至 12.31 / 由拾光应用自动整理</p>
+</header>
 
-  <main class="bento" id="bento">
-    <section class="tile tile-hero">
-      <p class="kicker">WHEAT AWN BAKERY · 今日炉单</p>
-      <h1>六点半的队伍，<br>等的是<span>同一炉面包</span></h1>
-      <p>今日炉次 #264 · 醒面 18 小时 · 07:00 出炉。天然酵母，只用粉、水、盐和一点耐心。</p>
-      <div class="cta-row">
-        <a class="btn btn-dark" href="#">看今日炉单</a>
-        <a class="btn btn-outline" href="#">预约周六</a>
+<main>
+<section class="bento" aria-label="2026 年度数据便当网格">
+
+  <article class="card c-hero" style="--i:0">
+    <p class="label">全年专注时长</p>
+    <p class="big"><span class="num" id="heroNum">1,284</span><span class="unit">小时</span></p>
+    <p class="delta">较 2025 年多 224 小时 / 增长 21%</p>
+    <svg class="spark" viewBox="0 0 320 96" role="img" aria-label="全年每月专注时长走势面积图，四月至五月最高">
+      <path d="M4,42.3 L32.7,37.8 L61.5,12.8 L90.2,10 L118.9,17.4 L147.6,35.5 L176.4,53.7 L205.1,57.1 L233.8,32.1 L262.5,19.6 L291.3,15.7 L316,17.4 L316,96 L4,96 Z" fill="rgba(143,227,176,0.16)"/>
+      <polyline points="4,42.3 32.7,37.8 61.5,12.8 90.2,10 118.9,17.4 147.6,35.5 176.4,53.7 205.1,57.1 233.8,32.1 262.5,19.6 291.3,15.7 316,17.4" fill="none" stroke="#8FE3B0" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="90.2" cy="10" r="3.2" fill="#8FE3B0"/>
+    </svg>
+    <p class="caption">三月至五月是最长的连续创作期</p>
+    <button class="cta" id="copyBtn" type="button">复制年度摘要</button>
+  </article>
+
+  <article class="card c-wide" style="--i:1">
+    <div class="chead">
+      <p class="label">每月创作节奏</p>
+      <p class="v">峰值 4 月 / 141 小时</p>
+    </div>
+    <div class="chart">
+      <div class="bcol"><span class="bar" style="height:60%"></span><span class="bmon">1月</span></div>
+      <div class="bcol"><span class="bar" style="height:65%"></span><span class="bmon">2月</span></div>
+      <div class="bcol"><span class="bar" style="height:97%"></span><span class="bmon">3月</span></div>
+      <div class="bcol"><span class="bar max" style="height:100%"></span><span class="bmon">4月</span></div>
+      <div class="bcol"><span class="bar" style="height:91%"></span><span class="bmon">5月</span></div>
+      <div class="bcol"><span class="bar" style="height:68%"></span><span class="bmon">6月</span></div>
+      <div class="bcol"><span class="bar" style="height:45%"></span><span class="bmon">7月</span></div>
+      <div class="bcol"><span class="bar" style="height:41%"></span><span class="bmon">8月</span></div>
+      <div class="bcol"><span class="bar" style="height:72%"></span><span class="bmon">9月</span></div>
+      <div class="bcol"><span class="bar" style="height:88%"></span><span class="bmon">10月</span></div>
+      <div class="bcol"><span class="bar" style="height:93%"></span><span class="bmon">11月</span></div>
+      <div class="bcol"><span class="bar" style="height:91%"></span><span class="bmon">12月</span></div>
+    </div>
+  </article>
+
+  <article class="card c-s" style="--i:2">
+    <p class="label">最长单日专注</p>
+    <p class="k">9.5 小时</p>
+    <p class="n">4 月 18 日 / 长稿三轮修改一次过</p>
+  </article>
+
+  <article class="card c-s t-mint" style="--i:3">
+    <p class="label">连续创作</p>
+    <p class="k">84 天</p>
+    <p class="n">7 月至 9 月 / 一天也没断过</p>
+  </article>
+
+  <article class="card c-wide" style="--i:4">
+    <div class="chead">
+      <p class="label">作品分布</p>
+      <p class="v">全年发布 137 篇</p>
+    </div>
+    <div class="hrows">
+      <div class="hrow"><span class="hname">随笔</span><span class="track"><span class="hbar" style="width:42%"></span></span><span class="hval">58 篇</span></div>
+      <div class="hrow"><span class="hname">摄影</span><span class="track"><span class="hbar" style="width:25%"></span></span><span class="hval">34 组</span></div>
+      <div class="hrow"><span class="hname">代码</span><span class="track"><span class="hbar" style="width:20%"></span></span><span class="hval">28 个</span></div>
+      <div class="hrow"><span class="hname">设计</span><span class="track"><span class="hbar" style="width:12%"></span></span><span class="hval">17 套</span></div>
+    </div>
+  </article>
+
+  <article class="card c-big" style="--i:5">
+    <p class="label">一天中的创作时刻</p>
+    <div class="clockrow">
+      <div class="clock">
+        <svg viewBox="0 0 180 180" role="img" aria-label="24 小时创作时段占比环形图，夜里占三分之一">
+          <g transform="rotate(-90 90 90)">
+            <circle cx="90" cy="90" r="62" fill="none" stroke="#EDF0F2" stroke-width="26"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="#264653" stroke-width="26" stroke-dasharray="125.6 263.9" stroke-dashoffset="0"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="#2A9D8F" stroke-width="26" stroke-dasharray="102.2 287.3" stroke-dashoffset="-128.55"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="#7FB685" stroke-width="26" stroke-dasharray="82.7 306.8" stroke-dashoffset="-233.75"/>
+            <circle cx="90" cy="90" r="62" fill="none" stroke="#E9C46A" stroke-width="26" stroke-dasharray="67.1 322.4" stroke-dashoffset="-319.45"/>
+          </g>
+        </svg>
+        <div class="cc">
+          <p class="t">23:40</p>
+          <p class="s">最常开始的时刻</p>
+        </div>
       </div>
-      <div class="oven-line" role="img" aria-label="今日炉次时间轴：06:00 备料，07:00 头炉，11:00 可颂出炉，16:00 碱水结半价">
-        <span><b>06:00</b><small>备料醒面</small></span><i aria-hidden="true"></i>
-        <span><b>07:00</b><small>头炉 · 乡村棍</small></span><i aria-hidden="true"></i>
-        <span><b>11:00</b><small>可颂出炉</small></span><i aria-hidden="true"></i>
-        <span><b>16:00</b><small>碱水结半价</small></span>
+      <div class="legend">
+        <div class="lrow"><span class="sw" style="background:#264653"></span><span>夜里 18 至 2 点</span><span class="lpct">33%</span><span class="lhrs">424 小时</span></div>
+        <div class="lrow"><span class="sw" style="background:#2A9D8F"></span><span>午后 12 至 18 点</span><span class="lpct">27%</span><span class="lhrs">347 小时</span></div>
+        <div class="lrow"><span class="sw" style="background:#7FB685"></span><span>上午 9 至 12 点</span><span class="lpct">22%</span><span class="lhrs">282 小时</span></div>
+        <div class="lrow"><span class="sw" style="background:#E9C46A"></span><span>清晨 5 至 9 点</span><span class="lpct">18%</span><span class="lhrs">231 小时</span></div>
       </div>
-    </section>
+    </div>
+  </article>
 
-    <section class="tile tile-chat">
-      <p class="t-head">柜台 · 今晨对话</p>
-      <div class="chat">
-        <div class="m bot">早。头炉 07:00 出炉，乡村棍 12 根，可颂等到十点。</div>
-        <div class="m user">来一根乡村棍，再留两个可颂</div>
-        <div class="m bot">好，可颂出炉给你留最酥的那两个。</div>
-      </div>
-    </section>
+  <article class="card c-s t-butter" style="--i:6">
+    <p class="label">喝掉的咖啡</p>
+    <p class="k">426 杯</p>
+    <p class="n">平均每天 1.2 杯 / 手冲居多</p>
+  </article>
 
-    <section class="tile tile-stat">
-      <p class="t-label">今日出炉</p>
-      <b>3 炉</b>
-      <div class="spark" aria-hidden="true">
-        <i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i>
-        <i style="height:60%"></i><i style="height:52%"></i><i class="hot" style="height:85%"></i>
-      </div>
-    </section>
+  <article class="card c-s t-sky" style="--i:7">
+    <p class="label">跑步里程</p>
+    <p class="k">512 公里</p>
+    <p class="n">相当于 12 场全程马拉松</p>
+  </article>
 
-    <section class="tile tile-stat green">
-      <p class="t-label">头炉时间</p>
-      <b>07:00</b>
-      <div class="spark" aria-hidden="true">
-        <i style="height:40%"></i><i style="height:55%"></i><i class="hot" style="height:78%"></i>
-        <i style="height:50%"></i><i class="hot" style="height:90%"></i><i style="height:62%"></i>
-      </div>
-    </section>
+  <article class="card c-wide" style="--i:8">
+    <div class="chead">
+      <p class="label">工具箱时长排行</p>
+      <p class="v">合计 1,094 小时</p>
+    </div>
+    <div class="hrows">
+      <div class="hrow"><span class="hname">Obsidian</span><span class="track"><span class="hbar" style="width:100%"></span></span><span class="hval">412 小时</span></div>
+      <div class="hrow"><span class="hname">Figma</span><span class="track"><span class="hbar" style="width:72%"></span></span><span class="hval">296 小时</span></div>
+      <div class="hrow"><span class="hname">VS Code</span><span class="track"><span class="hbar" style="width:65%"></span></span><span class="hval">268 小时</span></div>
+      <div class="hrow"><span class="hname">Lightroom</span><span class="track"><span class="hbar" style="width:29%"></span></span><span class="hval">118 小时</span></div>
+    </div>
+  </article>
 
-    <section class="tile tile-feature">
-      <div class="f-icon">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      </div>
-      <h3>乡村棍</h3>
-      <p>TK 面粉加 20% 全麦，皮脆心润，配浓汤或什么都不配。</p>
-    </section>
+  <article class="card c-s" style="--i:9">
+    <p class="label">新增订阅</p>
+    <p class="k">3,842 人</p>
+    <p class="n">十一月的长文带来 61%</p>
+  </article>
 
-    <section class="tile tile-feature">
-      <div class="f-icon">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </div>
-      <h3>可颂</h3>
-      <p>法国黄油开 27 层，出炉两小时内是它的黄金时段。</p>
-    </section>
+  <article class="card c-s t-mint" style="--i:10">
+    <p class="label">被收藏</p>
+    <p class="k">1,209 次</p>
+    <p class="n">最高单篇 214 次</p>
+  </article>
 
-    <section class="tile tile-stat">
-      <p class="t-label">低温醒面</p>
-      <b>18h</b>
-      <div class="spark" aria-hidden="true">
-        <i style="height:35%"></i><i class="hot" style="height:70%"></i><i style="height:48%"></i>
-        <i style="height:58%"></i><i class="hot" style="height:82%"></i><i style="height:66%"></i>
-      </div>
-    </section>
+  <article class="card c-s" style="--i:11">
+    <p class="label">平均入睡</p>
+    <p class="k">00:36</p>
+    <p class="n">比 2025 年晚 11 分钟</p>
+  </article>
 
-    <section class="tile tile-feature">
-      <div class="f-icon">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-      </div>
-      <h3>碱水结</h3>
-      <p>碱水重口配啤酒刚好。下午四点后第二炉半价。</p>
-    </section>
+  <article class="card c-s t-blush" style="--i:12">
+    <p class="label">到过的城市</p>
+    <p class="k">7 座</p>
+    <p class="n">新增 3 座 / 最远到敦煌</p>
+  </article>
 
-    <section class="tile tile-cta">
-      <h3>今日炉单</h3>
-      <p>卖完是真的卖完，赶早。</p>
-      <a class="btn" href="#">看炉单</a>
-    </section>
-  </main>
+  <article class="card c-wide t-butter c-quote" style="--i:13">
+    <p class="label">年度之最</p>
+    <p class="quote">被翻译最多的一篇，是 3 月 9 日发出的《把一天过成两倍长》。</p>
+    <p class="n">12 种语言 / 37 次授权转载 / 全年阅读量第 2 名</p>
+  </article>
 
-  <footer>麦芒 · 风格样张 G（Bento Box Grid）</footer>
+  <article class="card c-wide" style="--i:14">
+    <div class="chead">
+      <p class="label">年度阅读</p>
+      <p class="v">读完 23 本 / 摘录 412 条</p>
+    </div>
+    <div class="hrows">
+      <div class="hrow"><span class="hname">文学</span><span class="track"><span class="hbar" style="width:100%"></span></span><span class="hval">9 本</span></div>
+      <div class="hrow"><span class="hname">技术</span><span class="track"><span class="hbar" style="width:78%"></span></span><span class="hval">7 本</span></div>
+      <div class="hrow"><span class="hname">历史</span><span class="track"><span class="hbar" style="width:44%"></span></span><span class="hval">4 本</span></div>
+      <div class="hrow"><span class="hname">诗集</span><span class="track"><span class="hbar" style="width:33%"></span></span><span class="hval">3 本</span></div>
+    </div>
+  </article>
+
+  <article class="card c-s t-sky" style="--i:15">
+    <p class="label">屏幕时间</p>
+    <p class="k">1 小时 42 分</p>
+    <p class="n">每日平均 / 较 2025 年降 23%</p>
+  </article>
+
+  <article class="card c-s t-blush" style="--i:16">
+    <p class="label">单曲循环</p>
+    <p class="k">215 次</p>
+    <p class="n">年度循环冠军《野花》</p>
+  </article>
+
+  <article class="card c-s" style="--i:17">
+    <p class="label">按下的快门</p>
+    <p class="k">18,402 张</p>
+    <p class="n">留下 3,109 张 / 整理成 34 组</p>
+  </article>
+
+  <article class="card c-s t-butter" style="--i:18">
+    <p class="label">夜间写作场次</p>
+    <p class="k">63 场</p>
+    <p class="n">多数在 23 点后开笔</p>
+  </article>
+
+  <article class="card c-s t-mint" style="--i:19">
+    <p class="label">驻留创作</p>
+    <p class="k">9 天</p>
+    <p class="n">六月湖畔工作坊 / 写完三章</p>
+  </article>
+
+  <article class="card c-s" style="--i:20">
+    <p class="label">收到的感谢</p>
+    <p class="k">2,217 条</p>
+    <p class="n">每一条都回了</p>
+  </article>
+
+</section>
+
+<p class="note-line">备注：专注时长按 25 分钟以上的会话统计 / 阅读数据来自阅读应用同步 / 城市记录基于签到与相册地点信息。</p>
+</main>
+
+<footer class="foot">
+  <p>UI 设计提示词库 / Bento Box Grid 便当网格</p>
+  <p><a href="style-catalog.html">返回风格目录</a></p>
+  <p class="fine">拾光年鉴 2026 / 演示数据</p>
+</footer>
+
 </div>
+<script>
+(function () {
+  var num = document.getElementById('heroNum');
+  var btn = document.getElementById('copyBtn');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var target = 1284;
 
+  if (num && !reduce) {
+    num.textContent = '0';
+    var t0 = null;
+    var dur = 950;
+    requestAnimationFrame(function tick(t) {
+      if (t0 === null) { t0 = t; }
+      var p = Math.min((t - t0) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      num.textContent = Math.round(target * e).toLocaleString('zh-CN');
+      if (p < 1) { requestAnimationFrame(tick); }
+    });
+  }
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var text = '拾光年鉴 2026 / 专注 1,284 小时 / 发布 137 篇 / 新增订阅 3,842 人 / 跑步 512 公里';
+      function done() {
+        btn.textContent = '已复制';
+        setTimeout(function () { btn.textContent = '复制年度摘要'; }, 1800);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done);
+      } else {
+        done();
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
