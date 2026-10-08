@@ -63,7 +63,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .lamp b{color:inherit;font-weight:400}
 
 /* 主甲板 */
-.deck{display:grid;grid-template-columns:300px minmax(0,1fr) 320px;gap:16px;align-items:start}
+.deck{display:grid;grid-template-columns:minmax(280px,300px) minmax(0,1fr) minmax(280px,320px);gap:16px;align-items:start}
 .col{display:flex;flex-direction:column;gap:16px;min-width:0}
 .panel{
   border:1px solid var(--hair);border-radius:var(--r);
@@ -78,27 +78,31 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .panel-h{
   display:flex;align-items:baseline;justify-content:space-between;gap:12px;
   border-bottom:1px solid rgba(0,234,255,0.25);
-  padding-bottom:8px;margin-bottom:12px;
+  padding-bottom:8px;margin-bottom:12px;min-width:0;
 }
 .panel-h h2{
-  font-family:var(--disp);font-size:14px;font-weight:400;
-  letter-spacing:2px;color:var(--text);
+  font-family:var(--disp);font-size:13px;font-weight:400;
+  letter-spacing:1px;color:var(--text);
+  flex:0 1 auto;min-width:0;overflow-wrap:break-word;
 }
-.panel-h .code{font-size:10px;color:var(--sub);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.panel-h .code{font-size:10px;color:var(--sub);letter-spacing:1px;font-variant-numeric:tabular-nums;flex:0 0 auto;white-space:nowrap}
 
 /* 遥测行 */
-.tele{display:flex;flex-direction:column;gap:6px}
+.tele{display:flex;flex-direction:column;gap:6px;min-width:0}
 .t-row{display:flex;align-items:baseline;gap:8px;min-width:0}
-.t-row dt{color:var(--sub);font-size:12px;flex:none}
-.t-row .dots{flex:1;border-bottom:1px dotted rgba(0,234,255,0.28);transform:translateY(-3px)}
-.t-row dd{color:var(--data);font-variant-numeric:tabular-nums;text-align:right;flex:none}
+.t-row dt{color:var(--sub);font-size:12px;flex:0 1 auto;min-width:0;overflow-wrap:break-word}
+.t-row .dots{flex:1 1 12px;border-bottom:1px dotted rgba(0,234,255,0.28);transform:translateY(-3px)}
+.t-row dd{color:var(--data);font-variant-numeric:tabular-nums;text-align:right;flex:0 0 auto;white-space:nowrap}
 .t-row dd .u{color:var(--sub);font-size:10px;margin-left:3px}
 .t-row dd.w{color:var(--warn)}
 .t-row dd.a{color:var(--alert)}
 .bar{height:6px;border:1px solid rgba(0,234,255,0.35);border-radius:1px;margin-top:6px;overflow:hidden;position:relative}
 .bar i{display:block;height:100%;background:rgba(0,234,255,0.55)}
 .bar.w i{background:rgba(255,180,84,0.55)}
-.blk{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:10px}
+.blk{display:grid;grid-template-columns:1fr;gap:6px 16px;margin-top:10px;min-width:0}
+.panel-h{min-width:0}
+.panel-h h2{overflow-wrap:break-word}
+.panel-h .code{flex:none}
 
 /* 中列 */
 .stage{display:flex;flex-direction:column;gap:0}
@@ -217,9 +221,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
           <div class="t-row"><dt>剩余 Δv</dt><span class="dots"></span><dd>1,284<span class="u">m/s</span></dd></div>
         </dl>
         <div class="bar" role="img" aria-label="推力输出 412 mN，额定 602 mN"><i style="width:68%"></i></div>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>额定推力</dt><span class="dots"></span><dd>602<span class="u">mN</span></dd></div>
           <div class="t-row"><dt>累计点火</dt><span class="dots"></span><dd>04:12:36<span class="u">hh:mm</span></dd></div>
+        </dl>
         </div>
       </div>
 
@@ -232,10 +237,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
           <div class="t-row"><dt>太阳翼输出</dt><span class="dots"></span><dd>96.4<span class="u">%</span> / 4,860 W</dd></div>
         </dl>
         <div class="bar" role="img" aria-label="电池 87.2%"><i style="width:87%"></i></div>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>配电: 推进</dt><span class="dots"></span><dd>4.6<span class="u">kW</span></dd></div>
           <div class="t-row"><dt>配电: 载荷</dt><span class="dots"></span><dd>2.1<span class="u">kW</span></dd></div>
           <div class="t-row"><dt>配电: 热控</dt><span class="dots"></span><dd>1.2<span class="u">kW</span></dd></div>
+        </dl>
         </div>
       </div>
 
@@ -247,34 +253,38 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
           <div class="t-row"><dt>回路工质压力</dt><span class="dots"></span><dd>1.82<span class="u">MPa</span></dd></div>
           <div class="t-row"><dt>舱压</dt><span class="dots"></span><dd>70.8<span class="u">kPa</span></dd></div>
         </dl>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>泵转速</dt><span class="dots"></span><dd>3,120<span class="u">rpm</span></dd></div>
           <div class="t-row"><dt>辐射器工况</dt><span class="dots"></span><dd class="w">NOMINAL-4.7K</dd></div>
+        </dl>
         </div>
       </div>
 
       <div class="panel">
-        <div class="panel-h"><h2>载荷 / PLD</h2><span class="code">SYS/EPO</span></div-h</h2>
+        <div class="panel-h"><h2>载荷 / PLD</h2><span class="code">SYS/EPO</span></div>
         <dl class="tele">
           <div class="t-row"><dt>货舱平均温度</dt><span class="dots"></span><dd>218.4<span class="u">K</span></dd></div>
           <div class="t-row"><dt>冷藏 B 路</dt><span class="dots"></span><dd>184.2<span class="u">K</span></dd></div>
           <div class="t-row"><dt>货舱压强</dt><span class="dots"></span><dd>0.62<span class="u">atm</span></dd></div>
           <div class="t-row"><dt>机械臂关节力矩</dt><span class="dots"></span><dd>0.0<span class="u">N-m</span></dd></div>
         </dl>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>载货质量</dt><span class="dots"></span><dd>12.4<span class="u">t</span></dd></div>
           <div class="t-row"><dt>舱位锁定</dt><span class="dots"></span><dd>14 / 14</dd></div>
+        </dl>
         </div>
         <div class="bar" role="img" aria-label="冷链功率 412 W"><i style="width:58%"></i></div>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>下次抛货窗口</dt><span class="dots"></span><dd>T+06:20:00</dd></div>
           <div class="t-row"><dt>窗口时长</dt><span class="dots"></span><dd>240<span class="u">s</span></dd></div>
+        </dl>
         </div>
       </div>
         <div class="bar w" role="img" aria-label="辐射器温度偏离标称"><i style="width:24%"></i></div>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>泵转速</dt><span class="dots"></span><dd>3,120<span class="u">rpm</span></dd></div>
           <div class="t-row"><dt>舱压</dt><span class="dots"></span><dd>70.8<span class="u">kPa</span></dd></div>
+        </dl>
         </div>
       </div>
     </div>
@@ -428,11 +438,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
           <div class="t-row"><dt>对地速度</dt><span class="dots"></span><dd>1.84<span class="u">km/s</span></dd></div>
           <div class="t-row"><dt>对月速度</dt><span class="dots"></span><dd>0.94<span class="u">km/s</span></dd></div>
         </dl>
-        <div class="blk">
+        <div class="blk"><dl class="tele">
           <div class="t-row"><dt>姿态 q0</dt><span class="dots"></span><dd>+0.912</dd></div>
           <div class="t-row"><dt>q1</dt><span class="dots"></span><dd>-0.204</dd></div>
           <div class="t-row"><dt>q2</dt><span class="dots"></span><dd>+0.336</dd></div>
           <div class="t-row"><dt>q3</dt><span class="dots"></span><dd>+0.087</dd></div>
+        </dl>
         </div>
       </div>
 

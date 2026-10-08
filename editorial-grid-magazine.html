@@ -166,6 +166,7 @@ figure a.figure-link:hover{background:none}
   column-count:2;column-gap:44px;column-rule:1px solid var(--rule);
   padding:calc(var(--baseline)*2) 0 calc(var(--baseline)*7);
   font-size:16.5px;text-align:justify;
+  column-fill:balance;
 }
 .feature-body p{margin-bottom:1.4em;break-inside:avoid-column}
 .feature-body p:first-of-type::first-letter{
@@ -179,11 +180,13 @@ figure a.figure-link:hover{background:none}
 }
 .pull-quote{
   break-inside:avoid;
+  column-span:all;
   margin:1.6em 0;
-  padding:calc(var(--baseline)*2.5) 0;
+  padding:calc(var(--baseline)*2.5) calc(var(--baseline)*2);
   border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);
   font-family:var(--serif);font-weight:600;
   font-size:24px;line-height:1.55;text-align:left;
+  overflow-wrap:anywhere;
 }
 .pull-quote footer{
   margin-top:calc(var(--baseline)*1.5);
