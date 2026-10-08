@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Editorial Grid / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Public+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划：bg #FAF7F0 / paper #FFFFFF / ink #000000 / ink-2 #4A4437 / rule #D8D0BF / radius 6px / 12 栏网格 gap 24 / 基线 8px / 标题 Libre Bodoni + Noto Serif SC / 正文 Public Sans + Noto Sans SC */
+:root{
+  --bg:#FAF7F0;
+  --paper:#FFFFFF;
+  --ink:#000000;
+  --ink-2:#4A4437;
+  --ink-3:#57503F;
+  --rule:#D8D0BF;
+  --accent:#000000;
+  --radius:6px;
+  --serif:'Libre Bodoni','Noto Serif SC',Georgia,serif;
+  --sans:'Public Sans','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+  --baseline:8px;
+  --gutter:24px;
+  --measure:1240px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%;height:auto;background:#E9E2D4}
+a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{background:var(--ink);color:var(--bg)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:99;
+  background:var(--ink);color:var(--bg);padding:10px 18px;
+}
+.skip:focus-visible{left:16px;top:16px;outline-offset:0;color:var(--bg)}
+.wrap{max-width:var(--measure);margin:0 auto;padding:0 28px}
+.u-ink{color:var(--ink-2)}
+.figure-photo{filter:grayscale(1) contrast(1.06) brightness(.98);border-radius:var(--radius);transition:filter .5s ease}
+.figure-link{display:block;border-radius:var(--radius)}
+.figure-link:hover .figure-photo{filter:grayscale(.75) contrast(1.04)}
+figure a.figure-link:hover{background:none}
+
+/* ---------- 报头 masthead ---------- */
+.topline{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:calc(var(--baseline)*2) 0;
+  font-size:12.5px;color:var(--ink-2);
+  border-bottom:1px solid var(--rule);
+}
+.topline .price{font-family:var(--serif);font-style:italic}
+.masthead{padding:calc(var(--baseline)*6) 0 calc(var(--baseline)*4);text-align:center}
+.masthead h1{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(64px,12vw,148px);line-height:1;letter-spacing:.02em;
+}
+.masthead .latin{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:clamp(16px,2.4vw,24px);margin-top:calc(var(--baseline)*1);
+}
+.masthead .issue-line{
+  margin-top:calc(var(--baseline)*3);font-size:13px;color:var(--ink-2);
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+}
+.masthead .issue-line b{font-weight:600;color:var(--ink)}
+.dept-nav{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:0 14px;
+  padding:calc(var(--baseline)*2) 0;
+  border-top:3px solid var(--ink);border-bottom:1px solid var(--ink);
+  font-size:14px;font-weight:500;
+}
+.dept-nav li{list-style:none}
+.dept-nav li + li::before{content:"/";margin-right:14px;color:var(--rule);font-weight:400}
+
+/* ---------- 栏段 running folio ---------- */
+.folio{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  padding:calc(var(--baseline)*1.5) 0;
+  border-top:3px solid var(--ink);
+  font-size:12.5px;color:var(--ink-2);
+}
+.folio .folio-mid{font-family:var(--serif);font-style:italic}
+.folio .folio-page{font-weight:600;color:var(--ink)}
+.section-head{padding-top:calc(var(--baseline)*2)}
+
+/* ---------- 封面专题 hero（命名网格区域） ---------- */
+.hero{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:var(--gutter);
+  grid-template-areas:
+    "kicker kicker kicker kicker kicker kicker kicker kicker kicker toc toc toc"
+    "title   title   title   title   title   title   title   title   title   toc toc toc"
+    "dek     dek     dek     dek     dek     dek     dek     dek     dek     toc toc toc"
+    "byline  byline  byline  byline  byline  byline  byline  byline  byline  toc toc toc"
+    "fig     fig     fig     fig     fig     fig     fig     fig     fig     fig fig fig";
+  padding:calc(var(--baseline)*7) 0 calc(var(--baseline)*7);
+}
+.hero-kicker{grid-area:kicker;font-size:14px;font-weight:600}
+.hero-kicker em{font-family:var(--serif);font-style:italic;font-weight:400;margin-left:6px;color:var(--ink-2)}
+.hero-title{
+  grid-area:title;
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(38px,5.6vw,72px);line-height:1.12;letter-spacing:.01em;
+  margin-top:calc(var(--baseline)*2);
+  text-wrap:balance;
+}
+.hero-dek{
+  grid-area:dek;
+  font-size:17.5px;line-height:1.85;color:var(--ink-2);
+  max-width:62ch;margin-top:calc(var(--baseline)*3);
+}
+.hero-byline{
+  grid-area:byline;
+  margin-top:calc(var(--baseline)*3);font-size:13.5px;color:var(--ink-2);
+}
+.hero-byline b{color:var(--ink);font-weight:600}
+.hero-byline .pp{font-family:var(--serif);font-style:italic;margin-left:14px}
+.hero-figure{grid-area:fig;margin-top:calc(var(--baseline)*4)}
+.hero-figure figcaption{
+  margin-top:calc(var(--baseline)*1.5);font-size:12.5px;color:var(--ink-3);
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+.hero-figure figcaption .credit{margin-left:auto;font-family:var(--serif);font-style:italic}
+.hero-photo{width:100%;aspect-ratio:16/8.2;object-fit:cover}
+/* 本期看点 toc 侧栏 */
+.toc{grid-area:toc;border-top:3px solid var(--ink);padding-top:calc(var(--baseline)*2.5)}
+.toc h2{font-family:var(--serif);font-weight:700;font-size:21px;margin-bottom:calc(var(--baseline)*1)}
+.toc ol{list-style:none}
+.toc li{border-bottom:1px solid var(--rule)}
+.toc a{
+  display:flex;align-items:baseline;gap:10px;text-decoration:none;
+  padding:calc(var(--baseline)*1.2) 0;font-size:14px;line-height:1.5;
+}
+.toc a:hover{background:none;color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.toc .no{font-family:var(--serif);font-style:italic;color:var(--ink-2);min-width:2.2em}
+.toc .lead{flex:1}
+.toc .dots{flex:1;border-bottom:1px dotted var(--rule);transform:translateY(-4px);min-width:12px}
+.toc .pg{font-size:12.5px;color:var(--ink-2)}
+.toc-sub{
+  margin-top:calc(var(--baseline)*3);border-top:1px solid var(--rule);
+  padding-top:calc(var(--baseline)*2);
+}
+.toc-sub p{font-size:13px;color:var(--ink-2);line-height:1.7}
+.btn-sub{
+  margin-top:calc(var(--baseline)*1.5);
+  display:inline-block;background:var(--ink);color:var(--bg);
+  border:none;padding:12px 22px;border-radius:var(--radius);
+  font-size:14px;font-weight:600;text-decoration:none;
+}
+.btn-sub:hover{background:var(--ink-2);color:var(--bg)}
+
+/* ---------- 长文正文 ---------- */
+.feature-body{
+  column-count:2;column-gap:44px;column-rule:1px solid var(--rule);
+  padding:calc(var(--baseline)*2) 0 calc(var(--baseline)*7);
+  font-size:16.5px;text-align:justify;
+}
+.feature-body p{margin-bottom:1.4em;break-inside:avoid-column}
+.feature-body p:first-of-type::first-letter{
+  font-family:var(--serif);font-weight:700;
+  font-size:3.6em;line-height:.8;
+  float:left;padding:.06em .14em 0 0;
+}
+.feature-body h3{
+  font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.4;
+  margin:1.8em 0 .9em;break-after:avoid;break-inside:avoid;
+}
+.pull-quote{
+  break-inside:avoid;
+  margin:1.6em 0;
+  padding:calc(var(--baseline)*2.5) 0;
+  border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);
+  font-family:var(--serif);font-weight:600;
+  font-size:24px;line-height:1.55;text-align:left;
+}
+.pull-quote footer{
+  margin-top:calc(var(--baseline)*1.5);
+  font-family:var(--sans);font-weight:500;font-size:12.5px;color:var(--ink-2);
+}
+.read-more{
+  display:inline-block;margin:0 0 calc(var(--baseline)*7);
+  font-size:14px;font-weight:600;text-decoration-thickness:2px;
+}
+
+/* ---------- 城市 栏目非对称网格 ---------- */
+.city-grid{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  gap:var(--gutter) var(--gutter);row-gap:calc(var(--gutter)*2);
+  padding-bottom:calc(var(--baseline)*7);
+}
+.card-lead{grid-column:1 / span 7}
+.card-side{grid-column:8 / span 5;border-top:3px solid var(--ink);padding-top:calc(var(--baseline)*2.5)}
+.card-photo-essay{grid-column:1 / -1}
+.card-lead .figure-photo{aspect-ratio:4/3;object-fit:cover;width:100%}
+.card-lead h3{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(26px,3vw,36px);line-height:1.3;margin:calc(var(--baseline)*2) 0 calc(var(--baseline)*1);
+  text-wrap:balance;
+}
+.card-lead .dek{color:var(--ink-2);font-size:15.5px;line-height:1.8;max-width:56ch}
+.card-side h3{
+  font-family:var(--serif);font-weight:700;font-size:27px;line-height:1.35;
+  margin-bottom:calc(var(--baseline)*1.5);
+}
+.card-side p{font-size:15px;color:var(--ink-2);margin-bottom:1.2em}
+.card-side ul{list-style:none;margin-top:calc(var(--baseline)*1)}
+.card-side li{
+  padding:calc(var(--baseline)*1.2) 0;border-top:1px solid var(--rule);
+  font-size:14px;
+}
+.card-side li b{display:block;font-weight:600;margin-bottom:2px}
+.card-side li span{color:var(--ink-2)}
+.byline-sm{font-size:12.5px;color:var(--ink-2);margin-top:calc(var(--baseline)*1.5)}
+.byline-sm b{font-weight:600;color:var(--ink)}
+/* 图片专辑 */
+.essay{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter)}
+.essay figure:nth-child(1){grid-column:1 / span 5}
+.essay figure:nth-child(2){grid-column:6 / span 4;margin-top:calc(var(--baseline)*6)}
+.essay figure:nth-child(3){grid-column:10 / span 3;margin-top:calc(var(--baseline)*12)}
+.essay .figure-photo{width:100%;object-fit:cover}
+.essay figure:nth-child(1) .figure-photo{aspect-ratio:4/5}
+.essay figure:nth-child(2) .figure-photo{aspect-ratio:3/4}
+.essay figure:nth-child(3) .figure-photo{aspect-ratio:3/4}
+.essay figcaption{margin-top:8px;font-size:12px;color:var(--ink-3);line-height:1.6}
+.essay-head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  margin-bottom:calc(var(--baseline)*2.5);
+}
+.essay-head h3{font-family:var(--serif);font-weight:700;font-size:24px}
+.essay-head span{font-size:12.5px;color:var(--ink-2);font-family:var(--serif);font-style:italic}
+
+/* ---------- 人物问答 ---------- */
+.profile{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  gap:var(--gutter);padding:calc(var(--baseline)*2) 0 calc(var(--baseline)*7);
+}
+.profile-figure{grid-column:1 / span 5}
+.profile-figure .figure-photo{aspect-ratio:4/5;object-fit:cover;width:100%}
+.profile-figure figcaption{margin-top:8px;font-size:12.5px;color:var(--ink-3)}
+.profile-body{grid-column:6 / span 7}
+.profile-body h3{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(30px,3.6vw,46px);line-height:1.25;margin-bottom:calc(var(--baseline)*2);
+}
+.qa{margin-top:calc(var(--baseline)*1)}
+.qa dt{
+  font-family:var(--serif);font-weight:700;font-size:17.5px;line-height:1.6;
+  padding-top:calc(var(--baseline)*1.5);border-top:1px solid var(--rule);
+}
+.qa dt:first-child{border-top:none;padding-top:0}
+.qa dd{margin:calc(var(--baseline)*1) 0 calc(var(--baseline)*2.5);color:var(--ink-2);font-size:15.5px}
+.qa dd b{color:var(--ink);font-weight:600}
+
+/* ---------- 书评 ---------- */
+.reviews{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:var(--gutter);padding:calc(var(--baseline)*2) 0 calc(var(--baseline)*7);
+}
+.review{border-top:3px solid var(--ink);padding-top:calc(var(--baseline)*2)}
+.review h3{font-family:var(--serif);font-weight:700;font-size:21px;line-height:1.4}
+.review .meta{font-size:12.5px;color:var(--ink-2);margin:6px 0 calc(var(--baseline)*1.5)}
+.review p{font-size:14.5px;color:var(--ink-2);margin-bottom:calc(var(--baseline)*1)}
+.rate{display:flex;align-items:center;gap:2px;margin-top:calc(var(--baseline)*1)}
+.rate .b{width:10px;height:10px;background:var(--ink);display:inline-block}
+.rate .b.off{background:none;border:1px solid var(--ink-3)}
+.rate .rt{margin-left:10px;font-size:12px;color:var(--ink-2)}
+.review .pp{font-size:12px;color:var(--ink-3);font-family:var(--serif);font-style:italic;margin-top:10px}
+
+/* ---------- 城市指南 ---------- */
+.guide-intro{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(20px,2.6vw,28px);line-height:1.6;
+  max-width:38ch;padding:calc(var(--baseline)*1) 0 calc(var(--baseline)*4);
+}
+.guide-intro::first-letter{
+  font-weight:900;font-size:1.6em;line-height:1;padding-right:.1em;
+}
+.guide-list{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0 calc(var(--gutter)*2);
+  padding-bottom:calc(var(--baseline)*7);
+}
+.guide-item{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;
+  padding:calc(var(--baseline)*2.5) 0;
+  border-top:1px solid var(--rule);
+}
+.guide-item .no{font-family:var(--serif);font-style:italic;font-weight:600;font-size:30px;line-height:1}
+.guide-item h3{font-size:16.5px;font-weight:700;margin-bottom:4px}
+.guide-item p{font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.guide-item .addr{
+  display:flex;align-items:center;gap:6px;margin-top:8px;
+  font-size:12.5px;color:var(--ink-2);
+}
+.guide-item .addr svg{flex:none}
+
+/* ---------- 版权页 colophon ---------- */
+.colophon{
+  background:var(--paper);border-radius:var(--radius);
+  padding:calc(var(--baseline)*5) calc(var(--gutter)*1.5);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:calc(var(--gutter)*1.5);
+}
+.colophon h3{font-family:var(--serif);font-weight:700;font-size:18px;margin-bottom:calc(var(--baseline)*1.5)}
+.colophon p{font-size:13.5px;color:var(--ink-2);line-height:1.9}
+.colophon p b{color:var(--ink);font-weight:600}
+.colophon .next em{font-family:var(--serif);font-style:italic}
+
+/* ---------- 页脚 folio ---------- */
+.site-foot{border-top:3px solid var(--ink);margin-top:calc(var(--baseline)*7)}
+.foot-inner{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:calc(var(--baseline)*3) 0 calc(var(--baseline)*4);
+  font-size:13px;color:var(--ink-2);
+}
+.foot-inner a{font-weight:600}
+.foot-brand{font-family:var(--serif);font-style:italic}
+
+/* ---------- 一次亮相 ---------- */
+@keyframes inkRise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes unveil{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes settle{from{transform:scale(1.045)}to{transform:scale(1)}}
+.masthead{animation:inkRise .6s cubic-bezier(.22,.61,.21,1) both}
+.hero .hero-head{animation:inkRise .65s .12s cubic-bezier(.22,.61,.21,1) both}
+.hero-figure{animation:unveil .8s .3s cubic-bezier(.55,.1,.3,1) both}
+.hero-figure .hero-photo{animation:settle 1.1s .3s cubic-bezier(.22,.61,.21,1) both;transform-origin:50% 100%}
+.toc{animation:inkRise .6s .42s cubic-bezier(.22,.61,.21,1) both}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important;transition:none !important}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1279px){
+  .hero{
+    grid-template-areas:
+      "kicker kicker kicker kicker kicker kicker kicker"
+      "title title title title title title title"
+      "dek dek dek dek dek dek dek"
+      "byline byline byline byline byline byline byline"
+      "toc toc toc toc toc toc toc"
+      "fig fig fig fig fig fig fig";
+  }
+  .toc{display:grid;grid-template-columns:1fr 1fr;gap:0 calc(var(--gutter)*2);margin-top:calc(var(--baseline)*2)}
+  .toc ol{grid-column:1}
+  .toc-sub{grid-column:2;margin-top:0}
+  .card-lead{grid-column:1 / -1}
+  .card-side{grid-column:1 / -1}
+  .essay figure:nth-child(1){grid-column:1 / span 6;margin-top:0}
+  .essay figure:nth-child(2){grid-column:7 / span 6;margin-top:calc(var(--baseline)*8)}
+  .essay figure:nth-child(3){grid-column:2 / span 8;margin-top:calc(var(--baseline)*4)}
+  .profile-figure{grid-column:1 / span 5}
+  .profile-body{grid-column:6 / -1}
+  .reviews{grid-template-columns:1fr 1fr}
+  .review:last-child{grid-column:1 / -1;border-top:none;padding-top:calc(var(--baseline)*2)}
+  .guide-list{grid-template-columns:1fr}
+  .colophon{grid-template-columns:1fr 1fr}
+}
+@media (max-width:767px){
+  .wrap{padding:0 20px}
+  .topline{font-size:11.5px;flex-wrap:wrap}
+  .topline .price{display:none}
+  .dept-nav{font-size:13px;gap:0 10px}
+  .dept-nav li + li::before{margin-right:10px}
+  .hero{padding:calc(var(--baseline)*4) 0}
+  .feature-body{column-count:1;font-size:16px}
+  .pull-quote{font-size:21px}
+  .toc{grid-template-columns:1fr}
+  .toc-sub{grid-column:1;margin-top:calc(var(--baseline)*3)}
+  .essay figure:nth-child(n){grid-column:1 / -1;margin-top:0}
+  .profile-figure{grid-column:1 / -1}
+  .profile-figure .figure-photo{aspect-ratio:4/3}
+  .profile-body{grid-column:1 / -1}
+  .reviews{grid-template-columns:1fr}
+  .review:last-child{border-top:3px solid var(--ink)}
+  .colophon{grid-template-columns:1fr;padding:calc(var(--baseline)*4) calc(var(--baseline)*2.5)}
+  .hero-photo{aspect-ratio:4/3}
+  .guide-item{grid-template-columns:auto 1fr}
+  .foot-inner{flex-direction:column;align-items:flex-start;gap:calc(var(--baseline)*1)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="wrap" role="banner">
+  <div class="topline">
+    <span>总第 27 期 / 2026 年 10 月 / 秋季号</span>
+    <span class="price">定价 28 元 / Inland Quarterly</span>
+    <span>各地报刊亭 / 独立书店 有售</span>
+  </div>
+  <div class="masthead">
+    <h1>内陆</h1>
+    <p class="latin">Inland / 一本关于城市与水的杂志</p>
+    <p class="issue-line">
+      <b>本期专题</b> 水城志 / <b>编辑部</b> 芦苇街 9 号 / <b>出刊</b> 10 月 1 日
+    </p>
+  </div>
+  <nav aria-label="栏别导航">
+    <ul class="dept-nav">
+      <li><a href="#feature">专题</a></li>
+      <li><a href="#city">城市</a></li>
+      <li><a href="#profile">人物</a></li>
+      <li><a href="#reviews">书评</a></li>
+      <li><a href="#guide">城市指南</a></li>
+      <li><a href="#colophon">版权页</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+
+  <!-- ============ 封面专题 ============ -->
+  <section class="hero" id="feature" aria-labelledby="feature-title">
+    <div class="hero-head">
+      <p class="hero-kicker">专题报道<em>Feature</em></p>
+      <h2 class="hero-title" id="feature-title">雨季来临时，城市想起自己是一条河</h2>
+      <p class="hero-dek">
+        从护城河到暗渠，从码头仓库到滨水步道——我们用六周时间沿水路重走这座城，
+        记录水如何在地图之下继续塑造街道、街坊与人的脾气。
+      </p>
+      <p class="hero-byline">
+        文 / <b>陈望潮</b> / 摄影 / <b>苏杭</b> / 编辑 / <b>梁栖</b>
+        <span class="pp">页 004 - 019</span>
+      </p>
+    </div>
+
+    <aside class="toc" aria-label="本期看点">
+      <h2>本期看点</h2>
+      <ol>
+        <li><a href="#feature"><span class="no">01</span><span class="lead">雨季来临时，城市想起自己是一条河</span><span class="dots"></span><span class="pg">004</span></a></li>
+        <li><a href="#city"><span class="no">02</span><span class="lead">菜市场的最后一小时</span><span class="dots"></span><span class="pg">022</span></a></li>
+        <li><a href="#city"><span class="no">03</span><span class="lead">天桥上的小经济学</span><span class="dots"></span><span class="pg">028</span></a></li>
+        <li><a href="#city"><span class="no">04</span><span class="lead">夜航船 / 摄影专题</span><span class="dots"></span><span class="pg">030</span></a></li>
+        <li><a href="#profile"><span class="no">05</span><span class="lead">守闸人老聂的一天</span><span class="dots"></span><span class="pg">034</span></a></li>
+        <li><a href="#reviews"><span class="no">06</span><span class="lead">三本写水的新书</span><span class="dots"></span><span class="pg">047</span></a></li>
+        <li><a href="#guide"><span class="no">07</span><span class="lead">城市指南 / 南岸六处</span><span class="dots"></span><span class="pg">056</span></a></li>
+      </ol>
+      <div class="toc-sub">
+        <p>《内陆》是一册季刊，一年四期，写城市里被忽略的地理。支持我们的方式很简单：在报刊亭买一本，或者寄一封信来。</p>
+        <a class="btn-sub" href="#colophon">订阅全年四期 / 96 元</a>
+      </div>
+    </aside>
+
+    <figure class="hero-figure">
+      <img class="figure-photo hero-photo" src="https://picsum.photos/seed/inland-cover/1600/820.jpg" width="1600" height="820" alt="雨后的南闸桥，桥面倒映在涨起的水面上" loading="eager">
+      <figcaption>
+        <span>图一 / 雨后的南闸桥，水面高出常年四十公分，桥上的人照旧骑车过桥。</span>
+        <span class="credit">摄影 / 苏杭</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <div class="feature-body" aria-label="专题正文">
+    <p>六月底的第一场大雨落下来的时候，老聂正在闸房里吃午饭。他放下碗，看了一眼墙上的水位尺，又看了一眼窗外——雨水顺着观闸街的坡道往下淌，拐进苇巷，消失在一排铸铁盖板下面。「一九六二年以前，这儿是明河，」他说，「船可以直接开到绸缎庄后门。」如今河进了地下，只在雨下得够大的时候，从井盖的缝里发出很轻的、像有人在底下说话的声音。</p>
+    <p>这是《内陆》第 27 期专题的起点。我们决定跟着水走：它从哪里进城，在哪里拐弯，被压进了哪一段涵洞，又在哪一段被重新请回地面。六个星期里，我们走访了三座老闸、两段仍在使用的暗渠、一处被填平又将被重新挖开的内河码头，以及所有愿意跟我们聊天的、住在水边的人。</p>
+    <blockquote class="pull-quote">
+      「水从不穿过城市。是城市，建在了水穿过的地方。」
+      <footer>老聂 / 南闸管理站退休闸务员 / 采访于观闸街 12 号茶馆</footer>
+    </blockquote>
+    <h3>地图之下的另一张地图</h3>
+    <p>在城市档案馆四楼的图库里，我们找到了一九一三年的排水总图。把它叠在今天的街道图上，会发现一件有趣的事：老城区几乎所有的斜路，都沿着旧河道走；而所有看起来「不讲道理」的丁字路口，都是当年桥梁的位置。规划科的老工程师管这个叫「水文遗产」——水退场了，但它起草了街道的底稿。</p>
+    <p>本刊记者周晚舟把这三十年间关于「暗渠复明」的十七份提案翻了个遍。结论并不乐观：让河重见天日的代价，是拆掉它头顶上已经长了两代人的街坊。水与城的关系，从来不是谁战胜谁，而是一场漫长的、心照不宣的让步。</p>
+    <h3>汛期即日程</h3>
+    <p>对住在低处的街坊来说，这张看不见的地图每年都要显影一两次。咸淡水咖啡馆的老板娘在门槛后常年备着四块红砖——垫腿用的；拾遗书店的木质书架比别家高出一截，最底下一层只放不值得抢救的杂志。他们不觉得自己在「应对」什么，只是把水的脾气，编进了开门与打烊之间。</p>
+    <p>雨季结束时，我们回到南闸。水位落回常线以下，井盖底下那个说话的声音也停了。老聂锁上闸房，带我们去看河从地下回到地面的那个出口。水很平，几乎看不出在流动。「它一直都在走，」他说，「只是你们走路的人不看。」</p>
+  </div>
+  <a class="read-more" href="#city">继续阅读本期其他文章</a>
+
+  <!-- ============ 城市 ============ -->
+  <section id="city" aria-label="城市栏别">
+    <div class="folio section-head">
+      <span class="folio-dept">城市 / City</span>
+      <span class="folio-mid">内陆 Inland / 总第 27 期</span>
+      <span class="folio-page">页 022</span>
+    </div>
+    <div class="city-grid">
+      <article class="card-lead">
+        <a class="figure-link" href="#city">
+          <img class="figure-photo" src="https://picsum.photos/seed/inland-market/1000/750.jpg" width="1000" height="750" alt="晚上八点四十分的永安市场，摊主正在收摊" loading="lazy">
+        </a>
+        <h3>菜市场的最后一小时</h3>
+        <p class="dek">
+          晚八点，永安市场的灯灭掉一半。剩下的九十分钟里，菜价、豆腐与人心，都在重新标价。
+          我们蹲守了十一个晚上，记下收摊前的讨价还价、白送的葱，和一桩发生在鱼摊前的婚约。
+        </p>
+        <p class="byline-sm">文 / <b>周晚舟</b> / 摄影 / <b>苏杭</b> / 页 022 - 027</p>
+      </article>
+
+      <article class="card-side">
+        <h3>天桥上的小经济学</h3>
+        <p>一座过街天桥就是一个微型的集市：修表的、卖气球的、给人画像的，各有各的黄金时段与势力范围。本文试图为这座桥画一张「营业时刻表」。</p>
+        <ul>
+          <li><b>修表匠老蒋</b><span>早高峰与午休时段营业，工具箱即全部资本，人称「桥上瑞士」。</span></li>
+          <li><b>画像的年轻人们</b><span>只在黄昏出摊，因为「侧光让脸更诚实」。一幅二十分钟，三十元。</span></li>
+          <li><b>卖气球的阿姨</b><span>周末全天在岗，气球数量与天气成反比，与附近小学的期中成绩成正比。</span></li>
+        </ul>
+        <p class="byline-sm">文 / <b>何拾</b> / 页 028 - 029</p>
+      </article>
+
+      <div class="card-photo-essay">
+        <div class="essay-head">
+          <h3>影像 / 夜航船</h3>
+          <span>摄影师苏杭的夜间水路跟拍 / 历时六周 / 页 030 - 033</span>
+        </div>
+        <div class="essay">
+          <figure>
+            <img class="figure-photo" src="https://picsum.photos/seed/inland-night1/800/1000.jpg" width="800" height="1000" alt="夜里驶过桥洞的小货船，船头挂着一盏灯" loading="lazy">
+            <figcaption>图二 / 二十三点十分，最后一班运沙船通过北桥洞。船工说灯不是照明，是打招呼。</figcaption>
+          </figure>
+          <figure>
+            <img class="figure-photo" src="https://picsum.photos/seed/inland-night2/800/1000.jpg" width="800" height="1000" alt="岸边夜钓的人与对岸的居民楼灯光" loading="lazy">
+            <figcaption>图三 / 夜钓者与对岸的居民楼。他钓的不是鱼，是「一个坐着的理由」。</figcaption>
+          </figure>
+          <figure>
+            <img class="figure-photo" src="https://picsum.photos/seed/inland-night3/800/1000.jpg" width="800" height="1000" alt="凌晨的渡口浮桥，链子上系着一条小船" loading="lazy">
+            <figcaption>图四 / 凌晨的渡口。浮桥每天零点收起，像一句没说完的话。</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 人物 ============ -->
+  <section id="profile" aria-labelledby="profile-title">
+    <div class="folio section-head">
+      <span class="folio-dept">人物 / Interview</span>
+      <span class="folio-mid">内陆 Inland / 总第 27 期</span>
+      <span class="folio-page">页 034</span>
+    </div>
+    <div class="profile">
+      <figure class="profile-figure">
+        <img class="figure-photo" src="https://picsum.photos/seed/inland-lock/800/1000.jpg" width="800" height="1000" alt="老聂站在南闸管理站的闸房门口" loading="lazy">
+        <figcaption>图五 / 老聂在南闸管理站门口。这扇门他推了四十一年。摄影 / 苏杭</figcaption>
+      </figure>
+      <div class="profile-body">
+        <h2 id="profile-title">守闸人老聂的一天</h2>
+        <dl class="qa">
+          <dt>您守的这道闸，到底管着什么？</dt>
+          <dd>管着城里的水位，也管着上下游的脾气。上游要泄洪，城里怕淹；城里要排水，下游的稻田怕旱。我这份工作，说到底是在<b>替两边传话</b>。传了四十一年，话越传越短，现在一个手势就够了。</dd>
+          <dt>听说您有一本「水簿」？</dt>
+          <dd>一九八五年开始记的。每天两行：水位，天气。哪天要是多写了一行，就是出了事——桥墩撞了，船搁浅了，或者谁掉下去了。翻到多出一行的那页，我到现在还会<b>多看两眼</b>。</dd>
+          <dt>退休以后还来闸房，是习惯吗？</dt>
+          <dd>闸房在河回到地面的地方。我看了四十一年，没看腻——水每天都不一样，跟人脸一样。你们写字的人管这个叫什么？<b>更新</b>？我这儿天天都有更新，不用插电。</dd>
+        </dl>
+        <p class="byline-sm">采访 / <b>梁栖</b> / 整理 / <b>陈望潮</b> / 页 034 - 039</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 书评 ============ -->
+  <section id="reviews" aria-label="书评栏别">
+    <div class="folio section-head">
+      <span class="folio-dept">书评 / Reviews</span>
+      <span class="folio-mid">内陆 Inland / 总第 27 期</span>
+      <span class="folio-page">页 047</span>
+    </div>
+    <div class="reviews">
+      <article class="review">
+        <h3>《码头夜记》</h3>
+        <p class="meta">胡新来 著 / 拾贝出版社 / 2026 年 7 月 / 312 页</p>
+        <p>三十七个短章，写一座内河码头搬空之前的最后两年。胡新来曾是码头会计，他的句子像过磅单：干燥、精确、偶尔在数字的缝隙里漏出一点湿意。最好的篇章是「麻袋」，一场关于记件工资的争执被写成了侦探小说。</p>
+        <div class="rate" role="img" aria-label="评分 4 / 5">
+          <span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="b off"></span>
+          <span class="rt">4 / 5</span>
+        </div>
+        <p class="pp">评者 / 沈从周 / 页 047</p>
+      </article>
+      <article class="review">
+        <h3>《慢船去南方》</h3>
+        <p class="meta">文今 著 / 芦苇文库 / 2026 年 5 月 / 464 页</p>
+        <p>一部逆流而上的长篇：退休船长带着亡妻的骨灰，坐一班一班慢船回她的娘家。公路小说的骨架，水文的血肉。后半程稍显冗长，但第十九章船过船闸的十二页，值得整本书的定价——那是一份被小说化的、精确到分钟的调度日志。</p>
+        <div class="rate" role="img" aria-label="评分 5 / 5">
+          <span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span>
+          <span class="rt">5 / 5</span>
+        </div>
+        <p class="pp">评者 / 陆帆 / 页 048</p>
+      </article>
+      <article class="review">
+        <h3>《水的语法》</h3>
+        <p class="meta">[荷] 玛丽克 范 德 维恩 著 / 曾萍 译 / 双闸书局 / 2026 年 3 月 / 288 页</p>
+        <p>城市水文领域的普及之作，却写得像一部地方志。作者用「语法」作比：河是主语，桥是标点，堤岸是括号。翻译流畅，仅在涉及本地水系的章节做了恰到好处的译注。适合在雨天的图书馆里一口气读完。</p>
+        <div class="rate" role="img" aria-label="评分 3 / 5">
+          <span class="b"></span><span class="b"></span><span class="b"></span><span class="b off"></span><span class="b off"></span>
+          <span class="rt">3 / 5</span>
+        </div>
+        <p class="pp">评者 / 林一苇 / 页 049</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 城市指南 ============ -->
+  <section id="guide" aria-labelledby="guide-title">
+    <div class="folio section-head">
+      <span class="folio-dept">城市指南 / Guide</span>
+      <span class="folio-mid">内陆 Inland / 总第 27 期</span>
+      <span class="folio-page">页 056</span>
+    </div>
+    <p class="guide-intro">本期指南沿南岸水线选了六处地方。它们不新，也不难找，难的是把它们串成一条下午的路线。</p>
+    <div class="guide-list">
+      <div class="guide-item">
+        <span class="no" aria-hidden="true">01</span>
+        <div>
+          <h3>老闸口茶馆</h3>
+          <p>开在旧闸房隔壁，保留着一九六二年的木窗。一壶茶配一份油墩，能坐到日头偏西。墙上挂着读者来信。</p>
+          <p class="addr">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
+            观闸街 12 号 / 06:00 - 11:00 / 只收现金
+          </p>
+        </div>
+      </div>
+      <div class="guide-item">
+        <span class="no" aria-hidden="true">02</span>
+        <div>
+          <h3>拾遗书店</h3>
+          <p>水患之后把书架整体垫高的旧书店，底层的杂志不卖只换。店主何女士会为你留一本你上次没舍得买的。</p>
+          <p class="addr">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
+            苇巷 47 号 / 12:00 - 21:00 / 周一休
+          </p>
+        </div>
+      </div>
+      <div class="guide-item">
+        <span class="no" aria-hidden="true">03</span>
+        <div>
+          <h3>渡口美术馆</h3>
+          <p>由老渡口候船厅改建，常设展即候船厅原物：长椅、班次牌、一只搪瓷痰盂。特展只做和水有关的题目。</p>
+          <p class="addr">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
+            南岸大道 1 号 / 10:00 - 18:00 / 周一闭馆
+          </p>
+        </div>
+      </div>
+      <div class="guide-item">
+        <span class="no" aria-hidden="true">04</span>
+        <div>
+          <h3>桥下排练室</h3>
+          <p>铁桥新村的三间防空洞改的排练室，隔音意外地好。隔壁乐队总在翻同一首歌，翻到第八遍时会有人在桥上鼓掌。</p>
+          <p class="addr">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
+            铁桥新村 3 号桥墩下 / 预约制 / 按小时计
+          </p>
+        </div>
+      </div>
+      <div class="guide-item">
+        <span class="no" aria-hidden="true">05</span>
+        <div>
+          <h3>咸淡水咖啡馆</h3>
+          <p>门槛后常年备着四块红砖的咖啡馆。招牌是一杯用矿泉水做的「涨潮」，涨潮与落潮的差别是冰块的多少。</p>
+          <p class="addr">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
+            盐仓巷 3 号 / 09:00 - 19:00 / 门前可停车
+          </p>
+        </div>
+      </div>
+      <div class="guide-item">
+        <span class="no" aria-hidden="true">06</span>
+        <div>
+          <h3>旧货集市</h3>
+          <p>每周六在废弃机床厂旧址开市。能淘到船灯、旧海图和不成对的船桨。收摊前一小时，一切皆可还价。</p>
+          <p class="addr">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
+            机床厂旧址 / 每周六 05:00 - 13:00 / 雨天照常
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 版权页 ============ -->
+  <section id="colophon" class="colophon" aria-label="版权页">
+    <div>
+      <h3>编辑部</h3>
+      <p>
+        主编 / <b>沈从周</b><br>
+        视觉总监 / <b>陆帆</b><br>
+        事实核查 / <b>林一苇</b><br>
+        本期特约 / 陈望潮 / 周晚舟 / 何拾 / 梁栖
+      </p>
+    </div>
+    <div>
+      <h3>出版</h3>
+      <p>
+        内陆杂志社 / 芦苇街 9 号<br>
+        出版日期 / 2026 年 10 月 1 日<br>
+        印张 6.5 / 全彩 16 页 / 胶版纸<br>
+        订阅信箱 / inland@sub.post
+      </p>
+    </div>
+    <div class="next">
+      <h3>下期预告</h3>
+      <p>
+        总第 28 期专题 / <em>「桥」</em><br>
+        十七座桥，十七种过法。<br>
+        预计 2027 年 1 月上旬出刊。<br>
+        投稿与订正 / editor@inland.post
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span class="foot-brand">UI 设计提示词库 / Editorial Grid</span>
+    <a href="style-catalog.html">返回风格目录</a>
+    <span>内陆 Inland / 总第 27 期 / 页 064 / 完</span>
+  </div>
+</footer>
+</body>
+</html>

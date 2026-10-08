@@ -1,0 +1,194 @@
+{
+ "Swiss Modernism 2.0": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Grid system, Helvetica, modular, asymmetric, international style, rational, clean, mathematical spacing",
+   "AI Prompt Keywords": "Design with Swiss Modernism 2.0. Use: strict grid system (12 columns), Helvetica/Inter fonts, mathematical spacing, asymmetric balance, high contrast, minimal decoration, clean hierarchy, single accent color.",
+   "Primary Colors": "#000000, #FFFFFF, #F5F5F5, single vibrant accent only",
+   "Effects & Animation": "display: grid, grid-template-columns: repeat(12 1fr), gap: 1rem, mathematical ratios, clear hierarchy",
+   "CSS/Technical Keywords": "display: grid, grid-template-columns: repeat(12, 1fr), gap: 1rem (8px base unit), font-family: Inter/Helvetica, font-weight: 400-700, color: #000/#FFF, single accent",
+   "Implementation Checklist": "☐ 12-column grid strict, ☐ Spacing mathematical, ☐ Typography hierarchy clear, ☐ Single accent only, ☐ No decorations, ☐ High contrast verified",
+   "Best For": "Corporate sites, architecture, editorial, SaaS, museums, professional services, documentation",
+   "Status": "supplemental"
+  },
+  "tokens": {
+   "primary": "#000000",
+   "secondary": "#FFFFFF",
+   "accent": "#F5F5F5",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "4px",
+   "font_head": "Inter",
+   "font_body": "Inter"
+  },
+  "file": "swiss-modernism-2-0.html"
+ },
+ "Editorial Grid / Magazine": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Magazine layout, asymmetric grid, editorial typography, pull quotes, drop caps, column layout, print-inspired",
+   "AI Prompt Keywords": "Design an editorial magazine layout. Use: asymmetric grid, pull quotes, drop caps, multi-column text, large imagery, bylines, section dividers, print-inspired typography, article hierarchy, white space balance.",
+   "Primary Colors": "High contrast: Black #000000, White #FFFFFF, accent brand color",
+   "Effects & Animation": "Smooth scroll, reveal on scroll, parallax images, text animations, page-flip transitions",
+   "CSS/Technical Keywords": "display: grid with named areas, column-count for text, ::first-letter for drop caps, blockquote styling, figure/figcaption, gap variations, font: serif for body, variable widths",
+   "Implementation Checklist": "☐ Grid asymmetric, ☐ Typography editorial, ☐ Pull quotes styled, ☐ Drop caps present, ☐ Images large/impactful, ☐ Mobile reflows well",
+   "Best For": "News sites, blogs, magazines, editorial content, long-form articles, journalism, publishing",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#000000",
+   "secondary": "#FFFFFF",
+   "accent": "#000000",
+   "bg": "#FAF7F0",
+   "fg": "#000000",
+   "radius": "6px",
+   "font_head": "Libre Bodoni",
+   "font_body": "Public Sans"
+  },
+  "file": "editorial-grid-magazine.html"
+ },
+ "Data-Dense Dashboard": {
+  "csv": {
+   "Type": "BI/Analytics",
+   "Keywords": "Multiple charts/widgets, data tables, KPI cards, minimal padding, grid layout, space-efficient, maximum data visibility",
+   "AI Prompt Keywords": "Design a data-dense dashboard. Use: multiple chart widgets, KPI cards row, data tables with sorting, minimal padding (8-12px), efficient grid layout, filter sidebar, dense but readable typography, maximum information density.",
+   "Primary Colors": "Neutral primary (light grey/white #F5F5F5), data colors (blue/green/red), dark text #333333",
+   "Effects & Animation": "Hover tooltips, chart zoom on click, row highlighting on hover, smooth filter animations, data loading spinners",
+   "CSS/Technical Keywords": "display: grid, grid-template-columns: repeat(12, 1fr), gap: 8px, padding: 12px, font-size: 12-14px, overflow: auto for tables, compact card design, sticky headers",
+   "Implementation Checklist": "☐ Grid layout 12 columns, ☐ KPI cards responsive, ☐ Tables sortable, ☐ Filters functional, ☐ Loading states for data, ☐ Export functionality",
+   "Best For": "Business intelligence dashboards, financial analytics, enterprise reporting, operational dashboards, data warehousing",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#F5F5F5",
+   "secondary": "#333333",
+   "accent": "#f5f5f5",
+   "bg": "#0D0F16",
+   "fg": "#EEF1F7",
+   "radius": "10px",
+   "font_head": "Fira Code",
+   "font_body": "Fira Sans"
+  },
+  "file": "data-dense-dashboard.html"
+ },
+ "HUD / Sci-Fi FUI": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Futuristic, technical, wireframe, neon, data, transparency, iron man, sci-fi, interface",
+   "AI Prompt Keywords": "Design a futuristic HUD (Heads Up Display) or FUI. Use: thin lines (1px), neon cyan/blue on black, technical markers, decorative brackets, data visualization, monospaced tech fonts, glowing elements, transparency.",
+   "Primary Colors": "Neon Cyan #00FFFF, Holographic Blue #0080FF, Alert Red #FF0000",
+   "Effects & Animation": "Glow effects, scanning animations, ticker text, blinking markers, fine line drawing",
+   "CSS/Technical Keywords": "border: 1px solid rgba(0,255,255,0.5), color: #00FFFF, background: transparent or rgba(0,0,0,0.8), font-family: monospace, text-shadow: 0 0 5px cyan",
+   "Implementation Checklist": "☐ Fine lines 1px, ☐ Neon glow text/borders, ☐ Monospaced font, ☐ Dark/Transparent BG, ☐ Decorative tech markers, ☐ Holographic feel",
+   "Best For": "Sci-fi games, space tech, cybersecurity, movie props, immersive dashboards",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#00FFFF",
+   "secondary": "#0080FF",
+   "accent": "#FF0000",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "4px",
+   "font_head": "Share Tech Mono",
+   "font_body": "Fira Code"
+  },
+  "file": "hud-sci-fi-fui.html"
+ },
+ "3D Product Preview": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "360 product view, rotatable, zoomable, touch-to-spin, AR preview, product configurator, interactive 3D model",
+   "AI Prompt Keywords": "Design a 3D product preview interface. Use: 360° rotation, drag-to-spin, pinch-to-zoom, AR preview button, material/color switcher, hotspot annotations, orbit controls, product configurator, smooth rendering.",
+   "Primary Colors": "Product-dependent, neutral backgrounds: Soft Grey #E8E8E8, Pure White #FFFFFF",
+   "Effects & Animation": "Drag-to-rotate, pinch-to-zoom, spin animation, AR placement, material switching, smooth orbit controls",
+   "CSS/Technical Keywords": "Three.js or model-viewer, OrbitControls, touch events for rotation, WebXR for AR, canvas with WebGL, loading placeholder, LOD for performance, environment lighting",
+   "Implementation Checklist": "☐ 3D model loads fast, ☐ Rotation smooth, ☐ Zoom works (pinch/scroll), ☐ AR button functional, ☐ Colors switchable, ☐ Mobile touch works",
+   "Best For": "E-commerce, furniture, fashion, automotive, electronics, jewelry, product configurators",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#E8E8E8",
+   "secondary": "#FFFFFF",
+   "accent": "#e8e8e8",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "16px",
+   "font_head": "Outfit",
+   "font_body": "Rubik"
+  },
+  "file": "3d-product-preview.html"
+ },
+ "Interactive Cursor Design": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Custom cursor, cursor as tool, hover effects, cursor feedback, pointer transformation, cursor trail, magnetic cursor",
+   "AI Prompt Keywords": "Design with interactive cursor effects. Use: custom cursor, cursor morphing on hover, magnetic cursor pull, cursor trails, blend mode cursors, click feedback animations, cursor as interaction tool, pointer transformation.",
+   "Primary Colors": "Brand-dependent, cursor accent color, high contrast for visibility",
+   "Effects & Animation": "Cursor scale on hover, magnetic pull to elements, cursor morphing, trail effects, blend mode cursors, click feedback",
+   "CSS/Technical Keywords": "cursor: none (custom), position: fixed for cursor element, mix-blend-mode: difference, transform on hover targets, magnetic effect (JS position lerp), trail with opacity fade, scale on click",
+   "Implementation Checklist": "☐ Custom cursor works, ☐ Hover morph smooth, ☐ Magnetic pull subtle, ☐ Trail performance ok, ☐ Click feedback visible, ☐ Touch fallback provided",
+   "Best For": "Creative portfolios, interactive experiences, agency sites, product showcases, gaming, entertainment",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Inter",
+   "font_body": "Inter"
+  },
+  "file": "interactive-cursor-design.html"
+ },
+ "Bauhaus (包豪斯)": {
+  "csv": {
+   "Type": "Mobile",
+   "Keywords": "bauhaus, geometric, constructivist, primary colors, hard shadow, bold, tactile, functional, poster, mechanical, architectural",
+   "AI Prompt Keywords": "Design a Bauhaus (包豪斯) mobile interface using bauhaus, geometric, constructivist, primary colors, hard shadow, bold, tactile, functional. Prioritize clear hierarchy, safe areas, touch targets, visible focus, and reduced-motion alternatives.",
+   "Primary Colors": "Primary Red #D02020, Primary Blue #1040C0, Primary Yellow #F0C020",
+   "Effects & Animation": "Hard offset shadows (4px 4px 0px black), mechanical press active:translate, no smooth hover — instant 0ms transitions, dot grid pattern on sections, slide-over transitions",
+   "CSS/Technical Keywords": "border-radius: 0px (cards/inputs) or 9999px (buttons/FAB), box-shadow: 4px 4px 0px 0px #121212, active:translate-x-[2px] active:translate-y-[2px] active:shadow-none, border: 2px solid #121212, font-family: Outfit, font-weight: 900 uppercase tracking-tighter (headlines)",
+   "Implementation Checklist": "☐ Geometric shapes only (circle/square), ☐ Primary color blocking applied, ☐ Hard offset shadows 4px, ☐ border-2 border-black on all elements, ☐ Mechanical press active state, ☐ Outfit Black 900 uppercase headlines, ☐ Safe area (pt-safe pb-safe) respected, ☐ Thumb-friendly h-12/h-14 touch targets, ☐ No hover states (mobile-only), ☐ Vertical rhythm single-column stack",
+   "Best For": "Mobile-first apps needing high personality, onboarding flows, branding-forward product screens, artisan/design brands, editorial mobile experiences",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#D02020",
+   "secondary": "#1040C0",
+   "accent": "#F0C020",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "0px",
+   "font_head": "Outfit",
+   "font_body": "Outfit"
+  },
+  "file": "bauhaus.html"
+ },
+ "Organic Biophilic": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Nature, organic shapes, green, sustainable, rounded, flowing, wellness, earthy, natural textures",
+   "AI Prompt Keywords": "Design a biophilic organic interface. Use: nature-inspired colors (greens, browns), organic curved shapes, rounded corners (16-24px), natural textures (wood, stone), flowing SVG elements, wellness aesthetic, earthy palette.",
+   "Primary Colors": "#228B22 (Forest Green), #8B4513 (Earth Brown), #87CEEB (Sky Blue), #F5F5DC (Beige)",
+   "Effects & Animation": "Rounded corners (16-24px), organic curves (border-radius variations), natural shadows, flowing SVG shapes",
+   "CSS/Technical Keywords": "border-radius: 16-24px (varied), background: earth tones, SVG organic shapes (blob), box-shadow: natural soft, color: #228B22 #8B4513 #87CEEB, texture overlays (subtle)",
+   "Implementation Checklist": "☐ Earth tones dominant, ☐ Organic curves present, ☐ Natural textures subtle, ☐ Green accents, ☐ Rounded everywhere, ☐ Calming feel",
+   "Best For": "Wellness apps, sustainability brands, eco products, health apps, meditation, organic food brands",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#228B22",
+   "secondary": "#8B4513",
+   "accent": "#87CEEB",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "20px 26px 18px 28px",
+   "font_head": "Lora",
+   "font_body": "Raleway"
+  },
+  "file": "organic-biophilic.html"
+ }
+}

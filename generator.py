@@ -2749,6 +2749,11 @@ def main():
             'E-Ink / Paper': 'e-ink-paper.html', 'Retro-Futurism': 'retro-futurism.html',
             'Cyberpunk UI': 'cyberpunk-ui.html', 'Kinetic Typography': 'kinetic-typography.html',
             'Claymorphism': 'claymorphism.html',
+            'Swiss Modernism 2.0': 'swiss-modernism-2-0.html',
+            'Editorial Grid / Magazine': 'editorial-grid-magazine.html',
+            'Interactive Cursor Design': 'interactive-cursor-design.html',
+            'Bauhaus (包豪斯)': 'bauhaus.html',
+            'Organic Biophilic': 'organic-biophilic.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

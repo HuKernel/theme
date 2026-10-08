@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUD Sci-Fi FUI / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* token plan: bg #04080D / panel rgba(0,22,32,0.72) / hairline 1px rgba(0,234,255,0.5) / line 2px rgba(0,234,255,0.9) / text #A9F4FF / sub #7A9DA6 / data #00E5FF / warn #FFB454 / alert #FF5C5C / mono JetBrains Mono / display Share Tech Mono / radius 2px / grid 8px */
+:root{
+  --bg:#04080D;
+  --panel:rgba(0,22,32,0.72);
+  --hair:rgba(0,234,255,0.5);
+  --line:rgba(0,234,255,0.9);
+  --text:#A9F4FF;
+  --sub:#7A9DA6;
+  --data:#00E5FF;
+  --ok:#3DFF88;
+  --warn:#FFB454;
+  --alert:#FF5C5C;
+  --mono:'JetBrains Mono','Noto Sans SC',monospace;
+  --disp:'Share Tech Mono','Noto Sans SC',monospace;
+  --r:2px; --g:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{
+  font-family:var(--mono);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.5;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,60,80,0.25), transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,234,255,0.012) 3px 4px),
+    var(--bg);
+}
+.frame{max-width:1400px;margin:0 auto;padding:24px clamp(12px,3vw,32px) 0}
+a{color:var(--data);text-decoration:none}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--data);outline-offset:2px}
+
+/* 顶栏 */
+.topbar{
+  display:flex;flex-wrap:wrap;gap:var(--g);align-items:center;
+  border:1px solid var(--hair);border-radius:var(--r);
+  padding:12px 16px;margin-bottom:16px;
+  background:var(--panel);backdrop-filter:blur(6px);
+}
+.ship-id{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ship-name{font-family:var(--disp);font-size:20px;letter-spacing:2px;color:var(--text)}
+.ship-name b{color:var(--data);font-weight:400}
+.ship-sub{font-size:11px;color:var(--sub);letter-spacing:1px}
+.clock{margin-left:auto;text-align:right;font-variant-numeric:tabular-nums}
+.clock .met{font-family:var(--disp);font-size:16px;color:var(--data);letter-spacing:1px}
+.clock .utc{font-size:11px;color:var(--sub)}
+.lamps{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.lamp{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--sub);letter-spacing:1px}
+.lamp i{width:8px;height:8px;border-radius:50%;flex:none;background:var(--ok);box-shadow:0 0 6px var(--ok)}
+.lamp.warn i{background:var(--warn);box-shadow:0 0 6px var(--warn)}
+.lamp b{color:inherit;font-weight:400}
+
+/* 主甲板 */
+.deck{display:grid;grid-template-columns:300px minmax(0,1fr) 320px;gap:16px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{
+  border:1px solid var(--hair);border-radius:var(--r);
+  background:var(--panel);backdrop-filter:blur(6px);
+  padding:14px 16px;position:relative;
+}
+.panel::before,.panel::after{
+  content:"";position:absolute;width:9px;height:9px;pointer-events:none;
+}
+.panel::before{top:-1px;left:-1px;border-top:2px solid var(--line);border-left:2px solid var(--line)}
+.panel::after{bottom:-1px;right:-1px;border-bottom:2px solid var(--line);border-right:2px solid var(--line)}
+.panel-h{
+  display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  border-bottom:1px solid rgba(0,234,255,0.25);
+  padding-bottom:8px;margin-bottom:12px;
+}
+.panel-h h2{
+  font-family:var(--disp);font-size:14px;font-weight:400;
+  letter-spacing:2px;color:var(--text);
+}
+.panel-h .code{font-size:10px;color:var(--sub);letter-spacing:1px;font-variant-numeric:tabular-nums}
+
+/* 遥测行 */
+.tele{display:flex;flex-direction:column;gap:6px}
+.t-row{display:flex;align-items:baseline;gap:8px;min-width:0}
+.t-row dt{color:var(--sub);font-size:12px;flex:none}
+.t-row .dots{flex:1;border-bottom:1px dotted rgba(0,234,255,0.28);transform:translateY(-3px)}
+.t-row dd{color:var(--data);font-variant-numeric:tabular-nums;text-align:right;flex:none}
+.t-row dd .u{color:var(--sub);font-size:10px;margin-left:3px}
+.t-row dd.w{color:var(--warn)}
+.t-row dd.a{color:var(--alert)}
+.bar{height:6px;border:1px solid rgba(0,234,255,0.35);border-radius:1px;margin-top:6px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;background:rgba(0,234,255,0.55)}
+.bar.w i{background:rgba(255,180,84,0.55)}
+.blk{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:10px}
+
+/* 中列 */
+.stage{display:flex;flex-direction:column;gap:0}
+.stage-h{display:flex;justify-content:space-between;align-items:baseline;padding:6px 2px 8px;border-bottom:1px solid rgba(0,234,255,0.25);margin-bottom:0}
+.stage-h h2{font-family:var(--disp);font-size:13px;font-weight:400;letter-spacing:2px}
+.stage-h span{font-size:10px;color:var(--sub);font-variant-numeric:tabular-nums}
+.radar-wrap{padding:10px 8px 4px}
+.radar{width:100%;max-width:460px;display:block;margin:0 auto;height:auto}
+.svg-sweep{transform-origin:210px 210px;animation:sweep 2.8s cubic-bezier(.2,.7,.3,1) .4s 1 both}
+@keyframes sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.rings path,.rings circle{stroke-dasharray:600;stroke-dashoffset:600;animation:draw 1.2s ease-out .2s 1 both}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hdg-needle{transform-origin:150px 150px;animation:calib 2.4s cubic-bezier(.3,.6,.2,1) .3s 1 both}
+@keyframes calib{from{transform:rotate(0deg)}to{transform:rotate(247.5deg)}}
+.dial-arc{stroke-dasharray:620;stroke-dashoffset:620;animation:draw 1.6s ease-out .2s 1 both}
+
+/* 轨迹 */
+.traj{width:100%;height:auto;display:block;padding:8px 6px 2px}
+.traj text{font-family:'JetBrains Mono',monospace;font-size:9px;fill:var(--sub)}
+.traj .axis-plan{stroke:var(--sub);stroke-dasharray:4 4}
+.traj .axis-real{stroke:var(--data)}
+.traj .grid-l{stroke:rgba(0,234,255,0.14);stroke-width:1}
+
+/* 对接 */
+.dock{display:flex;flex-direction:column;gap:10px;padding:2px}
+.dock-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.dock-top .port{font-family:var(--disp);font-size:13px;color:var(--text);letter-spacing:1px}
+.dock-top .port b{color:var(--data);font-weight:400}
+.dock-track{height:10px;border:1px solid rgba(0,234,255,0.35);border-radius:1px;position:relative}
+.dock-track i{position:absolute;inset:1px auto 1px 1px;width:76%;background:linear-gradient(90deg,rgba(0,234,255,0.25),rgba(0,234,255,0.6))}
+.dock-track::after{content:"";position:absolute;top:-3px;bottom:-3px;left:76%;width:1px;background:var(--warn)}
+.dock-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.dock-nums div{display:flex;flex-direction:column;gap:2px}
+.dock-nums dt{font-size:10px;color:var(--sub)}
+.dock-nums dd{font-size:13px;color:var(--data);font-variant-numeric:tabular-nums}
+.dock-nums .u{font-size:9px;color:var(--sub);margin-left:2px}
+
+/* 日志 */
+.log{display:flex;flex-direction:column;font-size:11.5px}
+.log li{
+  list-style:none;display:grid;grid-template-columns:74px 52px 1fr;gap:10px;
+  padding:5px 0;border-bottom:1px dotted rgba(0,234,255,0.15);font-variant-numeric:tabular-nums;
+}
+.log li:last-child{border-bottom:0}
+.log .t{color:var(--data)}
+.log .src{color:var(--sub);letter-spacing:1px}
+.log .msg{color:var(--text)}
+.log .msg.w{color:var(--warn)}
+
+/* 操控 */
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 0}
+.btn{
+  font-family:var(--disp);font-size:12px;letter-spacing:2px;
+  color:var(--data);background:transparent;cursor:pointer;
+  border:1px solid var(--hair);border-radius:var(--r);
+  padding:10px 20px;min-height:40px;
+  transition:background .18s,border-color .18s;
+}
+.btn:hover{background:rgba(0,234,255,0.08);border-color:var(--line)}
+.btn:active{background:rgba(0,234,255,0.16)}
+
+/* 页脚 */
+.pagefoot{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  border-top:1px solid rgba(0,234,255,0.25);
+  margin-top:24px;padding:16px 2px 28px;
+}
+.pagefoot p{font-size:11px;color:var(--sub);letter-spacing:1px}
+.back{font-size:12px;color:var(--data);letter-spacing:1px}
+.back:hover{border-bottom:1px dotted var(--data)}
+
+/* 响应式 */
+@media (max-width:1200px){
+  .deck{grid-template-columns:280px minmax(0,1fr)}
+  .col-right{grid-column:1 / -1}
+}
+@media (max-width:820px){
+  .deck{grid-template-columns:minmax(0,1fr)}
+  .col-left{order:2}
+  .col-main{order:1}
+  .col-right{order:3}
+  .clock{margin-left:0;text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  .svg-sweep,.rings path,.rings circle,.hdg-needle,.dial-arc{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="frame">
+  <header class="topbar">
+    <div class="ship-id">
+      <p class="ship-name"><b>AURORA-7</b> / 深空货运船</p>
+      <p class="ship-sub">CR427 /地月转移轨道 / 载货 12.4 t</p>
+    </div>
+    <div class="clock">
+      <p class="met" id="met">T+ 02:25:58</p>
+      <p class="utc">2026-10-08 04:41:22 UTC</p>
+    </div>
+    <div class="lamps" role="status" aria-label="系统状态">
+      <span class="lamp"><i aria-hidden="true"></i><b>LINK</b> DSN 堪培拉</span>
+      <span class="lamp"><i aria-hidden="true"></i><b>NAV</b> J2000 已捕获</span>
+      <span class="lamp warn"><i aria-hidden="true"></i><b>THR</b> 68.4%</span>
+    </div>
+  </header>
+
+  <main class="deck">
+    <section class="col col-left" aria-label="飞船分系统遥测">
+      <div class="panel">
+        <div class="panel-h"><h2>推进 / 电推</h2><span class="code">SYS/PROP</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>主发动机推力</dt><span class="dots"></span><dd>412<span class="u">mN</span></dd></div>
+          <div class="t-row"><dt>比冲</dt><span class="dots"></span><dd>3,412<span class="u">s</span></dd></div>
+          <div class="t-row"><dt>功率档位</dt><span class="dots"></span><dd>68.4<span class="u">%</span></dd></div>
+          <div class="t-row"><dt>氙推进剂余量</dt><span class="dots"></span><dd>1,842<span class="u">kg</span></dd></div>
+          <div class="t-row"><dt>剩余 Δv</dt><span class="dots"></span><dd>1,284<span class="u">m/s</span></dd></div>
+        </dl>
+        <div class="bar" role="img" aria-label="推力输出 412 mN，额定 602 mN"><i style="width:68%"></i></div>
+        <div class="blk">
+          <div class="t-row"><dt>额定推力</dt><span class="dots"></span><dd>602<span class="u">mN</span></dd></div>
+          <div class="t-row"><dt>累计点火</dt><span class="dots"></span><dd>04:12:36<span class="u">hh:mm</span></dd></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>电源 / PWR</h2><span class="code">SYS/ELEP</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>RTG 输出</dt><span class="dots"></span><dd>1,142<span class="u">W</span></dd></div>
+          <div class="t-row"><dt>母线电压</dt><span class="dots"></span><dd>28.4<span class="u">V</span></dd></div>
+          <div class="t-row"><dt>储能电池</dt><span class="dots"></span><dd class="w">87.2<span class="u">%</span></dd></div>
+          <div class="t-row"><dt>太阳翼输出</dt><span class="dots"></span><dd>96.4<span class="u">%</span> / 4,860 W</dd></div>
+        </dl>
+        <div class="bar" role="img" aria-label="电池 87.2%"><i style="width:87%"></i></div>
+        <div class="blk">
+          <div class="t-row"><dt>配电: 推进</dt><span class="dots"></span><dd>4.6<span class="u">kW</span></dd></div>
+          <div class="t-row"><dt>配电: 载荷</dt><span class="dots"></span><dd>2.1<span class="u">kW</span></dd></div>
+          <div class="t-row"><dt>配电: 热控</dt><span class="dots"></span><dd>1.2<span class="u">kW</span></dd></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>热控 / TCS</h2><span class="code">SYS/ECLSS</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>辐射器 B 面</dt><span class="dots"></span><dd>241.3<span class="u">K</span></dd></div>
+          <div class="t-row"><dt>舱内平均温度</dt><span class="dots"></span><dd>293.6<span class="u">K</span></dd></div>
+          <div class="t-row"><dt>回路工质压力</dt><span class="dots"></span><dd>1.82<span class="u">MPa</span></dd></div>
+          <div class="t-row"><dt>舱压</dt><span class="dots"></span><dd>70.8<span class="u">kPa</span></dd></div>
+        </dl>
+        <div class="blk">
+          <div class="t-row"><dt>泵转速</dt><span class="dots"></span><dd>3,120<span class="u">rpm</span></dd></div>
+          <div class="t-row"><dt>辐射器工况</dt><span class="dots"></span><dd class="w">NOMINAL-4.7K</dd></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>载荷 / PLD</h2><span class="code">SYS/EPO</span></div-h</h2>
+        <dl class="tele">
+          <div class="t-row"><dt>货舱平均温度</dt><span class="dots"></span><dd>218.4<span class="u">K</span></dd></div>
+          <div class="t-row"><dt>冷藏 B 路</dt><span class="dots"></span><dd>184.2<span class="u">K</span></dd></div>
+          <div class="t-row"><dt>货舱压强</dt><span class="dots"></span><dd>0.62<span class="u">atm</span></dd></div>
+          <div class="t-row"><dt>机械臂关节力矩</dt><span class="dots"></span><dd>0.0<span class="u">N-m</span></dd></div>
+        </dl>
+        <div class="blk">
+          <div class="t-row"><dt>载货质量</dt><span class="dots"></span><dd>12.4<span class="u">t</span></dd></div>
+          <div class="t-row"><dt>舱位锁定</dt><span class="dots"></span><dd>14 / 14</dd></div>
+        </div>
+        <div class="bar" role="img" aria-label="冷链功率 412 W"><i style="width:58%"></i></div>
+        <div class="blk">
+          <div class="t-row"><dt>下次抛货窗口</dt><span class="dots"></span><dd>T+06:20:00</dd></div>
+          <div class="t-row"><dt>窗口时长</dt><span class="dots"></span><dd>240<span class="u">s</span></dd></div>
+        </div>
+      </div>
+        <div class="bar w" role="img" aria-label="辐射器温度偏离标称"><i style="width:24%"></i></div>
+        <div class="blk">
+          <div class="t-row"><dt>泵转速</dt><span class="dots"></span><dd>3,120<span class="u">rpm</span></dd></div>
+          <div class="t-row"><dt>舱压</dt><span class="dots"></span><dd>70.8<span class="u">kPa</span></dd></div>
+        </div>
+      </div>
+    </div>
+    </section>
+
+    <section class="col col-main" aria-label="态势与导航">
+      <div class="panel">
+        <div class="stage-h"><h2>雷达态势 / RDR-01</h2><span>量程 50 km / 增益 AUTO</span></div>
+        <div class="radar-wrap">
+          <svg class="radar" viewBox="0 0 420 420" role="img" aria-label="雷达态势图：TGT-01 碎片方位 047.2 度，距离 8.42 km；BCN-02 月面信标方位 312.8 度，距离 21.7 km">
+            <defs>
+              <radialGradient id="sweepg" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(0,234,255,0.35)"/>
+                <stop offset="100%" stop-color="rgba(0,234,255,0)"/>
+              </radialGradient>
+            </defs>
+            <g class="rings" stroke="rgba(0,234,255,0.35)" fill="none" stroke-width="1">
+              <circle cx="210" cy="210" r="58"/>
+              <circle cx="210" cy="210" r="108"/>
+              <circle cx="210" cy="210" r="158"/>
+              <circle cx="210" cy="210" r="188"/>
+              <line x1="210" y1="14" x2="210" y2="406"/>
+              <line x1="14" y1="210" x2="406" y2="210"/>
+            </g>
+            <g font-family="JetBrains Mono,monospace" font-size="9" fill="#66B8CC" text-anchor="middle">
+              <text x="210" y="148" dy="-3">5</text>
+              <text x="210" y="98" dy="-3">10</text>
+              <text x="210" y="48" dy="-3">25</text>
+              <text x="210" y="32" dy="9">50 KM</text>
+              <text x="210" y="26">000</text>
+              <text x="404" y="213">090</text>
+              <text x="210" y="402">180</text>
+              <text x="18" y="213">270</text>
+            </g>
+            <g stroke="rgba(0,234,255,0.45)" stroke-width="1">
+              <line x1="204" y1="22" x2="216" y2="22"/>
+              <line x1="204" y1="398" x2="216" y2="398"/>
+              <line x1="22" y1="204" x2="22" y2="216"/>
+              <line x1="398" y1="204" x2="398" y2="216"/>
+            </g>
+            <path d="M210 210 L210 22 A188 188 0 0 1 343 117 Z" fill="url(#sweepg)" class="svg-sweep" id="sweeppath"/>
+            <line x1="210" y1="210" x2="210" y2="22" stroke="#00E5FF" stroke-width="1.5" class="svg-sweep" opacity="0.9"/>
+            <g class="tgt" font-family="JetBrains Mono,monospace" font-size="9">
+              <path d="M238 158 l6 4 -6 4 -6 -4 Z" fill="#FFB454"/>
+              <text x="250" y="163" fill="#FFB454">TGT-01 / 8.42 KM</text>
+              <text x="250" y="174" fill="#7A9DA6">AZ 047.2 / CLOS -2.14 M/S</text>
+              <circle cx="118" cy="318" r="3" fill="#00E5FF"/>
+              <text x="112" y="336" fill="#7A9DA6">BCN-02 / 21.7 KM</text>
+              <text x="112" y="347" fill="#7A9DA6">AZ 312.8 / SNR 18 DB</text>
+              <g fill="#66B8CC">
+                <path d="M96 268 l4 3 -4 3 -4 -3 Z"/>
+                <path d="M108 284 l4 3 -4 3 -4 3 Z"/>
+                <path d="M88 292 l4 3 -4 3 -4 -3 Z"/>
+              </g>
+              <text x="86" y="308" fill="#66B8CC">DEBRIS FIELD / 14 OBJ</text>
+            </g>
+            <g stroke="rgba(0,234,255,0.5)" stroke-width="1" fill="none">
+              <path d="M210 210 L351 210 A141 141 0 0 0 337 145 Z" stroke="none"/>
+              <circle cx="210" cy="210" r="2.5" fill="#00E5FF" stroke="none"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="stage-h"><h2>航向刻度环 / HDG</h2><span>247.5° / 偏差 +0.3°</span></div>
+        <svg class="radar" viewBox="0 0 300 300" style="max-width:340px" role="img" aria-label="航向刻度环，当前航向 247.5 度">
+          <circle cx="150" cy="150" r="132" fill="none" stroke="rgba(0,234,255,0.5)" stroke-width="1"/>
+          <circle class="dial-arc" cx="150" cy="150" r="132" fill="none" stroke="rgba(0,234,255,0.15)" stroke-width="1"/>
+          <g stroke="rgba(0,234,255,0.45)" stroke-width="1">
+            <line x1="150" y1="18" x2="150" y2="26"/><line x1="216" y1="35.7" x2="212" y2="42.6"/><line x1="264.3" y1="84" x2="257.6" y2="88"/><line x1="282" y1="150" x2="274" y2="150"/><line x1="264.3" y1="216" x2="257.6" y2="212"/><line x1="216" y1="264.3" x2="212" y2="257.6"/><line x1="150" y1="282" x2="150" y2="274"/><line x1="84" y1="264.3" x2="88" y2="257.6"/><line x1="35.7" y1="216" x2="42.6" y2="212"/><line x1="18" y1="150" x2="26" y2="150"/><line x1="35.7" y1="84" x2="42.6" y2="88"/><line x1="84" y1="35.7" x2="88" y2="42.6"/>
+          </g>
+          <g font-family="JetBrains Mono,monospace" font-size="10" fill="#7A9DA6" text-anchor="middle">
+            <text x="150" y="50">000</text><text x="206" y="62">030</text><text x="247" y="101">060</text><text x="262" y="154">090</text><text x="247" y="207">120</text><text x="206" y="246">150</text><text x="150" y="258">180</text><text x="94" y="246">210</text><text x="53" y="207">240</text><text x="38" y="154">270</text><text x="53" y="101">300</text><text x="94" y="62">330</text>
+          </g>
+          <g class="hdg-needle" id="needle">
+            <path d="M150 30 L154 46 L150 60 L146 46 Z" fill="#00E5FF"/>
+            <line x1="150" y1="60" x2="150" y2="150" stroke="#00E5FF" stroke-width="1.5"/>
+          </g>
+          <circle cx="150" cy="150" r="46" fill="rgba(0,8,13,0.85)" stroke="rgba(0,234,255,0.5)"/>
+          <text x="150" y="147" font-family="Share Tech Mono,monospace" font-size="15" fill="#00E5FF" text-anchor="middle">247.5</text>
+          <text x="150" y="162" font-family="JetBrains Mono,monospace" font-size="8" fill="#7A9DA6" text-anchor="middle">DEG TRUE</text>
+        </svg>
+      </div>
+
+      <div class="panel">
+        <div class="stage-h"><h2>接近轨迹 / TRJ</h2><span>月心距 / T+00:00 起</span></div>
+        <svg class="traj" viewBox="0 0 460 220" role="img" aria-label="接近轨迹：月心距从 21,704 km 降至预计捕获 8,000 km，实测略低于计划线">
+          <g class="grid-l">
+            <line x1="20" y1="30" x2="440" y2="30"/><line x1="20" y1="77" x2="440" y2="77"/><line x1="20" y1="124" x2="440" y2="124"/><line x1="20" y1="171" x2="440" y2="171"/><line x1="20" y1="190" x2="440" y2="190"/>
+          </g>
+          <text x="16" y="27" text-anchor="end">22,000</text>
+          <text x="16" y="74" text-anchor="end">16,000</text>
+          <text x="16" y="121" text-anchor="end">10,000</text>
+          <text x="16" y="168" text-anchor="end">4,000</text>
+          <text x="16" y="203" text-anchor="end">KM</text>
+          <text x="20" y="210">T+0:00</text><text x="160" y="210">T+1:20</text><text x="300" y="210">T+2:40</text><text x="408" y="210">T+4:00</text>
+          <polygon points="20,188 130,162 240,135 350,103 440,76 440,55 350,87 240,132 130,165 20,187" fill="rgba(0,234,255,0.08)"/>
+          <polyline class="axis-plan" points="20,188 130,162 240,135 350,103 440,76" fill="none" stroke-width="1"/>
+          <polyline class="axis-real" points="20,187 130,165 240,132 350,87 440,55" fill="none" stroke-width="1.5"/>
+          <circle cx="440" cy="55" r="3" fill="#00E5FF"/>
+          <circle cx="20" cy="187" r="2.5" fill="#00E5FF"/>
+        </svg>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>机动计划 / MNVR</h2><span class="code">SYS/GNC</span></div>
+        <svg class="radar" viewBox="0 0 300 120" style="max-width:380px" role="img" aria-label="机动示意：点火抬高近月点至 812 km">
+          <circle cx="238" cy="62" r="18" fill="rgba(0,234,255,0.12)" stroke="rgba(0,234,255,0.45)"/>
+          <text x="238" y="58" font-family="JetBrains Mono,monospace" font-size="8" fill="#7A9DA6" text-anchor="middle">MOON</text>
+          <path d="M14 100 Q 128 8 240 66" fill="none" stroke="#7A9DA6" stroke-dasharray="4 4"/>
+          <path d="M14 100 Q 122 20 236 54" fill="none" stroke="#00E5FF" stroke-width="1.5"/>
+          <circle cx="118" cy="27" r="2.5" fill="#00E5FF"/>
+          <text x="126" y="24" font-family="JetBrains Mono,monospace" font-size="8" fill="#00E5FF">PERILUNE 812 KM</text>
+          <path d="M14 100 l7 -3 -4 6 Z" fill="#FFB454"/>
+          <text x="26" y="112" font-family="JetBrains Mono,monospace" font-size="8" fill="#FFB454">BURNS T+03:10:00</text>
+          <path d="M22 92 l10 0" stroke="#FFB454" stroke-width="1"/>
+        </svg>
+        <dl class="tele">
+          <div class="t-row"><dt>下一次 burns</dt><span class="dots"></span><dd>T+03:10:00</dd></div>
+          <div class="t-row"><dt>点火时长</dt><span class="dots"></span><dd>18.6<span class="u">s</span></dd></div>
+          <div class="t-row"><dt>预计 Δv</dt><span class="dots"></span><dd>+12.4<span class="u">m/s</span></dd></div>
+          <div class="t-row"><dt>推进器编组</dt><span class="dots"></span><dd>A2 / B4</dd></div>
+          <div class="t-row"><dt>目标近月点</dt><span class="dots"></span><dd>812 ± 2<span class="u">km</span></dd></div>
+          <div class="t-row"><dt>执行状态</dt><span class="dots"></span><dd class="w">ARMED</dd></div>
+        </dl>
+        <div class="bar w" role="img" aria-label="机动就绪度 92%"><i style="width:92%"></i></div>
+      </div>
+
+      <div class="panel dock">
+        <div class="dock-top">
+          <p class="port">对接 <b>PORT MERIDIAN</b> / 口 B</p>
+          <span class="code">DOCK/76%</span>
+        </div>
+        <div class="dock-track" role="img" aria-label="对接接近进度 76%"><i></i></div>
+        <dl class="dock-nums">
+          <div><dt>对接口距离</dt><dd>812.0<span class="u">m</span></dd></div>
+          <div><dt>接近速度</dt><dd>0.42<span class="u">m/s</span></dd></div>
+          <div><dt>相位偏移</dt><dd>047.2<span class="u">deg</span></dd></div>
+          <div><dt>锁定状态</dt><dd>READY<span class="u">latch</span></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="col col-right" aria-label="导航与链路">
+      <div class="panel">
+        <div class="panel-h"><h2>导航 / NAV</h2><span class="code">J2000</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>地心距</dt><span class="dots"></span><dd>384,172<span class="u">km</span></dd></div>
+          <div class="t-row"><dt>月心距</dt><span class="dots"></span><dd>21,704<span class="u">km</span></dd></div>
+          <div class="t-row"><dt>对地速度</dt><span class="dots"></span><dd>1.84<span class="u">km/s</span></dd></div>
+          <div class="t-row"><dt>对月速度</dt><span class="dots"></span><dd>0.94<span class="u">km/s</span></dd></div>
+        </dl>
+        <div class="blk">
+          <div class="t-row"><dt>姿态 q0</dt><span class="dots"></span><dd>+0.912</dd></div>
+          <div class="t-row"><dt>q1</dt><span class="dots"></span><dd>-0.204</dd></div>
+          <div class="t-row"><dt>q2</dt><span class="dots"></span><dd>+0.336</dd></div>
+          <div class="t-row"><dt>q3</dt><span class="dots"></span><dd>+0.087</dd></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>链路 / COMM</h2><span class="code">S/X</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>地面站</dt><span class="dots"></span><dd>DSS-43 / 堪培拉</dd></div>
+          <div class="t-row"><dt>单向延迟</dt><span class="dots"></span><dd>1.28<span class="u">s</span></dd></div>
+          <div class="t-row"><dt>下行速率</dt><span class="dots"></span><dd>412<span class="u">kbps</span></dd></div>
+          <div class="t-row"><dt>EIRP</dt><span class="dots"></span><dd>18.6<span class="u">dBW</span></dd></div>
+          <div class="t-row"><dt>载波信噪</dt><span class="dots"></span><dd>18.0<span class="u">dB</span></dd></div>
+        </dl>
+        <div class="bar" role="img" aria-label="链路余量 6.2 dB"><i style="width:72%"></i></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h"><h2>事件日志 / LOG</h2><span class="code">RING 64</span></div>
+        <ul class="log">
+          <li><span class="t">02:14:07Z</span><span class="src">PROP</span><span class="msg">中途修正 burns 12.4 s，Δv +8.2 m/s，姿态偏差 +0.3°</span></li>
+          <li><span class="t">02:16:33Z</span><span class="src">RDR</span><span class="msg">TGT-01 再捕获，RCS 8.42 km，信噪比 18 dB</span></li>
+          <li><span class="t">02:18:02Z</span><span class="src">TCS</span><span class="msg w">辐射器 B 面温度 241.3 K，低于标称 4.7 K</span></li>
+          <li><span class="t">02:20:45Z</span><span class="src">COMM</span><span class="msg">DSN 堪培拉站切换完成，单向延迟 1.28 s</span></li>
+          <li><span class="t">02:23:11Z</span><span class="src">NAV</span><span class="msg">测距更新，位置误差 ±4.2 m，速度误差 ±0.008 m/s</span></li>
+          <li><span class="t">02:25:58Z</span><span class="src">DOCK</span><span class="msg">对接口距离 812 m，接近 0.42 m/s，锁定 READY</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="actions" id="actions">
+    <button class="btn" type="button" onclick="var p=document.getElementById('sweeppath'),n=document.getElementById('needle');[p,n].forEach(function(el){el.style.animation='none';void el.getBoundingClientRect();el.style.animation=''})">重放雷达扫描</button>
+    <button class="btn" type="button" onclick="var n=document.getElementById('needle');n.style.animation='none';void n.getBoundingClientRect();n.style.animation=''">重跑航向校准</button>
+    <button class="btn" type="button" onclick="var m=document.getElementById('met'),s=m,t=0+0,s=0,f=8558;f=(function(){s++;m.textContent='T+ '+String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s/60)%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0')});s<8558&amp;&amp;setTimeout(f,200)})()">任务时钟走秒</button>
+  </div>
+
+  <footer class="frame pagefoot">
+    <p>UI 设计提示词库 / HUD Sci-Fi FUI / 单文件演示，视觉与遥测数据均为设定演示内容</p>
+    <a class="back" href="style-catalog.html">返回风格目录</a>
+  </footer>
+</div>
+</body>
+</html>

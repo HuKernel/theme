@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Data-Dense Dashboard / UI 设计提示词库</title>
+<!-- token: bg#0D0F16 面板#161B26 边#232B3A fg#EEF1F7 muted#9AA3B5 blue#7FB0FF green#4ADE80 red#F87171 amber#FBBF24 / r:10px / Fira Code+12-14px / 12列 gap8 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0F16; --panel:#161B26; --panel2:#1A2030; --line:#232B3A;
+  --fg:#EEF1F7; --muted:#9AA3B5; --dim:#6B7687;
+  --blue:#7FB0FF; --green:#4ADE80; --red:#F87171; --amber:#FBBF24;
+  --r:10px; --gap:8px;
+  --mono:"Fira Code",monospace; --sans:"Fira Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px;line-height:1.45}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+svg{display:block}
+.wrap{max-width:1440px;margin:0 auto;padding:8px}
+
+/* ---------- 顶栏 ---------- */
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;background:rgba(13,15,22,.92);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:var(--r);padding:8px 12px;margin-bottom:var(--gap)}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px}
+.brand .logo{width:22px;height:22px;color:var(--blue)}
+.crumb{color:var(--muted);font-size:12px;border-left:1px solid var(--line);padding-left:12px}
+.clock{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.clock svg{width:13px;height:13px;color:var(--muted)}
+.btn{font-family:var(--sans);font-size:12px;font-weight:500;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,color .15s}
+.btn:hover{color:var(--fg);border-color:#33405C}
+.btn svg{width:12px;height:12px}
+
+/* ---------- KPI ---------- */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+.kpi{grid-column:span 2;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;position:relative}
+.kpi .lab{color:var(--muted);font-size:12px;margin-bottom:4px}
+.kpi .val{font-family:var(--mono);font-size:24px;font-weight:600;letter-spacing:-.5px;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi .unit{font-size:12px;color:var(--muted);font-weight:400;margin-left:2px}
+.kpi .delta{position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:2px}
+.kpi .delta svg{width:10px;height:10px}
+.up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--muted)}
+.kpi .spark{margin-top:8px}
+
+/* ---------- 面板 ---------- */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;min-width:0}
+.ph{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ph h2{font-size:12.5px;font-weight:600;letter-spacing:.2px}
+.ph svg{width:14px;height:14px;color:var(--muted);flex:none}
+.ph .tag{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* ---------- 布局区 ---------- */
+.side{grid-column:span 2}
+.main{grid-column:span 10}
+.chart-a{grid-column:span 7}
+.chart-b{grid-column:span 5}
+undefined</delete>2319
+
+/* ---------- 筛选侧栏 ---------- */
+.flab{font-size:11px;color:var(--muted);margin:0 0 6px;display:block}
+.fgroup{margin-bottom:12px}
+.fopts{display:flex;flex-direction:column;gap:4px}
+.fopt{position:relative;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding:4px 6px;border-radius:6px;cursor:pointer}
+.fopt:hover{color:var(--fg);background:var(--panel2)}
+.fopt input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.fopt .cb{width:13px;height:13px;flex:none;border:1.5px solid var(--dim);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s}
+.fopt input:checked+.cb{background:var(--blue);border-color:var(--blue)}
+.fopt input:checked+.cb svg{opacity:1}
+.fopt .cb svg{width:8px;height:8px;color:#0D0F16;opacity:0}
+.fopt:has(input:checked){color:var(--fg)}
+select{font-family:var(--sans);width:100%;font-size:12px;color:var(--fg);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:5px 8px;appearance:none}
+.datebtns{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.datebtns input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.datebtns label{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:5px 0;cursor:pointer;text-align:center;user-select:none}
+.datebtns input:checked+label{border-color:var(--blue);color:var(--blue);background:rgba(127,176,255,.12)}
+.datebtns input:focus-visible+label{outline:2px solid var(--blue);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-size:11px;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;cursor:pointer}
+.chip[aria-pressed="true"]{color:#0D0F16;background:var(--green);border-color:var(--green);font-weight:600}
+.chip.warn[aria-pressed="true"]{background:var(--amber);border-color:var(--amber)}
+
+/* ---------- 主图 ---------- */
+.legend{display:flex;gap:14px;margin-left:auto;font-size:11px;color:var(--muted)}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:0}
+.ax{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.gridline{stroke:#20283A;stroke-width:1}
+.trend{stroke:var(--blue);stroke-width:2;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.trend.fill{fill:rgba(127,176,255,.10);stroke:none}
+.dot{fill:#161B26;stroke:var(--blue);stroke-width:2}
+.dot.last{fill:var(--blue)}
+.vlabel{font-family:var(--mono);font-size:10px;fill:var(--fg)}
+
+/* ---------- 条形 ---------- */
+.bars .row{display:grid;grid-template-columns:52px 1fr 44px;gap:8px;align-items:center;margin-bottom:9px;font-size:12px}
+.bars .bl{font-family:var(--mono);color:var(--muted)}
+.bars .track{height:14px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.bars .fillb{height:100%;border-radius:4px}
+.bars .bv{font-family:var(--mono);color:var(--fg);text-align:right;font-variant-numeric:tabular-nums}
+.fillb.f-r{background:var(--red)} .fillb.f-a{background:var(--amber)} .fillb.f-g{background:var(--green)}
+.bars .trendv{font-family:var(--mono);font-size:10px;width:36px;text-align:right}
+
+/* ---------- 热力 ---------- */
+.heat{display:grid;grid-template-columns:44px repeat(7,1fr);gap:3px}
+.heat .hl{font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;align-items:center}
+.heat .hh{color:var(--muted);font-size:11px;text-align:center}
+.heat .hc{border-radius:4px;background:var(--panel2);min-height:26px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--fg)}
+.heat .h1{background:rgba(127,176,255,.28)}
+.heat .h2{background:rgba(127,176,255,.56)}
+.heat .h3{background:var(--blue);color:#0D0F16;font-weight:600}
+
+/* ---------- 表格 ---------- */
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:720px}
+thead th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-weight:600;font-size:11.5px;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+tbody td{padding:7px 10px;border-bottom:1px solid #1E2534;white-space:nowrap;vertical-align:middle}
+tbody tr:hover{background:#1B2232}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.st{display:inline-flex;align-items:center;gap:6px}
+.st i{width:7px;height:7px;border-radius:50%;flex:none}
+.st.ok i{background:var(--green)} .st.delay i{background:var(--red)} .st.port i{background:var(--amber)}
+.loadbar{display:inline-flex;align-items:center;gap:8px}
+.loadbar .track{width:64px;height:5px;background:var(--panel2);border-radius:3px;overflow:hidden}
+.loadbar .f{height:100%;background:var(--blue);border-radius:3px}
+.loadbar .f.hot{background:var(--amber)}
+tr.you td{background:rgba(127,176,255,.05)}
+
+/* ---------- 环形 ---------- */
+.donutbox{display:flex;align-items:center;gap:16px}
+.dlegend{flex:1;display:flex;flex-direction:column;gap:9px;font-size:12px}
+.dlegend .dr{display:grid;grid-template-columns:10px 1fr auto;gap:8px;align-items:center;color:var(--muted)}
+.dlegend i{width:10px;height:10px;border-radius:3px;display:block}
+.dlegend .dv{font-family:var(--mono);color:var(--fg);font-variant-numeric:tabular-nums}
+
+/* ---------- 预警 / 页脚 ---------- */
+.alert{display:flex;gap:10px;align-items:flex-start;background:rgba(248,113,33,.06);border:1px solid rgba(248,113,33,.35);border-radius:8px;padding:10px 12px;margin-bottom:var(--gap)}
+.alert svg{width:15px;height:15px;color:var(--amber);flex:none;margin-top:1px}
+.alert p{font-size:12px;color:var(--fg)}
+.alert .at{font-weight:600;margin-bottom:2px}
+footer{margin-top:var(--gap);padding:14px 4px 4px;text-align:center;color:var(--muted);font-size:12px}
+footer a{margin-left:6px}
+
+/* ---------- 动效 ---------- */
+@keyframes draw{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}
+.trend.anim{stroke-dasharray:1200;animation:draw 1.4s ease-out .2s both}
+@media (prefers-reduced-motion:reduce){
+  .trend.anim{animation:none;stroke-dasharray:none}
+  *{transition:none!important}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1024px){
+  .side{grid-column:span 3}
+  .main{grid-column:span 9}
+  .chart-a,.chart-b{grid-column:span 12}
+}
+@media (max-width:768px){
+  .kpi{grid-column:span 3}
+  .side,.main{grid-column:span 12}
+  .topbar .crumb{display:none}
+}
+@media (max-width:480px){
+  .kpi{grid-column:span 6}
+  .clock{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 15h11V7H3v8Z"/><path d="M14 12h7M21 12l-3-3m3 3-3 3"/><path d="M7 7V5h3v2"/></svg>
+    远东 / 航线运营监控
+  </div>
+  <span class="crumb">运营中心 / 亚太调度组</span>
+  <span class="clock" id="clock">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    <span>14:32:07 UTC</span>
+  </span>
+  <button class="btn" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.3"/><path d="M21 3v6h-6"/></svg>
+    刷新数据
+  </button>
+</header>
+
+<!-- 预警条 -->
+<div class="alert" role="status">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+  <p><span class="at">上海港洋山三期拥堵升级</span>靠泊等待中位时长升至 41 小时，影响 AEU6 航线 3 个航次，建议评估跳港挂靠釜山替代方案。</p>
+</div>
+
+<!-- KPI 密排 -->
+<section class="grid" aria-label="核心运营指标">
+  <article class="kpi">
+    <div class="lab">在航船舶</div>
+    <div class="val">187<span class="unit">艘</span></div>
+    <span class="delta up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>+4</span>
+    <svg class="spark" width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,20 14,18 28,21 42,15 56,17 70,11 84,13 100,8" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg>
+  </article>
+  <article class="kpi">
+    <div class="lab">准班率</div>
+    <div class="val">78.4<span class="unit">%</span></div>
+    <span class="delta up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>+2.1pp</span>
+    <svg class="spark" width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,19 14,17 28,18 42,14 56,12 70,9 84,5 100,7" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg>
+  </article>
+  <article class="kpi">
+    <div class="lab">周运转箱量</div>
+    <div class="val">41.2<span class="unit">万 TEU</span></div>
+    <span class="delta up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>+1.8%</span>
+    <svg class="spark" width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,18 14,16 28,17 42,13 56,14 70,10 84,9 100,6" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg>
+  </article>
+  <article class="kpi">
+    <div class="lab">日均油耗</div>
+    <div class="val">1,284<span class="unit">吨</span></div>
+    <span class="delta down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>-3.2%</span>
+    <svg class="spark" width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,8 14,10 28,9 42,13 56,12 70,15 84,17 100,19" fill="none" stroke="var(--blue)" stroke-width="1.5"/></svg>
+  </article>
+  <article class="kpi">
+    <div class="lab">港口均停时</div>
+    <div class="val">2.3<span class="unit">天</span></div>
+    <span class="delta flat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12h14"/></svg>持平</span>
+    <svg class="spark" width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,13 14,12 28,14 42,13 56,12 70,14 84,13 100,13" fill="none" stroke="var(--muted)" stroke-width="1.5"/></svg>
+  </article>
+  <article class="kpi">
+    <div class="lab">未闭环预警</div>
+    <div class="val" style="color:var(--red)">4<span class="unit">件</span></div>
+    <span class="delta down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>+1</span>
+    <svg class="spark" width="100%" height="26" viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,22 14,22 28,20 42,21 56,16 70,14 84,10 100,6" fill="none" stroke="var(--red)" stroke-width="1.5"/></svg>
+  </article>
+</section>
+
+<!-- 主体：侧栏 + 图区 -->
+<section class="grid" aria-label="运营明细">
+
+  <aside class="side panel" aria-label="筛选">
+    <div class="ph">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z"/></svg>
+      <h2>筛选条件</h2>
+    </div>
+    <div class="fgroup">
+      <label class="flab" for="route">航线</label>
+      <div class="fopts" id="route">
+        <label class="fopt"><input type="checkbox" checked><span class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true"><path d="M4 12l5 5L20 7"/></svg></span>AEU7 远东-北欧</label>
+        <label class="fopt"><input type="checkbox" checked><span class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true"><path d="M4 12l5 5L20 7"/></svg></span>AEU6 远东-地中海</label>
+        <label class="fopt"><input type="checkbox"><span class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true"><path d="M4 12l5 5L20 7"/></svg></span>TP7 跨太平洋</label>
+        <label class="fopt"><input type="checkbox"><span class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" aria-hidden="true"><path d="M4 12l5 5L20 7"/></svg></span>PAC3 南美西</label>
+      </div>
+    </div>
+    <div class="fgroup">
+      <label class="flab" for="ship">船型</label>
+      <select id="ship">
+        <option selected>全部船型（187 艘）</option>
+        <option>20,000+ TEU 超大型</option>
+        <option>14,000-19,999 TEU 大型</option>
+        <option>8,000-13,999 TEU 巴拿马型</option>
+        <option>支线船</option>
+      </select>
+    </div>
+    <div class="fgroup">
+      <span class="flab">统计时段</span>
+      <div class="datebtns" role="radiogroup" aria-label="统计时段">
+        <input type="radio" name="range" id="r1"><label for="r1">7D</label>
+        <input type="radio" name="range" id="r2"><label for="r2">14D</label>
+        <input type="radio" name="range" id="r3" checked><label for="r3">90D</label>
+      </div>
+    </div>
+    <div class="fgroup">
+      <span class="flab">船舶状态</span>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">在航</button>
+        <button class="chip" type="button" aria-pressed="true">靠泊</button>
+        <button class="chip" type="button" aria-pressed="false">锚泊</button>
+        <button class="chip warn" type="button" aria-pressed="false">延误</button>
+      </div>
+    </div>
+    <div class="fgroup" style="margin-bottom:0">
+      <span class="flab">数据源</span>
+      <div class="fopt" style="cursor:default;color:var(--muted)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4"/><path d="M3 12h18"/></svg>
+        AIS + 码头报文 / 5 分钟前同步
+      </div>
+    </div>
+  </aside>
+
+  <div class="main grid" style="grid-column:span 10" aria-label="图表分析">
+    <div class="panel chart-a">
+      <div class="ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+        <h2>准班率趋势 / 近 8 周</h2>
+        <div class="legend"><span><i style="background:var(--blue)"></i>周准班率</span><span><i style="background:rgba(127,176,255,.25)"></i>目标线 76%</span></div>
+        <span class="tag">%</span>
+      </div>
+      <svg viewBox="0 0 0 640 260" role="img" aria-label="近8周准班率折线图" aria-labelledby="trend-t" width="100%">
+        <title id="trend-t">近8周准班率：从71.8%上升至78.4%</title>
+        <desc id="trend-d">周度数据点：71.8、72.4、74.1、73.6、75.9、77.2、80.1、78.4（百分比）</desc>
+        <g id="trend-d">
+          <line class="gridline" x1="40" y1="40" x2="640" y2="40"/><text class="ax" x="8" y="44">85</text>
+          <line class="gridline" x1="40" y1="106.7" x2="640" y2="106.7"/><text class="ax" x2="8" y="110">80</text>
+          <line class="gridline" x1="40" y1="173.3" x2="640" y2="173.3"/><text class="ax" x2="8" y="177">75</text>
+          <line class="gridline" x1="40" y1="240" x2="640" y2="240"/><text class="ax" x2="8" y="244">70</text>
+          <line x1="40" y1="112" x2="640" y2="112" stroke="var(--amber)" stroke-dasharray="4 4" stroke-width="1" opacity=".7"/><text class="ax" x="644" y="116" fill="var(--amber)">76</text>
+          <path class="trend fill anim" d="M 40 216 L 120 210.7 L 200 185.3 L 280 192 L 360 161.3 L 440 144 L 520 105.3 L 600 128 L 600 240 L 40 240 Z" aria-hidden="true"/>
+          <path class="trend anim" d="M 40 216 L 120 210.7 L 200 185.3 L 280 192 L 360 161.3 L 440 144 L 520 105.3 L 600 128" style="animation-delay:.15s"/>
+          <g font-family="Fira Code, monospace" font-size="10">
+            <circle class="dot" cx="40" cy="216" r="3"/><circle class="dot" cx="120" cy="210.7" r="3"/><circle class="dot" cx="200" cy="185.3" r="3"/><circle class="dot" cx="280" cy="192" r="3"/><circle class="dot" cx="360" cy="161.3" r="3"/><circle class="dot" cx="440" cy="144" r="3"/><circle class="dot" cx="520" cy="105.3" r="3"/><circle class="dot last" cx="600" cy="128" r="4"/>
+            <text class="vlabel" x="600" y="118" text-anchor="end">78.4</text>
+            <text class="ax" x="40" y="20" text-anchor="start">W35</text><text class="ax" x="120" y="20" text-anchor="middle">W36</text><text class="ax" x="200" y="20" text-anchor="middle">W37</text><text class="ax" x="280" y="20" text-anchor="middle">W38</text><text class="ax" x="360" y="20" text-anchor="middle">W39</text><text class="ax" x="440" y="20" text-anchor="middle">W40</text><text class="ax" x="520" y="20" text-anchor="middle">W41</text><text class="ax" x="600" y="20" text-anchor="end">W42</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="panel chart-b">
+      <div class="ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 4v10h12M4 12h12"/></svg>
+        <h2>各航线本周载箱率</h2>
+        <span class="tag">%</span>
+      </div>
+      <div class="bars">
+        <div class="row"><span class="bl">AEU7</span><div class="track"><div class="fillb" style="width:94.2%;background:var(--blue)"></div></div><span class="bv">94.2</span></div>
+        <div class="row"><span class="bl">AEU6</span><div class="track"><div class="fillb" style="width:91.3%;background:var(--blue)"></div></div><span class="bv">91.3</span></div>
+        <div class="row"><span class="bl">MED8</span><div class="track"><div class="fillb" style="width:88.7%;background:var(--blue)"></div></div><span class="bv">88.7</span></div>
+        <div class="row"><span class="bl">TP7</span><div class="track"><div class="fillb" style="width:84.1%;background:var(--amber)"></div></div><span class="bv">84.1</span></div>
+        <div class="row"><span class="bl">PAC3</span><div class="track"><div class="fillb" style="width:79.6%;background:var(--amber)"></div></div><span class="bv">79.6</span></div>
+      </div>
+      <p style="margin-top:10px;font-size:11.5px;color:var(--muted)">蓝色为达到 86% 载箱基准线，黄色为低于基准需调配。</p>
+    </div>
+
+    <div class="panel wide">
+      <div class="ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <h2>在航船舶动态</h2>
+        <span class="tag">实时 / AIS 更新于 2 分钟前</span>
+      </div>
+      <div class="tblwrap">
+        <table>
+          <thead>
+            <tr><th scope="col">航次</th><th scope="col">船名</th><th scope="col">航线</th><th scope="col">状态</th><th scope="col">当前位置</th><th scope="col">ETA (UTC)</th><th scope="col">载箱率</th><th scope="col">偏差</th></tr>
+          </thead>
+          <tbody>
+            <tr class="you">
+              <td class="num">0MD7W</td><td>MDV Fortis Luna</td><td class="num">AEU7</td>
+              <td><span class="st ok"><i></i>在航</span></td><td>马六甲海峡</td><td class="num">10-11 06:40</td>
+              <td><span class="loadbar"><span class="track"><span class="f" style="width:96%"></span></span><span class="num">96.0%</span></span></td><td class="num up">+1.2h</td>
+            </tr>
+            <tr>
+              <td class="num">0MD8E</td><td>COSU 沧海</td><td class="num">AEU6</td>
+              <td><span class="st delay"><i></i>延误</span></td><td>上海洋山锚地</td><td class="num">10-13 22:15</td>
+              <td><span class="loadbar"><span class="track"><span class="f hot" style="width:91%"></span></span><span class="num">91.3%</span></span></td><td class="num down">+18.6h</td>
+            </tr>
+            <tr>
+              <td class="num">24SN9F</td><td>MSC Aurora</td><td class="num">AEU7</td>
+              <td><span class="st port"><i></i>靠泊</span></td><td>鹿特丹 ECT</td><td class="num">10-09 04:00</td>
+              <td><span class="loadbar"><span class="track"><span class="f" style="width:94%"></span></span><span class="num">94.2%</span></span></td><td class="num up">-0.4h</td>
+            </tr>
+            <tr>
+              <td class="num">3EW1AE</td><td>EMC 东风号</td><td class="num">AEU6</td>
+              <td><span class="st ok"><i></i>在航</span></td><td>苏伊士湾</td><td class="num">10-12 13:50</td>
+              <td><span class="loadbar"><span class="track"><span class="f" style="width:88%"></span></span><span class="num">88.7%</span></span></td><td class="num up">+0.8h</td>
+            </tr>
+            <tr>
+              <td class="num">7QF2B</td><td>HMM Sirius</td><td class="num">TP7</td>
+              <td><span class="st ok"><i></i>在航</span></td><td>北太平洋 42N</td><td class="num">10-15 09:30</td>
+              <td><span class="loadbar"><span class="track"><span class="f hot" style="width:84%"></span></span><span class="num">84.1%</span></span></td><td class="num up">+2.1h</td>
+            </tr>
+            <tr>
+              <td class="num">9PK4C</td><td>CMD 惠州</td><td class="num">PAC3</td>
+              <td><span class="st port"><i></i>靠泊</span></td><td>智利圣安东尼奥</td><td class="num">10-10 17:45</td>
+              <td><span class="loadbar"><span class="track"><span class="f hot" style="width:79%"></span></span><span class="num">79.6%</span></span></td><td class="num up">+3.4h</td>
+            </tr>
+            <tr>
+              <td class="num">2VB8D</td><td>CMD 广州湾</td><td class="num">AEU6</td>
+              <td><span class="st delay"><i></i>延误</span></td><td>新加坡西锚地</td><td class="num">10-14 01:20</td>
+              <td><span class="loadbar"><span class="track"><span class="f hot" style="width:87%"></span></span><span class="num">87.0%</span></span></td><td class="num down">+9.2h</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel chart-b">
+      <div class="ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>
+        <h2>本周载货结构</h2>
+        <span class="tag">41.2 万 TEU</span>
+      </div>
+      <div class="donutbox">
+        <svg viewBox="0 0 190 190" width="170" height="170" role="img" aria-label="舱位类型环形图">
+          <circle cx="95" cy="95" r="70" fill="none" stroke="var(--panel2)" stroke-width="26"/>
+          <circle cx="95" cy="95" r="70" fill="none" stroke="var(--blue)" stroke-width="26" stroke-dasharray="202.1 439.8" stroke-dashoffset="0" transform="rotate(-90 95 95)"/>
+          <circle cx="95" cy="95" r="70" fill="none" stroke="var(--green)" stroke-width="26" stroke-dasharray="105.6 536.3" stroke-dashoffset="-202.1" transform="rotate(-90 95 95)"/>
+          <circle cx="95" cy="95" r="70" fill="none" stroke="var(--amber)" stroke-width="26" stroke-dasharray="52.8 566.5" stroke-dashoffset="-307.7" transform="rotate(-90 95 95)"/>
+          <circle cx="95" cy="95" r="70" fill="none" stroke="var(--red)" stroke-width="26" stroke-dasharray="44.0 596.7" stroke-dashoffset="-360.5" transform="rotate(-90 95 95)"/>
+          <text x="95" y="90" text-anchor="middle" font-family="Fira Code, monospace" font-size="22" font-weight="600" fill="var(--fg)">46%</text>
+          <text x="95" y="108" text-anchor="middle" font-family="Fira Sans" font-size="10" fill="var(--muted)">整舱直达</text>
+        </svg>
+        <div class="dlegend">
+          <div class="dr"><i style="background:var(--blue)"></i><span>整舱直达</span><span class="dv">46%</span></div>
+          <div class="dr"><i style="background:var(--green)"></i><span>冷藏箱</span><span class="dv">24%</span></div>
+          <div class="dr"><i style="background:var(--amber)"></i><span>危险品</span><span class="dv">12%</span></div>
+          <div class="dr"><i style="background:var(--red)"></i><span>特种箱</span><span class="dv">10%</span></div>
+          <div class="dr"><i style="background:var(--muted)"></i><span>空箱调拨</span><span class="dv">8%</span></div>
+        </div>
+    <div class="grid" style="grid-column:span 4" aria-label="港口拥堵">
+      <div class="panel" style="padding-bottom:10px">
+        <div class="ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 8v4l3-8 4"/><circle cx="12" cy="12" r="9"/></svg>
+          <h2>港口拥堵 / 锚泊等待</h2>
+          <span class="tag">中位小时 / 48h 量程</span>
+        </div>
+        <div class="grid" style="grid-column:span 8" aria-label="泊位利用率热力">
+      <div class="ph">
+        <svg .../>
+        <h2>近 7 日泊位利用率</h2>
+        <span class="tag">%</span>
+      </div>
+      ...
+    </div>
+  <span>UI 设计提示词库 / Data-Dense Dashboard</span>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+</div>
+<script>
+(function(){
+  var el=document.getElementById('clock').querySelector('span');
+  function tick(){
+    var d=new Date();
+    function p(n){return String(n).padStart(2,'0')}
+    el.textContent=p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+' UTC';
+  }
+  tick();setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- tokens: primary #2563EB / secondary #6b25eb / accent #ebad25 / bg #F8FAFC / fg #0F172A / radius 14px / Inter -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interactive Cursor 光标交互风格演示页：光标试验场交互工作室，difference 圆环光标、hover 形变、磁性按钮与光标轨迹。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Interactive Cursor / UI 设计提示词库</title>
+<style>
+  :root {
+    --primary: #2563EB;
+    --secondary: #6b25eb;
+    --accent: #ebad25;
+    --bg: #F8FAFC;
+    --fg: #0F172A;
+    --muted: #475569;
+    --muted-dark: #94A3B8;
+    --line: #E2E8F0;
+    --radius: 14px;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --font: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--primary); color: #fff; }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; }
+
+  /* ===== 自定义光标层：仅在 .cursor-on（JS 检测：精确指针 + 未减弱动效）时接管 ===== */
+  .cursor-layer { display: none; }
+  body.cursor-on { cursor: none; }
+  body.cursor-on a, body.cursor-on button, body.cursor-on .work { cursor: none; }
+  body.cursor-on .cursor-layer { display: block; }
+
+  .cur { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 9999; will-change: transform; }
+  .cursor-layer .cur { opacity: 0; transition: opacity .4s ease .25s; }
+  body.booted.cursor-on .cursor-layer .cur { opacity: 1; }
+
+  /* 外环：白色 difference，自动在深浅背景上反色保持可见 */
+  .cur-ring span {
+    position: absolute; left: 0; top: 0;
+    width: 40px; height: 40px;
+    border: 1.5px solid #fff; border-radius: 50%;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%) scale(var(--cs, 1));
+    transition: width .3s var(--ease), height .3s var(--ease), border-radius .3s var(--ease),
+                background-color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease);
+    display: grid; place-items: center;
+  }
+  body.cursor-on:not(.booted) .cur-ring span { --cs: 0; }
+  body.is-down .cur-ring span { --cs: .82; }
+
+  /* hover 形变：链接态，放大空心 */
+  body.cur-link .cur-ring span { width: 64px; height: 64px; background: rgba(255,255,255,.14); }
+  /* hover 形变：文本态，收成竖线插入条 */
+  body.cur-text .cur-ring span { width: 3px; height: 36px; border-radius: 2px; background: #fff; border-color: #fff; }
+  /* hover 形变：拖拽态，方环表示可抓取 */
+  body.cur-drag .cur-ring span { width: 48px; height: 48px; border-radius: 10px; border-width: 4px; }
+  /* hover 形变：查看态，实心圆加反色文字 */
+  body.cur-view .cur-ring span { width: 88px; height: 88px; background: #fff; border-color: #fff; }
+  body.cur-view .cur-ring span::after {
+    content: "查看"; color: #000; font-size: 13px; font-weight: 600; letter-spacing: .08em;
+  }
+
+  /* 十字线：紧贴指针，链接态淡出让位 */
+  .cur-cross::before, .cur-cross::after {
+    content: ""; position: absolute; left: 0; top: 0; background: #fff;
+    mix-blend-mode: difference; transition: opacity .2s ease;
+  }
+  .cur-cross::before { width: 14px; height: 1.5px; transform: translate(-50%, -50%); }
+  .cur-cross::after { width: 1.5px; height: 14px; transform: translate(-50%, -50%); }
+  body.cur-link .cur-cross::before, body.cur-link .cur-cross::after,
+  body.cur-text .cur-cross::before, body.cur-text .cur-cross::after,
+  body.cur-drag .cur-cross::before, body.cur-drag .cur-cross::after,
+  body.cur-view .cur-cross::before, body.cur-view .cur-cross::after { opacity: 0; }
+
+  .cur-dot::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 6px; height: 6px;
+    border-radius: 50%; background: #fff; mix-blend-mode: difference;
+    transform: translate(-50%, -50%); transition: opacity .2s ease;
+  }
+  body.cur-view .cur-dot::before, body.cur-text .cur-dot::before { opacity: 0; }
+
+  /* 轨迹：一串递减 lerp 粒子，opacity 逐级衰减 */
+  .cur.trail::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 5px; height: 5px;
+    border-radius: 50%; background: #fff; mix-blend-mode: difference;
+    transform: translate(-50%, -50%) scale(var(--ts, 1));
+  }
+  .trail.t1 { --ts: .8; } .trail.t2 { --ts: .66; } .trail.t3 { --ts: .52; } .trail.t4 { --ts: .4; }
+
+  /* ===== 键盘可达：焦点环从不被光标层遮挡（pointer-events:none），样式统一 ===== */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--secondary); outline-offset: 3px; border-radius: 4px;
+  }
+
+  /* ===== 一次亮相：仅 hero 三段一次编排，正文区块零入场动画 ===== */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s var(--ease); }
+  .reveal.d1 { transition-delay: .07s; }
+  .reveal.d2 { transition-delay: .14s; }
+  body.booted .reveal { opacity: 1; transform: none; }
+
+  /* ===== 布局 ===== */
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+  header { border-bottom: 1px solid var(--line); }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 17px; }
+  .logo-mark {
+    width: 22px; height: 22px; border: 2px solid var(--fg); border-radius: 50%;
+    position: relative; flex: none;
+  }
+  .logo-mark::after {
+    content: ""; position: absolute; right: -4px; bottom: -4px;
+    width: 8px; height: 8px; background: var(--primary); border-radius: 50%;
+  }
+  .logo small { font-weight: 400; color: var(--muted); font-size: 13px; }
+  .nav-links { display: flex; gap: 34px; font-size: 15px; }
+  .nav-links a { position: relative; padding: 4px 2px; color: var(--muted); transition: color .25s ease; }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 0;
+    background: var(--primary); transition: width .3s var(--ease);
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { color: var(--fg); }
+  .nav-links a:hover::after, .nav-links a:focus-visible::after { width: 100%; }
+
+  /* ===== hero ===== */
+  .hero { padding: 96px 0 72px; }
+  .kicker { color: var(--muted); font-size: 14px; margin-bottom: 26px; }
+  .hero h1 {
+    font-size: clamp(40px, 7.2vw, 86px); line-height: 1.08; font-weight: 800;
+    letter-spacing: -0.02em; max-width: 12em;
+  }
+  .hero h1 em { font-style: normal; color: var(--primary); position: relative; }
+  .hero h1 em::after {
+    content: ""; position: absolute; left: 0; bottom: 6px; width: 100%; height: 12px;
+    background: var(--accent); z-index: -1; opacity: .55; border-radius: 3px;
+  }
+  .hero-lead { margin-top: 30px; max-width: 620px; color: var(--muted); font-size: 17px; }
+  .hero-note {
+    margin-top: 18px; font-size: 14px; color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-note .pulse {
+    width: 9px; height: 9px; border-radius: 50%; background: var(--primary); flex: none;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.7); opacity: .45; } }
+
+  .hero-stats {
+    margin-top: 46px; display: flex; gap: 56px; flex-wrap: wrap;
+  }
+  .hero-stats div strong { display: block; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+  .hero-stats div span { font-size: 13.5px; color: var(--muted); }
+
+  /* 指针试验区：三个靶标演示三种形变 */
+  .lab { margin-top: 60px; border: 1px solid var(--line); border-radius: var(--radius); padding: 34px 30px 30px; background: #fff; }
+  .lab-title { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .lab-row { display: flex; gap: 18px; flex-wrap: wrap; }
+  .target {
+    flex: 1; min-width: 150px; height: 110px; border: 1.5px dashed #CBD5E1; border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    background: transparent; font-family: inherit; font-size: 15px; color: var(--fg);
+    transition: border-color .25s ease, background-color .25s ease, transform .25s var(--ease);
+  }
+  .target span { font-size: 12.5px; color: var(--muted); }
+  .target:hover, .target:focus-visible { border-style: solid; border-color: var(--primary); background: #EEF4FF; transform: translateY(-3px); }
+  .target:active { transform: translateY(0) scale(.97); }
+
+  /* ===== 作品列表 ===== */
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 34px;
+  }
+  .section-head h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 800; letter-spacing: -0.01em; }
+  .section-head p { color: var(--muted); font-size: 14px; }
+  .works { padding: 84px 0; }
+  .work {
+    display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 22px;
+    padding: 26px 18px; border-top: 1px solid var(--line);
+    transition: background-color .3s ease, color .3s ease, padding-left .3s var(--ease);
+    border-radius: 6px;
+  }
+  .work:last-of-type { border-bottom: 1px solid var(--line); }
+  .work-no { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; transition: color .3s ease; }
+  .work-name { font-size: clamp(19px, 2.4vw, 26px); font-weight: 700; letter-spacing: -0.01em; }
+  .work-name em { display: block; font-style: normal; font-weight: 400; font-size: 14.5px; color: var(--muted); margin-top: 3px; transition: color .3s ease; }
+  .work-meta { font-size: 14px; color: var(--muted); white-space: nowrap; transition: color .3s ease; }
+  .work:hover, .work:focus-visible {
+    background: var(--fg); color: #F8FAFC; padding-left: 30px;
+  }
+  .work:hover .work-no, .work:focus-visible .work-no { color: var(--accent); }
+  .work:hover .work-name em, .work:focus-visible .work-name em { color: var(--muted-dark); }
+  .work:hover .work-meta, .work:focus-visible .work-meta { color: var(--muted-dark); }
+
+  /* ===== 词汇表：把本页用到的手法说清楚 ===== */
+  .glossary { padding: 0 0 92px; }
+  .glossary-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 56px;
+    border-top: 1px solid var(--line);
+  }
+  .term {
+    display: grid; grid-template-columns: 168px 1fr; gap: 18px;
+    padding: 20px 4px; border-bottom: 1px solid var(--line); align-items: baseline;
+    transition: background-color .25s ease, padding-left .25s var(--ease);
+  }
+  .term:hover, .term:focus-visible { background: #fff; padding-left: 14px; }
+  .term dt { font-size: 14.5px; font-weight: 700; color: var(--primary); }
+  .term dt span { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+  .term dd { font-size: 14.5px; color: var(--muted); line-height: 1.65; }
+
+  /* ===== 方法（深色区：difference 光标在此自动反色） ===== */
+  .methods { background: var(--fg); color: #F8FAFC; padding: 92px 0; }
+  .methods .section-head p { color: var(--muted-dark); }
+  .methods-lead { max-width: 640px; color: var(--muted-dark); font-size: 16px; margin-bottom: 48px; }
+  .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+  .method h3 { font-size: 20px; font-weight: 700; margin: 18px 0 12px; }
+  .method p { color: var(--muted-dark); font-size: 15px; }
+  .method-no {
+    font-size: 15px; font-weight: 700; color: var(--accent);
+    border: 1.5px solid rgba(235, 173, 37, .5); width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+  }
+
+  /* ===== 联系 ===== */
+  .contact { padding: 100px 0; text-align: center; }
+  .contact h2 { font-size: clamp(28px, 4.4vw, 48px); font-weight: 800; letter-spacing: -0.015em; line-height: 1.2; }
+  .contact p { color: var(--muted); margin: 18px auto 40px; max-width: 520px; }
+  .btn {
+    display: inline-block; background: var(--fg); color: #F8FAFC;
+    padding: 18px 46px; border-radius: 999px; font-size: 16.5px; font-weight: 600;
+    transition: background-color .3s ease, color .3s ease, box-shadow .3s ease;
+    will-change: transform;
+  }
+  .btn:hover, .btn:focus-visible { background: var(--primary); box-shadow: 0 14px 34px -12px rgba(37, 99, 235, .55); }
+  .contact-mail { display: block; margin-top: 30px; color: var(--muted); font-size: 15px; }
+  .contact-mail a { color: var(--primary); font-weight: 600; }
+  .contact-mail a:hover { text-decoration: underline; }
+
+  /* ===== footer ===== */
+  footer { border-top: 1px solid var(--line); padding: 30px 0 36px; }
+  .foot {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted);
+  }
+  .foot a { color: var(--fg); font-weight: 600; padding: 6px 2px; }
+  .foot a:hover { color: var(--primary); }
+  .foot-nav { display: flex; gap: 26px; }
+  .foot-hint { font-size: 13px; }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 768px) {
+    .wrap { padding: 0 20px; }
+    .nav-links { gap: 20px; font-size: 14px; }
+    .logo small { display: none; }
+    .hero { padding: 64px 0 52px; }
+    .lab { padding: 24px 18px; }
+    .target { min-width: 100%; }
+    .work { grid-template-columns: 40px 1fr; gap: 14px; }
+    .work-meta { grid-column: 2; }
+    .work:hover, .work:focus-visible { padding-left: 22px; }
+    .method-grid { grid-template-columns: 1fr; gap: 36px; }
+    .section-head { flex-direction: column; gap: 6px; }
+    .glossary-grid { grid-template-columns: 1fr; }
+    .term { grid-template-columns: 1fr; gap: 6px; }
+    .hero-stats { gap: 26px; }
+    .hero-stats div strong { font-size: 24px; }
+    .methods-lead { margin-bottom: 36px; }
+    .foot { justify-content: center; text-align: center; }
+  }
+  @media (min-width: 1440px) {
+    .wrap { max-width: 1320px; }
+    .hero { padding: 120px 0 90px; }
+    .method-grid { gap: 56px; }
+  }
+
+  /* ===== 触屏 / 无鼠标：不启用 .cursor-on，本区块自然退化（光标层 display:none） ===== */
+
+  /* ===== 减弱动效：光标跟随由 JS 检测关闭；亮相与脉冲一并降级 ===== */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .hero-note .pulse { animation: none; }
+    .work, .btn, .target, .cur-ring span { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 光标层：aria-hidden，pointer-events none，永不遮挡交互 -->
+  <div class="cursor-layer" aria-hidden="true">
+    <div class="cur cur-ring" id="cRing"><span></span></div>
+    <div class="cur cur-cross" id="cCross"></div>
+    <div class="cur cur-dot" id="cDot"></div>
+    <div class="cur trail" id="t0"></div>
+    <div class="cur trail t1" id="t1"></div>
+    <div class="cur trail t2" id="t2"></div>
+    <div class="cur trail t3" id="t3"></div>
+    <div class="cur trail t4" id="t4"></div>
+  </div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#top" data-cursor="link">
+        <span class="logo-mark" aria-hidden="true"></span>
+        光标试验场 <small>/ 交互工作室</small>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#works" data-cursor="link">项目</a>
+        <a href="#methods" data-cursor="link">方法</a>
+        <a href="#contact" data-cursor="link">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <p class="kicker reveal">UI 设计提示词库 / 风格演示 / Interactive Cursor</p>
+      <h1 class="reveal d1">让光标当一次<em>主角</em>，而不是默认设置</h1>
+      <p class="hero-lead reveal d2">
+        光标试验场是一间只有四个人的交互工作室，只做一件事：把指针经过的每一寸界面，
+        都设计成可感知的回应。悬停、滑过、按下——这三个动作占据访客在页面上绝大部分的时间，
+        却长期被当作"系统默认行为"忽略。我们偏要在这里下功夫。
+      </p>
+      <p class="hero-note reveal d2">
+        <span class="pulse" aria-hidden="true"></span>
+        现在慢慢移动鼠标，穿过下面的三个靶标 / 触屏设备看到的是本页的安静版本
+      </p>
+
+      <div class="hero-stats reveal d2">
+        <div><strong>2019</strong><span>成立年份 / 上海</span></div>
+        <div><strong>31 个</strong><span>交付的指针交互项目</span></div>
+        <div><strong>4 种</strong><span>光标基础形变 / 本页全部可试</span></div>
+      </div>
+
+      <div class="lab reveal d2" aria-label="指针形变试验区">
+        <p class="lab-title">指针试验区 / 四种基本形变，悬停或用 Tab 聚焦皆可触发</p>
+        <div class="lab-row">
+          <button class="target" type="button" data-cursor="link">
+            链接态
+            <span>圆环放大，宣告可点</span>
+          </button>
+          <button class="target" type="button" data-cursor="text">
+            文本态
+            <span>收成插入条，暗示可选中</span>
+          </button>
+          <button class="target" type="button" data-cursor="drag">
+            拖拽态
+            <span>方环加粗，表示可抓取</span>
+          </button>
+          <button class="target" type="button" data-cursor="view">
+            查看态
+            <span>实心圆反色，替代按钮说明</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="works wrap" id="works" aria-labelledby="works-title">
+      <div class="section-head">
+        <h2 id="works-title">近期项目</h2>
+        <p>2024 - 2026 / 每一个都围绕指针本身</p>
+      </div>
+
+      <a class="work" href="#works" data-cursor="view">
+        <span class="work-no" aria-hidden="true">01</span>
+        <span class="work-name">拖拽色轮<em>颜料品牌的三原色环形取色器，光标成为调色刀</em></span>
+        <span class="work-meta">交互装置 / 2026</span>
+      </a>
+      <a class="work" href="#works" data-cursor="view">
+        <span class="work-no" aria-hidden="true">02</span>
+        <span class="work-name">字重呼吸<em>可变字体随指针移动速度实时改变字重与字宽</em></span>
+        <span class="work-meta">字体试验 / 2025</span>
+      </a>
+      <a class="work" href="#works" data-cursor="view">
+        <span class="work-no" aria-hidden="true">03</span>
+        <span class="work-name">磁场菜单<em>摄影集网站的磁吸式导航，菜单项主动迎向指针</em></span>
+        <span class="work-meta">网站 / 2025</span>
+      </a>
+      <a class="work" href="#works" data-cursor="view">
+        <span class="work-no" aria-hidden="true">04</span>
+        <span class="work-name">墨迹轨迹<em>出版社年度站点，光标拖出会晕开的墨迹</em></span>
+        <span class="work-meta">网站 / 2024</span>
+      </a>
+      <a class="work" href="#works" data-cursor="view">
+        <span class="work-no" aria-hidden="true">05</span>
+        <span class="work-name">慢速沙漏<em>阅读应用的时间光标，指针越慢翻页越稳</em></span>
+        <span class="work-meta">应用 / 2024</span>
+      </a>
+      <a class="work" href="#works" data-cursor="view">
+        <span class="work-no" aria-hidden="true">06</span>
+        <span class="work-name">靶心确认<em>表单提交按钮的命中反馈，按下即收缩留痕</em></span>
+        <span class="work-meta">组件库 / 2023</span>
+      </a>
+    </section>
+
+    <section class="glossary wrap" aria-labelledby="glossary-title">
+      <div class="section-head">
+        <h2 id="glossary-title">词汇表</h2>
+        <p>本页用到的全部手法 / 对照着再玩一遍</p>
+      </div>
+      <dl class="glossary-grid">
+        <div class="term">
+          <dt>Cursor morphing<span>光标形变</span></dt>
+          <dd>悬停到不同目标时光标改变形状与尺寸。形状本身即提示：圆环放大是可点，插入条是可选中，方环是可拖拽。</dd>
+        </div>
+        <div class="term">
+          <dt>Magnetic pull<span>磁性吸附</span></dt>
+          <dd>可交互元素在指针靠近时轻微位移迎向指针，离开后弹回。底部的按钮是活例，吸力被刻意限制在十几像素内。</dd>
+        </div>
+        <div class="term">
+          <dt>Blend mode cursor<span>混合模式光标</span></dt>
+          <dd>光标层使用 difference 混合：浅色背景上呈深色，深色背景上自动反白。滚动到方法一节，看它在黑色区域里的变化。</dd>
+        </div>
+        <div class="term">
+          <dt>Cursor trail<span>光标轨迹</span></dt>
+          <dd>五个延迟系数递减的残影粒子连续追赶指针，暗示移动的速度与方向。静止时它们安静地叠在圆环中心。</dd>
+        </div>
+        <div class="term">
+          <dt>Click feedback<span>点击反馈</span></dt>
+          <dd>按下的瞬间圆环收缩一档，松开复原。一次"命中确认"的成本只有两个 class 的切换。</dd>
+        </div>
+        <div class="term">
+          <dt>Touch fallback<span>触屏退化</span></dt>
+          <dd>检测到触屏或"减弱动态效果"偏好时，本页不接管光标：效果层不渲染，系统指针归还，内容与排版完全一致。</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="methods" id="methods" aria-labelledby="methods-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="methods-title">我们的三条守则</h2>
+          <p>深色区里，difference 光标会自动反色 / 注意那枚圆环</p>
+        </div>
+        <p class="methods-lead">
+          每次开工前，我们会把这三条贴在墙上。它们不是审美偏好，而是这间工作室接活的底线：
+          违反任何一条的项目，宁可不做。
+        </p>
+        <div class="method-grid">
+          <article class="method">
+            <div class="method-no" aria-hidden="true">一</div>
+            <h3>先做减法</h3>
+            <p>关掉系统光标之前，先回答"这枚光标多做了什么"。形变必须携带信息：
+            链接、可选中、可拖拽，而不是单纯的炫技。答不上来，就还回默认指针。</p>
+          </article>
+          <article class="method">
+            <div class="method-no" aria-hidden="true">二</div>
+            <h3>给像素质量</h3>
+            <p>延迟、吸附、回弹来自同一套物理：光标有质量，按钮有引力，释放有弹性。
+            圆环追不上指针不是缺陷，是它在告诉你"我追着呢"。</p>
+          </article>
+          <article class="method">
+            <div class="method-no" aria-hidden="true">三</div>
+            <h3>留一条退路</h3>
+            <p>触屏、键盘与"减弱动态效果"偏好，都会得到同一个页面的安静版本：
+            系统指针照常工作，焦点环清晰可见。主角退场，戏还得演下去。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact wrap" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">有一个想让指针发光的项目？</h2>
+      <p>磁性按钮是真的会被吸住 / 把鼠标靠近它试试，或者直接用 Tab 聚焦到这里</p>
+      <a class="btn magnetic" href="mailto:hello@cursorlab.design" data-cursor="link">聊聊这个项目</a>
+      <p class="contact-mail">或者写信给 <a href="mailto:hello@cursorlab.design">hello@cursorlab.design</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <p>UI 设计提示词库 / Interactive Cursor</p>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <a href="#works" data-cursor="link">项目</a>
+        <a href="#glossary" data-cursor="link">词汇表</a>
+        <a href="#contact" data-cursor="link">联系</a>
+        <a href="style-catalog.html" data-cursor="link">返回风格目录</a>
+      </nav>
+      <p class="foot-hint">光标效果在支持鼠标的桌面浏览器中呈现</p>
+    </div>
+  </footer>
+
+  <noscript>
+    <p style="text-align:center; padding: 16px 20px; color: #475569; font-size: 14px;">
+      本页的光标跟随与磁性效果需要 JavaScript，未启用时你看到的是安静的静态版本。
+    </p>
+  </noscript>
+
+<script>
+(function () {
+  'use strict';
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var booted = false;
+
+  function boot() {
+    if (booted) return;
+    booted = true;
+    requestAnimationFrame(function () { document.body.classList.add('booted'); });
+  }
+  window.addEventListener('load', boot);
+  setTimeout(boot, 600); // 兜底：资源缓慢时不让内容一直藏着
+
+  // 触屏或减弱动效：不接管光标，磁吸也不绑定，页面保持安静版本
+  if (!fine || reduced) return;
+  document.body.classList.add('cursor-on');
+
+  var body = document.body;
+  var mx = innerWidth / 2, my = innerHeight / 2;
+  var ring = document.getElementById('cRing');
+  var cross = document.getElementById('cCross');
+  var dot = document.getElementById('cDot');
+  var trails = [], TRAIL_LERP = [0.34, 0.26, 0.19, 0.13, 0.08];
+  for (var i = 0; i < 5; i++) {
+    trails.push({ el: document.getElementById('t' + i), x: mx, y: my });
+  }
+  var pos = { ringX: mx, ringY: my, crossX: mx, crossY: my, dotX: mx, dotY: my };
+
+  addEventListener('pointermove', function (e) {
+    if (e.pointerType && e.pointerType !== 'mouse') return;
+    mx = e.clientX; my = e.clientY;
+  }, { passive: true });
+
+  // hover 形变：事件委托，data-cursor 决定光标形态
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target.closest('[data-cursor]');
+    if (!t) return;
+    body.classList.remove('cur-link', 'cur-text', 'cur-drag', 'cur-view');
+    body.classList.add('cur-' + t.getAttribute('data-cursor'));
+  });
+  document.addEventListener('mouseout', function (e) {
+    var t = e.target.closest('[data-cursor]');
+    if (t && (!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest('[data-cursor]'))) {
+      body.classList.remove('cur-link', 'cur-text', 'cur-drag', 'cur-view');
+    }
+  });
+
+  // 点击反馈：圆环瞬时收缩
+  addEventListener('pointerdown', function () { body.classList.add('is-down'); });
+  addEventListener('pointerup', function () { body.classList.remove('is-down'); });
+
+  // 单一 rAF 循环：环慢 / 十字中 / 点即时 / 轨迹逐级更慢
+  function tick() {
+    pos.ringX += (mx - pos.ringX) * 0.16;
+    pos.ringY += (my - pos.ringY) * 0.16;
+    pos.crossX += (mx - pos.crossX) * 0.5;
+    pos.crossY += (my - pos.crossY) * 0.5;
+    pos.dotX = mx; pos.dotY = my;
+
+    ring.style.transform = 'translate3d(' + pos.ringX + 'px,' + pos.ringY + 'px,0)';
+    cross.style.transform = 'translate3d(' + pos.crossX + 'px,' + pos.crossY + 'px,0)';
+    dot.style.transform = 'translate3d(' + pos.dotX + 'px,' + pos.dotY + 'px,0)';
+
+    var prev = { x: pos.ringX, y: pos.ringY };
+    for (var i = 0; i < trails.length; i++) {
+      var tr = trails[i], k = TRAIL_LERP[i];
+      tr.x += (prev.x - tr.x) * k;
+      tr.y += (prev.y - tr.y) * k;
+      tr.el.style.transform = 'translate3d(' + tr.x + 'px,' + tr.y + 'px,0)';
+      prev = { x: tr.x, y: tr.y };
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // 磁性按钮：向指针偏移，离开弹回（transition 承接回弹）
+  var PULL = 16;
+  document.querySelectorAll('.magnetic').forEach(function (el) {
+    el.style.transition = 'transform .45s cubic-bezier(.22,1,.36,1), background-color .3s ease, box-shadow .3s ease';
+    el.addEventListener('mousemove', function (e) {
+      var r = el.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+      var dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+      el.style.transform = 'translate(' + (dx * PULL) + 'px,' + (dy * PULL) + 'px)';
+    });
+    el.addEventListener('mouseleave', function () { el.style.transform = ''; });
+  });
+
+  // 离开窗口时收起光标层
+  document.addEventListener('mouseleave', function () { body.classList.remove('cursor-on'); });
+  document.addEventListener('mouseenter', function () { body.classList.add('cursor-on'); });
+})();
+</script>
+</body>
+</html>

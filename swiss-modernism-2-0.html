@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Swiss Modernism 2.0 风格演示：垣建筑事务所作品年刊 2026——严格网格、非对称平衡、红黑点色的当代瑞士国际主义排版。">
+<title>Swiss Modernism 2.0 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- token 计划：#0A0A0A 墨 / #FFFFFF 纸 / #F2F1EC 灰场 / #E30613 红点色（#C8102E 供小字达标对比度）/ #6E6A63 次级灰；Inter 400-800 担纲展示与拉丁、Noto Sans SC 正文；12 列网格、8px 基准模数、4px 粗规线；独特性 = 非对称跨列 + 描边卷宗数字 + 巨型单字海报头，拒绝小报式细线分栏 -->
+<style>
+/* ============ tokens / base ============ */
+:root{
+  --ink:#0A0A0A;
+  --paper:#FFFFFF;
+  --grey:#F2F1EC;
+  --red:#E30613;
+  --red-deep:#C8102E;
+  --mute:#6E6A63;
+  --u:8px;              /* 8px 基准模数 */
+  --gap:calc(var(--u)*3);
+  --font:'Inter','Noto Sans SC','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  font-size:16px;line-height:1.65;
+  color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--red);color:var(--paper)}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.2em}
+a:hover{color:var(--red-deep)}
+img,svg{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:99;
+  background:var(--ink);color:var(--paper);padding:12px 20px;
+}
+.skip:focus-visible{left:12px;top:12px;color:var(--paper)}
+
+/* ============ 布局骨架：12 列 ============ */
+.wrap{max-width:1360px;margin-inline:auto;padding-inline:clamp(16px,4vw,56px)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+.rule{border:0;border-top:4px solid var(--ink)}
+
+/* ============ 顶栏 ============ */
+.topbar{border-bottom:1px solid var(--ink)}
+.topbar-in{
+  display:flex;align-items:baseline;justify-content:space-between;
+  flex-wrap:wrap;gap:12px 24px;padding-block:18px;
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.02em}
+.mark{width:18px;height:18px;background:var(--red);flex:none;align-self:center}
+.nav{display:flex;gap:clamp(16px,3vw,40px);font-size:.9rem;font-weight:500}
+.nav a{text-decoration:none}
+.lat{letter-spacing:.22em;text-transform:lowercase;font-size:.75rem;color:var(--mute)}
+
+/* ============ 卷首海报 ============ */
+.hero{padding-block:clamp(56px,9vh,120px) clamp(40px,6vh,72px)}
+.hero-rule{transform-origin:left center}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:calc(var(--u)*6)}
+.hero-giant{
+  font-size:clamp(96px,17vw,252px);line-height:.94;font-weight:700;
+  letter-spacing:.04em;margin-left:-.04em;
+}
+.hero-giant .dot{color:var(--red)}
+.hero-sub{
+  font-size:clamp(20px,2.4vw,32px);font-weight:500;line-height:1.4;
+  max-width:22em;margin-top:calc(var(--u)*5);
+}
+.hero-lat{
+  margin-top:calc(var(--u)*4);font-size:clamp(.8rem,1.1vw,.95rem);
+  letter-spacing:.34em;color:var(--ink);
+}
+.hero-body{margin-top:clamp(32px,6vh,88px)}
+.hero-body p{max-width:34em;font-size:1.05rem;color:var(--ink)}
+.hero-facts{margin-top:calc(var(--u)*4)}
+.hero-facts div{
+  display:flex;gap:16px;border-top:1px solid var(--ink);
+  padding-block:10px;font-size:.92rem;
+}
+.hero-facts dt{color:var(--mute);min-width:7.5em}
+.hero-facts dd{font-weight:500}
+
+/* ============ 亮相动效（一次性） ============ */
+@keyframes rule-x{from{transform:scaleX(0)}}
+@keyframes stamp{from{transform:scale(0) rotate(-90deg);opacity:0}}
+@keyframes rise{from{transform:translateY(115%)}}
+@keyframes soft-in{from{opacity:0;transform:translateY(14px)}}
+.hero-rule{animation:rule-x .7s cubic-bezier(.22,.61,.21,1) both}
+.mark{animation:stamp .45s .5s cubic-bezier(.2,.9,.2,1.2) both}
+.mask{display:block;overflow:hidden}
+.mask>span{display:block;transform-origin:bottom;animation:rise .65s cubic-bezier(.22,.61,.21,1) both}
+.mask.d1>span{animation-delay:.15s}
+.mask.d2>span{animation-delay:.28s}
+.hero-top{animation:soft-in .6s .1s both}
+.hero-body,.hero-sub,.hero-lat{animation:soft-in .6s .62s both}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero-rule,.mark,.mask>span,.hero-top,.hero-body,.hero-sub,.hero-lat{animation:none}
+}
+
+/* ============ 章节头 ============ */
+.sec-head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:8px 24px;padding-top:14px;margin-bottom:calc(var(--u)*6);
+}
+.sec-head h2{font-size:clamp(22px,3vw,34px);font-weight:700;letter-spacing:.01em}
+.sec-head .lat{padding-bottom:6px}
+
+/* ============ 精选项目 ============ */
+#works{padding-block:clamp(48px,8vh,104px)}
+.proj{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap);
+  padding-block:clamp(32px,5vh,64px);align-items:end;
+}
+.proj + .proj{border-top:1px solid var(--ink)}
+.p-num{
+  font-size:clamp(56px,7vw,104px);font-weight:800;line-height:1;
+  color:transparent;-webkit-text-stroke:2px var(--ink);
+  letter-spacing:.02em;margin-bottom:calc(var(--u)*2);
+}
+.p-num em{font-style:normal;color:var(--red);-webkit-text-stroke:0}
+.p-title{font-size:clamp(21px,2.2vw,30px);font-weight:700;line-height:1.3}
+.p-title .lat{display:block;margin-top:6px;font-weight:400}
+.p-desc{margin-top:14px;max-width:32em;color:var(--ink)}
+.p-meta{margin-top:20px;font-size:.9rem}
+.p-meta div{display:flex;gap:14px;border-top:1px solid var(--ink);padding-block:8px}
+.p-meta dt{color:var(--mute);min-width:5em}
+.figure{background:var(--grey);padding:clamp(20px,3vw,44px)}
+.figure svg{width:100%;height:auto}
+.fig-cap{
+  margin-top:10px;font-size:.78rem;color:var(--mute);
+  letter-spacing:.06em;
+}
+/* 非对称跨列：四个项目各占不同列组合 */
+.pa .figure{grid-column:1/8}
+.pa .p-body{grid-column:9/13}
+.pb .p-body{grid-column:1/5}
+.pb .figure{grid-column:6/13}
+.pc .figure{grid-column:2/8}
+.pc .p-body{grid-column:9/13}
+.pd .p-body{grid-column:1/6}
+.pd .figure{grid-column:7/13}
+
+/* ============ 数据带（黑底编辑对比） ============ */
+.figures{background:var(--ink);color:var(--paper);padding-block:clamp(40px,6vh,72px)}
+.figures .grid{gap:0}
+.stat{padding:8px clamp(16px,2.5vw,36px)}
+.stat + .stat{border-left:1px solid rgba(255,255,255,.35)}
+.stat b{
+  display:block;font-size:clamp(40px,5vw,72px);font-weight:800;line-height:1.1;
+}
+.stat:first-child b{color:var(--red)}
+.stat span{font-size:.9rem;color:rgba(255,255,255,.82)}
+
+/* ============ 工作原则 ============ */
+#principles{padding-block:clamp(48px,8vh,104px)}
+.prin{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+.prin article{border-top:4px solid var(--ink);padding-top:16px}
+.prin .no{
+  font-weight:800;font-size:.95rem;color:var(--red-deep);
+  letter-spacing:.08em;
+}
+.prin h3{font-size:clamp(19px,2vw,26px);font-weight:700;margin-top:10px}
+.prin p{margin-top:12px;font-size:.98rem;max-width:26em}
+.prin .c1{grid-column:1/4}
+.prin .c2{grid-column:5/9;margin-top:calc(var(--u)*8)}
+.prin .c3{grid-column:9/13;margin-top:calc(var(--u)*16)}
+.prin-intro{grid-column:1/13;margin-bottom:calc(var(--u)*6)}
+.prin-intro p{font-size:clamp(18px,1.8vw,24px);font-weight:500;max-width:30em;line-height:1.5}
+
+/* ============ 大字引文 ============ */
+.pull{
+  padding-block:clamp(32px,5vh,56px);
+}
+.pull blockquote{
+  grid-column:3/11;font-size:clamp(24px,3.4vw,44px);
+  font-weight:600;line-height:1.35;letter-spacing:.005em;
+}
+.pull blockquote span{color:var(--red)}
+.pull figcaption{
+  grid-column:3/11;margin-top:calc(var(--u)*3);
+  font-size:.9rem;color:var(--mute);
+}
+.pull figure{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+
+/* ============ 在展 ============ */
+.nowon{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.nowon-in{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap);padding-block:22px}
+.nowon .lat{margin-bottom:6px}
+.nowon a{font-weight:700;font-size:1.05rem;text-decoration:none}
+.nowon p{font-size:.9rem;color:var(--mute);margin-top:4px}
+.nowon .e1{grid-column:1/6}
+.nowon .e2{grid-column:7/13}
+
+/* ============ 事务所 ============ */
+#practice{padding-block:clamp(48px,8vh,104px)}
+.svc{
+  display:grid;grid-template-columns:auto 1fr;gap:8px 28px;
+  padding-block:20px;border-top:1px solid var(--ink);align-items:baseline;
+}
+.svc:last-of-type{border-bottom:1px solid var(--ink)}
+.svc i{font-style:normal;font-weight:800;font-size:.95rem;color:var(--red-deep)}
+.svc h3{font-size:clamp(19px,2vw,26px);font-weight:700}
+.svc p{grid-column:2;color:var(--mute);font-size:.95rem;max-width:36em}
+.office{font-size:.95rem}
+.office div{display:flex;gap:16px;border-top:1px solid var(--ink);padding-block:10px}
+.office dt{color:var(--mute);min-width:6.5em}
+.office dd{font-weight:500}
+#practice .col-a{grid-column:1/8}
+#practice .col-b{grid-column:9/13}
+#practice .col-b h3{font-size:1.15rem;font-weight:700;margin-bottom:18px}
+
+/* ============ 联系 ============ */
+#contact{padding-block:clamp(56px,9vh,120px)}
+#contact h2{
+  font-size:clamp(34px,6vw,84px);font-weight:700;line-height:1.15;
+  max-width:12em;letter-spacing:.01em;
+}
+.btn{
+  display:inline-block;margin-top:calc(var(--u)*5);
+  background:var(--ink);color:var(--paper);
+  padding:16px 34px;font-weight:600;font-size:1.05rem;
+  text-decoration:none;border:2px solid var(--ink);
+  transition:background .2s,color .2s;
+}
+.btn:hover{background:var(--red);border-color:var(--red);color:var(--paper)}
+.contact-meta{
+  margin-top:calc(var(--u)*6);font-size:.95rem;
+}
+.contact-meta div{display:flex;gap:16px;border-top:1px solid var(--ink);padding-block:10px}
+.contact-meta dt{color:var(--mute);min-width:6.5em}
+#contact .col-a{grid-column:1/8}
+#contact .col-b{grid-column:9/13}
+
+/* ============ 页脚 ============ */
+footer{border-top:4px solid var(--ink)}
+.foot-in{
+  display:flex;justify-content:space-between;align-items:baseline;
+  flex-wrap:wrap;gap:12px 24px;padding-block:26px;font-size:.9rem;
+}
+.foot-in a{font-weight:500}
+
+/* ============ 响应式 ============ */
+@media (max-width:900px){
+  .hero-body,.pa .figure,.pa .p-body,.pb .p-body,.pb .figure,
+  .pc .figure,.pc .p-body,.pd .p-body,.pd .figure,
+  #practice .col-a,#practice .col-b,#contact .col-a,#contact .col-b{grid-column:1/13}
+  .hero-body{margin-top:40px}
+  .prin .c1,.prin .c2,.prin .c3,.prin-intro{grid-column:1/13;margin-top:0}
+  .pull blockquote,.pull figcaption{grid-column:1/13}
+  .nowon .e1,.nowon .e2{grid-column:1/13}
+  .nowon .e2{margin-top:14px}
+  .figures .grid{grid-template-columns:1fr 1fr;gap:0}
+  .stat{padding-block:20px}
+  .stat:nth-child(3){border-left:0}
+  .stat:nth-child(n+3){border-top:1px solid rgba(255,255,255,.35)}
+}
+@media (max-width:560px){
+  .nav{width:100%;justify-content:space-between}
+  .figures .grid{grid-template-columns:1fr}
+  .stat + .stat{border-left:0;border-top:1px solid rgba(255,255,255,.35)}
+  .svc{grid-template-columns:1fr}
+  .svc p{grid-column:1}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div class="brand"><span class="mark" aria-hidden="true"></span>垣建筑事务所</div>
+    <nav class="nav" aria-label="主导航">
+      <a href="#works">精选项目</a>
+      <a href="#practice">事务所</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 卷首海报 -->
+  <section class="hero wrap" aria-labelledby="hero-h">
+    <div class="hero-top">
+      <span class="lat">作品年刊 / 第 04 卷 / 2026</span>
+      <span class="lat">basel / shanghai</span>
+    </div>
+    <hr class="rule hero-rule">
+    <h1 id="hero-h" class="hero-giant" aria-label="垣建筑事务所">
+      <span class="mask d1"><span>垣<span class="dot">.</span></span></span>
+    </h1>
+    <p class="hero-sub mask d2"><span>以严格的模数，承载不确定的日常。</span></p>
+    <p class="hero-lat">yuan architekten / architects &amp; engineers</p>
+    <div class="hero-body grid">
+      <div style="grid-column:1/7">
+        <p>建筑是社会结构的物证。自 1998 年起，垣建筑事务所以墙垣、光线与一以贯之的结构网格，在十二个国家建成四十七处公共空间——美术馆、学校、住宅与市政设施。我们相信，网格不是约束，而是一种可以被所有人阅读的公共语言。</p>
+      </div>
+      <dl class="hero-facts" style="grid-column:8/13">
+        <div><dt>创立</dt><dd>1998，巴塞尔</dd></div>
+        <div><dt>第二基地</dt><dd>2006，上海</dd></div>
+        <div><dt>方法</dt><dd>模数体系 + 结构即空间</dd></div>
+        <div><dt>本期收录</dt><dd>2020–2024 四个项目</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 精选项目 -->
+  <section id="works" class="wrap" aria-labelledby="works-h">
+    <hr class="rule">
+    <div class="sec-head">
+      <h2 id="works-h">精选项目</h2>
+      <span class="lat">selected works / 2020–2024</span>
+    </div>
+
+    <article class="proj pa">
+      <div class="figure">
+        <svg viewBox="0 0 480 300" role="img" aria-label="龙潭美术馆平面示意">
+          <rect width="480" height="300" fill="#F2F1EC"/>
+          <g stroke="#0A0A0A" stroke-width="3" fill="#FFFFFF">
+            <rect x="60" y="48" width="360" height="26"/>
+            <rect x="60" y="96" width="150" height="26"/>
+            <rect x="270" y="96" width="150" height="26"/>
+            <rect x="60" y="144" width="360" height="26"/>
+            <rect x="60" y="192" width="220" height="26"/>
+            <rect x="340" y="192" width="80" height="26"/>
+          </g>
+          <g fill="#0A0A0A">
+            <rect x="84" y="74" width="8" height="22"/><rect x="238" y="74" width="8" height="22"/>
+            <rect x="388" y="74" width="8" height="22"/><rect x="84" y="170" width="8" height="22"/>
+            <rect x="388" y="170" width="8" height="22"/><rect x="238" y="218" width="8" height="22"/>
+          </g>
+          <rect x="60" y="252" width="360" height="14" fill="#0A0A0A"/>
+          <path d="M60 282 q30 -10 60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#E30613" stroke-width="4" fill="none"/>
+          <g stroke="#6E6A63" stroke-width="1">
+            <line x1="140" y1="30" x2="140" y2="270"/><line x1="220" y1="30" x2="220" y2="270"/>
+            <line x1="300" y1="30" x2="300" y2="270"/>
+          </g>
+        </svg>
+        <p class="fig-cap">图 01 / 剖面示意：五展厅抬升于旧河道之上，1.5 米展墙模数</p>
+      </div>
+      <div class="p-body">
+        <p class="p-num">01<em>.</em></p>
+        <h3 class="p-title">龙潭美术馆<span class="lat">longtan kunsthalle</span></h3>
+        <p class="p-desc">悬挑 18 米的混凝土空腹桁架将五个展厅抬升于旧河道之上，展墙按 1.5 米模数可逆重组，全部服务空间压入西侧双核心，展厅之内不设一根落柱。</p>
+        <dl class="p-meta">
+          <div><dt>地点</dt><dd>中国，桂林</dd></div>
+          <div><dt>年份</dt><dd>2024</dd></div>
+          <div><dt>规模</dt><dd>6,400 平方米</dd></div>
+          <div><dt>类别</dt><dd>文化建筑</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="proj pb">
+      <div class="p-body">
+        <p class="p-num">02<em>.</em></p>
+        <h3 class="p-title">吕措西区集合住宅<span class="lat">lützow west housing</span></h3>
+        <p class="p-desc">189 套住宅围绕三条共享步道布置，立面以 4.2 米结构网格统一。预制构件率 87%，现场湿作业压缩至四个月，运营能耗较柏林基准降低 41%。</p>
+        <dl class="p-meta">
+          <div><dt>地点</dt><dd>德国，柏林</dd></div>
+          <div><dt>年份</dt><dd>2023</dd></div>
+          <div><dt>规模</dt><dd>21,000 平方米</dd></div>
+          <div><dt>类别</dt><dd>居住建筑</dd></div>
+        </dl>
+      </div>
+      <div class="figure">
+        <svg viewBox="0 0 480 300" role="img" aria-label="吕措西区住宅立面示意">
+          <rect width="480" height="300" fill="#F2F1EC"/>
+          <g stroke="#0A0A0A" stroke-width="3" fill="none">
+            <rect x="50" y="60" width="380" height="200"/>
+            <line x1="50" y1="110" x2="430" y2="110"/><line x1="50" y1="160" x2="430" y2="160"/><line x1="50" y1="210" x2="430" y2="210"/>
+            <line x1="145" y1="60" x2="145" y2="260"/><line x1="240" y1="60" x2="240" y2="260"/><line x1="335" y1="60" x2="335" y2="260"/>
+          </g>
+          <g fill="#0A0A0A">
+            <rect x="70" y="78" width="56" height="18"/><rect x="164" y="128" width="56" height="18"/>
+            <rect x="258" y="78" width="56" height="18"/><rect x="352" y="178" width="56" height="18"/>
+            <rect x="70" y="178" width="56" height="18"/><rect x="258" y="228" width="56" height="18"/>
+          </g>
+          <rect x="228" y="52" width="24" height="216" fill="#E30613"/>
+          <rect x="50" y="272" width="380" height="10" fill="#0A0A0A"/>
+        </svg>
+        <p class="fig-cap">图 02 / 临街立面：4.2 米网格与红色交通核心</p>
+      </div>
+    </article>
+
+    <article class="proj pc">
+      <div class="figure">
+        <svg viewBox="0 0 480 300" role="img" aria-label="海州观测站剖面示意">
+          <rect width="480" height="300" fill="#F2F1EC"/>
+          <path d="M0 300 L0 220 L90 190 L180 205 L280 170 L380 195 L480 175 L480 300 Z" fill="#0A0A0A"/>
+          <circle cx="300" cy="140" r="62" fill="none" stroke="#0A0A0A" stroke-width="5"/>
+          <circle cx="300" cy="140" r="40" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="3"/>
+          <line x1="300" y1="20" x2="300" y2="262" stroke="#E30613" stroke-width="6"/>
+          <g stroke="#0A0A0A" stroke-width="3">
+            <line x1="120" y1="196" x2="120" y2="240"/><line x1="170" y1="200" x2="170" y2="250"/>
+            <line x1="220" y1="192" x2="220" y2="246"/><line x1="380" y1="198" x2="380" y2="252"/>
+            <line x1="420" y1="192" x2="420" y2="240"/>
+          </g>
+          <line x1="60" y1="28" x2="420" y2="28" stroke="#0A0A0A" stroke-width="2"/>
+          <path d="M228 24 l12 8 l-12 8 Z" fill="#0A0A0A"/>
+          <text x="248" y="40" font-family="Inter,Arial" font-size="14" fill="#0A0A0A">+ 12.0 m</text>
+        </svg>
+        <p class="fig-cap">图 03 / 剖面：环形实验室围绕外露测量竖井</p>
+      </div>
+      <div class="p-body">
+        <p class="p-num">03<em>.</em></p>
+        <h3 class="p-title">海州海洋观测站<span class="lat">haizhou observatory</span></h3>
+        <p class="p-desc">观测塔嵌入 12 米高的消波块护岸，实验室围绕一座外露的测量竖井环形排布。风电与海水温差供能，全年无人值守运行，数据实时回传两岸三地的研究机构。</p>
+        <dl class="p-meta">
+          <div><dt>地点</dt><dd>中国，烟台</dd></div>
+          <div><dt>年份</dt><dd>2021</dd></div>
+          <div><dt>规模</dt><dd>860 平方米</dd></div>
+          <div><dt>类别</dt><dd>科研建筑</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="proj pd">
+      <div class="p-body">
+        <p class="p-num">04<em>.</em></p>
+        <h3 class="p-title">南昌路工作室改造<span class="lat">nanchang road studio</span></h3>
+        <p class="p-desc">1936 年里弄厂房的三跨木屋架被完整保留。新增夹层以四个钢支点悬浮于原有砖柱之间，新旧结构零接触；二十年后可以整体拆除，厂房恢复原状。</p>
+        <dl class="p-meta">
+          <div><dt>地点</dt><dd>中国，上海</dd></div>
+          <div><dt>年份</dt><dd>2020</dd></div>
+          <div><dt>规模</dt><dd>540 平方米</dd></div>
+          <div><dt>类别</dt><dd>改造 / 室内</dd></div>
+        </dl>
+      </div>
+      <div class="figure">
+        <svg viewBox="0 0 480 300" role="img" aria-label="南昌路工作室剖面示意">
+          <rect width="480" height="300" fill="#F2F1EC"/>
+          <g stroke="#0A0A0A" stroke-width="3" fill="none">
+            <path d="M40 150 L120 84 L200 150 M200 150 L280 84 L360 150 M360 150 L440 84"/>
+            <line x1="60" y1="150" x2="60" y2="240"/><line x1="180" y1="150" x2="180" y2="240"/>
+            <line x1="300" y1="150" x2="300" y2="240"/><line x1="420" y1="150" x2="420" y2="240"/>
+          </g>
+          <g stroke="#0A0A0A" stroke-width="2">
+            <line x1="80" y1="110" x2="160" y2="110"/><line x1="200" y1="110" x2="280" y2="110"/>
+            <line x1="100" y1="128" x2="140" y2="128"/>
+          </g>
+          <rect x="90" y="196" width="300" height="6" fill="#0A0A0A"/>
+          <g fill="#E30613">
+            <rect x="110" y="190" width="12" height="12"/><rect x="234" y="190" width="12" height="12"/>
+            <rect x="358" y="190" width="12" height="12"/>
+          </g>
+          <rect x="40" y="240" width="404" height="12" fill="#0A0A0A"/>
+        </svg>
+        <p class="fig-cap">图 04 / 剖面：悬浮夹层以红色钢支点落于旧砖柱之间</p>
+      </div>
+    </article>
+
+    <div class="pull">
+      <figure>
+        <blockquote>
+          好的建筑在图纸完成之后<span>才开始生长</span>——使用者会用一生继续完成它。
+        </blockquote>
+        <figcaption>陈垣 / 创始合伙人，写于《垣：模数的弹性》序言，2024</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section id="principles" class="wrap" aria-labelledby="prin-h">
+    <hr class="rule">
+    <div class="sec-head">
+      <h2 id="prin-h">工作原则</h2>
+      <span class="lat">three principles</span>
+    </div>
+    <div class="prin">
+      <div class="prin-intro">
+        <p>方法可以被写下来，也应当被写下来。以下三条原则贯穿事务所二十八年的全部建成作品，它们彼此约束，缺一不可。</p>
+      </div>
+      <article class="c1">
+        <p class="no">01</p>
+        <h3>网格先于形式</h3>
+        <p>网格不是风格，是决策工具。它规定构件、开间与文字的落点，让每个决定都可以被检验、被重复、被他人延续。</p>
+      </article>
+      <article class="c2">
+        <p class="no">02</p>
+        <h3>结构即装饰</h3>
+        <p>不另设装饰层。梁柱关系、节点与材料纹理承担全部视觉趣味，工程逻辑直接外露为空间秩序。</p>
+      </article>
+      <article class="c3">
+        <p class="no">03</p>
+        <h3>留白是构件</h3>
+        <p>空白与墙、柱同等级。它给视线以行程，给城市以呼吸，也给未来的使用者留下修改的余地。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 数据带 -->
+  <section class="figures" aria-label="事务所数据">
+    <div class="wrap grid">
+      <div class="stat"><b>1998</b><span>创立于巴塞尔</span></div>
+      <div class="stat"><b>47</b><span>建成项目</span></div>
+      <div class="stat"><b>12</b><span>国家与地区</span></div>
+      <div class="stat"><b>26</b><span>专业奖项</span></div>
+    </div>
+  </section>
+
+  <!-- 事务所 -->
+  <section id="practice" class="wrap" aria-labelledby="practice-h">
+    <hr class="rule">
+    <div class="sec-head">
+      <h2 id="practice-h">事务所</h2>
+      <span class="lat">practice</span>
+    </div>
+    <div class="grid">
+      <div class="col-a">
+        <div class="svc">
+          <i>a</i><h3>建筑设计</h3>
+          <p>从概念到施工详图的全过程设计，结构、机电与幕墙一体化协调。</p>
+        </div>
+        <div class="svc">
+          <i>b</i><h3>城市设计与研究</h3>
+          <p>片区尺度的形态研究、控规导则与公共空间策略，长期跟踪建成后的使用状况。</p>
+        </div>
+        <div class="svc">
+          <i>c</i><h3>室内与展览</h3>
+          <p>美术馆与机构的常设展、临展的空间系统设计，模数化展具可循环使用。</p>
+        </div>
+        <div class="svc">
+          <i>d</i><h3>既有建筑改造</h3>
+          <p>以可逆性为前提的结构加固与功能置换，新旧构件彼此独立、互不损伤。</p>
+        </div>
+      </div>
+      <div class="col-b">
+        <h3>档案与出版</h3>
+        <dl class="office">
+          <div><dt>2024</dt><dd>《垣：模数的弹性》，Tmphler 出版社</dd></div>
+          <div><dt>2022</dt><dd>《既有的力量：改造手册》，同济大学出版社</dd></div>
+          <div><dt>2021</dt><dd>Structure as public space，Birkhäuser</dd></div>
+          <div><dt>团队</dt><dd>合伙人 6 人 / 建筑师与工程师 54 人</dd></div>
+          <div><dt>地址</dt><dd>Clarastrasse 12, 4058 Basel / 上海市徐汇区永嘉路 335 号</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 在展 -->
+  <aside class="nowon wrap" aria-label="在展讯">
+    <div class="nowon-in">
+      <div class="e1">
+        <p class="lat">在展 / now on view</p>
+        <a href="#works">常设展：模数的弹性</a>
+        <p>龙潭美术馆，桂林 / 常设，2027 年 1 月更新展陈</p>
+      </div>
+      <div class="e2">
+        <p class="lat">回顾展 / retrospective</p>
+        <a href="#practice">既有的力量：1998–2026</a>
+        <p>巴塞尔建筑博物馆 / 2026 年 11 月 14 日开幕，至 2027 年 3 月</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 联系 -->
+  <section id="contact" class="wrap" aria-labelledby="contact-h">
+    <hr class="rule">
+    <div class="grid">
+      <div class="col-a">
+        <h2 id="contact-h">开始一个项目，或者只是来谈谈一面墙。</h2>
+        <a class="btn" href="mailto:hello@yuan-architekten.ch">hello@yuan-architekten.ch</a>
+      </div>
+      <div class="col-b">
+        <dl class="contact-meta">
+          <div><dt>巴塞尔</dt><dd>+41 61 322 01 98</dd></div>
+          <div><dt>上海</dt><dd>+86 21 5466 0198</dd></div>
+          <div><dt>接待</dt><dd>周二至周五 10:00 / 18:00，预约制</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <span>UI 设计提示词库 / Swiss Modernism 2.0</span>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Organic Biophilic 亲自然风格演示页：云栖茶山，一家藏在六十亩茶园与杉林之间的山居民宿。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Organic Biophilic 亲自然 / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划：CSV 主色 Forest Green #228B22 降为可读苔绿 #2E5D34（米底对比 6.6:1）/ Earth Brown #8B4513 陶土 / Sky Blue #87CEEB 仅作装饰溪水线 / Beige #F5F5DC 提为暖米 #F3EEE1；blob 圆角 24-34px 不对称 / 16-24px 组件圆角；Quicksand 圆润字体替代 CSV Lora+Raleway 以满足圆润要求；材质＝叶脉 SVG + 年轮 SVG + 原木 repeating 纹理 */
+:root {
+  --bg: #F3EEE1;
+  --card: #FBF7EC;
+  --ink: #2F2B22;
+  --muted: #6C6353;
+  --moss: #2E5D34;
+  --moss-soft: #E4EBDA;
+  --moss-deep: #24462A;
+  --clay: #8B4513;
+  --clay-soft: #F0E2D2;
+  --sky: #87CEEB;
+  --cream: #F3EEE1;
+  --line: #D9D0BC;
+  --r-blob-a: 34px 46px 30px 50px;
+  --r-blob-b: 48px 30px 44px 28px;
+  --r-card: 22px 30px 22px 34px;
+  --r-ui: 16px;
+  --shadow: 0 18px 40px -18px rgba(47, 43, 34, .28);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Quicksand", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.75;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; }
+a { color: var(--moss); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+a:hover { color: var(--clay); }
+h1, h2, h3 { line-height: 1.3; font-weight: 700; }
+.container { width: min(1160px, 92%); margin: 0 auto; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--moss);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- 顶部导航 ---------- */
+.site-nav {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(243, 238, 225, .92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; color: var(--ink); text-decoration: none; }
+.brand svg { width: 30px; height: 30px; }
+.nav-links { display: flex; gap: 26px; list-style: none; }
+.nav-links a { text-decoration: none; font-weight: 600; font-size: 15px; }
+.nav-cta {
+  text-decoration: none; font-weight: 700; font-size: 15px;
+  background: var(--moss); color: var(--cream);
+  padding: 9px 20px; border-radius: 14px 20px 14px 18px;
+  border: none; cursor: pointer;
+}
+.nav-cta:hover { background: var(--moss-deep); color: var(--cream); }
+
+/* ---------- 首屏 ---------- */
+.hero { padding: 84px 0 72px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
+.eyebrow {
+  color: var(--clay); font-weight: 700; font-size: 15px;
+  letter-spacing: .06em; margin-bottom: 14px;
+}
+.hero h1 { font-size: clamp(2.1rem, 4.6vw, 3.3rem); margin-bottom: 20px; }
+.hero h1 em { font-style: normal; color: var(--moss); }
+.hero-lede { font-size: 17px; color: var(--muted); max-width: 30em; margin-bottom: 30px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 38px; }
+.btn {
+  display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px;
+  padding: 13px 28px; border: none; cursor: pointer;
+  border-radius: 16px 22px 16px 24px;
+  transition: transform .2s ease, background-color .2s ease;
+}
+.btn-primary { background: var(--moss); color: var(--cream); }
+.btn-primary:hover { background: var(--moss-deep); color: var(--cream); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--clay); border: 2px solid var(--clay); }
+.btn-ghost:hover { background: var(--clay-soft); color: var(--clay); transform: translateY(-2px); }
+
+.wood-line {
+  height: 8px; border-radius: 999px; margin-bottom: 26px;
+  background: repeating-linear-gradient(90deg, rgba(139, 69, 19, .22) 0 3px, transparent 3px 15px);
+}
+.stats { display: flex; flex-wrap: wrap; gap: 36px; }
+.stat b { display: block; font-size: 28px; color: var(--clay); line-height: 1.2; }
+.stat span { font-size: 14px; color: var(--muted); }
+
+.hero-visual { position: relative; animation: breathe 2s cubic-bezier(.22, .61, .36, 1) .25s both; }
+.blob-frame {
+  border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%;
+  overflow: hidden; aspect-ratio: 4 / 4.6;
+  background:
+    radial-gradient(120% 70% at 78% 8%, rgba(255, 250, 235, .9) 0 18%, transparent 60%),
+    radial-gradient(90% 55% at 18% 100%, #56794A 0 70%, transparent 71%),
+    radial-gradient(120% 65% at 92% 92%, #6F9A5E 0 70%, transparent 71%),
+    linear-gradient(180deg, #E9EFE2 0%, #D3E0C4 38%, #A8C295 62%, #7BA169 84%, #5C8150 100%);
+  box-shadow: var(--shadow);
+}
+.hero-leaf { position: absolute; left: -34px; bottom: -20px; width: 172px; }
+.hero-leaf path { stroke: var(--moss); }
+.vein {
+  fill: none; stroke-width: 3; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: vein-grow 1.1s ease-out forwards;
+}
+.d1 { animation-delay: .05s; } .d2 { animation-delay: .3s; } .d3 { animation-delay: .42s; }
+.d4 { animation-delay: .54s; } .d5 { animation-delay: .35s; } .d6 { animation-delay: .48s; }
+.d7 { animation-delay: .6s; } .d8 { animation-delay: .72s; } .d9 { animation-delay: .8s; }
+
+@keyframes vein-grow { to { stroke-dashoffset: 0; } }
+@keyframes breathe { from { transform: scale(.955) rotate(-1.2deg); } to { transform: none; } }
+
+/* ---------- 通用小节 ---------- */
+section { padding: 88px 0; }
+.section-head { max-width: 40em; margin-bottom: 48px; }
+.section-head h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 12px; }
+.section-head p { color: var(--muted); }
+.section-head .kicker { color: var(--clay); font-weight: 700; font-size: 14px; letter-spacing: .05em; margin-bottom: 8px; display: block; }
+
+/* ---------- 房型 ---------- */
+.rooms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.room-card {
+  background: var(--card); border-radius: var(--r-card);
+  overflow: hidden; box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+}
+.room-card:nth-child(2n) { border-radius: 30px 22px 34px 22px; }
+.room-media { aspect-ratio: 16 / 10; position: relative; }
+.media-cloud {
+  background:
+    radial-gradient(90% 60% at 80% 10%, rgba(243, 238, 225, .85) 0 20%, transparent 62%),
+    linear-gradient(180deg, #DFE7D6 0%, #B9CBA6 55%, #8FA97C 100%);
+}
+.media-rain {
+  background:
+    repeating-linear-gradient(74deg, rgba(62, 102, 74, .16) 0 2px, transparent 2px 12px),
+    linear-gradient(180deg, #C9D8CB 0%, #9DB49C 58%, #6E8F6E 100%);
+}
+.media-wood {
+  background:
+    repeating-linear-gradient(94deg, rgba(139, 69, 19, .12) 0 3px, transparent 3px 17px),
+    linear-gradient(180deg, #EBDFC8 0%, #D6BC97 52%, #A98354 100%);
+}
+.room-body { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.room-body h3 { font-size: 20px; }
+.room-body p { font-size: 15px; color: var(--muted); flex: 1; }
+.room-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  font-size: 13px; font-weight: 600; color: var(--moss);
+  background: var(--moss-soft); padding: 4px 12px;
+  border-radius: 10px 14px 10px 12px;
+}
+.room-price { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.room-price b { font-size: 20px; color: var(--clay); }
+.room-price span { font-size: 13px; color: var(--muted); }
+
+/* ---------- 茶事体验 ---------- */
+.exp-wrap {
+  background: var(--moss-soft);
+  border-radius: 40px 56px 40px 60px;
+  position: relative; overflow: hidden;
+  padding: clamp(36px, 5vw, 72px);
+}
+.rings { position: absolute; right: -60px; top: -60px; width: 320px; opacity: .5; pointer-events: none; }
+.rings circle { fill: none; stroke: var(--clay); stroke-width: 1.4; }
+.exp-list { list-style: none; display: grid; gap: 30px; position: relative; }
+.exp-item {
+  display: grid; grid-template-columns: 52px 1fr; gap: 18px; align-items: start;
+  background: var(--card); padding: 22px 24px;
+  border-radius: 20px 28px 20px 26px;
+}
+.exp-item:nth-child(2n) { border-radius: 26px 20px 28px 20px; }
+.exp-num {
+  width: 52px; height: 52px; display: grid; place-items: center;
+  border-radius: 44% 56% 50% 50% / 52% 48% 52% 48%;
+  background: var(--clay); color: var(--cream); font-weight: 700; font-size: 18px;
+}
+.exp-item h3 { font-size: 18px; margin-bottom: 6px; }
+.exp-item p { font-size: 15px; color: var(--muted); }
+.exp-item .meta { font-size: 13px; color: var(--clay); font-weight: 700; margin-top: 8px; }
+
+/* ---------- 山食 ---------- */
+.meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.meal-card {
+  border: 2px solid var(--line); background: var(--card);
+  border-radius: 26px 34px 24px 32px; padding: 28px 26px;
+}
+.meal-card:nth-child(2n) { border-radius: 32px 24px 34px 26px; }
+.meal-time { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.meal-time svg { width: 26px; height: 26px; }
+.meal-time h3 { font-size: 18px; color: var(--moss); }
+.meal-card ul { list-style: none; }
+.meal-card li {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px dashed var(--line);
+  font-size: 15px; color: var(--ink);
+}
+.meal-card li:last-child { border-bottom: none; }
+.meal-card li::before {
+  content: ""; width: 8px; height: 8px; flex: none; transform: translateY(-1px);
+  background: var(--moss); border-radius: 60% 40% 55% 45%;
+}
+.meal-note { margin-top: 26px; color: var(--muted); font-size: 15px; }
+.meal-note b { color: var(--clay); }
+
+/* ---------- 预订 ---------- */
+.band {
+  background: var(--moss-deep); color: var(--cream);
+  border-radius: 44px 60px 44px 64px;
+  position: relative; overflow: hidden;
+  padding: clamp(36px, 5vw, 72px);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+}
+.band .rings { right: auto; left: -80px; top: auto; bottom: -90px; opacity: .35; }
+.band .rings circle { stroke: var(--sky); }
+.band h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px; }
+.band .band-copy { color: #E4E9D8; font-size: 15.5px; margin-bottom: 18px; position: relative; }
+.band .contact { font-size: 14.5px; color: #CFDCC2; position: relative; }
+.band .contact a { color: var(--sky); text-decoration-thickness: 1.5px; }
+.band .contact a:focus-visible { outline-color: var(--cream); }
+.stream {
+  position: absolute; left: 0; right: 0; top: 42px; height: 10px; opacity: .4; pointer-events: none;
+}
+.book-form {
+  background: rgba(251, 247, 236, .07);
+  border: 1px solid rgba(251, 247, 236, .22);
+  border-radius: 24px 32px 24px 34px;
+  padding: 28px 26px;
+  display: grid; gap: 16px; position: relative;
+}
+.field { display: grid; gap: 6px; }
+.field label { font-size: 14px; font-weight: 600; color: #E4E9D8; }
+.field input, .field select {
+  font: inherit; font-size: 15px; color: var(--ink);
+  background: var(--cream); border: none;
+  border-radius: 12px 16px 12px 14px;
+  padding: 11px 14px; width: 100%;
+}
+.field input:focus-visible, .field select:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; border-radius: 12px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.book-form .btn-primary { justify-self: start; }
+.book-form .btn-primary:focus-visible { outline-color: var(--cream); }
+.form-hint { font-size: 13px; color: #CFDCC2; }
+
+/* ---------- 页脚 ---------- */
+footer { padding: 64px 0 56px; }
+.footer-inner {
+  border-top: 2px solid var(--line); padding-top: 28px;
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;
+  color: var(--muted); font-size: 14.5px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1023px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .hero-visual { max-width: 460px; }
+  .rooms-grid, .meal-grid { grid-template-columns: repeat(2, 1fr); }
+  .band { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .nav-links { display: none; }
+  section { padding: 64px 0; }
+  .hero { padding: 56px 0 48px; }
+  .rooms-grid, .meal-grid { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+  .stats { gap: 22px 30px; }
+  .hero-leaf { width: 120px; left: -12px; }
+  .footer-inner { flex-direction: column; }
+}
+@media (min-width: 1440px) {
+  body { font-size: 17px; }
+  .container { width: min(1280px, 88%); }
+  .hero { padding: 104px 0 96px; }
+  section { padding: 104px 0; }
+}
+
+/* ---------- 动效降级 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .vein { animation: none; stroke-dashoffset: 0; }
+  .hero-visual { animation: none; }
+  .btn, .nav-cta { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="leaf-mark" viewBox="0 0 32 32">
+    <path d="M16 28 C 15 21 15 12 16 4 C 10 8 7 13 8 19 C 9 24 12 27 16 28 Z" fill="#2E5D34"/>
+    <path d="M16 28 C 17 21 17 12 16 4 C 22 8 25 13 24 19 C 23 24 20 27 16 28 Z" fill="#8B4513" opacity=".85"/>
+  </symbol>
+</svg>
+
+<header class="site-nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><use href="#leaf-mark"></use></svg>
+      云栖茶山
+    </a>
+    <nav aria-label="主导航">
+      <ul class="nav-links">
+        <li><a href="#fangxing">山居房型</a></li>
+        <li><a href="#tiyan">茶事体验</a></li>
+        <li><a href="#shanshi">一日山食</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="#yuding">预订咨询</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">海拔 860 米 / 四季茶山 / 浙西南山谷</p>
+        <h1 id="hero-title">向山而居，<br>与<em>茶</em>同眠。</h1>
+        <p class="hero-lede">云栖茶山是一家藏在六十亩生态茶园与杉林之间的山居民宿。十二间客房沿茶垄而建，清晨的雾从谷底漫上来，午后在檐下喝一盏当日采的青，夜里只剩溪声与虫鸣。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#yuding">预约茶山行程</a>
+          <a class="btn btn-ghost" href="#fangxing">查看四季房型</a>
+        </div>
+        <div class="wood-line" aria-hidden="true"></div>
+        <div class="stats">
+          <div class="stat"><b>60 亩</b><span>生态茶园</span></div>
+          <div class="stat"><b>12 间</b><span>山景客房</span></div>
+          <div class="stat"><b>2 小时</b><span>杉林漫步步道</span></div>
+          <div class="stat"><b>4 月</b><span>采青季开幕</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="blob-frame" role="img" aria-label="层叠的茶山与云雾插画"></div>
+        <svg class="hero-leaf" viewBox="0 0 200 260" aria-hidden="true">
+          <path class="vein d1" pathLength="1" d="M100 250 C 96 190 96 120 100 16" />
+          <path class="vein d2" pathLength="1" d="M100 210 C 70 200 48 182 36 158" />
+          <path class="vein d3" pathLength="1" d="M100 160 C 72 152 52 136 42 114" />
+          <path class="vein d4" pathLength="1" d="M100 112 C 76 104 58 90 50 70" />
+          <path class="vein d5" pathLength="1" d="M100 190 C 130 180 152 162 164 138" />
+          <path class="vein d6" pathLength="1" d="M100 140 C 128 132 148 116 158 94" />
+          <path class="vein d7" pathLength="1" d="M100 92 C 124 84 142 70 150 50" />
+          <path class="vein d8" pathLength="1" d="M100 64 C 88 56 80 46 76 34" />
+          <path class="vein d9" pathLength="1" d="M100 56 C 112 48 120 38 124 26" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="fangxing" aria-labelledby="rooms-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">山居房型</span>
+        <h2 id="rooms-title">十二间房，各自朝向一片山</h2>
+        <p>房间以原木、藤编与夯土墙为主材，没有电视，只有一扇看山的窗和一套随时可用的茶器。</p>
+      </div>
+      <div class="rooms-grid">
+        <article class="room-card">
+          <div class="room-media media-cloud" role="img" aria-label="观云大床房窗外云雾示意"></div>
+          <div class="room-body">
+            <h3>观云大床房</h3>
+            <p>270 度落地窗正对茶垄与云海，清晨推窗，雾正从谷底漫上来。配一张 1.8 米原木大床与临窗茶席。</p>
+            <div class="room-tags">
+              <span class="tag">22 平米</span>
+              <span class="tag">含双人早餐</span>
+              <span class="tag">观云位</span>
+            </div>
+            <div class="room-price"><b>980 元起／晚</b><span>周一至周四价</span></div>
+          </div>
+        </article>
+        <article class="room-card">
+          <div class="room-media media-rain" role="img" aria-label="听雨庭院房雨帘示意"></div>
+          <div class="room-body">
+            <h3>听雨庭院房</h3>
+            <p>带独立小院与一方陶亭，雨夜可听檐水敲陶。院里种着蕨与苔，管家每日清晨为苔面喷雾。</p>
+            <div class="room-tags">
+              <span class="tag">30 平米</span>
+              <span class="tag">私人庭院</span>
+              <span class="tag">雨季首选</span>
+            </div>
+            <div class="room-price"><b>1,280 元起／晚</b><span>含庭院茶席</span></div>
+          </div>
+        </article>
+        <article class="room-card">
+          <div class="room-media media-wood" role="img" aria-label="采青家庭套房木质阁楼示意"></div>
+          <div class="room-body">
+            <h3>采青家庭套房</h3>
+            <p>loft 上下两层，下层一张原木大床，上层两张藤编小床，天窗正对杉树梢，适合一家四口同住。</p>
+            <div class="room-tags">
+              <span class="tag">42 平米</span>
+              <span class="tag">可住四人</span>
+              <span class="tag">观星天窗</span>
+            </div>
+            <div class="room-price"><b>1,680 元起／晚</b><span>含采青体验两席</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="tiyan" aria-labelledby="exp-title">
+    <div class="container">
+      <div class="exp-wrap">
+        <svg class="rings" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="101" cy="99" r="18"/>
+          <circle cx="99" cy="101" r="30"/>
+          <circle cx="103" cy="98" r="42"/>
+          <circle cx="98" cy="102" r="54"/>
+          <circle cx="102" cy="99" r="66"/>
+          <circle cx="100" cy="100" r="78"/>
+          <circle cx="98" cy="101" r="90"/>
+        </svg>
+        <div class="section-head">
+          <span class="kicker">茶事体验</span>
+          <h2 id="exp-title">跟着茶师，走完一叶茶的来路</h2>
+          <p>体验由驻山茶师与向导带领，按季节调整内容，入住客人可按位预约。</p>
+        </div>
+        <ol class="exp-list">
+          <li class="exp-item">
+            <span class="exp-num" aria-hidden="true">01</span>
+            <div>
+              <h3>茶园采青</h3>
+              <p>清晨露水未干时下地，学习一芽一叶的标准采摘，两小时能采满一笸箩，指尖会记住青叶的凉。</p>
+              <p class="meta">每日 06:30 开课 / 4 月至 9 月 / 每席 120 元</p>
+            </div>
+          </li>
+          <li class="exp-item">
+            <span class="exp-num" aria-hidden="true">02</span>
+            <div>
+              <h3>手工炒茶与审评</h3>
+              <p>铁锅杀青，掌心贴着锅温感受茶叶的变化，最后坐下来杯审自己这一锅，带走 100 克亲手炒的茶。</p>
+              <p class="meta">每日 15:00 开课 / 全年 / 每席 180 元</p>
+            </div>
+          </li>
+          <li class="exp-item">
+            <span class="exp-num" aria-hidden="true">03</span>
+            <div>
+              <h3>杉林漫步</h3>
+              <p>向导带两小时山谷步道，认识苔藓、蕨类与野生的老茶树，终点是一眼山泉，可以装一瓶带回房间煮水。</p>
+              <p class="meta">每日 09:00 与 16:00 两班 / 全年 / 住客免费</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="shanshi" aria-labelledby="meal-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">一日山食</span>
+        <h2 id="meal-title">从茶园到餐桌，不超过两百米</h2>
+        <p>食材来自自家菜地、邻村农户与后山溪涧，按季更换，做法朴素。</p>
+      </div>
+      <div class="meal-grid">
+        <article class="meal-card">
+          <div class="meal-time">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><use href="#leaf-mark"></use></svg>
+            <h3>清晨</h3>
+          </div>
+          <ul>
+            <li>山粥与四小菜</li>
+            <li>土鸡蛋两枚</li>
+            <li>现蒸米糕配野蜜</li>
+            <li>当日头采绿茶一壶</li>
+          </ul>
+        </article>
+        <article class="meal-card">
+          <div class="meal-time">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><use href="#leaf-mark"></use></svg>
+            <h3>午后</h3>
+          </div>
+          <ul>
+            <li>围炉茶点</li>
+            <li>炭烤红薯与山核桃</li>
+            <li>桂花米糕</li>
+            <li>老白茶煮梨一盅</li>
+          </ul>
+        </article>
+        <article class="meal-card">
+          <div class="meal-time">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><use href="#leaf-mark"></use></svg>
+            <h3>夜晚</h3>
+          </div>
+          <ul>
+            <li>春笋炖土鸡</li>
+            <li>清蒸溪鱼</li>
+            <li>时蔬与手作豆腐</li>
+            <li>糙米饭与茶酒一盏</li>
+          </ul>
+        </article>
+      </div>
+      <p class="meal-note">早餐与午后茶点已含在房费内 / 山货晚餐 <b>388 元一桌（适四位）</b> / 素食与儿童餐可在预订时备注。</p>
+    </div>
+  </section>
+
+  <section id="yuding" aria-labelledby="book-title">
+    <div class="container">
+      <div class="band">
+        <svg class="rings" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="101" cy="99" r="18"/>
+          <circle cx="99" cy="101" r="30"/>
+          <circle cx="103" cy="98" r="42"/>
+          <circle cx="98" cy="102" r="54"/>
+          <circle cx="102" cy="99" r="66"/>
+          <circle cx="100" cy="100" r="78"/>
+          <circle cx="98" cy="101" r="90"/>
+        </svg>
+        <div>
+          <h2 id="book-title">把日子订进山里</h2>
+          <p class="band-copy">提交预订申请后，管家会在两小时内回复确认与到山路线。山里信号时有时无，若电话未接通，请稍候片刻再试。</p>
+          <p class="contact">也可直接致电 <a href="tel:05783886600">0578-388 6600</a> / 或添加管家微信 <a href="#yuding">yunqi-tea</a>（同手机号）</p>
+        </div>
+        <form class="book-form" action="#yuding" method="get">
+          <div class="field-row">
+            <div class="field">
+              <label for="in-date">入住日期</label>
+              <input id="in-date" name="checkin" type="date" required>
+            </div>
+            <div class="field">
+              <label for="out-date">退房日期</label>
+              <input id="out-date" name="checkout" type="date" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="guests">入住人数</label>
+            <select id="guests" name="guests">
+              <option value="1">1 位</option>
+              <option value="2" selected>2 位</option>
+              <option value="3">3 位</option>
+              <option value="4">4 位</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="phone">联系方式</label>
+            <input id="phone" name="phone" type="tel" placeholder="用于管家回复确认" required>
+          </div>
+          <button class="btn btn-primary" type="submit">提交预订申请</button>
+          <p class="form-hint">旺季（4 月采青季与国庆）建议提前两周预订。</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <p>UI 设计提示词库 / Organic Biophilic</p>
+    <p>云栖茶山为风格演示虚构品牌 / <a href="style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

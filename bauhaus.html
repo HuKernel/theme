@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bauhaus 包豪斯风格演示页:德绍工坊,依原始图纸再制包豪斯经典家具,钢管悬臂椅、银壶与台灯,以及 1919-1933 校史。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Bauhaus 包豪斯 / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* token 计划:三原色 红 #D02020 / 蓝 #1040C0 / 黄 #F0C020 + 墨黑 #121212 + 灰白纸 #F2EFE9;圆/方/三角构成主义构图,卡片 radius 0 / 按钮 9999px,黑边 2px,硬偏移投影 4px 4px 0 #121212,交互 0ms 瞬时切换 + active 机械按压位移,粗黑横线分区,Outfit 900 + Noto Sans SC 功能无衬线 */
+:root {
+  --red: #D02020;
+  --blue: #1040C0;
+  --yellow: #F0C020;
+  --ink: #121212;
+  --paper: #F2EFE9;
+  --card: #FAF8F3;
+  --muted: #4A4741;
+  --edge: 2px solid var(--ink);
+  --shadow: 4px 4px 0 0 var(--ink);
+  --press: translate(2px, 2px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+a { color: var(--blue); text-decoration-thickness: 2px; text-underline-offset: 3px; transition: none; }
+a:hover { color: var(--red); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ---------- 通用组件:机械按钮 / 硬边卡片 ---------- */
+.btn {
+  display: inline-block;
+  padding: 13px 30px;
+  border: var(--edge);
+  border-radius: 9999px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.3;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: none;
+  text-decoration: none;
+}
+.btn:active { transform: var(--press); box-shadow: none; }
+.btn-solid { background: var(--ink); color: var(--paper); }
+.btn-solid:hover { background: var(--red); color: #fff; }
+.btn-yellow { background: var(--yellow); color: var(--ink); }
+.btn-yellow:hover { background: var(--paper); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--yellow); }
+
+/* ---------- 页头 ---------- */
+.site-head { border-bottom: 6px solid var(--ink); background: var(--paper); }
+.head-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark { display: block; }
+.brand-name { font-size: 20px; font-weight: 900; letter-spacing: 0.02em; line-height: 1.2; }
+.brand-name small {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+.site-nav { display: flex; align-items: center; gap: 26px; }
+.site-nav a {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  padding-bottom: 2px;
+}
+.site-nav a:hover { color: var(--ink); border-bottom-color: var(--red); }
+.head-cta { padding: 10px 22px; font-size: 15px; }
+
+/* ---------- 首屏:构成主义 ---------- */
+.hero { border-bottom: 6px solid var(--ink); padding: 64px 0 56px; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 56px;
+  align-items: center;
+}
+.kicker {
+  display: inline-block;
+  border: var(--edge);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 26px;
+}
+.kicker b { color: var(--red); }
+h1 {
+  font-size: clamp(44px, 6.4vw, 82px);
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+h1 .h-red { color: var(--red); }
+h1 .h-blue { color: var(--blue); }
+.hero-rule {
+  height: 10px;
+  background: var(--ink);
+  margin: 26px 0;
+  transform-origin: left center;
+}
+.hero-lead {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 54ch;
+  margin-bottom: 32px;
+}
+.hero-lead b { color: var(--ink); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 46px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.stat { border-left: 5px solid var(--ink); padding-left: 16px; }
+.stat b {
+  display: block;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.stat b.s-red { color: var(--red); }
+.stat b.s-blue { color: var(--blue); }
+.stat span { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+.emblem { text-align: center; }
+.emblem-frame {
+  border: 3px solid var(--ink);
+  background: var(--card);
+  background-image: radial-gradient(rgba(18, 18, 18, 0.14) 1.2px, transparent 1.2px);
+  background-size: 14px 14px;
+  box-shadow: 6px 6px 0 0 var(--ink);
+  padding: 10px;
+}
+.emblem-frame svg { display: block; width: 100%; height: auto; }
+.emblem figcaption {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 14px;
+  font-weight: 600;
+}
+
+/* ---------- 口号色块 ---------- */
+.poster-band { background: var(--red); border-bottom: 6px solid var(--ink); color: #fff; }
+.poster-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+  padding-top: 44px;
+  padding-bottom: 44px;
+}
+.quote-mark { margin-bottom: 12px; }
+.poster-quote {
+  font-size: clamp(26px, 3.6vw, 44px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.poster-src { margin-top: 14px; font-size: 14px; font-weight: 600; opacity: 1; }
+.legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.legend-tile {
+  background: var(--card);
+  border: var(--edge);
+  color: var(--ink);
+  padding: 14px 8px 12px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.legend-tile svg { display: block; margin: 0 auto 8px; }
+.legend-tile b { display: block; font-size: 15px; font-weight: 900; }
+.legend-tile span { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+/* ---------- 分区通则:粗横线 ---------- */
+.section { border-top: 6px solid var(--ink); padding: 60px 0 68px; }
+.section-head { margin-bottom: 40px; }
+.section-head h2 {
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.section-head p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.section-head .no {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 900;
+  border-bottom: 6px solid var(--yellow);
+  margin-bottom: 10px;
+}
+
+/* ---------- 经典再制 ---------- */
+.goods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.card {
+  background: var(--card);
+  border: var(--edge);
+  box-shadow: var(--shadow);
+}
+.card-visual {
+  height: 180px;
+  border-bottom: var(--edge);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(rgba(18, 18, 18, 0.12) 1.2px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+.card-visual svg { display: block; }
+.card-body { padding: 22px 22px 26px; }
+.card-code {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 900;
+  border: 2px solid var(--ink);
+  background: var(--yellow);
+  padding: 2px 10px;
+  margin-bottom: 12px;
+}
+.card-body h3 { font-size: 24px; font-weight: 900; line-height: 1.2; }
+.card-byline { font-size: 14px; font-weight: 700; margin-top: 4px; }
+.card-byline span { color: var(--muted); font-weight: 600; }
+.card-mat {
+  font-size: 13.5px;
+  color: var(--muted);
+  border-top: 3px solid var(--ink);
+  margin-top: 14px;
+  padding-top: 12px;
+}
+.card-buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 18px;
+}
+.price { font-size: 26px; font-weight: 900; color: var(--red); letter-spacing: -0.01em; }
+.price i { font-style: normal; font-size: 14px; color: var(--ink); font-weight: 700; margin-right: 2px; }
+.card-buy .btn { padding: 10px 20px; font-size: 14px; }
+.goods-note { margin-top: 34px; font-size: 13.5px; color: var(--muted); font-weight: 600; }
+
+/* ---------- 工坊工序 ---------- */
+#process { background-image: radial-gradient(rgba(18, 18, 18, 0.1) 1.2px, transparent 1.2px); background-size: 16px 16px; }
+.steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.step { border-top: 5px solid var(--ink); padding-top: 18px; position: relative; }
+.step::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background: var(--c, var(--ink));
+  border: 2px solid var(--ink);
+}
+.step.sq::before { border-radius: 0; }
+.step.ci::before { border-radius: 50%; }
+.step.tr::before {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  border: none;
+  background: var(--ink);
+}
+.step.tr::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 2px;
+  width: 18px;
+  height: 16px;
+  background: var(--c, #F0C020);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.step-no {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.step h3 { font-size: 21px; font-weight: 900; margin: 6px 0 8px; }
+.step p { font-size: 14px; color: var(--muted); font-weight: 500; }
+
+/* ---------- 校史 ---------- */
+.timeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; border-top: 5px solid var(--ink); padding-top: 0; }
+.tl-item { padding-top: 20px; border-left: 3px solid var(--ink); padding-left: 14px; }
+.tl-year { font-size: 30px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+.tl-year.t-red { color: var(--red); }
+.tl-year.t-blue { color: var(--blue); }
+.tl-item p { font-size: 13.5px; color: var(--muted); font-weight: 600; margin-top: 8px; }
+.history-note { margin-top: 34px; font-size: 13.5px; color: var(--muted); font-weight: 600; }
+
+/* ---------- 预约与询价 ---------- */
+.visit-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+.order-form {
+  background: var(--card);
+  border: var(--edge);
+  box-shadow: var(--shadow);
+  padding: 30px 28px;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: var(--edge);
+  border-radius: 0;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  padding: 11px 12px;
+  color: var(--ink);
+  transition: none;
+}
+.field textarea { resize: vertical; min-height: 96px; }
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8 0 0h12z' fill='%23121212'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+.form-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+.form-tip { font-size: 12.5px; color: var(--muted); font-weight: 600; margin-top: 14px; }
+.visit-info h3 { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+.info-list { list-style: none; margin-top: 18px; }
+.info-list li { border-top: 4px solid var(--ink); padding: 14px 0 16px; display: grid; grid-template-columns: 118px 1fr; gap: 12px; }
+.info-list b { font-size: 15px; font-weight: 900; }
+.info-list p { font-size: 14.5px; color: var(--muted); font-weight: 500; }
+
+/* ---------- 页脚 ---------- */
+.site-foot { background: var(--ink); color: var(--paper); border-top: 6px solid var(--red); }
+.foot-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.foot-brand { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 17px; }
+.foot-note { font-size: 13px; color: #C9C5BB; font-weight: 500; margin-top: 4px; }
+.site-foot a { color: var(--yellow); font-weight: 700; }
+.site-foot a:hover { color: #fff; }
+.site-foot a:focus-visible { outline-color: var(--yellow); }
+
+/* ---------- 一次亮相动效:三形机械拼合(仅允许动效时) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rule { animation: rule-print 0.55s steps(8) 0.15s both; }
+  .p-sq { animation: drop-in 0.5s steps(7) 0.2s both; }
+  .p-cir { animation: roll-in 0.65s steps(9) 0.4s both; }
+  .p-tri { animation: slide-in 0.5s steps(7) 0.6s both; }
+  .p-line { animation: rule-print 0.5s steps(8) 0.05s both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-rule, .p-sq, .p-cir, .p-tri, .p-line { animation: none; }
+}
+.p-sq, .p-cir, .p-tri { transform-box: fill-box; }
+.p-cir { transform-origin: center; }
+.p-line { transform-origin: left center; transform-box: fill-box; }
+@keyframes drop-in { from { transform: translateY(-190px); } }
+@keyframes roll-in { from { transform: translateX(230px) rotate(300deg); } to { transform: translate(0, 0) rotate(0deg); } }
+@keyframes slide-in { from { transform: translateX(-200px); } }
+@keyframes rule-print { from { transform: scaleX(0); } }
+
+/* ---------- 响应式:375 / 768 / 1440 ---------- */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .emblem { max-width: 460px; margin: 0 auto; text-align: left; }
+  .emblem-frame { text-align: center; }
+  .goods { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .timeline { grid-template-columns: repeat(3, 1fr); }
+  .visit-grid { grid-template-columns: 1fr; gap: 36px; }
+}
+@media (max-width: 767px) {
+  .container { padding: 0 18px; }
+  .site-nav { display: none; }
+  .head-inner { padding-top: 14px; padding-bottom: 14px; }
+  .hero { padding: 44px 0 46px; }
+  .hero-actions .btn { width: 100%; text-align: center; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .poster-inner { grid-template-columns: 1fr; gap: 26px; padding-top: 34px; padding-bottom: 34px; }
+  .legend { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .section { padding: 44px 0 50px; }
+  .goods { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .info-list li { grid-template-columns: 1fr; gap: 2px; }
+  .card-buy { flex-direction: column; align-items: stretch; }
+  .card-buy .btn { text-align: center; }
+  .foot-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="container head-inner">
+    <a class="brand" href="#top" style="text-decoration:none;color:inherit;">
+      <svg class="brand-mark" width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">
+        <rect x="2" y="2" width="40" height="40" fill="#FAF8F3" stroke="#121212" stroke-width="3"/>
+        <circle cx="14" cy="14" r="7" fill="#1040C0"/>
+        <rect x="24" y="7" width="13" height="13" fill="#D02020"/>
+        <path d="M20 37 27 24l7 13z" fill="#F0C020" stroke="#121212" stroke-width="2" stroke-linejoin="miter"/>
+      </svg>
+      <span class="brand-name">德绍工坊<small>Dessau Werkstatt / since 1919</small></span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="#classics">经典再制</a>
+      <a href="#process">工坊工序</a>
+      <a href="#history">校史</a>
+      <a href="#visit">预约</a>
+    </nav>
+    <a class="btn btn-yellow head-cta" href="#visit">订购目录</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 首屏:文字 + 三形构成 -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="kicker">包豪斯经典家具再制 / <b>1919 年</b>起的制造传统</p>
+        <h1>以最简之形<br>造<span class="h-red">最久用</span>之<span class="h-blue">物</span></h1>
+        <div class="hero-rule" aria-hidden="true"></div>
+        <p class="hero-lead">1919 年,格罗皮乌斯在魏玛创立包豪斯;1925 年,布劳耶把自行车把手的钢管,弯成了家具史上第一把钢管椅。德绍工坊依<b>原始图纸</b>与<b>原厂工艺</b>,再制三件经典——它们至今仍坐在全世界的客厅里。</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#visit">预约工坊参观</a>
+          <a class="btn btn-ghost" href="#classics">查看三件经典</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b class="s-red">14</b><span>年校史 / 1919-1933</span></div>
+          <div class="stat"><b>3</b><span>座城市 / 魏玛,德绍,柏林</span></div>
+          <div class="stat"><b class="s-blue">1250<i style="font-style:normal;font-size:20px;">+</i></b><span>十四年间的注册学生</span></div>
+          <div class="stat"><b>3</b><span>件经典 / 现于本工坊在产</span></div>
+        </div>
+      </div>
+      <figure class="emblem">
+        <div class="emblem-frame">
+          <svg viewBox="0 0 420 400" role="img" aria-label="圆、方、三角三基本形的构成主义拼合图">
+            <rect class="p-line" x="30" y="344" width="360" height="10" fill="#121212"/>
+            <path class="p-tri" d="M48 344 198 344 123 204z" fill="#F0C020" stroke="#121212" stroke-width="4" stroke-linejoin="miter"/>
+            <rect class="p-sq" x="150" y="48" width="124" height="124" fill="#D02020" stroke="#121212" stroke-width="4"/>
+            <g class="p-cir">
+              <circle cx="262" cy="246" r="92" fill="#1040C0" stroke="#121212" stroke-width="4"/>
+              <circle cx="302" cy="246" r="15" fill="#FAF8F3"/>
+            </g>
+            <circle cx="70" cy="88" r="18" fill="#121212"/>
+          </svg>
+        </div>
+        <figcaption>三形三色 / 1923 年康定斯基形色问卷的结果:圆对应蓝,方对应红,三角对应黄</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 口号色块 -->
+  <div class="poster-band">
+    <div class="container poster-inner">
+      <div>
+        <svg class="quote-mark" width="46" height="20" viewBox="0 0 46 20" aria-hidden="true">
+          <rect x="0" y="0" width="46" height="8" fill="#F0C020" stroke="#121212" stroke-width="0"/>
+          <rect x="0" y="12" width="24" height="8" fill="#FAF8F3"/>
+        </svg>
+        <p class="poster-quote">艺术与技术——一个全新的统一。</p>
+        <p class="poster-src">1923 年包豪斯展览主口号 / 格罗皮乌斯</p>
+      </div>
+      <div class="legend" aria-label="形色对应图例">
+        <div class="legend-tile">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="#1040C0" stroke="#121212" stroke-width="3"/></svg>
+          <b>圆 / 蓝</b><span>循环与流动</span>
+        </div>
+        <div class="legend-tile">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="30" height="30" fill="#D02020" stroke="#121212" stroke-width="3"/></svg>
+          <b>方 / 红</b><span>稳定与重量</span>
+        </div>
+        <div class="legend-tile">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 37 36 3 36z" fill="#F0C020" stroke="#121212" stroke-width="3"/></svg>
+          <b>三角 / 黄</b><span>方向与张势</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 经典再制 -->
+  <section class="section" id="classics">
+    <div class="container">
+      <div class="section-head">
+        <span class="no">01 / 经典再制</span>
+        <h2>三件,已经生产了一百年</h2>
+        <p>全部出自包豪斯金属与家具作坊,按各自原始图纸重新放样。</p>
+      </div>
+      <div class="goods">
+
+        <article class="card">
+          <div class="card-visual" aria-hidden="true">
+            <svg width="230" height="140" viewBox="0 0 230 140">
+              <rect x="0" y="0" width="230" height="140" fill="none"/>
+              <path d="M56 126 V44 Q56 30 70 30 H168 Q182 30 182 44 V126" fill="none" stroke="#121212" stroke-width="9" stroke-linecap="square"/>
+              <path d="M34 84 H196 M56 126 H182" fill="none" stroke="#121212" stroke-width="9" stroke-linecap="square"/>
+              <rect x="38" y="70" width="158" height="12" fill="#D02020" stroke="#121212" stroke-width="3"/>
+              <rect x="62" y="36" width="98" height="10" fill="#D02020" stroke="#121212" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-code">B3</span>
+            <h3>瓦西里椅</h3>
+            <p class="card-byline">布劳耶 Marcel Breuer / <span>1925 年设计</span></p>
+            <p class="card-mat">冷拉无缝钢管骨架,镀铬处理;坐面与靠背为植鞣牛皮,手工绷装。灵感来自他自己的阿德勒自行车车把。</p>
+            <div class="card-buy">
+              <p class="price"><i>¥</i>6,480</p>
+              <button class="btn btn-yellow" type="button">加入询价单</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-visual" aria-hidden="true">
+            <svg width="230" height="140" viewBox="0 0 230 140">
+              <path d="M72 128 H158 V112 H72 Z" fill="#121212"/>
+              <rect x="110" y="72" width="10" height="42" fill="#121212"/>
+              <path d="M60 72 A55 46 0 0 1 170 72 Z" fill="#F0C020" stroke="#121212" stroke-width="4" stroke-linejoin="miter"/>
+              <circle cx="115" cy="26" r="10" fill="#FAF8F3" stroke="#121212" stroke-width="4"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-code">WG24</span>
+            <h3>瓦根菲尔德台灯</h3>
+            <p class="card-byline">瓦根菲尔德 Wilhelm Wagenfeld / <span>1924 年设计</span></p>
+            <p class="card-mat">乳白玻璃钟形罩与圆柱底座,经吹制,磨砂,再入窑退火;拉杆开关为原样黄铵件。俗称「包豪斯台灯」。</p>
+            <div class="card-buy">
+              <p class="price"><i>¥</i>2,480</p>
+              <button class="btn btn-yellow" type="button">加入询价单</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-visual" aria-hidden="true">
+            <svg width="230" height="140" viewBox="0 0 230 140">
+              <circle cx="104" cy="82" r="36" fill="#1040C0" stroke="#121212" stroke-width="4"/>
+              <circle cx="104" cy="40" r="9" fill="#F0C020" stroke="#121212" stroke-width="3"/>
+              <path d="M138 70 L166 48 L172 56 L144 78 Z" fill="#121212"/>
+              <path d="M64 66 Q44 74 52 96" fill="none" stroke="#121212" stroke-width="7" stroke-linecap="square"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <span class="card-code">MT49</span>
+            <h3>布兰德半球银壶</h3>
+            <p class="card-byline">布兰德 Marianne Brandt / <span>1924 年设计</span></p>
+            <p class="card-mat">半球形壶身为镀银黄铜旋压成形,壶嘴根部收窄至滴酒不漏;乌木提梁。德绍时期金属作坊的巅峰之作。</p>
+            <div class="card-buy">
+              <p class="price"><i>¥</i>1,980</p>
+              <button class="btn btn-yellow" type="button">加入询价单</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+      <p class="goods-note">注:三件作品的原设计版权分属各设计师及其权利继承人,本页为风格演示中的虚构销售场景。</p>
+    </div>
+  </section>
+
+  <!-- 工坊工序 -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-head">
+        <span class="no">02 / 工坊工序</span>
+        <h2>从一根钢管到一把椅子</h2>
+        <p>与 1925 年德绍家具作坊相同的四道工序,只是机器换新了。</p>
+      </div>
+      <ol class="steps">
+        <li class="step ci" style="--c:#1040C0;">
+          <span class="step-no">工序 1</span>
+          <h3>冷弯定型</h3>
+          <p>钢管按原始图纸的角度,在专用量规上一次冷弯成形,全程不加热,保留管壁强度。</p>
+        </li>
+        <li class="step sq" style="--c:#D02020;">
+          <span class="step-no">工序 2</span>
+          <h3>满焊打磨</h3>
+          <p>接口氩弧满焊后逐级打磨,直至与管壁齐平——成品上看不到任何一道焊缝。</p>
+        </li>
+        <li class="step tr" style="--c:#F0C020;">
+          <span class="step-no">工序 3</span>
+          <h3>三层镀铬</h3>
+          <p>酸洗后镀铜,镀镍,再镀铬,膜厚二十微米,每批通过四十八小时盐雾测试。</p>
+        </li>
+        <li class="step ci" style="--c:#121212;">
+          <span class="step-no">工序 4</span>
+          <h3>手工绷面</h3>
+          <p>皮面或帆布由同一位匠人自始至终绷装,预张力按原厂数据,三十年不松。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 校史 -->
+  <section class="section" id="history">
+    <div class="container">
+      <div class="section-head">
+        <span class="no">03 / 校史</span>
+        <h2>十四年,三座城</h2>
+        <p>学校本身,是我们全部工序的图纸。</p>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <p class="tl-year t-red">1919</p>
+          <p>格罗皮乌斯合并美术学院与工艺学校,在魏玛创办国立包豪斯。</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year">1923</p>
+          <p>首届包豪斯大展提出「艺术与技术——一个全新的统一」。</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year t-blue">1925</p>
+          <p>迫于政治压力迁往德绍;布劳耶在同一年的家具作坊造出首把钢管椅。</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year t-red">1926</p>
+          <p>格罗皮乌斯设计的德绍校舍落成,玻璃幕墙与工坊楼层沿用至今。</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year t-blue">1930</p>
+          <p>密斯(Mies van der Rohe)出任第三任校长,学校转向更严格的建筑学方向。</p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-year">1933</p>
+          <p>迁柏林后最终关闭;师生流散全球,把包豪斯带到全世界。</p>
+        </div>
+      </div>
+      <p class="history-note">部分师生随后任教于芝加哥设计学院(原新包豪斯)与乌尔姆设计学院,本工坊工序卡即参照乌尔姆讲义体例。</p>
+    </div>
+  </section>
+
+  <!-- 预约与询价 -->
+  <section class="section" id="visit">
+    <div class="container">
+      <div class="section-head">
+        <span class="no">04 / 预约询价</span>
+        <h2>来工坊,看钢管弯成椅子</h2>
+        <p>提交后两个工作日内,由匠人本人回电确认。</p>
+      </div>
+      <div class="visit-grid">
+        <form class="order-form" action="#" method="get">
+          <div class="form-row">
+            <div class="field">
+              <label for="f-name">姓名</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" placeholder="怎么称呼你">
+            </div>
+            <div class="field">
+              <label for="f-tel">联系电话</label>
+              <input id="f-tel" name="tel" type="tel" autocomplete="tel" placeholder="用于回电确认">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-item">意向作品</label>
+            <select id="f-item" name="item">
+              <option>B3 瓦西里椅</option>
+              <option>WG24 瓦根菲尔德台灯</option>
+              <option>MT49 布兰德半球银壶</option>
+              <option>三件都想看</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-msg">留言</label>
+            <textarea id="f-msg" name="msg" placeholder="想预约的时间,想了解的工序,或任何问题"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-solid" type="submit">提交预约</button>
+            <button class="btn btn-ghost" type="reset">重新填写</button>
+          </div>
+          <p class="form-tip">提交即视为同意我们通过电话与你确认参观时间;信息仅用于此次预约。</p>
+        </form>
+        <div class="visit-info">
+          <h3>到场须知</h3>
+          <ul class="info-list">
+            <li><b>开放时间</b><p>每周四至周六 10:00-18:00,其余时段仅接受团体预约。</p></li>
+            <li><b>工坊导览</b><p>每场四十五分钟,含一次现场弯管演示,可亲手试弯一根样管。</p></li>
+            <li><b>目录索取</b><p>到场可领纸质目录一份,内附三件经典的原始图纸缩印。</p></li>
+            <li><b>维修承诺</b><p>本工坊售出的每件作品终身可返厂,只换配件,不劝你买新的。</p></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="container foot-inner">
+    <div>
+      <p class="foot-brand">
+        <svg width="26" height="26" viewBox="0 0 44 44" aria-hidden="true">
+          <circle cx="14" cy="14" r="7" fill="#F0C020"/>
+          <rect x="24" y="7" width="13" height="13" fill="#D02020"/>
+          <path d="M20 37 27 24l7 13z" fill="#1040C0"/>
+        </svg>
+        UI 设计提示词库 / Bauhaus 包豪斯
+      </p>
+      <p class="foot-note">德绍工坊为风格演示虚构品牌 / 历史事实与作品名称归各自权利人 / <a href="style-catalog.html">返回风格目录</a></p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
