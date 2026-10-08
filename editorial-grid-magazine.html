@@ -100,13 +100,11 @@ figure a.figure-link:hover{background:none}
   grid-template-columns:repeat(12,1fr);
   gap:var(--gutter);
   grid-template-areas:
-    "kicker kicker kicker kicker kicker kicker kicker kicker kicker toc toc toc"
-    "title   title   title   title   title   title   title   title   title   toc toc toc"
-    "dek     dek     dek     dek     dek     dek     dek     dek     dek     toc toc toc"
-    "byline  byline  byline  byline  byline  byline  byline  byline  byline  toc toc toc"
-    "fig     fig     fig     fig     fig     fig     fig     fig     fig     fig fig fig";
+    "head head head head head head head head head toc toc toc"
+    "fig  fig  fig  fig  fig  fig  fig  fig  fig  fig fig fig";
   padding:calc(var(--baseline)*7) 0 calc(var(--baseline)*7);
 }
+.hero-head{grid-area:head;display:flex;flex-direction:column;justify-content:flex-start;min-width:0}
 .hero-kicker{grid-area:kicker;font-size:14px;font-weight:600}
 .hero-kicker em{font-family:var(--serif);font-style:italic;font-weight:400;margin-left:6px;color:var(--ink-2)}
 .hero-title{
@@ -349,10 +347,7 @@ figure a.figure-link:hover{background:none}
 @media (max-width:1279px){
   .hero{
     grid-template-areas:
-      "kicker kicker kicker kicker kicker kicker kicker"
-      "title title title title title title title"
-      "dek dek dek dek dek dek dek"
-      "byline byline byline byline byline byline byline"
+      "head head head head head head head"
       "toc toc toc toc toc toc toc"
       "fig fig fig fig fig fig fig";
   }
