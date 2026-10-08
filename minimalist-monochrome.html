@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Minimalist Monochrome 极简单色 / UI 设计提示词库</title>
+<!-- token 计划: #000/#fff 双极 + 灰阶 f4f4f4/e5e5e5/525252, radius 0, 无阴影, 唯一强调 = 即时反色黑块 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000000;
+    --paper: #ffffff;
+    --paper-2: #f4f4f4;
+    --hairline: #e5e5e5;
+    --gray-6: #525252;
+    --gray-4: #a3a3a3;
+    --serif-display: "Playfair Display", "Songti SC", "SimSun", serif;
+    --serif-body: "Source Serif 4", "Songti SC", "SimSun", serif;
+    --mono: "JetBrains Mono", monospace, monospace;
+    --space-block: clamp(96px, 12vw, 144px);
+    --gutter: clamp(20px, 5vw, 64px);
+    --measure: 34em;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--serif-body);
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 纸张噪点, opacity 0.03, 严格 2D 无阴影 */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection { background: var(--ink); color: var(--paper); }
+
+  a { color: inherit; }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .site-footer :focus-visible { outline-color: var(--paper); }
+
+  /* ---------- 字阶系统: 7 级 ---------- */
+  .t-display {
+    font-family: var(--serif-display);
+    font-weight: 900;
+    font-size: clamp(3.25rem, 11vw, 8.25rem);
+    line-height: 1.04;
+    letter-spacing: 0.12em;
+  }
+
+  .t-h2 {
+    font-family: var(--serif-display);
+    font-weight: 700;
+    font-size: clamp(1.875rem, 3.4vw, 2.75rem);
+    line-height: 1.2;
+  }
+
+  .t-h3 {
+    font-family: var(--serif-display);
+    font-weight: 700;
+    font-size: 1.375rem;
+    line-height: 1.3;
+  }
+
+  .t-lead {
+    font-size: 1.1875rem;
+    line-height: 1.8;
+    max-width: var(--measure);
+  }
+
+  .t-body { font-size: 1rem; line-height: 1.75; }
+
+  .t-small { font-size: 0.875rem; line-height: 1.7; color: var(--gray-6); }
+
+  .t-foot {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--gray-6);
+  }
+
+  /* ---------- 布局 ---------- */
+  .wrap {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  section { padding-block: var(--space-block); }
+
+  .rule-4 {
+    border: 0;
+    border-top: 4px solid var(--ink);
+  }
+
+  /* ---------- header ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .site-header .wrap {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-family: var(--serif-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.08em;
+  }
+
+  .brand .mark {
+    width: 14px;
+    height: 14px;
+    background: var(--ink);
+    flex: none;
+  }
+
+  .site-nav { display: flex; }
+
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding-inline: 18px;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: none; /* 即时反色, 零过渡 */
+  }
+
+  .site-nav a:hover,
+  .site-nav a:active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  @media (max-width: 767px) {
+    .site-header .wrap { flex-direction: column; }
+    .brand { min-height: 56px; }
+    .site-nav { justify-content: space-between; }
+    .site-nav a { padding-inline: 8px; }
+  }
+
+  /* ---------- hero: 字符间距一次展开 ---------- */
+  .hero { padding-block: clamp(72px, 9vw, 128px) clamp(64px, 7vw, 104px); }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 0;
+    margin-bottom: clamp(28px, 4vw, 56px);
+  }
+
+  .hero-meta .t-foot { color: var(--gray-6); }
+
+  .hero-meta span + span::before {
+    content: "/";
+    margin-inline: 12px;
+    color: var(--ink);
+  }
+
+  .t-display.tracking-open {
+    animation: spread 1.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+
+  @keyframes spread {
+    from { letter-spacing: 0.02em; opacity: 0; }
+    to   { letter-spacing: 0.12em; opacity: 1; }
+  }
+
+  .hero-sub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px 48px;
+    margin-top: clamp(32px, 5vw, 64px);
+  }
+
+  .hero-sub .en {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.125rem, 2.2vw, 1.625rem);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-sub .zh { max-width: 30em; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .t-display.tracking-open { animation: none; }
+  }
+
+  /* ---------- 家族三栏 ---------- */
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px 32px;
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+
+  .families {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--ink);
+  }
+
+  .family {
+    padding: clamp(28px, 3vw, 44px) clamp(20px, 2.4vw, 36px);
+    border-bottom: 1px solid var(--ink);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .family:last-child { border-right: 0; }
+
+  .family .glyph {
+    font-family: var(--serif-display);
+    font-weight: 900;
+    font-size: clamp(4.5rem, 8vw, 7.5rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .family .glyph.sans { font-family: var(--mono); font-weight: 500; }
+
+  .family .glyph.stone { font-family: var(--serif-display); font-style: italic; font-weight: 400; }
+
+  .family p { font-size: 0.9375rem; color: var(--gray-6); max-width: 26em; }
+
+  .family .weights {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  @media (max-width: 767px) {
+    .families { grid-template-columns: 1fr; }
+    .family { border-right: 0; }
+  }
+
+  /* ---------- 规格表: grid 行对齐 ---------- */
+  .spec-table { border-top: 4px solid var(--ink); }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1.2fr 1.4fr 1fr;
+    gap: 12px;
+    align-items: baseline;
+    padding: 22px 4px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .spec-row.head {
+    padding-block: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .spec-row .name { font-family: var(--serif-display); font-weight: 700; font-size: 1.25rem; }
+
+  .spec-row .num { font-family: var(--mono); font-size: 0.875rem; }
+
+  .spec-row .price { font-family: var(--mono); font-size: 0.875rem; text-align: right; }
+
+  .spec-note { margin-top: 20px; }
+
+  @media (max-width: 767px) {
+    .spec-row {
+      grid-template-columns: 1.8fr 1fr 1fr;
+      grid-template-areas:
+        "name name price"
+        "sub sub sub";
+      row-gap: 6px;
+    }
+    .spec-row.head { display: none; }
+    .spec-row .col-w { grid-area: name; }
+    .spec-row .name { grid-area: name; }
+    .spec-row .price { grid-area: price; align-self: baseline; }
+    .spec-row .col-c,
+    .spec-row .col-f,
+    .spec-row .col-wv { grid-area: sub; }
+    .spec-row .sub-inline { grid-area: sub; display: flex; gap: 16px; flex-wrap: wrap; }
+  }
+
+  /* ---------- 试排区 ---------- */
+  .proof {
+    background: var(--paper-2);
+    border-block: 1px solid var(--ink);
+  }
+
+  .weight-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1px solid var(--ink);
+    width: max-content;
+    max-width: 100%;
+    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+
+  .weight-picker button {
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    padding: 0 22px;
+    min-height: 48px;
+    background: var(--paper);
+    color: var(--ink);
+    border: 0;
+    border-right: 1px solid var(--ink);
+    cursor: pointer;
+    transition: none; /* 即时反色 */
+  }
+
+  .weight-picker button:last-child { border-right: 0; }
+
+  .weight-picker button:hover,
+  .weight-picker button:active { background: var(--ink); color: var(--paper); }
+
+  .weight-picker button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .proof-sample {
+    font-weight: 400;
+    font-size: clamp(2rem, 5.2vw, 4rem);
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    max-width: 22em;
+    transition: font-weight 0.15s linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proof-sample { transition: none; }
+  }
+
+  /* ---------- 关于两栏 ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(40px, 6vw, 96px);
+  }
+
+  .fact-list { border-top: 1px solid var(--ink); }
+
+  .fact-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 16px 2px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .fact-row dt { font-size: 0.9375rem; }
+
+  .fact-row dd { font-family: var(--mono); font-size: 0.875rem; text-align: right; }
+
+  .about-copy p + p { margin-top: 1em; }
+
+  .about-copy .t-small { max-width: var(--measure); }
+
+  @media (max-width: 767px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- footer ---------- */
+  .site-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: clamp(56px, 7vw, 88px);
+  }
+
+  .site-footer .t-h2 { color: var(--paper); }
+
+  .footer-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px 40px;
+    margin-top: clamp(36px, 5vw, 64px);
+    padding-top: 24px;
+    border-top: 1px solid #333;
+  }
+
+  .site-footer .t-foot { color: var(--gray-4); }
+
+  .back-link {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--paper);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 8px 2px;
+    transition: none;
+  }
+
+  .back-link:hover,
+  .back-link:active { background: var(--paper); color: var(--ink); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="mark" aria-hidden="true"></span>
+      墨石铸字
+    </a>
+    <nav class="site-nav" aria-label="页面导航">
+      <a href="#families">字体家族</a>
+      <a href="#spec">规格</a>
+      <a href="#proof">试排</a>
+      <a href="#about">关于</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <p class="hero-meta">
+        <span class="t-foot">创立于 1987</span>
+        <span class="t-foot">大阪 与 上海</span>
+        <span class="t-foot">独立铸字所</span>
+      </p>
+      <h1 id="hero-title" class="t-display tracking-open">墨石铸字</h1>
+      <div class="hero-sub">
+        <p class="en">Inkstone Type Foundry</p>
+        <p class="zh t-lead">
+          我们只做一件事：把字铸得干净。三十七年，三个家族，九千四百余字。
+          黑与白之间没有第三种颜色，也没有圆角与投影容身的余地。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule-4" aria-hidden="true">
+
+  <section id="families" aria-labelledby="families-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="families-title" class="t-h2">字体家族</h2>
+        <p class="t-foot">三个家族 / 十九款字重 / 全部永久授权</p>
+      </div>
+      <div class="families">
+        <article class="family">
+          <p class="glyph" aria-hidden="true">墨</p>
+          <h3 class="t-h3">墨石宋</h3>
+          <p>
+            以明代雕版为骨、铅字为肉的旧式衬线。竖笔略重于横笔，
+            适合长文阅读与书籍排印，是铸字所的第一副字体。
+          </p>
+          <p class="weights t-foot">7 档字重 / 300 至 900 / 含斜体</p>
+        </article>
+        <article class="family">
+          <p class="glyph sans" aria-hidden="true">灰</p>
+          <h3 class="t-h3">灰口黑体</h3>
+          <p>
+            中性无衬线，笔画均匀如铸铁断面。为界面与标识而生，
+            小字号下依然保持笔画清醒，九档可变字重。
+          </p>
+          <p class="weights t-foot">9 档字重 / 100 至 900 / 可变字体</p>
+        </article>
+        <article class="family">
+          <p class="glyph stone" aria-hidden="true">碑</p>
+          <h3 class="t-h3">一号碑体</h3>
+          <p>
+            取自北魏墓志的刀刻展示体，仅保留三档字重。
+            用于标题与封面，字号越大，石味越足。
+          </p>
+          <p class="weights t-foot">3 档字重 / 400 至 800 / 展示用途</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="spec" aria-labelledby="spec-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="spec-title" class="t-h2">规格与价格</h2>
+        <p class="t-foot">桌面 与 Web 授权 / 一次购买 / 永久使用</p>
+      </div>
+      <div class="spec-table" role="table" aria-label="字体规格价格表">
+        <div class="spec-row head" role="row">
+          <span class="t-foot" role="columnheader">家族</span>
+          <span class="t-foot" role="columnheader">字重</span>
+          <span class="t-foot" role="columnheader">字符数</span>
+          <span class="t-foot" role="columnheader">格式</span>
+          <span class="t-foot price" role="columnheader">整套价格</span>
+        </div>
+        <div class="spec-row" role="row">
+          <span class="name col-w" role="cell">墨石宋</span>
+          <span class="num col-wv" role="cell">7 档</span>
+          <span class="num col-c" role="cell">9,417</span>
+          <span class="num col-f" role="cell">OTF / WOFF2</span>
+          <span class="num price" role="cell">1,280 起</span>
+        </div>
+        <div class="spec-row" role="row">
+          <span class="name col-w" role="cell">灰口黑体</span>
+          <span class="num col-wv" role="cell">9 档</span>
+          <span class="num col-c" role="cell">9,417</span>
+          <span class="num col-f" role="cell">OTF / WOFF2</span>
+          <span class="num price" role="cell">1,680 起</span>
+        </div>
+        <div class="spec-row" role="row">
+          <span class="name col-w" role="cell">一号碑体</span>
+          <span class="num col-wv" role="cell">3 档</span>
+          <span class="num col-c" role="cell">4,802</span>
+          <span class="num col-f" role="cell">OTF / WOFF2</span>
+          <span class="num price" role="cell">680 起</span>
+        </div>
+        <div class="spec-row" role="row">
+          <span class="name col-w" role="cell">全家族合集</span>
+          <span class="num col-wv" role="cell">19 档</span>
+          <span class="num col-c" role="cell">9,417</span>
+          <span class="num col-f" role="cell">OTF / WOFF2</span>
+          <span class="num price" role="cell">2,980 起</span>
+        </div>
+      </div>
+      <p class="spec-note t-foot">价格单位为人民币 / 教育与个人用途半价 / 字重可单买</p>
+    </div>
+  </section>
+
+  <section id="proof" class="proof" aria-labelledby="proof-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="proof-title" class="t-h2">试排灰口黑体</h2>
+        <p class="t-foot">选择字重 / 即时切换 / 无过渡</p>
+      </div>
+      <div class="weight-picker" role="group" aria-label="字重选择">
+        <button type="button" data-weight="100" aria-pressed="false">100</button>
+        <button type="button" data-weight="200" aria-pressed="false">200</button>
+        <button type="button" data-weight="300" aria-pressed="false">300</button>
+        <button type="button" data-weight="400" aria-pressed="true">400</button>
+        <button type="button" data-weight="500" aria-pressed="false">500</button>
+        <button type="button" data-weight="700" aria-pressed="false">700</button>
+        <button type="button" data-weight="900" aria-pressed="false">900</button>
+      </div>
+      <p class="proof-sample" id="proof-sample" tabindex="0" aria-live="polite">
+        永远在黑与白之间，把每一个字放到它该在的位置。
+      </p>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-title">
+    <div class="wrap about-grid">
+      <div class="about-copy">
+        <h2 id="about-title" class="t-h2">关于铸字所</h2>
+        <p class="t-lead" style="margin-top: 24px;">
+          一九八七年，初代铸字师在上海城隍庙旁盘下一间铺面，
+          用一台德国二手铸字机开炉。机器早已入库，但铸字的标准留了下来。
+        </p>
+        <p class="t-small" style="margin-top: 20px;">
+          我们相信字体不需要装饰，只需要重量。每一副字出厂前，
+          都要在四号纸上以十二磅印出全字符样张，任何一笔发虚即回炉重修。
+          单色不是限制，是把判断留给字形本身。
+        </p>
+      </div>
+      <dl class="fact-list">
+        <div class="fact-row">
+          <dt>创立年份</dt>
+          <dd>1987</dd>
+        </div>
+        <div class="fact-row">
+          <dt>字体家族</dt>
+          <dd>3</dd>
+        </div>
+        <div class="fact-row">
+          <dt>收录字符</dt>
+          <dd>9,417</dd>
+        </div>
+        <div class="fact-row">
+          <dt>累计授权方</dt>
+          <dd>412</dd>
+        </div>
+        <div class="fact-row">
+          <dt>铸字车间</dt>
+          <dd>上海 / 大阪</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="t-h2">黑即字，白即纸。</p>
+    <div class="footer-line">
+      <p class="t-foot">UI 设计提示词库 / Minimalist Monochrome 极简单色</p>
+      <a class="back-link" href="style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var sample = document.getElementById("proof-sample");
+    var buttons = document.querySelectorAll(".weight-picker button");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        sample.style.fontWeight = btn.dataset.weight;
+        buttons.forEach(function (b) {
+          b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+        });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

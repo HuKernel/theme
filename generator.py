@@ -2757,6 +2757,14 @@ def main():
             'Data-Dense Dashboard': 'data-dense-dashboard.html',
             'HUD / Sci-Fi FUI': 'hud-sci-fi-fui.html',
             '3D Product Preview': '3d-product-preview.html',
+            'Y2K Aesthetic': 'y2k-aesthetic.html',
+            'Vintage Analog / Retro Film': 'vintage-analog-retro-film.html',
+            'Motion-Driven': 'motion-driven.html',
+            'Micro-interactions': 'micro-interactions.html',
+            'Parallax Storytelling': 'parallax-storytelling.html',
+            'Gen Z Chaos / Maximalism': 'gen-z-chaos-maximalism.html',
+            'Dimensional Layering': 'dimensional-layering.html',
+            'Minimalist Monochrome': 'minimalist-monochrome.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

@@ -1,0 +1,194 @@
+{
+ "Y2K Aesthetic": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Neon pink, chrome, metallic, bubblegum, iridescent, glossy, retro-futurism, 2000s, futuristic nostalgia",
+   "AI Prompt Keywords": "Design a Y2K aesthetic interface. Use: neon pink/cyan colors, chrome/metallic textures, bubblegum gradients, glossy buttons, iridescent effects, 2000s futurism, star/sparkle decorations, bubble shapes, tech-optimistic vibe.",
+   "Primary Colors": "#FF69B4 (Hot Pink), #00FFFF (Cyan), #C0C0C0 (Silver), #9400D3 (Purple)",
+   "Effects & Animation": "linear-gradient metallic, glossy buttons, 3D chrome effects, glow animations, bubble shapes",
+   "CSS/Technical Keywords": "background: linear-gradient(135deg, #FF69B4, #00FFFF), filter: drop-shadow for glow, border-radius: 50% for bubbles, metallic gradients (silver/chrome), text-shadow: neon glow, ::before for sparkles",
+   "Implementation Checklist": "☐ Neon colors balanced, ☐ Chrome effects visible, ☐ Glossy buttons styled, ☐ Bubble shapes decorative, ☐ Sparkle animations, ☐ Retro fonts loaded",
+   "Best For": "Fashion brands, music platforms, Gen Z brands, nostalgia marketing, entertainment, youth-focused",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FF69B4",
+   "secondary": "#00FFFF",
+   "accent": "#C0C0C0",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "50%",
+   "font_head": "JetBrains Mono",
+   "font_body": "JetBrains Mono"
+  },
+  "file": "y2k-aesthetic.html"
+ },
+ "Vintage Analog / Retro Film": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Film grain, VHS, cassette tape, polaroid, analog warmth, faded colors, light leaks, vintage photography",
+   "AI Prompt Keywords": "Design with vintage analog film aesthetic. Use: film grain overlay, faded/desaturated colors, warm sepia tones, light leaks, VHS tracking effect, polaroid frame, analog warmth, nostalgic photography feel.",
+   "Primary Colors": "Faded Cream #F5E6C8, Warm Sepia #D4A574, Muted Teal #4A7B7C, Soft Pink #E8B4B8",
+   "Effects & Animation": "Film grain overlay, VHS tracking effect, polaroid shake, fade-in transitions, light leak animations",
+   "CSS/Technical Keywords": "filter: sepia() contrast() saturate(0.8), background: noise texture overlay, animation: VHS tracking (transform skew), light leak gradient overlay, border for polaroid frame, grain via SVG filter",
+   "Implementation Checklist": "☐ Film grain visible, ☐ Colors faded/warm, ☐ Light leaks present, ☐ Nostalgic feel achieved, ☐ Performance with filters, ☐ Images look vintage",
+   "Best For": "Photography portfolios, music/vinyl brands, vintage fashion, nostalgia marketing, film industry, cafes",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#F5E6C8",
+   "secondary": "#D4A574",
+   "accent": "#4A7B7C",
+   "bg": "#FAF7F0",
+   "fg": "#0F172A",
+   "radius": "6px",
+   "font_head": "Abril Fatface",
+   "font_body": "Merriweather"
+  },
+  "file": "vintage-analog-retro-film.html"
+ },
+ "Motion-Driven": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Animation-heavy, microinteractions, smooth transitions, scroll effects, parallax, entrance anim, page transitions",
+   "AI Prompt Keywords": "Build an animation-heavy interface with scroll-triggered animations, microinteractions, parallax scrolling (3-5 layers), smooth transitions (300-400ms), entrance animations, page transitions. Use Intersection Observer for scroll effects, transform for performance, GPU acceleration.",
+   "Primary Colors": "Bold colors emphasize movement, high contrast animated, dynamic gradients, accent action colors",
+   "Effects & Animation": "Scroll anim (Intersection Observer), hover (300-400ms), entrance, parallax (3-5 layers), page transitions",
+   "CSS/Technical Keywords": "animation: @keyframes scroll-reveal, transform: translateY/X, Intersection Observer API, will-change: transform, scroll-behavior: smooth, animation-duration: 300-400ms",
+   "Implementation Checklist": "☐ Scroll animations active, ☐ Parallax 3-5 layers, ☐ Entrance animations smooth, ☐ Page transitions fluid, ☐ GPU accelerated, ☐ Prefers-reduced-motion respected",
+   "Best For": "Portfolio sites, storytelling platforms, interactive experiences, entertainment apps, creative, SaaS",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Newsreader",
+   "font_body": "Roboto"
+  },
+  "file": "motion-driven.html"
+ },
+ "Micro-interactions": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Small animations, gesture-based, tactile feedback, subtle animations, contextual interactions, responsive",
+   "AI Prompt Keywords": "Design with delightful micro-interactions: small 50-100ms animations, gesture-based responses, tactile feedback, loading spinners, success/error states, subtle hover effects, haptic feedback triggers for mobile. Focus on responsive, contextual interactions.",
+   "Primary Colors": "Subtle color shifts (10-20%), feedback: Green #22C55E, Red #EF4444, Amber #F59E0B",
+   "Effects & Animation": "Small hover (50-100ms), loading spinners, success/error state anim, gesture-triggered (swipe/pinch), haptic",
+   "CSS/Technical Keywords": "animation: short 50-100ms, transition: hover states, @media (hover: hover) for desktop, :active for press, haptic-feedback CSS/API, loading animation smooth loop",
+   "Implementation Checklist": "☐ Micro-animations 50-100ms, ☐ Gesture-responsive, ☐ Tactile feedback visual/haptic, ☐ Loading spinners smooth, ☐ Success/error states clear, ☐ Hover effects subtle",
+   "Best For": "Mobile apps, touchscreen UIs, productivity tools, user-friendly, consumer apps, interactive components",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#22C55E",
+   "secondary": "#EF4444",
+   "accent": "#F59E0B",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Outfit",
+   "font_body": "Outfit"
+  },
+  "file": "micro-interactions.html"
+ },
+ "Parallax Storytelling": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Scroll-driven, narrative, layered scrolling, immersive, progressive disclosure, cinematic, scroll-triggered",
+   "AI Prompt Keywords": "Design a parallax storytelling page. Use: scroll-driven narrative, layered backgrounds (3-5 layers), fixed/sticky sections, cinematic transitions, progressive disclosure, full-screen chapters, depth perception.",
+   "Primary Colors": "Story-dependent, often gradients and natural colors, section-specific palettes",
+   "Effects & Animation": "transform: translateY(scroll), position: fixed/sticky, perspective: 1px, scroll-triggered animations",
+   "CSS/Technical Keywords": "position: fixed/sticky, transform: translateY(calc()), perspective: 1px, z-index layering, scroll-snap-type, Intersection Observer for triggers, will-change: transform",
+   "Implementation Checklist": "☐ Layers parallax smoothly, ☐ Story flows naturally, ☐ Mobile alternative provided, ☐ Performance optimized, ☐ Skip option available, ☐ Reduced motion fallback",
+   "Best For": "Brand storytelling, product launches, case studies, portfolios, annual reports, marketing campaigns",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Inter",
+   "font_body": "Inter"
+  },
+  "file": "parallax-storytelling.html"
+ },
+ "Gen Z Chaos / Maximalism": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Chaos, clutter, stickers, raw, collage, mixed media, loud, internet culture, ironic",
+   "AI Prompt Keywords": "Design a Gen Z chaos maximalist interface. Use: clashing bright colors, sticker overlays, collage aesthetic, raw/unpolished feel, mixed media, ironic elements, loud typography, GIF-heavy, internet culture references.",
+   "Primary Colors": "Clashing Brights: #FF00FF, #00FF00, #FFFF00, #0000FF",
+   "Effects & Animation": "Marquee scrolls, jitter, sticker layering, GIF overload, random placement, drag-and-drop",
+   "CSS/Technical Keywords": "mix-blend-mode: multiply/screen, transform: rotate(random), animation: jitter, marquee text, position: absolute for scattered elements, filter: saturate(150%), z-index chaos",
+   "Implementation Checklist": "☐ Colors clash intentionally, ☐ Stickers/overlays present, ☐ Layout chaotic but usable, ☐ GIFs optimized, ☐ Mobile scrollable, ☐ Performance acceptable",
+   "Best For": "Gen Z lifestyle brands, music artists, creative portfolios, viral marketing, fashion",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FF00FF",
+   "secondary": "#00FF00",
+   "accent": "#FFFF00",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Space Grotesk",
+   "font_body": "Space Grotesk"
+  },
+  "file": "gen-z-chaos-maximalism.html"
+ },
+ "Dimensional Layering": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Depth, overlapping, z-index, layers, 3D, shadows, elevation, floating, cards, spatial hierarchy",
+   "AI Prompt Keywords": "Design with dimensional layering. Use: z-index depth (multiple layers), overlapping cards, elevation shadows (4 levels), floating elements, parallax depth, backdrop blur for hierarchy, spatial UI feel.",
+   "Primary Colors": "Neutral base (#FFFFFF, #F5F5F5, #E0E0E0) + brand accent for elevated elements",
+   "Effects & Animation": "z-index stacking, box-shadow elevation (4 levels), transform: translateZ(), backdrop-filter, parallax",
+   "CSS/Technical Keywords": "z-index: 1-4 levels, box-shadow: elevation scale (sm/md/lg/xl), transform: translateZ(), backdrop-filter: blur(), position: relative for stacking, parallax on scroll",
+   "Implementation Checklist": "☐ Layers clearly defined, ☐ Shadows show depth, ☐ Overlaps intentional, ☐ Hierarchy clear, ☐ Performance optimized, ☐ Mobile depth maintained",
+   "Best For": "Dashboards, card layouts, modals, navigation, product showcases, SaaS interfaces",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FFFFFF",
+   "secondary": "#F5F5F5",
+   "accent": "#E0E0E0",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "16px",
+   "font_head": "Lexend Mega",
+   "font_body": "Public Sans"
+  },
+  "file": "dimensional-layering.html"
+ },
+ "Minimalist Monochrome": {
+  "csv": {
+   "Type": "Mobile",
+   "Keywords": "monochrome, black white, editorial, austere, typographic, sharp, zero radius, high contrast, brutalist, pocket editorial, serif, mechanical",
+   "AI Prompt Keywords": "Design a Minimalist Monochrome mobile interface using monochrome, black white, editorial, austere, typographic, sharp, zero radius, high contrast. Prioritize clear hierarchy, safe areas, touch targets, visible focus, and reduced-motion alternatives.",
+   "Primary Colors": "Pure Black #000000, Pure White #FFFFFF",
+   "Effects & Animation": "Instant inversion active state (tap → bg-black text-white, zero transition-none), no shadows (strictly 2D), full-bleed horizontal rules (4px black section dividers), subtle paper noise texture (opacity: 0.03), slide-in page transitions with hard edge",
+   "CSS/Technical Keywords": "border-radius: 0px (ALL elements including modals), box-shadow: none, active:bg-black active:text-white transition-none, border-b-4 border-black (section dividers), divide-y divide-black (lists), font-family: Playfair Display (headers) + Source Serif 4 (body) + JetBrains Mono (labels), background-image: noise SVG opacity-[0.03]",
+   "Implementation Checklist": "☐ 0px border-radius on ALL elements, ☐ No shadows anywhere, ☐ Instant inversion on every tap (transition-none), ☐ 4px black line separates hero from content, ☐ Safe area respected (pt-safe pb-safe), ☐ h-14 touch targets, ☐ Sticky section headers with border-b, ☐ Typography hero: word spans full screen width, ☐ Paper noise texture on backgrounds, ☐ Menu word-label instead of icon",
+   "Best For": "Luxury fashion e-commerce mobile, editorial publications, high-end portfolio apps, experimental/avant-garde brands, digital exhibitions",
+   "Status": "supplemental"
+  },
+  "tokens": {
+   "primary": "#000000",
+   "secondary": "#FFFFFF",
+   "accent": "#000000",
+   "bg": "#0D0F16",
+   "fg": "#EEF1F7",
+   "radius": "0px",
+   "font_head": "Playfair Display",
+   "font_body": "Source Serif 4"
+  },
+  "file": "minimalist-monochrome.html"
+ }
+}

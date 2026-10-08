@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Dimensional Layering 维度分层 / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;500;600&family=Public+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Token 计划：中性纸面基底（bg #F8FAFC / 面 #FFFFFF / 次面 #F5F5F5 / 线 #E0E0E0 / 墨 #0F172A），赤印红 #A61B29 只给抬升层与决策点；三级 elevation 阴影 elev-1 基面 / elev-2 抬升 / elev-3 悬浮；圆角 16px；Lexend Mega 标题 / Public Sans 正文 + Noto Sans SC 中文。 */
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-2: #F5F5F5;
+  --line: #E0E0E0;
+  --line-soft: #E8ECF2;
+  --ink: #0F172A;
+  --ink-2: #334155;
+  --ink-3: #475569;
+  --accent: #A61B29;
+  --accent-deep: #7A1220;
+  --r: 16px;
+  --elev-1: 0 1px 2px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.06);
+  --elev-2: 0 4px 10px rgba(15, 23, 42, 0.08), 0 12px 28px rgba(15, 23, 42, 0.10);
+  --elev-3: 0 8px 16px rgba(15, 23, 42, 0.10), 0 28px 56px rgba(15, 23, 42, 0.16);
+  --font-head: 'Lexend Mega', 'Noto Sans SC', sans-serif;
+  --font-body: 'Public Sans', 'Noto Sans SC', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+::selection { background: var(--accent); color: #fff; }
+
+/* ---------- 一次亮相：各层依次抬升就位（transform-only，无逐卡淡入） ---------- */
+@keyframes rise {
+  from { transform: translateY(26px); }
+}
+[data-rise] {
+  animation: rise 0.7s cubic-bezier(0.16, 0.84, 0.28, 1) backwards;
+  animation-delay: var(--d, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- 顶栏：悬浮层 L3，毛玻璃交代高度 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+  box-shadow: var(--elev-1);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 64px;
+}
+.brand { display: flex; align-items: center; gap: 14px; color: var(--ink); }
+.brand:hover { text-decoration: none; }
+.mark { position: relative; width: 18px; height: 18px; border-radius: 5px; background: var(--accent); box-shadow: var(--elev-2); flex: none; }
+.mark::before {
+  content: ""; position: absolute; left: -8px; top: 8px;
+  width: 18px; height: 18px; border-radius: 5px;
+  background: var(--line); z-index: -2;
+}
+.mark::after {
+  content: ""; position: absolute; left: -4px; top: 4px;
+  width: 18px; height: 18px; border-radius: 5px;
+  background: var(--surface); border: 1px solid var(--line); z-index: -1;
+}
+.brand b { font-family: var(--font-head); font-weight: 500; font-size: 15px; letter-spacing: 0.02em; }
+.brand span { font-size: 12px; color: var(--ink-3); }
+.nav { display: flex; gap: 22px; margin-left: 8px; }
+.nav a { color: var(--ink-2); font-size: 14px; font-weight: 500; }
+.nav a:hover { color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+.search { margin-left: auto; }
+.search input {
+  width: 220px; height: 38px; padding: 0 14px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface); color: var(--ink);
+  font: 400 13px var(--font-body);
+  box-shadow: var(--elev-1);
+  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+}
+.search input::placeholder { color: var(--ink-3); }
+.search input:focus { outline: none; border-color: var(--accent); box-shadow: var(--elev-2); transform: translateY(-1px); }
+.search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- 按钮：hover 抬升一层 ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 42px; padding: 0 20px;
+  border-radius: 10px; border: 1px solid transparent;
+  font: 500 14px var(--font-body); cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.25s, background 0.25s;
+}
+.btn-primary { background: var(--accent); color: #fff; box-shadow: var(--elev-2); }
+.btn-primary:hover { background: var(--accent-deep); box-shadow: var(--elev-3); transform: translateY(-3px); text-decoration: none; }
+.btn-ghost { background: var(--surface); color: var(--ink); border-color: var(--line); box-shadow: var(--elev-1); }
+.btn-ghost:hover { box-shadow: var(--elev-2); transform: translateY(-3px); text-decoration: none; }
+.btn-sm { height: 36px; padding: 0 14px; font-size: 13px; }
+
+/* ---------- Hero：前景白面裁切后景台账底纹 ---------- */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line-soft); }
+.hero-band {
+  position: absolute; top: 0; bottom: 0; right: -72px; width: 56%;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 23px, rgba(15, 23, 42, 0.05) 23px 24px),
+    repeating-linear-gradient(90deg, transparent 0 23px, rgba(15, 23, 42, 0.04) 23px 24px),
+    #EDF1F7;
+  border-left: 1px solid var(--line);
+}
+.hero-band::before {
+  content: ""; position: absolute; left: 42px; top: 0; bottom: 0;
+  width: 2px; background: rgba(166, 27, 41, 0.35);
+}
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: stretch;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+.hero-sheet {
+  position: relative; z-index: 3;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r);
+  box-shadow: var(--elev-3);
+  padding: 44px 46px 36px;
+  margin-right: -56px;
+}
+.hero-sheet::before {
+  content: ""; position: absolute; left: 0; top: 22px; bottom: 22px;
+  width: 3px; border-radius: 3px; background: var(--accent);
+}
+.eyebrow { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; }
+h1 {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: 46px; line-height: 1.22; letter-spacing: 0.01em;
+  margin: 14px 0 18px;
+}
+.lede { font-size: 16px; color: var(--ink-2); max-width: 34em; }
+.actions { display: flex; flex-wrap: wrap; gap: 14px; margin: 28px 0 0; }
+.hero-stats {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--line-soft);
+}
+.hero-stats b { display: block; font-family: var(--font-head); font-weight: 500; font-size: 24px; }
+.hero-stats b i { font-style: normal; font-size: 13px; color: var(--ink-3); margin-left: 2px; }
+.hero-stats span { font-size: 12.5px; color: var(--ink-3); }
+
+/* Hero 右侧：三张卡按 L1-L3 堆叠，左缘被前景白面裁切 */
+.hero-visual { position: relative; z-index: 1; }
+.pile { position: relative; height: 440px; }
+.pile-card {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  padding: 18px 20px;
+  font-size: 13px;
+}
+.pile-card .tag { display: block; font-size: 11.5px; color: var(--ink-3); margin-bottom: 8px; letter-spacing: 0.04em; }
+.pile-a { right: -20px; top: 10px; width: 74%; transform: rotate(2.5deg); box-shadow: var(--elev-1); z-index: 1; }
+.pile-b { right: 70px; top: 128px; width: 70%; transform: rotate(-2deg); box-shadow: var(--elev-2); z-index: 2; }
+.pile-c { left: 0; bottom: 14px; width: 68%; transform: rotate(1deg); box-shadow: var(--elev-3); z-index: 3; }
+.pile-a ul { list-style: none; }
+.pile-a li { padding: 6px 0; border-bottom: 1px dashed var(--line); color: var(--ink-2); }
+.pile-a li:last-child { border-bottom: none; }
+.pile-a li code { font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--accent); margin-right: 8px; }
+.pile-b dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; color: var(--ink-2); }
+.pile-b dt { color: var(--ink-3); }
+.pile-c p { color: var(--ink-2); }
+.pile-c b { color: var(--ink); }
+.pile-c footer { margin-top: 10px; font-size: 12px; color: var(--ink-3); display: flex; justify-content: space-between; }
+.pile-caption {
+  position: absolute; left: 0; bottom: -34px;
+  font-size: 12px; color: var(--ink-3);
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 14px;
+}
+
+/* ---------- 分节通用 ---------- */
+.section { padding: 76px 0; }
+.section-alt { background: var(--surface); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.section-head { max-width: 720px; margin-bottom: 44px; }
+.kicker { font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; }
+h2 { font-family: var(--font-head); font-weight: 600; font-size: 30px; line-height: 1.3; margin: 10px 0 12px; }
+.section-head p { color: var(--ink-2); font-size: 15px; }
+
+/* ---------- 高度系统：三级阶梯，自证其身 ---------- */
+.stair {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  align-items: end;
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 0;
+}
+.stair-card {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r);
+  padding: 26px 26px 30px;
+  transition: box-shadow 0.3s, transform 0.3s;
+  height: 100%;
+}
+.stair-card.lv1 { margin-top: 76px; box-shadow: var(--elev-1); position: relative; z-index: 1; }
+.stair-card.lv2 { margin-top: 38px; box-shadow: var(--elev-2); position: relative; z-index: 2; }
+.stair-card.lv3 { margin-top: 0; box-shadow: var(--elev-3); position: relative; z-index: 3; }
+.stair-card:hover { transform: translateY(-5px); }
+.stair-card.lv1:hover { box-shadow: var(--elev-2); }
+.stair-card.lv2:hover { box-shadow: var(--elev-3); }
+.stair-card.lv3:hover { box-shadow: var(--elev-3); }
+.lv-chip {
+  display: inline-block; padding: 3px 12px; border-radius: 999px;
+  background: var(--ink); color: #fff; font-size: 12px; font-weight: 500;
+  margin-bottom: 14px;
+}
+.stair-card h3 { font-family: var(--font-head); font-weight: 500; font-size: 18px; margin-bottom: 8px; }
+.stair-card p { font-size: 13.5px; color: var(--ink-2); }
+.stair-card code {
+  display: block; margin-top: 16px; padding: 10px 12px;
+  background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 8px;
+  font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.stair-note { margin-top: 22px; font-size: 13.5px; color: var(--ink-3); }
+
+/* ---------- 案卷堆叠：可展开的 Z 轴堆 ---------- */
+.stack-wrap { max-width: 760px; margin: 0 auto; }
+.stack-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.stack-bar p { font-size: 13.5px; color: var(--ink-3); }
+.stack {
+  --ch: 168px;
+  position: relative;
+  height: calc(var(--ch) + 34px);
+  transition: height 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.stack.open { height: calc(var(--ch) * 4 + 18px * 3 + 12px); }
+.stack-card {
+  position: absolute; left: 0; right: 0; top: 0;
+  height: var(--ch);
+  transform: translateY(calc(var(--i) * 10px));
+  z-index: calc(4 - var(--i));
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.stack.open .stack-card { transform: translateY(calc(var(--i) * (100% + 18px))); }
+.stack-inner {
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-left: 4px solid var(--spine, var(--line));
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: var(--elev-2);
+  transition: box-shadow 0.3s, transform 0.3s;
+  display: flex; flex-direction: column;
+}
+.stack-card[data-l="3"] .stack-inner { border-left-color: var(--accent); box-shadow: var(--elev-3); }
+.stack-card[data-l="2"] .stack-inner { border-left-color: #94A3B8; box-shadow: var(--elev-2); }
+.stack-card[data-l="1"] .stack-inner { border-left-color: #CBD5E1; box-shadow: var(--elev-1); }
+.stack-card[data-l="0"] .stack-inner { border-left-color: var(--line); box-shadow: none; }
+.stack-inner:hover { transform: translateY(-4px); }
+.stack-card[data-l="3"] .stack-inner:hover { box-shadow: var(--elev-3); }
+.stack-card[data-l="2"] .stack-inner:hover { box-shadow: var(--elev-3); }
+.stack-card[data-l="1"] .stack-inner:hover { box-shadow: var(--elev-2); }
+.stack-card[data-l="0"] .stack-inner:hover { box-shadow: var(--elev-1); }
+.stack-top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.chip-lv {
+  padding: 2px 10px; border-radius: 999px;
+  background: var(--ink); color: #fff; font-size: 11.5px; font-weight: 500; flex: none;
+}
+.stack-top code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; color: var(--accent); }
+.stack-inner h3 { font-size: 16px; font-weight: 600; line-height: 1.45; }
+.stack-meta { margin-top: auto; display: flex; flex-wrap: wrap; gap: 6px 0; font-size: 12.5px; color: var(--ink-3); }
+.stack-meta span { white-space: nowrap; }
+.stack-meta span::after { content: " /"; margin: 0 8px; color: var(--line); }
+.stack-meta span:last-child::after { content: ""; margin: 0; }
+
+/* ---------- 借阅审批：基面表格 + 跨边悬浮卡 ---------- */
+.approval-grid {
+  display: grid; grid-template-columns: 1fr 340px; gap: 24px;
+  align-items: stretch;
+}
+.tbl-panel {
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r);
+  box-shadow: var(--elev-1);
+  padding: 8px 10px 14px;
+  min-width: 0;
+}
+.tbl-scroll { overflow-x: auto; }
+.tbl { min-width: 820px; }
+.t-grid {
+  display: grid;
+  grid-template-columns: 112px minmax(240px, 1fr) 116px 84px 104px 128px;
+  gap: 12px; align-items: center;
+  padding: 12px 14px;
+}
+.t-head { color: var(--ink-3); font-size: 12.5px; font-weight: 500; border-bottom: 1px solid var(--line); }
+.t-row {
+  background: var(--surface);
+  border-radius: 10px;
+  margin-top: 8px;
+  box-shadow: var(--elev-1);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.t-row:hover { box-shadow: var(--elev-2); transform: translateY(-2px); }
+.t-row .no { font-family: ui-monospace, Consolas, monospace; font-size: 12px; color: var(--accent); }
+.t-row .title { font-size: 13.5px; color: var(--ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.t-row .who { font-size: 13px; color: var(--ink-2); }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 500; }
+.chip-public { background: #E2E8F0; color: #0F172A; }
+.chip-internal { background: #FEF3C7; color: #92400E; }
+.chip-secret { background: var(--accent); color: #fff; }
+.chip-wait { background: #FEF3C7; color: #92400E; }
+.chip-doing { background: #E2E8F0; color: #0F172A; }
+.chip-done { background: #DCFCE7; color: #166534; }
+.row-acts { display: flex; gap: 4px; }
+.mini {
+  padding: 4px 10px; border-radius: 7px; font-size: 12.5px; font-weight: 500;
+  color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line);
+  cursor: pointer; font-family: var(--font-body);
+  transition: box-shadow 0.2s, transform 0.2s, color 0.2s;
+}
+.mini:hover { transform: translateY(-1px); box-shadow: var(--elev-1); color: var(--accent); text-decoration: none; }
+.mini-ok:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.side { position: relative; z-index: 2; margin-left: -30px; display: flex; }
+.side-card {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r);
+  box-shadow: var(--elev-3);
+  padding: 26px 26px 24px;
+  display: flex; flex-direction: column;
+  transition: transform 0.3s;
+}
+.side-card:hover { transform: translateY(-4px); }
+.side-card .now { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; }
+.side-card h3 { font-family: var(--font-head); font-weight: 500; font-size: 17px; line-height: 1.4; margin: 8px 0 16px; }
+.side-card dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 13.5px; }
+.side-card dt { color: var(--ink-3); }
+.side-card dd { color: var(--ink); font-weight: 500; text-align: right; }
+.side-acts { display: flex; gap: 12px; margin: 20px 0 14px; }
+.side-acts .btn { flex: 1; }
+.side-note { font-size: 12.5px; color: var(--ink-3); border-top: 1px dashed var(--line); padding-top: 14px; }
+.stamp {
+  position: absolute; right: 18px; top: 52px;
+  width: 86px; height: 86px; border: 3px solid rgba(166, 27, 41, 0.55);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-12deg);
+  color: var(--accent); font-weight: 700; font-size: 15px; letter-spacing: 0.2em;
+  opacity: 0.85; pointer-events: none;
+}
+
+/* ---------- Footer ---------- */
+footer { background: var(--ink); color: #CBD5E1; padding: 34px 0; margin-top: 76px; }
+.foot-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+footer p { font-size: 13.5px; }
+footer p span { color: #94A3B8; margin-left: 14px; font-size: 12.5px; }
+footer a { color: #fff; font-size: 13.5px; border-bottom: 1px solid rgba(255, 255, 255, 0.4); padding-bottom: 1px; }
+footer a:hover { border-bottom-color: #fff; text-decoration: none; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 960px) {
+  .search { display: none; }
+  .hero-grid { grid-template-columns: 1fr; padding-top: 52px; }
+  .hero-sheet { margin-right: 0; padding: 34px 30px 28px; }
+  .hero-visual { margin-top: 56px; }
+  .pile { height: 400px; }
+  .stair { grid-template-columns: 1fr; gap: 20px; }
+  .stair-card.lv1, .stair-card.lv2 { margin-top: 0; }
+  .approval-grid { grid-template-columns: 1fr; }
+  .side { margin-left: 0; }
+}
+@media (max-width: 720px) {
+  .nav { display: none; }
+  .topbar-inner { gap: 14px; }
+  h1 { font-size: 34px; }
+  h2 { font-size: 24px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 16px 12px; }
+  .pile { height: 340px; }
+  .pile-a { width: 88%; right: 0; }
+  .pile-b { width: 84%; right: 20px; }
+  .pile-c { width: 86%; }
+  .stack { --ch: 196px; }
+  .section { padding: 60px 0; }
+  .actions .btn { flex: 1; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  h1 { font-size: 29px; }
+  .hero-sheet { padding: 26px 20px 22px; }
+  .brand span { display: none; }
+  .stack-bar { flex-direction: column; align-items: stretch; text-align: left; }
+  .stamp { width: 70px; height: 70px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#">
+      <span class="mark" aria-hidden="true"></span>
+      <b>叠层档案馆</b>
+      <span>StrataArchive</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#elev">在库档案</a>
+      <a href="#stack">案卷堆叠</a>
+      <a href="#approval">借阅审批</a>
+      <a href="#elev">高度系统</a>
+    </nav>
+    <div class="search">
+      <label class="sr-only" for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">检索</label>
+      <input id="q" type="search" placeholder="检索案卷编号或题名">
+    </div>
+    <button class="btn btn-primary btn-sm" type="button">新建案卷</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-band" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-sheet" data-rise style="--d:0.05s">
+        <p class="eyebrow">档案管理系统 / 全宗号 GL-1958</p>
+        <h1>每一卷档案，<br>都有它的高度。</h1>
+        <p class="lede">叠层档案馆把界面的深度收进三级阴影：基面承载信息，抬升承载操作，悬浮承载决策。层与层的重叠不是装饰，而是把「谁在上、谁更近」写成可检索的秩序。</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#approval">开始借阅申请</a>
+          <a class="btn btn-ghost" href="#elev">查看高度系统</a>
+        </div>
+        <ul class="hero-stats">
+          <li><b>48,213<i>卷</i></b><span>在库案卷</span></li>
+          <li><b>3,906<i>卷</i></b><span>本年新增</span></li>
+          <li><b>76<i>%</i></b><span>数字化率</span></li>
+          <li><b>142<i>卷</i></b><span>到期待鉴定</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual" data-rise style="--d:0.18s">
+        <div class="pile" aria-hidden="true">
+          <div class="pile-card pile-a">
+            <span class="tag">目录卡片 / 全宗 GL</span>
+            <ul>
+              <li><code>GL-2-0338</code>桥梁荷载试验原始记录</li>
+              <li><code>WX-7-0112</code>汛期水文观测日报合订本</li>
+              <li><code>HG-9-0047</code>老城区地下管网普查图纸</li>
+            </ul>
+          </div>
+          <div class="pile-card pile-b">
+            <span class="tag">借阅单 / L2 抬升</span>
+            <dl>
+              <dt>借阅人</dt><dd>陈屿（规划院）</dd>
+              <dt>案卷</dt><dd>GL-2-0341</dd>
+              <dt>时限</dt><dd>14 天</dd>
+              <dt>用途</dt><dd>工程复核比对</dd>
+            </dl>
+          </div>
+          <div class="pile-card pile-c">
+            <span class="tag">批示 / L3 悬浮</span>
+            <p><b>同意调阅。</b>请于三层阅览区办理登记，原件仅限馆内查阅。</p>
+            <footer><span>馆员 许知远</span><span>2026-09-30</span></footer>
+          </div>
+          <span class="pile-caption">Z 轴堆叠 / L1 至 L3</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="elev" class="section">
+    <div class="container">
+      <div class="section-head" data-rise style="--d:0.05s">
+        <p class="kicker">高度系统 / Elevation Tokens</p>
+        <h2>三级阴影，三种高度</h2>
+        <p>深度只分三档，多了就变成噪音。每张卡片用自身所处的层位演示对应的阴影，悬停时抬升一层。</p>
+      </div>
+      <div class="stair" data-rise style="--d:0.15s">
+        <article class="stair-card lv1">
+          <span class="lv-chip">L1 基面</span>
+          <h3>Surface 基面层</h3>
+          <p>承载静态信息：表格行、列表项、目录条目。默认停在 Z 轴第一层，仅以极浅投影交代与纸面的距离。</p>
+          <code>--elev-1 / 0 1px 2px + 0 2px 6px rgba(15,23,42,.08)</code>
+        </article>
+        <article class="stair-card lv2">
+          <span class="lv-chip">L2 抬升</span>
+          <h3>Raised 抬升层</h3>
+          <p>承载可操作内容：卡片、检索输入组、堆叠案卷。指针悬停时从 L2 抬到 L3，动作换来高度。</p>
+          <code>--elev-2 / 0 4px 10px + 0 12px 28px rgba(15,23,42,.10)</code>
+        </article>
+        <article class="stair-card lv3">
+          <span class="lv-chip">L3 悬浮</span>
+          <h3>Floating 悬浮层</h3>
+          <p>承载决策与全局：批示卡、审批面板、主操作。离纸面最远，投影最深最散，一律压在最上。</p>
+          <code>--elev-3 / 0 8px 16px + 0 28px 56px rgba(15,23,42,.16)</code>
+        </article>
+      </div>
+      <p class="stair-note" data-rise style="--d:0.25s">基线之下是纸面本身：页面底色 #F8FAFC，无投影、无描边，一切层级自它而起。</p>
+    </div>
+  </section>
+
+  <section id="stack" class="section section-alt">
+    <div class="container">
+      <div class="section-head" data-rise style="--d:0.05s">
+        <p class="kicker">案卷堆叠 / Stacking</p>
+        <h2>一摞案卷，一层一个层位</h2>
+        <p>装订成册的案卷在界面上同样遵守 Z 轴：堆叠时只露出纸边，展开后各归各位。顶层 L3 承担当前操作，底层 L0 贴住纸面，投影随层位逐级消退。</p>
+      </div>
+      <div class="stack-wrap" data-rise style="--d:0.15s">
+        <div class="stack-bar">
+          <p>同一全宗的四卷待办，按处理优先级自上而下堆放。</p>
+          <button class="btn btn-ghost btn-sm" id="stackBtn" type="button" aria-expanded="false" aria-controls="dossier-stack">展开堆叠</button>
+        </div>
+        <div class="stack" id="dossier-stack">
+          <div class="stack-card" style="--i:0" data-l="3">
+            <div class="stack-inner">
+              <div class="stack-top"><span class="chip-lv">层位 L3</span><code>GL-2-0341</code></div>
+              <h3>市政道路改造工程竣工图</h3>
+              <p class="stack-meta"><span>2024 年度</span><span>1986 页</span><span>密级 内部</span><span>数字化已完成</span></p>
+            </div>
+          </div>
+          <div class="stack-card" style="--i:1" data-l="2">
+            <div class="stack-inner">
+              <div class="stack-top"><span class="chip-lv">层位 L2</span><code>GL-2-0338</code></div>
+              <h3>桥梁荷载试验原始记录</h3>
+              <p class="stack-meta"><span>2023 年度</span><span>754 页</span><span>密级 内部</span><span>数字化中</span></p>
+            </div>
+          </div>
+          <div class="stack-card" style="--i:2" data-l="1">
+            <div class="stack-inner">
+              <div class="stack-top"><span class="chip-lv">层位 L1</span><code>WX-7-0112</code></div>
+              <h3>汛期水文观测日报合订本</h3>
+              <p class="stack-meta"><span>2022 年度</span><span>2310 页</span><span>密级 公开</span><span>待数字化</span></p>
+            </div>
+          </div>
+          <div class="stack-card" style="--i:3" data-l="0">
+            <div class="stack-inner">
+              <div class="stack-top"><span class="chip-lv">层位 L0</span><code>HG-9-0047</code></div>
+              <h3>老城区地下管网普查图纸</h3>
+              <p class="stack-meta"><span>2019 年度</span><span>612 页</span><span>密级 秘密</span><span>仅限馆内查阅</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="approval" class="section">
+    <div class="container">
+      <div class="section-head" data-rise style="--d:0.05s">
+        <p class="kicker">借阅审批 / Approval Queue</p>
+        <h2>队列在基面，决策在悬浮</h2>
+        <p>审批队列停在基面网格上，行与行严格对齐；右侧悬浮卡跨过表格边缘，把当前卷宗抬到眼前。悬停任意一行，行会微微离面。</p>
+      </div>
+      <div class="approval-grid" data-rise style="--d:0.15s">
+        <div class="tbl-panel">
+          <div class="tbl-scroll">
+            <div class="tbl">
+              <div class="t-grid t-head">
+                <span>案卷编号</span><span>题名</span><span>借阅人</span><span>密级</span><span>状态</span><span>操作</span>
+              </div>
+              <div class="t-grid t-row">
+                <span class="no">GL-2-0341</span><span class="title">市政道路改造工程竣工图</span><span class="who">陈屿</span>
+                <span><i class="chip chip-internal">内部</i></span><span><i class="chip chip-wait">待一审</i></span>
+                <span class="row-acts"><button class="mini mini-ok" type="button">批准</button><button class="mini" type="button">退回</button></span>
+              </div>
+              <div class="t-grid t-row">
+                <span class="no">GL-2-0338</span><span class="title">桥梁荷载试验原始记录</span><span class="who">沈一舟</span>
+                <span><i class="chip chip-internal">内部</i></span><span><i class="chip chip-doing">复核中</i></span>
+                <span class="row-acts"><button class="mini mini-ok" type="button">批准</button><button class="mini" type="button">退回</button></span>
+              </div>
+              <div class="t-grid t-row">
+                <span class="no">WX-7-0112</span><span class="title">汛期水文观测日报合订本</span><span class="who">林晚</span>
+                <span><i class="chip chip-public">公开</i></span><span><i class="chip chip-wait">待一审</i></span>
+                <span class="row-acts"><button class="mini mini-ok" type="button">批准</button><button class="mini" type="button">退回</button></span>
+              </div>
+              <div class="t-grid t-row">
+                <span class="no">HG-9-0047</span><span class="title">老城区地下管网普查图纸</span><span class="who">周衡</span>
+                <span><i class="chip chip-secret">秘密</i></span><span><i class="chip chip-doing">待二审</i></span>
+                <span class="row-acts"><button class="mini mini-ok" type="button">批准</button><button class="mini" type="button">退回</button></span>
+              </div>
+              <div class="t-grid t-row">
+                <span class="no">KJ-1-0026</span><span class="title">档案馆库房温湿度记录簿</span><span class="who">陈屿</span>
+                <span><i class="chip chip-public">公开</i></span><span><i class="chip chip-done">已归档</i></span>
+                <span class="row-acts"><button class="mini mini-ok" type="button">批准</button><button class="mini" type="button">退回</button></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <aside class="side">
+          <div class="side-card">
+            <span class="stamp" aria-hidden="true">待一审</span>
+            <p class="now">当前处理 / L3 悬浮</p>
+            <h3>市政道路改造工程竣工图</h3>
+            <dl>
+              <dt>案卷编号</dt><dd>GL-2-0341</dd>
+              <dt>借阅人</dt><dd>陈屿（规划院）</dd>
+              <dt>借阅时限</dt><dd>14 天</dd>
+              <dt>用途</dt><dd>工程复核比对</dd>
+            </dl>
+            <div class="side-acts">
+              <button class="btn btn-primary" type="button">批准借阅</button>
+              <button class="btn btn-ghost" type="button">退回补正</button>
+            </div>
+            <p class="side-note">密级为内部的案卷，批准后原件仅可在三层阅览区调阅，复印需另行登记。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot-inner">
+    <p>UI 设计提示词库 / Dimensional Layering 维度分层<span>三级阴影 / 可堆叠案卷 / 前景裁切构图</span></p>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var stack = document.getElementById('dossier-stack');
+  var btn = document.getElementById('stackBtn');
+  btn.addEventListener('click', function () {
+    var open = stack.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? '收起堆叠' : '展开堆叠';
+  });
+})();
+</script>
+
+</body>
+</html>

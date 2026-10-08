@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Parallax Storytelling 视差叙事 / UI 设计提示词库</title>
+<script>document.documentElement.classList.add('js');</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+/* token 计划: primary #2563EB / secondary #6B25EB / accent #EBAD25 / bg #F8FAFC / fg #0F172A / radius 14px / Inter + Noto Serif SC / 各章节按海拔使用专属色板 */
+
+:root {
+  --primary: #2563EB;
+  --secondary: #6B25EB;
+  --accent: #EBAD25;
+  --bg: #F8FAFC;
+  --fg: #0F172A;
+  --muted: #475569;
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+html.reduce { scroll-behavior: auto; scroll-snap-type: none; }
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.62;
+  overflow-x: hidden;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.dark-zone a:focus-visible, .dark-zone button:focus-visible { outline-color: var(--accent); }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+
+.skip {
+  position: fixed; top: -60px; left: 16px; z-index: 99;
+  background: var(--fg); color: #F8FAFC;
+  padding: 10px 16px; border-radius: 8px;
+  transition: top .2s ease;
+}
+.skip:focus { top: 12px; text-decoration: none; }
+
+.kicker {
+  font-size: 13px; font-weight: 600; letter-spacing: .14em;
+  color: var(--accent);
+}
+.light-zone .kicker { color: #1D4ED8; }
+
+.btn {
+  display: inline-block; padding: 12px 26px; border-radius: 999px;
+  font-weight: 600; font-size: 15px; border: 1.5px solid transparent;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-2px); }
+.btn-solid { background: #F8FAFC; color: #0F172A; }
+.btn-solid:hover { background: #EBAD25; color: #0F172A; }
+.btn-ghost { border-color: rgba(248, 250, 252, .6); color: #F8FAFC; }
+.btn-ghost:hover { border-color: #F8FAFC; background: rgba(248, 250, 252, .12); }
+
+/* ---------- 移动端顶部海拔进度 ---------- */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: rgba(15, 23, 42, .18); z-index: 70; display: none;
+}
+.topbar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+.alt-chip {
+  position: fixed; top: 10px; right: 12px; z-index: 70; display: none;
+  background: rgba(15, 23, 42, .88); color: #F8FAFC;
+  font-size: 12px; font-weight: 600; letter-spacing: .04em;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(235, 173, 37, .5);
+}
+
+/* ---------- 桌面端章节海拔轨 ---------- */
+.rail {
+  position: fixed; right: 26px; top: 50%; transform: translateY(-50%);
+  height: 46vh; width: 40px; z-index: 60;
+}
+.rail-track {
+  position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, .18);
+  border-radius: 2px; overflow: hidden;
+}
+.rail-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: var(--accent); }
+.rail-marker {
+  position: absolute; left: 50%; top: 100%; transform: translate(-50%, -50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #0F172A;
+  transition: none;
+}
+.rail-alt {
+  position: absolute; right: 20px; transform: translateY(-50%);
+  font-size: 11px; font-weight: 600; color: #F8FAFC;
+  background: rgba(15, 23, 42, .86); padding: 2px 8px; border-radius: 6px;
+  white-space: nowrap;
+}
+.rail-list {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  justify-content: space-between; align-items: center;
+}
+.rail-a {
+  position: relative; display: flex; align-items: center;
+  width: 100%; justify-content: flex-end; gap: 8px;
+}
+.rail-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(15, 23, 42, .55); border: 2px solid rgba(248, 250, 252, .7);
+  flex: none; transition: transform .2s ease, background .2s ease;
+}
+.rail-a.active .rail-dot { background: var(--accent); transform: scale(1.5); }
+.rail-label {
+  position: absolute; right: 26px; top: 50%; transform: translateY(-50%);
+  font-size: 12px; font-weight: 600; color: #F8FAFC; white-space: nowrap;
+  background: rgba(15, 23, 42, .86); padding: 3px 10px; border-radius: 8px;
+  opacity: 0; pointer-events: none; transition: opacity .2s ease;
+}
+.rail-a.active .rail-label, .rail-a:hover .rail-label, .rail-a:focus-visible .rail-label { opacity: 1; }
+
+/* ---------- 章节与视差层 ---------- */
+.chapter {
+  position: relative; overflow: hidden;
+  min-height: 100vh; display: grid; align-items: center;
+  scroll-snap-align: start;
+}
+.scene { position: absolute; inset: 0; overflow: hidden; }
+.scene [data-speed] {
+  position: absolute; left: -2%; right: -2%;
+  top: -62vh; bottom: -62vh;
+  will-change: transform;
+  pointer-events: none;
+}
+.sky { z-index: 1; }
+.r1 { z-index: 2; }
+.r2 { z-index: 3; }
+.r3 { z-index: 4; }
+.fgc { z-index: 5; }
+.ghost-alt {
+  position: absolute; right: 5vw; top: 10%; z-index: 2;
+  font-size: clamp(96px, 17vw, 230px); font-weight: 800; line-height: 1;
+  color: rgba(248, 250, 252, .07); letter-spacing: -.02em;
+  pointer-events: none;
+}
+.sc-snow .ghost-alt { color: rgba(15, 23, 42, .06); }
+
+.peaks1 { clip-path: polygon(0 44%, 9% 33%, 15% 40%, 26% 25%, 34% 37%, 46% 29%, 55% 42%, 66% 31%, 74% 40%, 85% 29%, 93% 38%, 100% 44%, 100% 100%, 0 100%); }
+.peaks2 { clip-path: polygon(0 52%, 8% 42%, 19% 52%, 30% 38%, 41% 50%, 52% 40%, 63% 52%, 74% 42%, 84% 51%, 94% 44%, 100% 50%, 100% 100%, 0 100%); }
+.peaks3 { clip-path: polygon(0 60%, 10% 50%, 22% 60%, 36% 47%, 50% 58%, 64% 46%, 78% 58%, 90% 49%, 100% 56%, 100% 100%, 0 100%); }
+.valley { clip-path: polygon(0 74%, 10% 65%, 22% 75%, 36% 62%, 50% 73%, 64% 60%, 78% 73%, 90% 64%, 100% 70%, 100% 100%, 0 100%); }
+
+.waymark {
+  position: absolute; z-index: 6; bottom: 24%; left: 9%;
+  background: rgba(11, 16, 38, .84); color: #F8FAFC;
+  border-left: 3px solid var(--accent);
+  padding: 9px 14px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 600; letter-spacing: .05em;
+  pointer-events: none;
+}
+.wm-r { left: auto; right: 10%; }
+.trees {
+  position: absolute; left: -2%; right: -2%; top: 56%; bottom: -62vh;
+  z-index: 4; will-change: transform; pointer-events: none;
+  background-color: #23463E;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='48'%3E%3Cpath d='M28 4 40 46H16Z' fill='%231C3A33'/%3E%3Crect x='26' y='42' width='4' height='6' fill='%23142C27'/%3E%3C/svg%3E");
+  background-repeat: repeat-x; background-position: top left; background-size: 56px 48px;
+}
+
+.summit-flag {
+  position: absolute; bottom: 31%; left: 66%; z-index: 6;
+  height: 58px; width: 0; border-left: 3px solid #E7EAF4;
+  pointer-events: none;
+}
+.summit-flag::after {
+  content: ""; position: absolute; top: 0; left: 3px;
+  width: 28px; height: 17px; background: var(--accent);
+}
+
+/* ---------- 章节文案面板 ---------- */
+.chapter-copy { position: relative; z-index: 10; padding: 96px 0; }
+.pos-left { justify-self: start; margin-left: 8vw; }
+.pos-right { justify-self: end; margin-right: 8vw; }
+.pos-center { justify-self: center; text-align: center; }
+
+html.js .chapter:not(.in):not(.instant) .chapter-copy {
+  opacity: 0; transform: translateY(28px);
+}
+.chapter-copy { transition: opacity .7s ease, transform .7s ease; }
+
+.panel {
+  max-width: 560px; padding: 38px 42px;
+  border-radius: var(--radius);
+  background: rgba(11, 16, 38, .74);
+  border: 1px solid rgba(248, 250, 252, .16);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  color: #F1F5F9;
+  box-shadow: 0 24px 60px rgba(6, 10, 30, .35);
+}
+.panel--light {
+  background: rgba(255, 255, 255, .9);
+  border-color: rgba(37, 99, 235, .3);
+  color: var(--fg);
+  box-shadow: 0 24px 60px rgba(30, 58, 138, .18);
+}
+.panel h2 {
+  font-size: clamp(26px, 3.6vw, 40px); font-weight: 800;
+  line-height: 1.22; margin: 10px 0 14px; letter-spacing: .01em;
+}
+.quote {
+  font-family: 'Noto Serif SC', 'Songti SC', SimSun, serif;
+  font-size: 16.5px; line-height: 1.85;
+}
+.panel--light .quote { color: #1E293B; }
+.cite { display: block; margin-top: 10px; font-size: 13px; color: rgba(241, 245, 249, .72); font-family: 'Inter', 'PingFang SC', sans-serif; }
+.panel--light .cite { color: var(--muted); }
+
+.facts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 18px; margin-top: 22px; }
+.facts div { border-top: 1px solid rgba(248, 250, 252, .22); padding-top: 10px; }
+.panel--light .facts div { border-top-color: rgba(37, 99, 235, .3); }
+.facts dt { font-size: 12px; letter-spacing: .08em; color: var(--accent); font-weight: 600; order: 2; }
+.panel--light .facts dt { color: #1D4ED8; }
+.facts dd { font-size: 19px; font-weight: 800; order: 1; }
+.facts dd small { display: block; font-size: 12px; font-weight: 400; color: rgba(241, 245, 249, .7); }
+.panel--light .facts dd small { color: var(--muted); }
+
+/* ---------- 各章节色板 ---------- */
+.sc-dawn .sky { background: linear-gradient(180deg, #0D1230 0%, #232F63 42%, #5B6EE1 72%, #E0A544 96%); }
+.sc-dawn .r1 { background: #1B2452; }
+.sc-dawn .r2 { background: #232E63; }
+.sc-dawn .r3 { background: #2C3A7E; }
+.sc-dawn .fgc { background: #0B0F2A; }
+
+.sc-forest .sky { background: linear-gradient(180deg, #DCEDEA 0%, #B4D6CD 46%, #8FBFB2 78%); }
+.sc-forest .r1 { background: #7FAFA2; }
+.sc-forest .r2 { background: #5C988A; }
+.sc-forest .fgc { background: #1B443C; }
+
+.sc-ridge .sky { background: linear-gradient(180deg, #94A6C6 0%, #6E80A4 48%, #4C5B80 82%); }
+.sc-ridge .r1 { background: #47567B; }
+.sc-ridge .r2 { background: #34436A; }
+.sc-ridge .r3 { background: #26325A; }
+.sc-ridge .fgc { background: #161F3A; }
+
+.sc-snow .sky { background: linear-gradient(180deg, #EDF6FE 0%, #D3E5F5 55%, #BCD6EE 100%); }
+.sc-snow .r1 { background: #AECAE9; }
+.sc-snow .r2 { background: #C4DCF3; }
+.sc-snow .r3 { background: #D8E9F8; }
+.sc-snow .fgc {
+  background: repeating-linear-gradient(76deg, transparent 0 52px, rgba(37, 99, 235, .13) 52px 56px), #E3EFFB;
+}
+
+.sc-summit .sky {
+  background:
+    radial-gradient(1.6px 1.6px at 18% 14%, #F8FAFC 55%, transparent 60%),
+    radial-gradient(1.3px 1.3px at 66% 9%, #F8FAFC 55%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 42% 20%, #E8E2D2 55%, transparent 60%),
+    radial-gradient(1.2px 1.2px at 84% 24%, #F8FAFC 55%, transparent 60%),
+    radial-gradient(1.4px 1.4px at 8% 30%, #F1EDDF 55%, transparent 60%),
+    linear-gradient(180deg, #060922 0%, #10163E 52%, #262B6B 82%, #6E5A24 100%);
+  background-size: 460px 380px, 460px 380px, 460px 380px, 460px 380px, 460px 380px, 100% 100%;
+  background-repeat: repeat, repeat, repeat, repeat, repeat, no-repeat;
+}
+.sc-summit .r1 { background: #10143C; }
+.sc-summit .r2 { background: #191F52; }
+.sc-summit .fgc { background: #05071B; }
+
+/* ---------- 英雄区 ---------- */
+.hero-copy { max-width: 640px; }
+.hero-copy .panel { padding: 44px 48px; }
+.hero-copy h1 {
+  font-size: clamp(34px, 5.6vw, 58px); font-weight: 800;
+  line-height: 1.14; margin: 12px 0 16px; letter-spacing: .01em;
+}
+.hero-copy .lead { font-size: 16.5px; color: rgba(241, 245, 249, .88); max-width: 34em; }
+.hero-actions { display: flex; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
+.hero-meta { margin-top: 20px; font-size: 12.5px; color: rgba(241, 245, 249, .66); letter-spacing: .04em; }
+
+/* ---------- 明亮区:数据与说明 ---------- */
+.light-zone { background: var(--bg); color: var(--fg); }
+.section-pad { padding: 88px 0; }
+.sec-head { max-width: 720px; margin-bottom: 40px; }
+.sec-head h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 800; margin: 10px 0 12px; }
+.sec-head p { color: var(--muted); font-size: 16px; }
+
+.timeline, .log {
+  display: grid; gap: 0 18px; align-content: start;
+}
+.timeline { grid-template-columns: 7.5em 1fr 5.5em; }
+.log { grid-template-columns: 8.5em 7.5em 1fr; }
+.trow { display: contents; }
+.tcell {
+  padding: 13px 14px; border-bottom: 1px solid #E2E8F0;
+  font-size: 15px; display: flex; align-items: baseline;
+}
+.trow.head .tcell {
+  border-bottom: 2px solid var(--fg); font-weight: 600; font-size: 13px;
+  letter-spacing: .08em; color: var(--muted); background: none;
+}
+.tcell.t-time { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13.5px; }
+.tcell.t-alt { font-variant-numeric: tabular-nums; font-weight: 600; color: #1D4ED8; justify-self: end; }
+.tcell.t-strong { font-weight: 700; }
+.log + .note-line { margin-top: 14px; }
+
+.subhead {
+  font-size: 20px; font-weight: 800; margin: 52px 0 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.subhead::after { content: ""; flex: 1; height: 1px; background: #E2E8F0; }
+
+.roster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch; }
+.member {
+  border: 1px solid #E2E8F0; border-radius: var(--radius);
+  padding: 22px; background: #FFFFFF;
+  display: flex; flex-direction: column;
+}
+.member h3 { font-size: 17px; font-weight: 800; }
+.member .role { font-size: 12.5px; font-weight: 600; color: #1D4ED8; letter-spacing: .08em; margin: 2px 0 10px; }
+.member p { font-size: 13.5px; color: var(--muted); margin-top: auto; }
+
+.notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+.note-card {
+  border: 1px solid #E2E8F0; border-radius: var(--radius);
+  padding: 26px; background: #FFFFFF;
+}
+.note-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.note-card h3 i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.note-card ul { list-style: none; }
+.note-card li {
+  font-size: 14px; color: #334155; padding: 7px 0;
+  border-bottom: 1px dashed #E2E8F0;
+}
+.note-card li:last-child { border-bottom: 0; }
+.note-card code { font-size: 13px; color: #1D4ED8; font-family: 'Cascadia Code', Consolas, monospace; }
+
+.prompt-block { margin-top: 44px; }
+.prompt {
+  font-family: 'Cascadia Code', Consolas, monospace;
+  font-size: 14px; line-height: 1.75; color: #E9EDF7;
+  background: #101736; border: 1px solid #2A355F;
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 24px 28px; overflow-x: auto;
+}
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.chips li {
+  font-size: 13px; font-weight: 600; color: #1D4ED8;
+  border: 1px solid #BFDBFE; background: #EFF6FF;
+  padding: 5px 14px; border-radius: 999px;
+}
+
+/* ---------- 页脚 ---------- */
+.site-foot { background: #0F172A; color: #F8FAFC; padding: 44px 0 36px; }
+.foot-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px; flex-wrap: wrap; font-size: 15px;
+}
+.foot-inner a { color: var(--accent); font-weight: 600; }
+.fine { margin-top: 14px; font-size: 12.5px; color: rgba(241, 245, 249, .55); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 768px) {
+  .rail { display: none; }
+  .topbar, .alt-chip { display: block; }
+  .chapter { min-height: 100svh; }
+  .pos-left, .pos-right, .pos-center {
+    justify-self: stretch; margin: 0 18px; text-align: left;
+  }
+  .chapter-copy { padding: 84px 0; }
+  .panel { padding: 28px 24px; max-width: none; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .ghost-alt { font-size: 27vw; top: 7%; }
+  .waymark { bottom: 12%; }
+  .summit-flag { left: 78%; bottom: 26%; height: 44px; }
+  .wrap { padding: 0 20px; }
+  .roster { grid-template-columns: 1fr 1fr; }
+  .notes-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 5.6em 1fr 4.2em; gap: 0 10px; }
+  .log { grid-template-columns: 6.2em 6.2em 1fr; gap: 0 10px; }
+  .tcell { font-size: 13px; padding: 11px 8px; }
+  .section-pad { padding: 64px 0; }
+}
+
+@media (max-width: 420px) {
+  .roster { grid-template-columns: 1fr; }
+  .log { grid-template-columns: 5.8em 5.4em 1fr; }
+  .timeline { grid-template-columns: 5em 1fr 3.8em; }
+}
+
+@media (min-width: 1440px) {
+  .wrap { max-width: 1180px; }
+  .panel { max-width: 620px; }
+  .rail { right: 40px; }
+}
+
+/* ---------- 动效降级 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; scroll-snap-type: none; }
+  .scene [data-speed], .trees { transform: none !important; }
+  .chapter-copy { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .btn { transition: none; }
+  .rail-dot, .rail-label { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#data">跳过叙事, 直达攀登数据</a>
+
+<div class="topbar" aria-hidden="true"><div class="topbar-fill" id="topFill"></div></div>
+<div class="alt-chip" id="altChip" aria-hidden="true">4050 米</div>
+
+<nav class="rail dark-zone" aria-label="章节海拔导航">
+  <div class="rail-track" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+  <div class="rail-marker" id="railMarker" aria-hidden="true"></div>
+  <div class="rail-alt" id="railAlt" aria-hidden="true">4050 米</div>
+  <div class="rail-list" id="railList">
+    <a class="rail-a" href="#c0" data-sec="c0"><span class="rail-label">序章 / 大本营</span><i class="rail-dot"></i></a>
+    <a class="rail-a" href="#c1" data-sec="c1"><span class="rail-label">第一章 / 林线</span><i class="rail-dot"></i></a>
+    <a class="rail-a" href="#c2" data-sec="c2"><span class="rail-label">第二章 / 岩脊</span><i class="rail-dot"></i></a>
+    <a class="rail-a" href="#c3" data-sec="c3"><span class="rail-label">第三章 / 雪线</span><i class="rail-dot"></i></a>
+    <a class="rail-a" href="#c4" data-sec="c4"><span class="rail-label">终章 / 顶峰</span><i class="rail-dot"></i></a>
+    <a class="rail-a" href="#data" data-sec="data"><span class="rail-label">攀登数据</span><i class="rail-dot"></i></a>
+    <a class="rail-a" href="#notes" data-sec="notes"><span class="rail-label">风格说明</span><i class="rail-dot"></i></a>
+  </div>
+</nav>
+
+<main>
+  <!-- 序章 / 大本营 4050 米 -->
+  <section class="chapter sc-dawn dark-zone instant" id="c0">
+    <div class="scene" aria-hidden="true">
+      <div class="sky" data-speed="0.10"></div>
+      <div class="r1 peaks1" data-speed="0.16"></div>
+      <div class="r2 peaks2" data-speed="0.24"></div>
+      <div class="r3 peaks3" data-speed="0.32"></div>
+      <div class="fgc valley" data-speed="0.44"></div>
+    </div>
+    <div class="chapter-copy pos-left hero-copy">
+      <div class="panel">
+        <p class="kicker">雀儿山秋季攀登 / 纪实演示页</p>
+        <h1>把 6168 米拆成五段天光</h1>
+        <p class="lead">四人登山队 / 三天纵走 / 一条西北山脊。本页以视差分层复现从大本营到顶峰的海拔叙事——滚动即攀登, 越往下滚, 你站得越高。</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#c1">开始攀登</a>
+          <a class="btn btn-ghost" href="#data">直达攀登数据</a>
+        </div>
+        <p class="hero-meta">日志时间 2025 年 10 月 2 日至 5 日 / 演示文案为虚构</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第一章 / 林线 4700 米 -->
+  <section class="chapter sc-forest dark-zone" id="c1">
+    <div class="scene" aria-hidden="true">
+      <div class="sky" data-speed="0.10"></div>
+      <div class="r1 peaks1" data-speed="0.16"></div>
+      <div class="r2 peaks2" data-speed="0.24"></div>
+      <div class="trees" data-speed="0.34"></div>
+      <div class="fgc valley" data-speed="0.44"></div>
+      <p class="ghost-alt" data-speed="0.06">4700</p>
+    </div>
+    <div class="waymark wm-r" data-speed="0.52">C1 营地 / 4700 米</div>
+    <div class="chapter-copy pos-left">
+      <div class="panel">
+        <p class="kicker">第一章 / 海拔 4700 米</p>
+        <h2>出了灌木林, 冰碛石开始说话</h2>
+        <blockquote class="quote">「05:40 出发, 头灯扫过最后一丛杜鹃。十一点过后, 碎石坡接管了植被, 世界的颜色从绿退成灰, 脚下的声音从软变硬。」
+          <span class="cite">队长 周砚 / 录音日志 第 1 夜</span>
+        </blockquote>
+        <dl class="facts">
+          <div><dd>650<small>米</small></dd><dt>垂直上升</dt></div>
+          <div><dd>5 时 40 分</dd><dt>林线段用时</dt></div>
+          <div><dd>-9<small>°C</small></dd><dt>夜间最低</dt></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二章 / 岩脊 5200 米 -->
+  <section class="chapter sc-ridge dark-zone" id="c2">
+    <div class="scene" aria-hidden="true">
+      <div class="sky" data-speed="0.10"></div>
+      <div class="r1 peaks1" data-speed="0.16"></div>
+      <div class="r2 peaks2" data-speed="0.24"></div>
+      <div class="r3 peaks3" data-speed="0.32"></div>
+      <div class="fgc valley" data-speed="0.44"></div>
+      <p class="ghost-alt" data-speed="0.06">5200</p>
+    </div>
+    <div class="waymark" data-speed="0.52">岩塞段 / 5200 米</div>
+    <div class="chapter-copy pos-right">
+      <div class="panel">
+        <p class="kicker">第二章 / 海拔 5200 米</p>
+        <h2>三段路绳, 横切刀刃脊</h2>
+        <p class="quote">脊线最窄处只容一只登山靴。向导在前面试雪层, 我们用三段路绳把 180 米的暴露感切成三口温水。风持续从西侧来, 雪沫贴着岩壁横着飞。</p>
+        <dl class="facts">
+          <div><dd>180<small>米</small></dd><dt>暴露段全长</dt></div>
+          <div><dd>3<small>段</small></dd><dt>路绳保护</dt></div>
+          <div><dd>62<small>km/h</small></dd><dt>最大阵风</dt></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第三章 / 雪线 5600 米 -->
+  <section class="chapter sc-snow" id="c3">
+    <div class="scene" aria-hidden="true">
+      <div class="sky" data-speed="0.10"></div>
+      <div class="r1 peaks2" data-speed="0.16"></div>
+      <div class="r2 peaks3" data-speed="0.24"></div>
+      <div class="r3 valley" data-speed="0.32"></div>
+      <div class="fgc valley" data-speed="0.44"></div>
+      <p class="ghost-alt" data-speed="0.06">5600</p>
+    </div>
+    <div class="waymark wm-r" data-speed="0.52">C2 营地 / 5600 米</div>
+    <div class="chapter-copy pos-left">
+      <div class="panel panel--light">
+        <p class="kicker">第三章 / 海拔 5600 米</p>
+        <h2>冰川在夜里结了一层壳</h2>
+        <p class="quote">凌晨的雪面冻得能踩出脆响。结组沿雪桥逐段推进, 绕开两条张着的暗裂缝。C2 扎在两道冰瀑之间的缓坡上, 帐篷四面拉满十六根地钉。</p>
+        <dl class="facts">
+          <div><dd>2<small>条</small></dd><dt>绕行暗裂缝</dt></div>
+          <div><dd>16<small>根</small></dd><dt>帐篷地钉</dt></div>
+          <div><dd>4:50</dd><dt>冲顶拔营</dt></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 终章 / 顶峰 6168 米 -->
+  <section class="chapter sc-summit dark-zone" id="c4">
+    <div class="scene" aria-hidden="true">
+      <div class="sky" data-speed="0.10"></div>
+      <div class="r1 peaks1" data-speed="0.16"></div>
+      <div class="r2 peaks2" data-speed="0.24"></div>
+      <div class="fgc valley" data-speed="0.44"></div>
+      <div class="summit-flag" data-speed="0.52"></div>
+      <p class="ghost-alt" data-speed="0.06">6168</p>
+    </div>
+    <div class="waymark" data-speed="0.52">顶峰 / 6168 米</div>
+    <div class="chapter-copy pos-center">
+      <div class="panel">
+        <p class="kicker">终章 / 海拔 6168 米</p>
+        <h2>09:26, 云海在脚下让路</h2>
+        <blockquote class="quote">「太阳把整条山脊镀成金铜色。东南方向, 贡嘎的轮廓浮在云上, 像另一支夜行队伍没熄的灯。停留 22 分钟, 拍照, 录像, 给家里留了一段 40 秒的语音。」
+          <span class="cite">队员 沈一苇 / 冲顶日手记</span>
+        </blockquote>
+        <dl class="facts">
+          <div><dd>10-04 09:26</dd><dt>登顶时刻</dt></div>
+          <div><dd>22<small>分钟</small></dd><dt>顶峰停留</dt></div>
+          <div><dd>-21<small>°C</small></dd><dt>顶峰温度</dt></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 攀登数据 -->
+  <section class="light-zone section-pad" id="data">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">下撤之后 / 数据接棒</p>
+        <h2>叙事负责记忆, 表格负责事实</h2>
+        <p>整段攀登的时间线与关键数据如下。行与行使用同一组 grid 列, 任何窗口宽度下都对齐。</p>
+      </div>
+
+      <h3 class="subhead">行进时间线</h3>
+      <div class="timeline" role="table" aria-label="行进时间线">
+        <div class="trow head" role="row">
+          <span class="tcell" role="columnheader">时间</span>
+          <span class="tcell" role="columnheader">节点</span>
+          <span class="tcell" role="columnheader">海拔</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-02 05:40</span>
+          <span class="tcell" role="cell">离开大本营, 进入灌木林带</span>
+          <span class="tcell t-alt" role="cell">4050 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-02 11:20</span>
+          <span class="tcell" role="cell">抵达 C1, 冰碛石平台扎营</span>
+          <span class="tcell t-alt" role="cell">4700 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-03 06:10</span>
+          <span class="tcell" role="cell">通过岩塞段, 三段路绳</span>
+          <span class="tcell t-alt" role="cell">5200 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-03 15:00</span>
+          <span class="tcell" role="cell">雪桥绕行后建立 C2</span>
+          <span class="tcell t-alt" role="cell">5600 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-04 04:50</span>
+          <span class="tcell" role="cell">拔营冲顶, 结组行进</span>
+          <span class="tcell t-alt" role="cell">5600 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-04 09:26</span>
+          <span class="tcell t-strong" role="cell">登顶</span>
+          <span class="tcell t-alt" role="cell">6168 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-04 14:05</span>
+          <span class="tcell" role="cell">撤回 C1, 回收路绳</span>
+          <span class="tcell t-alt" role="cell">4700 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell t-time" role="cell">10-05 10:30</span>
+          <span class="tcell" role="cell">全队回到公路垭口</span>
+          <span class="tcell t-alt" role="cell">4050 米</span>
+        </div>
+      </div>
+
+      <h3 class="subhead">关键数据</h3>
+      <div class="log" role="table" aria-label="关键数据">
+        <div class="trow head" role="row">
+          <span class="tcell" role="columnheader">项目</span>
+          <span class="tcell" role="columnheader">数值</span>
+          <span class="tcell" role="columnheader">备注</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell" role="cell">累计上升</span>
+          <span class="tcell t-strong" role="cell">2118 米</span>
+          <span class="tcell" role="cell">含冲顶日 568 米</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell" role="cell">全程用时</span>
+          <span class="tcell t-strong" role="cell">3 天 6 小时</span>
+          <span class="tcell" role="cell">10 月 2 日至 5 日</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell" role="cell">最低体感温度</span>
+          <span class="tcell t-strong" role="cell">-26 °C</span>
+          <span class="tcell" role="cell">冲顶晨, 含风寒效应</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell" role="cell">最大阵风</span>
+          <span class="tcell t-strong" role="cell">62 km/h</span>
+          <span class="tcell" role="cell">岩脊段西侧风</span>
+        </div>
+        <div class="trow" role="row">
+          <span class="tcell" role="cell">路绳 / 营地</span>
+          <span class="tcell t-strong" role="cell">3 段 / 2 处</span>
+          <span class="tcell" role="cell">C1 4700 / C2 5600</span>
+        </div>
+      </div>
+
+      <h3 class="subhead">队伍</h3>
+      <div class="roster">
+        <div class="member">
+          <h3>周砚</h3>
+          <p class="role">队长 / 登山向导</p>
+          <p>十四座 5000 米级路线经验, 负责整体决策与雪层判断。</p>
+        </div>
+        <div class="member">
+          <h3>沈一苇</h3>
+          <p class="role">摄影 / 影像记录</p>
+          <p>高海拔纪录片摄影师, 冲顶日负重 11 公斤, 留存 240 分钟素材。</p>
+        </div>
+        <div class="member">
+          <h3>何朴</h3>
+          <p class="role">医疗 / 生理监测</p>
+          <p>每日两次血氧与心率记录, 全队零冻伤撤回。</p>
+        </div>
+        <div class="member">
+          <h3>阿依古丽</h3>
+          <p class="role">结组领攀 / 冰岩技术</p>
+          <p>岩塞段与雪桥段领攀, 负责路绳架设与回收。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 风格说明 -->
+  <section class="light-zone section-pad" id="notes" style="border-top: 1px solid #E2E8F0;">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">风格说明 / Parallax Storytelling</p>
+        <h2>这页视差是怎么搭的</h2>
+        <p>多层深度由滚动驱动的 transform 完成, 每章一个 sticky 场景五层速率, 不依赖任何视差库。</p>
+      </div>
+
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3><i style="background:#2563EB"></i>设计令牌</h3>
+          <ul>
+            <li>色彩 <code>#2563EB</code> / <code>#6B25EB</code> / <code>#EBAD25</code></li>
+            <li>底色与正文 <code>#F8FAFC</code> / <code>#0F172A</code></li>
+            <li>圆角基准 <code>14px</code> / 字体 Inter + Noto Serif SC</li>
+            <li>章节色板: 黎明靛 / 林线青 / 岩脊灰蓝 / 雪线亮蓝 / 顶峰夜金</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3><i style="background:#6B25EB"></i>视差结构</h3>
+          <ul>
+            <li>远景 <code>0.10</code> / 中景 <code>0.16-0.24</code> / 近景 <code>0.32-0.34</code> / 前景 <code>0.44</code> / 路标 <code>0.52</code></li>
+            <li>层图形全部为 CSS clip-path / 渐变 / data-URI SVG</li>
+            <li><code>will-change: transform</code> 合成层提升, rAF 节流滚动</li>
+            <li>scroll-snap proximity 让滚动即翻页</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3><i style="background:#EBAD25"></i>无障碍与降级</h3>
+          <ul>
+            <li><code>prefers-reduced-motion</code>: 关闭全部视差, 内容平铺可读</li>
+            <li>移动端自动降级为单速 <code>0.16</code></li>
+            <li>页首跳过链接 + 章节锚点导航 + <code>:focus-visible</code></li>
+            <li>正文对比度均不低于 4.5:1</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="prompt-block">
+        <p class="subhead">官方 AI 提示词</p>
+        <pre class="prompt">Design a parallax storytelling page. Use: scroll-driven narrative, layered backgrounds (3-5 layers), fixed/sticky sections, cinematic transitions, progressive disclosure, full-screen chapters, depth perception.</pre>
+        <ul class="chips">
+          <li>Scroll-driven</li>
+          <li>Narrative</li>
+          <li>Layered scrolling</li>
+          <li>Immersive</li>
+          <li>Progressive disclosure</li>
+          <li>Cinematic</li>
+          <li>Scroll-triggered</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot dark-zone">
+  <div class="wrap">
+    <div class="foot-inner">
+      <span>UI 设计提示词库 / Parallax Storytelling 视差叙事</span>
+      <a href="style-catalog.html">返回风格目录</a>
+    </div>
+    <p class="fine">雀儿山攀登日志为风格演示虚构文案 / 视差层次与数据仅作叙事示范</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var docEl = document.documentElement;
+  var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var mobileMQ = window.matchMedia('(max-width: 768px)');
+  var SINGLE = 0.16;
+  var ALT_BASE = 4050, ALT_TOP = 6168;
+  var vh = window.innerHeight;
+  var layers = [];
+
+  var topFill = document.getElementById('topFill');
+  var altChip = document.getElementById('altChip');
+  var railFill = document.getElementById('railFill');
+  var railMarker = document.getElementById('railMarker');
+  var railAlt = document.getElementById('railAlt');
+
+  function setReduce() {
+    docEl.classList.toggle('reduce', reduceMQ.matches);
+  }
+  setReduce();
+  reduceMQ.addEventListener('change', setReduce);
+
+  function initLayers() {
+    layers = [];
+    var els = document.querySelectorAll('.scene [data-speed], .waymark');
+    for (var i = 0; i < els.length; i++) {
+      var host = els[i].closest('.chapter');
+      if (host) {
+        layers.push({ el: els[i], speed: parseFloat(els[i].getAttribute('data-speed')), host: host });
+      }
+    }
+  }
+  initLayers();
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var max = docEl.scrollHeight - vh;
+    var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    var alt = Math.round(ALT_BASE + p * (ALT_TOP - ALT_BASE));
+    if (topFill) { topFill.style.width = (p * 100).toFixed(2) + '%'; }
+    if (railFill) { railFill.style.height = (p * 100).toFixed(2) + '%'; }
+    if (railMarker) { railMarker.style.top = ((1 - p) * 100).toFixed(2) + '%'; }
+    if (railAlt) { railAlt.style.top = ((1 - p) * 100).toFixed(2) + '%'; railAlt.textContent = alt + ' 米'; }
+    if (altChip) { altChip.textContent = alt + ' 米'; }
+    if (reduceMQ.matches) { return; }
+    var single = mobileMQ.matches;
+    var cap = vh * 0.6;
+    for (var i = 0; i < layers.length; i++) {
+      var l = layers[i];
+      var r = l.host.getBoundingClientRect();
+      var mid = r.top + r.height / 2 - vh / 2;
+      var t = mid * (single ? SINGLE : l.speed);
+      if (t > cap) { t = cap; }
+      if (t < -cap) { t = -cap; }
+      l.el.style.transform = 'translate3d(0,' + t.toFixed(1) + 'px,0)';
+    }
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { vh = window.innerHeight; update(); });
+  update();
+
+  /* 章节级一次性亮相(整块面板, 非逐卡) */
+  var revealIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); revealIO.unobserve(e.target); }
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('.chapter:not(.instant)').forEach(function (s) { revealIO.observe(s); });
+
+  /* 海拔轨当前章节高亮 */
+  var railLinks = {};
+  var railAs = document.querySelectorAll('.rail-a');
+  for (var j = 0; j < railAs.length; j++) { railLinks[railAs[j].getAttribute('data-sec')] = railAs[j]; }
+  var activeIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var link = railLinks[e.target.id];
+      if (link && e.isIntersecting) {
+        railAs.forEach(function (a) { a.classList.remove('active'); });
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  ['c0', 'c1', 'c2', 'c3', 'c4', 'data', 'notes'].forEach(function (id) {
+    var s = document.getElementById(id);
+    if (s) { activeIO.observe(s); }
+  });
+})();
+</script>
+
+</body>
+</html>

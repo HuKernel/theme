@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Y2K 千禧风 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@400;600;700&family=VT323&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* token 计划: 鲜粉 #FF69B4 / 电蓝 #00FFFF / 银 #C0C0C0 / 紫 #9400D3 / 墨 #0F172A / 底 #F8FAFC; 圆角胶囊+气泡 50%; 字体 Audiowide + Exo 2 + VT323 + Noto Sans SC */
+:root{
+  --pink:#FF69B4;
+  --pink-deep:#C21568;
+  --cyan:#00FFFF;
+  --cyan-ink:#0E7490;
+  --silver:#C0C0C0;
+  --purple:#9400D3;
+  --ink:#0F172A;
+  --ink-soft:#37415A;
+  --bg:#F8FAFC;
+  --panel:#FFFFFF;
+  --night:#24103B;
+  --night-2:#16092A;
+  --ring:#F0489F;
+  --head-font:'Audiowide','Noto Sans SC',sans-serif;
+  --body-font:'Exo 2','Noto Sans SC',sans-serif;
+  --pixel-font:'VT323','Exo 2',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body-font);
+  color:var(--ink);
+  background:
+    radial-gradient(520px 320px at 8% -4%,rgba(255,105,180,.16),transparent 70%),
+    radial-gradient(560px 360px at 96% 10%,rgba(0,229,229,.16),transparent 70%),
+    var(--bg);
+  line-height:1.7;
+}
+a{color:var(--pink-deep)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ring);outline-offset:3px;border-radius:6px}
+.skip{
+  position:absolute;left:-999px;top:8px;z-index:99;
+  background:var(--ink);color:#fff;padding:8px 14px;border-radius:999px;
+}
+.skip:focus{left:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(180deg,#FDFEFF,#D9DFEA 60%,#B7C1D2);
+  border-bottom:2px solid #8E9AB0;
+  box-shadow:0 6px 18px rgba(15,23,42,.12);
+}
+.topbar .wrap{display:flex;align-items:center;gap:20px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700}
+.logo svg{display:block}
+.logo b{font-family:var(--head-font);font-size:1.05rem;letter-spacing:.5px}
+.logo small{display:block;font-size:.72rem;font-weight:500;color:var(--ink-soft);line-height:1}
+.nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav a{
+  text-decoration:none;color:var(--ink);font-weight:600;font-size:.92rem;
+  padding:7px 13px;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.35));
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:inset 0 1px 0 #fff,0 2px 4px rgba(15,23,42,.10);
+}
+.nav a:hover{color:var(--pink-deep)}
+.nav a[aria-current]{background:linear-gradient(180deg,#FF8AC9,#F0509F);color:#2B0518;border-color:rgba(255,255,255,.8)}
+.open-tag{
+  font-family:var(--pixel-font);font-size:1rem;color:#2B0518;white-space:nowrap;
+  background:linear-gradient(180deg,#7FF7FF,#0FC3D4);
+  padding:3px 12px 1px;border-radius:8px;border:1px solid #077A88;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* ---------- 首屏 ---------- */
+.hero{position:relative;overflow:hidden}
+.hero .wrap{
+  display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:center;
+  padding-top:64px;padding-bottom:72px;
+}
+.bubbles{position:absolute;inset:0;pointer-events:none;z-index:0}
+.bubbles svg{width:100%;height:100%;display:block}
+.hero .wrap{position:relative;z-index:1}
+.overline{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.85rem;font-weight:600;color:var(--purple);
+  background:rgba(255,255,255,.72);
+  border:1px solid #D9C7F2;border-radius:999px;padding:5px 14px;
+}
+.overline i{width:8px;height:8px;border-radius:50%;background:conic-gradient(var(--pink),var(--cyan),var(--purple),var(--pink));display:inline-block}
+h1{
+  font-family:var(--head-font);
+  font-size:clamp(2.1rem,5.2vw,3.6rem);
+  line-height:1.22;letter-spacing:1px;margin:16px 0 10px;
+}
+.chrome-text{
+  background:linear-gradient(180deg,#FBFCFF 4%,#CBD3E1 30%,#556074 50%,#9AA6BA 62%,#232B3C 100%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 2px 0 rgba(148,0,211,.14));
+}
+h1 em{font-style:normal;color:var(--pink-deep)}
+.lede{max-width:34em;color:var(--ink-soft);font-size:1.04rem;margin-bottom:20px}
+.price-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.price{font-family:var(--pixel-font);font-size:2.5rem;line-height:1;color:var(--purple);text-shadow:0 1px 0 #fff}
+.price small{font-size:1.15rem;color:var(--ink-soft)}
+.price-note{font-size:.85rem;color:var(--ink-soft)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-block;text-decoration:none;cursor:pointer;
+  font-family:var(--body-font);font-weight:700;font-size:1rem;
+  padding:13px 26px;border-radius:999px;border:none;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn-pink{
+  color:#2B0518;
+  background:linear-gradient(180deg,#FFB1DA 0%,var(--pink) 45%,#E5399B 100%);
+  border:1px solid #C9718F;
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.85),inset 0 -6px 10px rgba(148,0,120,.25),0 10px 22px rgba(224,45,139,.35);
+}
+.btn-silver{
+  color:var(--ink);
+  background:linear-gradient(180deg,#FFFFFF,#D5DCE8 55%,#A9B4C6);
+  border:1px solid #8E9AB0;
+  box-shadow:inset 0 2px 3px #fff,0 8px 18px rgba(15,23,42,.18);
+}
+
+/* ---------- 随身听与光盘 ---------- */
+.product{display:flex;flex-direction:column;align-items:center;gap:20px}
+.discman{
+  --shell-1:#7FD4FF;--shell-2:#157FD6;
+  width:min(340px,78vw);aspect-ratio:1/1;border-radius:30px;position:relative;
+  background:linear-gradient(160deg,var(--shell-1) 0%,var(--shell-2) 100%);
+  border:2px solid rgba(255,255,255,.65);
+  box-shadow:
+    inset 0 3px 8px rgba(255,255,255,.8),
+    inset 0 -14px 22px rgba(15,23,42,.28),
+    inset 12px 0 20px rgba(255,255,255,.25),
+    0 26px 46px rgba(148,0,211,.22);
+  padding:26px;
+  display:flex;align-items:center;justify-content:center;
+}
+.discman::before{
+  content:"";position:absolute;inset:12px;border-radius:22px;
+  border:1.5px dashed rgba(255,255,255,.55);pointer-events:none;
+}
+.cd{
+  width:72%;aspect-ratio:1;border-radius:50%;position:relative;
+  background:
+    radial-gradient(circle at 50% 50%,#FDFEFF 0 15%,#D8DEEA 15% 18%,transparent 18%),
+    conic-gradient(from 20deg,#D9DFEA,#FF9AD5,#8FE9F2,#C9A2FF,#E8ECF2,#FFC3E6,#9FD8FF,#D9DFEA);
+  box-shadow:0 8px 20px rgba(15,23,42,.28),inset 0 0 0 1px rgba(255,255,255,.6);
+  animation:spin 9s linear infinite;
+}
+.cd::after{
+  content:"";position:absolute;inset:40%;border-radius:50%;
+  background:linear-gradient(180deg,#FFFFFF,#B9C2D0);
+  border:2px solid #8E9AB0;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.controls{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;gap:10px;align-items:center;
+}
+.controls i{
+  width:16px;height:16px;border-radius:50%;display:block;
+  background:linear-gradient(180deg,#FFFFFF,#A9B4C6);
+  border:1px solid #6E7A92;box-shadow:inset 0 1px 0 #fff;
+}
+.controls i:nth-child(2){background:linear-gradient(180deg,#FFB1DA,#E5399B);border-color:#B14A79}
+.model-tag{
+  position:absolute;top:20px;left:22px;
+  font-family:var(--pixel-font);font-size:1.1rem;color:rgba(15,23,42,.8);
+  text-shadow:0 1px 0 rgba(255,255,255,.5);
+}
+.swatches{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.swatch{
+  width:46px;height:46px;border-radius:50%;cursor:pointer;
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 2px 4px rgba(255,255,255,.8),inset 0 -5px 8px rgba(15,23,42,.25),0 4px 10px rgba(15,23,42,.2);
+}
+.swatch[aria-pressed="true"]{outline:3px solid var(--purple);outline-offset:3px}
+.swatch-name{font-size:.8rem;color:var(--ink-soft);text-align:center;margin-top:6px}
+.butterfly{position:absolute;z-index:2;pointer-events:none}
+.butterfly svg{display:block;animation:flap 5s ease-in-out infinite}
+.bf-a{top:14%;left:4%}
+.bf-b{bottom:16%;right:6%;transform:scale(.7)}
+@keyframes flap{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(5deg)}}
+
+/* ---------- 跑马灯 ---------- */
+.ticker{
+  overflow:hidden;white-space:nowrap;
+  background:linear-gradient(180deg,#E9EDF4,#C4CCDA);
+  border-top:2px solid #8E9AB0;border-bottom:2px solid #8E9AB0;
+}
+.ticker-track{display:inline-flex;animation:marquee 26s linear infinite}
+.ticker span{
+  font-family:var(--pixel-font);font-size:1.25rem;color:#22123A;
+  padding:9px 0 7px;
+}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- 通用小节 ---------- */
+section{padding:72px 0}
+.sec-head{margin-bottom:34px}
+.kicker{
+  font-family:var(--pixel-font);font-size:1.2rem;color:var(--cyan-ink);
+  letter-spacing:1px;
+}
+h2{font-family:var(--head-font);font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:1px;margin-top:4px}
+.sec-head p{color:var(--ink-soft);max-width:44em;margin-top:8px}
+
+/* ---------- 亮点 ---------- */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.card{
+  background:linear-gradient(180deg,#FFFFFF 0%,#EFF3F9 100%);
+  border:1.5px solid #B7C1D2;border-radius:22px;padding:24px;
+  box-shadow:inset 0 2px 0 #fff,0 12px 26px rgba(15,23,42,.10);
+  display:flex;flex-direction:column;gap:10px;height:100%;
+}
+.card h3{font-size:1.08rem;display:flex;align-items:center;gap:10px}
+.card h3 svg{flex:none}
+.card p{font-size:.95rem;color:var(--ink-soft)}
+.card .num{font-family:var(--head-font);font-size:1.5rem;color:var(--pink-deep);margin-left:auto}
+.card-head{display:flex;align-items:center;gap:10px}
+
+/* ---------- 规格 ---------- */
+.specs-panel{
+  background:linear-gradient(180deg,#FFFFFF,#E7ECF4);
+  border:1.5px solid #B7C1D2;border-radius:26px;overflow:hidden;
+  box-shadow:inset 0 2px 0 #fff,0 16px 32px rgba(15,23,42,.12);
+}
+.spec-row{
+  display:grid;grid-template-columns:10rem 1fr;gap:16px;
+  padding:15px 26px;border-bottom:1px solid #C9D2E0;
+}
+.spec-row:last-child{border-bottom:none}
+.spec-row:nth-child(odd){background:rgba(192,192,192,.16)}
+.spec-row dt{font-weight:700;color:var(--purple)}
+.spec-row dd{color:var(--ink)}
+.spec-note{font-size:.85rem;color:var(--ink-soft);margin-top:14px}
+
+/* ---------- 千禧门户 ---------- */
+.portal{
+  position:relative;
+  background:
+    radial-gradient(600px 300px at 12% 0%,rgba(255,105,180,.28),transparent 70%),
+    radial-gradient(520px 300px at 88% 100%,rgba(0,229,229,.22),transparent 70%),
+    var(--night);
+  color:#F1EBFB;
+}
+.portal::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--pink),var(--cyan),var(--purple));
+}
+.portal .kicker{color:#7FF7FF}
+.portal .sec-head p{color:#CDBCE8}
+.site-list{display:grid;gap:0;border:1.5px solid #4A2C73;border-radius:20px;overflow:hidden;background:rgba(22,9,42,.72)}
+.site-row{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) auto;
+  gap:18px;align-items:center;padding:16px 22px;
+  border-bottom:1px solid #3A2160;
+}
+.site-row:last-child{border-bottom:none}
+.site-row:nth-child(odd){background:rgba(148,0,211,.12)}
+.site-row strong{color:#FF8AC9;font-size:1.02rem}
+.site-row span{color:#CDBCE8;font-size:.93rem}
+.hits{font-family:var(--pixel-font);font-size:1.2rem;color:#7FF7FF;white-space:nowrap}
+.counter{
+  margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.counter-label{font-size:.9rem;color:#CDBCE8}
+.counter-digits{
+  font-family:var(--pixel-font);font-size:1.6rem;letter-spacing:3px;
+  background:#10162B;color:#7CF6FF;padding:4px 14px;border-radius:8px;
+  border:1px solid #2B3B66;
+}
+.pixel-star{vertical-align:-2px}
+
+/* ---------- 贴纸墙 ---------- */
+.stickers{
+  display:flex;gap:26px;flex-wrap:wrap;justify-content:center;
+  padding:26px;border-radius:26px;
+  background:linear-gradient(180deg,#FFFFFF,#E9EDF4);
+  border:1.5px dashed #9AA6BA;
+}
+.sticker{display:flex;flex-direction:column;align-items:center;gap:8px}
+.sticker figcaption{font-size:.8rem;color:var(--ink-soft)}
+
+/* ---------- 行动横幅 ---------- */
+.band{
+  background:
+    radial-gradient(420px 200px at 85% 20%,rgba(255,105,180,.35),transparent 70%),
+    radial-gradient(380px 220px at 10% 90%,rgba(0,229,229,.28),transparent 70%),
+    var(--night-2);
+  border-radius:30px;color:#F5EFFC;text-align:center;
+  padding:56px 28px;
+  box-shadow:0 24px 48px rgba(22,9,42,.35);
+}
+.band h2{color:#fff}
+.band p{color:#CDBCE8;max-width:36em;margin:12px auto 26px}
+.band .btn-pink{font-size:1.05rem;padding:15px 34px}
+.band .pixel-star{margin-right:8px}
+
+/* ---------- 页脚 ---------- */
+footer{
+  margin-top:24px;padding:44px 0 52px;text-align:center;
+  background:linear-gradient(180deg,#E7ECF4,#C4CCDA);
+  border-top:2px solid #8E9AB0;
+}
+.foot-line{font-weight:700;font-size:1.05rem}
+footer a{font-weight:700;color:#8F0F50}
+footer small{display:block;margin-top:10px;color:var(--ink-soft);font-size:.8rem}
+
+/* ---------- 亮相动效(一次性) ---------- */
+.rise{animation:rise .7s cubic-bezier(.2,.7,.3,1) both}
+.d1{animation-delay:.08s}
+.d2{animation-delay:.16s}
+.d3{animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+  .rise{opacity:1;transform:none}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr;gap:36px;padding-top:44px;padding-bottom:52px}
+  .product{order:-1}
+  .bf-a{left:auto;right:2%}
+}
+@media (max-width:640px){
+  .topbar .wrap{flex-wrap:wrap;padding:10px 24px;gap:10px}
+  .nav{margin-left:0;width:100%;order:3}
+  .open-tag{display:none}
+  section{padding:52px 0}
+  .spec-row{grid-template-columns:7.5rem 1fr;gap:10px;padding:13px 16px}
+  .site-row{grid-template-columns:1fr;gap:6px}
+  .hits{justify-self:start}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="logo" href="#overview" aria-label="气泡电子首页">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg-bub" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FF8AC9"/>
+            <stop offset="1" stop-color="#00D5E0"/>
+          </linearGradient>
+        </defs>
+        <circle cx="17" cy="17" r="14" fill="url(#lg-bub)" stroke="#2B0518" stroke-width="2.5"/>
+        <circle cx="12" cy="11" r="3.5" fill="#FFFFFF" opacity=".9"/>
+        <path d="M17 17 L24 8" stroke="#2B0518" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span><b>气泡电子</b><small>Bubble Digital / 自 1998</small></span>
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#overview" aria-current="page">概览</a>
+      <a href="#features">亮点</a>
+      <a href="#specs">规格</a>
+      <a href="#portal">千禧门户</a>
+      <a href="#stickers">贴纸墙</a>
+    </nav>
+    <span class="open-tag">营业中 9:00-21:00</span>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 首屏 -->
+  <section class="hero" id="overview">
+    <div class="bubbles" aria-hidden="true">
+      <svg viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="bub-a" cx=".35" cy=".3" r=".9">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/>
+            <stop offset=".55" stop-color="#FF9AD5" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#FF69B4" stop-opacity=".12"/>
+          </radialGradient>
+          <radialGradient id="bub-b" cx=".35" cy=".3" r=".9">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/>
+            <stop offset=".55" stop-color="#8FE9F2" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#00FFFF" stop-opacity=".12"/>
+          </radialGradient>
+          <radialGradient id="bub-c" cx=".35" cy=".3" r=".9">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/>
+            <stop offset=".55" stop-color="#C9A2FF" stop-opacity=".35"/>
+            <stop offset="1" stop-color="#9400D3" stop-opacity=".12"/>
+          </radialGradient>
+        </defs>
+        <circle cx="120" cy="120" r="70" fill="url(#bub-a)"/>
+        <circle cx="98"  cy="96"  r="14" fill="#FFFFFF" opacity=".85"/>
+        <circle cx="1080" cy="90"  r="46" fill="url(#bub-b)"/>
+        <circle cx="1066" cy="74"  r="9"  fill="#FFFFFF" opacity=".85"/>
+        <circle cx="980"  cy="520" r="88" fill="url(#bub-c)"/>
+        <circle cx="952"  cy="488" r="17" fill="#FFFFFF" opacity=".85"/>
+        <circle cx="190"  cy="480" r="40" fill="url(#bub-b)"/>
+        <circle cx="178"  cy="468" r="8"  fill="#FFFFFF" opacity=".85"/>
+        <circle cx="620"  cy="60"  r="26" fill="url(#bub-a)"/>
+        <circle cx="613"  cy="52"  r="5"  fill="#FFFFFF" opacity=".85"/>
+        <path d="M40 300 l6 14 15 2 -11 11 3 15 -13 -8 -13 8 3 -15 -11 -11 15 -2 Z" fill="#FFD44D" stroke="#B8860B" stroke-width="1.5"/>
+        <path d="M1150 320 l5 12 13 2 -9 9 2 13 -11 -7 -11 7 2 -13 -9 -9 13 -2 Z" fill="#8FE9F2" stroke="#0E7490" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <div class="butterfly bf-a" aria-hidden="true">
+      <svg width="88" height="70" viewBox="0 0 88 70">
+        <defs>
+          <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FF9AD5"/>
+            <stop offset="1" stop-color="#9400D3"/>
+          </linearGradient>
+        </defs>
+        <path d="M44 34 C30 6 8 8 10 26 C4 40 22 54 40 40 Z" fill="url(#wing)" stroke="#4A0B66" stroke-width="2"/>
+        <path d="M44 34 C58 6 80 8 78 26 C84 40 66 54 48 40 Z" fill="url(#wing)" stroke="#4A0B66" stroke-width="2"/>
+        <circle cx="18" cy="22" r="4" fill="#FFFFFF" opacity=".8"/>
+        <circle cx="70" cy="22" r="4" fill="#FFFFFF" opacity=".8"/>
+        <ellipse cx="44" cy="38" rx="3.5" ry="14" fill="#2B0518"/>
+        <path d="M41 24 C37 16 33 14 30 15 M47 24 C51 16 55 14 58 15" stroke="#2B0518" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="butterfly bf-b" aria-hidden="true">
+      <svg width="88" height="70" viewBox="0 0 88 70">
+        <defs>
+          <linearGradient id="wing2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#8FE9F2"/>
+            <stop offset="1" stop-color="#0E7490"/>
+          </linearGradient>
+        </defs>
+        <path d="M44 34 C30 6 8 8 10 26 C4 40 22 54 40 40 Z" fill="url(#wing2)" stroke="#0A4A5C" stroke-width="2"/>
+        <path d="M44 34 C58 6 80 8 78 26 C84 40 66 54 48 40 Z" fill="url(#wing2)" stroke="#0A4A5C" stroke-width="2"/>
+        <circle cx="18" cy="22" r="4" fill="#FFFFFF" opacity=".85"/>
+        <circle cx="70" cy="22" r="4" fill="#FFFFFF" opacity=".85"/>
+        <ellipse cx="44" cy="38" rx="3.5" ry="14" fill="#2B0518"/>
+        <path d="M41 24 C37 16 33 14 30 15 M47 24 C51 16 55 14 58 15" stroke="#2B0518" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="overline rise"><i aria-hidden="true"></i>新世纪数码广场 2 楼 B-217 / 柜台现货</p>
+        <h1 class="rise d1"><span class="chrome-text">千禧年的声音</span><br><em>装进口袋</em></h1>
+        <p class="lede rise d2">气泡 CD-2000 便携 CD 播放机,半透明彩壳、镜面银底盘、40 秒电子防震。1999 年冬天,和你一起跨进新千年。</p>
+        <div class="price-row rise d2">
+          <span class="price"><small>首发价</small> 1,280<small>元</small></span>
+          <span class="price-note">赠透明保护壳与千禧纪念贴纸一张</span>
+        </div>
+        <div class="cta-row rise d3">
+          <a class="btn btn-pink" href="#specs">立即选购</a>
+          <a class="btn btn-silver" href="#features">看看它有多能打</a>
+        </div>
+      </div>
+
+      <div class="product rise d2">
+        <div class="discman" id="discman">
+          <span class="model-tag">CD-2000</span>
+          <div class="cd" aria-hidden="true"></div>
+          <div class="controls" aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+        <div class="swatches" role="group" aria-label="彩壳配色选择">
+          <div>
+            <button class="swatch" data-c1="#7FD4FF" data-c2="#157FD6" style="background:linear-gradient(160deg,#7FD4FF,#157FD6)" aria-pressed="true" aria-label="湖水蓝彩壳"></button>
+            <p class="swatch-name">湖水蓝</p>
+          </div>
+          <div>
+            <button class="swatch" data-c1="#C9A2FF" data-c2="#7A3BD6" style="background:linear-gradient(160deg,#C9A2FF,#7A3BD6)" aria-pressed="false" aria-label="葡萄紫彩壳"></button>
+            <p class="swatch-name">葡萄紫</p>
+          </div>
+          <div>
+            <button class="swatch" data-c1="#FFC26B" data-c2="#F27A1A" style="background:linear-gradient(160deg,#FFC26B,#F27A1A)" aria-pressed="false" aria-label="蜜柑橙彩壳"></button>
+            <p class="swatch-name">蜜柑橙</p>
+          </div>
+          <div>
+            <button class="swatch" data-c1="#FFA6D6" data-c2="#F0489F" style="background:linear-gradient(160deg,#FFA6D6,#F0489F)" aria-pressed="false" aria-label="草莓粉彩壳"></button>
+            <p class="swatch-name">草莓粉</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 跑马灯 -->
+  <div class="ticker" aria-label="柜台公告">
+    <div class="ticker-track">
+      <span>全场 CD 碟片第二张半价 / 会员积分可兑换透明保护壳 / 本周主打 Bubble CD-2000 现货热卖 / 支持货到付款 / 刻录精选合辑每张 8 元 / 千禧纪念版贴纸随机器附赠 / 新世纪数码广场欢迎您 /&nbsp;</span>
+      <span aria-hidden="true">全场 CD 碟片第二张半价 / 会员积分可兑换透明保护壳 / 本周主打 Bubble CD-2000 现货热卖 / 支持货到付款 / 刻录精选合辑每张 8 元 / 千禧纪念版贴纸随机器附赠 / 新世纪数码广场欢迎您 /&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- 亮点 -->
+  <section id="features">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="kicker">01 / 为什么选它</p>
+        <h2>四件事,做到千禧年最好的水平</h2>
+        <p>参数表可以慢慢看,先把每天都会用到的体验说清楚。</p>
+      </header>
+      <div class="features">
+        <article class="card">
+          <div class="card-head">
+            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="none" stroke="#E02D8B" stroke-width="2.5"/><path d="M13 7 v6 l4 3" fill="none" stroke="#E02D8B" stroke-width="2.5" stroke-linecap="round"/></svg>
+            <h3>ESP 电子防震</h3>
+            <span class="num">40s</span>
+          </div>
+          <p>内建缓存,跑步、公交、自行车颠簸统统不怕,音乐不断线。</p>
+        </article>
+        <article class="card">
+          <div class="card-head">
+            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="none" stroke="#0E7490" stroke-width="2.5"/><circle cx="13" cy="13" r="3" fill="#0E7490"/></svg>
+            <h3>兼容刻录碟</h3>
+            <span class="num">双格式</span>
+          </div>
+          <p>CD-R 与 CD-RW 都能读,自己刻的精选合辑也能放,给同桌复制一张最爱歌单。</p>
+        </article>
+        <article class="card">
+          <div class="card-head">
+            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M4 18 C4 11 9 6 14 6" fill="none" stroke="#9400D3" stroke-width="2.5" stroke-linecap="round"/><rect x="13" y="4" width="9" height="6" rx="2" fill="#C9A2FF" stroke="#9400D3" stroke-width="2"/><rect x="2" y="16" width="9" height="6" rx="2" fill="#C9A2FF" stroke="#9400D3" stroke-width="2"/></svg>
+            <h3>线控耳机</h3>
+            <span class="num">线控</span>
+          </div>
+          <p>耳机线上就能调音量、切歌,口袋里的机器不用掏出来。</p>
+        </article>
+        <article class="card">
+          <div class="card-head">
+            <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="5" y="8" width="7" height="12" rx="2" fill="#FFD44D" stroke="#B8860B" stroke-width="2"/><rect x="14" y="8" width="7" height="12" rx="2" fill="#FFD44D" stroke="#B8860B" stroke-width="2"/><path d="M13 3 v4" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/></svg>
+            <h3>双电池长续航</h3>
+            <span class="num">24h</span>
+          </div>
+          <p>两节五号电池,从早自习听到晚自习还有余量,出远门再带一对备用。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 规格 -->
+  <section id="specs" style="padding-top:0">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="kicker">02 / 参数表</p>
+        <h2>柜台小哥背得滚瓜烂熟的规格</h2>
+      </header>
+      <div class="specs-panel">
+        <dl>
+          <div class="spec-row"><dt>型号</dt><dd>Bubble CD-2000 便携 CD 播放机</dd></div>
+          <div class="spec-row"><dt>光盘兼容</dt><dd>CD 音频 / CD-R / CD-RW</dd></div>
+          <div class="spec-row"><dt>防震缓存</dt><dd>ESP 电子防震,约 40 秒</dd></div>
+          <div class="spec-row"><dt>频率响应</dt><dd>20 Hz 至 20 kHz</dd></div>
+          <div class="spec-row"><dt>信噪比</dt><dd>95 dB</dd></div>
+          <div class="spec-row"><dt>耳机输出</dt><dd>5 mW 加 5 mW(16 欧负载)</dd></div>
+          <div class="spec-row"><dt>电源</dt><dd>2 节 AA 电池,或外接 4.5V 直流适配器</dd></div>
+          <div class="spec-row"><dt>尺寸重量</dt><dd>128 x 132 x 26 mm / 约 185 g(含电池)</dd></div>
+          <div class="spec-row"><dt>上市信息</dt><dd>1999 年 11 月 / 建议零售价 1,280 元</dd></div>
+        </dl>
+      </div>
+      <p class="spec-note">以上为演示页虚构产品的设定参数,按 1999 年主流便携 CD 机水平编写。</p>
+    </div>
+  </section>
+
+  <!-- 千禧门户 -->
+  <section class="portal" id="portal">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="kicker">03 / 冲浪纪念</p>
+        <h2>当年你收藏夹里的那些站</h2>
+        <p>买完随身听,回家拨号上网,把这些站点再逛一遍。以下站点为纪念早期门户时代而设,均已无法访问。</p>
+      </header>
+      <div class="site-list">
+        <div class="site-row">
+          <strong>明星档案站</strong>
+          <span>每周更新偶像壁纸与桌面歌词,课件打印八折</span>
+          <span class="hits">人气 987,210</span>
+        </div>
+        <div class="site-row">
+          <strong>中学校友录</strong>
+          <span>找回失联同桌,班级留言板盖到 999 层</span>
+          <span class="hits">人气 654,321</span>
+        </div>
+        <div class="site-row">
+          <strong>极速下载站</strong>
+          <span>56K 猫优化,铃声与屏保免费下</span>
+          <span class="hits">人气 432,108</span>
+        </div>
+        <div class="site-row">
+          <strong>网上冲浪学院</strong>
+          <span>从开机到申请电子邮箱,手把手教学</span>
+          <span class="hits">人气 210,054</span>
+        </div>
+      </div>
+      <div class="counter">
+        <span class="counter-label">本页访问量</span>
+        <span class="counter-digits">002,046</span>
+        <svg class="pixel-star" width="18" height="18" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="M7 1h2v4h2v2h4v2h-4v2h-2v4H7v-4H5V9H1V7h4V5h2Z" fill="#FFD44D"/></svg>
+        <span class="counter-label">感谢每一次拨号接入</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 贴纸墙 -->
+  <section id="stickers">
+    <div class="wrap">
+      <header class="sec-head" style="text-align:center;margin-left:auto;margin-right:auto">
+        <p class="kicker">04 / 贴纸墙</p>
+        <h2>撕下来,贴在机器背面的记忆</h2>
+      </header>
+      <div class="stickers">
+        <figure class="sticker">
+          <svg width="72" height="72" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M6 3h1v1h1v1h-1v1h1v1h1v1h1v1h1v3h-1v-1h-1v-1h-1v-1h-1v1h-1v1h-1v1H3v-3h1v-1h1v-1h1v-1h1V6H6V5H5V3h1Z" fill="#FF69B4" stroke="#4A0B66" stroke-width=".4"/>
+          </svg>
+          <figcaption>蝴蝶贴纸</figcaption>
+        </figure>
+        <figure class="sticker">
+          <svg width="72" height="72" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M7 1h2v5h5v2h-5v5H7V8H2V6h5Z" fill="#FFD44D" stroke="#8A5A00" stroke-width=".4"/>
+          </svg>
+          <figcaption>星星贴纸</figcaption>
+        </figure>
+        <figure class="sticker">
+          <svg width="72" height="72" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <circle cx="8" cy="6" r="4" fill="#8FE9F2" stroke="#0E7490" stroke-width=".8"/>
+            <circle cx="8" cy="6" r="1.4" fill="#FFFFFF"/>
+            <path d="M7 10h2v2h1v3H6v-3h1Z" fill="#C0C0C0" stroke="#4A5568" stroke-width=".4"/>
+          </svg>
+          <figcaption>光盘贴纸</figcaption>
+        </figure>
+        <figure class="sticker">
+          <svg width="72" height="72" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M8 2l1.6 3.4L13 6l-2.5 2.4L11 12 8 10.2 5 12l.5-3.6L3 6l3.4-.6Z" fill="#C9A2FF" stroke="#4A0B66" stroke-width=".4"/>
+          </svg>
+          <figcaption>闪星贴纸</figcaption>
+        </figure>
+        <figure class="sticker">
+          <svg width="72" height="72" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <path d="M8 2 9.5 5.5 13 6.5 10.5 9 11 12.5 8 10.8 5 12.5 5.5 9 3 6.5 6.5 5.5Z" fill="#FF9AD5" stroke="#4A0B66" stroke-width=".4"/>
+            <circle cx="6.8" cy="6.8" r=".9" fill="#2B0518"/>
+            <circle cx="9.2" cy="6.8" r=".9" fill="#2B0518"/>
+            <path d="M6.8 9.2h2.4" stroke="#2B0518" stroke-width=".7"/>
+          </svg>
+          <figcaption>笑脸贴纸</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 行动横幅 -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="band">
+        <h2>把 2000 年装进口袋</h2>
+        <p>千禧纪念批次最后 200 台,每台附独立编号铭牌。售完之后,下一次见面就是下个世纪了。</p>
+        <a class="btn btn-pink" href="#specs">
+          <svg class="pixel-star" width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="M7 1h2v5h5v2h-5v5H7V8H2V6h5Z" fill="#FFF3B0"/></svg>
+          前往新世纪数码广场
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="foot-line">UI 设计提示词库 / Y2K 千禧风</p>
+    <a href="style-catalog.html">返回风格目录</a>
+    <small>本页为风格演示,「气泡电子 Bubble Digital」及 CD-2000 产品、门户站点均为虚构。</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var dm = document.getElementById('discman');
+  var swatches = document.querySelectorAll('.swatch');
+  swatches.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      dm.style.setProperty('--shell-1', btn.dataset.c1);
+      dm.style.setProperty('--shell-2', btn.dataset.c2);
+      swatches.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

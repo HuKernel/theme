@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gen Z Chaos 混乱最大化 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- token 计划:主色 #FF00FF / 辅色 #00FF00 / 强调 #FFFF00 / 撞色 #0000FF(白字)/ 底 #F8FAFC / 墨 #0F172A / 圆角 14px / 3px 墨线描边 + 6px 硬阴影 / 字体 Space Grotesk + Noto Sans SC / 贴纸微旋转 ±2-8deg -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mag: #FF00FF;
+    --grn: #00FF00;
+    --ylw: #FFFF00;
+    --blu: #0000FF;
+    --bg: #F8FAFC;
+    --ink: #0F172A;
+    --ink-soft: #334155;
+    --r: 14px;
+    --line: 3px solid var(--ink);
+    --shadow: 6px 6px 0 var(--ink);
+    --font-head: "Space Grotesk", "Noto Sans SC", sans-serif;
+    --font-body: "Space Grotesk", "Noto Sans SC", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background-color: var(--bg);
+    background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1.5px, transparent 1.5px);
+    background-size: 26px 26px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--blu); outline-offset: 3px; border-radius: 4px; }
+
+  /* ============ 顶部跑马灯 ============ */
+  .topbar {
+    background: var(--mag);
+    border-bottom: var(--line);
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.45rem 0;
+    color: var(--ink);
+  }
+  .marquee-track { display: flex; width: max-content; animation: scroll 26s linear infinite; }
+  .marquee-track span { padding-right: 2.5rem; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+
+  /* ============ 页头 ============ */
+  header.site {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem clamp(1rem, 4vw, 3rem);
+    background: rgba(248, 250, 252, 0.94);
+    border-bottom: var(--line);
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 1.35rem;
+    text-decoration: none;
+    background: var(--ylw);
+    border: var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    padding: 0.3rem 0.9rem;
+    transform: rotate(-3deg);
+    display: inline-block;
+  }
+  .logo em { font-style: normal; color: var(--mag); font-weight: 700; }
+  nav.main { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+  nav.main a {
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 3px solid transparent;
+  }
+  nav.main a:hover { background: var(--grn); border: var(--line); }
+
+  /* ============ 按钮 ============ */
+  .btn {
+    display: inline-block;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: none;
+    padding: 0.8rem 1.6rem;
+    border: var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary { background: var(--blu); color: #FFFFFF; }
+  .btn-ghost { background: #FFFFFF; color: var(--ink); }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 9px 9px 0 var(--ink); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn-mag { background: var(--mag); color: var(--ink); }
+
+  /* ============ 英雄区 ============ */
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 2rem;
+    align-items: stretch;
+    padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem) clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+    border-bottom: var(--line);
+  }
+  .hero-text { position: relative; z-index: 2; }
+  .kicker {
+    display: inline-block;
+    background: var(--grn);
+    border: var(--line);
+    border-radius: 999px;
+    box-shadow: 4px 4px 0 var(--ink);
+    font-weight: 900;
+    padding: 0.3rem 1rem;
+    transform: rotate(2deg);
+    margin-bottom: 1.2rem;
+  }
+  h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  h1 .w900 { font-weight: 900; }
+  h1 .w700 { font-weight: 700; }
+  h1 .hl {
+    background: var(--mag);
+    color: var(--ink);
+    padding: 0 0.35em;
+    border-radius: 0.2em;
+    box-decoration-break: clone;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  .hero-sub {
+    margin-top: 1.3rem;
+    max-width: 34em;
+    color: var(--ink-soft);
+    font-size: 1.06rem;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.4rem 0 1.8rem; }
+  .chip {
+    background: #FFFFFF;
+    border: var(--line);
+    border-radius: 10px;
+    padding: 0.3rem 0.8rem;
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .chip:nth-child(1) { transform: rotate(-2deg); background: var(--ylw); }
+  .chip:nth-child(3) { transform: rotate(2deg); }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+  /* ============ 贴纸通用 ============ */
+  .stk {
+    position: absolute;
+    transform: rotate(var(--r, 0deg));
+    filter: drop-shadow(4px 4px 0 rgba(15, 23, 42, 0.9));
+  }
+  .stk svg { display: block; }
+  .rain { animation: drop 0.9s cubic-bezier(0.2, 0.7, 0.3, 1.25) both; animation-delay: var(--d, 0s); }
+  @keyframes drop {
+    from { transform: translateY(-115vh) rotate(calc(var(--r, 0deg) - 70deg)); }
+    72%  { transform: translateY(0.6rem) rotate(calc(var(--r, 0deg) + 5deg)); }
+    to   { transform: translateY(0) rotate(var(--r, 0deg)); }
+  }
+  .stk:hover { animation: jitter 0.32s steps(2, jump-none) infinite; }
+  @keyframes jitter {
+    0%, 100% { transform: rotate(var(--r, 0deg)) translate(0, 0); }
+    25% { transform: rotate(calc(var(--r, 0deg) + 3deg)) translate(2px, -2px); }
+    50% { transform: rotate(calc(var(--r, 0deg) - 2deg)) translate(-1px, 2px); }
+    75% { transform: rotate(calc(var(--r, 0deg) + 2deg)) translate(1px, 1px); }
+  }
+  .hero-stage { position: relative; min-height: 380px; z-index: 1; }
+
+  /* ============ 对话气泡 ============ */
+  .bubble {
+    position: relative;
+    border: var(--line);
+    border-radius: var(--r);
+    padding: 0.7rem 1rem;
+    font-weight: 500;
+    max-width: 15em;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -14px;
+    left: 26px;
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+    border-top: 9px solid var(--ink);
+  }
+  .bubble.b-ylw { background: var(--ylw); transform: rotate(-2deg); }
+  .bubble.b-blu { background: var(--blu); color: #FFFFFF; transform: rotate(2deg); }
+  .bubble.b-wht { background: #FFFFFF; transform: rotate(-1deg); }
+  .bubble .who { display: block; font-size: 0.78rem; font-weight: 700; opacity: 0.75; margin-bottom: 0.15rem; }
+
+  /* ============ 分区通用 ============ */
+  section { padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 4vw, 3rem); border-bottom: var(--line); }
+  .sec-title { font-family: var(--font-head); font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900; margin-bottom: 0.4rem; }
+  .sec-note { color: var(--ink-soft); max-width: 40em; margin-bottom: 2rem; }
+  .sec-tag {
+    display: inline-block;
+    background: var(--mag);
+    color: var(--ink);
+    border: var(--line);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.15rem 0.7rem;
+    transform: rotate(-2deg);
+    margin-bottom: 0.7rem;
+  }
+
+  /* ============ 阵容卡片 ============ */
+  .lineup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+  .artist {
+    background: #FFFFFF;
+    border: var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .artist:nth-child(odd) { transform: rotate(-1.4deg); }
+  .artist:nth-child(even) { transform: rotate(1.2deg); }
+  .artist:hover { transform: rotate(0deg) translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); transition: 0.15s ease; }
+  .genre {
+    align-self: flex-start;
+    font-weight: 900;
+    font-size: 0.82rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.12rem 0.7rem;
+  }
+  .artist:nth-child(1) .genre { background: var(--ylw); transform: rotate(-3deg); }
+  .artist:nth-child(2) .genre { background: var(--mag); color: var(--ink); transform: rotate(2deg); }
+  .artist:nth-child(3) .genre { background: var(--grn); transform: rotate(-2deg); }
+  .artist:nth-child(4) .genre { background: var(--grn); transform: rotate(2deg); }
+  .artist:nth-child(5) .genre { background: var(--ylw); transform: rotate(2deg); }
+  .artist:nth-child(6) .genre { background: var(--mag); color: var(--ink); transform: rotate(-2deg); }
+  .artist h3 { font-family: var(--font-head); font-size: 1.45rem; font-weight: 900; }
+  .artist p { color: var(--ink-soft); font-size: 0.96rem; }
+
+  /* ============ 时间表(grid 对齐)============ */
+  .sched { border: var(--line); border-radius: var(--r); background: #FFFFFF; box-shadow: var(--shadow); overflow: hidden; }
+  .sched-row {
+    display: grid;
+    grid-template-columns: 92px 1fr 1fr;
+    border-bottom: 2px solid var(--ink);
+  }
+  .sched-row:last-child { border-bottom: none; }
+  .sched-row > div { padding: 0.75rem 1rem; }
+  .sched-head { background: var(--blu); color: #FFFFFF; font-weight: 900; }
+  .sched-day { background: var(--ylw); font-weight: 900; grid-column: 1 / -1; font-size: 1.05rem; }
+  .sched-time { font-family: var(--font-head); font-weight: 700; border-right: 2px solid var(--ink); }
+  .sched-row .main-stage { background: rgba(255, 0, 255, 0.1); }
+  .hl-flag {
+    display: inline-block;
+    background: var(--mag);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    padding: 0 0.4rem;
+    margin-left: 0.4rem;
+    transform: rotate(-2deg);
+  }
+
+  /* ============ 票务 ============ */
+  .ticket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; align-items: stretch; }
+  .ticket {
+    position: relative;
+    background: #FFFFFF;
+    border: var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    padding: 1.6rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .ticket.pop { background: var(--ylw); }
+  .ticket h3 { font-family: var(--font-head); font-size: 1.3rem; font-weight: 900; }
+  .price { font-family: var(--font-head); font-size: 2.3rem; font-weight: 700; line-height: 1; }
+  .price small { font-size: 0.95rem; font-weight: 700; }
+  .ticket ul { list-style: none; display: grid; gap: 0.45rem; color: var(--ink); font-size: 0.95rem; flex-grow: 1; }
+  .ticket li::before { content: "+ "; font-weight: 900; color: var(--blu); }
+  .pop-badge {
+    position: absolute;
+    top: -14px;
+    right: -10px;
+    background: var(--blu);
+    color: #FFFFFF;
+    border: var(--line);
+    border-radius: 999px;
+    font-weight: 900;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.8rem;
+    transform: rotate(6deg);
+  }
+  .ticket .btn { align-self: flex-start; margin-top: 0.4rem; }
+  .ticket-note { margin-top: 1.4rem; color: var(--ink-soft); font-size: 0.9rem; }
+
+  /* ============ 评论区(对话气泡)============ */
+  .chat { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.1rem; }
+  .msg { display: flex; gap: 0.8rem; align-items: flex-end; max-width: 85%; }
+  .msg.right { align-self: flex-end; flex-direction: row-reverse; }
+  .msg .bubble { position: static; max-width: 26em; }
+  .msg .bubble::after { display: none; }
+  .avatar {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border: var(--line);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+  }
+  .msg:nth-child(1) .avatar { background: var(--ylw); transform: rotate(-4deg); }
+  .msg:nth-child(2) .avatar { background: var(--mag); color: var(--ink); transform: rotate(3deg); }
+  .msg:nth-child(3) .avatar { background: var(--grn); transform: rotate(-3deg); }
+  .msg:nth-child(4) .avatar { background: var(--blu); color: #FFFFFF; transform: rotate(4deg); }
+
+  /* ============ 贴纸墙 ============ */
+  .wall {
+    background: #FFFFFF;
+    border: var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    padding: clamp(1.4rem, 4vw, 3rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .note {
+    border: var(--line);
+    border-radius: 12px;
+    padding: 0.7rem 1.1rem;
+    font-weight: 900;
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(var(--r, 0deg));
+  }
+  .note:hover { animation: jitter 0.32s steps(2, jump-none) infinite; }
+  .note.n1 { background: var(--ylw); --r: -5deg; }
+  .note.n2 { background: #FFFFFF; --r: 3deg; }
+  .note.n3 { background: var(--mag); color: var(--ink); --r: -2deg; }
+  .note.n4 { background: var(--grn); --r: 4deg; }
+  .note.n5 { background: #FFFFFF; --r: -4deg; }
+  .note.n6 { background: var(--blu); color: #FFFFFF; --r: 2deg; }
+  .note.n7 { background: var(--ylw); --r: -3deg; }
+  .note.n8 { background: var(--grn); --r: 5deg; }
+  .starburst {
+    background: var(--mag);
+    clip-path: polygon(50% 0%, 61% 12%, 75% 5%, 79% 20%, 95% 18%, 92% 34%, 100% 46%, 88% 55%, 92% 72%, 77% 72%, 72% 88%, 57% 82%, 50% 97%, 40% 83%, 25% 89%, 22% 73%, 6% 72%, 11% 56%, 0% 46%, 10% 35%, 5% 19%, 22% 20%, 27% 5%, 39% 12%);
+    width: 110px;
+    height: 110px;
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    font-weight: 900;
+    font-size: 1.6rem;
+    transform: rotate(8deg);
+  }
+  .wall-sticker { position: static; }
+
+  /* ============ 快问快答 ============ */
+  .faq { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
+  .faq-item { background: #FFFFFF; border: var(--line); border-radius: var(--r); padding: 1.2rem 1.3rem; box-shadow: 4px 4px 0 var(--ink); }
+  .faq-item:nth-child(odd) { transform: rotate(-0.8deg); }
+  .faq-item:nth-child(even) { transform: rotate(0.8deg); }
+  .faq-item h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 900; margin-bottom: 0.4rem; }
+  .faq-item h3::before { content: "Q "; color: var(--mag); -webkit-text-stroke: 1px var(--ink); }
+  .faq-item p { color: var(--ink-soft); font-size: 0.95rem; }
+
+  /* ============ 页脚 ============ */
+  footer.site {
+    padding: 2.5rem clamp(1rem, 4vw, 3rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--ink);
+    color: #FFFFFF;
+  }
+  footer.site a {
+    color: var(--ylw);
+    font-weight: 700;
+    background: var(--blu);
+    border: 3px solid #FFFFFF;
+    border-radius: var(--r);
+    padding: 0.5rem 1.1rem;
+    text-decoration: none;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  footer.site a:hover { background: var(--mag); color: var(--ink); border-color: var(--ink); }
+  footer.site p { font-size: 0.95rem; }
+  footer.site small { opacity: 0.7; display: block; margin-top: 0.3rem; }
+
+  /* ============ 响应式 ============ */
+  @media (max-width: 900px) {
+    .lineup-grid, .ticket-grid, .faq { grid-template-columns: repeat(2, 1fr); }
+    .hero { grid-template-columns: 1fr; }
+    .hero-stage { min-height: 300px; max-width: 480px; }
+  }
+  @media (max-width: 640px) {
+    .lineup-grid, .ticket-grid, .faq { grid-template-columns: 1fr; }
+    .sched-row { grid-template-columns: 64px 1fr 1fr; }
+    .sched-row > div { padding: 0.6rem 0.6rem; font-size: 0.9rem; }
+    .msg { max-width: 100%; }
+    .hero-stage { min-height: 260px; }
+    .hero-cta .btn { width: 100%; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rain, .stk:hover, .note:hover, .marquee-track { animation: none; }
+    .btn, .artist, .artist:hover { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar" aria-hidden="true">
+  <div class="marquee-track">
+    <span>5月30日至31日 / 上海森兰绿地 / 36组艺人 / 3个舞台 / 早鸟票开抢中 / 现场免费贴纸墙 / 充电与寄存都有 / 发疯请趁早 /</span>
+    <span>5月30日至31日 / 上海森兰绿地 / 36组艺人 / 3个舞台 / 早鸟票开抢中 / 现场免费贴纸墙 / 充电与寄存都有 / 发疯请趁早 /</span>
+  </div>
+</div>
+
+<header class="site">
+  <a class="logo" href="#top">发疯草坪 <em>Crazy Lawn</em></a>
+  <nav class="main" aria-label="主导航">
+    <a href="#lineup">阵容</a>
+    <a href="#schedule">时间表</a>
+    <a href="#tickets">票务</a>
+    <a href="#talk">大家都在说</a>
+    <a href="#faq">快问快答</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- 英雄区:标题 + 贴纸雨 + 对话气泡 -->
+  <section class="hero">
+    <div class="hero-text">
+      <span class="kicker">第三届 / 发疯草坪音乐节</span>
+      <h1><span class="w900">在草地上</span><br><span class="w700">合理</span><span class="hl w900">发疯</span></h1>
+      <p class="hero-sub">Crazy Lawn Fest 2026 / 两天三十六组艺人 / 电子、嘻哈、盯鞋,和一些没法归类的声音 / 全部摊在同一块草坪上,随便你从哪一边开始疯。</p>
+      <div class="chips">
+        <span class="chip">5月30日至31日</span>
+        <span class="chip">上海 森兰绿地</span>
+        <span class="chip">全年龄可入场</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#tickets">抢早鸟票</a>
+        <a class="btn btn-ghost" href="#lineup">看完整阵容</a>
+      </div>
+    </div>
+
+    <div class="hero-stage" aria-hidden="true">
+      <div class="stk rain" style="top:2%; left:4%; --r:-8deg; --d:0.15s;">
+        <svg width="88" height="88" viewBox="0 0 88 88"><path d="M44 4 L53 26 L76 14 L68 38 L92 44 L68 50 L76 74 L53 62 L44 84 L35 62 L12 74 L20 50 L-4 44 L20 38 L12 14 L35 26 Z" fill="#FFFF00" stroke="#0F172A" stroke-width="4"/></svg>
+      </div>
+      <div class="stk rain" style="top:6%; right:6%; --r:7deg; --d:0.35s;">
+        <svg width="86" height="86" viewBox="0 0 86 86"><circle cx="43" cy="43" r="38" fill="#00FF00" stroke="#0F172A" stroke-width="4"/><circle cx="31" cy="36" r="5" fill="#0F172A"/><circle cx="55" cy="36" r="5" fill="#0F172A"/><path d="M28 52 Q43 66 58 52" fill="none" stroke="#0F172A" stroke-width="5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="stk rain" style="top:34%; right:0%; --r:10deg; --d:0.55s;">
+        <svg width="70" height="102" viewBox="0 0 70 102"><path d="M40 2 L10 58 L32 58 L24 100 L62 42 L38 42 Z" fill="#0000FF" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="stk rain" style="bottom:26%; left:0%; --r:-12deg; --d:0.75s;">
+        <svg width="92" height="92" viewBox="0 0 92 92"><g fill="#FF00FF" stroke="#0F172A" stroke-width="3"><ellipse cx="46" cy="18" rx="12" ry="17"/><ellipse cx="46" cy="74" rx="12" ry="17"/><ellipse cx="18" cy="46" rx="17" ry="12"/><ellipse cx="74" cy="46" rx="17" ry="12"/><ellipse cx="26" cy="26" rx="11" ry="15" transform="rotate(-45 26 26)"/><ellipse cx="66" cy="26" rx="11" ry="15" transform="rotate(45 66 26)"/><ellipse cx="26" cy="66" rx="11" ry="15" transform="rotate(45 26 66)"/><ellipse cx="66" cy="66" rx="11" ry="15" transform="rotate(-45 66 66)"/></g><circle cx="46" cy="46" r="12" fill="#FFFF00" stroke="#0F172A" stroke-width="4"/></svg>
+      </div>
+      <div class="stk rain" style="bottom:2%; right:8%; --r:6deg; --d:0.95s;">
+        <svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48" cy="48" r="42" fill="#FFFF00" stroke="#0F172A" stroke-width="4"/><path d="M48 20 A28 28 0 0 1 76 48 A28 28 0 0 1 48 76 A16 16 0 0 1 32 60" fill="none" stroke="#0F172A" stroke-width="5" stroke-linecap="round"/></svg>
+      </div>
+
+      <div class="bubble b-ylw stk rain" style="top:18%; left:32%; --r:-2deg; --d:1.1s;">
+        <span class="who">冰美式去冰</span>早鸟票抢到了,这周六准备疯
+      </div>
+      <div class="bubble b-blu stk rain" style="top:52%; left:40%; --r:2deg; --d:1.25s;">
+        <span class="who">不想排队</span>记得带充电宝,去年排队两小时
+      </div>
+    </div>
+  </section>
+
+  <!-- 阵容 -->
+  <section id="lineup">
+    <span class="sec-tag">Line-up / 阵容</span>
+    <h2 class="sec-title">谁来发疯</h2>
+    <p class="sec-note">六个名字先放出来 / 剩下三十组每周三中午陆续解锁 / 关注社交账号别掉队。</p>
+    <div class="lineup-grid">
+      <article class="artist">
+        <span class="genre">电子</span>
+        <h3>星期三的岛</h3>
+        <p>把合成器泡进海水里再捞出来晒干的声音,适合躺在草坪上闭眼听。</p>
+      </article>
+      <article class="artist">
+        <span class="genre">嘻哈</span>
+        <h3>冷萃小孩</h3>
+        <p>flow 比冷萃还顺,歌词比咖啡因还提神,副歌会全体大合唱。</p>
+      </article>
+      <article class="artist">
+        <span class="genre">盯鞋</span>
+        <h3>溺水邮差</h3>
+        <p>一整面噪音墙,负责包裹你所有没发出去的消息。</p>
+      </article>
+      <article class="artist">
+        <span class="genre">自赏</span>
+        <h3>磁带养的鱼</h3>
+        <p>loop 循环到第三遍,你会开始想念某个具体得不能再具体的夏天。</p>
+      </article>
+      <article class="artist">
+        <span class="genre">后朋</span>
+        <h3>水泥公园合唱团</h3>
+        <p>贝斯线像连续的减速带,过完一整晚才回过神来。</p>
+      </article>
+      <article class="artist">
+        <span class="genre">低保真</span>
+        <h3>602寝室</h3>
+        <p>四个人,八台设备,和一整栋楼的失眠,毕业前最后一次合体。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 时间表 -->
+  <section id="schedule">
+    <span class="sec-tag">Schedule / 时间表</span>
+    <h2 class="sec-title">两天怎么排</h2>
+    <p class="sec-note">两个舞台不撞档 / 中间留了换场和买水的时间 / 具体分钟级时刻表开演前一周公布。</p>
+    <div class="sched" role="table" aria-label="演出时间表">
+      <div class="sched-row sched-head" role="row">
+        <div role="columnheader">时间</div>
+        <div role="columnheader">主舞台</div>
+        <div role="columnheader">草地舞台</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-day" role="rowheader">5月30日 周六</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">14:00</div>
+        <div class="main-stage" role="cell">开园DJ / 烤面包机</div>
+        <div role="cell">温暖收容所</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">15:30</div>
+        <div class="main-stage" role="cell">602寝室</div>
+        <div role="cell">冷萃小孩</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">17:00</div>
+        <div class="main-stage" role="cell">溺水邮差</div>
+        <div role="cell">磁带养的鱼</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">19:00</div>
+        <div class="main-stage" role="cell">星期三的岛<span class="hl-flag">压轴</span></div>
+        <div role="cell">水泥公园合唱团</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-day" role="rowheader">5月31日 周日</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">14:30</div>
+        <div class="main-stage" role="cell">午后广播台</div>
+        <div role="cell">慢速青年</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">16:00</div>
+        <div class="main-stage" role="cell">纸飞机档案馆</div>
+        <div role="cell">夜宵姐妹</div>
+      </div>
+      <div class="sched-row" role="row">
+        <div class="sched-time" role="cell">18:00</div>
+        <div class="main-stage" role="cell">全员告别场 / 36组艺人随机上台<span class="hl-flag">盲盒</span></div>
+        <div role="cell">同步大屏直播</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 票务 -->
+  <section id="tickets">
+    <span class="sec-tag">Tickets / 票务</span>
+    <h2 class="sec-title">选一张,然后发疯</h2>
+    <p class="sec-note">早鸟截止4月20日23:59 / 电子票实名,一人一证 / 学生票现场核验学生证原件。</p>
+    <div class="ticket-grid">
+      <article class="ticket">
+        <h3>单日票</h3>
+        <div class="price">328<small>元 / 任选一天</small></div>
+        <ul>
+          <li>单日入场,两个舞台随便走</li>
+          <li>电子票二维码,刷证进场</li>
+          <li>免费寄存柜一格</li>
+          <li>进场领贴纸 starter 一份</li>
+        </ul>
+        <a class="btn btn-ghost" href="#tickets">买单日票</a>
+      </article>
+      <article class="ticket pop">
+        <span class="pop-badge">最多人选</span>
+        <h3>双日通票</h3>
+        <div class="price">588<small>元 / 两天全含</small></div>
+        <ul>
+          <li>两天无限次进出</li>
+          <li>专属荧光手环,颜色随机</li>
+          <li>贴纸礼包加金属徽章一枚</li>
+          <li>快速通道,少排两队</li>
+        </ul>
+        <a class="btn btn-mag" href="#tickets">买双日通票</a>
+      </article>
+      <article class="ticket">
+        <h3>疯人院套票</h3>
+        <div class="price">888<small>元 / 限量300张</small></div>
+        <ul>
+          <li>双日入场加观景台区域</li>
+          <li>独立洗手间和充电柜</li>
+          <li>限量卫衣一件,尺码自选</li>
+          <li>艺人签名海报一张</li>
+        </ul>
+        <a class="btn btn-primary" href="#tickets">进疯人院</a>
+      </article>
+    </div>
+    <p class="ticket-note">4月20日前可全额退票 / 之后每张票可转赠一次 / 转赠在票务小程序里自己操作,不用找客服。</p>
+  </section>
+
+  <!-- 评论:对话气泡 -->
+  <section id="talk">
+    <span class="sec-tag">Talk / 大家都在说</span>
+    <h2 class="sec-title">群里已经聊疯了</h2>
+    <p class="sec-note">摘自官方社群真实提问和回答 / 官方账号用蓝色气泡回复。</p>
+    <div class="chat">
+      <div class="msg">
+        <span class="avatar">冰</span>
+        <div class="bubble b-ylw">去年在草坪上哭了一场,今年已经准备好哭两场了,纸巾自己带。</div>
+      </div>
+      <div class="msg right">
+        <span class="avatar">队</span>
+        <div class="bubble b-wht">问一下,充电宝能带多大的?去年那块被拦在门口了。</div>
+      </div>
+      <div class="msg">
+        <span class="avatar">疯</span>
+        <div class="bubble b-blu">官方回复:3万毫安以内都可以带 / 超过的寄存在入口寄存处,出场取。</div>
+      </div>
+      <div class="msg right">
+        <span class="avatar">钉</span>
+        <div class="bubble b-wht">第一年380的票,现在想起来还是赚,森兰这块草坪我准备常驻了。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 贴纸墙 -->
+  <section id="wall">
+    <span class="sec-tag">Sticker wall / 贴纸墙</span>
+    <h2 class="sec-title">进场先领一摞贴纸</h2>
+    <p class="sec-note">每年印40款新贴纸,随手贴 / 笔记本、水杯、朋友的后背,都行 / 贴满可以来服务台换一枚新徽章。</p>
+    <div class="wall">
+      <span class="note n1">别卷了</span>
+      <span class="note n2">来发疯</span>
+      <div class="starburst wall-sticker">疯</div>
+      <span class="note n3">今天不上班</span>
+      <span class="note n4">水是免费的</span>
+      <span class="note n5">社恐友好区</span>
+      <span class="note n6">禁止内耗</span>
+      <span class="note n7">3号舞台最挤</span>
+      <span class="note n8">失物招领在7号门</span>
+    </div>
+  </section>
+
+  <!-- 快问快答 -->
+  <section id="faq">
+    <span class="sec-tag">Faq / 快问快答</span>
+    <h2 class="sec-title">还有人问这些</h2>
+    <p class="sec-note">没找到答案就去社群问 / 官方账号工作时间一小时内回复。</p>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>可以带相机吗?</h3>
+        <p>非专业设备随便带 / 三脚架和自拍杆不行,会挡到后面的人。</p>
+      </div>
+      <div class="faq-item">
+        <h3>下雨怎么办?</h3>
+        <p>小雨照常,现场有雨衣卖 / 大雨延期到6月1日,票自动顺延,不用操作。</p>
+      </div>
+      <div class="faq-item">
+        <h3>有素食选项吗?</h3>
+        <p>12个餐车里5家有素食,场地地图上用绿色标了 / 还有一辆专门的冰豆花车。</p>
+      </div>
+      <div class="faq-item">
+        <h3>能带宠物吗?</h3>
+        <p>有牵引绳和疫苗证明的狗可以进 / 猫和其余动物建议在家等你看完回来。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div>
+    <p>UI 设计提示词库 / Gen Z Chaos 混乱最大化</p>
+    <small>本页为风格演示样张 / 音乐节名称、票价与阵容均为虚构文案</small>
+  </div>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+</body>
+</html>
