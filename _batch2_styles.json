@@ -1,0 +1,194 @@
+{
+ "Material 3 Expressive (Mobile)": {
+  "csv": {
+   "Type": "Mobile",
+   "Keywords": "material 3 expressive, vibrant color, spring motion, adaptive components, flexible typography, contrasting shapes, android",
+   "AI Prompt Keywords": "Design a Material 3 Expressive mobile interface with vibrant semantic color, contrasting shapes, flexible typography, adaptive components, spring motion, and reduced-motion alternatives.",
+   "Primary Colors": "Primary Violet #6750A4, Secondary Container #E8DEF8, Tertiary #7D5260",
+   "Effects & Animation": "Tonal elevation (overlay colors instead of strong shadows), pill-shaped buttons and chips (borderRadius 999), emphasized easing Easing.bezier(0.2,0,0,1), state layers (pressed overlays 10–15% opacity), Reanimated-filled label float for inputs, HapticFeedback on FAB/toggles",
+   "CSS/Technical Keywords": "borderRadius: 999 (buttons/chips), containerRadius: 16–28, backgroundColor: '#FFFBFE', colorPrimary: '#6750A4', colorSecondaryContainer: '#E8DEF8', colorSurfaceContainer: '#F3EDF7', outlineColor: '#79747E', Pressable state-layer overlay (opacity 0.1–0.15), Easing.bezier(0.2,0,0,1), HapticFeedback.impactMedium on FAB, floating label using Reanimated translateY/scale",
+   "Implementation Checklist": "☐ MD3 color tokens applied (background/surface/container), ☐ All CTAs are pill-shaped, ☐ State-layer overlays instead of opacity 0.5 hacks, ☐ Emphasized easing used for all animations, ☐ Floating label inputs implemented, ☐ FAB uses tertiary color with correct elevation, ☐ Safe areas respected for organic shapes, ☐ No pure white background, ☐ No harsh box-shadows (ambient only)",
+   "Best For": "Android, Wear OS, and Pixel-aligned products using Material 3 components",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#6750A4",
+   "secondary": "#E8DEF8",
+   "accent": "#7D5260",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "28px",
+   "font_head": "Roboto",
+   "font_body": "Roboto"
+  },
+  "file": "material-3-expressive-mobile.html"
+ },
+ "Adobe Spectrum": {
+  "csv": {
+   "Type": "Platform/System",
+   "Keywords": "adobe spectrum, creative tools, enterprise, content creation, tokenized, cross-platform",
+   "AI Prompt Keywords": "Design an Adobe Spectrum professional tool with tokenized color, precise hierarchy, dense but legible controls, strong focus states, and cross-platform component consistency.",
+   "Primary Colors": "Spectrum semantic colors with product-specific accents",
+   "Effects & Animation": "Layered depth and restrained professional motion",
+   "CSS/Technical Keywords": "design tokens, semantic color, component states, focus-visible, reduced motion",
+   "Implementation Checklist": "Use official tokens and components; preserve platform conventions; test keyboard, contrast, zoom, motion preferences, and responsive behavior",
+   "Best For": "Creative tools, media workflows, document products, and Adobe-adjacent enterprise software",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "4px",
+   "font_head": "Roboto",
+   "font_body": "Roboto"
+  },
+  "file": "adobe-spectrum.html"
+ },
+ "Shopify Polaris": {
+  "csv": {
+   "Type": "Platform/System",
+   "Keywords": "shopify polaris, merchant admin, commerce, checkout, web components, app home",
+   "AI Prompt Keywords": "Design a Shopify Polaris merchant workflow using official web components, admin-native hierarchy, clear actions, semantic status feedback, and consistent commerce patterns. Keep scope tied to Shopify surfaces.",
+   "Primary Colors": "Shopify admin semantic tokens and merchant brand accents",
+   "Effects & Animation": "Purposeful admin feedback and restrained transitions",
+   "CSS/Technical Keywords": "design tokens, semantic color, component states, focus-visible, reduced motion",
+   "Implementation Checklist": "Use official tokens and components; preserve platform conventions; test keyboard, contrast, zoom, motion preferences, and responsive behavior",
+   "Best For": "Shopify admin apps, merchant tools, checkout, customer accounts, POS, and extensions",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "12px",
+   "font_head": "Playfair Display",
+   "font_body": "Inter"
+  },
+  "file": "shopify-polaris.html"
+ },
+ "E-Ink / Paper": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Paper-like, matte, high contrast, texture, reading, calm, slow tech, monochrome",
+   "AI Prompt Keywords": "Design an e-ink/paper style interface. Use: high contrast black on off-white, paper texture, no animations (instant transitions), reading-focused, minimal UI chrome, distraction-free, calm aesthetic, monochrome.",
+   "Primary Colors": "Off-White #FDFBF7, Paper White #F5F5F5, Ink Black #1A1A1A",
+   "Effects & Animation": "No motion blur, distinct page turns, grain/noise texture, sharp transitions (no fade)",
+   "CSS/Technical Keywords": "background: #FDFBF7 (paper white), color: #1A1A1A, transition: none, font-family: serif for reading, no gradients, border: 1px solid #E0E0E0, texture overlay (noise)",
+   "Implementation Checklist": "☐ Paper background color, ☐ High contrast text, ☐ No animations, ☐ Reading optimized, ☐ Distraction-free, ☐ Print-friendly",
+   "Best For": "Reading apps, digital newspapers, minimal journals, distraction-free writing, slow-living brands",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FDFBF7",
+   "secondary": "#F5F5F5",
+   "accent": "#1A1A1A",
+   "bg": "#FAF7F0",
+   "fg": "#111827",
+   "radius": "6px",
+   "font_head": "Playfair Display",
+   "font_body": "Source Serif 4"
+  },
+  "file": "e-ink-paper.html"
+ },
+ "Retro-Futurism": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Vintage sci-fi, 80s aesthetic, neon glow, geometric patterns, CRT scanlines, pixel art, cyberpunk, synthwave",
+   "AI Prompt Keywords": "Build a retro-futuristic (cyberpunk/vaporwave) interface with neon colors (blue, pink, cyan), deep black background, 80s aesthetic, CRT scanlines, glitch effects, neon glow text/borders, monospace fonts, geometric patterns. Use neon text-shadow and animated glitch effects.",
+   "Primary Colors": "Neon Blue #0080FF, Hot Pink #FF006E, Cyan #00FFFF, Deep Black #1A1A2E, Purple #5D34D0",
+   "Effects & Animation": "CRT scanlines (::before overlay), neon glow (text-shadow+box-shadow), glitch effects (skew/offset keyframes)",
+   "CSS/Technical Keywords": "color: neon colors (#0080FF, #FF006E, #00FFFF), text-shadow: 0 0 10px neon, background: #000 or #1A1A2E, font-family: monospace, animation: glitch (skew+offset), filter: hue-rotate",
+   "Implementation Checklist": "☐ Neon colors used, ☐ CRT scanlines effect, ☐ Glitch animations active, ☐ Monospace font, ☐ Deep black background, ☐ Glow effects applied, ☐ 80s patterns present",
+   "Best For": "Gaming, entertainment, music platforms, tech brands, artistic projects, nostalgic, cyberpunk",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#0080FF",
+   "secondary": "#FF006E",
+   "accent": "#00FFFF",
+   "bg": "#0D0F16",
+   "fg": "#EEF1F7",
+   "radius": "4px",
+   "font_head": "JetBrains Mono",
+   "font_body": "JetBrains Mono"
+  },
+  "file": "retro-futurism.html"
+ },
+ "Cyberpunk UI": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Neon, dark mode, terminal, HUD, sci-fi, glitch, dystopian, futuristic, matrix, tech noir",
+   "AI Prompt Keywords": "Design a cyberpunk interface. Use: neon colors on dark (#0D0D0D), terminal/HUD aesthetic, glitch effects, scanlines overlay, matrix green accents, monospace fonts, angular shapes, dystopian tech feel.",
+   "Primary Colors": "#00FF00 (Matrix Green), #FF00FF (Magenta), #00FFFF (Cyan), #0D0D0D (Dark)",
+   "Effects & Animation": "Neon glow (text-shadow), glitch animations (skew/offset), scanlines (::before overlay), terminal fonts",
+   "CSS/Technical Keywords": "background: #0D0D0D, color: #00FF00 or #FF00FF, font-family: monospace, text-shadow: 0 0 10px neon, animation: glitch (transform skew), ::before scanlines (repeating-linear-gradient)",
+   "Implementation Checklist": "☐ Dark background only, ☐ Neon accents visible, ☐ Glitch effect subtle, ☐ Scanlines optional, ☐ Monospace font, ☐ Terminal aesthetic",
+   "Best For": "Gaming platforms, tech products, crypto apps, sci-fi applications, developer tools, entertainment",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#00FF00",
+   "secondary": "#FF00FF",
+   "accent": "#00FFFF",
+   "bg": "#0D0F16",
+   "fg": "#EEF1F7",
+   "radius": "4px",
+   "font_head": "Orbitron",
+   "font_body": "JetBrains Mono"
+  },
+  "file": "cyberpunk-ui.html"
+ },
+ "Kinetic Typography": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Motion text, animated type, moving letters, dynamic, typing effect, morphing, scroll-triggered text",
+   "AI Prompt Keywords": "Design with kinetic typography. Use: animated text, scroll-triggered reveals, typing effects, letter-by-letter animations, morphing text, gradient text fills, oversized hero text, text as the main visual element.",
+   "Primary Colors": "Flexible - high contrast recommended, bold colors for emphasis, animation-friendly palette",
+   "Effects & Animation": "@keyframes text animation, typing effect, background-clip: text, GSAP ScrollTrigger, split text",
+   "CSS/Technical Keywords": "@keyframes for text animation, background-clip: text, GSAP SplitText, typing effect (steps()), transform on letters, scroll-triggered (Intersection Observer), variable fonts for morphing",
+   "Implementation Checklist": "☐ Text animations smooth, ☐ Prefers-reduced-motion respected, ☐ Fallback for no-JS, ☐ Mobile performance ok, ☐ Typing effect timed, ☐ Scroll triggers work",
+   "Best For": "Hero sections, marketing sites, video platforms, storytelling, creative portfolios, landing pages",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Syncopate",
+   "font_body": "Space Mono"
+  },
+  "file": "kinetic-typography.html"
+ },
+ "Claymorphism": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Soft 3D, chunky, playful, toy-like, bubbly, thick borders (3-4px), double shadows, rounded (16-24px)",
+   "AI Prompt Keywords": "Design a playful, toy-like interface with soft 3D, chunky elements, bubbly aesthetic, rounded edges (16-24px), thick borders (3-4px), double shadows (inner + outer), pastel colors, smooth animations. Perfect for children's apps and creative tools.",
+   "Primary Colors": "Pastel: Soft Peach #FDBCB4, Baby Blue #ADD8E6, Mint #98FF98, Lilac #E6E6FA, light BG",
+   "Effects & Animation": "Inner+outer shadows (subtle, no hard lines), soft press (200ms ease-out), fluffy elements, smooth transitions",
+   "CSS/Technical Keywords": "border-radius: 16-24px, border: 3-4px solid, box-shadow: inset -2px -2px 8px, 4px 4px 8px, background: pastel-gradient, animation: soft bounce (cubic-bezier 0.34, 1.56)",
+   "Implementation Checklist": "☐ Border-radius 16-24px, ☐ Thick borders 3-4px, ☐ Double shadows (inner+outer), ☐ Pastel colors used, ☐ Soft bounce animations, ☐ Playful interactions",
+   "Best For": "Educational apps, children's apps, SaaS platforms, creative tools, fun-focused, onboarding, casual games",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FDBCB4",
+   "secondary": "#ADD8E6",
+   "accent": "#98FF98",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "26px",
+   "font_head": "Nunito",
+   "font_body": "DM Sans"
+  },
+  "file": "claymorphism.html"
+ }
+}

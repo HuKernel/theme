@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="悬空诗社第 4 回动态排版诗歌夜：文字起飞，声音即排版，三城三夜。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Kinetic Typography 动态排版 / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* tokens: bg #F8FAFC / ink #0F172A / accent #2563EB / head "Syncopate 700" / body "Space Mono + Noto Sans SC" / radius 14px 仅按钮 */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F8FAFC;
+  --ink: #0F172A;
+  --acc: #2563EB;
+  --acc-lift: #6D9BFA;
+  --r: 14px;
+  --mono: "Space Mono", "Noto Sans SC", monospace;
+  --disp-en: "Syncopate", "Noto Sans SC", sans-serif;
+  --cjk: "Noto Sans SC", sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: clamp(0.95rem, 1rem + 0.2vw, 1.05rem);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--acc); color: #fff; }
+
+a { color: var(--acc); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+a:hover { text-decoration: none; }
+
+:focus-visible {
+  outline: 3px solid var(--acc);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 4vw, 3rem);
+}
+
+section { scroll-margin-top: 1.5rem; }
+
+.skip {
+  position: absolute; left: -999px; top: 0;
+  background: var(--ink); color: var(--bg);
+  padding: .6rem 1rem; z-index: 99;
+}
+.skip:focus-visible { left: 0; color: var(--bg); }
+
+/* ---------- 顶栏 ---------- */
+
+.top { border-bottom: 3px solid var(--ink); }
+
+.bar {
+  display: flex; align-items: baseline; justify-content: space-between;
+  flex-wrap: wrap; gap: .6rem 1.5rem;
+  padding-block: .95rem;
+}
+
+.brand {
+  font-family: var(--cjk); font-weight: 900;
+  font-size: clamp(1.05rem, 1rem + .5vw, 1.3rem);
+  color: var(--ink); text-decoration: none; letter-spacing: .02em;
+}
+.brand .en {
+  font-family: var(--disp-en); font-weight: 700;
+  font-size: .62em; letter-spacing: .22em; margin-left: .5em;
+}
+
+.top nav { display: flex; gap: clamp(.9rem, 2.5vw, 2rem); }
+.top nav a {
+  color: var(--ink); text-decoration: none; font-weight: 700;
+  font-size: .92rem; letter-spacing: .04em;
+}
+.top nav a:hover { color: var(--acc); text-decoration: underline; }
+
+/* ---------- Hero ---------- */
+
+.hero { padding-block: clamp(3rem, 8vw, 6.5rem) clamp(2.5rem, 6vw, 5rem); }
+
+.eyebrow {
+  font-size: clamp(.82rem, .8rem + .3vw, .95rem);
+  font-weight: 700; letter-spacing: .05em;
+  margin-bottom: clamp(1.2rem, 3vw, 2.2rem);
+}
+
+.hero h1 {
+  display: flex; flex-direction: column; align-items: flex-start;
+  font-weight: 900; font-family: var(--cjk);
+}
+
+.hero h1 .w { display: block; overflow: hidden; }
+.hero h1 .w > span {
+  display: block;
+  transform: translateY(115%);
+  animation: lift .85s cubic-bezier(.2, .75, .2, 1) forwards;
+}
+.d1 > span { animation-delay: .1s; }
+.d2 > span { animation-delay: .28s; }
+.d3 > span { animation-delay: .5s; }
+
+@keyframes lift { to { transform: translateY(0); } }
+
+.h1a {
+  font-size: clamp(3.6rem, 14vw, 11rem);
+  line-height: .98; letter-spacing: .01em;
+}
+
+.h1b {
+  font-size: clamp(3.6rem, 14vw, 11rem);
+  line-height: .95; margin-left: clamp(2.5rem, 14vw, 13rem);
+  -webkit-text-stroke: clamp(1.5px, .3vw, 3px) var(--ink);
+  color: transparent;
+}
+@supports not (-webkit-text-stroke: 1px black) {
+  .h1b { color: var(--ink); }
+}
+
+.h1c {
+  font-family: var(--disp-en); font-weight: 700;
+  font-size: clamp(.95rem, 3.2vw, 2.4rem);
+  letter-spacing: .22em; line-height: 1.25;
+  margin-left: clamp(.5rem, 5vw, 4rem);
+  margin-top: clamp(.8rem, 2vw, 1.6rem);
+}
+.h1c .acc { color: var(--acc); }
+
+.typed {
+  margin-top: clamp(1.6rem, 4vw, 3rem);
+  font-size: clamp(1rem, 1rem + .5vw, 1.3rem);
+  font-weight: 700; max-width: 34em;
+  min-height: 1.75em;
+}
+#type.typing::after {
+  content: ""; display: inline-block;
+  width: .55em; height: 1.05em; background: var(--ink);
+  margin-left: .18em; vertical-align: text-bottom;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink { to { visibility: hidden; } }
+
+.meta {
+  margin-top: 1.1rem;
+  font-size: .92rem; font-weight: 700; letter-spacing: .03em;
+}
+
+/* ---------- 跑马灯 ---------- */
+
+.marquee {
+  overflow: hidden;
+  background: var(--acc); color: #fff;
+  border-block: 3px solid var(--ink);
+}
+
+.mtrack {
+  display: flex; width: max-content;
+  animation: slide 22s linear infinite;
+}
+@keyframes slide { to { transform: translateX(-50%); } }
+
+.minner {
+  display: flex; align-items: center; white-space: nowrap;
+  padding-block: .95rem;
+  font-family: var(--disp-en); font-weight: 700;
+  font-size: clamp(.95rem, 2.2vw, 1.35rem);
+  letter-spacing: .1em;
+}
+.minner > span { padding-inline: .8em; }
+
+/* ---------- 词稿 ---------- */
+
+.poemsec { padding-block: clamp(3.5rem, 9vw, 7.5rem); }
+
+.kicker {
+  font-size: .88rem; font-weight: 700; letter-spacing: .06em;
+  border-top: 3px solid var(--ink);
+  padding-top: .8rem; margin-bottom: clamp(1.8rem, 5vw, 3.5rem);
+}
+
+.poem { list-style: none; font-family: var(--cjk); font-weight: 900; }
+
+.poem li {
+  font-size: clamp(1.7rem, 5.5vw, 4.2rem);
+  line-height: 1.06; letter-spacing: .01em;
+}
+.poem li:nth-child(1) { margin-left: 0; }
+.poem li:nth-child(2) { margin-left: clamp(1.5rem, 12vw, 11rem); }
+.poem li:nth-child(3) { margin-left: clamp(.5rem, 4vw, 3.5rem); }
+.poem li:nth-child(4) { margin-left: clamp(2.5rem, 18vw, 16rem); }
+.poem li:nth-child(5) { margin-left: clamp(1rem, 8vw, 7rem); }
+.poem li:nth-child(6) { margin-left: 0; }
+.poem li:nth-child(7) { margin-left: clamp(1.5rem, 10vw, 9rem); color: var(--acc); }
+
+.poem .xl { font-size: clamp(2.3rem, 8vw, 6.2rem); }
+
+.poem .oline {
+  -webkit-text-stroke: clamp(1.2px, .25vw, 2.5px) var(--ink);
+  color: transparent;
+}
+.oline {
+  -webkit-text-stroke: clamp(1.5px, .3vw, 3px) var(--ink);
+  color: transparent;
+}
+@supports not (-webkit-text-stroke: 1px black) {
+  .poem .oline { color: var(--ink); }
+}
+
+/* 逐行一次亮相（IntersectionObserver 加 .in） */
+.js .reveal { overflow: hidden; }
+.js .reveal > span { display: block; transform: translateY(112%); transition: transform .75s cubic-bezier(.2, .75, .2, 1); }
+.js .reveal.in > span { transform: translateY(0); }
+.js .poem li:nth-child(2) > span,
+.js .poem li:nth-child(4) > span,
+.js .poem li:nth-child(6) > span { transition-delay: .1s; }
+
+/* ---------- 字重 ---------- */
+
+.weightsec { padding-block: clamp(3rem, 8vw, 6.5rem); }
+
+.wline {
+  font-family: var(--cjk);
+  line-height: 1.08; letter-spacing: .01em;
+}
+.w900 { font-weight: 900; font-size: clamp(2.1rem, 7vw, 5.2rem); }
+.w400 { font-weight: 400; font-size: clamp(1.4rem, 4.5vw, 3.2rem); }
+.wline.indent { margin-left: clamp(1.5rem, 10vw, 9rem); }
+
+.wnote {
+  margin-top: clamp(1.2rem, 3vw, 2rem);
+  font-size: .9rem; font-weight: 700; letter-spacing: .04em;
+}
+
+/* ---------- 曲线文字 ---------- */
+
+.curve { padding-block: clamp(1rem, 3vw, 2.5rem); }
+
+.curve svg { width: 100%; height: auto; display: block; }
+
+.curve text {
+  font-family: var(--disp-en); font-weight: 700;
+  font-size: clamp(20px, 4vw, 40px);
+  letter-spacing: .1em; fill: var(--acc);
+}
+
+.curve .ghost { fill: none; stroke: var(--ink); stroke-width: 1.5; opacity: .18; }
+
+/* ---------- 深色段 ---------- */
+
+.dark { background: var(--ink); color: var(--bg); }
+
+.darksec { padding-block: clamp(3.5rem, 9vw, 7rem); }
+
+.dark .kicker { border-top-color: var(--bg); }
+
+.pull {
+  font-family: var(--cjk); font-weight: 900;
+  font-size: clamp(2rem, 6.5vw, 4.6rem);
+  line-height: 1.12; margin-bottom: clamp(1.6rem, 4vw, 3rem);
+}
+.pull .acc { color: var(--acc-lift); }
+
+.dark p { max-width: 36em; margin-bottom: 1.2em; }
+
+.dark a { color: var(--bg); }
+.dark :focus-visible { outline-color: var(--bg); }
+
+.onlylist {
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700; letter-spacing: .04em;
+}
+
+/* ---------- 场次 ---------- */
+
+.showssec { padding-block: clamp(3.5rem, 9vw, 7rem); }
+
+.shows { list-style: none; border-top: 3px solid var(--ink); }
+
+.show {
+  display: grid;
+  grid-template-columns: minmax(6.5em, auto) 1fr auto;
+  gap: .5rem 1.5rem; align-items: baseline;
+  border-bottom: 3px solid var(--ink);
+  padding-block: clamp(.9rem, 2vw, 1.3rem);
+}
+
+.show .date {
+  font-family: var(--disp-en); font-weight: 700;
+  font-size: clamp(1.05rem, 3vw, 1.9rem); letter-spacing: .05em;
+}
+.show .where { font-weight: 700; font-size: clamp(1rem, 2.4vw, 1.35rem); }
+.show .who { font-size: .92rem; }
+.show:hover .date { color: var(--acc); }
+
+/* ---------- 观演须知 ---------- */
+
+.notessec { padding-block: clamp(3rem, 8vw, 6.5rem); }
+
+.notes { list-style: none; }
+
+.notes li {
+  border-top: 2px solid var(--ink);
+  padding-block: clamp(.7rem, 1.6vw, 1rem);
+  font-weight: 700;
+  display: flex; gap: .8em; align-items: baseline;
+}
+.notes li::before {
+  content: "/";
+  color: var(--acc);
+  font-family: var(--disp-en); font-weight: 700;
+}
+.notes li:last-child { border-bottom: 2px solid var(--ink); }
+
+/* ---------- 订座 ---------- */
+
+.ticketsec { padding-block: clamp(3.5rem, 9vw, 7rem); border-top: 3px solid var(--ink); }
+
+.ticketsec h2 {
+  font-family: var(--cjk); font-weight: 900;
+  font-size: clamp(2rem, 7vw, 5rem);
+  line-height: 1.08; margin-bottom: .8em;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--acc); color: #fff;
+  font-family: var(--cjk); font-weight: 900;
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+  letter-spacing: .12em;
+  border: 3px solid var(--ink);
+  border-radius: var(--r);
+  padding: .8em 2.2em;
+  cursor: pointer;
+}
+.btn:hover { background: var(--ink); }
+.btn:active { transform: translateY(2px); }
+
+.price { margin-top: 1.1rem; font-size: .92rem; font-weight: 700; }
+
+/* ---------- footer ---------- */
+
+footer { border-top: 3px solid var(--ink); }
+
+.footer-inner {
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: .5rem 1.5rem;
+  padding-block: 1.4rem;
+  font-size: .9rem;
+}
+
+/* ---------- 响应式 ---------- */
+
+@media (max-width: 640px) {
+  .show { grid-template-columns: 1fr; gap: .15rem; }
+  .show .who { font-size: .88rem; }
+  .bar { justify-content: center; text-align: center; }
+}
+
+@media (min-width: 768px) {
+  .notes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+  }
+  .notes li:nth-last-child(-n + 2) { border-bottom: 2px solid var(--ink); }
+  .notes li:nth-child(odd) { border-right: 2px solid var(--ink); padding-right: clamp(1.5rem, 3vw, 3rem); }
+  .bar { padding-block: 1.15rem; }
+  .hero { padding-top: clamp(4rem, 9vw, 8rem); }
+}
+
+@media (min-width: 1440px) {
+  .wrap { max-width: 1240px; }
+  .hero h1 { align-items: flex-start; }
+  .h1c { letter-spacing: .3em; }
+  .minner > span { padding-inline: 1.1em; }
+}
+
+/* ---------- 动效降级 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero h1 .w > span { animation: none; transform: none; }
+  .mtrack { animation: none; }
+  .js .reveal > span { transition: none; transform: none; }
+  #type.typing::after { animation: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top">悬空诗社<span class="en">TYPE ALOUD</span></a>
+    <nav aria-label="主导航">
+      <a href="#poem">词稿</a>
+      <a href="#curve">曲线</a>
+      <a href="#weight">字重</a>
+      <a href="#shows">场次</a>
+      <a href="#ticket">订座</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero wrap" id="top">
+  <p class="eyebrow">动态排版诗歌夜 / Kinetic Poetry Night / 第 4 回</p>
+  <h1>
+    <span class="w d1"><span class="h1a">文字</span></span>
+    <span class="w d2"><span class="h1b">起飞</span></span>
+    <span class="w d3"><span class="h1c">TYPE IN <span class="acc">MOTION</span></span></span>
+  </h1>
+  <p class="typed"><span id="type">当一首诗被大声朗读，排版开始移动。</span></p>
+  <p class="meta">2026 / 10 / 24 至 11 / 01 / 上海 杭州北京 三城三夜 / 19:30 开场</p>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mtrack">
+    <div class="minner">
+      <span>词语是燃料</span><span>WORDS ARE FUEL</span><span>声音即排版</span><span>SOUND IS LAYOUT</span><span>停顿即留白</span><span>PAUSE IS SPACE</span>
+    </div>
+    <div class="minner">
+      <span>词语是燃料</span><span>WORDS ARE FUEL</span><span>声音即排版</span><span>SOUND IS LAYOUT</span><span>停顿即留白</span><span>PAUSE IS SPACE</span>
+    </div>
+  </div>
+</div>
+
+<section class="poemsec wrap" id="poem">
+  <p class="kicker">词稿 / 选自《起飞练习》</p>
+  <ul class="poem">
+    <li class="reveal"><span>把一句话</span></li>
+    <li class="reveal"><span>拆成七块骨头</span></li>
+    <li class="reveal"><span class="xl">每一块 都站起来走路</span></li>
+    <li class="reveal"><span>声音是它的关节</span></li>
+    <li class="reveal"><span class="oline">停顿是它的呼吸</span></li>
+    <li class="reveal"><span>你读到哪一行</span></li>
+    <li class="reveal"><span class="xl">哪一行 就开始起飞</span></li>
+  </ul>
+</section>
+
+<section class="curve wrap" id="curve">
+  <svg viewBox="0 0 900 230" role="img" aria-label="文字沿弧线滑行：GLIDING ON A CURVE / 沿曲线滑行">
+    <defs>
+      <path id="arc" d="M 30 200 Q 450 -50 870 200"/>
+    </defs>
+    <use class="ghost" href="#arc"/>
+    <text><textPath href="#arc" startOffset="7%">GLIDING ON A CURVE / 沿曲线滑行</textPath></text>
+  </svg>
+</section>
+
+<section class="weightsec wrap" id="weight">
+  <p class="kicker">字重 / 粗与细的落差</p>
+  <p class="wline w900 reveal"><span>粗的字在喊</span></p>
+  <p class="wline w400 reveal"><span>细的字在耳语</span></p>
+  <p class="wline w900 indent oline reveal"><span>同一张纸 两种音量</span></p>
+  <p class="wnote">900 与 400 并置 / 落差即层级 / 无需再加装饰</p>
+</section>
+
+<section class="dark" id="about">
+  <div class="wrap darksec">
+    <p class="kicker">关于动态排版</p>
+    <p class="pull">排版不是容器，<br>是<span class="acc">事件</span>。</p>
+    <p>静态排版把字钉在纸上，动态排版给字松绑。字距随呼吸开合，行随朗读移动，强调色只落在最重要的那一个词上。</p>
+    <p>这场朗诵夜不投影影像，只投影字。声音走到哪里，字就走到哪里；你停下换气，字就停在半空等你。</p>
+    <p class="onlylist">一种强调色 / 两种字重 / 零张图片</p>
+  </div>
+</section>
+
+<section class="showssec wrap" id="shows">
+  <p class="kicker">场次 / 三城</p>
+  <ul class="shows">
+    <li class="show">
+      <span class="date">10 / 24</span>
+      <span class="where">上海 / 珊瑚剧场</span>
+      <span class="who">读诗 沈默 / 声音 白噪</span>
+    </li>
+    <li class="show">
+      <span class="date">10 / 25</span>
+      <span class="where">杭州 / 天目里 七号楼</span>
+      <span class="who">读诗 陆雨 / 钢琴 阿离</span>
+    </li>
+    <li class="show">
+      <span class="date">11 / 01</span>
+      <span class="where">北京 / 郎园 谷仓</span>
+      <span class="who">读诗 白噪 / 大提琴 周野</span>
+    </li>
+  </ul>
+</section>
+
+<section class="notessec wrap" id="notes">
+  <p class="kicker">观演须知 / 六条</p>
+  <ul class="notes">
+    <li>迟到者请等下一个停顿再入座</li>
+    <li>字幕由现场声音实时驱动 会有延迟</li>
+    <li>手机静音 震动也算声音</li>
+    <li>拍照可以 请关掉闪光灯</li>
+    <li>鼓励跟读 但别抢拍</li>
+    <li>散场时请带走你的分句习惯</li>
+  </ul>
+</section>
+
+<section class="ticketsec wrap" id="ticket">
+  <p class="kicker">订座</p>
+  <h2>把座位<br>交给一句话</h2>
+  <button class="btn" type="button">预订座位</button>
+  <p class="price">早鸟 88 元 / 现场 120 元 / 学生半价 / 每场仅 90 席</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>UI 设计提示词库 / Kinetic Typography 动态排版</span>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* 逐行一次亮相：进入视口后加 .in，随即停止观察 */
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+}
+
+/* 打字一行：只打一次，降级直接显示原文 */
+var t = document.getElementById('type');
+if (t && !reduce) {
+  var full = t.textContent;
+  t.setAttribute('aria-label', full);
+  t.textContent = '';
+  t.classList.add('typing');
+  var i = 0;
+  var tick = function () {
+    if (i <= full.length) {
+      t.textContent = full.slice(0, i);
+      i += 1;
+      window.setTimeout(tick, 95);
+    } else {
+      t.classList.remove('typing');
+    }
+  };
+  window.setTimeout(tick, 850);
+}
+</script>
+</body>
+</html>

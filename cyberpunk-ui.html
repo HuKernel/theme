@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Cyberpunk 赛博朋克 / UI 设计提示词库</title>
+<meta name="description" content="Cyberpunk 赛博朋克风格演示页：旧港区义体诊所「夜曲 nocturne.clinic」，故障字效、扫描线、切角面板、HUD 刻度与诊前自检终端。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/* token 计划：#00FF00 矩阵绿 / #FF00FF 霓虹品红 / #00FFFF 霓虹青 双霓虹并立，#FFD400 警示黄做第三强调色破掉单色空洞；#0D0F16 底 / #151B2B 面板 / #EEF1F7 前景 / #A9B4C6 次级；Orbitron=拉丁展示字，JetBrains Mono=终端与代码，Noto Sans SC=中文正文；签名=切角面板 + HUD 刻度边 + 排异风险三色阶，扫描线全局静态覆层，动效仅标题一次性故障闪现 */
+:root {
+  --green: #00FF00;
+  --magenta: #FF00FF;
+  --cyan: #00FFFF;
+  --warn: #FFD400;
+  --bg: #0D0F16;
+  --panel: #151B2B;
+  --term: #0A0C12;
+  --fg: #EEF1F7;
+  --muted: #A9B4C6;
+  --dim: #8A96AC;
+  --line-c: rgba(0, 255, 255, 0.32);
+  --line-m: rgba(255, 0, 255, 0.30);
+  --line-w: rgba(255, 212, 0, 0.45);
+  --head: 'Orbitron', 'Noto Sans SC', sans-serif;
+  --mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+  --body: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  --cut: 16px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* 全局扫描线覆层：静态，不参与动效 */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(3, 5, 9, 0.22) 0 1px, transparent 1px 4px);
+}
+
+::selection { background: var(--cyan); color: #06131A; }
+
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--cyan); outline-offset: 3px;
+}
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+.section { padding: 76px 0 8px; }
+
+.section-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 10px; }
+.section-head h2 {
+  font-family: var(--head);
+  font-size: 26px; letter-spacing: 1px;
+  color: var(--fg);
+}
+.section-head .sec-no {
+  font-family: var(--mono);
+  color: var(--magenta); font-size: 15px;
+}
+.section-lead { color: var(--muted); max-width: 720px; margin-bottom: 30px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(10, 12, 18, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line-c);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 20px;
+}
+.brand {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--fg); font-family: var(--head); font-size: 17px; letter-spacing: 1px;
+}
+.brand:hover { text-decoration: none; color: var(--cyan); }
+.brand-mark {
+  width: 26px; height: 26px; flex: none;
+  background: linear-gradient(135deg, var(--cyan) 50%, var(--magenta) 50%);
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+}
+.nav { display: flex; gap: 26px; font-size: 14.5px; }
+.nav a { color: var(--muted); }
+.nav a:hover { color: var(--cyan); }
+.top-status {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 12.5px; color: var(--green);
+  border: 1px solid rgba(0, 255, 0, 0.35);
+  padding: 5px 12px;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  white-space: nowrap;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+}
+
+/* ---------- 首屏 ---------- */
+.hero {
+  position: relative;
+  padding: 88px 0 64px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.14);
+  background:
+    radial-gradient(900px 420px at 82% 12%, rgba(255, 0, 255, 0.09), transparent 60%),
+    radial-gradient(760px 420px at 12% 88%, rgba(0, 255, 255, 0.08), transparent 60%);
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1.5fr 1fr; gap: 44px; align-items: start;
+}
+.hero-kicker {
+  font-family: var(--mono); font-size: 13.5px; color: var(--cyan);
+  margin-bottom: 16px; letter-spacing: 0.5px;
+}
+.hero-title {
+  font-family: var(--head);
+  font-size: clamp(40px, 5.4vw, 62px);
+  line-height: 1.15; letter-spacing: 2px;
+  position: relative; margin-bottom: 10px;
+}
+.hero-sub {
+  font-family: var(--mono); font-size: 14px; color: var(--magenta);
+  margin-bottom: 22px;
+}
+.hero-copy { color: var(--muted); max-width: 560px; margin-bottom: 30px; }
+.hero-copy strong { color: var(--fg); font-weight: 500; }
+
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 34px; }
+
+.btn {
+  display: inline-block;
+  font-family: var(--mono); font-size: 15px; font-weight: 700;
+  padding: 12px 26px; border: 1px solid transparent; cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: filter 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.btn:hover { text-decoration: none; filter: brightness(1.12); }
+.btn-cyan { background: var(--cyan); color: #06131A; }
+.btn-ghost { background: transparent; color: var(--magenta); border-color: var(--magenta); }
+.btn-ghost:hover { background: var(--magenta); color: #1A021A; }
+
+.data-strip {
+  display: flex; flex-wrap: wrap; gap: 0 14px;
+  font-family: var(--mono); font-size: 13px; color: var(--muted);
+  border-top: 1px dashed rgba(169, 180, 198, 0.3);
+  padding-top: 16px; max-width: 620px;
+}
+.data-strip span { white-space: nowrap; padding: 2px 0; }
+.data-strip b { color: var(--green); font-weight: 700; }
+
+/* 诊所状态读出面板：假终端，内容而非装饰 */
+.readout {
+  background: var(--term);
+  border: 1px solid var(--line-c);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  padding: 22px 22px 16px;
+  font-family: var(--mono); font-size: 13px; line-height: 2.05;
+  color: var(--muted);
+  position: relative;
+}
+.readout::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cyan) 0 62%, var(--magenta) 62% 78%, var(--warn) 78% 100%);
+}
+.readout h3 {
+  font-size: 13px; color: var(--fg); font-weight: 700;
+  font-family: var(--mono); margin-bottom: 8px;
+}
+.readout .r-line b { color: var(--cyan); font-weight: 400; }
+.readout .r-line .ok { color: var(--green); }
+.readout .r-line .hi { color: var(--warn); }
+.readout .r-foot {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed rgba(169, 180, 198, 0.25);
+  color: var(--dim); font-size: 12px;
+}
+
+/* 神经电流读数尺：HUD 刻度，数字成句语义 */
+.rail-wrap { margin-top: 26px; }
+.rail {
+  display: flex; align-items: stretch; gap: 10px;
+  font-family: var(--mono); font-size: 11.5px; color: var(--dim);
+}
+.rail .ticks {
+  flex: 1; height: 34px;
+  background:
+    repeating-linear-gradient(90deg, rgba(238, 241, 247, 0.4) 0 1px, transparent 1px 14px),
+    linear-gradient(0deg, transparent 46%, rgba(238, 241, 247, 0.4) 46% 47%, transparent 47%);
+  border-left: 1px solid rgba(238, 241, 247, 0.4);
+}
+.rail-caption { margin-top: 6px; font-size: 12px; color: var(--dim); }
+
+/* ---------- 一次性故障闪现（仅标题，播一次） ---------- */
+.hero-title::before,
+.hero-title::after {
+  content: attr(data-text);
+  position: absolute; inset: 0; opacity: 0; pointer-events: none;
+  background: var(--bg);
+}
+.hero-title::before {
+  color: var(--cyan);
+  animation: glitch-a 0.7s steps(1, end) 1 0.2s both;
+}
+.hero-title::after {
+  color: var(--magenta);
+  animation: glitch-b 0.7s steps(1, end) 1 0.2s both;
+}
+@keyframes glitch-a {
+  0%   { opacity: 0.95; transform: translate(-7px, 2px) skewX(-9deg); clip-path: inset(0 0 58% 0); }
+  18%  { opacity: 0.8;  transform: translate(5px, -2px) skewX(7deg);  clip-path: inset(28% 0 24% 0); }
+  36%  { opacity: 0.9;  transform: translate(-4px, 1px);              clip-path: inset(62% 0 6% 0); }
+  54%  { opacity: 0.6;  transform: translate(6px, 0) skewX(-5deg);    clip-path: inset(8% 0 74% 0); }
+  72%  { opacity: 0.4;  transform: translate(-3px, 0);                clip-path: inset(44% 0 38% 0); }
+  100% { opacity: 0;    transform: none;                               clip-path: inset(0 0 100% 0); }
+}
+@keyframes glitch-b {
+  0%   { opacity: 0.9;  transform: translate(6px, -2px) skewX(8deg);  clip-path: inset(52% 0 4% 0); }
+  18%  { opacity: 0.75; transform: translate(-5px, 2px) skewX(-6deg); clip-path: inset(10% 0 62% 0); }
+  36%  { opacity: 0.85; transform: translate(4px, 1px);               clip-path: inset(36% 0 30% 0); }
+  54%  { opacity: 0.55; transform: translate(-6px, 0) skewX(6deg);    clip-path: inset(70% 0 8% 0); }
+  72%  { opacity: 0.35; transform: translate(2px, 0);                 clip-path: inset(20% 0 60% 0); }
+  100% { opacity: 0;    transform: none;                               clip-path: inset(100% 0 0 0); }
+}
+
+/* ---------- 义体价目 ---------- */
+.price-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+}
+.ware {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line-c);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  padding: 20px 20px 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.ware::before {
+  content: '';
+  position: absolute; right: 0; top: 0; width: 44px; height: 3px;
+  background: var(--magenta);
+}
+.ware-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  border-bottom: 1px solid rgba(169, 180, 198, 0.22);
+  padding-bottom: 10px;
+}
+.ware-no { font-family: var(--mono); font-size: 13px; color: var(--cyan); }
+.ware h3 { font-size: 17.5px; font-weight: 700; color: var(--fg); }
+.ware ul { list-style: none; display: grid; gap: 6px; }
+.ware li {
+  font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+  padding-left: 14px; position: relative;
+}
+.ware li::before {
+  content: ''; position: absolute; left: 0; top: 0.72em;
+  width: 6px; height: 6px;
+  background: var(--cyan);
+  clip-path: polygon(0 0, 100% 0, 100% 65%, 65% 100%, 0 100%);
+}
+.ware-foot {
+  margin-top: auto;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex-wrap: wrap;
+  border-top: 1px dashed rgba(169, 180, 198, 0.28);
+  padding-top: 12px;
+}
+.price { font-family: var(--mono); font-size: 21px; font-weight: 700; color: var(--cyan); }
+.ware-meta { font-family: var(--mono); font-size: 12px; color: var(--dim); text-align: right; }
+.risk { font-family: var(--mono); font-size: 12px; padding: 3px 10px; border: 1px solid; }
+.risk-low  { color: var(--green);   border-color: rgba(0, 255, 0, 0.45); }
+.risk-mid  { color: var(--warn);    border-color: rgba(255, 212, 0, 0.55); }
+.risk-high { color: var(--magenta); border-color: rgba(255, 0, 255, 0.55); }
+
+/* ---------- 接入服务：终端行 ---------- */
+.svc-list { border: 1px solid var(--line-m); background: var(--term); }
+.svc-row {
+  display: grid; grid-template-columns: 92px 1.6fr 0.9fr 1fr; gap: 18px;
+  align-items: baseline;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(169, 180, 198, 0.16);
+  font-family: var(--mono); font-size: 13.5px;
+}
+.svc-row:last-child { border-bottom: none; }
+.svc-code { color: var(--magenta); font-size: 12.5px; }
+.svc-name { color: var(--fg); font-size: 14.5px; }
+.svc-name small { display: block; color: var(--dim); font-size: 12px; }
+.svc-time { color: var(--cyan); }
+.svc-fee { color: var(--muted); text-align: right; }
+.svc-fee b { color: var(--warn); font-weight: 700; }
+
+/* ---------- 诊前自检终端 ---------- */
+.term {
+  background: var(--term);
+  border: 1px solid var(--line-c);
+  box-shadow: inset 0 0 44px rgba(0, 255, 255, 0.05);
+  max-width: 860px;
+}
+.term-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 18px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  font-family: var(--mono); font-size: 12px; color: var(--dim);
+}
+.term-bar .tb-l { color: var(--green); }
+.term-body {
+  padding: 22px 24px 20px;
+  font-family: var(--mono); font-size: 13.5px; line-height: 2.1;
+}
+.term-body .t-line { color: var(--muted); white-space: pre-wrap; }
+.term-body .t-cmd { color: var(--fg); }
+.term-body .t-cmd::before { content: '$ '; color: var(--green); }
+.term-body .t-key { color: var(--cyan); }
+.term-body .t-val { color: var(--fg); }
+.term-body .t-ok { color: var(--green); }
+.term-body .t-mid { color: var(--warn); }
+.term-body .t-next { margin-top: 8px; color: var(--magenta); }
+.cursor { color: var(--green); }
+
+/* ---------- 风险告知 ---------- */
+.risk-zone { max-width: 860px; display: grid; gap: 16px; }
+.warn-box {
+  display: flex; gap: 18px; align-items: flex-start;
+  background: rgba(255, 212, 0, 0.05);
+  border: 1px solid var(--line-w);
+  border-left: 4px solid var(--warn);
+  padding: 18px 20px;
+}
+.warn-tri {
+  flex: none; width: 40px; height: 36px; margin-top: 3px;
+  background: var(--warn);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  display: flex; align-items: flex-end; justify-content: center;
+  color: #1A1400; font-weight: 700; font-size: 20px; font-family: var(--mono);
+}
+.warn-tri span { transform: translateY(-2px); }
+.warn-box h3 { color: var(--warn); font-size: 16px; margin-bottom: 4px; }
+.warn-box p { color: var(--muted); font-size: 14px; }
+.warranty {
+  font-family: var(--mono); font-size: 12.5px; color: var(--dim);
+  border: 1px dashed rgba(169, 180, 198, 0.35);
+  padding: 12px 18px;
+}
+.warranty b { color: var(--cyan); font-weight: 400; }
+
+/* ---------- 预约表单 ---------- */
+.book-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start;
+}
+.book-note-copy { color: var(--muted); }
+.book-note-copy h2 {
+  font-family: var(--head); font-size: 26px; letter-spacing: 1px; margin-bottom: 12px;
+}
+.book-note-copy p { margin-bottom: 10px; }
+.book-steps {
+  font-family: var(--mono); font-size: 13px; color: var(--muted);
+  list-style: none; display: grid; gap: 10px; margin-top: 18px;
+}
+.book-steps li { padding-left: 26px; position: relative; }
+.book-steps li::before {
+  content: attr(data-step);
+  position: absolute; left: 0; top: 1px;
+  color: var(--magenta);
+}
+.book-form {
+  background: var(--term);
+  border: 1px solid var(--line-c);
+  padding: 26px 26px 22px;
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+}
+.field { display: grid; gap: 7px; margin-bottom: 18px; }
+.field label {
+  font-family: var(--mono); font-size: 12.5px; color: var(--cyan);
+}
+.field input, .field select {
+  font-family: var(--mono); font-size: 14px;
+  background: #070910; color: var(--fg);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  padding: 11px 13px;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+.field input::placeholder { color: var(--dim); }
+.field input:focus-visible, .field select:focus-visible {
+  outline: 2px solid var(--cyan); outline-offset: 2px;
+  border-color: var(--cyan);
+}
+.field select option { background: var(--term); color: var(--fg); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.btn-submit {
+  width: 100%; font-family: var(--mono); font-size: 15px; font-weight: 700;
+  background: var(--magenta); color: #1A021A;
+  border: none; padding: 13px 0; cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.btn-submit:hover { filter: brightness(1.12); }
+.form-foot {
+  margin-top: 14px; font-family: var(--mono); font-size: 12px; color: var(--dim);
+}
+
+/* ---------- footer ---------- */
+footer {
+  margin-top: 90px;
+  border-top: 1px solid var(--line-c);
+  padding: 34px 0 44px;
+  text-align: center;
+  font-family: var(--mono); font-size: 13px; color: var(--muted);
+}
+footer .foot-line { margin-bottom: 8px; }
+footer a { color: var(--cyan); }
+footer small { display: block; margin-top: 8px; color: var(--dim); font-size: 12px; }
+
+/* ---------- 响应式 ---------- */
+@media (min-width: 1441px) {
+  .container { max-width: 1280px; }
+  .price-grid { gap: 26px; }
+}
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 34px; }
+  .readout { max-width: 620px; }
+  .price-grid { grid-template-columns: repeat(2, 1fr); }
+  .svc-row { grid-template-columns: 84px 1fr; row-gap: 6px; }
+  .svc-time { grid-column: 1; }
+  .svc-fee { grid-column: 2; text-align: left; }
+  .book-grid { grid-template-columns: 1fr; gap: 28px; }
+  .nav { display: none; }
+}
+
+@media (max-width: 480px) {
+  :root { --cut: 10px; }
+  .container { padding: 0 18px; }
+  .hero { padding: 56px 0 44px; }
+  .hero-title { font-size: 38px; }
+  .price-grid { grid-template-columns: 1fr; }
+  .section { padding: 56px 0 4px; }
+  .section-head h2 { font-size: 22px; }
+  .form-row { grid-template-columns: 1fr; }
+  .warn-box { flex-direction: column; gap: 12px; }
+  .top-status { display: none; }
+  .term-body { font-size: 12.5px; padding: 16px; }
+  .term-body .t-line { word-break: break-all; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-title::before, .hero-title::after { animation: none; opacity: 0; }
+  .btn, .btn-submit { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      夜曲义体诊所
+    </a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#price">义体价目</a>
+      <a href="#service">接入服务</a>
+      <a href="#check">诊前自检</a>
+      <a href="#risk">风险告知</a>
+      <a href="#book">预约手术</a>
+    </nav>
+    <p class="top-status"><span class="dot" aria-hidden="true"></span>链路稳定 / 手术室 3 间空闲</p>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="hero-kicker">洪川市旧港区 / 盐仓巷 44 号地下层 / 坐标 N 35°41′ E 119°12′ / 营业 14:00 至次日 04:00</p>
+        <h1 class="hero-title" data-text="夜曲义体诊所">夜曲义体诊所</h1>
+        <p class="hero-sub">nocturne.clinic / est. 2013 / 执业执照号 hc-imp-0917</p>
+        <p class="hero-copy">我们把金属装进神经，让夜色亮一点。执业十三年，累计植入 <strong>2,317 台义体</strong>，无重大医疗事故。从光学义眼到全身反射神经改造，<strong>报价透明 / 排期三天内 / 术后 180 天固件保修</strong>，免疫抑制剂与术后观察全部包含在手术费里。</p>
+        <div class="hero-actions">
+          <a class="btn btn-cyan" href="#price">查看义体价目</a>
+          <a class="btn btn-ghost" href="#book">预约手术</a>
+        </div>
+        <div class="data-strip" role="list" aria-label="诊所数据速览">
+          <span role="listitem">累计植入 <b>2,317</b> 台</span>
+          <span role="listitem">执业 <b>13</b> 年</span>
+          <span role="listitem">术后观察 <b>72</b> 小时</span>
+          <span role="listitem">平均排期 <b>3</b> 天</span>
+          <span role="listitem">返厂率 <b>0.4%</b></span>
+        </div>
+      </div>
+      <div>
+        <div class="readout" aria-label="诊所实时状态读出">
+          <h3>诊所状态读出 / 实时</h3>
+          <p class="r-line">手术室占用 <b>02 / 05</b> 间，空闲 3 间</p>
+          <p class="r-line">免疫抑制剂库存 <b>84</b> 支 / 本周到货 <span class="ok">已确认</span></p>
+          <p class="r-line">今晚急诊 <b>1</b> 例 / 神经灼伤 / <span class="ok">已处置</span></p>
+          <p class="r-line">义体固件最新版 <b>v3.7.2</b> / 旧版用户 <span class="hi">212</span> 人待推送</p>
+          <p class="r-foot">读取时间 23:47 / 数据每 60 秒刷新一次</p>
+          <div class="rail-wrap">
+            <div class="rail" aria-hidden="true"><span>160</span><span class="ticks"></span><span>0</span></div>
+            <p class="rail-caption">神经电流读数尺 / 单位微安 / 安全区 0 至 80 / 超限自动断路</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="price" class="section container">
+    <div class="section-head">
+      <span class="sec-no">01 / 06</span>
+      <h2>义体价目</h2>
+    </div>
+    <p class="section-lead">以下均为含手术、麻醉与首次校准的整包价格。排异风险等级由术前神经评测决定，与价格无关；绿色可当天回家，黄色需留观，红色建议预留两天床位。</p>
+    <div class="price-grid">
+
+      <article class="ware">
+        <div class="ware-head">
+          <h3>萤火虫 mk-iii 光学义眼</h3>
+          <span class="ware-no">01</span>
+        </div>
+        <ul>
+          <li>夜视与热成像双模式一键切换</li>
+          <li>光学变焦 8 倍 / 快门延迟 0.02 秒</li>
+          <li>面部特征建档比对，可存 5,000 组</li>
+        </ul>
+        <div class="ware-foot">
+          <span class="price">¥42,000</span>
+          <span class="ware-meta">手术 90 分钟 / 住院半天<br><span class="risk risk-low">排异风险 / 低</span></span>
+        </div>
+      </article>
+
+      <article class="ware">
+        <div class="ware-head">
+          <h3>沙陨反射神经加速器</h3>
+          <span class="ware-no">02</span>
+        </div>
+        <ul>
+          <li>神经传导提速 40% / 冷却间隔 0.3 秒</li>
+          <li>仅适配二代脊髓接口，一代需先转接</li>
+          <li>出厂锁功率上限，解锁需签免责书</li>
+        </ul>
+        <div class="ware-foot">
+          <span class="price">¥68,000</span>
+          <span class="ware-meta">手术 4 小时 / 住院两天<br><span class="risk risk-high">排异风险 / 高</span></span>
+        </div>
+      </article>
+
+      <article class="ware">
+        <div class="ware-head">
+          <h3>玄武皮下装甲层</h3>
+          <span class="ware-no">03</span>
+        </div>
+        <ul>
+          <li>钛网复合编织 / 抗穿刺等级 III 级</li>
+          <li>覆盖躯干与四肢，重量 2.4 千克</li>
+          <li>可局部开启，便于后续其他部位手术</li>
+        </ul>
+        <div class="ware-foot">
+          <span class="price">¥55,000</span>
+          <span class="ware-meta">手术 3 小时 / 住院一天<br><span class="risk risk-mid">排异风险 / 中</span></span>
+        </div>
+      </article>
+
+      <article class="ware">
+        <div class="ware-head">
+          <h3>蝰蛇战术义臂</h3>
+          <span class="ware-no">04</span>
+        </div>
+        <ul>
+          <li>指节内置微型发射器 / 合规弹匣 6 发</li>
+          <li>抓握力 320 千克，精细模式 0.5 千克</li>
+          <li>触觉反馈灵敏度十级可调</li>
+        </ul>
+        <div class="ware-foot">
+          <span class="price">¥79,000</span>
+          <span class="ware-meta">手术 5 小时 / 住院两天<br><span class="risk risk-high">排异风险 / 高</span></span>
+        </div>
+      </article>
+
+      <article class="ware">
+        <div class="ware-head">
+          <h3>低语滤噪耳蜗</h3>
+          <span class="ware-no">05</span>
+        </div>
+        <ul>
+          <li>环境噪声滤除 92% / 风雨声保留</li>
+          <li>声纹标记追踪 8 组，越界提醒</li>
+          <li>骨传导与气导双通道互为备份</li>
+        </ul>
+        <div class="ware-foot">
+          <span class="price">¥28,000</span>
+          <span class="ware-meta">手术 60 分钟 / 免住院<br><span class="risk risk-low">排异风险 / 低</span></span>
+        </div>
+      </article>
+
+      <article class="ware">
+        <div class="ware-head">
+          <h3>幽灵热信号隐膜</h3>
+          <span class="ware-no">06</span>
+        </div>
+        <ul>
+          <li>体表热辐射屏蔽 87% / 红外轮廓模糊</li>
+          <li>单次维持 6 小时，需回诊所充能</li>
+          <li>与皮下装甲层存在排布冲突，二选一</li>
+        </ul>
+        <div class="ware-foot">
+          <span class="price">¥36,000</span>
+          <span class="ware-meta">手术 2 小时 / 免住院<br><span class="risk risk-mid">排异风险 / 中</span></span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="service" class="section container">
+    <div class="section-head">
+      <span class="sec-no">02 / 06</span>
+      <h2>接入与维护服务</h2>
+    </div>
+    <p class="section-lead">不卖义体也接活：固件解锁、全身校准、紧急排异与转售前的记忆清除。全部明码标价，夜间时段（00:00 至 06:00）加收三成。</p>
+    <div class="svc-list">
+      <div class="svc-row">
+        <span class="svc-code">nct-01</span>
+        <p class="svc-name">固件解锁<small>破除厂商区域锁与性能封印，保留安全阈值</small></p>
+        <span class="svc-time">45 分钟 / 到场</span>
+        <p class="svc-fee"><b>¥6,000</b> 起 / 需本人核验义体编号</p>
+      </div>
+      <div class="svc-row">
+        <span class="svc-code">nct-02</span>
+        <p class="svc-name">全身校准<small>十四关节联动调试与固件 OTA 升级</small></p>
+        <span class="svc-time">120 分钟 / 到场</span>
+        <p class="svc-fee"><b>¥3,200</b> / 建议每季度一次</p>
+      </div>
+      <div class="svc-row">
+        <span class="svc-code">nct-03</span>
+        <p class="svc-name">紧急排异处置<small>炎症、固件崩溃与神经灼伤，24 小时应诊</small></p>
+        <span class="svc-time">随时 / 上门加收路费</span>
+        <p class="svc-fee"><b>¥800</b> 每小时 / 夜间加三成</p>
+      </div>
+      <div class="svc-row">
+        <span class="svc-code">nct-04</span>
+        <p class="svc-name">义体记忆擦除<small>转售前清除本地存储与使用日志</small></p>
+        <span class="svc-time">30 分钟 / 到场</span>
+        <p class="svc-fee"><b>¥4,500</b> / 出具不可恢复证明</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="check" class="section container">
+    <div class="section-head">
+      <span class="sec-no">03 / 06</span>
+      <h2>诊前自检终端</h2>
+    </div>
+    <p class="section-lead">把义体接口连上诊所公网插口，跑一遍自检再决定排期。以下是一位真实就诊者昨夜的记录，已征得同意并隐去呼号。</p>
+    <div class="term">
+      <div class="term-bar">
+        <span class="tb-l">nocturne.clinic / selfcheck</span>
+        <span>加密链路 aes-256 / 会话 1,204 秒后过期</span>
+      </div>
+      <div class="term-body">
+        <p class="t-line t-cmd">selfcheck --patient-intake --full</p>
+        <p class="t-line">正在接入诊所内网……<span class="t-ok">已建立加密链路</span> / 往返延迟 12ms</p>
+        <p class="t-line">读取植入体登记册……在册 <span class="t-key">2,317</span> 台 / 返厂率 <span class="t-val">0.4%</span></p>
+        <p class="t-line">免疫抑制剂血药浓度 <span class="t-key">0.84</span> / 安全阈值 1.00 / <span class="t-ok">正常</span></p>
+        <p class="t-line">神经接口负载 <span class="t-key">46 微安</span> / 安全区间 0 至 80 微安 / <span class="t-ok">正常</span></p>
+        <p class="t-line">固件版本 v3.6.1 / 最新 v3.7.2 / <span class="t-mid">待升级（自检未通过项）</span></p>
+        <p class="t-line">排异风险评估：<span class="t-mid">中</span> / 建议术前静卧 48 小时并停用一切兴奋剂</p>
+        <p class="t-line">自检结束 / 通过 4 项 / 待复核 1 项 / 用时 3.2 秒</p>
+        <p class="t-line t-next">下一步：前往预约表单提交排期申请，最早 72 小时后可上手术台<span class="cursor">▌</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="risk" class="section container">
+    <div class="section-head">
+      <span class="sec-no">04 / 06</span>
+      <h2>风险告知</h2>
+    </div>
+    <p class="section-lead">这一页没有霓虹，只有必须说清的事。签字之前请读完，读不完可以让值班技师念给你听。</p>
+    <div class="risk-zone">
+      <div class="warn-box">
+        <div class="warn-tri" aria-hidden="true"><span>!</span></div>
+        <div>
+          <h3>术后 72 小时是排异高发窗口</h3>
+          <p>出现幻听、幻肢痛、视野噪点或义体自发热，立即返回诊所或前往任意急诊节点。切勿自行重启义体、拆装接口或服用来路不明的抑制剂，去年旧港区三起不可逆神经灼伤都这么来的。</p>
+        </div>
+      </div>
+      <div class="warn-box">
+        <div class="warn-tri" aria-hidden="true"><span>!</span></div>
+        <div>
+          <h3>耗材决定保修资格</h3>
+          <p>兴奋剂、劣质酒精与非认证充电桩都会加速绝缘层老化。诊所只对全程使用认证耗材的义体履行保修，充电请认准诊所签发的蓝色接口。</p>
+        </div>
+      </div>
+      <p class="warranty">保修条款 / 术后 <b>180 天</b>内固件升级与调校免费；人为拆封、私自超频与未报备的二手件混装不在承保范围，可付费修复。</p>
+    </div>
+  </section>
+
+  <section id="book" class="section container">
+    <div class="book-grid">
+      <div class="book-note-copy">
+        <h2>预约手术</h2>
+        <p>填一张表，剩下的交给我们。提交后 24 小时内会通过加密信道回复确认与术前清单，排期最早 72 小时后开始，定金两成、余款术后结清。</p>
+        <p>不确定装什么？先约一次神经评测（¥600，植入可抵扣），技师会按你的体质和预算给出方案。</p>
+        <ol class="book-steps">
+          <li data-step="01">提交呼号与联系信道，收到加密回执</li>
+          <li data-step="02">到场完成神经评测与排异分级</li>
+          <li data-step="03">签知情书、缴定金、锁定手术台</li>
+        </ol>
+      </div>
+      <form class="book-form" action="#" method="post">
+        <div class="form-row">
+          <div class="field">
+            <label for="callsign">呼号或本名</label>
+            <input id="callsign" name="callsign" type="text" placeholder="例 / 旧港区的阿蝉" required>
+          </div>
+          <div class="field">
+            <label for="channel">联系信道（邮箱）</label>
+            <input id="channel" name="channel" type="email" placeholder="例 / you@relay.hc" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="item">意向项目</label>
+            <select id="item" name="item" required>
+              <option value="">请选择</option>
+              <option>萤火虫 mk-iii 光学义眼 / ¥42,000</option>
+              <option>沙陨反射神经加速器 / ¥68,000</option>
+              <option>玄武皮下装甲层 / ¥55,000</option>
+              <option>蝰蛇战术义臂 / ¥79,000</option>
+              <option>低语滤噪耳蜗 / ¥28,000</option>
+              <option>幽灵热信号隐膜 / ¥36,000</option>
+              <option>仅神经评测 / ¥600</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sdate">期望手术日</label>
+            <input id="sdate" name="sdate" type="date" required>
+          </div>
+        </div>
+        <button class="btn-submit" type="submit">提交排期申请</button>
+        <p class="form-foot">信息只用于排期 / 会话加密 / 拒绝任何第三方调取 / 定金两成可退</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="foot-line">UI 设计提示词库 / Cyberpunk 赛博朋克</p>
+  <a href="style-catalog.html">返回风格目录</a>
+  <small>本页为风格演示，「夜曲义体诊所」及义体型号、价格与服务均为虚构。</small>
+</footer>
+
+</body>
+</html>

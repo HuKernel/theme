@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Adobe Spectrum 风格演示 / 色板工作台 / 语义色管理工具">
+<title>Adobe Spectrum / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* token 计划: 修正自 csv.Primary Colors「Spectrum semantic colors」: 主蓝 #0D66D0 系(blue-400/500/600/700), 中性灰阶 gray-50 #F5F5F5 至 gray-900 #323232, 语义红 #D7373F / 橙 #F6821F / 绿 #2D9D78 / 紫 #9256D9, 圆角 4px, 焦点环 #1473E6, 字体 Source Sans 3 + Source Code Pro */
+:root{
+  --blue-400:#378EF0; --blue-500:#1473E6; --blue-600:#0D66D0; --blue-700:#0A4A9C;
+  --gray-50:#F5F5F5; --gray-75:#F1F1F1; --gray-100:#E6E6E6; --gray-200:#D9D9D9;
+  --gray-300:#C4C4C4; --gray-400:#A9A9A9; --gray-500:#909090; --gray-600:#767676;
+  --gray-700:#6E6E6E; --gray-800:#505050; --gray-900:#323232;
+  --negative:#D7373F; --warning:#F6821F; --positive:#2D9D78; --notice:#9256D9;
+  --r:4px;
+  --font:'Source Sans 3','Segoe UI','Microsoft YaHei',sans-serif;
+  --mono:'Source Code Pro',Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{font:14px/1.5 var(--font);color:var(--gray-900);background:var(--gray-100)}
+h1,h2,h3,p{margin:0}
+ul{margin:0}
+button{font-family:inherit}
+a{color:var(--blue-600);font-weight:600;text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--blue-500);outline-offset:2px}
+.topbar :focus-visible,.statusbar :focus-visible{outline-color:var(--blue-400)}
+/* 顶部应用栏 */
+.topbar{height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;background:var(--gray-900);color:#fff;animation:drop .35s ease both}
+.brand{display:flex;align-items:center;gap:8px;font:700 14px var(--font);white-space:nowrap}
+.brand svg{width:20px;height:20px;flex:none}
+.doc{color:var(--gray-200);font:400 13px var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px;min-width:0}
+.search{position:relative;flex:0 1 220px;min-width:120px}
+.search svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--gray-600);pointer-events:none}
+.search input{width:100%;height:30px;padding:0 8px 0 30px;border:1px solid var(--gray-400);border-radius:var(--r);background:#fff;color:var(--gray-900);font:500 13px var(--font)}
+.search input::placeholder{color:var(--gray-600)}
+.search input:focus{border-color:var(--blue-500);box-shadow:0 0 0 1px var(--blue-500);outline:none}
+.sync{display:flex;align-items:center;gap:6px;color:var(--gray-200);font:600 12px var(--font);white-space:nowrap}
+.sync i{width:8px;height:8px;border-radius:50%;background:#4BC7A0}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--gray-200);color:var(--gray-900);display:flex;align-items:center;justify-content:center;font:700 12px var(--font);flex:none}
+/* 按钮与控件 */
+.btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:1px solid var(--gray-500);border-radius:var(--r);background:var(--gray-50);color:var(--gray-900);font:600 13px var(--font);cursor:pointer;transition:background-color .15s,border-color .15s;white-space:nowrap}
+.btn:hover{background:var(--gray-100);border-color:var(--gray-600)}
+.btn:active{background:var(--gray-200)}
+.btn-primary{background:var(--blue-600);border-color:var(--blue-600);color:#fff}
+.btn-primary:hover{background:var(--blue-700);border-color:var(--blue-700)}
+.btn svg,.icon-btn svg,.seg svg,.search svg{width:16px;height:16px;flex:none}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border:1px solid transparent;border-radius:var(--r);background:transparent;color:var(--gray-800);cursor:pointer;transition:background-color .15s,color .15s}
+.icon-btn:hover{background:var(--gray-200);color:var(--gray-900)}
+/* 工具栏 */
+.toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:6px 12px;background:#fff;border-bottom:1px solid var(--gray-200);animation:drop .4s .05s ease both}
+.vr{width:1px;height:20px;background:var(--gray-200);flex:none}
+.push{flex:1}
+.tb-label{font:600 12.5px var(--font);color:var(--gray-800)}
+.field{height:30px;padding:0 8px;border:1px solid var(--gray-500);border-radius:var(--r);background:#fff;color:var(--gray-900);font:500 13px var(--font)}
+.field:focus{border-color:var(--blue-500);box-shadow:0 0 0 1px var(--blue-500);outline:none}
+.seg{display:inline-flex;gap:2px;padding:2px;background:var(--gray-200);border-radius:var(--r)}
+.seg button{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border:0;border-radius:3px;background:transparent;color:var(--gray-800);font:600 12.5px var(--font);cursor:pointer;transition:background-color .15s}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--gray-900);box-shadow:0 1px 2px rgba(0,0,0,.14)}
+.switch{display:inline-flex;align-items:center;gap:8px;font:600 12.5px var(--font);color:var(--gray-800);cursor:pointer}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .track{position:relative;flex:none;width:30px;height:18px;border-radius:9px;background:var(--gray-500);transition:background-color .15s}
+.switch .knob{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .15s}
+.switch input:checked+.track{background:var(--blue-600)}
+.switch input:checked+.track .knob{left:14px}
+.switch input:focus-visible+.track{outline:2px solid var(--blue-500);outline-offset:2px}
+/* 工作区布局 */
+.workspace{display:grid;grid-template-columns:232px 1fr 304px;grid-template-areas:"left canvas right"}
+.panel{background:#fff;display:flex;flex-direction:column;min-width:0}
+.panel-left{grid-area:left;border-right:1px solid var(--gray-200);animation:slide-l .4s .1s ease both}
+.panel-right{grid-area:right;border-left:1px solid var(--gray-200);animation:slide-r .4s .1s ease both}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;height:36px;padding:0 12px;border-bottom:1px solid var(--gray-200);flex:none}
+.panel-head h2{font:700 12.5px var(--font);color:var(--gray-800)}
+.panel-meta{font:500 12px var(--mono);color:var(--gray-600)}
+/* 集合面板 */
+.collections{list-style:none;padding:8px;display:flex;flex-direction:column;gap:2px;overflow:auto}
+.collections button{display:flex;align-items:center;gap:8px;width:100%;height:32px;padding:0 8px;border:0;border-radius:var(--r);background:transparent;color:var(--gray-800);font:600 13px var(--font);cursor:pointer;text-align:left;transition:background-color .15s}
+.collections button:hover{background:var(--gray-100)}
+.collections button[aria-current="true"]{background:var(--blue-600);color:#fff}
+.c-chip{width:14px;height:14px;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);flex:none}
+.c-count{margin-left:auto;font:500 12px var(--mono);color:var(--gray-600)}
+.collections button[aria-current="true"] .c-count{color:var(--gray-200)}
+/* 画布 */
+.canvas{grid-area:canvas;background:var(--gray-50);padding:16px 20px 24px;min-width:0;animation:rise .4s .12s ease both}
+.crumb{font:600 12.5px var(--font);color:var(--gray-700)}
+.canvas-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px 16px}
+.canvas-head h1{font:700 20px/1.2 var(--font);color:var(--gray-900)}
+.canvas-meta{font:400 12.5px var(--font);color:var(--gray-700);margin-left:auto}
+.swatches{list-style:none;padding:0;margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(156px,1fr));gap:10px}
+.swatch{position:relative;background:#fff;border:1px solid var(--gray-200);border-radius:var(--r);transition:border-color .15s,box-shadow .15s}
+.swatch:hover{border-color:var(--gray-300)}
+.swatch.sel{border-color:var(--blue-500);box-shadow:0 0 0 1px var(--blue-500)}
+.sw-main{display:block;width:100%;padding:0;border:0;background:transparent;border-radius:3px 3px 0 0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.sw-chip{display:block;height:60px;border-radius:3px 3px 0 0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.sw-meta{display:flex;flex-direction:column;gap:2px;padding:7px 9px 8px}
+.sw-name{font:600 13px var(--font);color:var(--gray-900);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sw-hex{font:500 12px var(--mono);color:var(--gray-700)}
+.hide-hex .sw-hex{display:none}
+.sw-copy{position:absolute;top:6px;right:6px;display:flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0;border:0;border-radius:3px;background:rgba(255,255,255,.94);color:var(--gray-800);cursor:pointer;opacity:0;transition:opacity .15s}
+.sw-copy svg{width:14px;height:14px}
+.swatch:hover .sw-copy,.sw-copy:focus-visible{opacity:1}
+.swatches.list{grid-template-columns:1fr;gap:4px}
+.swatches.list .swatch{display:flex;align-items:center}
+.swatches.list .sw-main{display:flex;align-items:center;gap:10px;flex:1;min-width:0;padding:5px 8px;border-radius:3px}
+.swatches.list .sw-chip{width:22px;height:22px;border-radius:3px;flex:none}
+.swatches.list .sw-meta{flex:1;flex-direction:row;justify-content:space-between;align-items:baseline;padding:0;gap:8px}
+.swatches.list .sw-copy{top:50%;transform:translateY(-50%)}
+.empty{grid-column:1/-1;padding:28px 12px;text-align:center;font:400 13px var(--font);color:var(--gray-700)}
+/* 检查器 */
+.insp-body{padding:12px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.insp-chip{height:92px;border-radius:var(--r);display:flex;align-items:flex-end;padding:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.insp-chip code{font:600 13px var(--mono)}
+.field-row{display:flex;align-items:center;gap:8px}
+.field-row>span{font:600 12.5px var(--font);color:var(--gray-800);flex:none}
+.field-row .field{flex:1;min-width:0}
+.insp-sec{border-top:1px solid var(--gray-200);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.insp-sec h3{font:700 12.5px var(--font);color:var(--gray-800)}
+.hint{font:400 12px var(--font);color:var(--gray-700)}
+.slider-row{display:grid;grid-template-columns:64px 1fr 44px;align-items:center;gap:8px}
+.slider-row label{font:600 12.5px var(--font);color:var(--gray-800)}
+.slider-row input[type=range]{width:100%;margin:0;accent-color:var(--blue-600)}
+.slider-row output{font:500 12px var(--mono);color:var(--gray-800);text-align:right}
+.crow{display:flex;align-items:center;gap:10px}
+.cp{width:56px;height:36px;border-radius:3px;flex:none;display:flex;align-items:center;justify-content:center;font:600 13px var(--font);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.cp-info{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.cp-info span{font:600 12.5px var(--font);color:var(--gray-800)}
+.cp-info code{font:500 12px var(--mono);color:var(--gray-700)}
+.badge{flex:none;height:22px;padding:0 8px;display:inline-flex;align-items:center;border-radius:3px;font:700 12px var(--font)}
+.badge-pass{background:#D9EDE3;color:#1D5F47}
+.badge-fail{background:#F8D8DA;color:#9C2229}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{height:22px;padding:0 8px;display:inline-flex;align-items:center;border-radius:3px;background:var(--gray-100);color:var(--gray-800);font:600 12px var(--font)}
+/* 状态栏与页脚 */
+.statusbar{display:flex;align-items:center;gap:12px;min-height:32px;padding:0 12px;background:var(--gray-75);border-top:1px solid var(--gray-200);font:500 12px var(--font);color:var(--gray-800);animation:rise .4s .18s ease both}
+.status{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.status i{width:6px;height:6px;border-radius:50%;background:var(--positive);flex:none}
+.sb-right{margin-left:auto;white-space:nowrap;flex:none}
+/* 组件状态一览 */
+.states{background:#fff;border-top:1px solid var(--gray-200);padding:20px;display:flex;flex-direction:column;gap:14px}
+.states h2{font:700 16px var(--font);color:var(--gray-900)}
+.states-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.state-card{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r)}
+.state-card h3{font:700 12.5px var(--font);color:var(--gray-800)}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn:disabled{color:var(--gray-500);background:var(--gray-75);border-color:var(--gray-300);cursor:not-allowed}
+.field-invalid,.field-invalid:hover{border-color:var(--negative)}
+.field-invalid:focus{border-color:var(--negative);box-shadow:0 0 0 1px var(--negative)}
+.err{display:flex;align-items:flex-start;gap:6px;font:500 12px var(--font);color:#9C2229}
+.err svg{width:14px;height:14px;flex:none;margin-top:1px}
+.check{display:flex;align-items:center;gap:8px;font:600 12.5px var(--font);color:var(--gray-800);cursor:pointer}
+.check input{width:15px;height:15px;margin:0;accent-color:var(--blue-600);flex:none}
+.badge-warn{background:#FBE4CC;color:#8A4E00}
+.badge-quiet{background:var(--gray-200);color:var(--gray-900)}
+kbd{background:#fff;border:1px solid var(--gray-300);border-bottom-width:2px;border-radius:3px;padding:1px 5px;font:500 11px var(--mono);color:var(--gray-800)}
+.page-footer{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;justify-content:space-between;padding:18px 20px;background:#fff;border-top:1px solid var(--gray-200);font:400 13px var(--font);color:var(--gray-700)}
+.page-footer strong{color:var(--gray-900)}
+/* 一次亮相动效 */
+@keyframes drop{from{transform:translateY(-12px);opacity:0}}
+@keyframes rise{from{transform:translateY(10px);opacity:0}}
+@keyframes slide-l{from{transform:translateX(-14px);opacity:0}}
+@keyframes slide-r{from{transform:translateX(14px);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* 响应式 1180 / 820 / 480 */
+@media (max-width:1180px){
+  .workspace{grid-template-columns:212px 1fr;grid-template-areas:"left canvas" "right right"}
+  .panel-right{border-left:0;border-top:1px solid var(--gray-200)}
+}
+@media (max-width:820px){
+  .workspace{grid-template-columns:1fr;grid-template-areas:"canvas" "left" "right"}
+  .panel-left{border-right:0;border-top:1px solid var(--gray-200)}
+  .collections{flex-direction:row;overflow-x:auto}
+  .collections button{width:auto;flex:none}
+  .doc,.sync{display:none}
+  .search{flex:1 1 140px}
+  .canvas-meta{margin-left:0}
+}
+@media (max-width:480px){
+  .topbar,.toolbar{padding-left:8px;padding-right:8px;gap:8px}
+  .avatar{display:none}
+  .btn{padding:0 10px}
+  .canvas{padding:12px 12px 20px}
+  .swatches{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M2 18 6.4 6h2.9L4.9 18z"/>
+        <path d="M9.4 18 13.8 6h2.9L12.3 18z" opacity=".78"/>
+        <path d="M16.8 18 21.2 6H24L19.6 18z" opacity=".56"/>
+      </svg>
+      色板工作台
+    </div>
+    <span class="doc">品牌语义色 v3 / 设计系统资源</span>
+    <div class="tb-right">
+      <div class="search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="m10.6 10.6 3.2 3.2"/></svg>
+        <input type="search" id="q" placeholder="搜索色样或十六进制值" aria-label="搜索色样">
+      </div>
+      <span class="sync"><i></i>已同步</span>
+      <button class="btn btn-primary" id="btn-share">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 10.5V2.5m0 0L5 5.4m3-2.9 3 2.9"/><path d="M2.8 10v2.4c0 .9.7 1.6 1.6 1.6h7.2c.9 0 1.6-.7 1.6-1.6V10"/></svg>
+        共享
+      </button>
+      <span class="avatar" aria-hidden="true">林</span>
+    </div>
+  </header>
+  <div class="toolbar" role="toolbar" aria-label="画布工具栏">
+    <div class="seg" id="view-seg" aria-label="视图方式">
+      <button data-view="grid" aria-pressed="true">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        网格
+      </button>
+      <button data-view="list" aria-pressed="false">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5.5 3.5h8m-8 4.5h8m-8 4.5h8"/><circle cx="2.8" cy="3.5" r=".9" fill="currentColor" stroke="none"/><circle cx="2.8" cy="8" r=".9" fill="currentColor" stroke="none"/><circle cx="2.8" cy="12.5" r=".9" fill="currentColor" stroke="none"/></svg>
+        列表
+      </button>
+    </div>
+    <span class="vr"></span>
+    <label class="tb-label" for="opt-sort">排序</label>
+    <select class="field" id="opt-sort">
+      <option value="default">手动顺序</option>
+      <option value="name">按名称</option>
+      <option value="hue">按色相</option>
+      <option value="light">按明度</option>
+    </select>
+    <span class="vr"></span>
+    <label class="switch"><input type="checkbox" id="opt-hex" checked><span class="track"><span class="knob"></span></span>显示十六进制值</label>
+    <span class="push"></span>
+    <button class="btn" id="btn-export">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 2.5v8m0 0L5 7.5m3 3 3-3"/><path d="M2.8 11v1.6c0 .9.7 1.6 1.6 1.6h7.2c.9 0 1.6-.7 1.6-1.6V11"/></svg>
+      导出 JSON
+    </button>
+    <button class="btn btn-primary" id="btn-gen">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2.5 13.5 7-7"/><path d="M11.5 2.5 12.9 5l2.6.4-1.9 1.9.5 2.6-2.6-1.3-2.5 1.3.5-2.6-1.9-1.9 2.6-.4z"/></svg>
+      生成变体
+    </button>
+  </div>
+  <div class="workspace">
+    <aside class="panel panel-left" aria-label="色板集合">
+      <div class="panel-head">
+        <h2>色板集合</h2>
+        <button class="icon-btn" id="btn-new" aria-label="新建集合">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
+        </button>
+      </div>
+      <ul class="collections" id="collections"></ul>
+    </aside>
+    <main class="canvas">
+      <div class="canvas-head">
+        <div>
+          <p class="crumb">色板库 / 设计系统</p>
+          <h1>品牌语义色</h1>
+        </div>
+        <p class="canvas-meta"><span id="count-text">23 个色样</span> / 更新于 10 月 8 日</p>
+      </div>
+      <ul class="swatches" id="swatches"></ul>
+    </main>
+    <aside class="panel panel-right" aria-label="检查器">
+      <div class="panel-head">
+        <h2>检查器</h2>
+        <span class="panel-meta" id="insp-token">blue-600</span>
+      </div>
+      <div class="insp-body">
+        <div class="insp-chip" id="insp-chip"><code id="insp-chip-hex">#0D66D0</code></div>
+        <div class="field-row"><span>名称</span><input class="field" type="text" id="insp-name" value="主操作蓝 / 600" aria-label="色样名称"></div>
+        <section class="insp-sec">
+          <h3>色彩属性</h3>
+          <div class="slider-row"><label for="sl-h">色相</label><input type="range" id="sl-h" min="0" max="360" step="1"><output id="out-h">212°</output></div>
+          <div class="slider-row"><label for="sl-s">饱和度</label><input type="range" id="sl-s" min="0" max="100" step="1"><output id="out-s">86%</output></div>
+          <div class="slider-row"><label for="sl-l">明度</label><input type="range" id="sl-l" min="0" max="100" step="1"><output id="out-l">43%</output></div>
+        </section>
+        <section class="insp-sec">
+          <h3>对比度检查</h3>
+          <p class="hint">WCAG 2.1 正文文字阈值 4.5 比 1</p>
+          <div class="crow">
+            <span class="cp" id="cp-w" style="background:#0D66D0;color:#fff">Aa 样例</span>
+            <span class="cp-info"><span>搭配白色文字</span><code id="ratio-w">5.5:1</code></span>
+            <span class="badge badge-pass" id="badge-w">通过</span>
+          </div>
+          <div class="crow">
+            <span class="cp" id="cp-d" style="background:#0D66D0;color:#323232">Aa 样例</span>
+            <span class="cp-info"><span>搭配灰 900 文字</span><code id="ratio-d">4.1:1</code></span>
+            <span class="badge badge-fail" id="badge-d">不足</span>
+          </div>
+        </section>
+        <section class="insp-sec">
+          <h3>使用位置</h3>
+          <div class="tags" id="insp-tags"></div>
+        </section>
+      </div>
+    </aside>
+  </div>
+  <footer class="statusbar">
+    <span class="status"><i></i><span id="status-text">就绪 / 23 个色样已加载 / 自动保存已开启</span></span>
+    <span class="sb-right">缩放 100% / 已自动保存</span>
+  </footer>
+</div>
+<section class="states" aria-label="组件状态一览">
+  <h2>组件状态一览</h2>
+  <div class="states-grid">
+    <div class="state-card">
+      <h3>操作按钮</h3>
+      <div class="row">
+        <button class="btn">保存草稿</button>
+        <button class="btn btn-primary">生成变体</button>
+        <button class="btn" disabled>不可用</button>
+      </div>
+      <p class="hint">4px 圆角 / 悬停加深背景 / 按下即时反馈</p>
+    </div>
+    <div class="state-card">
+      <h3>表单输入</h3>
+      <input class="field" type="text" value="主操作蓝 / 600" aria-label="正常输入框">
+      <input class="field field-invalid" type="text" value="0D66D" aria-invalid="true" aria-label="校验失败的输入框">
+      <p class="err">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 1.8 15 14H1z"/><path d="M8 6v3.5m0 1.8v.2"/></svg>
+        色值格式错误 / 请使用 #RRGGBB 六位十六进制
+      </p>
+    </div>
+    <div class="state-card">
+      <h3>开关与选择</h3>
+      <label class="switch"><input type="checkbox" checked><span class="track"><span class="knob"></span></span>自动保存</label>
+      <label class="check"><input type="radio" name="st-view" checked>网格视图</label>
+      <label class="check"><input type="radio" name="st-view">列表视图</label>
+      <label class="check"><input type="checkbox" checked>在图例中显示名称</label>
+    </div>
+    <div class="state-card">
+      <h3>语义徽章</h3>
+      <div class="row">
+        <span class="badge badge-pass">已发布</span>
+        <span class="badge badge-warn">需评审</span>
+        <span class="badge badge-fail">已弃用</span>
+        <span class="badge badge-quiet">草稿</span>
+      </div>
+      <p class="hint">语义色仅用于状态传达 / 不作装饰用途</p>
+    </div>
+    <div class="state-card">
+      <h3>键盘焦点</h3>
+      <p class="hint">使用 <kbd>Tab</kbd> 遍历控件时显示 2px 蓝色描边焦点环</p>
+      <p class="hint">遵循 focus-visible 规范 / 支持减少动态偏好设置</p>
+    </div>
+    <div class="state-card">
+      <h3>快捷键</h3>
+      <p class="hint"><kbd>G</kbd> 网格视图 / <kbd>L</kbd> 列表视图</p>
+      <p class="hint"><kbd>C</kbd> 复制选中色样 / <kbd>Esc</kbd> 清除搜索与筛选</p>
+      <p class="hint"><kbd>Ctrl</kbd>+<kbd>S</kbd> 导出当前色板为 JSON</p>
+    </div>
+  </div>
+</section>
+<footer class="page-footer">
+  <span><strong>UI 设计提示词库</strong> / Adobe Spectrum</span>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+<script>
+const $=s=>document.querySelector(s);
+const COLLECTIONS=[
+  {id:'all',name:'全部色样',chip:'#909090'},
+  {id:'brand',name:'品牌蓝',chip:'#0D66D0'},
+  {id:'semantic',name:'语义色',chip:'#D7373F'},
+  {id:'gray',name:'中性灰阶',chip:'#6E6E6E'},
+  {id:'chart',name:'图表序列',chip:'#0E7C9B'},
+  {id:'gen',name:'生成变体',chip:'#9256D9'}
+];
+const USAGE={
+  brand:'主按钮 / 全局链接 / 焦点环 / 选中背景',
+  semantic:'状态徽章 / 表单校验 / 提示条',
+  gray:'正文文本 / 边框 / 分隔线 / 禁用底色',
+  chart:'图表序列 / 图例 / 悬停高亮',
+  gen:'临时方案 / 待评审'
+};
+const SW=[
+  {n:'链接蓝 / 400',t:'blue-400',h:'#378EF0',c:'brand'},
+  {n:'焦点蓝 / 500',t:'blue-500',h:'#1473E6',c:'brand'},
+  {n:'主操作蓝 / 600',t:'blue-600',h:'#0D66D0',c:'brand'},
+  {n:'深底强调蓝 / 700',t:'blue-700',h:'#0A4A9C',c:'brand'},
+  {n:'错误红',t:'negative',h:'#D7373F',c:'semantic'},
+  {n:'警告橙',t:'warning',h:'#F6821F',c:'semantic'},
+  {n:'成功绿',t:'positive',h:'#2D9D78',c:'semantic'},
+  {n:'提示紫',t:'notice',h:'#9256D9',c:'semantic'},
+  {n:'信息蓝',t:'informative',h:'#0D66D0',c:'semantic'},
+  {n:'灰 / 50',t:'gray-50',h:'#F5F5F5',c:'gray'},
+  {n:'灰 / 100',t:'gray-100',h:'#E6E6E6',c:'gray'},
+  {n:'灰 / 200',t:'gray-200',h:'#D9D9D9',c:'gray'},
+  {n:'灰 / 300',t:'gray-300',h:'#C4C4C4',c:'gray'},
+  {n:'灰 / 400',t:'gray-400',h:'#A9A9A9',c:'gray'},
+  {n:'灰 / 500',t:'gray-500',h:'#909090',c:'gray'},
+  {n:'灰 / 600',t:'gray-600',h:'#767676',c:'gray'},
+  {n:'灰 / 700',t:'gray-700',h:'#6E6E6E',c:'gray'},
+  {n:'灰 / 800',t:'gray-800',h:'#505050',c:'gray'},
+  {n:'灰 / 900',t:'gray-900',h:'#323232',c:'gray'},
+  {n:'图表 / 蓝',t:'chart-1',h:'#378EF0',c:'chart'},
+  {n:'图表 / 橙',t:'chart-2',h:'#F6821F',c:'chart'},
+  {n:'图表 / 红',t:'chart-3',h:'#D7373F',c:'chart'},
+  {n:'图表 / 绿',t:'chart-4',h:'#2D9D78',c:'chart'},
+  {n:'图表 / 紫',t:'chart-5',h:'#9256D9',c:'chart'},
+  {n:'图表 / 青',t:'chart-6',h:'#0E7C9B',c:'chart'}
+];
+const ICON_COPY='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 5.5v-1a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4.5v5A1.5 1.5 0 0 0 4 11h1.5"/></svg>';
+const state={filter:'all',q:'',sort:'default',sel:0};
+let variantCount=0;
+/* 颜色换算 */
+const hexToRgb=h=>{h=h.slice(1);return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16))};
+const rgbToHex=(r,g,b)=>'#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase();
+function rgbToHsl(r,g,b){r/=255;g/=255;b/=255;const M=Math.max(r,g,b),m=Math.min(r,g,b),d=M-m;let h=0,s=0,l=(M+m)/2;
+  if(d){s=l>.5?d/(2-M-m):d/(M+m);if(M===r)h=(g-b)/d+(g<b?6:0);else if(M===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60}
+  return[Math.round(h),Math.round(s*100),Math.round(l*100)]}
+function hslToRgb(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return[f(0),f(8),f(4)].map(v=>Math.round(v*255))}
+const lum=rgb=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(rgb[0])+.7152*f(rgb[1])+.0722*f(rgb[2])};
+const ratio=(a,b)=>{const x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+/* 渲染 */
+function renderCols(){
+  $('#collections').innerHTML=COLLECTIONS.filter(c=>c.id!=='gen'||SW.some(s=>s.c==='gen')).map(c=>{
+    const n=SW.filter(s=>c.id==='all'||s.c===c.id).length;
+    return `<li><button data-f="${c.id}" aria-current="${state.filter===c.id}"><span class="c-chip" style="background:${c.chip}"></span>${c.name}<span class="c-count">${n}</span></button></li>`;
+  }).join('');
+}
+function visibleSwatches(){
+  let list=SW.filter(s=>(state.filter==='all'||s.c===state.filter)&&(!state.q||s.n.toLowerCase().includes(state.q)||s.h.toLowerCase().includes(state.q)));
+  const hue=s=>rgbToHsl(...hexToRgb(s.h));
+  if(state.sort==='name')list=[...list].sort((a,b)=>a.n.localeCompare(b.n,'zh'));
+  else if(state.sort==='hue')list=[...list].sort((a,b)=>hue(a)[0]-hue(b)[0]);
+  else if(state.sort==='light')list=[...list].sort((a,b)=>hue(b)[2]-hue(a)[2]);
+  return list;
+}
+function renderList(){
+  const list=visibleSwatches();
+  $('#swatches').innerHTML=list.length?list.map(s=>`
+    <li class="swatch${s.id===state.sel?' sel':''}" data-id="${s.id}">
+      <button class="sw-main" data-id="${s.id}" aria-pressed="${s.id===state.sel}">
+        <span class="sw-chip" style="background:${s.h}"></span>
+        <span class="sw-meta"><span class="sw-name">${s.n}</span><span class="sw-hex">${s.h}</span></span>
+      </button>
+      <button class="sw-copy" data-id="${s.id}" aria-label="复制 ${s.h}">${ICON_COPY}</button>
+    </li>`).join(''):'<li class="empty">未找到匹配的色样 / 请调整搜索词或集合筛选</li>';
+  $('#count-text').textContent=`${list.length} 个色样`;
+}
+function setContrast(hex){
+  const rgb=hexToRgb(hex),W=[255,255,255],D=[50,50,50];
+  const rw=ratio(rgb,W),rd=ratio(rgb,D);
+  $('#cp-w').style.background=hex;$('#cp-d').style.background=hex;
+  $('#ratio-w').textContent=rw.toFixed(1)+':1';$('#ratio-d').textContent=rd.toFixed(1)+':1';
+  $('#badge-w').textContent=rw>=4.5?'通过':'不足';$('#badge-w').className='badge '+(rw>=4.5?'badge-pass':'badge-fail');
+  $('#badge-d').textContent=rd>=4.5?'通过':'不足';$('#badge-d').className='badge '+(rd>=4.5?'badge-pass':'badge-fail');
+}
+function renderInsp(){
+  const s=SW[state.sel],rgb=hexToRgb(s.h),[h,sa,l]=rgbToHsl(...rgb);
+  $('#insp-token').textContent=s.t;
+  $('#insp-name').value=s.n;
+  const chip=$('#insp-chip');chip.style.background=s.h;chip.style.color=lum(rgb)>.4?'#323232':'#fff';
+  $('#insp-chip-hex').textContent=s.h;
+  $('#sl-h').value=h;$('#sl-s').value=sa;$('#sl-l').value=l;
+  $('#out-h').textContent=h+'°';$('#out-s').textContent=sa+'%';$('#out-l').textContent=l+'%';
+  $('#insp-tags').innerHTML=(USAGE[s.c]||'').split('/').map(t=>`<span class="tag">${t.trim()}</span>`).join('');
+  setContrast(s.h);
+}
+function status(msg){$('#status-text').textContent=msg}
+function select(id){
+  state.sel=id;
+  document.querySelectorAll('.swatch').forEach(li=>li.classList.toggle('sel',+li.dataset.id===id));
+  document.querySelectorAll('.sw-main').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.id===id)));
+  renderInsp();
+  status(`已选中 ${SW[id].n} / ${SW[id].h}`);
+}
+function copyHex(id){
+  const s=SW[id],t=s.h,done=()=>status(`已复制 ${t} 到剪贴板`);
+  const fallback=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}ta.remove();done()};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done).catch(fallback);else fallback();
+}
+/* 事件 */
+$('#swatches').addEventListener('click',e=>{
+  const cp=e.target.closest('.sw-copy');
+  if(cp){e.stopPropagation();copyHex(+cp.dataset.id);return}
+  const m=e.target.closest('.sw-main');
+  if(m)select(+m.dataset.id);
+});
+$('#collections').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-f]');
+  if(!b)return;
+  state.filter=b.dataset.f;renderCols();renderList();
+  status(b.textContent.trim().replace(/\d+$/,'')+'筛选已应用');
+});
+$('#q').addEventListener('input',e=>{state.q=e.target.value.trim().toLowerCase();renderList()});
+$('#opt-sort').addEventListener('change',e=>{state.sort=e.target.value;renderList();status('排序已更新为 '+e.target.selectedOptions[0].textContent)});
+$('#view-seg').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-view]');
+  if(!b||b.getAttribute('aria-pressed')==='true')return;
+  document.querySelectorAll('#view-seg button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  $('#swatches').classList.toggle('list',b.dataset.view==='list');
+  status(b.dataset.view==='list'?'已切换为列表视图':'已切换为网格视图');
+});
+$('#opt-hex').addEventListener('change',e=>{
+  $('#swatches').classList.toggle('hide-hex',!e.target.checked);
+  status(e.target.checked?'已显示十六进制值':'已隐藏十六进制值');
+});
+function onSlider(){
+  const s=SW[state.sel];
+  const h=+$('#sl-h').value,sa=+$('#sl-s').value,l=+$('#sl-l').value;
+  s.h=rgbToHex(...hslToRgb(h,sa,l));
+  $('#out-h').textContent=h+'°';$('#out-s').textContent=sa+'%';$('#out-l').textContent=l+'%';
+  const card=document.querySelector(`.swatch[data-id="${s.id}"]`);
+  if(card){card.querySelector('.sw-chip').style.background=s.h;card.querySelector('.sw-hex').textContent=s.h}
+  const rgb=hexToRgb(s.h);
+  $('#insp-chip').style.background=s.h;$('#insp-chip').style.color=lum(rgb)>.4?'#323232':'#fff';
+  $('#insp-chip-hex').textContent=s.h;
+  setContrast(s.h);
+}
+['sl-h','sl-s','sl-l'].forEach(id=>$('#'+id).addEventListener('input',onSlider));
+$('#insp-name').addEventListener('input',e=>{
+  const s=SW[state.sel];s.n=e.target.value.trim()||'未命名';
+  const el=document.querySelector(`.sw-main[data-id="${s.id}"] .sw-name`);
+  if(el)el.textContent=s.n;
+});
+$('#btn-gen').addEventListener('click',()=>{
+  const s=SW[state.sel];variantCount++;
+  const[h,sa,l]=rgbToHsl(...hexToRgb(s.h));
+  const nl=Math.max(6,Math.min(92,l>50?l-14:l+14));
+  SW.push({id:SW.length,n:`变体 ${variantCount} / ${s.t}`,t:s.t+'-v'+variantCount,h:rgbToHex(...hslToRgb(h,sa,nl)),c:'gen'});
+  renderCols();renderList();select(SW.length-1);
+});
+$('#btn-export').addEventListener('click',()=>{
+  const data=JSON.stringify(SW.map(s=>({name:s.n,token:s.t,hex:s.h,collection:s.c})),null,2);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));
+  a.download='palette.json';a.click();URL.revokeObjectURL(a.href);
+  status(`已导出 palette.json / ${SW.length} 项`);
+});
+$('#btn-share').addEventListener('click',()=>status('共享链接已复制 / 团队成员可查看品牌语义色 v3'));
+$('#btn-new').addEventListener('click',()=>status('新建集合已请求 / 将在确认名称后创建'));
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,select,textarea'))return;
+  const k=e.key.toLowerCase();
+  if(k==='g'||k==='l'){
+    const b=document.querySelector('#view-seg button[data-view="'+(k==='g'?'grid':'list')+'"]');
+    if(b&&b.getAttribute('aria-pressed')!=='true')b.click();
+  }else if(k==='c'){
+    copyHex(state.sel);
+  }else if(e.key==='Escape'){
+    $('#q').value='';state.q='';state.filter='all';
+    renderCols();renderList();status('已清除搜索与筛选');
+  }else if((e.metaKey||e.ctrlKey)&&k==='s'){
+    e.preventDefault();$('#btn-export').click();
+  }
+});
+/* 初始化 */
+SW.forEach((s,i)=>s.id=i);
+renderCols();renderList();
+select(2);
+</script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Skeuomorphism 拟物 / UI 设计提示词库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
+
+/* token 计划: #E7DFCE 纸面 / #2B2318 墨色 / #1D4ED8 文本蓝 / #2563EB 器材蓝 / #EBAD25 琥珀 / #4A3A28 皮革棕; 材质阴影 = 外投影 0 22px 44px rgba(43,35,24,.38) + 内凹 inset 0 3px 8px rgba(0,0,0,.5) + 顶高光 inset 0 1px 0 rgba(255,255,255,.7); 字体角色: Nunito 标题与按键 / DM Sans 正文; 独特性: 拉丝金属、皮革缝线、辐条轮盘、扬声器格栅全部纯 CSS 手搓，无图片无 emoji，全页仅一次亮相动效 */
+
+:root {
+  --bg: #E7DFCE; --paper: #F3EDDD; --fg: #2B2318; --muted: #665A49;
+  --blue-ink: #1D4ED8; --blue: #2563EB; --amber: #EBAD25; --leather-c: #F3ECDC;
+  --dark: rgba(20, 14, 8, .45);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font: 400 16px/1.6 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  color: var(--fg);
+  background: radial-gradient(90% 55% at 50% -8%, #F2EBDB, rgba(242, 235, 219, 0) 60%), var(--bg);
+}
+/* 全局纸纹颗粒覆盖层 */
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .16;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+h1, h2, h3, b, .key, .lcd, output { font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--blue-ink); outline-offset: 3px; }
+
+/* ---------- 材质基类: 拉丝金属 / 皮革 ---------- */
+.metal {
+  position: relative; border-radius: 20px;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.3), rgba(255,255,255,0) 38%, rgba(0,0,0,.16) 85%),
+    repeating-linear-gradient(90deg, #B6B9BF 0 1px, #CDCFD5 1px 2px, #C1C4CA 2px 3px),
+    linear-gradient(180deg, #D2D5DA, #ABB0B7);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), inset 0 -2px 4px rgba(0,0,0,.22), 0 2px 4px rgba(43,35,24,.18), 0 22px 44px rgba(43,35,24,.38);
+}
+.leather {
+  background:
+    radial-gradient(120% 90% at 30% 15%, rgba(255,255,255,.09), transparent 55%),
+    repeating-linear-gradient(48deg, rgba(0,0,0,.06) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(132deg, rgba(255,255,255,.035) 0 2px, transparent 2px 5px),
+    linear-gradient(180deg, #57432C, #3F2F1D);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15), inset 0 -3px 6px rgba(0,0,0,.35), 0 14px 30px rgba(43,35,24,.35);
+}
+.rack { border-radius: 18px; padding: 28px 30px; margin-top: 26px; }
+.leather.rack { outline: 2px dashed rgba(240, 230, 210, .38); outline-offset: -11px; }
+
+/* ---------- 塑料机械按键 ---------- */
+.key {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: 700 15px/1 'Nunito', 'PingFang SC', sans-serif; color: var(--fg);
+  padding: 12px 26px; border: none; border-radius: 9px; cursor: pointer; text-decoration: none;
+  background: linear-gradient(180deg, #F4EFE3, #D6CDB9);
+  box-shadow: inset 0 1px 0 #FFF, inset 0 -2px 3px rgba(0,0,0,.16), 0 4px 6px rgba(20,14,8,.35), 0 1px 0 rgba(255,255,255,.5);
+  transition: box-shadow 130ms ease, transform 130ms ease;
+}
+.key:hover { background: linear-gradient(180deg, #F8F4EA, #DDD4C0); }
+.key:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.38), inset 0 -1px 0 rgba(255,255,255,.25), 0 1px 2px rgba(20,14,8,.3);
+}
+.key-amber {
+  background: linear-gradient(180deg, #F2B944, #C4881A); color: #3A2B05;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 3px rgba(122,74,8,.4), 0 4px 6px rgba(20,14,8,.35);
+}
+.key-amber:hover { background: linear-gradient(180deg, #F6C258, #CD9224); }
+.key-mini { padding: 8px 16px; font-size: 12.5px; border-radius: 7px; }
+
+/* ---------- 皮革顶栏 ---------- */
+.topbar { padding: 12px 0; border-bottom: 1px solid #2E2318; }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 12px; font: 800 17px/1 'Nunito', sans-serif; color: var(--leather-c); text-decoration: none; }
+.logo-chip {
+  width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; color: var(--fg);
+  background: linear-gradient(160deg, #D6D9DE, #ADB1B8);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 2px 4px rgba(0,0,0,.4);
+}
+nav { display: flex; gap: 6px; }
+nav a { color: #E8DFC9; text-decoration: none; font-size: 14.5px; padding: 8px 14px; border-radius: 8px; }
+nav a:hover, nav a:focus-visible { color: #FFF; background: rgba(0,0,0,.24); }
+.key-top { padding: 9px 16px; font-size: 13px; }
+
+/* ---------- Hero ---------- */
+.hero { display: grid; grid-template-columns: .95fr 1.05fr; gap: 48px; align-items: center; padding-top: 68px; padding-bottom: 20px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 9px; padding: 8px 16px; border-radius: 999px;
+  background: linear-gradient(180deg, #FBF7EC, #EAE2CE); color: #55493A; font-size: 13px; font-weight: 500;
+  box-shadow: inset 0 1px 0 #FFF, 0 2px 4px rgba(43,35,24,.25); margin-bottom: 22px;
+}
+.badge::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: radial-gradient(circle at 35% 30%, #D8D0BC, #A59C86);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.4), 0 1px 0 #FFF;
+}
+h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 800; line-height: 1.22; margin-bottom: 16px; }
+h1 em { font-style: normal; color: var(--blue-ink); }
+.sub { font-size: 16px; color: var(--muted); margin-bottom: 18px; max-width: 480px; }
+.specs { list-style: none; margin: 0 0 26px; }
+.specs li { position: relative; padding: 7px 0 7px 20px; font-size: 14px; color: var(--muted); border-bottom: 1px solid rgba(43,35,24,.14); }
+.specs li::before {
+  content: ''; position: absolute; left: 2px; top: 50%; translate: 0 -50%; width: 7px; height: 7px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #D9D4C4, #9A9077);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.6);
+}
+.buy-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.price b { font-size: 30px; font-weight: 800; }
+.price span { display: block; font-size: 12.5px; color: var(--muted); }
+
+/* ---------- 签名组件: 拟物随身听 ---------- */
+.device { padding: 20px 20px 22px; }
+.device::after { /* 四角螺丝 */
+  content: ''; position: absolute; inset: 9px; pointer-events: none; border-radius: 12px;
+  background:
+    radial-gradient(circle at 0 0, #6A6E74 0 3px, #9AA0A6 3px 4.5px, transparent 5px),
+    radial-gradient(circle at 100% 0, #6A6E74 0 3px, #9AA0A6 3px 4.5px, transparent 5px),
+    radial-gradient(circle at 0 100%, #6A6E74 0 3px, #9AA0A6 3px 4.5px, transparent 5px),
+    radial-gradient(circle at 100% 100%, #6A6E74 0 3px, #9AA0A6 3px 4.5px, transparent 5px);
+}
+.device-head { display: flex; align-items: center; gap: 10px; margin: 0 4px; font-size: 12px; color: #4F4839; font-weight: 700; }
+.device-head .device-model { margin-left: auto; font-weight: 400; color: #5B5344; }
+.led {
+  width: 10px; height: 10px; border-radius: 50%; flex: none;
+  background: radial-gradient(circle at 35% 30%, #F08A7A, #B3271B 70%);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.4), 0 0 5px rgba(220, 60, 40, .7), 0 1px 0 rgba(255,255,255,.6);
+}
+.bay {
+  margin: 16px 4px; padding: 14px; border-radius: 10px;
+  background: linear-gradient(180deg, #17120D, #282018);
+  box-shadow: inset 0 4px 10px rgba(0,0,0,.75), inset 0 -1px 0 rgba(255,255,255,.08), 0 1px 0 rgba(255,255,255,.55);
+}
+.cassette {
+  border-radius: 8px; padding: 10px 12px 12px;
+  background: linear-gradient(180deg, var(--s1, #4C6FD4), var(--s2, #2C48A0));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 5px rgba(0,0,0,.4), 0 3px 6px rgba(0,0,0,.5);
+}
+.cass-label {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  border-radius: 4px; padding: 6px 9px 7px;
+  background: linear-gradient(180deg, #FBF7EC, #EDE5D2);
+  box-shadow: inset 0 1px 0 #FFF, 0 1px 2px rgba(0,0,0,.35);
+}
+.cass-label b { font-size: 14px; line-height: 1.2; }
+.cass-label span { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.cass-reels { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.reel {
+  position: relative; flex: none; width: 52px; height: 52px; border-radius: 50%;
+  background: radial-gradient(circle, #241D15 64%, #14100B 65%);
+  box-shadow: 0 1px 3px rgba(0,0,0,.6), inset 0 0 0 1px rgba(0,0,0,.3);
+}
+.reel-r { width: 34px; height: 34px; }
+.reel::before {
+  content: ''; position: absolute; inset: 15%; border-radius: 50%;
+  background:
+    radial-gradient(circle, #2B2419 0 12%, transparent 13%),
+    repeating-conic-gradient(#F6F2E8 0 34deg, #4A4335 34deg 60deg);
+  box-shadow: 0 1px 2px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.2);
+}
+.device .reel::before { animation: spin 4s cubic-bezier(.22, .75, .35, 1) .5s 1 both; }
+.tape-window {
+  flex: 1; height: 18px; border-radius: 3px;
+  background: linear-gradient(#5A4426 0 5px, #120E0A 5px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.8);
+}
+.transport { display: flex; gap: 10px; margin: 14px 4px 4px; }
+.transport .key { flex: 1; padding: 11px 0; font-size: 13.5px; }
+.key-play {
+  flex-grow: 1.5; background: linear-gradient(180deg, #F2B944, #C4881A); color: #3A2B05;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 3px rgba(122,74,8,.4), 0 4px 6px rgba(20,14,8,.45);
+  animation: keypress 4s ease .5s 1;
+}
+.device-foot { display: flex; align-items: center; gap: 18px; margin: 16px 4px 4px; }
+.knob-wrap { flex: none; text-align: center; }
+.knob {
+  position: relative; width: 68px; height: 68px; border-radius: 50%; margin: 6px auto 0;
+  background: radial-gradient(circle at 34% 28%, #FBF9F2, #B5AC98 60%, #8F8674);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), inset 0 -3px 6px rgba(0,0,0,.35), 0 5px 9px rgba(0,0,0,.35);
+}
+.knob::before {
+  content: ''; position: absolute; inset: -6px; border-radius: 50%; z-index: -1;
+  background: repeating-conic-gradient(#9C9380 0 7deg, #6E6756 7deg 14deg);
+  box-shadow: 0 5px 9px rgba(0,0,0,.3);
+}
+.knob::after {
+  content: ''; position: absolute; top: 5px; left: 50%; width: 4px; height: 15px; margin-left: -2px; border-radius: 2px;
+  background: linear-gradient(#C0392B, #7B241C);
+}
+.knob-wrap > span { display: block; margin-top: 9px; font-size: 12px; font-weight: 700; color: #4F4839; }
+.grille {
+  flex: 1; height: 84px; border-radius: 10px;
+  background:
+    radial-gradient(circle, rgba(18,13,8,.78) 27%, rgba(18,13,8,0) 31%) 0 0 / 9px 9px,
+    linear-gradient(160deg, #C6C9CF, #A6AAB1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -2px 4px rgba(0,0,0,.3), 0 1px 3px rgba(0,0,0,.35);
+}
+.jack {
+  flex: none; width: 34px; height: 34px; border-radius: 50%;
+  background: radial-gradient(circle, #0E0B07 0 8px, #2A2318 8px 10px, #C9CCD2 10px 12px, #AEB2B9 12px);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* ---------- 机身开关(金属台) ---------- */
+h2 { font-size: 27px; font-weight: 800; margin: 80px 0 6px; }
+.sub2 { color: var(--muted); margin: 0; }
+.switch {
+  display: flex; align-items: center; gap: 16px; cursor: pointer;
+  padding: 15px 18px; border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,.06));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.16);
+}
+.switch + .switch { margin-top: 14px; }
+.switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.sw-track {
+  position: relative; flex: none; width: 60px; height: 32px; border-radius: 8px;
+  background: linear-gradient(180deg, #1F1A14, #3A332A);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.65), inset 0 -1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.55);
+}
+.sw-pin {
+  position: absolute; top: 3px; left: 4px; width: 24px; height: 26px; border-radius: 7px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 5px, rgba(0,0,0,.14) 5px 7px),
+    linear-gradient(180deg, #FBF8F0, #CDC5B2);
+  box-shadow: inset 0 1px 0 #FFF, inset 0 -2px 3px rgba(0,0,0,.25), 0 2px 3px rgba(0,0,0,.45);
+  transition: left 180ms ease;
+}
+.sw-dot { position: absolute; right: 8px; top: 50%; translate: 0 -50%; width: 6px; height: 6px; border-radius: 50%; background: #38321F; }
+.switch input:checked + .sw-track .sw-pin { left: calc(100% - 28px); }
+.switch input:checked + .sw-track .sw-dot { background: var(--amber); box-shadow: 0 0 4px rgba(235, 173, 37, .85); }
+.switch input:focus-visible + .sw-track { outline: 3px solid var(--blue-ink); outline-offset: 3px; }
+.sw-text b { display: block; font-size: 15px; }
+.sw-text small { color: #514939; font-size: 12.5px; }
+
+/* ---------- 调音台(皮革台) ---------- */
+.fader { margin-bottom: 26px; }
+.fader-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.fader-head label { font: 700 15px/1 'Nunito', sans-serif; color: var(--leather-c); }
+.lcd {
+  font-weight: 800; font-size: 15px; color: var(--amber); padding: 5px 10px; border-radius: 4px;
+  background: linear-gradient(180deg, #17130E, #262019);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.14);
+  font-variant-numeric: tabular-nums;
+}
+.ticks { height: 8px; margin: 4px 2px 0; background: repeating-linear-gradient(90deg, rgba(243,236,220,.6) 0 2px, transparent 2px 10%); }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 32px; background: transparent; cursor: pointer; }
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 12px; border-radius: 6px;
+  background: linear-gradient(180deg, #201910, #3B3325);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.75), inset 0 -1px 0 rgba(255,255,255,.14), 0 1px 0 rgba(255,255,255,.25);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 30px; height: 30px; margin-top: -9px; border: none; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FDFBF5, #B2A98F 72%);
+  box-shadow: inset 0 1px 0 #FFF, inset 0 -2px 4px rgba(0,0,0,.3), 0 4px 6px rgba(0,0,0,.5);
+}
+input[type="range"]::-moz-range-track {
+  height: 12px; border-radius: 6px;
+  background: linear-gradient(180deg, #201910, #3B3325);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.25);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 30px; height: 30px; border: none; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FDFBF5, #B2A98F 72%);
+  box-shadow: inset 0 1px 0 #FFF, inset 0 -2px 4px rgba(0,0,0,.3), 0 4px 6px rgba(0,0,0,.5);
+}
+.leather-note { font-size: 12.5px; color: #D8CDB8; text-align: center; margin: 2px 0 0; }
+
+/* ---------- 磁带货架 ---------- */
+.board {
+  height: 16px; border-radius: 8px 8px 3px 3px; margin: 30px 0 26px;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.09) 0 2px, transparent 2px 7px, rgba(255,255,255,.06) 7px 9px, transparent 9px 26px),
+    linear-gradient(180deg, #8A5A30, #6B4321);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 4px 8px rgba(43,35,24,.35);
+}
+.shelf { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 26px; }
+.tape { display: flex; flex-direction: column; gap: 10px; }
+.tape-meta { font-size: 12.5px; color: var(--muted); }
+.tape-buy { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.tape-buy b { font-size: 18px; font-weight: 800; }
+
+footer { text-align: center; padding: 60px 0 44px; font-size: 13.5px; color: var(--muted); }
+footer a { color: var(--blue-ink); }
+
+/* ---------- 亮相动效: 播放键压下 + 磁带轮盘起转 ---------- */
+@keyframes keypress {
+  0%, 15% { box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 3px rgba(122,74,8,.4), 0 4px 6px rgba(20,14,8,.45); transform: none; }
+  30%, 70% { box-shadow: inset 0 3px 5px rgba(0,0,0,.42), inset 0 -1px 0 rgba(255,255,255,.25), 0 1px 2px rgba(20,14,8,.35); transform: translateY(2px); }
+  100% { box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 3px rgba(122,74,8,.4), 0 4px 6px rgba(20,14,8,.45); transform: none; }
+}
+@keyframes spin { to { transform: rotate(660deg); } }
+
+@media (max-width: 900px) {
+  nav { display: none; }
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 48px; }
+  .hero-copy { max-width: 560px; }
+}
+@media (max-width: 480px) {
+  .transport { flex-wrap: wrap; }
+  .transport .key { flex: 1 1 40%; }
+  .rack { padding: 22px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .device .reel::before, .key-play { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar leather">
+  <div class="container topbar-inner">
+    <a class="logo" href="#">
+      <span class="logo-chip" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"/><circle cx="8" cy="12" r="2.2"/><circle cx="16" cy="12" r="2.2"/><path d="M6 15.5h12"/></svg>
+      </span>
+      声匠堂
+    </a>
+    <nav aria-label="主导航">
+      <a href="#controls">机身开关</a>
+      <a href="#tuning">调音台</a>
+      <a href="#shelf">磁带货架</a>
+    </nav>
+    <a class="key key-amber key-top" href="#tuning">购买整机 ¥1,280</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <div class="hero-copy">
+      <span class="badge">声匠堂出品 / 限量 2,000 台</span>
+      <h1>把 1985 年的声音，<br><em>装回口袋</em></h1>
+      <p class="sub">铝合金拉丝面板、能按到底的机械按键、带阻尼的音量旋钮。TPS-L2 复刻版逐件复原了磁带随身听的手感，每一下按压都有行程与回弹。</p>
+      <ul class="specs">
+        <li>频响 40 Hz - 14 kHz / 信噪比 58 dB / 抖晃率 0.08%</li>
+        <li>兼容 Type I 铁带 / Type II 铬带 / Type IV 金属带</li>
+        <li>一节 AA 电池播放约 23 小时 / 整机 330 g 含电池</li>
+      </ul>
+      <div class="buy-row">
+        <div class="price"><b>¥1,280</b><span>含皮质保护套 / 一年保修</span></div>
+        <a class="key key-amber" href="#shelf">加入购物车</a>
+        <a class="key" href="#tuning">试试调音台</a>
+      </div>
+    </div>
+
+    <aside class="device metal" aria-label="TPS-L2 磁带随身听示意图">
+      <div class="device-head">
+        <span class="led" aria-hidden="true"></span>
+        <span>声匠堂 立体声</span>
+        <span class="device-model">TPS-L2 / 1985 复刻</span>
+      </div>
+      <div class="bay">
+        <div class="cassette">
+          <div class="cass-label">
+            <b>午夜电台</b>
+            <span>A 面 45 分钟 / 铬带</span>
+          </div>
+          <div class="cass-reels" aria-hidden="true">
+            <span class="reel reel-l"></span>
+            <span class="tape-window"></span>
+            <span class="reel reel-r"></span>
+          </div>
+        </div>
+      </div>
+      <div class="transport">
+        <button class="key" type="button">倒带</button>
+        <button class="key" type="button">快进</button>
+        <button class="key key-play" type="button">播放</button>
+        <button class="key" type="button">停止</button>
+      </div>
+      <div class="device-foot">
+        <div class="knob-wrap">
+          <div class="knob" aria-hidden="true"></div>
+          <span>音量</span>
+        </div>
+        <div class="grille" aria-hidden="true"></div>
+        <div class="jack" aria-hidden="true"></div>
+      </div>
+    </aside>
+  </section>
+
+  <section id="controls" class="container">
+    <h2>机身开关</h2>
+    <p class="sub2">三联拨杆开关，拨起来有阻尼，落位时哒的一声。</p>
+    <div class="rack metal">
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="sw-track" aria-hidden="true"><i class="sw-dot"></i><i class="sw-pin"></i></span>
+        <span class="sw-text"><b>杜比 B 降噪</b><small>播放铬带时将磁嘶声压低约 10 dB</small></span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="sw-track" aria-hidden="true"><i class="sw-dot"></i><i class="sw-pin"></i></span>
+        <span class="sw-text"><b>自动反转</b><small>A 面播完自动换 B 面，不必取出磁带</small></span>
+      </label>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="sw-track" aria-hidden="true"><i class="sw-dot"></i><i class="sw-pin"></i></span>
+        <span class="sw-text"><b>重低音增强</b><small>低频提升 6 dB，音量会略快耗电</small></span>
+      </label>
+    </div>
+  </section>
+
+  <section id="tuning" class="container">
+    <h2>便携调音台</h2>
+    <p class="sub2">滑杆推起来有沙沙的阻尼，刻度窗是烫金的。</p>
+    <div class="rack leather">
+      <div class="fader">
+        <div class="fader-head">
+          <label for="vol">音量</label>
+          <output class="lcd">07</output>
+        </div>
+        <input id="vol" type="range" min="0" max="10" value="7">
+        <div class="ticks" aria-hidden="true"></div>
+      </div>
+      <div class="fader">
+        <div class="fader-head">
+          <label for="tone">音色（高音 / 低音）</label>
+          <output class="lcd">+2</output>
+        </div>
+        <input id="tone" type="range" min="-5" max="5" value="2">
+        <div class="ticks" aria-hidden="true"></div>
+      </div>
+      <p class="leather-note">镀膜碳膜滑杆 / 双联同调 / 行程 60 mm</p>
+    </div>
+  </section>
+
+  <section id="shelf" class="container">
+    <h2>磁带货架</h2>
+    <p class="sub2">原装未拆封 / 每盘附歌词纸 / 支持整箱刻录。</p>
+    <div class="board" aria-hidden="true"></div>
+    <div class="shelf">
+      <article class="tape">
+        <div class="cassette" style="--s1:#4C6FD4; --s2:#2C48A0">
+          <div class="cass-label"><b>午夜电台</b><span>90 min</span></div>
+          <div class="cass-reels" aria-hidden="true">
+            <span class="reel reel-l"></span><span class="tape-window"></span><span class="reel reel-r"></span>
+          </div>
+        </div>
+        <p class="tape-meta">城市夜行合辑 / Type II 铬带 / 立体声</p>
+        <div class="tape-buy"><b>¥45</b><button class="key key-mini" type="button">购买</button></div>
+      </article>
+      <article class="tape">
+        <div class="cassette" style="--s1:#7A46E0; --s2:#5527B8">
+          <div class="cass-label"><b>山手线终电</b><span>60 min</span></div>
+          <div class="cass-reels" aria-hidden="true">
+            <span class="reel reel-l"></span><span class="tape-window"></span><span class="reel reel-r"></span>
+          </div>
+        </div>
+        <p class="tape-meta">演歌与流行精选 / Type I 铁带 / 单声道</p>
+        <div class="tape-buy"><b>¥32</b><button class="key key-mini" type="button">购买</button></div>
+      </article>
+      <article class="tape">
+        <div class="cassette" style="--s1:#E9B84A; --s2:#C08A18">
+          <div class="cass-label"><b>金色大厅现场</b><span>100 min</span></div>
+          <div class="cass-reels" aria-hidden="true">
+            <span class="reel reel-l"></span><span class="tape-window"></span><span class="reel reel-r"></span>
+          </div>
+        </div>
+        <p class="tape-meta">弦乐四重奏录音 / Type IV 金属带 / 立体声</p>
+        <div class="tape-buy"><b>¥68</b><button class="key key-mini" type="button">购买</button></div>
+      </article>
+      <article class="tape">
+        <div class="cassette" style="--s1:#9FB28A; --s2:#6E8259">
+          <div class="cass-label"><b>夏日便利店</b><span>46 min</span></div>
+          <div class="cass-reels" aria-hidden="true">
+            <span class="reel reel-l"></span><span class="tape-window"></span><span class="reel reel-r"></span>
+          </div>
+        </div>
+        <p class="tape-meta">City Pop 复刻盘 / Type I 铁带 / 立体声</p>
+        <div class="tape-buy"><b>¥29</b><button class="key key-mini" type="button">购买</button></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>UI 设计提示词库 / Skeuomorphism 拟物 <a href="style-catalog.html">返回风格目录</a></footer>
+
+</body>
+</html>

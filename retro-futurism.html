@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Retro-Futurism 复古未来 / UI 设计提示词库</title>
+<meta name="description" content="Retro-Futurism 复古未来主义风格演示页：火星航线旅行社「星喷旅行社 Astrojet」，奶油底色、橘红火箭、蓝绿原子轨道与纤细节制的太空时代线条。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=ZCOOL+QingKe+HuangYou&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/* token 计划：#F7F1E5 奶油底 / #FFFDF6 纸白 / #26262E 墨色 / #C2410C 橘红 / #E2532F 亮橘红 / #0E7A72 蓝绿 / #E8A33D 芥末金 / #22303F 深空蓝；Righteous+ZCOOL QingKe HuangYou=复古几何展示字，Karla+Noto Sans SC=正文；布局=火箭轨迹 hero + 航线卡货架 + 深空离港时刻板 + 舱位账目行 + 原子餐厅菜单；独特性=全页唯一一次火箭升空轨迹动效（彗尾描线 + 原子轨道各运转一次）、无霓虹无扫描线、斜杠分隔与票据条纹 */
+:root {
+  --cream: #F7F1E5;
+  --paper: #FFFDF6;
+  --ink: #26262E;
+  --rust: #C2410C;
+  --flame: #E2532F;
+  --teal: #0E7A72;
+  --teal-soft: #9FD8CF;
+  --gold: #E8A33D;
+  --navy: #22303F;
+  --cream-on-navy: #F2ECDD;
+  --teal-on-navy: #8CD9CE;
+  --orange-on-navy: #F2A25C;
+  --line: rgba(38, 38, 46, 0.35);
+  --shadow: 0 12px 28px rgba(38, 38, 46, 0.12);
+  --font-display: 'Righteous', 'ZCOOL QingKe HuangYou', sans-serif;
+  --font-body: 'Karla', 'Noto Sans SC', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--rust); color: #FFF8EE; }
+
+a { color: var(--rust); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:hover { color: var(--teal); }
+
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 2px; }
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+/* 票据斜纹条：复古航空机票的登机条纹 */
+.ticket-strip {
+  height: 9px;
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  background: repeating-linear-gradient(-45deg, var(--rust) 0 14px, var(--cream) 14px 24px, var(--teal) 24px 38px, var(--cream) 38px 48px);
+}
+
+/* ============ 页头 ============ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--cream);
+  border-bottom: 1.5px solid var(--ink);
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 16px 0;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 21px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  text-decoration: none;
+}
+.brand:hover { color: var(--rust); }
+.brand svg { display: block; }
+.brand .brand-cn { font-size: 19px; }
+nav.main-nav { margin-left: auto; }
+nav.main-nav ul { display: flex; gap: 26px; list-style: none; }
+nav.main-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 4px 2px;
+  border-bottom: 2px solid transparent;
+}
+nav.main-nav a:hover { color: var(--rust); border-bottom-color: var(--rust); }
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn-primary { background: var(--rust); border-color: var(--ink); color: #FFF8EE; }
+.btn-primary:hover { background: var(--flame); color: #FFF8EE; transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--paper); transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+.topbar .btn { padding: 8px 18px; font-size: 14px; }
+
+/* ============ 首屏 ============ */
+.hero { border-bottom: 1.5px solid var(--ink); overflow: hidden; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  gap: 40px;
+  align-items: center;
+  padding: 64px 0 56px;
+}
+.kicker {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--teal);
+  letter-spacing: 1px;
+}
+.kicker .sep { color: var(--rust); padding: 0 6px; }
+h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 5.6vw, 66px);
+  line-height: 1.14;
+  margin: 14px 0 18px;
+}
+h1 .accent { color: var(--rust); }
+.hero-copy p { max-width: 46ch; color: rgba(38, 38, 46, 0.88); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  list-style: none;
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--line);
+  font-size: 14px;
+  color: rgba(38, 38, 46, 0.85);
+}
+.hero-stats li + li::before { content: "/"; margin: 0 12px; color: var(--rust); font-weight: 700; }
+.hero-stats strong { font-family: var(--font-display); font-weight: 400; font-size: 16px; color: var(--ink); }
+
+.hero-scene { position: relative; }
+.hero-scene svg { display: block; width: 100%; height: auto; }
+
+/* 一次亮相动效：火箭沿轨迹升空一次 */
+.rocket-fly {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rocket-once 1.9s cubic-bezier(0.24, 0.82, 0.32, 1) 0.25s 1 both;
+}
+@keyframes rocket-once {
+  0% { transform: translate(-396px, 316px) rotate(-16deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+}
+.comet {
+  stroke-dasharray: 0.14 1;
+  stroke-dashoffset: 1.14;
+  animation: comet-once 1.9s cubic-bezier(0.24, 0.82, 0.32, 1) 0.25s 1 both;
+}
+@keyframes comet-once {
+  from { stroke-dashoffset: 1.14; }
+  to { stroke-dashoffset: 0; }
+}
+.atom-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: atom-once 2.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s 1 both;
+}
+@keyframes atom-once {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============ 通用小节 ============ */
+section { padding: 72px 0; }
+.section-head { max-width: 640px; margin-bottom: 40px; }
+.section-head h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.2;
+}
+.section-head .kicker { display: block; margin-bottom: 8px; }
+.section-head p { margin-top: 12px; color: rgba(38, 38, 46, 0.88); }
+
+/* ============ 航线卡片 ============ */
+.route-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+.route-card {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-top: 5px solid var(--teal);
+  border-radius: 10px;
+  padding: 26px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.route-card:nth-child(2) { border-top-color: var(--flame); }
+.route-card:nth-child(3) { border-top-color: var(--gold); }
+.route-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.route-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.route-icon {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--cream);
+  display: grid;
+  place-items: center;
+}
+.route-no { font-size: 13px; color: var(--teal); font-weight: 700; letter-spacing: 0.5px; }
+.route-name { font-family: var(--font-display); font-size: 22px; line-height: 1.25; }
+.route-desc { font-size: 15px; color: rgba(38, 38, 46, 0.88); border-top: 1px dashed var(--line); padding-top: 14px; }
+.route-specs {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+  margin: 16px 0 18px;
+  font-size: 14px;
+}
+.route-specs li strong { display: block; font-size: 12px; font-weight: 700; color: var(--teal); }
+.route-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1.5px solid var(--ink);
+  padding-top: 14px;
+}
+.route-price { font-family: var(--font-display); font-size: 21px; color: var(--rust); }
+.route-price small { font-family: var(--font-body); font-size: 12px; color: rgba(38, 38, 46, 0.75); display: block; }
+.route-foot a { font-size: 14px; font-weight: 700; }
+
+/* ============ 离港时刻板（深空蓝） ============ */
+.board-section { background: var(--navy); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); color: var(--cream-on-navy); }
+.board-section .section-head h2 { color: var(--cream-on-navy); }
+.board-section .kicker { color: var(--teal-on-navy); }
+.board-section p { color: rgba(242, 236, 221, 0.88); }
+.board {
+  border: 1.5px solid rgba(242, 236, 221, 0.55);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.board-row {
+  display: grid;
+  grid-template-columns: 110px 1.5fr 130px 150px;
+  gap: 16px;
+  align-items: center;
+  padding: 15px 24px;
+  border-bottom: 1px dashed rgba(242, 236, 221, 0.3);
+  font-variant-numeric: tabular-nums;
+}
+.board-row:last-child { border-bottom: none; }
+.board-row.head {
+  background: rgba(242, 236, 221, 0.1);
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(242, 236, 221, 0.92);
+  padding: 10px 24px;
+}
+.board-row:not(.head):hover { background: rgba(242, 236, 221, 0.06); }
+.flight-no { font-family: var(--font-display); font-size: 18px; color: var(--orange-on-navy); }
+.flight-dest { font-weight: 500; }
+.flight-dest small { display: block; font-size: 13px; color: rgba(242, 236, 221, 0.75); font-weight: 400; }
+.flight-time { font-family: var(--font-display); font-size: 19px; letter-spacing: 1px; }
+.status {
+  justify-self: start;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+}
+.status-ontime { color: var(--teal-on-navy); }
+.status-boarding { color: var(--orange-on-navy); }
+.status-window { color: #E8C06A; }
+.status-departed { color: rgba(242, 236, 221, 0.85); }
+.board-note { margin-top: 18px; font-size: 13px; color: rgba(242, 236, 221, 0.8); }
+.board-note .sep { color: var(--orange-on-navy); padding: 0 8px; }
+
+/* ============ 舱位与餐厅 ============ */
+.cabins-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.cabin-list { list-style: none; }
+.cabin-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 20px;
+  padding: 22px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.cabin-item:first-child { padding-top: 6px; }
+.cabin-name { font-family: var(--font-display); font-size: 21px; }
+.cabin-name span { color: var(--teal); font-size: 15px; margin-left: 8px; }
+.cabin-price { font-family: var(--font-display); font-size: 19px; color: var(--rust); white-space: nowrap; }
+.cabin-price small { display: block; font-family: var(--font-body); font-size: 12px; color: rgba(38, 38, 46, 0.75); text-align: right; }
+.cabin-desc { grid-column: 1 / -1; font-size: 14.5px; color: rgba(38, 38, 46, 0.88); }
+
+.diner {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  padding: 30px 30px 26px;
+  position: relative;
+}
+.diner h3 { font-family: var(--font-display); font-weight: 400; font-size: 24px; display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.diner .diner-sub { font-size: 14px; color: rgba(38, 38, 46, 0.85); margin-bottom: 18px; }
+.menu { list-style: none; }
+.menu li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 15px;
+}
+.menu .dish { font-weight: 700; }
+.menu .dish small { display: block; font-weight: 400; font-size: 13px; color: rgba(38, 38, 46, 0.8); }
+.menu .leader { flex: 1; border-bottom: 2px dotted var(--line); transform: translateY(-4px); }
+.menu .price { font-family: var(--font-display); color: var(--rust); white-space: nowrap; }
+.diner-note { margin-top: 16px; padding-top: 14px; border-top: 1.5px solid var(--ink); font-size: 13px; color: rgba(38, 38, 46, 0.8); }
+.diner-atom { position: absolute; top: -26px; right: -20px; }
+
+/* ============ 预订横幅 ============ */
+.booking { padding: 0 0 76px; }
+.booking-panel {
+  background: var(--rust);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 10px 10px 0 var(--ink);
+  color: #FFF8EE;
+  padding: 48px 52px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+}
+.booking-copy h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 3vw, 36px); line-height: 1.25; }
+.booking-copy p { margin-top: 12px; color: #FFF8EE; }
+.booking-form { display: grid; gap: 14px; }
+.booking-form label { font-size: 13px; font-weight: 700; display: grid; gap: 6px; }
+.booking-form input,
+.booking-form select {
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.booking-form .btn { justify-self: start; background: var(--paper); color: var(--rust); }
+.booking-form .btn:hover { background: var(--cream); box-shadow: 0 6px 0 var(--ink); }
+.booking-form :focus-visible { outline: 3px solid #FFF8EE; outline-offset: 2px; }
+.form-note { font-size: 12.5px; color: #FFF8EE; }
+
+/* ============ 页脚 ============ */
+footer { border-top: 1.5px solid var(--ink); padding: 40px 0 48px; }
+footer .container { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; }
+.foot-line { font-family: var(--font-display); font-size: 16px; }
+footer a { font-weight: 700; }
+footer small { width: 100%; font-size: 12.5px; color: rgba(38, 38, 46, 0.72); }
+
+/* ============ 响应式 ============ */
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; padding: 48px 0 44px; }
+  .hero-scene { max-width: 480px; }
+  .route-grid { grid-template-columns: 1fr; max-width: 560px; }
+  .cabins-grid { grid-template-columns: 1fr; gap: 44px; }
+  .booking-panel { grid-template-columns: 1fr; padding: 36px 30px; }
+  .board-row { grid-template-columns: 84px 1.4fr 90px 118px; padding: 14px 16px; gap: 10px; }
+}
+
+@media (max-width: 640px) {
+  nav.main-nav { display: none; }
+  .container { padding: 0 20px; }
+  section { padding: 56px 0; }
+  .hero-actions .btn { width: 100%; text-align: center; }
+  .hero-stats { gap: 8px 0; }
+  .board-row { grid-template-columns: 1fr 1fr; row-gap: 4px; }
+  .board-row .flight-time { text-align: right; }
+  .status { justify-self: end; }
+  .diner-atom { display: none; }
+  .diner { padding: 24px 20px; }
+  footer .container { gap: 8px 18px; }
+}
+
+/* 动效降级：偏好减少动态时全部关闭 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container topbar">
+    <a class="brand" href="#top">
+      <svg width="34" height="34" viewBox="-18 -18 36 36" aria-hidden="true" focusable="false">
+        <path d="M 0 -15 C 5 -10.5 7 -4.5 7 2 L 7 8 C 7 10.2 5.2 12 3 12 L -3 12 C -5.2 12 -7 10.2 -7 8 L -7 2 C -7 -4.5 -5 -10.5 0 -15 Z" fill="#FFFDF6" stroke="#26262E" stroke-width="1.8"/>
+        <path d="M 0 -15 C 3.4 -12 5.2 -8.6 6 -5.5 L -6 -5.5 C -5.2 -8.6 -3.4 -12 0 -15 Z" fill="#C2410C" stroke="#26262E" stroke-width="1.5"/>
+        <circle cx="0" cy="0" r="2.6" fill="#9FD8CF" stroke="#26262E" stroke-width="1.4"/>
+        <path d="M -7 3 C -11 6.5 -12.5 11 -12.5 15.5 L -7 10.5 Z" fill="#E2532F" stroke="#26262E" stroke-width="1.5"/>
+        <path d="M 7 3 C 11 6.5 12.5 11 12.5 15.5 L 7 10.5 Z" fill="#E2532F" stroke="#26262E" stroke-width="1.5"/>
+        <path d="M -3 12 C -3 15 -1.6 17.5 0 19.5 C 1.6 17.5 3 15 3 12 Z" fill="#E8A33D" stroke="#26262E" stroke-width="1.5"/>
+      </svg>
+      <span class="brand-cn">星喷旅行社 <span lang="en">Astrojet</span></span>
+    </a>
+    <nav class="main-nav" aria-label="主导航">
+      <ul>
+        <li><a href="#routes">三条航线</a></li>
+        <li><a href="#board">离港时刻</a></li>
+        <li><a href="#cabins">舱位餐厅</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary" href="#booking">预订座位</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 首屏：火箭轨迹 -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">星际定期客运<span class="sep">/</span>首航 1962 年<span class="sep">/</span>持证经营至小行星带</p>
+        <h1 id="hero-title">去火星，<br>度一个<span class="accent">漫长的周末</span></h1>
+        <p>星喷旅行社 Astrojet 经营地球至火星的定期客运航线已有四十余年。奶油色的舷窗、现做的热早餐、一整面朝向星空的观景穹顶——五十年代人们想象的那个未来，我们一直没舍得改。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#booking">预订火星航线</a>
+          <a class="btn btn-ghost" href="#board">查看本季时刻</a>
+        </div>
+        <ul class="hero-stats">
+          <li>单程航程 <strong>217 天</strong></li>
+          <li>环月中转 <strong>1 次</strong></li>
+          <li>在轨准点率 <strong>98.6%</strong></li>
+          <li>累计乘客 <strong>41,207 位</strong></li>
+        </ul>
+      </div>
+      <div class="hero-scene" aria-hidden="true" focusable="false">
+        <svg viewBox="0 0 560 540" role="img">
+          <!-- 轨迹虚线与彗尾 -->
+          <path d="M 70 486 C 210 452 342 362 462 172" fill="none" stroke="rgba(38,38,46,0.38)" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
+          <path class="comet" d="M 70 486 C 210 452 342 362 462 172" fill="none" stroke="#E2532F" stroke-width="4" stroke-linecap="round" pathLength="1"/>
+          <!-- 火箭（终点姿态沿轨迹方向） -->
+          <g transform="translate(468,164) rotate(38)">
+            <g class="rocket-fly">
+              <path d="M 0 -46 C 12 -33 17 -13 17 6 L 17 24 C 17 30.5 11 35 0 35 C -11 35 -17 30.5 -17 24 L -17 6 C -17 -13 -12 -33 0 -46 Z" fill="#FFFDF6" stroke="#26262E" stroke-width="2.6"/>
+              <path d="M 0 -46 C 8 -38 12.4 -28.5 14.2 -19 L -14.2 -19 C -12.4 -28.5 -8 -38 0 -46 Z" fill="#C2410C" stroke="#26262E" stroke-width="2"/>
+              <circle cx="0" cy="-4" r="6.4" fill="#9FD8CF" stroke="#26262E" stroke-width="2"/>
+              <path d="M -17 7 C -27 15.5 -31 28 -31 41 L -17 27 Z" fill="#E2532F" stroke="#26262E" stroke-width="2.2"/>
+              <path d="M 17 7 C 27 15.5 31 28 31 41 L 17 27 Z" fill="#E2532F" stroke="#26262E" stroke-width="2.2"/>
+              <path d="M -7 35 C -7 45 -3.6 52.5 0 58.5 C 3.6 52.5 7 45 7 35 Z" fill="#E8A33D" stroke="#26262E" stroke-width="2.2"/>
+            </g>
+          </g>
+          <!-- 环星（土星式几何星球） -->
+          <g transform="translate(398,412) rotate(-12)">
+            <ellipse rx="118" ry="30" fill="none" stroke="#26262E" stroke-width="2.6"/>
+            <circle r="67" fill="#E8A33D" stroke="#26262E" stroke-width="2.6"/>
+            <circle cx="-20" cy="-8" r="10" fill="rgba(38,38,46,0.18)"/>
+            <circle cx="16" cy="18" r="6.5" fill="rgba(38,38,46,0.18)"/>
+            <circle cx="27" cy="-16" r="5" fill="rgba(38,38,46,0.18)"/>
+            <path d="M -118 0 A 118 30 0 0 1 118 0" fill="none" stroke="#26262E" stroke-width="2.6"/>
+          </g>
+          <!-- 原子轨道 -->
+          <g transform="translate(122,112)">
+            <g class="atom-spin" fill="none" stroke="#0E7A72" stroke-width="2.6">
+              <ellipse rx="48" ry="16"/>
+              <ellipse rx="48" ry="16" transform="rotate(60)"/>
+              <ellipse rx="48" ry="16" transform="rotate(120)"/>
+            </g>
+            <circle r="5.5" fill="#C2410C"/>
+          </g>
+          <!-- 四角星点 -->
+          <path d="M 512 66 l 3 9 l 9 3 l -9 3 l -3 9 l -3 -9 l -9 -3 l 9 -3 Z" fill="#E2532F"/>
+          <path d="M 66 300 l 2.6 7.8 l 7.8 2.6 l -7.8 2.6 l -2.6 7.8 l -2.6 -7.8 l -7.8 -2.6 l 7.8 -2.6 Z" fill="#0E7A72"/>
+          <path d="M 210 46 l 2.4 7.2 l 7.2 2.4 l -7.2 2.4 l -2.4 7.2 l -2.4 -7.2 l -7.2 -2.4 l 7.2 -2.4 Z" fill="#26262E"/>
+          <path d="M 522 322 l 2.6 7.8 l 7.8 2.6 l -7.8 2.6 l -2.6 7.8 l -2.6 -7.8 l -7.8 -2.6 l 7.8 -2.6 Z" fill="#0E7A72"/>
+          <circle cx="286" cy="212" r="4" fill="none" stroke="#26262E" stroke-width="2"/>
+          <circle cx="58" cy="180" r="3" fill="#E8A33D"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticket-strip" aria-hidden="true"></div>
+
+  <!-- 三条航线 -->
+  <section id="routes" aria-labelledby="routes-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">本季航线<span class="sep">/</span>2026 至 2027 发射季</span>
+        <h2 id="routes-title">三条航线，一个比一个远</h2>
+        <p>从九十分钟一圈的近地巡游，到两百多天的火星单程，票价包含往返燃料、机上餐饮与一次免费的失重摄影课。</p>
+      </div>
+      <div class="route-grid">
+        <article class="route-card">
+          <div class="route-top">
+            <span class="route-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="-16 -16 32 32">
+                <circle r="3.4" fill="#C2410C"/>
+                <ellipse rx="13" ry="5" fill="none" stroke="#0E7A72" stroke-width="1.8" transform="rotate(-24)"/>
+              </svg>
+            </span>
+            <div>
+              <p class="route-no">AJ-01 / 每日两班</p>
+              <h3 class="route-name">轨道一号<br>Orbis One</h3>
+            </div>
+          </div>
+          <p class="route-desc">九十分钟绕地球一圈的近地巡游。晴天时可看清海岸线与夜半球的城市灯火，配一杯轨道冷萃。</p>
+          <ul class="route-specs">
+            <li><strong>航程</strong>90 分钟 / 圈</li>
+            <li><strong>距地表</strong>420 公里</li>
+            <li><strong>舱位</strong>观景穹顶舱</li>
+            <li><strong>发射场</strong>海南东方场</li>
+          </ul>
+          <div class="route-foot">
+            <p class="route-price">¥128,000<small>每座 / 含税</small></p>
+            <a href="#booking">查看舱位</a>
+          </div>
+        </article>
+        <article class="route-card">
+          <div class="route-top">
+            <span class="route-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="-16 -16 32 32">
+                <circle r="11" fill="#9FD8CF" stroke="#26262E" stroke-width="1.8"/>
+                <circle cx="-3.5" cy="-2.5" r="2.6" fill="rgba(38,38,46,0.35)"/>
+                <circle cx="4" cy="4" r="1.8" fill="rgba(38,38,46,0.35)"/>
+              </svg>
+            </span>
+            <div>
+              <p class="route-no">AJ-07 / 每周一班</p>
+              <h3 class="route-name">月桥<br>Lunar Bridge</h3>
+            </div>
+          </div>
+          <p class="route-desc">三天航程直抵静海月面基地，含一晚环形山旅馆与两次月面漫步。记得给地球留一张明信片。</p>
+          <ul class="route-specs">
+            <li><strong>航程</strong>3 天</li>
+            <li><strong>距离</strong>38 万公里</li>
+            <li><strong>舱位</strong>家庭原子舱</li>
+            <li><strong>发射场</strong>海南东方场</li>
+          </ul>
+          <div class="route-foot">
+            <p class="route-price">¥468,000<small>每座 / 含税</small></p>
+            <a href="#booking">查看舱位</a>
+          </div>
+        </article>
+        <article class="route-card">
+          <div class="route-top">
+            <span class="route-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="-18 -18 36 36">
+                <path d="M 0 -14 C 4.6 -10 6.4 -4.2 6.4 1.8 L 6.4 7.4 C 6.4 9.5 4.8 11 2.8 11 L -2.8 11 C -4.8 11 -6.4 9.5 -6.4 7.4 L -6.4 1.8 C -6.4 -4.2 -4.6 -10 0 -14 Z" fill="#FFFDF6" stroke="#26262E" stroke-width="1.7"/>
+                <path d="M 0 -14 C 3.1 -11 4.8 -8 5.5 -5 L -5.5 -5 C -4.8 -8 -3.1 -11 0 -14 Z" fill="#C2410C"/>
+                <circle cx="0" cy="-0.5" r="2.3" fill="#9FD8CF" stroke="#26262E" stroke-width="1.2"/>
+                <path d="M -6.4 2.6 C -10 5.8 -11.4 10 -11.4 14 L -6.4 9.8 Z" fill="#E2532F" stroke="#26262E" stroke-width="1.3"/>
+                <path d="M 6.4 2.6 C 10 5.8 11.4 10 11.4 14 L 6.4 9.8 Z" fill="#E2532F" stroke="#26262E" stroke-width="1.3"/>
+              </svg>
+            </span>
+            <div>
+              <p class="route-no">AJ-12 / 发射窗口期</p>
+              <h3 class="route-name">红色特快<br>Mars Express</h3>
+            </div>
+          </div>
+          <p class="route-desc">二百一十七天的经典单程。途中一次环月中转加油，抵达后可续住火星湾旅馆，也可只买去程。</p>
+          <ul class="route-specs">
+            <li><strong>航程</strong>217 天</li>
+            <li><strong>距离</strong>2.25 亿公里</li>
+            <li><strong>舱位</strong>银河卧铺</li>
+            <li><strong>发射场</strong>海南东方场</li>
+          </ul>
+          <div class="route-foot">
+            <p class="route-price">¥1,920,000<small>每座 / 含税</small></p>
+            <a href="#booking">查看舱位</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 离港时刻板 -->
+  <section id="board" class="board-section" aria-labelledby="board-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">离港大厅<span class="sep">/</span>第八发射季</span>
+        <h2 id="board-title">本季离港时刻</h2>
+        <p>时刻以发射场当地时间为准。际遇窗口（引力助推）如遇行星排队，顺延不另行通知。</p>
+      </div>
+      <div class="board" role="table" aria-label="本季离港航班时刻">
+        <div class="board-row head" role="row">
+          <span role="columnheader">航班</span>
+          <span role="columnheader">目的地</span>
+          <span role="columnheader">离港</span>
+          <span role="columnheader">状态</span>
+        </div>
+        <div class="board-row" role="row">
+          <span class="flight-no" role="cell">AJ-01</span>
+          <span class="flight-dest" role="cell">近地轨道巡游<small>观景穹顶舱 / 90 分钟</small></span>
+          <span class="flight-time" role="cell">09:30</span>
+          <span class="status status-ontime" role="cell">准点</span>
+        </div>
+        <div class="board-row" role="row">
+          <span class="flight-no" role="cell">AJ-03</span>
+          <span class="flight-dest" role="cell">轨道巡游加长班<small>极光段加飞 / 3 小时</small></span>
+          <span class="flight-time" role="cell">12:10</span>
+          <span class="status status-boarding" role="cell">登船中</span>
+        </div>
+        <div class="board-row" role="row">
+          <span class="flight-no" role="cell">AJ-07</span>
+          <span class="flight-dest" role="cell">静海月面基地<small>家庭原子舱 / 3 天</small></span>
+          <span class="flight-time" role="cell">14:05</span>
+          <span class="status status-boarding" role="cell">登船中</span>
+        </div>
+        <div class="board-row" role="row">
+          <span class="flight-no" role="cell">AJ-09</span>
+          <span class="flight-dest" role="cell">轨道一号夜班<small>夜半球观景 / 90 分钟</small></span>
+          <span class="flight-time" role="cell">18:20</span>
+          <span class="status status-departed" role="cell">已离港</span>
+        </div>
+        <div class="board-row" role="row">
+          <span class="flight-no" role="cell">AJ-12</span>
+          <span class="flight-dest" role="cell">火星湾<small>银河卧铺 / 217 天</small></span>
+          <span class="flight-time" role="cell">22:40</span>
+          <span class="status status-window" role="cell">候窗中</span>
+        </div>
+      </div>
+      <p class="board-note">候窗中航班须等待地火转移窗口<span class="sep">/</span>最长候窗 26 个月<span class="sep">/</span>候窗期间食宿由旅行社承担</p>
+    </div>
+  </section>
+
+  <!-- 舱位与原子餐厅 -->
+  <section id="cabins" aria-labelledby="cabins-title">
+    <div class="container cabins-grid">
+      <div>
+        <div class="section-head">
+          <span class="kicker">舱位账目<span class="sep">/</span>三种坐法</span>
+          <h2 id="cabins-title">怎么躺，是个学问</h2>
+          <p>二百多天的航程里，舱位就是你的整个世界。我们的内饰图纸从 1958 年一直沿用至今——设计师说，那个年代的乐观还没过时。</p>
+        </div>
+        <ul class="cabin-list">
+          <li class="cabin-item">
+            <h3 class="cabin-name">观景穹顶舱<span>Porthole</span></h3>
+            <p class="cabin-price">¥128,000 起<small>近地航线适用</small></p>
+            <p class="cabin-desc">每人一扇独立舷窗，椅背可调至失重漂浮角。含轨道冷萃与一次日出摄影指导。</p>
+          </li>
+          <li class="cabin-item">
+            <h3 class="cabin-name">家庭原子舱<span>Atomic Family</span></h3>
+            <p class="cabin-price">¥396,000 起<small>四位起订 / 月桥航线</small></p>
+            <p class="cabin-desc">两张双人悬浮铺与一张折叠餐桌，适合带孩子完成第一次月面漫步的家庭。</p>
+          </li>
+          <li class="cabin-item">
+            <h3 class="cabin-name">银河卧铺<span>Galaxy Sleeper</span></h3>
+            <p class="cabin-price">¥1,920,000 起<small>红色特快适用</small></p>
+            <p class="cabin-desc">独立隔间、写字台与阅读灯，附赠 217 天的慢。到站时可申请把铺位牌带走。</p>
+          </li>
+        </ul>
+      </div>
+      <aside class="diner" aria-labelledby="diner-title">
+        <span class="diner-atom" aria-hidden="true">
+          <svg width="64" height="64" viewBox="-32 -32 64 64">
+            <g fill="none" stroke="#0E7A72" stroke-width="2.4">
+              <ellipse rx="24" ry="9"/>
+              <ellipse rx="24" ry="9" transform="rotate(60)"/>
+              <ellipse rx="24" ry="9" transform="rotate(120)"/>
+            </g>
+            <circle r="4" fill="#C2410C"/>
+          </svg>
+        </span>
+        <h3 id="diner-title">原子餐厅
+          <svg width="26" height="26" viewBox="-13 -13 26 26" aria-hidden="true">
+            <circle r="4" fill="#E8A33D" stroke="#26262E" stroke-width="1.6"/>
+            <g fill="none" stroke="#26262E" stroke-width="1.6">
+              <ellipse rx="10.5" ry="4" transform="rotate(-18)"/>
+            </g>
+          </svg>
+        </h3>
+        <p class="diner-sub">三层甲板正中，1959 年式转门 / 全程营业 / 无需预约</p>
+        <ul class="menu">
+          <li>
+            <span class="dish">火焰橙汁<small>现挤 / 微波炉加热至温热</small></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="price">¥28</span>
+          </li>
+          <li>
+            <span class="dish">卫星煎蛋双拼<small>双黄 / 撒辣椒粉成环状</small></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="price">¥46</span>
+          </li>
+          <li>
+            <span class="dish">彗星巧克力奶昔<small>肉桂吸管 / 轨道冰</small></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="price">¥32</span>
+          </li>
+          <li>
+            <span class="dish">太空时代早餐拼盘<small>以上三样 / 加烤吐司六片</small></span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="price">¥88</span>
+          </li>
+        </ul>
+        <p class="diner-note">失重环境下请使用吸管杯 / 餐巾纸无限供应 / 火腿三明治仅限离港当日</p>
+      </aside>
+    </div>
+  </section>
+
+  <div class="ticket-strip" aria-hidden="true"></div>
+
+  <!-- 预订 -->
+  <section id="booking" class="booking" aria-labelledby="booking-title">
+    <div class="container">
+      <div class="booking-panel">
+        <div class="booking-copy">
+          <h2 id="booking-title">下一个发射窗口<br>2027 年 10 月</h2>
+          <p>红色特快每 26 个月开一班。留个名字，窗口开启前九十天，我们会写信提醒你收拾行李。</p>
+        </div>
+        <form class="booking-form" action="#booking" method="get">
+          <label>姓名
+            <input type="text" name="name" autocomplete="name" placeholder="登船牌上的名字">
+          </label>
+          <label>意向航线
+            <select name="route">
+              <option value="orbis">轨道一号 Orbis One</option>
+              <option value="lunar">月桥 Lunar Bridge</option>
+              <option value="mars" selected>红色特快 Mars Express</option>
+            </select>
+          </label>
+          <label>出发窗口
+            <select name="window">
+              <option value="2027">2027 年 10 月</option>
+              <option value="2029">2029 年 12 月</option>
+              <option value="later">再等等看</option>
+            </select>
+          </label>
+          <button class="btn" type="submit">锁定舷窗座位</button>
+          <p class="form-note">订金可退 / 行李限重 20 公斤 / 明信片邮票免费</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p class="foot-line">UI 设计提示词库 / Retro-Futurism 复古未来</p>
+    <a href="style-catalog.html">返回风格目录</a>
+    <small>本页为风格演示，「星喷旅行社 Astrojet」及其航线、时刻、票价与机上菜单均为虚构。</small>
+  </div>
+</footer>
+
+</body>
+</html>

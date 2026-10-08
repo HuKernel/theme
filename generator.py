@@ -2743,6 +2743,12 @@ def main():
             'Glassmorphism': 'glassmorphism.html', 'Neubrutalism': 'neubrutalism.html',
             'Spatial UI (VisionOS)': 'spatial-ui-visionos.html', 'Dark Mode (OLED)': 'dark-mode-oled.html',
             'Vaporwave': 'vaporwave.html', 'Pixel Art': 'pixel-art.html', 'Fluent 2': 'fluent-2.html',
+            'Skeuomorphism': 'skeuomorphism.html',
+            'Material 3 Expressive (Mobile)': 'material-3-expressive-mobile.html',
+            'Adobe Spectrum': 'adobe-spectrum.html', 'Shopify Polaris': 'shopify-polaris.html',
+            'E-Ink / Paper': 'e-ink-paper.html', 'Retro-Futurism': 'retro-futurism.html',
+            'Cyberpunk UI': 'cyberpunk-ui.html', 'Kinetic Typography': 'kinetic-typography.html',
+            'Claymorphism': 'claymorphism.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版
