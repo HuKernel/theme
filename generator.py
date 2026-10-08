@@ -2408,7 +2408,7 @@ def build_catalog(manifest, entries, lentries=None):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UI 设计提示词库 · 113 个风格与落地结构模板</title>
+<title>UI 设计提示词库</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Rubik:wght@400;500;600;700&display=swap');
 
