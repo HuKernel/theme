@@ -68,6 +68,8 @@ h1 .u-teal { background: linear-gradient(transparent 60%, var(--memphis-teal) 60
 .chip:hover { background: var(--memphis-yellow); }
 .chip.on { background: var(--ink); color: #fff; border-style: solid; }
 .chip:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.sort-chip { border-style: dashed; }
+.sort-chip.on { border-style: solid; background: var(--memphis-purple); }
 .count { font-size: 13px; font-weight: 600; color: #6E6E78; margin-bottom: 18px; }
 
 .grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
@@ -165,6 +167,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
     <button class="chip" data-f="Platform/Material">平台语言</button>
     <button class="chip" data-f="active">仅活跃风格</button>
     <button class="chip" data-f="pattern">落地结构</button>
+    <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
   </div>
   <p class="count" id="count"></p>
   <div class="grid" id="grid">
@@ -4336,7 +4339,7 @@ function apply() {
   countEl.textContent = '显示 ' + n + ' / ' + cards.length + ' 个风格';
 }
 searchEl.addEventListener('input', apply);
-Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(ch) {
+Array.prototype.forEach.call(document.querySelectorAll('.chip:not(.sort-chip)'), function(ch) {
   ch.addEventListener('click', function() {
     Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(x) { x.classList.remove('on'); });
     ch.classList.add('on');
@@ -4364,6 +4367,29 @@ Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(bt
     } else fallback();
   });
 });
+
+// 热度排序：按全站复制次数降序，再点一次恢复默认顺序
+var gridEl = document.getElementById('grid');
+var origOrder = Array.prototype.slice.call(gridEl.querySelectorAll('.m-card'));
+var hotOn = false;
+var hotBtn = document.getElementById('sort-hot');
+function hotCount(card) {
+  return (ThemeStats.counts || {})[card.querySelector('h2').textContent.trim()] || 0;
+}
+function renderOrder() {
+  var cards = Array.prototype.slice.call(gridEl.querySelectorAll('.m-card'));
+  if (hotOn) cards.sort(function(a, b) { return hotCount(b) - hotCount(a); });
+  else cards = origOrder;
+  cards.forEach(function(c) { gridEl.appendChild(c); });
+}
+hotBtn.addEventListener('click', function() {
+  hotOn = !hotOn;
+  hotBtn.classList.toggle('on', hotOn);
+  hotBtn.setAttribute('aria-pressed', hotOn ? 'true' : 'false');
+  renderOrder();
+});
+if (window.ThemeStats) ThemeStats.onupdate = renderOrder;
+
 apply();
 </script>
 </body>
