@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Neubrutalism 新粗野 / UI 设计提示词库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@600;800;900&family=Public+Sans:wght@400;600;700;800&display=swap');
+
+/* ── Token 计划 ─────────────────────────────────────────────
+   色: 柠檬黄 #FFEB3B(主色块) / 番茄红 #FF5252(强调) / 钴蓝 #2196F3(交互强调) /
+       纸白 #FAF6EE(画布) / 深蓝黑 #0D0F16(暗带) / 真黑 #000000(边框与硬阴影)
+   字: Lexend Mega(标题与价格, 宽扁几何) + Public Sans(正文)
+   布局概念: 单轴贴纸流——所有内容装进轻旋转、粗黑边、硬阴影位移的贴纸卡, 色块分区
+   独特性原则: 阴影永不模糊, 色块永不渐变, 可交互件一律"物理按压"(位移抵消阴影) */
+:root {
+  --lemon: #FFEB3B;
+  --tomato: #FF5252;
+  --cobalt: #2196F3;
+  --paper: #FAF6EE;
+  --abyss: #0D0F16;
+  --ink: #000000;
+  --muted: #404654;
+  --bd: 3px solid var(--ink);
+  --sh-sm: 4px 4px 0 var(--ink);
+  --sh-md: 6px 6px 0 var(--ink);
+  --sh-lg: 10px 10px 0 var(--ink);
+  --fh: 'Lexend Mega', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --fb: 'Public Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-padding-top: 88px; }
+
+body {
+  font-family: var(--fb);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+::selection { background: var(--lemon); color: var(--ink); }
+
+:focus-visible { outline: 4px solid var(--cobalt); outline-offset: 3px; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+/* ── 顶栏 ────────────────────────────────────────────── */
+.topbar {
+  background: var(--paper);
+  border-bottom: var(--bd);
+  position: sticky; top: 0; z-index: 20;
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 66px; gap: 16px;
+}
+.logo {
+  font-family: var(--fh); font-weight: 900; font-size: 19px;
+  display: flex; align-items: center; gap: 12px;
+  color: var(--ink); text-decoration: none;
+}
+.logo-mark {
+  width: 38px; height: 38px; flex: none;
+  background: var(--lemon); border: var(--bd);
+  box-shadow: var(--sh-sm);
+  display: grid; place-items: center;
+}
+nav { display: flex; gap: 10px; }
+nav a {
+  font-weight: 700; font-size: 14px;
+  color: var(--ink); text-decoration: none;
+  padding: 7px 12px;
+  background: var(--paper); border: var(--bd);
+  box-shadow: var(--sh-sm);
+}
+nav a:hover, nav a:focus-visible { background: var(--lemon); }
+
+/* ── 按钮: 物理按压, 无过渡 ──────────────────────────── */
+.btn {
+  display: inline-block;
+  font-family: var(--fh); font-weight: 800; font-size: 15px;
+  padding: 12px 22px;
+  border: var(--bd); border-radius: 0;
+  color: var(--ink); text-decoration: none; cursor: pointer;
+  box-shadow: var(--sh-md);
+  transition: none;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+.btn:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 var(--ink); }
+.btn-lemon { background: var(--lemon); }
+.btn-cobalt { background: var(--cobalt); }
+.btn-ink { background: var(--ink); color: var(--lemon); }
+
+/* ── Hero ────────────────────────────────────────────── */
+.hero {
+  padding: 72px 0 64px;
+  display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px;
+  align-items: center;
+}
+.chip {
+  display: inline-block;
+  background: var(--ink); color: var(--paper);
+  font-weight: 700; font-size: 13px;
+  padding: 6px 12px; margin-bottom: 24px;
+  transform: rotate(-2deg);
+}
+h1 {
+  font-family: var(--fh);
+  font-size: clamp(40px, 5.8vw, 68px);
+  font-weight: 900; line-height: 1.08; letter-spacing: -0.01em;
+  margin-bottom: 22px;
+}
+.mk { padding: 0 0.12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.mk-lemon { background: var(--lemon); }
+.mk-tomato { background: var(--tomato); }
+.sub {
+  font-size: 16.5px; font-weight: 500; color: var(--muted);
+  max-width: 500px; margin-bottom: 32px;
+  border-left: 6px solid var(--cobalt); padding-left: 16px;
+}
+.cta-row { display: flex; flex-wrap: wrap; gap: 16px; }
+
+/* Hero 滑板贴纸卡: 全页唯一亮相动效 */
+.deck-figure {
+  position: relative;
+  background: var(--lemon);
+  border: var(--bd);
+  box-shadow: var(--sh-lg);
+  padding: 28px 22px 20px;
+  transform: rotate(-3deg);
+  animation: stamp-in 0.5s cubic-bezier(0.25, 1.4, 0.4, 1) both;
+}
+@keyframes stamp-in {
+  0%   { transform: rotate(-3deg) scale(1.16) translateY(-16px); opacity: 0; }
+  60%  { transform: rotate(-3deg) scale(0.97) translateY(3px);   opacity: 1; }
+  100% { transform: rotate(-3deg) scale(1) translateY(0); }
+}
+.deck-svg { display: block; width: 100%; height: auto; }
+.price-sticker {
+  position: absolute; right: -14px; bottom: -18px;
+  background: var(--paper);
+  border: var(--bd); box-shadow: var(--sh-sm);
+  padding: 10px 16px;
+  transform: rotate(5deg);
+}
+.price-sticker b {
+  display: block;
+  font-family: var(--fh); font-weight: 900; font-size: 20px; line-height: 1.1;
+}
+.price-sticker span { font-size: 11.5px; font-weight: 700; color: var(--muted); }
+
+/* ── 标语横带(静态, 无动画) ───────────────────────────── */
+.strip {
+  background: var(--ink); color: var(--paper);
+  border-top: var(--bd); border-bottom: var(--bd);
+  overflow: hidden; white-space: nowrap;
+  padding: 13px 0;
+  font-weight: 800; font-size: 15px;
+}
+.strip-inner { display: inline-flex; align-items: center; gap: 22px; }
+.strip-inner svg { flex: none; }
+
+/* ── 章节贴纸标题 ─────────────────────────────────────── */
+.sticker-title {
+  display: inline-block;
+  font-family: var(--fh);
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 900; line-height: 1.2;
+  padding: 6px 18px; margin: 0 0 14px;
+  border: var(--bd); box-shadow: var(--sh-md);
+  transform: rotate(-1deg);
+}
+.t-lemon { background: var(--lemon); }
+.t-tomato { background: var(--tomato); }
+.t-cobalt { background: var(--cobalt); }
+.lead { max-width: 640px; font-size: 15.5px; font-weight: 500; color: var(--muted); margin-bottom: 36px; }
+
+section { padding: 60px 0 10px; }
+
+/* ── 本周新板 ────────────────────────────────────────── */
+.deck-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px;
+  margin-bottom: 56px;
+}
+.deck-card { border: var(--bd); box-shadow: var(--sh-md); background: var(--paper); }
+.deck-card:nth-child(odd)  { transform: rotate(-0.6deg); }
+.deck-card:nth-child(even) { transform: rotate(0.5deg); }
+.deck-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px 16px;
+  border-bottom: var(--bd);
+}
+.deck-head h3 { font-family: var(--fh); font-weight: 800; font-size: 17.5px; line-height: 1.25; }
+.h-lemon  { background: var(--lemon); }
+.h-tomato { background: var(--tomato); }
+.h-cobalt { background: var(--cobalt); }
+.h-abyss  { background: var(--abyss); color: var(--paper); }
+.deck-size {
+  flex: none;
+  font-family: var(--fh); font-weight: 800; font-size: 13px;
+  background: var(--paper); color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 3px 8px;
+}
+.deck-body { padding: 16px; }
+.deck-body p { font-size: 14px; font-weight: 500; color: var(--muted); min-height: 88px; }
+.deck-price {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  border-top: 2px dashed var(--ink);
+  margin-top: 14px; padding-top: 12px;
+}
+.deck-price b { font-family: var(--fh); font-weight: 900; font-size: 21px; }
+.deck-price span { font-size: 11.5px; font-weight: 700; color: var(--muted); text-align: right; }
+
+/* ── 板宽选择器(纯 CSS) ──────────────────────────────── */
+.sizer { margin-bottom: 56px; }
+.dw-input { position: absolute; opacity: 0; pointer-events: none; }
+.dw-label {
+  display: inline-block; cursor: pointer; user-select: none;
+  font-family: var(--fh); font-weight: 800; font-size: 16px;
+  padding: 10px 20px; margin: 0 14px 0 0;
+  border: var(--bd); background: var(--paper);
+  box-shadow: var(--sh-sm);
+}
+.dw-input:checked + .dw-label { background: var(--ink); color: var(--lemon); }
+.dw-input:focus-visible + .dw-label { outline: 4px solid var(--cobalt); outline-offset: 3px; }
+.dw-results { margin-top: 28px; }
+.dw-res {
+  display: none;
+  border: var(--bd); box-shadow: var(--sh-md);
+  background: var(--paper); padding: 24px;
+}
+.dw-tag {
+  display: inline-block;
+  font-family: var(--fh); font-weight: 800; font-size: 14px;
+  border: 2px solid var(--ink); padding: 4px 12px; margin-bottom: 14px;
+}
+.tag-lemon  { background: var(--lemon); }
+.tag-tomato { background: var(--tomato); }
+.tag-cobalt { background: var(--cobalt); }
+.tag-abyss  { background: var(--abyss); color: var(--paper); }
+.dw-res p { max-width: 720px; font-size: 15px; font-weight: 500; }
+.dw-bar {
+  height: 20px; margin: 18px 0 6px;
+  border: var(--bd); background: var(--paper);
+}
+.dw-bar span { display: block; height: 100%; }
+.dw-ends { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--muted); }
+.dw-pick { margin-top: 16px; font-weight: 700; }
+.dw-pick a { color: var(--ink); }
+
+/* ── 修板台 + 新手课 ─────────────────────────────────── */
+.services-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+  margin-bottom: 56px;
+}
+.panel { border: var(--bd); box-shadow: var(--sh-md); }
+.panel-cream { background: var(--paper); }
+.panel-lemon { background: var(--lemon); }
+.panel h3 {
+  font-family: var(--fh); font-weight: 900; font-size: 20px;
+  padding: 16px 20px;
+  border-bottom: var(--bd);
+  background: var(--ink); color: var(--paper);
+}
+.row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+  padding: 13px 20px;
+  border-bottom: 2px dashed var(--ink);
+}
+.row:last-of-type { border-bottom: none; }
+.row b { font-weight: 800; font-size: 15px; }
+.row .price { font-family: var(--fh); font-weight: 900; font-size: 15px; white-space: nowrap; }
+.panel-note {
+  padding: 13px 20px;
+  border-top: var(--bd);
+  font-size: 13px; font-weight: 700; color: var(--muted);
+}
+.crow { padding: 12px 20px; border-bottom: 2px dashed var(--ink); }
+.crow:last-of-type { border-bottom: none; }
+.crow dt {
+  display: inline-block;
+  font-family: var(--fh); font-weight: 800; font-size: 13px;
+  background: var(--paper); border: 2px solid var(--ink);
+  padding: 2px 8px; margin-right: 8px;
+}
+.crow dd { display: inline; font-size: 14.5px; font-weight: 600; }
+.course-cta { padding: 0 20px 20px; }
+
+/* ── 来店(深蓝黑暗带) ────────────────────────────────── */
+.visit { background: var(--abyss); color: var(--paper); }
+.visit-inner { padding: 64px 24px 72px; max-width: 1160px; margin: 0 auto; }
+.visit .sticker-title { transform: rotate(1deg); }
+.visit-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+}
+.visit-block { border: 3px solid var(--lemon); padding: 22px; }
+.visit-block h3 {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--fh); font-weight: 800; font-size: 17px;
+  margin-bottom: 12px;
+}
+.icon-chip {
+  width: 38px; height: 38px; flex: none;
+  background: var(--lemon); border: var(--bd);
+  display: grid; place-items: center;
+}
+.visit-block p { font-size: 14.5px; font-weight: 500; color: var(--paper); }
+.visit-block a { color: var(--lemon); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── 页尾 ────────────────────────────────────────────── */
+footer {
+  background: var(--lemon);
+  border-top: var(--bd);
+  padding: 30px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  font-weight: 800; font-size: 14px;
+}
+footer a {
+  font-family: var(--fh); font-weight: 800; font-size: 13.5px;
+  color: var(--lemon); text-decoration: none;
+  background: var(--ink); border: var(--bd);
+  padding: 9px 16px;
+  box-shadow: var(--sh-sm);
+}
+footer a:hover { background: var(--paper); color: var(--ink); }
+
+/* ── 响应式 ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .deck-grid { grid-template-columns: repeat(2, 1fr); }
+  .deck-body p { min-height: 0; }
+}
+@media (max-width: 768px) {
+  nav { display: none; }
+  .hero { grid-template-columns: 1fr; gap: 44px; padding: 52px 0 48px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .visit-grid { grid-template-columns: 1fr; }
+  section { padding: 48px 0 8px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 18px; }
+  .deck-grid { grid-template-columns: 1fr; }
+  .deck-figure { max-width: 340px; margin: 0 auto; }
+  .price-sticker { right: -6px; }
+  .strip { font-size: 13px; }
+  .cta-row .btn { flex: 1 1 auto; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-figure { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round">
+          <path d="M2.5 9 Q6 5.5 9.5 8 Q12 9.5 14.5 8 Q18 5.5 21.5 9"/>
+          <path d="M6.5 10.5v2.6 M17.5 10.5v2.6"/>
+          <circle cx="6.5" cy="15.6" r="1.7" fill="#000"/>
+          <circle cx="17.5" cy="15.6" r="1.7" fill="#000"/>
+        </svg>
+      </span>
+      砂纸商店
+    </a>
+    <nav aria-label="主导航">
+      <a href="#decks">新板</a>
+      <a href="#width">选宽度</a>
+      <a href="#course">新手课</a>
+      <a href="#visit">来店</a>
+    </nav>
+    <a class="btn btn-lemon" href="#decks">本周新板</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero container">
+    <div>
+      <span class="chip">独立滑板店, 大学路 41 号 3 楼, 开到第九年</span>
+      <h1>板会<span class="mk mk-lemon">断</span>，<br>街<span class="mk mk-tomato">不会</span></h1>
+      <p class="sub">砂纸商店开在菜场楼上，卖板面、轴承、砂纸和护具，修板台工时明码标价，周六下午有新手课。挑一块顺手的，楼下街口就是练习场。</p>
+      <div class="cta-row">
+        <a class="btn btn-lemon" href="#decks">看本周新板</a>
+        <a class="btn btn-cobalt" href="#course">新手课详情</a>
+      </div>
+    </div>
+
+    <figure class="deck-figure">
+      <svg class="deck-svg" viewBox="0 0 340 190" role="img" aria-label="红色板面的滑板侧视图，装蓝色轮子">
+        <defs>
+          <g id="skateboard">
+            <path d="M26 38 Q52 16 82 42 Q170 64 258 42 Q288 16 314 38"
+                  fill="none" stroke="#000" stroke-width="22" stroke-linecap="round"/>
+            <path d="M26 38 Q52 16 82 42 Q170 64 258 42 Q288 16 314 38"
+                  fill="none" stroke="var(--deck,#FF5252)" stroke-width="13" stroke-linecap="round"/>
+            <path d="M100 50 V86 M240 50 V86" stroke="#000" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="100" cy="104" r="19" fill="var(--wheel,#2196F3)" stroke="#000" stroke-width="5"/>
+            <circle cx="240" cy="104" r="19" fill="var(--wheel,#2196F3)" stroke="#000" stroke-width="5"/>
+            <circle cx="100" cy="104" r="6" fill="var(--hub,#FFEB3B)" stroke="#000" stroke-width="3.5"/>
+            <circle cx="240" cy="104" r="6" fill="var(--hub,#FFEB3B)" stroke="#000" stroke-width="3.5"/>
+          </g>
+        </defs>
+        <use href="#skateboard" transform="translate(16,16)" style="--deck:#000;--wheel:#000;--hub:#000;" aria-hidden="true"/>
+        <use href="#skateboard"/>
+      </svg>
+      <figcaption class="price-sticker">
+        <b>¥399 起</b>
+        <span>砂纸已贴好, 拿走就滑</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <div class="strip" aria-hidden="true">
+    <div class="strip-inner">
+      <span>本周新板已上架</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>换砂纸工费 30 元</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>周六新手课余 3 席</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>断板回收抵 50 元</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>本周新板已上架</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>换砂纸工费 30 元</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>周六新手课余 3 席</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+      <span>断板回收抵 50 元</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="#FFEB3B"><path d="M6 0l1.6 4.4L12 6 7.6 7.6 6 12 4.4 7.6 0 6l4.4-1.6z"/></svg>
+    </div>
+  </div>
+
+  <section id="decks" class="container">
+    <h2 class="sticker-title t-lemon">本周新板</h2>
+    <p class="lead">四块都是店里主推，图案由老宋自己丝网印，每款只印二十块。断板拿来换新板，抵 50 元。</p>
+    <div class="deck-grid">
+      <article class="deck-card">
+        <div class="deck-head h-lemon">
+          <h3>水泥朋友</h3>
+          <span class="deck-size">8.0&#8243;</span>
+        </div>
+        <div class="deck-body">
+          <p>平地和台阶口的第一块板。翻板轻、弹得快，鞋码 40 以下优先考虑，落点容错小。</p>
+          <div class="deck-price"><b>¥399</b><span>7 层枫木 / 冷压成型 / 含砂纸</span></div>
+        </div>
+      </article>
+      <article class="deck-card">
+        <div class="deck-head h-tomato">
+          <h3>砂纸城市</h3>
+          <span class="deck-size">8.25&#8243;</span>
+        </div>
+        <div class="deck-body">
+          <p>全能宽度，街式碗池都能去。第一次买板不知道选什么就选它，后悔率最低。</p>
+          <div class="deck-price"><b>¥429</b><span>7 层枫木 / 双向脚窝 / 含砂纸</span></div>
+        </div>
+      </article>
+      <article class="deck-card">
+        <div class="deck-head h-cobalt">
+          <h3>豚跳练习生</h3>
+          <span class="deck-size">8.38&#8243;</span>
+        </div>
+        <div class="deck-body">
+          <p>落差板。常滑大台阶和杆子的人选它，落地面积大，心理负担小，胆子会变大。</p>
+          <div class="deck-price"><b>¥449</b><span>8 层枫木 / 加硬 / 含砂纸</span></div>
+        </div>
+      </article>
+      <article class="deck-card">
+        <div class="deck-head h-abyss">
+          <h3>碗池常客</h3>
+          <span class="deck-size">8.5&#8243;</span>
+        </div>
+        <div class="deck-body">
+          <p>高速过弯不飘，泵道和碗池优先。缺点是重，翻板招式费鞋，练招请绕行。</p>
+          <div class="deck-price"><b>¥469</b><span>8 层枫木 / 宽脚窝 / 含砂纸</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="width" class="container">
+    <h2 class="sticker-title t-cobalt">先选宽度，再挑图案</h2>
+    <p class="lead">宽度决定玩法，图案只决定心情。鞋码除以 2.5 再加 0.3 英寸，和下面的档位对一对，点选试试。</p>
+    <div class="sizer">
+      <input type="radio" name="deck-width" id="dw-80" class="dw-input" checked>
+      <label for="dw-80" class="dw-label">8.0</label>
+      <input type="radio" name="deck-width" id="dw-825" class="dw-input">
+      <label for="dw-825" class="dw-label">8.25</label>
+      <input type="radio" name="deck-width" id="dw-838" class="dw-input">
+      <label for="dw-838" class="dw-label">8.38</label>
+      <input type="radio" name="deck-width" id="dw-85" class="dw-input">
+      <label for="dw-85" class="dw-label">8.5</label>
+
+      <div class="dw-results">
+        <div class="dw-res" id="res-80">
+          <span class="dw-tag tag-lemon">街式</span>
+          <p>翻板轻、弹得快，做招省力。速度慢一点，落差大的台子会发飘，适合平地和技术路线。</p>
+          <div class="dw-bar"><span style="width:33%;background:var(--lemon);border-right:var(--bd);"></span></div>
+          <div class="dw-ends"><span>窄</span><span>宽</span></div>
+          <p class="dw-pick">对应上架：<a href="#decks">水泥朋友 8.0, ¥399</a></p>
+        </div>
+        <div class="dw-res" id="res-825">
+          <span class="dw-tag tag-tomato">全能</span>
+          <p>街式碗池都能来，稳和灵的中间点。第一次买板、或者只想买一块板的人，选它不会错。</p>
+          <div class="dw-bar"><span style="width:50%;background:var(--tomato);border-right:var(--bd);"></span></div>
+          <div class="dw-ends"><span>窄</span><span>宽</span></div>
+          <p class="dw-pick">对应上架：<a href="#decks">砂纸城市 8.25, ¥429</a></p>
+        </div>
+        <div class="dw-res" id="res-838">
+          <span class="dw-tag tag-cobalt">落差</span>
+          <p>台阶、大杆子、粗砺路面优先。落地面积大，脚不容易出界，练新招的摔跤率会低一些。</p>
+          <div class="dw-bar"><span style="width:62%;background:var(--cobalt);border-right:var(--bd);"></span></div>
+          <div class="dw-ends"><span>窄</span><span>宽</span></div>
+          <p class="dw-pick">对应上架：<a href="#decks">豚跳练习生 8.38, ¥449</a></p>
+        </div>
+        <div class="dw-res" id="res-85">
+          <span class="dw-tag tag-abyss">碗池</span>
+          <p>泵道、碗池、高速弯道贴得住，落池壁不抖。代价是重，翻板招式明显费鞋。</p>
+          <div class="dw-bar"><span style="width:78%;background:var(--abyss);border-right:var(--bd);"></span></div>
+          <div class="dw-ends"><span>窄</span><span>宽</span></div>
+          <p class="dw-pick">对应上架：<a href="#decks">碗池常客 8.5, ¥469</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="course" class="container">
+    <h2 class="sticker-title t-tomato">修板台，以及新手课</h2>
+    <p class="lead">配件按成本价卖，工时明码标价，当场取。新手课在室内木板地上，摔了也不疼。</p>
+    <div class="services-grid">
+      <div class="panel panel-cream">
+        <h3>修板台 工时价目</h3>
+        <div class="row"><b>换砂纸（含裁贴）</b><span class="price">¥30</span></div>
+        <div class="row"><b>换轴承（自购件）</b><span class="price">工费 0 元</span></div>
+        <div class="row"><b>换桥钉一副</b><span class="price">¥10</span></div>
+        <div class="row"><b>板面边缘打磨</b><span class="price">免费</span></div>
+        <div class="row"><b>断板回收换购</b><span class="price">抵 ¥50</span></div>
+        <p class="panel-note">工时当场结，不用等；修不好的板当面告诉你，不收拆装费。</p>
+      </div>
+      <div class="panel panel-lemon">
+        <h3>周六新手课</h3>
+        <dl>
+          <div class="crow"><dt>时间</dt><dd>每周六 15:00 至 16:30，90 分钟</dd></div>
+          <div class="crow"><dt>规模</dt><dd>满 4 人开课，每场最多 8 人</dd></div>
+          <div class="crow"><dt>费用</dt><dd>¥120 一人，含护具和练习板</dd></div>
+          <div class="crow"><dt>教练</dt><dd>老宋，滑龄 11 年，主教上板、推板、转弯和豚跳分解</dd></div>
+          <div class="crow"><dt>雨天</dt><dd>顺延一周，或改到室内木板地照常上</dd></div>
+        </dl>
+        <p class="course-cta"><a class="btn btn-cobalt" href="tel:053266774180">打电话问课程</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="visit">
+    <div class="visit-inner">
+      <h2 class="sticker-title t-lemon">来店</h2>
+      <div class="visit-grid">
+        <div class="visit-block">
+          <h3>
+            <span class="icon-chip" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4.4-3.6-7-6.9-7-10.2a7 7 0 0 1 14 0C19 14.1 16.4 17.4 12 21Z"/><circle cx="12" cy="10.5" r="2.6"/></svg>
+            </span>
+            地址
+          </h3>
+          <p>大学路 41 号 3 楼，菜市场楼上。货梯在楼东侧，滑板可以直接推进电梯，别走菜摊那侧。</p>
+        </div>
+        <div class="visit-block">
+          <h3>
+            <span class="icon-chip" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+            </span>
+            时间
+          </h3>
+          <p>周一至周五 12:00 到 21:00 / 周六日 10:00 到 22:00。节假日看门口黑板，老宋写的算数。</p>
+        </div>
+        <div class="visit-block">
+          <h3>
+            <span class="icon-chip" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l1.7 4-2.1 1.6a13 13 0 0 0 5.8 5.8L16 13.3 20 15v4a1.8 1.8 0 0 1-2 1.8C10.4 20 4 13.6 3.2 6A1.8 1.8 0 0 1 5 4Z"/></svg>
+            </span>
+            找我们
+          </h3>
+          <p>电话 <a href="tel:053266774180">0532-6677-4180</a> / 微信 griptape-41。消息都在开店时间内回，急事直接打电话。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>UI 设计提示词库 / Neubrutalism 新粗野</p>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+</body>
+</html>

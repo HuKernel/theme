@@ -2740,6 +2740,9 @@ def main():
             'Brutalism': 'brutalism.html', 'Flat Design': 'flat-crm.html',
             'Aurora UI': 'aurora.html', 'Neumorphism': 'neumorphism.html',
             'Bento Box Grid': 'bento.html', 'Memphis Design': 'memphis.html',
+            'Glassmorphism': 'glassmorphism.html', 'Neubrutalism': 'neubrutalism.html',
+            'Spatial UI (VisionOS)': 'spatial-ui-visionos.html', 'Dark Mode (OLED)': 'dark-mode-oled.html',
+            'Vaporwave': 'vaporwave.html', 'Pixel Art': 'pixel-art.html', 'Fluent 2': 'fluent-2.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

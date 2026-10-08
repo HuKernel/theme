@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Pixel Art 像素 / UI 设计提示词库</title>
+<meta name="description" content="Pixel Art 像素风格演示页:独立像素游戏《雾岬灯塔》官网,CRT 场景、RPG 对话框与受限调色板。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+/* token 计划:受限调色板 6 色(#0B0E23 夜空 / #151B3B 海面面板 / #F8FAFC 纸白 / #2563EB 蓝 / #6b25eb 紫 / #ebad25 金),
+   像素单位 4px,步进 8px;标题 Noto Sans SC 900 + 宽字距模拟像素感,数字/版本 VT323 与 Press Start 2P;
+   布局:CRT 标题屏 hero + RPG 道具栏/卡片/终端三段式;独特性原则:全站只用这 6 色,硬边框硬投影,切换零过渡(8-bit 瞬时 UI)。 */
+:root {
+  --night: #0B0E23;
+  --panel: #151B3B;
+  --paper: #F8FAFC;
+  --blue: #2563EB;
+  --purple: #6b25eb;
+  --gold: #ebad25;
+  --soft: rgba(248, 250, 252, 0.75);
+  --u: 4px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { color-scheme: dark; scroll-padding-top: 24px; }
+
+body {
+  font-family: 'VT323', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--night);
+  color: var(--paper);
+  font-size: 16.5px;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--gold); color: var(--night); }
+
+a:focus-visible, button:focus-visible {
+  outline: var(--u) solid var(--gold);
+  outline-offset: var(--u);
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+.px { image-rendering: pixelated; display: block; }
+
+h1, h2, h3 { font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+
+/* ---------- 顶栏 ---------- */
+.topbar { padding: 24px 0 8px; }
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: var(--panel);
+  border: var(--u) solid var(--paper);
+  box-shadow: 6px 6px 0 var(--gold);
+  padding: 12px 18px;
+}
+.logo {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 900; font-size: 17px; letter-spacing: 0.14em;
+  color: var(--paper); text-decoration: none;
+}
+nav { display: flex; gap: 4px; flex-wrap: wrap; }
+nav a {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700; font-size: 14px; letter-spacing: 0.1em;
+  color: var(--paper); text-decoration: none;
+  padding: 7px 12px;
+}
+nav a:hover, nav a:focus-visible {
+  background: var(--gold); color: var(--night);
+}
+
+/* ---------- 按钮:无过渡,按压位移即反馈 ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700; font-size: 15px; letter-spacing: 0.12em;
+  padding: 13px 22px;
+  border: var(--u) solid var(--paper);
+  cursor: pointer; text-decoration: none;
+}
+.btn-gold { background: var(--gold); color: var(--night); box-shadow: 6px 6px 0 var(--purple); }
+.btn-ghost { background: transparent; color: var(--paper); box-shadow: 6px 6px 0 var(--blue); }
+.btn-gold:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--purple); }
+.btn-ghost:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--blue); }
+.btn:active { transform: translate(5px, 5px); box-shadow: none; }
+.btn-sm { padding: 9px 14px; font-size: 13.5px; box-shadow: 4px 4px 0 var(--blue); }
+.btn-sm:active { transform: translate(4px, 4px); box-shadow: none; }
+
+/* ---------- Hero:CRT 标题屏(全页唯一亮相动效:像素逐列显现) ---------- */
+.hero { padding: 44px 0 8px; }
+.crt {
+  position: relative;
+  max-width: 880px; margin: 0 auto;
+  border: var(--u) solid var(--paper);
+  box-shadow: 10px 10px 0 var(--blue);
+  animation: pixel-in 900ms steps(18, end) both;
+}
+.crt-lines {
+  position: absolute; inset: 0; z-index: 2;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.22) 3px 4px);
+  pointer-events: none;
+}
+.crt-title {
+  position: absolute; z-index: 3;
+  top: clamp(14px, 7%, 52px); left: 0; right: 0;
+  text-align: center;
+}
+.crt-title h1 {
+  font-size: clamp(21px, 4.6vw, 38px);
+  font-weight: 900; letter-spacing: 0.3em; text-indent: 0.3em;
+  color: var(--paper);
+  text-shadow: 3px 3px 0 var(--night);
+}
+.crt-title p {
+  margin-top: 10px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700; font-size: clamp(12px, 2vw, 14.5px);
+  letter-spacing: 0.22em; text-indent: 0.22em;
+  color: var(--gold);
+  text-shadow: 2px 2px 0 var(--night);
+}
+/* RPG 对话框 */
+.dialogue {
+  position: absolute; z-index: 3;
+  left: 14px; right: 14px; bottom: 14px;
+  background: var(--night);
+  border: var(--u) solid var(--paper);
+  padding: 12px 16px 14px;
+}
+.dialogue .speaker {
+  display: block;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 900; font-size: 13px; letter-spacing: 0.2em;
+  color: var(--gold); margin-bottom: 4px;
+}
+.dialogue .line {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 500; font-size: clamp(13px, 1.9vw, 15.5px);
+  letter-spacing: 0.06em; line-height: 1.8;
+  color: var(--paper);
+}
+.caret {
+  display: inline-block; vertical-align: -2px;
+  width: 0.55em; height: 1em; margin-left: 4px;
+  background: var(--gold);
+  animation: blink 1.1s steps(1, end) infinite;
+}
+/* 平台与发售信息(像素方块分隔) */
+.meta {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 10px 16px;
+  margin: 26px 0 24px;
+}
+.meta span {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700; font-size: 14px; letter-spacing: 0.08em;
+}
+.meta .sep { width: 6px; height: 6px; background: var(--gold); }
+.cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+
+/* ---------- 区块标题 ---------- */
+.section-title {
+  display: flex; align-items: center;
+  font-size: clamp(22px, 3.4vw, 30px);
+  font-weight: 900; letter-spacing: 0.28em;
+  margin: 68px 0 30px;
+}
+.section-title::before {
+  content: '';
+  width: 12px; height: 12px; flex: none;
+  background: var(--gold);
+  box-shadow: 16px 0 0 0 var(--blue);
+  margin-right: 34px;
+}
+
+/* ---------- 故事 + 道具栏 ---------- */
+.story-grid {
+  display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: start;
+}
+.story-text p { margin-bottom: 1.2em; color: var(--soft); }
+.story-text p strong { color: var(--paper); font-weight: 700; }
+.inv {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+.slot {
+  background: var(--panel);
+  border: var(--u) solid var(--paper);
+  box-shadow: 4px 4px 0 var(--purple);
+  padding: 16px 14px 14px;
+}
+.slot:nth-child(odd) { box-shadow: 4px 4px 0 var(--blue); }
+.slot .sprite { margin-bottom: 10px; }
+.slot h3 { font-size: 15px; font-weight: 900; letter-spacing: 0.16em; margin-bottom: 4px; }
+.slot p { font-size: 12.5px; line-height: 1.7; color: var(--soft); }
+
+/* ---------- 特色卡(RPG 物品格) ---------- */
+.grid-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.card {
+  background: var(--panel);
+  border: var(--u) solid var(--paper);
+  box-shadow: 8px 8px 0 var(--blue);
+  padding: 24px 22px;
+}
+.card:nth-child(2) { box-shadow: 8px 8px 0 var(--purple); }
+.card:nth-child(3) { box-shadow: 8px 8px 0 var(--gold); }
+.card:nth-child(4) { box-shadow: 8px 8px 0 var(--purple); }
+.card:hover { transform: translate(-4px, -4px); }
+.card:nth-child(1):hover { box-shadow: 12px 12px 0 var(--blue); }
+.card:nth-child(2):hover { box-shadow: 12px 12px 0 var(--purple); }
+.card:nth-child(3):hover { box-shadow: 12px 12px 0 var(--gold); }
+.card:nth-child(4):hover { box-shadow: 12px 12px 0 var(--purple); }
+.card-icon {
+  width: 56px; height: 56px;
+  background: var(--night);
+  border: var(--u) solid var(--paper);
+  display: grid; place-items: center;
+  margin-bottom: 16px;
+}
+.card h3 { font-size: 17px; font-weight: 900; letter-spacing: 0.18em; margin-bottom: 8px; }
+.card p { font-family: 'Noto Sans SC', sans-serif; font-size: 14px; line-height: 1.9; color: var(--soft); }
+
+/* ---------- 画廊 ---------- */
+.grid-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.shot { border: var(--u) solid var(--paper); box-shadow: 8px 8px 0 var(--blue); }
+.shot:nth-child(2) { box-shadow: 8px 8px 0 var(--gold); }
+.shot:nth-child(3) { box-shadow: 8px 8px 0 var(--purple); }
+.shot figcaption { margin-top: 12px; }
+.shot b {
+  display: block;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 900; font-size: 14.5px; letter-spacing: 0.18em;
+}
+.shot span {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 12.5px; line-height: 1.7; color: var(--soft);
+}
+
+/* ---------- 开发日志:终端 + 进度条 ---------- */
+.devlog-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; align-items: start; }
+.term { position: relative; background: var(--night); border: var(--u) solid var(--paper); box-shadow: 8px 8px 0 var(--blue); }
+.term-bar {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--panel);
+  border-bottom: var(--u) solid var(--paper);
+  padding: 10px 14px;
+}
+.term-bar i { width: 8px; height: 8px; }
+.term-bar i:nth-child(1) { background: var(--gold); }
+.term-bar i:nth-child(2) { background: var(--blue); }
+.term-bar i:nth-child(3) { background: var(--purple); }
+.term-bar span {
+  margin-left: auto;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700; font-size: 12.5px; letter-spacing: 0.16em;
+  color: var(--soft);
+}
+.term-body { position: relative; padding: 16px; }
+.term-body::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.18) 3px 4px);
+}
+.log-row {
+  display: grid; grid-template-columns: 96px 74px 1fr; gap: 12px;
+  align-items: baseline; padding: 8px 0;
+  border-bottom: 2px solid var(--panel);
+}
+.log-row:last-child { border-bottom: none; }
+.log-date { font-size: 21px; color: var(--gold); letter-spacing: 0.05em; }
+.log-ver { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--paper); padding-top: 4px; }
+.log-txt {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13.5px; line-height: 1.7; color: var(--soft);
+}
+.progress {
+  background: var(--panel);
+  border: var(--u) solid var(--paper);
+  box-shadow: 8px 8px 0 var(--purple);
+  padding: 22px 20px;
+}
+.progress .row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.progress label {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 900; font-size: 15px; letter-spacing: 0.2em;
+}
+.progress output { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--gold); }
+.hp {
+  height: 24px;
+  border: var(--u) solid var(--paper);
+  background: var(--night);
+  padding: var(--u);
+}
+.hp i {
+  display: block; height: 100%; width: 82%;
+  background: repeating-linear-gradient(90deg, var(--blue) 0 18px, var(--night) 18px 22px);
+}
+.progress p {
+  margin-top: 14px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 13px; line-height: 1.8; color: var(--soft);
+}
+
+/* ---------- 愿望单横幅 ---------- */
+.band {
+  margin-top: 76px;
+  background: var(--panel);
+  border: var(--u) solid var(--paper);
+  box-shadow: 10px 10px 0 var(--gold);
+  padding: 46px 32px;
+  text-align: center;
+}
+.band h2 {
+  font-size: clamp(20px, 3vw, 27px);
+  font-weight: 900; letter-spacing: 0.22em;
+  margin-bottom: 12px;
+}
+.band > .container-inner p {
+  max-width: 560px; margin: 0 auto 26px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14.5px; color: var(--soft);
+}
+.band .cta-row { gap: 16px; }
+
+/* ---------- 页尾 ---------- */
+footer {
+  text-align: center;
+  padding: 44px 0 52px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 700; font-size: 13.5px; letter-spacing: 0.1em;
+  color: var(--soft);
+}
+footer a {
+  color: var(--gold); text-decoration: underline;
+  text-underline-offset: 4px; text-decoration-thickness: 2px;
+  margin-left: 12px;
+}
+footer a:hover { background: var(--gold); color: var(--night); text-decoration: none; }
+
+/* ---------- 亮相动效:像素逐列显现 + 光标闪烁 ---------- */
+@keyframes pixel-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+@media (max-width: 960px) {
+  .story-grid, .devlog-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .topbar-inner { flex-wrap: wrap; justify-content: center; }
+  nav { justify-content: center; }
+  .grid-gallery { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+}
+@media (max-width: 560px) {
+  .container { padding: 0 18px; }
+  nav { display: none; }
+  .grid-features { grid-template-columns: 1fr; }
+  .inv { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .slot { padding: 12px 10px; }
+  .cta-row { flex-direction: column; align-items: stretch; }
+  .cta-row .btn { justify-content: center; }
+  .dialogue { left: 8px; right: 8px; bottom: 8px; padding: 10px 12px 12px; }
+  .crt { box-shadow: 6px 6px 0 var(--blue); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <a class="logo" href="#">
+        <svg class="px" width="26" height="26" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="0" width="6" height="2" fill="#F8FAFC"/>
+          <rect x="4" y="2" width="4" height="3" fill="#ebad25"/>
+          <rect x="2" y="5" width="8" height="2" fill="#F8FAFC"/>
+          <rect x="4" y="7" width="4" height="3" fill="#F8FAFC"/>
+          <rect x="4" y="8" width="4" height="1" fill="#151B3B"/>
+          <rect x="3" y="10" width="6" height="2" fill="#F8FAFC"/>
+        </svg>
+        雾岬灯塔
+      </a>
+      <nav aria-label="主导航">
+        <a href="#story">故事</a>
+        <a href="#features">特色</a>
+        <a href="#gallery">画廊</a>
+        <a href="#devlog">开发日志</a>
+      </nav>
+      <a class="btn btn-gold btn-sm" href="#wishlist">
+        <svg class="px" width="14" height="14" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+          <g fill="#0B0E23">
+            <rect x="2" y="1" width="2" height="2"/><rect x="6" y="1" width="2" height="2"/>
+            <rect x="1" y="2" width="8" height="2"/><rect x="1" y="4" width="8" height="1"/>
+            <rect x="2" y="5" width="6" height="1"/><rect x="3" y="6" width="4" height="1"/>
+            <rect x="4" y="7" width="2" height="1"/>
+          </g>
+        </svg>
+        加入愿望单
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero:CRT 标题屏 -->
+  <section class="hero container">
+    <div class="crt">
+      <svg class="px" viewBox="0 0 160 90" shape-rendering="crispEdges" role="img" aria-label="像素夜景:起雾的海面上,一座灯塔亮着,远处有渔船和月亮">
+        <rect width="160" height="90" fill="#0B0E23"/>
+        <g fill="#F8FAFC">
+          <rect x="14" y="10" width="2" height="2"/><rect x="40" y="6" width="2" height="2"/>
+          <rect x="62" y="18" width="2" height="2"/><rect x="88" y="8" width="2" height="2"/>
+          <rect x="104" y="26" width="2" height="2"/><rect x="114" y="14" width="2" height="2"/>
+          <rect x="26" y="30" width="2" height="2"/><rect x="54" y="10" width="2" height="2"/>
+          <rect x="134" y="30" width="2" height="2"/><rect x="72" y="34" width="2" height="2"/>
+          <rect x="150" y="20" width="2" height="2"/><rect x="30" y="14" width="4" height="2"/>
+        </g>
+        <g fill="#ebad25">
+          <rect x="126" y="10" width="8" height="2"/><rect x="124" y="12" width="12" height="2"/>
+          <rect x="124" y="14" width="12" height="2"/><rect x="126" y="16" width="8" height="2"/>
+          <rect x="148" y="8" width="2" height="2"/>
+        </g>
+        <g fill="#6b25eb">
+          <rect x="0" y="56" width="28" height="6"/><rect x="44" y="58" width="18" height="4"/>
+          <rect x="96" y="52" width="34" height="10"/><rect x="118" y="48" width="18" height="4"/>
+        </g>
+        <rect y="62" width="160" height="28" fill="#151B3B"/>
+        <g fill="#2563EB">
+          <rect x="6" y="66" width="10" height="2"/><rect x="30" y="66" width="8" height="2"/>
+          <rect x="112" y="66" width="8" height="2"/><rect x="140" y="66" width="10" height="2"/>
+          <rect x="14" y="72" width="8" height="2"/><rect x="38" y="72" width="10" height="2"/>
+          <rect x="118" y="72" width="10" height="2"/><rect x="144" y="72" width="8" height="2"/>
+          <rect x="8" y="78" width="8" height="2"/><rect x="28" y="78" width="10" height="2"/>
+          <rect x="120" y="78" width="10" height="2"/><rect x="146" y="78" width="8" height="2"/>
+          <rect x="18" y="84" width="10" height="2"/><rect x="42" y="84" width="8" height="2"/>
+          <rect x="126" y="84" width="8" height="2"/>
+        </g>
+        <g fill="#ebad25" fill-opacity="0.45">
+          <rect x="122" y="66" width="10" height="2"/><rect x="126" y="72" width="8" height="2"/>
+          <rect x="124" y="78" width="10" height="2"/>
+        </g>
+        <g fill="#6b25eb">
+          <rect x="64" y="54" width="32" height="4"/><rect x="58" y="58" width="44" height="4"/>
+          <rect x="54" y="62" width="52" height="2"/>
+        </g>
+        <g fill="#F8FAFC">
+          <rect x="73" y="9" width="14" height="3"/>
+          <rect x="72" y="18" width="16" height="3"/>
+          <rect x="76" y="21" width="8" height="37"/>
+          <rect x="72" y="58" width="16" height="3"/>
+          <rect x="48" y="62" width="6" height="2"/><rect x="106" y="62" width="6" height="2"/>
+        </g>
+        <g fill="#151B3B">
+          <rect x="76" y="25" width="8" height="4"/><rect x="76" y="33" width="8" height="4"/>
+          <rect x="76" y="41" width="8" height="4"/><rect x="76" y="49" width="8" height="4"/>
+        </g>
+        <g fill="#ebad25">
+          <rect x="76" y="12" width="8" height="6"/>
+          <rect x="78" y="53" width="4" height="5"/>
+        </g>
+        <g fill="#ebad25" fill-opacity="0.5">
+          <rect x="92" y="17" width="2" height="2"/><rect x="100" y="20" width="2" height="2"/>
+          <rect x="108" y="23" width="2" height="2"/><rect x="116" y="26" width="2" height="2"/>
+          <rect x="124" y="29" width="2" height="2"/><rect x="132" y="32" width="2" height="2"/>
+          <rect x="140" y="35" width="2" height="2"/><rect x="148" y="38" width="2" height="2"/>
+        </g>
+        <g fill="#F8FAFC">
+          <rect x="24" y="70" width="10" height="2"/><rect x="28" y="64" width="2" height="6"/>
+        </g>
+        <rect x="30" y="66" width="6" height="4" fill="#ebad25"/>
+      </svg>
+      <div class="crt-title">
+        <h1>雾岬灯塔</h1>
+        <p>一盏灯,一个人,一只猫,和一整个起雾的海</p>
+      </div>
+      <div class="dialogue">
+        <span class="speaker">守塔人</span>
+        <span class="line">雾又起来了。风从北边来,青屿村的船还没回港。今晚,这盏灯不能灭。<span class="caret" aria-hidden="true"></span></span>
+      </div>
+      <div class="crt-lines" aria-hidden="true"></div>
+    </div>
+
+    <div class="meta">
+      <span>像素冒险解谜</span><i class="sep" aria-hidden="true"></i>
+      <span>单人游玩</span><i class="sep" aria-hidden="true"></i>
+      <span>Steam 与 Nintendo Switch</span><i class="sep" aria-hidden="true"></i>
+      <span>2027 年春季发售</span>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-gold" href="#wishlist">
+        <svg class="px" width="15" height="15" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+          <g fill="#0B0E23">
+            <rect x="2" y="1" width="2" height="2"/><rect x="6" y="1" width="2" height="2"/>
+            <rect x="1" y="2" width="8" height="2"/><rect x="1" y="4" width="8" height="1"/>
+            <rect x="2" y="5" width="6" height="1"/><rect x="3" y="6" width="4" height="1"/>
+            <rect x="4" y="7" width="2" height="1"/>
+          </g>
+        </svg>
+        加入 Steam 愿望单
+      </a>
+      <a class="btn btn-ghost" href="#gallery">
+        <svg class="px" width="15" height="15" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+          <g fill="#F8FAFC">
+            <rect x="2" y="2" width="2" height="6"/><rect x="4" y="3" width="2" height="4"/>
+            <rect x="6" y="4" width="2" height="2"/>
+          </g>
+        </svg>
+        观看预告片
+      </a>
+    </div>
+  </section>
+
+  <!-- 故事 -->
+  <section id="story" class="container">
+    <h2 class="section-title">故事</h2>
+    <div class="story-grid">
+      <div class="story-text">
+        <p>守塔人接下了没人要的夜班。雾从海沟里升起来,青屿村的灯一盏一盏被吹灭,<strong>船在雾外,看不见岸。</strong></p>
+        <p>你不打怪,不升级,也不拯救世界。你只是守着一座塔:给灯芯剪芯,给镜片除盐,在潮汐表上核对明早的水路。</p>
+        <p>手边有一只不肯走的猫,一本前任守塔人的手记,和一张画错了半格的旧海图。雾里传来的汽笛,有时是船,有时不是。</p>
+      </div>
+      <div class="inv" aria-label="随身道具">
+        <div class="slot">
+          <svg class="px sprite" width="44" height="44" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="5" y="1" width="2" height="2" fill="#ebad25"/>
+            <rect x="4" y="3" width="4" height="4" fill="#ebad25"/>
+            <rect x="3" y="5" width="6" height="3" fill="#ebad25"/>
+            <rect x="5" y="4" width="2" height="2" fill="#F8FAFC"/>
+            <rect x="3" y="9" width="6" height="2" fill="#F8FAFC"/>
+            <rect x="2" y="11" width="8" height="1" fill="#F8FAFC"/>
+          </svg>
+          <h3>灯芯</h3>
+          <p>每晚剪一次。剪短一格,光就稳一格。</p>
+        </div>
+        <div class="slot">
+          <svg class="px sprite" width="44" height="44" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="1" y="2" width="2" height="8" fill="#F8FAFC"/>
+            <rect x="9" y="2" width="2" height="8" fill="#F8FAFC"/>
+            <rect x="3" y="3" width="6" height="6" fill="#151B3B"/>
+            <rect x="4" y="5" width="2" height="1" fill="#ebad25"/>
+            <rect x="6" y="6" width="2" height="1" fill="#ebad25"/>
+            <rect x="7" y="3" width="2" height="2" fill="#6b25eb"/>
+          </svg>
+          <h3>旧海图</h3>
+          <p>东南角画错了半格,但从来没人改。</p>
+        </div>
+        <div class="slot">
+          <svg class="px sprite" width="44" height="44" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="2" y="1" width="8" height="10" fill="#F8FAFC"/>
+            <rect x="2" y="1" width="2" height="10" fill="#151B3B"/>
+            <rect x="2" y="5" width="8" height="2" fill="#ebad25"/>
+            <rect x="5" y="3" width="3" height="1" fill="#0B0E23"/>
+          </svg>
+          <h3>守塔人手记</h3>
+          <p>字越来越潦草,最后一页只写了「听雾」。</p>
+        </div>
+        <div class="slot">
+          <svg class="px sprite" width="44" height="44" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="2" y="1" width="2" height="2" fill="#F8FAFC"/>
+            <rect x="8" y="1" width="2" height="2" fill="#F8FAFC"/>
+            <rect x="2" y="3" width="8" height="6" fill="#F8FAFC"/>
+            <rect x="4" y="5" width="1" height="2" fill="#0B0E23"/>
+            <rect x="7" y="5" width="1" height="2" fill="#0B0E23"/>
+            <rect x="5" y="7" width="2" height="1" fill="#ebad25"/>
+            <rect x="3" y="9" width="6" height="1" fill="#6b25eb"/>
+          </svg>
+          <h3>猫</h3>
+          <p>招它不走。喂它鱼干,它睡在锅炉房。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 特色 -->
+  <section id="features" class="container">
+    <h2 class="section-title">特色</h2>
+    <div class="grid-features">
+      <article class="card">
+        <div class="card-icon">
+          <svg class="px" width="28" height="28" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+            <g fill="#ebad25">
+              <rect x="0" y="0" width="2" height="2"/><rect x="8" y="0" width="2" height="2"/>
+              <rect x="0" y="8" width="2" height="2"/><rect x="8" y="8" width="2" height="2"/>
+            </g>
+            <rect x="3" y="1" width="4" height="1" fill="#F8FAFC"/>
+            <rect x="3" y="2" width="4" height="5" fill="#F8FAFC"/>
+            <rect x="4" y="3" width="2" height="2" fill="#ebad25"/>
+            <rect x="3" y="7" width="4" height="2" fill="#F8FAFC"/>
+          </svg>
+        </div>
+        <h3>光影解谜</h3>
+        <p>移动光源而不是箱子。潮汐涨落会改变哪些路能走:先看海,再动灯。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg class="px" width="28" height="28" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="2" y="3" width="6" height="1" fill="#F8FAFC"/>
+            <rect x="1" y="4" width="1" height="2" fill="#F8FAFC"/>
+            <rect x="8" y="4" width="1" height="2" fill="#F8FAFC"/>
+            <rect x="2" y="6" width="6" height="1" fill="#F8FAFC"/>
+            <rect x="4" y="4" width="2" height="2" fill="#ebad25"/>
+          </svg>
+        </div>
+        <h3>无对白叙事</h3>
+        <p>没有任务栏和对话气泡。剧情藏在灯光明灭的节奏,和手记被涂改的地方。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg class="px" width="28" height="28" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+            <g fill="#F8FAFC">
+              <rect x="1" y="1" width="8" height="1"/><rect x="1" y="8" width="8" height="1"/>
+              <rect x="1" y="2" width="1" height="6"/><rect x="8" y="2" width="1" height="6"/>
+            </g>
+            <rect x="4" y="4" width="2" height="2" fill="#ebad25"/>
+            <rect x="2" y="2" width="1" height="1" fill="#6b25eb"/>
+            <rect x="7" y="7" width="1" height="1" fill="#6b25eb"/>
+          </svg>
+        </div>
+        <h3>手作像素帧</h3>
+        <p>320 张场景逐格手绘,没有一张拉伸缩放。雾是三层抖动网点,一格一格点出来的。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg class="px" width="28" height="28" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="5" y="1" width="2" height="6" fill="#F8FAFC"/>
+            <rect x="2" y="6" width="5" height="3" fill="#ebad25"/>
+            <rect x="7" y="1" width="2" height="2" fill="#F8FAFC"/>
+          </svg>
+        </div>
+        <h3>8-bit 原声</h3>
+        <p>三个声道的脉冲配乐:白天是海浪白噪,入夜只剩旋律。可单独当电台听。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 画廊 -->
+  <section id="gallery" class="container">
+    <h2 class="section-title">画廊</h2>
+    <div class="grid-gallery">
+      <figure class="shot">
+        <svg class="px" viewBox="0 0 120 68" shape-rendering="crispEdges" role="img" aria-label="游戏画面:灯室内部,巨大的金色镜片组">
+          <rect width="120" height="68" fill="#151B3B"/>
+          <rect y="54" width="120" height="14" fill="#0B0E23"/>
+          <rect x="38" y="14" width="4" height="32" fill="#F8FAFC"/>
+          <rect x="78" y="14" width="4" height="32" fill="#F8FAFC"/>
+          <g fill="#ebad25">
+            <rect x="48" y="18" width="24" height="2"/><rect x="44" y="20" width="32" height="4"/>
+            <rect x="42" y="24" width="36" height="12"/><rect x="44" y="36" width="32" height="4"/>
+            <rect x="48" y="40" width="24" height="2"/>
+          </g>
+          <rect x="54" y="26" width="12" height="8" fill="#F8FAFC"/>
+          <g fill="#F8FAFC">
+            <rect x="96" y="24" width="12" height="12"/><rect x="99" y="18" width="6" height="4"/>
+            <rect x="99" y="38" width="6" height="4"/><rect x="16" y="44" width="16" height="4"/>
+            <rect x="18" y="48" width="4" height="6"/><rect x="28" y="48" width="4" height="6"/>
+          </g>
+          <rect x="99" y="28" width="4" height="4" fill="#0B0E23"/>
+          <rect x="18" y="40" width="12" height="4" fill="#ebad25"/>
+        </svg>
+        <figcaption>
+          <b>灯室</b>
+          <span>镜片组可以拆下来当手电,但塔会暗一整夜。</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <svg class="px" viewBox="0 0 120 68" shape-rendering="crispEdges" role="img" aria-label="游戏画面:雾中的渔村,窗子透出灯光">
+          <rect width="120" height="68" fill="#0B0E23"/>
+          <rect y="56" width="120" height="12" fill="#151B3B"/>
+          <g fill="#6b25eb">
+            <rect x="8" y="36" width="26" height="20"/><rect x="38" y="44" width="20" height="12"/>
+            <rect x="62" y="34" width="24" height="22"/><rect x="90" y="44" width="22" height="12"/>
+            <rect x="52" y="26" width="8" height="8"/>
+          </g>
+          <g fill="#151B3B">
+            <rect x="6" y="32" width="30" height="6"/><rect x="36" y="40" width="24" height="4"/>
+            <rect x="60" y="30" width="28" height="6"/><rect x="88" y="40" width="26" height="4"/>
+          </g>
+          <g fill="#ebad25">
+            <rect x="14" y="44" width="4" height="4"/><rect x="24" y="44" width="4" height="4"/>
+            <rect x="44" y="48" width="4" height="4"/><rect x="68" y="42" width="4" height="4"/>
+            <rect x="78" y="42" width="4" height="4"/><rect x="96" y="50" width="4" height="4"/>
+            <rect x="96" y="10" width="8" height="2"/><rect x="94" y="12" width="12" height="2"/>
+            <rect x="96" y="14" width="8" height="2"/>
+          </g>
+          <rect x="70" y="50" width="4" height="6" fill="#F8FAFC"/>
+          <rect x="54" y="22" width="4" height="2" fill="#F8FAFC"/>
+          <g fill="#F8FAFC" fill-opacity="0.3">
+            <rect y="50" width="20" height="2"/><rect x="26" y="52" width="22" height="2"/>
+            <rect x="54" y="50" width="18" height="2"/><rect x="80" y="52" width="20" height="2"/>
+            <rect x="104" y="50" width="16" height="2"/>
+          </g>
+        </svg>
+        <figcaption>
+          <b>青屿渔村</b>
+          <span>雾要来了,窗子里的灯一盏一盏给它让路。</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <svg class="px" viewBox="0 0 120 68" shape-rendering="crispEdges" role="img" aria-label="游戏画面:塔顶栏杆外的星空与银河">
+          <rect width="120" height="68" fill="#0B0E23"/>
+          <rect y="58" width="120" height="10" fill="#151B3B"/>
+          <g fill="#F8FAFC">
+            <rect x="10" y="8" width="2" height="2"/><rect x="22" y="18" width="2" height="2"/>
+            <rect x="34" y="6" width="2" height="2"/><rect x="46" y="14" width="2" height="2"/>
+            <rect x="58" y="8" width="2" height="2"/><rect x="70" y="16" width="2" height="2"/>
+            <rect x="82" y="6" width="2" height="2"/><rect x="94" y="14" width="2" height="2"/>
+            <rect x="106" y="8" width="2" height="2"/><rect x="16" y="28" width="2" height="2"/>
+            <rect x="88" y="30" width="2" height="2"/><rect x="64" y="26" width="2" height="2"/>
+            <rect x="38" y="30" width="2" height="2"/>
+          </g>
+          <rect x="50" y="22" width="2" height="2" fill="#ebad25"/>
+          <g fill="#F8FAFC" fill-opacity="0.6">
+            <rect x="86" y="13" width="6" height="2"/>
+          </g>
+          <rect x="92" y="15" width="2" height="2" fill="#ebad25"/>
+          <g fill="#F8FAFC">
+            <rect x="14" y="44" width="2" height="14"/><rect x="34" y="44" width="2" height="14"/>
+            <rect x="54" y="44" width="2" height="14"/><rect x="74" y="44" width="2" height="14"/>
+            <rect x="94" y="44" width="2" height="14"/><rect x="12" y="42" width="86" height="2"/>
+          </g>
+          <rect x="105" y="36" width="4" height="22" fill="#F8FAFC"/>
+          <rect x="102" y="28" width="10" height="8" fill="#ebad25"/>
+          <rect x="101" y="24" width="12" height="4" fill="#F8FAFC"/>
+        </svg>
+        <figcaption>
+          <b>塔顶</b>
+          <span>凌晨四点,银河刚好转到灯塔正上方。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 开发日志 -->
+  <section id="devlog" class="container">
+    <h2 class="section-title">开发日志</h2>
+    <div class="devlog-grid">
+      <div class="term">
+        <div class="term-bar" aria-hidden="true">
+          <i></i><i></i><i></i>
+          <span>拾贝工作室 开发手记</span>
+        </div>
+        <div class="term-body">
+          <div class="log-row">
+            <span class="log-date">2026-09-28</span>
+            <span class="log-ver">v0.4.2</span>
+            <span class="log-txt">光束学会绕塔旋转,猫开始追光斑。</span>
+          </div>
+          <div class="log-row">
+            <span class="log-date">2026-08-15</span>
+            <span class="log-ver">v0.4.0</span>
+            <span class="log-txt">渔村点亮了七盏会被雾吹灭的灯。</span>
+          </div>
+          <div class="log-row">
+            <span class="log-date">2026-07-02</span>
+            <span class="log-ver">v0.3.3</span>
+            <span class="log-txt">重写潮汐表,退潮时露出旧码头的桩。</span>
+          </div>
+          <div class="log-row">
+            <span class="log-date">2026-05-20</span>
+            <span class="log-ver">v0.3.0</span>
+            <span class="log-txt">猫第一次进游戏。它不肯走,就留下了。</span>
+          </div>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="row">
+          <label for="dev-hp">开发进度</label>
+          <output id="dev-hp">82 / 100</output>
+        </div>
+        <div class="hp" role="img" aria-label="开发进度 82%">
+          <i></i>
+        </div>
+        <p>v0.5 计划:雾的第三层网点,以及猫的午睡动画。愿望单到达一万人时,放出试玩版。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 愿望单横幅 -->
+  <section id="wishlist" class="container">
+    <div class="band">
+      <div class="container-inner">
+        <h2>加入愿望单,等灯亮的那天</h2>
+        <p>拾贝工作室,三个人,在青岛画雾。游戏完工那天,愿望单里的每个人都会收到一封守塔人手记风格的邮件。</p>
+        <div class="cta-row">
+          <a class="btn btn-gold" href="#">
+            <svg class="px" width="15" height="15" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+              <g fill="#0B0E23">
+                <rect x="2" y="1" width="2" height="2"/><rect x="6" y="1" width="2" height="2"/>
+                <rect x="1" y="2" width="8" height="2"/><rect x="1" y="4" width="8" height="1"/>
+                <rect x="2" y="5" width="6" height="1"/><rect x="3" y="6" width="4" height="1"/>
+                <rect x="4" y="7" width="2" height="1"/>
+              </g>
+            </svg>
+            加入 Steam 愿望单
+          </a>
+          <a class="btn btn-ghost" href="#">
+            <svg class="px" width="15" height="15" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+              <rect x="1" y="3" width="8" height="6" fill="#F8FAFC"/>
+              <rect x="1" y="3" width="8" height="1" fill="#6b25eb"/>
+              <rect x="2" y="4" width="2" height="1" fill="#6b25eb"/>
+              <rect x="6" y="4" width="2" height="1" fill="#6b25eb"/>
+              <rect x="4" y="5" width="2" height="1" fill="#6b25eb"/>
+            </svg>
+            订阅开发日志
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  UI 设计提示词库 / Pixel Art 像素<a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+</body>
+</html>

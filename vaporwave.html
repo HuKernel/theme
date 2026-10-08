@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Vaporwave 蒸汽波 / UI 设计提示词库</title>
+<meta name="description" content="Vaporwave 蒸汽波风格演示页：独立合成器厂牌「磁带旅馆 Cassette Hotel」，日落渐变、透视网格地平线、霓虹描边与 VHS 扫描线。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@500;600;700;900&family=VT323&display=swap');
+
+/* token 计划：#FF71CE 霓虹粉 / #01CDFE 荧光青 / #B967FF 梦紫 / #05FFA1 薄荷绿 / #16041F 夜幕底 / #FFC96B 落日金；Abril Fatface=拉丁展示字，Merriweather+Noto Serif SC=正文衬线，VT323=VHS 屏显字；布局=全屏日落地平线 hero + 磁带货架网格 + 票根式演出行；独特性=全页唯一一次网格延伸亮相动效、静态色差描边代替循环 glitch、日文成句竖排装饰 */
+:root {
+  --pink: #FF71CE;
+  --cyan: #01CDFE;
+  --purple: #B967FF;
+  --mint: #05FFA1;
+  --gold: #FFC96B;
+  --night: #16041F;
+  --fog: #F4E9F7;
+  --mist: #C9AFDA;
+  --panel: #170524;
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Merriweather', 'Noto Serif SC', 'PingFang SC', serif;
+  background: var(--night);
+  color: var(--fog);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* VHS 扫描线：全局静态覆层 */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(10, 2, 16, 0.16) 0 2px, transparent 2px 5px);
+}
+
+::selection { background: var(--pink); color: var(--night); }
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--cyan); outline-offset: 3px;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(22, 4, 31, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(185, 103, 255, 0.35);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px; gap: 20px;
+}
+.logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--fog);
+}
+.logo-mark {
+  width: 38px; height: 38px; border-radius: 10px; flex: none;
+  border: 1.5px solid var(--pink); color: var(--pink);
+  display: grid; place-items: center;
+  box-shadow: 0 0 12px rgba(255, 113, 206, 0.35), inset 0 0 8px rgba(255, 113, 206, 0.15);
+}
+.logo b { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 17px; display: block; line-height: 1.25; }
+.logo i { font-family: 'Abril Fatface', serif; font-style: normal; font-size: 11.5px; color: var(--mist); letter-spacing: 0.08em; display: block; line-height: 1.25; }
+nav { display: flex; gap: 4px; }
+nav a {
+  font-family: 'Noto Serif SC', serif; font-weight: 600; font-size: 14.5px;
+  color: var(--fog); text-decoration: none;
+  padding: 7px 14px; border-radius: 999px; border: 1px solid transparent;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+nav a:hover, nav a:focus-visible { color: var(--cyan); border-color: rgba(1, 205, 254, 0.55); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 15px;
+  padding: 12px 26px; border-radius: var(--radius);
+  cursor: pointer; text-decoration: none;
+  transition: box-shadow 180ms ease, transform 180ms ease, background 180ms ease, color 180ms ease;
+}
+.btn-pink {
+  background: var(--pink); color: var(--night);
+  border: 1px solid var(--pink);
+  box-shadow: 0 0 18px rgba(255, 113, 206, 0.4);
+}
+.btn-pink:hover { box-shadow: 0 0 30px rgba(255, 113, 206, 0.65); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--cyan);
+  border: 1px solid rgba(1, 205, 254, 0.65);
+}
+.btn-ghost:hover { box-shadow: 0 0 22px rgba(1, 205, 254, 0.35); color: #7FE5FF; transform: translateY(-2px); }
+.btn-sm { padding: 8px 18px; font-size: 13.5px; }
+
+/* ---------- Hero：日落地平线 ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  min-height: min(94vh, 900px);
+  background: linear-gradient(180deg, #16041F 0%, #2B0847 40%, #6D1B8C 53%, #8F2E96 56%, #1C0530 56.2%, #16041F 100%);
+}
+.stars { position: absolute; top: 6%; left: 4%; width: min(420px, 46vw); opacity: 0.6; pointer-events: none; }
+
+.sun {
+  position: absolute; left: 50%;
+  top: calc(56% - clamp(150px, 23vw, 280px) * 0.74);
+  transform: translateX(-50%);
+  width: clamp(150px, 23vw, 280px); aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--gold) 0%, var(--pink) 52%, var(--purple) 100%);
+  -webkit-mask: repeating-linear-gradient(180deg, #000 0 9%, transparent 9% 13%);
+  mask: repeating-linear-gradient(180deg, #000 0 9%, transparent 9% 13%);
+  filter: drop-shadow(0 0 24px rgba(255, 113, 206, 0.5));
+}
+
+.jp-note {
+  position: absolute; top: 13%; right: 5%;
+  writing-mode: vertical-rl;
+  font-family: 'Noto Serif SC', serif; font-weight: 600;
+  font-size: 15px; letter-spacing: 0.4em;
+  color: rgba(244, 233, 247, 0.85);
+  border-right: 1px solid rgba(255, 113, 206, 0.55);
+  padding-right: 14px;
+}
+
+.horizon {
+  position: absolute; left: 0; right: 0; top: 56%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pink) 15%, var(--pink) 85%, transparent);
+  box-shadow: 0 0 16px rgba(255, 113, 206, 0.9), 0 0 56px rgba(255, 113, 206, 0.45);
+}
+
+.floor {
+  position: absolute; top: 56%; left: 50%;
+  width: 240vw; height: 46vh;
+  transform: translateX(-50%) perspective(420px) rotateX(58deg);
+  transform-origin: top center;
+  background:
+    repeating-linear-gradient(90deg, rgba(1, 205, 254, 0.24) 0 2px, transparent 2px 7vw),
+    repeating-linear-gradient(0deg, rgba(1, 205, 254, 0.3) 0 2px, transparent 2px 58px),
+    linear-gradient(180deg, #220639 0%, #0A0114 100%);
+  filter: drop-shadow(0 0 6px rgba(1, 205, 254, 0.28));
+  animation: gridReach 2s cubic-bezier(0.22, 0.61, 0.36, 1) 0.35s both;
+}
+@keyframes gridReach {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+.palm { position: absolute; color: #15021E; pointer-events: none; }
+.palm-l { bottom: 41%; left: 3%; width: clamp(120px, 16vw, 230px); }
+.palm-r { bottom: 42%; right: 4%; width: clamp(96px, 12vw, 180px); transform: scaleX(-1); }
+
+.hero-copy { position: relative; z-index: 5; max-width: 660px; padding: clamp(64px, 13vh, 132px) 0 72px; }
+.kicker {
+  display: inline-block;
+  font-family: 'Noto Serif SC', serif; font-weight: 600; font-size: 13.5px;
+  color: var(--cyan); letter-spacing: 0.22em;
+  border: 1px solid rgba(1, 205, 254, 0.5); border-radius: 999px;
+  padding: 5px 18px; margin-bottom: 26px;
+}
+h1 {
+  font-family: 'Noto Serif SC', serif; font-weight: 900;
+  font-size: clamp(34px, 5vw, 58px); line-height: 1.22; letter-spacing: 0.02em;
+  margin-bottom: 22px;
+  text-shadow: 3px 0 0 rgba(1, 205, 254, 0.55), -3px 0 0 rgba(255, 113, 206, 0.55);
+}
+h1 .grad {
+  background: linear-gradient(120deg, var(--gold), var(--pink) 55%, var(--purple));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+h1 .stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--cyan);
+  text-shadow: 0 0 18px rgba(1, 205, 254, 0.6), 0 0 44px rgba(5, 255, 161, 0.3);
+}
+.sub { font-size: 16.5px; color: var(--mist); max-width: 540px; margin-bottom: 34px; }
+.cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 34px; }
+
+/* VHS 屏显条 */
+.osd {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: 'VT323', monospace; font-size: 19px; letter-spacing: 0.05em;
+  color: var(--cyan);
+  background: rgba(6, 2, 12, 0.74);
+  border: 1px solid rgba(1, 205, 254, 0.55);
+  border-radius: 8px; padding: 10px 18px;
+}
+.osd svg { flex: none; }
+.osd .osd-time { color: var(--mint); }
+
+/* ---------- 通用节 ---------- */
+.section { padding: 84px 0 6px; }
+.section-head { margin-bottom: 38px; }
+.section-head h2 {
+  font-family: 'Noto Serif SC', serif; font-weight: 900;
+  font-size: clamp(26px, 3vw, 34px); margin-bottom: 14px;
+}
+.section-head h2 em { font-family: 'Abril Fatface', serif; font-style: normal; color: var(--pink); }
+.rule { width: 68px; height: 3px; border: 0; margin-bottom: 16px;
+  background: linear-gradient(90deg, var(--pink), var(--cyan)); border-radius: 2px; }
+.section-head p { color: var(--mist); font-size: 15.5px; max-width: 620px; }
+
+/* ---------- 磁带货架 ---------- */
+.shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.tape-card {
+  --acc: var(--pink);
+  background: linear-gradient(180deg, rgba(255, 113, 206, 0.05), rgba(1, 205, 254, 0.04)), var(--panel);
+  border: 1px solid color-mix(in srgb, var(--acc) 45%, transparent);
+  border-radius: var(--radius);
+  padding: 22px 22px 26px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+.tape-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--acc);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 26px color-mix(in srgb, var(--acc) 30%, transparent);
+}
+.tape-card.c-cyan { --acc: var(--cyan); }
+.tape-card.c-mint { --acc: var(--mint); }
+.cassette { display: block; width: 100%; height: auto; margin-bottom: 18px; }
+.c-body { fill: rgba(255, 255, 255, 0.03); stroke: var(--acc); stroke-width: 2.5; }
+.c-label { fill: rgba(255, 255, 255, 0.05); stroke: rgba(255, 255, 255, 0.2); }
+.c-title { font: 700 20px 'Noto Serif SC', serif; fill: var(--fog); }
+.c-artist { font: 400 13px 'Merriweather', 'Noto Serif SC', serif; fill: var(--mist); letter-spacing: 0.12em; }
+.c-window { fill: #0B0116; stroke: rgba(255, 255, 255, 0.18); }
+.c-reel { fill: rgba(255, 255, 255, 0.04); stroke: var(--acc); stroke-width: 2.5; }
+.c-hub { fill: #0B0116; stroke: var(--acc); stroke-width: 2; }
+.c-spoke { stroke: rgba(244, 233, 247, 0.45); stroke-width: 2; }
+.c-foot { fill: rgba(255, 255, 255, 0.05); stroke: rgba(255, 255, 255, 0.2); }
+.c-screw { fill: rgba(244, 233, 247, 0.4); }
+.tape-meta {
+  font-family: 'VT323', monospace; font-size: 17.5px;
+  color: var(--cyan); margin-bottom: 10px; letter-spacing: 0.04em;
+}
+.tape-card h3 { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 19px; margin-bottom: 6px; }
+.tape-card .artist { font-size: 14px; color: var(--mist); margin-bottom: 10px; }
+.tape-card .desc { font-size: 14px; color: var(--mist); margin-bottom: 18px; }
+.tape-card .btn { color: var(--night); background: var(--acc); border-color: var(--acc); }
+.tape-card .btn:hover { box-shadow: 0 0 22px color-mix(in srgb, var(--acc) 55%, transparent); }
+
+/* ---------- 艺人 ---------- */
+.artists { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.artist {
+  border-top: 2px solid var(--purple);
+  background: linear-gradient(180deg, rgba(185, 103, 255, 0.07), transparent 60%), var(--panel);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 26px 24px 28px;
+}
+.artist .name { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 21px; margin-bottom: 2px; }
+.artist .latin { font-family: 'Abril Fatface', serif; font-size: 14px; color: var(--pink); margin-bottom: 12px; }
+.artist .city {
+  display: inline-block; font-size: 12.5px; font-weight: 600;
+  color: var(--mint); border: 1px solid rgba(5, 255, 161, 0.5);
+  border-radius: 999px; padding: 2px 12px; margin-bottom: 14px;
+}
+.artist p { font-size: 14px; color: var(--mist); }
+
+/* ---------- 现场演出 ---------- */
+.shows { border-top: 1px solid rgba(185, 103, 255, 0.3); }
+.show {
+  display: grid; grid-template-columns: 168px 1fr auto; gap: 22px;
+  align-items: center; padding: 22px 6px;
+  border-bottom: 1px solid rgba(185, 103, 255, 0.3);
+}
+.show-date b { display: block; font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 22px; line-height: 1.3; }
+.show-date span { font-family: 'VT323', monospace; font-size: 17px; color: var(--cyan); letter-spacing: 0.06em; }
+.show-info b { display: block; font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 16.5px; margin-bottom: 3px; }
+.show-info p { font-size: 13.5px; color: var(--mist); }
+.show-right { display: flex; align-items: center; gap: 18px; }
+.chip {
+  font-family: 'Noto Serif SC', serif; font-weight: 600; font-size: 12.5px;
+  border-radius: 999px; padding: 4px 14px; white-space: nowrap;
+}
+.chip-on { color: var(--mint); border: 1px solid rgba(5, 255, 161, 0.55); }
+.chip-off { color: var(--mist); border: 1px solid rgba(201, 175, 218, 0.4); }
+.ticket-link {
+  font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 14px;
+  color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(1, 205, 254, 0.5);
+  padding-bottom: 2px;
+}
+.ticket-link:hover { color: #7FE5FF; }
+
+/* ---------- 邮购清单 ---------- */
+.panel {
+  position: relative;
+  border: 1px solid rgba(1, 205, 254, 0.45);
+  background: linear-gradient(135deg, rgba(255, 113, 206, 0.09), rgba(1, 205, 254, 0.09)), var(--panel);
+  border-radius: var(--radius);
+  padding: clamp(28px, 5vw, 48px);
+  display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center;
+}
+.panel::before, .panel::after {
+  content: ''; position: absolute; width: 18px; height: 18px; pointer-events: none;
+}
+.panel::before { top: -1px; left: -1px; border-top: 3px solid var(--cyan); border-left: 3px solid var(--cyan); }
+.panel::after { bottom: -1px; right: -1px; border-bottom: 3px solid var(--pink); border-right: 3px solid var(--pink); }
+.panel h2 { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: clamp(24px, 3vw, 32px); margin-bottom: 14px; }
+.panel .copy { color: var(--mist); font-size: 15px; }
+.order-form { display: flex; gap: 12px; }
+.order-form input {
+  flex: 1; min-width: 0;
+  font: 400 15px 'Merriweather', 'Noto Serif SC', serif;
+  color: var(--fog); background: rgba(10, 2, 18, 0.85);
+  border: 1px solid rgba(185, 103, 255, 0.55);
+  border-radius: 10px; padding: 12px 16px;
+}
+.order-form input::placeholder { color: rgba(201, 175, 218, 0.6); }
+.order-form input:focus-visible { outline-offset: 0; border-color: var(--cyan); box-shadow: 0 0 14px rgba(1, 205, 254, 0.3); }
+.order-note { display: block; margin-top: 12px; font-size: 12.5px; color: var(--mist); }
+
+/* ---------- 页尾 ---------- */
+footer {
+  margin-top: 96px;
+  border-top: 1px solid rgba(185, 103, 255, 0.3);
+  text-align: center; padding: 36px 24px 46px;
+}
+footer .foot-line { font-family: 'Noto Serif SC', serif; font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+footer a {
+  color: var(--cyan); text-decoration: none; font-size: 14px;
+  border-bottom: 1px solid rgba(1, 205, 254, 0.5); padding-bottom: 2px;
+}
+footer a:hover { color: #7FE5FF; }
+footer small { display: block; margin-top: 16px; font-size: 12px; color: rgba(201, 175, 218, 0.75); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1024px) {
+  .jp-note { display: none; }
+}
+@media (max-width: 900px) {
+  nav { display: none; }
+  .shelf, .artists { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .hero { min-height: 88vh; }
+  .sun { width: clamp(140px, 40vw, 210px); }
+  .palm-r { display: none; }
+  .shelf, .artists { grid-template-columns: 1fr; }
+  .show { grid-template-columns: 1fr; gap: 10px; }
+  .show-right { justify-self: start; }
+  .panel { grid-template-columns: 1fr; gap: 26px; }
+  .order-form { flex-direction: column; }
+  .osd { flex-wrap: wrap; font-size: 17px; }
+}
+@media (max-width: 480px) {
+  .palm-l { width: 110px; bottom: 43%; }
+  .cta-row .btn { flex: 1 1 100%; }
+}
+@media (min-width: 1440px) {
+  .container { max-width: 1200px; }
+  .hero { min-height: 96vh; }
+}
+
+/* 降级：唯一亮相动效关闭，网格直接完整呈现 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .floor { animation: none; }
+  *, *::before, *::after { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top" aria-label="磁带旅馆 首页">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><circle cx="8" cy="13.5" r="2.4"/><circle cx="16" cy="13.5" r="2.4"/><path d="M9.5 8.5h5"/></svg>
+      </span>
+      <span><b>磁带旅馆</b><i>Cassette Hotel</i></span>
+    </a>
+    <nav aria-label="主导航">
+      <a href="#releases">新发行</a>
+      <a href="#artists">艺人</a>
+      <a href="#shows">现场</a>
+      <a href="#order">邮购</a>
+    </nav>
+    <a class="btn btn-pink btn-sm" href="#releases">在售发行</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-label="厂牌介绍">
+    <svg class="stars" viewBox="0 0 420 300" aria-hidden="true" fill="none">
+      <circle cx="40" cy="36" r="1.6" fill="#F4E9F7"/>
+      <circle cx="132" cy="88" r="1.3" fill="#01CDFE"/>
+      <circle cx="248" cy="30" r="1.6" fill="#F4E9F7"/>
+      <circle cx="330" cy="110" r="1.2" fill="#FF71CE"/>
+      <circle cx="390" cy="52" r="1.4" fill="#F4E9F7"/>
+      <circle cx="196" cy="140" r="1.2" fill="#05FFA1"/>
+      <path d="M80 130 v8 M76 134 h8" stroke="#01CDFE" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M300 168 v8 M296 172 h8" stroke="#FF71CE" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <div class="sun" aria-hidden="true"></div>
+    <p class="jp-note" lang="ja" aria-hidden="true">蒸気の夢はまだ終わらない</p>
+    <div class="horizon" aria-hidden="true"></div>
+    <div class="floor" aria-hidden="true"></div>
+
+    <svg class="palm palm-l" viewBox="0 0 220 320" aria-hidden="true">
+      <path fill="currentColor" d="M104 320 C98 258 96 196 106 138 L118 140 C110 196 112 258 122 320 Z
+        M112 132 C150 118 182 122 204 142 C176 128 144 130 114 140 Z
+        M112 132 C146 110 176 104 204 110 C174 112 142 122 114 138 Z
+        M110 134 C74 118 42 122 20 142 C48 128 80 130 108 140 Z
+        M110 134 C76 110 46 104 18 110 C48 112 78 122 106 138 Z
+        M112 132 C104 102 108 76 126 54 C112 80 108 104 118 130 Z
+        M112 134 C142 142 162 162 170 190 C154 164 132 150 110 144 Z
+        M110 134 C80 142 60 162 52 190 C66 164 88 150 110 144 Z"/>
+      <circle cx="102" cy="136" r="7" fill="currentColor"/>
+      <circle cx="118" cy="141" r="6" fill="currentColor"/>
+    </svg>
+    <svg class="palm palm-r" viewBox="0 0 220 320" aria-hidden="true">
+      <path fill="currentColor" d="M104 320 C98 258 96 196 106 138 L118 140 C110 196 112 258 122 320 Z
+        M112 132 C150 118 182 122 204 142 C176 128 144 130 114 140 Z
+        M112 132 C146 110 176 104 204 110 C174 112 142 122 114 138 Z
+        M110 134 C74 118 42 122 20 142 C48 128 80 130 108 140 Z
+        M110 134 C76 110 46 104 18 110 C48 112 78 122 106 138 Z
+        M112 132 C104 102 108 76 126 54 C112 80 108 104 118 130 Z
+        M112 134 C142 142 162 162 170 190 C154 164 132 150 110 144 Z
+        M110 134 C80 142 60 162 52 190 C66 164 88 150 110 144 Z"/>
+      <circle cx="102" cy="136" r="7" fill="currentColor"/>
+      <circle cx="118" cy="141" r="6" fill="currentColor"/>
+    </svg>
+
+    <div class="container">
+      <div class="hero-copy">
+        <span class="kicker">独立合成器厂牌，往返厦门与东京</span>
+        <h1><span class="grad">日落</span>之后，<br>磁带仍在<span class="stroke">转动</span></h1>
+        <p class="sub">磁带旅馆是一家驻在厦门的小厂牌。我们用磁带、黑胶和深夜电台，保存那些介于梦与醒之间的声音——不赶时间，也不大声。</p>
+        <div class="cta-row">
+          <a class="btn btn-pink" href="#order">试听今夜电台</a>
+          <a class="btn btn-ghost" href="#releases">浏览在售发行</a>
+        </div>
+        <div class="osd" role="status">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <span>播放中：雾岛亚衣《水晶商场》第三轨〈太平洋时间〉</span>
+          <span class="osd-time">04:37</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="releases" class="container section">
+    <div class="section-head">
+      <h2>新到磁带 <em>fresh tapes</em></h2>
+      <hr class="rule" aria-hidden="true">
+      <p>每盘都是小量压制的铬带，附手写编号与歌词纸。以下是本月刚上架的三张。</p>
+    </div>
+    <div class="shelf">
+
+      <article class="tape-card">
+        <svg class="cassette" viewBox="0 0 300 190" aria-hidden="true">
+          <rect class="c-body" x="4" y="4" width="292" height="182" rx="14"/>
+          <rect class="c-label" x="26" y="20" width="248" height="92" rx="8"/>
+          <text class="c-title" x="150" y="60" text-anchor="middle">水晶商场</text>
+          <text class="c-artist" x="150" y="86" text-anchor="middle">雾岛亚衣 Ai Kirishima</text>
+          <rect class="c-window" x="112" y="136" width="76" height="20" rx="10"/>
+          <circle class="c-reel" cx="92" cy="146" r="23"/>
+          <circle class="c-hub" cx="92" cy="146" r="9"/>
+          <path class="c-spoke" d="M92 126 v6 M92 160 v6 M74 146 h6 M104 146 h6"/>
+          <circle class="c-reel" cx="208" cy="146" r="23"/>
+          <circle class="c-hub" cx="208" cy="146" r="9"/>
+          <path class="c-spoke" d="M208 126 v6 M208 160 v6 M190 146 h6 M220 146 h6"/>
+          <path class="c-foot" d="M126 172 L174 172 L166 184 L134 184 Z"/>
+          <circle class="c-screw" cx="18" cy="18" r="2.5"/>
+          <circle class="c-screw" cx="282" cy="18" r="2.5"/>
+          <circle class="c-screw" cx="18" cy="172" r="2.5"/>
+          <circle class="c-screw" cx="282" cy="172" r="2.5"/>
+        </svg>
+        <p class="tape-meta">CT-058 ／ 磁带 90 分钟 ／ 68 元</p>
+        <h3>水晶商场</h3>
+        <p class="artist">雾岛亚衣，东京</p>
+        <p class="desc">闭店后的商场广播、扶梯底噪，与一台 Juno-60 的和声。六轨长篇，首版三百盘。</p>
+        <a class="btn btn-sm" href="#order">加入邮购</a>
+      </article>
+
+      <article class="tape-card c-cyan">
+        <svg class="cassette" viewBox="0 0 300 190" aria-hidden="true">
+          <rect class="c-body" x="4" y="4" width="292" height="182" rx="14"/>
+          <rect class="c-label" x="26" y="20" width="248" height="92" rx="8"/>
+          <text class="c-title" x="150" y="60" text-anchor="middle">太平洋时间</text>
+          <text class="c-artist" x="150" y="86" text-anchor="middle">玻璃海岸 Glass Coast</text>
+          <rect class="c-window" x="112" y="136" width="76" height="20" rx="10"/>
+          <circle class="c-reel" cx="92" cy="146" r="23"/>
+          <circle class="c-hub" cx="92" cy="146" r="9"/>
+          <path class="c-spoke" d="M92 126 v6 M92 160 v6 M74 146 h6 M104 146 h6"/>
+          <circle class="c-reel" cx="208" cy="146" r="23"/>
+          <circle class="c-hub" cx="208" cy="146" r="9"/>
+          <path class="c-spoke" d="M208 126 v6 M208 160 v6 M190 146 h6 M220 146 h6"/>
+          <path class="c-foot" d="M126 172 L174 172 L166 184 L134 184 Z"/>
+          <circle class="c-screw" cx="18" cy="18" r="2.5"/>
+          <circle class="c-screw" cx="282" cy="18" r="2.5"/>
+          <circle class="c-screw" cx="18" cy="172" r="2.5"/>
+          <circle class="c-screw" cx="282" cy="172" r="2.5"/>
+        </svg>
+        <p class="tape-meta">CT-059 ／ 磁带与黑胶 ／ 88 元</p>
+        <h3>太平洋时间</h3>
+        <p class="artist">玻璃海岸，厦门</p>
+        <p class="desc">为凌晨的高速公路写的八首慢舞曲，BPM 不超过 96。黑胶由本地工坊刻制。</p>
+        <a class="btn btn-sm" href="#order">加入邮购</a>
+      </article>
+
+      <article class="tape-card c-mint">
+        <svg class="cassette" viewBox="0 0 300 190" aria-hidden="true">
+          <rect class="c-body" x="4" y="4" width="292" height="182" rx="14"/>
+          <rect class="c-label" x="26" y="20" width="248" height="92" rx="8"/>
+          <text class="c-title" x="150" y="60" text-anchor="middle">酒店走廊</text>
+          <text class="c-artist" x="150" y="86" text-anchor="middle">NV-10</text>
+          <rect class="c-window" x="112" y="136" width="76" height="20" rx="10"/>
+          <circle class="c-reel" cx="92" cy="146" r="23"/>
+          <circle class="c-hub" cx="92" cy="146" r="9"/>
+          <path class="c-spoke" d="M92 126 v6 M92 160 v6 M74 146 h6 M104 146 h6"/>
+          <circle class="c-reel" cx="208" cy="146" r="23"/>
+          <circle class="c-hub" cx="208" cy="146" r="9"/>
+          <path class="c-spoke" d="M208 126 v6 M208 160 v6 M190 146 h6 M220 146 h6"/>
+          <path class="c-foot" d="M126 172 L174 172 L166 184 L134 184 Z"/>
+          <circle class="c-screw" cx="18" cy="18" r="2.5"/>
+          <circle class="c-screw" cx="282" cy="18" r="2.5"/>
+          <circle class="c-screw" cx="18" cy="172" r="2.5"/>
+          <circle class="c-screw" cx="282" cy="172" r="2.5"/>
+        </svg>
+        <p class="tape-meta">CT-060 ／ 磁带 60 分钟 ／ 58 元</p>
+        <h3>酒店走廊</h3>
+        <p class="artist">NV-10，台北</p>
+        <p class="desc">一间 1987 年旅馆走廊的空气，过四台弹簧混响。磁带本体做过轻微降速处理。</p>
+        <a class="btn btn-sm" href="#order">加入邮购</a>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="artists" class="container section">
+    <div class="section-head">
+      <h2>驻馆艺人 <em>residents</em></h2>
+      <hr class="rule" aria-hidden="true">
+      <p>三位常驻，偶尔来一位只发一盘就消失的客人。</p>
+    </div>
+    <div class="artists">
+      <article class="artist">
+        <h3 class="name">雾岛亚衣</h3>
+        <p class="latin">Ai Kirishima</p>
+        <span class="city">东京</span>
+        <p>把商场、地铁站与便利店的空气录下来，再还给它们一层和声。自 2019 年起只做长篇，一年一盘。</p>
+      </article>
+      <article class="artist">
+        <h3 class="name">玻璃海岸</h3>
+        <p class="latin">Glass Coast</p>
+        <span class="city">厦门</span>
+        <p>双人合成器浪潮组合，只在涨潮的夜里排练。慢，但不困。鼓机是一台 1986 年的旧货。</p>
+      </article>
+      <article class="artist">
+        <h3 class="name">NV-10</h3>
+        <p class="latin">合成器与四轨机</p>
+        <span class="city">台北</span>
+        <p>拒绝电脑。四轨机、弹簧混响与一盘盘过期磁带，是全部设备。现场从不重演同一首。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="shows" class="container section">
+    <div class="section-head">
+      <h2>现场演出 <em>live</em></h2>
+      <hr class="rule" aria-hidden="true">
+      <p>小场地，声音开得不大，请当作一次集体的深夜收听。</p>
+    </div>
+    <div class="shows">
+      <div class="show">
+        <div class="show-date"><b>11月14日</b><span>2026 周六 20:30</span></div>
+        <div class="show-info">
+          <b>厦门 沙坡尾 艺术西区 4 号仓</b>
+          <p>雾岛亚衣《水晶商场》专辑首演，全编制六人，含一段商场广播现场混录。</p>
+        </div>
+        <div class="show-right">
+          <span class="chip chip-on">售票中</span>
+          <a class="ticket-link" href="#order">购票</a>
+        </div>
+      </div>
+      <div class="show">
+        <div class="show-date"><b>12月5日</b><span>2026 周六 21:00</span></div>
+        <div class="show-info">
+          <b>台北 公馆 地下学院 B1</b>
+          <p>NV-10 四轨专场：一晚录完一整盘磁带，观众可带走当次的复刻拷贝。</p>
+        </div>
+        <div class="show-right">
+          <span class="chip chip-on">售票中</span>
+          <a class="ticket-link" href="#order">购票</a>
+        </div>
+      </div>
+      <div class="show">
+        <div class="show-date"><b>1月9日</b><span>2027 周六 19:00</span></div>
+        <div class="show-info">
+          <b>东京 高円寺 音穴</b>
+          <p>玻璃海岸与本地 DJ 的「涨潮夜」，演足两小时，散场赠送旅馆走廊香氛卡。</p>
+        </div>
+        <div class="show-right">
+          <span class="chip chip-off">已售罄</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="order" class="container section">
+    <div class="panel">
+      <div>
+        <h2>邮购清单</h2>
+        <p class="copy">新发行、复刻与现场消息，每月两封，不多写。留下邮箱，我们按老式邮购的规矩来：先寄信，再寄磁带。</p>
+      </div>
+      <div>
+        <form class="order-form" action="#" method="post">
+          <label class="visually-hidden" for="mail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">电子邮箱</label>
+          <input id="mail" type="email" name="mail" placeholder="you@example.com" required>
+          <button class="btn btn-pink" type="submit">订阅</button>
+        </form>
+        <span class="order-note">随时可退订，我们不追问原因。</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="foot-line">UI 设计提示词库 / Vaporwave 蒸汽波</p>
+  <a href="style-catalog.html">返回风格目录</a>
+  <small>本页为风格演示，「磁带旅馆 Cassette Hotel」及其中唱片、艺人与演出均为虚构。</small>
+</footer>
+
+</body>
+</html>

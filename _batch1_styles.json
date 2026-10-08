@@ -1,0 +1,186 @@
+{
+ "Glassmorphism": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Frosted glass, transparent, blurred background, layered, vibrant background, light source, depth, multi-layer",
+   "AI Prompt Keywords": "Design a glassmorphic interface with frosted glass effect. Use backdrop blur (10-20px), translucent overlays (rgba 10-30% opacity), vibrant background colors, subtle borders, light source reflection, layered depth. Perfect for modern overlays and cards.",
+   "Primary Colors": "Translucent white: rgba(255,255,255,0.1-0.3)",
+   "Effects & Animation": "Backdrop blur (10-20px), subtle border (1px solid rgba white 0.2), light reflection, Z-depth",
+   "CSS/Technical Keywords": "backdrop-filter: blur(15px), background: rgba(255, 255, 255, 0.15), border: 1px solid rgba(255,255,255,0.2), -webkit-backdrop-filter: blur(15px), z-index layering for depth",
+   "Implementation Checklist": "☐ Backdrop-filter blur 10-20px, ☐ Translucent white 15-30% opacity, ☐ Subtle border 1px light, ☐ Vibrant background verified, ☐ Text contrast 4.5:1 checked",
+   "Best For": "Modern SaaS, financial dashboards, high-end corporate, lifestyle apps, modal overlays, navigation",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#F5F5F5",
+   "secondary": "#f5f5f5",
+   "accent": "#f5f5f5",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "18px",
+   "font_head": "Inter",
+   "font_body": "Inter"
+  }
+ },
+ "Neubrutalism": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Bold borders, black outlines, primary colors, thick shadows, no gradients, flat colors, 45° shadows, playful, Gen Z",
+   "AI Prompt Keywords": "Design a neubrutalist interface. Use: high contrast, hard black borders (3px+), bright pop colors, no blur, sharp or slightly rounded corners, bold typography, hard shadows (offset 4px 4px), raw aesthetic but functional.",
+   "Primary Colors": "#FFEB3B (Yellow), #FF5252 (Red), #2196F3 (Blue), #000000 (Black borders)",
+   "Effects & Animation": "box-shadow: 4px 4px 0 #000, border: 3px solid #000, no gradients, sharp corners (0px), bold typography",
+   "CSS/Technical Keywords": "border: 3px solid black, box-shadow: 5px 5px 0px black, colors: #FFDB58 #FF6B6B #4ECDC4, font-weight: 700, no gradients",
+   "Implementation Checklist": "☐ Hard borders (2-4px), ☐ Hard offset shadows, ☐ High saturation colors, ☐ Bold typography, ☐ No blurs/gradients, ☐ Distinctive 'ugly-cute' look",
+   "Best For": "Gen Z brands, startups, creative agencies, Figma-style apps, Notion-style interfaces, tech blogs",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FFEB3B",
+   "secondary": "#FF5252",
+   "accent": "#2196F3",
+   "bg": "#0D0F16",
+   "fg": "#EEF1F7",
+   "radius": "0px",
+   "font_head": "Lexend Mega",
+   "font_body": "Public Sans"
+  }
+ },
+ "Skeuomorphism": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Realistic, texture, depth, 3D appearance, real-world metaphors, shadows, gradients, tactile, detailed, material",
+   "AI Prompt Keywords": "Design a realistic, textured interface with 3D depth, real-world metaphors (leather, wood, metal), complex gradients (8-12 stops), realistic shadows, grain/texture overlays, tactile press animations. Perfect for premium/luxury products.",
+   "Primary Colors": "Rich realistic: wood, leather, metal colors, detailed gradients (8-12 stops), metallic effects",
+   "Effects & Animation": "Realistic shadows (layers), depth (perspective), texture details (noise, grain), realistic animations (300-500ms)",
+   "CSS/Technical Keywords": "background: complex gradient (8-12 stops), box-shadow: realistic multi-layer, background-image: texture overlay (noise, grain), filter: drop-shadow, transform: scale on press (300-500ms)",
+   "Implementation Checklist": "☐ Realistic textures applied, ☐ Complex gradients 8-12 stops, ☐ Multi-layer shadows, ☐ Texture overlays present, ☐ Tactile animations smooth, ☐ Depth effect pronounced",
+   "Best For": "Legacy apps, gaming, immersive storytelling, premium products, luxury, realistic simulations, education",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "12px",
+   "font_head": "Nunito",
+   "font_body": "DM Sans"
+  }
+ },
+ "Spatial UI (VisionOS)": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Glass, depth, immersion, spatial, translucent, gaze, gesture, apple, vision-pro",
+   "AI Prompt Keywords": "Design a VisionOS-style spatial interface. Use: frosted glass panels, depth layers, translucent backgrounds (15-30% opacity), vibrant colors for active states, gaze-hover effects, floating windows, immersive feel.",
+   "Primary Colors": "Frosted Glass #FFFFFF (15-30% opacity), System White",
+   "Effects & Animation": "Parallax depth, dynamic lighting response, gaze-hover effects, smooth scale on focus",
+   "CSS/Technical Keywords": "backdrop-filter: blur(40px) saturate(180%), background: rgba(255,255,255,0.2), border-radius: 24px, box-shadow: 0 8px 32px rgba(0,0,0,0.1), transform: scale on focus, depth via shadows",
+   "Implementation Checklist": "☐ Glass effect visible, ☐ Depth layers clear, ☐ Hover states defined, ☐ Colors vibrant on active, ☐ Floating feel achieved, ☐ Contrast maintained",
+   "Best For": "Spatial computing apps, VR/AR interfaces, immersive media, futuristic dashboards",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#FFFFFF",
+   "secondary": "#ffffff",
+   "accent": "#ffffff",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "24px",
+   "font_head": "Inter",
+   "font_body": "Inter"
+  }
+ },
+ "Dark Mode (OLED)": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, OLED, night mode, power efficient",
+   "AI Prompt Keywords": "Create an OLED-optimized dark interface with deep black (#000000), dark grey (#121212), midnight blue accents. Use minimal glow effects, vibrant neon accents (green, blue, gold, purple), high contrast text. Optimize for eye comfort and OLED power saving.",
+   "Primary Colors": "Deep Black #000000, Dark Grey #121212, Midnight Blue #0A0E27",
+   "Effects & Animation": "Minimal glow (text-shadow: 0 0 10px), dark-to-light transitions, low white emission, high readability, visible focus",
+   "CSS/Technical Keywords": "background: #000000 or #121212, color: #FFFFFF or #E0E0E0, text-shadow: 0 0 10px neon-color (sparingly), filter: brightness(0.8) if needed, color-scheme: dark",
+   "Implementation Checklist": "☐ Deep black #000000 or #121212, ☐ Vibrant neon accents used, ☐ Text contrast 7:1+, ☐ Minimal glow effects, ☐ OLED power optimization, ☐ No white (#FFFFFF) background",
+   "Best For": "Night-mode apps, coding platforms, entertainment, eye-strain prevention, OLED devices, low-light",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#000000",
+   "secondary": "#121212",
+   "accent": "#0A0E27",
+   "bg": "#0D0F16",
+   "fg": "#EEF1F7",
+   "radius": "14px",
+   "font_head": "Inter",
+   "font_body": "Playfair Display"
+  }
+ },
+ "Vaporwave": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Synthwave, retro-futuristic, 80s-90s, neon, glitch, nostalgic, sunset gradient, dreamy, aesthetic",
+   "AI Prompt Keywords": "Design a vaporwave aesthetic interface. Use: sunset gradients (pink/cyan/purple), 80s-90s nostalgia, glitch effects, Greek statue imagery, palm trees, grid patterns, neon glow, retro-futuristic feel, dreamy atmosphere.",
+   "Primary Colors": "#FF71CE (Pink), #01CDFE (Cyan), #05FFA1 (Mint), #B967FF (Purple)",
+   "Effects & Animation": "text-shadow glow, linear-gradient, filter: hue-rotate(), glitch animations, retro scan lines",
+   "CSS/Technical Keywords": "background: linear-gradient(180deg, #FF71CE, #01CDFE, #B967FF), filter: hue-rotate(), text-shadow: neon glow, retro grid (perspective + linear-gradient), VHS scanlines",
+   "Implementation Checklist": "☐ Sunset gradient present, ☐ Neon glow applied, ☐ Retro grid visible, ☐ Glitch effects subtle, ☐ Dreamy atmosphere, ☐ 80s-90s aesthetic",
+   "Best For": "Music platforms, gaming, creative portfolios, tech startups, entertainment, artistic projects",
+   "Status": "supplemental"
+  },
+  "tokens": {
+   "primary": "#FF71CE",
+   "secondary": "#01CDFE",
+   "accent": "#05FFA1",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "14px",
+   "font_head": "Abril Fatface",
+   "font_body": "Merriweather"
+  }
+ },
+ "Pixel Art": {
+  "csv": {
+   "Type": "General",
+   "Keywords": "Retro, 8-bit, 16-bit, gaming, blocky, nostalgic, pixelated, arcade",
+   "AI Prompt Keywords": "Design a pixel art inspired interface. Use: pixelated fonts, 8-bit or 16-bit aesthetic, sharp edges (image-rendering: pixelated), limited color palette, blocky UI elements, retro gaming feel.",
+   "Primary Colors": "Primary colors (NES Palette), brights, limited palette",
+   "Effects & Animation": "Frame-by-frame sprite animation, blinking cursor, instant transitions, marquee text",
+   "CSS/Technical Keywords": "font-family: 'Press Start 2P', image-rendering: pixelated, box-shadow: 4px 0 0 #000 (pixel border), no anti-aliasing",
+   "Implementation Checklist": "☐ Pixelated fonts loaded, ☐ Images sharp (no blur), ☐ CSS box-shadow for pixel borders, ☐ Retro palette, ☐ Blocky layout",
+   "Best For": "Indie games, retro tools, creative portfolios, nostalgia marketing, Web3/NFT",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "0px",
+   "font_head": "Press Start 2P",
+   "font_body": "VT323"
+  }
+ },
+ "Fluent 2": {
+  "csv": {
+   "Type": "Platform/System",
+   "Keywords": "fluent 2, microsoft, enterprise, calm, rounded, tokenized, cross-platform, copilot",
+   "AI Prompt Keywords": "Design a Fluent 2 product surface using calm hierarchy, standardized corners, semantic tokens, subtle depth, and platform-aware components. Preserve Microsoft interaction patterns and accessible focus states.",
+   "Primary Colors": "Fluent neutral palette with brand and status tokens",
+   "Effects & Animation": "Subtle depth, calm transitions, platform-adaptive motion",
+   "CSS/Technical Keywords": "design tokens, semantic color, component states, focus-visible, reduced motion",
+   "Implementation Checklist": "Use official tokens and components; preserve platform conventions; test keyboard, contrast, zoom, motion preferences, and responsive behavior",
+   "Best For": "Microsoft 365, Windows, Copilot, and enterprise line-of-business tools",
+   "Status": "active"
+  },
+  "tokens": {
+   "primary": "#2563EB",
+   "secondary": "#6b25eb",
+   "accent": "#ebad25",
+   "bg": "#F8FAFC",
+   "fg": "#0F172A",
+   "radius": "8px",
+   "font_head": "Roboto",
+   "font_body": "Roboto"
+  }
+ }
+}
