@@ -9,6 +9,7 @@
 CSV 更新后直接重跑: python generator.py
 """
 import csv, re, html, os, colorsys, hashlib
+import content_styles
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 SRC = r'E:\sklls\ui-ux-pro-max-skill\.claude\skills\ui-ux-pro-max\data\styles.csv'
@@ -2317,7 +2318,7 @@ def pattern_prompt(l, s):
     ])
 
 # ---------- Memphis Design 目录页（官方四色 #FF71CE/#FFCE5C/#86CCCA/#6A7BB4） ----------
-def build_catalog(manifest, entries, lentries=None):
+def build_catalog(manifest, entries, lentries=None, centries=None):
     handmade = {
         'AI-Native UI': 'ai-native.html', 'Liquid Glass': 'liquid-glass.html',
         'Brutalism': 'brutalism.html', 'Flat Design': 'flat-crm.html',
@@ -2404,6 +2405,26 @@ def build_catalog(manifest, entries, lentries=None):
                   html.escape(l['Pattern Name']), l['No'],
                   html.escape(l['Section Order'].strip()[:120]),
                   file, html.escape(pattern_prompt(l, s))))
+
+    # 内容排版卡（第四层：html-anything 18 种内容排版风格，转写见 content_styles.py）
+    for ci, cs in enumerate(centries or []):
+        cards.append('''<article class="m-card s%s" data-type="content" data-status="content" data-search="%s">
+  <div class="m-head">
+    <div>
+      <h2>%s</h2>
+      <span class="en">%s · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">%s</p>
+  <div class="links"><a class="demo-link" href="content-demos/%s.html">查看样张</a></div>
+  <pre class="prompt">%s</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>''' % ('abcd'[ci % 4],
+                  html.escape((cs['zh'] + ' ' + cs['en'] + ' ' + cs['use'] + ' 内容 排版 content').lower()),
+                  html.escape(cs['zh']), html.escape(cs['en']),
+                  html.escape(cs['use'][:110]),
+                  cs['id'], html.escape(content_styles.content_prompt(cs))))
 
     page = '''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -2576,6 +2597,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
     <button class="chip" data-f="Platform/Material">平台语言</button>
     <button class="chip" data-f="active">仅活跃风格</button>
     <button class="chip" data-f="pattern">落地结构</button>
+    <button class="chip" data-f="content">内容排版</button>
     <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
   </div>
   <p class="count" id="count"></p>
@@ -2730,7 +2752,14 @@ def main():
     print('落地结构样板:', len(lentries))
 
     # ---- 目录页：Memphis Design 版完整重建（风格 + 落地结构） ----
-    open(CATALOG, 'w', encoding='utf-8').write(build_catalog(manifest, [], lentries))
+    open(CATALOG, 'w', encoding='utf-8').write(build_catalog(manifest, [], lentries, content_styles.CONTENT_STYLES))
+
+    # ---- 内容排版风格样张：html-anything 18 种 → 独立模板 ----
+    os.makedirs(os.path.join(BASE, content_styles.CONTENT_OUT), exist_ok=True)
+    for cs in content_styles.CONTENT_STYLES:
+        fn = os.path.join(BASE, content_styles.CONTENT_OUT, cs['id'] + '.html')
+        open(fn, 'w', encoding='utf-8').write(content_styles.content_page(cs))
+    print('内容排版样张:', len(content_styles.CONTENT_STYLES))
 
     print('样张生成数:', len(manifest))
     print('皮肤族分布:', dict(sorted(fam_count.items(), key=lambda x: -x[1])))

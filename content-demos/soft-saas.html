@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>轻软控制台 · 内容排版风格 — UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 · 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter+family=JetBrains+Mono+family=Manrope&display=swap');
+
+:root {
+  --bg: #F5F7FA; --panel: #FFFFFF; --ink: #2A2F38; --muted: #7A8494;
+  --accent: #4F6BFF; --line: #E3E8F0; --radius: 16px;
+  --fh: 'Manrope', 'PingFang SC', 'Microsoft YaHei', serif;
+  --fb: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
+.wrap { max-width: 860px; margin: 0 auto; }
+.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
+.back:hover { transform: translate(-1px,-1px); }
+.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
+h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
+.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
+.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
+.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
+h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
+.steps { list-style: none; display: grid; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
+.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.steps span { font-size: 14.5px; }
+.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
+.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
+.note a { color: var(--accent); font-weight: 600; }
+
+.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: 22px; margin: 4px 0 26px; }
+.hx b { font-family: var(--fh); }
+.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
+.tl-node { position: relative; }
+.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
+.tl-card b { display: block; font-size: 15px; }
+.tl-card span { color: var(--muted); font-size: 13px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
+.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
+.grid3 .stage { align-items: center; justify-items: center; }
+.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
+.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
+.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
+.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
+.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
+.kpi span { font-size: 12px; color: var(--muted); }
+.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
+.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
+.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
+.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
+.saash .big svg { width: 100%; height: 48px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
+.dot.ok { background: #2FA463; }
+.saash .p b { font-variant-numeric: tabular-nums; }
+.lanes { display: grid; gap: 10px; }
+.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
+.lane .rank { font-size: 22px; font-weight: 800; }
+.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
+.atlas svg { width: 100%; height: auto; }
+.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
+.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
+.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
+.travel .dots i:nth-child(3n) { opacity: .8; }
+.runway { display: flex; gap: 26px; margin-top: 14px; }
+.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
+.runway span { font-size: 12px; color: var(--muted); }
+.net svg { width: 100%; height: auto; }
+.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
+.doch .mast b { font-size: 17px; display: block; }
+.doch .mast span { font-size: 12.5px; color: var(--muted); }
+.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
+.doch p { margin: 0; font-size: 15px; }
+.kamih { text-align: center; }
+.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
+.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
+.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
+.kamih span { font-size: 13px; color: var(--muted); }
+.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
+.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
+.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
+.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
+.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
+.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
+.spreadh .panel span { font-size: 12px; }
+.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
+.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
+.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
+.eguideh span { font-size: 12px; color: var(--muted); }
+.carouselh { display: flex; gap: 12px; overflow: hidden; }
+.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
+.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
+.carouselh .sl span { font-size: 13px; font-weight: 600; }
+.carouselh .ghost { opacity: .35; }
+.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
+.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
+.termh .prompt { color: #9FE8B0; }
+.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
+@keyframes blink { 50% { opacity: 0; } }
+.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
+.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
+.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
+.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
+.briefh .main b { font-size: 16px; }
+.briefh .main span { font-size: 12.5px; color: var(--muted); }
+.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
+.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
+.keeph .kt b { font-size: 22px; display: block; }
+.keeph .kt span { font-size: 12.5px; color: var(--muted); }
+@media (max-width: 640px) {
+  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
+  .keeph { grid-template-columns: 56px 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .termh .cur { animation: none; } }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
+  <p class="kicker">内容排版风格 · Soft SaaS</p>
+  <h1>轻软控制台</h1>
+  <p class="sub">淡灰画布上的悬浮面板：精确、友好、低摩擦、安静地活着。客服邮箱、邮件营销、客户成功队列、轻量产品分析——要"好操作"但别成重后台。</p>
+  <p class="meta">本页 token：<code>底 #F5F7FA</code> <code>面板 #FFFFFF</code> <code>主字 #2A2F38</code> <code>强调 #4F6BFF</code> <code>圆角 16px</code> · 标题 <code>Manrope</code> / 正文 <code>Inter</code> · 动效：中央图表一次揭示</p>
+
+  <h2>结构示意</h2>
+  <div class="hx saash" style="--a:#4F6BFF;--l:#E3E8F0">
+  <div class="p"><span class="dot"></span>收件队列 <b>37</b></div>
+  <div class="p big"><span>打开率走势</span><svg viewBox="0 0 200 48" aria-hidden="true"><polyline points="0,38 40,30 80,33 120,18 160,22 200,8" fill="none" stroke="#4F6BFF" stroke-width="3"/></svg></div>
+  <div class="p"><span class="dot ok"></span>送达 99.2%</div>
+</div>
+
+  <h2>页面骨架（官方定义，逐条落实）</h2>
+  <ol class="steps"><li><b>01</b><span>淡灰画布：大留白，无营销 hero</span></li><li><b>02</b><span>白色圆角面板：细边框、软阴影、几乎不用饱和底色</span></li><li><b>03</b><span>不对称拼贴：左身份栏、中央大图表面、右状态栏、下活动条</span></li><li><b>04</b><span>小蓝胶囊标签与状态圆点，替代大声的徽章</span></li><li><b>05</b><span>迷你指标：等宽百分比、迷你走势、微热力图</span></li></ol>
+
+  <h2>组件词汇</h2>
+  <p class="vocab">.saas-shell .float-panel .metric-card .status-dot .activity-strip</p>
+
+  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 · 主题由使用者确定，本页演示内容仅为排版示意。</p>
+</div>
+</body>
+</html>

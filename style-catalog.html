@@ -169,6 +169,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
     <button class="chip" data-f="Platform/Material">平台语言</button>
     <button class="chip" data-f="active">仅活跃风格</button>
     <button class="chip" data-f="pattern">落地结构</button>
+    <button class="chip" data-f="content">内容排版</button>
     <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
   </div>
   <p class="count" id="count"></p>
@@ -4317,6 +4318,490 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
 
 ▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sa" data-type="content" data-status="content" data-search="时间线叙事 timeline story 个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>时间线叙事</h2>
+      <span class="en">Timeline Story · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾</p>
+  <div class="links"><a class="demo-link" href="content-demos/timeline-story.html">查看样张</a></div>
+  <pre class="prompt">请以「时间线叙事 Timeline Story」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾
+▍底层系统：滚动驱动的记忆系统——像走过一段人生，不是读仪表盘
+▍页面骨架（逐条落实）：
+- 开场时间透镜：覆盖时段、总量、一个作故事钩子的记忆模式
+- 时间主轴：年/月/周是主导航，选中时段过滤全页模块
+- 章节面板：每个时段一个紧凑场景（最高频项/重复习惯/峰值/沉寂期）
+- 节奏条：热力图或堆叠条展示节奏，不做运营图表
+- 记忆抽屉：可搜索的条目浏览器，按章节过滤
+▍组件词汇：.story-shell .time-lens .timeline-spine .chapter-panel .period-scrubber .rhythm-strip .memory-drawer
+▍本页 token（可直接用）：底 #F7F3EA / 面板 #FFFFFF / 主字 #2C2A26 / 弱文 #8A8272 / 强调 #B4552D / 分隔线 #D8D2C4 / 圆角 10px / 标题字体 Noto Serif SC / 正文字体 Noto Serif SC
+▍动效（只此一次，别加第二处）：时间主轴一次描边生长
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做运营仪表盘；时间是主轴而不是下拉筛选器
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sb" data-type="content" data-status="content" data-search="教学工作室 teaching studio 教程、课程页、交互讲解、&quot;教我 x&quot;、任何需要引导式学习序列的页面 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>教学工作室</h2>
+      <span class="en">Teaching Studio · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">教程、课程页、交互讲解、&quot;教我 X&quot;、任何需要引导式学习序列的页面</p>
+  <div class="links"><a class="demo-link" href="content-demos/teaching.html">查看样张</a></div>
+  <pre class="prompt">请以「教学工作室 Teaching Studio」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：教程、课程页、交互讲解、&quot;教我 X&quot;、任何需要引导式学习序列的页面
+▍底层系统：引导式学习装置：看着学、改着学、测着学、走向下一个概念
+▍页面骨架（逐条落实）：
+- 左侧课程栏：标题、目标、模式控制、对象列表
+- 中央模型舞台：选中对象或模式即切换的主教学面
+- 右侧检查器：所选对象的事实与&quot;为什么重要&quot;
+- 步骤进度轨：贯穿学习序列的骨架
+- 自测关卡：小步检查而非期末考试
+▍组件词汇：.lesson-rail .object-stage .inspector .step-track .check-gate
+▍本页 token（可直接用）：底 #FBF9F4 / 面板 #FFFFFF / 主字 #1F2429 / 弱文 #6E7568 / 强调 #2F6F4F / 分隔线 #DCE2D8 / 圆角 12px / 标题字体 Zilla Slab / 正文字体 IBM Plex Sans
+▍动效（只此一次，别加第二处）：模型舞台一次旋转入场
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不像论文、博客或仪表盘；不是滚动长文而是分段工作室
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sc" data-type="content" data-status="content" data-search="菌丝长文 living essay 高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被&quot;读&quot;而不是被&quot;操作&quot;的内容 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>菌丝长文</h2>
+      <span class="en">Living Essay · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被&quot;读&quot;而不是被&quot;操作&quot;的内容</p>
+  <div class="links"><a class="demo-link" href="content-demos/living-essay.html">查看样张</a></div>
+  <pre class="prompt">请以「菌丝长文 Living Essay」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被&quot;读&quot;而不是被&quot;操作&quot;的内容
+▍底层系统：菌丝发酵式慢读环境：诗意阅读工具，不是产品仪表盘
+▍页面骨架（逐条落实）：
+- 纸面手稿：单一中央阅读栏、宽行距、准正文、极少元数据
+- 竖排问题胶囊：左缘一枚竖排文字的胶囊，边框缓慢呼吸
+- 菌丝层：内联 SVG 细线在胶囊与&quot;孢子词&quot;之间缓慢生长又淡出
+- 孢子词：正文内被连接/选中时下划线的术语
+- 安静附录：阅读节奏、书架、主题等以细线条列表收尾，不做卡片
+▍组件词汇：.layout .mycelium-layer .question-zone .capsule-container .spore
+▍本页 token（可直接用）：底 #F4F1E8 / 面板 #FBF9F2 / 主字 #33322D / 弱文 #8C8878 / 强调 #6B7F3E / 分隔线 #DDD8C8 / 圆角 6px / 标题字体 Noto Serif SC / 正文字体 Noto Serif SC
+▍动效（只此一次，别加第二处）：菌丝 SVG 一次生长
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做产品化卡片墙；装饰必须服务于词与概念的连接
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sd" data-type="content" data-status="content" data-search="运营控制台 ops dashboard csv、表格、财务/后台数据、日志、工单、日历导出等结构化数据集 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>运营控制台</h2>
+      <span class="en">Ops Dashboard · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">CSV、表格、财务/后台数据、日志、工单、日历导出等结构化数据集</p>
+  <div class="links"><a class="demo-link" href="content-demos/dashboard.html">查看样张</a></div>
+  <pre class="prompt">请以「运营控制台 Ops Dashboard」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：CSV、表格、财务/后台数据、日志、工单、日历导出等结构化数据集
+▍底层系统：为反复扫视、筛选、决策而生的运营台
+▍页面骨架（逐条落实）：
+- 命令栏：标题、时段/来源、搜索、筛选、导出与激活筛选片汇成一行
+- KPI 栏：等宽数字的密集指标格，带环比与上下文
+- 主工作面：趋势/热力/漏斗/队列，大到能快速对比
+- 异常队列：待处理、重复、失败的任务行
+- 数据网格：可搜索排序的表格或虚拟行
+▍组件词汇：.ops-shell .command-bar .kpi-rail .work-surface .flag-queue .data-grid
+▍本页 token（可直接用）：底 #F2F4F7 / 面板 #FFFFFF / 主字 #1B2733 / 弱文 #69788C / 强调 #0F62FE / 分隔线 #D5DBE3 / 圆角 8px / 标题字体 IBM Plex Sans / 正文字体 IBM Plex Sans
+▍动效（只此一次，别加第二处）：主图表条形一次生长
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做 storytelling 大卡片；紧凑行、标签页、分段控件优先
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sa" data-type="content" data-status="content" data-search="轻软控制台 soft saas 客服邮箱、邮件营销、客户成功队列、轻量产品分析——要&quot;好操作&quot;但别成重后台 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>轻软控制台</h2>
+      <span class="en">Soft SaaS · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">客服邮箱、邮件营销、客户成功队列、轻量产品分析——要&quot;好操作&quot;但别成重后台</p>
+  <div class="links"><a class="demo-link" href="content-demos/soft-saas.html">查看样张</a></div>
+  <pre class="prompt">请以「轻软控制台 Soft SaaS」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：客服邮箱、邮件营销、客户成功队列、轻量产品分析——要&quot;好操作&quot;但别成重后台
+▍底层系统：淡灰画布上的悬浮面板：精确、友好、低摩擦、安静地活着
+▍页面骨架（逐条落实）：
+- 淡灰画布：大留白，无营销 hero
+- 白色圆角面板：细边框、软阴影、几乎不用饱和底色
+- 不对称拼贴：左身份栏、中央大图表面、右状态栏、下活动条
+- 小蓝胶囊标签与状态圆点，替代大声的徽章
+- 迷你指标：等宽百分比、迷你走势、微热力图
+▍组件词汇：.saas-shell .float-panel .metric-card .status-dot .activity-strip
+▍本页 token（可直接用）：底 #F5F7FA / 面板 #FFFFFF / 主字 #2A2F38 / 弱文 #7A8494 / 强调 #4F6BFF / 分隔线 #E3E8F0 / 圆角 16px / 标题字体 Manrope / 正文字体 Inter
+▍动效（只此一次，别加第二处）：中央图表一次揭示
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；禁止剧场式滚动与装饰动效；hover 抬升、联动选中这类产品级动效
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sb" data-type="content" data-status="content" data-search="动能计分板 kinetic scoreboard 多参与者流：群聊活跃度、销售、客服、作者、玩家——&quot;谁做了多少、何时、效果如何&quot; 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>动能计分板</h2>
+      <span class="en">Kinetic Scoreboard · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">多参与者流：群聊活跃度、销售、客服、作者、玩家——&quot;谁做了多少、何时、效果如何&quot;</p>
+  <div class="links"><a class="demo-link" href="content-demos/kinetic-scoreboard.html">查看样张</a></div>
+  <pre class="prompt">请以「动能计分板 Kinetic Scoreboard」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：多参与者流：群聊活跃度、销售、客服、作者、玩家——&quot;谁做了多少、何时、效果如何&quot;
+▍底层系统：实时竞标赛场：首屏像一块锦标赛转播屏，不是报表
+▍页面骨架（逐条落实）：
+- 锦标赛头：细条 ruled 的赛事标题、来源日期与实时榜单
+- 选手泳道：3-6 条全高泳道，各自有编号、名字、排名、超大分数
+- 动能体：活动化作运动的条/波/柱，动作必须有数据支撑
+- 遥测页脚：每条泳道的阶段/负载/配速标签
+- 证据坑：下方的回合分析、原始记录浏览器
+▍组件词汇：.scoreboard .lane .kinetic-body .telemetry .evidence-pit
+▍本页 token（可直接用）：底 #F5F2E8 / 面板 #FFFFFF / 主字 #141414 / 弱文 #6F6A5E / 强调 #D7263D / 分隔线 #C9C4B4 / 圆角 4px / 标题字体 Archivo Black / 正文字体 JetBrains Mono
+▍动效（只此一次，别加第二处）：泳道分数一次滚动到位
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是报表/仪表盘/文章；克制使用网格纸与黑 rule 线，数字是主角
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sc" data-type="content" data-status="content" data-search="地图图集 map atlas 收藏地点、gpx/kml 路线、旅行行程、照片地理数据、地点历史、房源清单 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>地图图集</h2>
+      <span class="en">Map Atlas · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">收藏地点、GPX/KML 路线、旅行行程、照片地理数据、地点历史、房源清单</p>
+  <div class="links"><a class="demo-link" href="content-demos/map-atlas.html">查看样张</a></div>
+  <pre class="prompt">请以「地图图集 Map Atlas」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：收藏地点、GPX/KML 路线、旅行行程、照片地理数据、地点历史、房源清单
+▍底层系统：空间探索系统：首屏被一张地图/路线/散点锚定
+▍页面骨架（逐条落实）：
+- 图集舞台：离线 SVG/canvas 地图或示意地场，不引外部瓦片
+- 地点抽屉：选中点/簇/段的详情
+- 时空控件：时段刷、城市片、图层开关、类目筛选
+- 移动指标：距离/停留/频次作上下文，不做 KPI 墙
+- 路点浏览器：与舞台联动的可搜索列表
+▍组件词汇：.map-shell .atlas-stage .place-drawer .city-chip .period-scrubber .waypoint-browser
+▍本页 token（可直接用）：底 #EEF1EA / 面板 #FFFFFF / 主字 #2B3230 / 弱文 #75796F / 强调 #2E6E4E / 分隔线 #D3D9CF / 圆角 10px / 标题字体 Fraunces / 正文字体 IBM Plex Sans
+▍动效（只此一次，别加第二处）：航线一次描边
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；地图是主角；列表与指标都是配角
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sd" data-type="content" data-status="content" data-search="环球旅册 global travel 个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>环球旅册</h2>
+      <span class="en">Global Travel · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面</p>
+  <div class="links"><a class="demo-link" href="content-demos/global-travel.html">查看样张</a></div>
+  <pre class="prompt">请以「环球旅册 Global Travel」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面
+▍底层系统：居中式旅行档案：优雅 dossier，不是地图应用
+▍页面骨架（逐条落实）：
+- 居中标题块：一个强标题、一句副题、紧凑选择器与主行动
+- 点阵世界地图：低对比点阵充满首屏，SVG/CSS 绘制
+- 暖色图钉与一个浮标卡：标注选中城市/路线
+- 数字跑道：4-6 个大计数器配细描边图标，数字即节奏
+- 折叠线以下的细节：时间线、花费、下钻都从属于地图舞台
+▍组件词汇：.travel-shell .world-field .pin .callout-card .metric-runway
+▍本页 token（可直接用）：底 #EAF2F0 / 面板 #FFFFFF / 主字 #22333B / 弱文 #6E8483 / 强调 #FF6B4A / 分隔线 #CFE0DC / 圆角 8px / 标题字体 Fraunces / 正文字体 Inter
+▍动效（只此一次，别加第二处）：点阵地图一次浮现
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做密集图集或运营面板；淡蓝绿画布、珊瑚主行动
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sa" data-type="content" data-status="content" data-search="关系图谱 network map 人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>关系图谱</h2>
+      <span class="en">Network Map · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要</p>
+  <div class="links"><a class="demo-link" href="content-demos/network-map.html">查看样张</a></div>
+  <pre class="prompt">请以「关系图谱 Network Map」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要
+▍底层系统：关系图系统：揭示簇、桥、反复交易对手与模式
+▍页面骨架（逐条落实）：
+- 网络画布：首屏 SVG/canvas 节点-连线图或邻接矩阵
+- 实体检查器：选中人物/组织的上下文与关联记录
+- 聚类控件：按组织/发送者/主题/关系类型分组
+- 桥与枢纽卡：最强连接、陈旧关系、未回复线程
+- 关联记录浏览器：随选中节点/边过滤
+▍组件词汇：.network-shell .network-canvas .entity-inspector .cluster-controls .hub-card
+▍本页 token（可直接用）：底 #F4F5F7 / 面板 #FFFFFF / 主字 #23272E / 弱文 #737B88 / 强调 #5B4FFF / 分隔线 #DCDFE6 / 圆角 12px / 标题字体 Manrope / 正文字体 Inter
+▍动效（只此一次，别加第二处）：节点一次弹入
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做行列表首页；节点/边/簇/桥是语言
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sb" data-type="content" data-status="content" data-search="档案审阅 document review 文章、阅读清单、研究合集、pdf/docx、法律/医疗/政策等高风险长文档 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>档案审阅</h2>
+      <span class="en">Document Review · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">文章、阅读清单、研究合集、PDF/DOCX、法律/医疗/政策等高风险长文档</p>
+  <div class="links"><a class="demo-link" href="content-demos/document.html">查看样张</a></div>
+  <pre class="prompt">请以「档案审阅 Document Review」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：文章、阅读清单、研究合集、PDF/DOCX、法律/医疗/政策等高风险长文档
+▍底层系统：阅读与审阅系统：有主张、有证据、可追溯的结构化文档
+▍页面骨架（逐条落实）：
+- 封面/刊头：标题、范围、来源、中立摘要或论点、必要警示
+- 读者栏：章节导航、阅读模式（速览/大纲/证据）、主题筛选
+- 正文纸：章节按备忘录排布；叙事调性用引文，正式调性用事实表
+- 证据摊开：摘录、来源标签、日期、当事方
+- 审查脚注：定义、警示、版本与变更记录
+▍组件词汇：.masthead .reader-rail .body-sheet .evidence-spread .caveat
+▍本页 token（可直接用）：底 #FBFAF7 / 面板 #FFFFFF / 主字 #26282B / 弱文 #7D7A72 / 强调 #7A4E2D / 分隔线 #E0DCD0 / 圆角 6px / 标题字体 Source Serif 4 / 正文字体 IBM Plex Sans
+▍动效（只此一次，别加第二处）：目录条一次滑入
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是营销页；两种调性（叙事/正式）只换语气密度与色板，骨架不变
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sc" data-type="content" data-status="content" data-search="羊皮长读 kami reading 该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>羊皮长读</h2>
+      <span class="en">Kami Reading · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记</p>
+  <div class="links"><a class="demo-link" href="content-demos/kami-reading.html">查看样张</a></div>
+  <pre class="prompt">请以「羊皮长读 Kami Reading」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记
+▍底层系统：温暖的印刷页面搬进浏览器：克制的文档系统，不是应用 UI
+▍页面骨架（逐条落实）：
+- 羊皮画布：#f5f4ed 系暖底，永远不用纯白
+- 衬线封面：顶部小标签、大标题、短导语、一条墨线、紧凑元数据
+- 细目录条：封面下方一列章节
+- 章节如可打印页：眉标、题、导语、正文
+- 无粘性侧栏、无应用顶栏、无营销 hero
+▍组件词汇：.parchment .cover .contents-strip .chapter .folio
+▍本页 token（可直接用）：底 #F5F4ED / 面板 #FAF9F5 / 主字 #3A3631 / 弱文 #8C8677 / 强调 #8A5A2B / 分隔线 #E4E0D2 / 圆角 2px / 标题字体 Noto Serif SC / 正文字体 Noto Serif SC
+▍动效（只此一次，别加第二处）：墨线一次展开
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不要任何应用壳；像一册书
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sd" data-type="content" data-status="content" data-search="建筑式跨页 architectural spread 视觉主导的编辑页：长文、文化评论、概念笔记、设计宣言、物件档案 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>建筑式跨页</h2>
+      <span class="en">Architectural Spread · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">视觉主导的编辑页：长文、文化评论、概念笔记、设计宣言、物件档案</p>
+  <div class="links"><a class="demo-link" href="content-demos/architectural-spread.html">查看样张</a></div>
+  <pre class="prompt">请以「建筑式跨页 Architectural Spread」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：视觉主导的编辑页：长文、文化评论、概念笔记、设计宣言、物件档案
+▍底层系统：全屏分跨页：更像被设计过的杂志跨页而不是网站
+▍页面骨架（逐条落实）：
+- 左视觉舱：大地色半屏、单个大视觉物件垂直居中、左下小插图
+- 右编辑栏：奶油色半屏、章节标签、大标题、衬线斜体强调词
+- 角落锚点：Close (X)/( More Visible Area )/Next Chapter (+) 的极小文字导航
+- 页码圆点：内容栏下中部的章节圆点
+- 安静动效：淡入/滑动、物件微漂移，无喧闹转场
+▍组件词汇：.spread .visual-bay .editorial-panel .corner-anchor .dot-nav
+▍本页 token（可直接用）：底 #C9BFB0 / 面板 #F6F1E7 / 主字 #26221C / 弱文 #7C7264 / 强调 #A05000 / 分隔线 #B4A896 / 圆角 0px / 标题字体 Playfair Display / 正文字体 Noto Serif SC
+▍动效（只此一次，别加第二处）：左视觉物件一次淡入漂移
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做滚动长文、仪表盘、卡片网格或营销 hero
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sa" data-type="content" data-status="content" data-search="电子指南册 digital e-guide 电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>电子指南册</h2>
+      <span class="en">Digital E-Guide · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览</p>
+  <div class="links"><a class="demo-link" href="content-demos/digital-eguide.html">查看样张</a></div>
+  <pre class="prompt">请以「电子指南册 Digital E-Guide」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览
+▍底层系统：暖桌上的两页 PDF 预览：纸页、衬线大字、目录、练习条
+▍页面骨架（逐条落实）：
+- 指南桌面：暖色桌面居中放两页纸，宽屏并排窄屏叠放
+- 封面页：等宽小眉标、超大衬线标题、斜体强调词、署名、3 格统计、What&#x27;s inside、双栏点线目录、页脚 folio
+- 内页跨页：章节眉标、编辑体标题、deck 段、双栏正文或步骤列表、置顶引文、行动条
+- 工具层：搜索/复制/章节控件做成极小的 mono TOOLS 标签页
+▍组件词汇：.eguide-desk .guide-page .cover-page .inside-spread .exercise-strip
+▍本页 token（可直接用）：底 #E9E2D6 / 面板 #FBF8F1 / 主字 #2E2A22 / 弱文 #8A8172 / 强调 #B0483B / 分隔线 #D8CFBE / 圆角 6px / 标题字体 Playfair Display / 正文字体 Noto Serif SC
+▍动效（只此一次，别加第二处）：书页一次翻开
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是仪表盘、应用壳或普通文档页
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sb" data-type="content" data-status="content" data-search="编辑轮播 editorial carousel 品牌策略文、创始人信、趋势解读、宣言、高管摘要、可分享的观点小卡组 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>编辑轮播</h2>
+      <span class="en">Editorial Carousel · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">品牌策略文、创始人信、趋势解读、宣言、高管摘要、可分享的观点小卡组</p>
+  <div class="links"><a class="demo-link" href="content-demos/editorial-carousel.html">查看样张</a></div>
+  <pre class="prompt">请以「编辑轮播 Editorial Carousel」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：品牌策略文、创始人信、趋势解读、宣言、高管摘要、可分享的观点小卡组
+▍底层系统：高级社交杂志轮播：轮播本身即是页面骨架
+▍页面骨架（逐条落实）：
+- 轮播舞台：横向滚动 + scroll-snap，暖灰桌面背景
+- 固定画幅幻灯片：4-8 张 480×600 左右的编辑卡
+- 编号原则：超大数字 + 一句话原则
+- 版面语言：folio 页码、卷标、星芒贴纸、灰阶编辑图
+- 无 hero、无应用顶栏、无解释性壳
+▍组件词汇：.carousel-stage .slide .folio .volume-badge .starburst
+▍本页 token（可直接用）：底 #DDD8CE / 面板 #F4EFE6 / 主字 #17150F / 弱文 #797262 / 强调 #C0392B / 分隔线 #C9C1B2 / 圆角 8px / 标题字体 Playfair Display / 正文字体 Noto Serif SC
+▍动效（只此一次，别加第二处）：首帧幻灯一次滑入
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是落地页/文章/应用；每张卡画幅稳定、字体混排（衬线/手写/等宽）
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sc" data-type="content" data-status="content" data-search="终端命令行 terminal cli 用户明说终端/cli/shell/主机/黑客/服务器控制台；ci 日志、堆栈、runbook、技术时间线 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>终端命令行</h2>
+      <span class="en">Terminal CLI · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">用户明说终端/CLI/shell/主机/黑客/服务器控制台；CI 日志、堆栈、runbook、技术时间线</p>
+  <div class="links"><a class="demo-link" href="content-demos/terminal-cli.html">查看样张</a></div>
+  <pre class="prompt">请以「终端命令行 Terminal CLI」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：用户明说终端/CLI/shell/主机/黑客/服务器控制台；CI 日志、堆栈、runbook、技术时间线
+▍底层系统：磷光屏上的 tmux/vim 分屏：功能至上、仅深色、全等宽、围绕命令与原始证据
+▍页面骨架（逐条落实）：
+- Shell 头：operator@host:~$ 命令行 + 闪烁光标 + 运行元数据
+- 状态轨：终端原生记号 [OK] [ERR] 与 ASCII 条 [||||..] 62%
+- 面板网格：1px 绿框 + 标题条 +--- RUN SUMMARY ---+ 的严格窗格
+- 命令控件：提示符式输入与 [ COPY SUMMARY ] 括号按钮
+- 原始证据：行号、可折叠、可搜索的源材料
+▍组件词汇：.shell-header .status-rail .pane-grid .command-control .raw-log
+▍本页 token（可直接用）：底 #0B0F0C / 面板 #101610 / 主字 #C8E6C9 / 弱文 #5F7A62 / 强调 #37D67A / 分隔线 #2A3A2E / 圆角 2px / 标题字体 JetBrains Mono / 正文字体 JetBrains Mono
+▍动效（只此一次，别加第二处）：首行命令一次打字（光标常闪不算动效）
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是赛博朋克装饰：无 Matrix 雨、无霓虹紫渐变、无圆角 SaaS 卡、无玻璃拟态
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sd" data-type="content" data-status="content" data-search="取证工作台 developer workbench github 仓库、diff、pr 补丁、ci/构建/测试日志、堆栈跟踪等技术工件 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>取证工作台</h2>
+      <span class="en">Developer Workbench · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">GitHub 仓库、diff、PR 补丁、CI/构建/测试日志、堆栈跟踪等技术工件</p>
+  <div class="links"><a class="demo-link" href="content-demos/developer.html">查看样张</a></div>
+  <pre class="prompt">请以「取证工作台 Developer Workbench」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：GitHub 仓库、diff、PR 补丁、CI/构建/测试日志、堆栈跟踪等技术工件
+▍底层系统：终端取证工作台：像 tmux 分屏的事故控制台，可审计、扫读快
+▍页面骨架（逐条落实）：
+- 命令/发现栏：顶部 prompt 写状态、疑似原因、涉改文件、置信度标签
+- 终端面板格：审阅清单/风险热点/失败测试/堆栈帧/可复制交接
+- 风险清单：按严重度排序的发现，前缀 [ERR][WARN][OK][HYP]
+- diff/日志/搜索窗：并排可扫读
+- 可复制交接：一段能贴走的结论块
+▍组件词汇：.finding-bar .pane .risk-checklist .stack-frame .handoff
+▍本页 token（可直接用）：底 #101418 / 面板 #161C22 / 主字 #D7DEE8 / 弱文 #71818F / 强调 #4FC3F7 / 分隔线 #2A333D / 圆角 4px / 标题字体 JetBrains Mono / 正文字体 JetBrains Mono
+▍动效（只此一次，别加第二处）：diff 行一次高亮扫过
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做通用 SaaS 审阅页；一切以终端设计语言表达
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sa" data-type="content" data-status="content" data-search="洞察简报 insight brief 需求不明时的默认形态：仍要有设计感，不做文档倾倒 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>洞察简报</h2>
+      <span class="en">Insight Brief · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">需求不明时的默认形态：仍要有设计感，不做文档倾倒</p>
+  <div class="links"><a class="demo-link" href="content-demos/default.html">查看样张</a></div>
+  <pre class="prompt">请以「洞察简报 Insight Brief」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：需求不明时的默认形态：仍要有设计感，不做文档倾倒
+▍底层系统：面向模糊输入的紧凑简报系统：不是仪表盘也不是文章
+▍页面骨架（逐条落实）：
+- 答案头：一个直给的标题、一句有用的话、2-4 枚&quot;关键点&quot;片
+- 主洞察面板：唯一最有用的一张图/对比/时间线/摘要面
+- 证据堆：3-5 节按有用度排序，各带主张与支撑行
+- 局部下钻：解读之后的搜索/筛选/浏览
+▍组件词汇：.brief-header .answer-strip .primary-insight .evidence-stack .useful-chip
+▍本页 token（可直接用）：底 #FAFAF8 / 面板 #FFFFFF / 主字 #202124 / 弱文 #787D85 / 强调 #3452FF / 分隔线 #E4E5E8 / 圆角 12px / 标题字体 Inter / 正文字体 Inter
+▍动效（只此一次，别加第二处）：主面板一次轻抬升入场
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；少用卡片；一个好面板 + 分组证据行优先
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+  <button class="copy-btn" type="button">复制提示词</button>
+</article>
+<article class="m-card sb" data-type="content" data-status="content" data-search="恋爱纪念 3d keepsake 3d 情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3d 纪念品质感 内容 排版 content">
+  <div class="m-head">
+    <div>
+      <h2>恋爱纪念 3D</h2>
+      <span class="en">Keepsake 3D · 内容排版</span>
+    </div>
+    <div class="badges"><span class="badge b-pat">内容排版</span></div>
+  </div>
+  <p class="best">情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3D 纪念品质感</p>
+  <div class="links"><a class="demo-link" href="content-demos/love-romance-3d.html">查看样张</a></div>
+  <pre class="prompt">请以「恋爱纪念 3D Keepsake 3D」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
+
+▍适用：情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3D 纪念品质感
+▍底层系统：关系节奏的纪念品界面：圆润形体、透明高光、粉红渐变、小金饰
+▍页面骨架（逐条落实）：
+- 3D 纪念品封面：关系主题句 + 图标舞台 + 最安全的聚合统计
+- 图标舞台指标：带高光与软影的立体小方块承载指标
+- 消息脉冲板：圆糖果格热力图，不做企业图表
+- 软对比泳道：A/B 双人经均衡泳道、共同词、回应节奏
+- 隐私证据抽屉：证据匿名化且极小，不做原始聊天回放器
+▍组件词汇：.keepsake-cover .icon-stage .pulse-board .compare-lane .privacy-drawer
+▍本页 token（可直接用）：底 #FDF0F3 / 面板 #FFFFFF / 主字 #3A2530 / 弱文 #9C7A87 / 强调 #E85D8A / 分隔线 #F2DCE3 / 圆角 20px / 标题字体 Quicksand / 正文字体 Noto Sans SC
+▍动效（只此一次，别加第二处）：漂浮物件一次入场
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做中性报告页；也不变成原始聊天记录浏览器
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
   </div>
