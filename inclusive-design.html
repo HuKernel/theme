@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inclusive Design 包容设计 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* token 计划：primary #059669 深化至 #065F46（白底 7.7:1 AAA）/ secondary #DC2626 文本用 #991B1B（8.3:1）/ accent #960532（8.9:1 AAA）/ bg #F8FAFC / fg #0F172A / muted #334155 / radius 6px / Atkinson Hyperlegible */
+:root{
+  --bg:#F8FAFC;
+  --surface:#FFFFFF;
+  --zebra:#F1F5F9;
+  --ink:#0F172A;
+  --muted:#334155;
+  --green:#047857;
+  --green-aaa:#065F46;
+  --wine:#960532;
+  --amber:#92400E;
+  --err:#991B1B;
+  --line:#C9D3E0;
+  --chip-line:#64748B;
+  --radius:6px;
+  --lh:1.8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:17px;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:"Atkinson Hyperlegible","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:var(--lh);font-size:1rem;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 1.25rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:2px}
+.skip{position:absolute;left:1rem;top:-4rem;background:var(--green-aaa);color:#FFFFFF;padding:.7rem 1.2rem;border-radius:var(--radius);z-index:50;font-weight:700;text-decoration:none;transition:top .2s}
+.skip:focus{top:1rem}
+a{color:var(--green-aaa)}
+/* 一次亮相动效：仅 hero 内容上移进场一次 */
+.rise{animation:rise .55s ease-out .05s both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+/* 顶栏 */
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-top:.85rem;padding-bottom:.85rem}
+.brand{font-weight:700;color:var(--ink)}
+.brand small{font-weight:400;color:var(--muted)}
+.top nav{display:flex;gap:1.1rem;flex-wrap:wrap}
+.top nav a{font-size:.92rem;text-decoration:none;color:var(--green-aaa)}
+.top nav a:hover,.top nav a:focus-visible{text-decoration:underline}
+/* hero */
+.hero{background:var(--surface);border-bottom:1px solid var(--line)}
+.hero-in{padding-top:4rem;padding-bottom:3.2rem}
+.kicker{color:var(--muted);font-size:.95rem;margin-bottom:.6rem}
+h1{font-size:clamp(2.3rem,6vw,3.3rem);line-height:1.25;letter-spacing:.01em}
+h1 .en{display:block;font-size:.42em;color:var(--green-aaa);font-weight:700;margin-top:.35rem}
+.lede{max-width:62ch;font-size:1.12rem;color:var(--muted);margin-top:1.3rem}
+.hero-meta{margin-top:1.6rem;padding:.75rem 1rem;border-left:5px solid var(--green-aaa);background:var(--bg);color:var(--muted);font-size:.95rem;max-width:62ch}
+/* 区块骨架 */
+.sec{padding:3.2rem 0;border-bottom:1px solid var(--line)}
+.sec.alt{background:var(--zebra)}
+h2{font-size:1.65rem;line-height:1.45;padding-bottom:.4rem;margin-bottom:1.1rem;border-bottom:3px solid var(--green-aaa);max-width:fit-content}
+.sec-lede{max-width:70ch;color:var(--muted);margin-bottom:1.8rem}
+/* 谱系矩阵 */
+.matrix-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.matrix{width:100%;border-collapse:collapse;min-width:480px}
+.matrix caption{text-align:left}
+.matrix th,.matrix td{padding:.7rem .8rem;text-align:left;font-size:.95rem;border-bottom:1px solid var(--line)}
+.matrix thead th{background:var(--green-aaa);color:#FFFFFF;font-size:.95rem}
+.matrix tbody th{width:5.5em;background:var(--zebra);color:var(--green-aaa);font-weight:700}
+.matrix tbody tr:last-child th,.matrix tbody tr:last-child td{border-bottom:0}
+.matrix td{color:var(--muted)}
+.spec-note{margin-top:1rem;color:var(--muted);font-size:.95rem}
+/* persona 卡 */
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;align-items:stretch}
+.persona{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem;gap:.55rem}
+.persona.pr1{border-top:5px solid var(--green-aaa)}
+.persona.pr2{border-top:5px solid var(--amber)}
+.persona.pr3{border-top:5px solid var(--wine)}
+.persona.pr4{border-top:5px solid var(--ink)}
+.p-tag{font-size:.85rem;color:var(--muted)}
+.p-name{font-size:1.18rem}
+.p-role{color:var(--green-aaa);font-weight:700}
+.p-story{color:var(--muted);font-size:.95rem}
+.p-needs{list-style:none;margin-top:.35rem}
+.p-needs li{padding:.32rem 0;border-top:1px dashed var(--line);font-size:.92rem}
+.p-cta{margin-top:auto}
+/* 按钮 */
+.btn{display:inline-block;min-height:52px;padding:.6rem 1.25rem;border-radius:var(--radius);font:inherit;font-weight:700;cursor:pointer;border:2px solid transparent;transition:background-color .15s,color .15s,border-color .15s}
+.btn-main{background:var(--green-aaa);color:#FFFFFF}
+.btn-main:hover{background:var(--green)}
+.btn-ghost{background:transparent;border-color:var(--green-aaa);color:var(--green-aaa)}
+.btn-ghost:hover{background:var(--bg)}
+/* 模式切换行 */
+.mode-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-bottom:.9rem}
+.mode-tab{min-height:48px;padding:.45rem 1.05rem;font:inherit;font-weight:700;border-radius:var(--radius);border:2px solid var(--chip-line);background:var(--surface);color:var(--ink);cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
+.mode-tab:hover{border-color:var(--green-aaa);color:var(--green-aaa)}
+.mode-tab[aria-pressed="true"]{background:var(--green-aaa);border-color:var(--green-aaa);color:#FFFFFF}
+.mode-note{flex-basis:100%;color:var(--muted);font-size:.95rem}
+/* 演示面板：组件级令牌随模式切换 */
+.demo{
+  --d-bg:var(--surface);--d-ink:var(--ink);--d-mut:var(--muted);--d-line:var(--line);
+  --d-acc:var(--green-aaa);--d-sel:var(--green-aaa);--d-selink:#FFFFFF;
+  --d-ok:#065F46;--d-warn:#92400E;--d-bad:#991B1B;--d-chipline:var(--chip-line);
+  background:var(--d-bg);color:var(--d-ink);border:1px solid var(--d-line);
+  border-radius:var(--radius);padding:1.4rem;transition:background-color .15s,color .15s;
+}
+.demo[data-mode="contrast"]{
+  --d-bg:#000000;--d-ink:#FFFFFF;--d-mut:#E9E9E9;--d-line:#FFFFFF;
+  --d-acc:#FFE24A;--d-sel:#FFE24A;--d-selink:#000000;
+  --d-ok:#8CF2BC;--d-warn:#FFE24A;--d-bad:#FF9D9D;--d-chipline:#FFFFFF;
+  border-width:2px;
+}
+.demo[data-mode="contrast"] :focus-visible{outline-color:#FFE24A}
+.demo[data-mode="contrast"] .step,.demo[data-mode="contrast"] .chip,.demo[data-mode="contrast"] .slot,.demo[data-mode="contrast"] .result,.demo[data-mode="contrast"] .d-head{border-width:2px}
+.d-head{display:flex;justify-content:space-between;gap:.8rem;flex-wrap:wrap;border-bottom:1px solid var(--d-line);padding-bottom:.7rem}
+.d-org{font-weight:700}
+.d-legend{color:var(--d-mut);font-size:.92rem}
+.d-status{color:var(--d-mut);margin:.7rem 0 1rem;font-size:.98rem}
+.step{border:1px solid var(--d-line);border-radius:var(--radius);padding:1rem 1.1rem 1.1rem;margin-top:1.1rem}
+.step legend{font-weight:700;color:var(--d-acc);padding:0 .4rem}
+.f-label{margin:.7rem 0 .45rem;font-weight:700;font-size:.98rem}
+.chiprow{display:grid;gap:.6rem}
+.chiprow.five{grid-template-columns:repeat(5,1fr)}
+.chiprow.three{grid-template-columns:repeat(3,1fr)}
+.chiprow.four{grid-template-columns:repeat(4,1fr)}
+.chip,.slot{
+  min-height:50px;border:1.5px solid var(--d-chipline);border-radius:var(--radius);
+  background:var(--d-bg);color:inherit;font:inherit;cursor:pointer;padding:.45rem .55rem;
+  transition:background-color .15s,color .15s,border-color .15s;
+}
+.chip:hover,.slot:hover:not(:disabled){border-color:var(--d-acc);color:var(--d-acc)}
+.chip[aria-pressed="true"]{background:var(--d-sel);border-color:var(--d-sel);color:var(--d-selink);font-weight:700}
+.chip[aria-pressed="true"]::before{content:"✓ ";}
+.slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem}
+.slot:disabled{cursor:not-allowed;opacity:.55}
+.demo[data-mode="contrast"] .slot:disabled{opacity:1;border-style:dashed}
+.sym{font-size:.85rem;font-weight:700}
+.sym-ok{color:var(--d-ok)}
+.sym-warn{color:var(--d-warn)}
+.sym-bad{color:var(--d-bad)}
+.demo .btn-main{background:var(--d-sel);color:var(--d-selink);border-color:var(--d-sel)}
+.demo .btn-main:hover{background:var(--d-sel);filter:brightness(1.12)}
+.demo .btn-ghost{border-color:var(--d-acc);color:var(--d-ink)}
+.demo .btn-ghost:hover{background:var(--d-bg);filter:brightness(.94)}
+.demo[data-mode="contrast"] .btn-ghost{color:#FFFFFF}
+.act-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+.summary{display:grid;grid-template-columns:7em 1fr;gap:.45rem .9rem;margin-top:.4rem}
+.summary dt{font-weight:700;color:var(--d-mut)}
+.summary dd{color:var(--d-ink)}
+/* 单手简化模式 */
+.demo[data-mode="simple"]{max-width:580px;margin-inline:auto}
+.demo[data-mode="simple"] .step:not(.step-now){display:none}
+.demo[data-mode="simple"] .only-full{display:none}
+.wizard{display:none;gap:.7rem;margin-top:1.15rem}
+.demo[data-mode="simple"] .wizard{display:flex}
+.wizard .btn{flex:1;min-height:62px}
+.wizard .btn:disabled{cursor:not-allowed;opacity:.55}
+/* 大字模式 */
+.demo[data-mode="large"]{font-size:1.24rem}
+.demo[data-mode="large"] .chip,.demo[data-mode="large"] .slot{min-height:64px}
+.demo[data-mode="large"] .btn{min-height:64px}
+.demo[data-mode="large"] .step{padding:1.2rem 1.25rem}
+.demo[data-mode="large"] .sym{font-size:.8rem}
+/* 结果 */
+.demo.done form{display:none}
+.result{border:2px solid var(--d-ok);border-radius:var(--radius);padding:1.25rem;background:transparent}
+.demo[data-mode="contrast"] .result{border-color:#8CF2BC}
+.result h3{font-size:1.3rem;color:var(--d-ok);margin-bottom:.5rem}
+.demo[data-mode="contrast"] .result h3{color:#8CF2BC}
+.result p{margin-bottom:.45rem}
+.result strong{font-size:1.15rem;letter-spacing:.04em}
+.res-tip{color:var(--d-mut);font-size:.95rem}
+.d-foot{margin-top:1rem;color:var(--d-mut);font-size:.88rem;border-top:1px solid var(--d-line);padding-top:.7rem}
+/* 听觉路径 */
+.audio-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:1.1rem;align-items:stretch}
+.script,.voice-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem}
+.script h3,.voice-box h3{font-size:1.1rem;margin-bottom:.7rem}
+.script ul{list-style:none}
+.script li{padding:.5rem .8rem;border-left:3px solid var(--green-aaa);background:var(--bg);margin-bottom:.45rem;font-size:.95rem}
+.script li:nth-child(even){border-left-color:var(--wine)}
+.voice-box p{color:var(--muted);font-size:.95rem;margin-bottom:.9rem}
+.voice-box .act-row{margin-top:0}
+.voice-note{margin-top:1rem;margin-bottom:0}
+/* 旁白说明区 */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;align-items:stretch}
+.why{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.15rem}
+.w-no{font-weight:700;color:var(--wine);font-size:.9rem;letter-spacing:.08em}
+.why h3{font-size:1.02rem;margin:.25rem 0 .4rem}
+.why p{color:var(--muted);font-size:.92rem}
+/* footer */
+.site-foot{background:var(--ink);color:#E7EDF5;padding:2rem 0}
+.foot-in p{margin-bottom:.4rem}
+.foot-title{font-weight:700}
+.foot-links a{color:#9BE8C6}
+.foot-small{color:#C7D2E4;font-size:.88rem}
+/* 响应式 */
+@media (max-width:900px){
+  .p-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .audio-grid{grid-template-columns:1fr}
+  .chiprow.five{grid-template-columns:repeat(2,1fr)}
+  .chiprow.four{grid-template-columns:repeat(2,1fr)}
+  .hero-in{padding-top:3rem;padding-bottom:2.4rem}
+}
+@media (max-width:480px){
+  .chiprow.three{grid-template-columns:repeat(3,1fr)}
+  .chiprow.five{grid-template-columns:repeat(2,1fr)}
+  .chiprow.four{grid-template-columns:repeat(2,1fr)}
+  .chip,.slot{font-size:.88rem;padding:.4rem .3rem}
+  .p-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .sec{padding:2.4rem 0}
+  .summary{grid-template-columns:5.5em 1fr}
+  .btn{min-height:50px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#demo">跳到预约演示</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <p class="brand">同路 <small>/ 城市公共服务预约平台（演示）</small></p>
+    <nav aria-label="页面导航">
+      <a href="#spectrum">障碍谱系</a>
+      <a href="#personas">四位使用者</a>
+      <a href="#demo">预约演示</a>
+      <a href="#audio">听觉路径</a>
+      <a href="#why">设计旁白</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap hero-in rise">
+      <p class="kicker">UI 设计风格精修演示 / Inclusive Design</p>
+      <h1 id="hero-h">包容设计<span class="en">Inclusive Design</span></h1>
+      <p class="lede">为永久性、暂时性与情境性的障碍而设计。它不是为「少数人」另开小灶，而是承认每个人在不同时刻，都需要同一界面的不同使用方式——看清、听清、单手、简化，都只是同一次挂号的不同走法。</p>
+      <p class="hero-meta">演示主题 / 康宁社区卫生服务中心 预约挂号 / 一个界面，四种走法，一条听觉路径 / 理念参考微软包容设计工具箱的永久、暂时、情境三分类</p>
+    </div>
+  </section>
+
+  <section id="spectrum" class="sec" aria-labelledby="spec-h">
+    <div class="wrap">
+      <h2 id="spec-h">障碍是一个谱系，不是少数人的标签</h2>
+      <p class="sec-lede">微软包容设计工具箱把障碍分为三类：永久性长期存在，暂时性伴随伤病，情境性来自环境。人行道坡道最初为轮椅使用者而设，如今拖行李箱的人、推婴儿车的人、送货的骑手都在用它——为谱系一端做的设计，会服务整条谱系，这正是包容设计的杠杆。</p>
+      <div class="matrix-scroll" tabindex="0" aria-label="障碍谱系矩阵，窄屏下可横向滚动">
+        <table class="matrix">
+          <caption class="sr-only">障碍谱系矩阵：看见、听见、操作、说出四行，对应永久性、暂时性、情境性三列</caption>
+          <thead>
+            <tr>
+              <th scope="col">能力</th>
+              <th scope="col">永久性</th>
+              <th scope="col">暂时性</th>
+              <th scope="col">情境性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">看见</th>
+              <td>视网膜色素变性，视野逐渐收窄</td>
+              <td>眼科术后散瞳，畏光模糊一天</td>
+              <td>正午强光下，屏幕反光如镜</td>
+            </tr>
+            <tr>
+              <th scope="row">听见</th>
+              <td>感音神经性听障</td>
+              <td>中耳炎引起的听力下降</td>
+              <td>地铁隧道里的持续轰鸣</td>
+            </tr>
+            <tr>
+              <th scope="row">操作</th>
+              <td>单侧上肢缺失</td>
+              <td>手腕骨折打着石膏</td>
+              <td>一只手抱着熟睡的婴儿</td>
+            </tr>
+            <tr>
+              <th scope="row">说出</th>
+              <td>构音障碍</td>
+              <td>急性喉炎暂时失声</td>
+              <td>安静考场里不便出声</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="spec-note">同一列的处境，需要同一种设计回应。所以下面演示的四种模式，不对应「残障用户」，而对应整条谱系上任何时刻的任何人。</p>
+    </div>
+  </section>
+
+  <section id="personas" class="sec alt" aria-labelledby="per-h">
+    <div class="wrap">
+      <h2 id="per-h">四位真实处境的使用者</h2>
+      <p class="sec-lede">他们不是「无障碍模式的用户」，只是四种常见处境。点每张卡底部的按钮，下方演示区会立刻切到对应形态，并自动滚动过去。</p>
+      <div class="p-grid">
+        <article class="persona pr1">
+          <p class="p-tag">情境性 / 单手操作</p>
+          <h3 class="p-name">陈默 / 34 岁</h3>
+          <p class="p-role">单手抱着婴儿的家长</p>
+          <p class="p-story">周三清晨，她一手抱着刚睡着的女儿站在社区中心门口，只能用拇指在晃动的屏幕上完成全部预约操作。</p>
+          <ul class="p-needs">
+            <li>不小于 44 像素的触控目标</li>
+            <li>拇指可达的底部操作条</li>
+            <li>一步一题，不用长页面找</li>
+          </ul>
+          <button type="button" class="btn btn-ghost p-cta" data-goto="simple">切换到单手简化模式</button>
+        </article>
+        <article class="persona pr2">
+          <p class="p-tag">情境性 / 强光环境</p>
+          <h3 class="p-name">老周 / 58 岁</h3>
+          <p class="p-role">正午强光下的道路养护工</p>
+          <p class="p-story">午休时他坐在路边花坛上扫码预约体检，阳光直射，屏幕像一面镜子，浅灰字几乎全部消失。</p>
+          <ul class="p-needs">
+            <li>黑底白字的 AAA 级对比</li>
+            <li>加粗边框与焦点环</li>
+            <li>状态不靠颜色单独区分</li>
+          </ul>
+          <button type="button" class="btn btn-ghost p-cta" data-goto="contrast">切换到高对比模式</button>
+        </article>
+        <article class="persona pr3">
+          <p class="p-tag">永久性 / 年龄相关</p>
+          <h3 class="p-name">何阿姨 / 67 岁</h3>
+          <p class="p-role">不戴老花镜看不清字的长者</p>
+          <p class="p-story">她不戴镜时手机上的字像蒙了层雾，戴上又容易眼花，习惯把字号调到最大再慢慢按。</p>
+          <ul class="p-needs">
+            <li>整体放大的字号与行距</li>
+            <li>同样放大的可点区域</li>
+            <li>清晰分步，不赶时间</li>
+          </ul>
+          <button type="button" class="btn btn-ghost p-cta" data-goto="large">切换到大字模式</button>
+        </article>
+        <article class="persona pr4">
+          <p class="p-tag">永久性 / 视觉通道之外</p>
+          <h3 class="p-name">林川 / 29 岁</h3>
+          <p class="p-role">依赖读屏软件的视障用户</p>
+          <p class="p-story">他是推拿师，用读屏软件「听」完整个页面，靠语义结构与自动播报完成预约，从不看布局长什么样。</p>
+          <ul class="p-needs">
+            <li>语义分组与完整标签</li>
+            <li>状态变化主动播报</li>
+            <li>合理的焦点顺序</li>
+          </ul>
+          <button type="button" class="btn btn-ghost p-cta" data-goto="audio">查看听觉路径</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="sec" aria-labelledby="demo-h">
+    <div class="wrap">
+      <h2 id="demo-h" tabindex="-1">一次挂号，四种走法</h2>
+      <p class="sec-lede">这是康宁社区卫生服务中心的真实预约流程。用下面的模式切换，或点上方人物卡里的按钮，同一界面会以不同形态工作——切换真实生效，可以完整走完预约，不是截图。</p>
+      <div class="mode-row" role="group" aria-label="界面显示模式切换">
+        <button type="button" class="mode-tab" data-mode="std" aria-pressed="true">标准视窗</button>
+        <button type="button" class="mode-tab" data-mode="large" aria-pressed="false">大字模式</button>
+        <button type="button" class="mode-tab" data-mode="contrast" aria-pressed="false">高对比模式</button>
+        <button type="button" class="mode-tab" data-mode="simple" aria-pressed="false">单手简化</button>
+        <p class="mode-note" id="modeNote">标准视窗 / 基线形态：全部信息平铺，适合双手、坐姿与良好光线下的短暂操作。</p>
+      </div>
+      <div class="demo" id="booking" data-mode="std">
+        <div class="d-head">
+          <p class="d-org">康宁社区卫生服务中心 / 预约挂号</p>
+          <p class="d-legend">号源图例：✓ 充足 / ！紧张 / ✕ 约满</p>
+        </div>
+        <p class="d-status" id="statusLine">尚未选择，请从第一步开始。</p>
+        <form id="bookForm" aria-label="预约挂号表单" novalidate>
+          <fieldset class="step step-now" id="step1">
+            <legend>第一步 / 选择科室</legend>
+            <div class="chiprow five" role="group" aria-label="科室选择">
+              <button type="button" class="chip" data-kind="dept" data-val="q" aria-pressed="false">全科门诊</button>
+              <button type="button" class="chip" data-kind="dept" data-val="k" aria-pressed="false">康复理疗</button>
+              <button type="button" class="chip" data-kind="dept" data-val="m" aria-pressed="false">慢病随访</button>
+              <button type="button" class="chip" data-kind="dept" data-val="e" aria-pressed="false">儿童保健</button>
+              <button type="button" class="chip" data-kind="dept" data-val="v" aria-pressed="false">预防接种</button>
+            </div>
+          </fieldset>
+          <fieldset class="step" id="step2">
+            <legend>第二步 / 选择日期与时段</legend>
+            <p class="f-label">日期</p>
+            <div class="chiprow three" role="group" aria-label="日期选择">
+              <button type="button" class="chip" data-kind="date" data-val="d1" aria-pressed="false">10月9日 周四</button>
+              <button type="button" class="chip" data-kind="date" data-val="d2" aria-pressed="false">10月10日 周五</button>
+              <button type="button" class="chip" data-kind="date" data-val="d3" aria-pressed="false">10月11日 周六</button>
+            </div>
+            <p class="f-label">时段</p>
+            <div class="chiprow four" role="group" aria-label="时段选择，约满时段不可选">
+              <button type="button" class="slot" data-kind="time" data-val="08:30" aria-pressed="false">08:30<span class="sym sym-ok">✓ 余 12</span></button>
+              <button type="button" class="slot" data-kind="time" data-val="09:30" aria-pressed="false">09:30<span class="sym sym-warn">！仅余 3</span></button>
+              <button type="button" class="slot" data-kind="time" disabled aria-disabled="true">10:30<span class="sym sym-bad">✕ 约满</span></button>
+              <button type="button" class="slot" data-kind="time" data-val="14:00" aria-pressed="false">14:00<span class="sym sym-ok">✓ 余 8</span></button>
+            </div>
+          </fieldset>
+          <fieldset class="step" id="step3">
+            <legend>第三步 / 确认并提交</legend>
+            <dl class="summary">
+              <dt>科室</dt><dd id="sumDept">未选择</dd>
+              <dt>时间</dt><dd id="sumTime">未选择</dd>
+              <dt>报到方式</dt><dd>现场分诊台扫码报到</dd>
+            </dl>
+            <div class="act-row">
+              <button type="button" class="btn btn-main only-full" id="confirmBtn">确认挂号</button>
+              <button type="button" class="btn btn-ghost" id="speakSel">语音播报当前选择</button>
+            </div>
+          </fieldset>
+          <div class="wizard" aria-label="单手模式分步操作条">
+            <button type="button" class="btn btn-ghost" id="wPrev">上一步</button>
+            <button type="button" class="btn btn-main" id="wNext">下一步</button>
+          </div>
+        </form>
+        <div class="result" id="result" hidden tabindex="-1" aria-labelledby="resH">
+          <h3 id="resH">预约成功</h3>
+          <p>预约号 <strong id="resCode">KN-2026-0000</strong></p>
+          <p id="resDetail">科室与时间</p>
+          <p class="res-tip">请携带身份证与医保卡，于时段开始前 10 分钟到二楼分诊台扫码报到。迟到 15 分钟以上号源自动释放。</p>
+          <div class="act-row">
+            <button type="button" class="btn btn-ghost" id="cancelBtn">取消本次预约</button>
+          </div>
+        </div>
+        <p class="d-foot">选中与提交在支持振动的设备上伴随 10 毫秒轻震 / 全部状态变化同步写入读屏实时播报区</p>
+      </div>
+      <p class="sr-only" id="live" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="audio" class="sec alt" aria-labelledby="audio-h">
+    <div class="wrap">
+      <h2 id="audio-h">听觉路径 / 不用眼睛完成同一次挂号</h2>
+      <p class="sec-lede">读屏用户沿语义结构线性前进：分组、标签、状态被逐一播报。左下是本次演示的读屏文稿节选，右侧按钮可以用浏览器原生语音真实朗读，不依赖任何视觉通道。</p>
+      <div class="audio-grid">
+        <div class="script">
+          <h3>读屏播报文稿（节选）</h3>
+          <ul id="scriptList">
+            <li>「康宁社区卫生服务中心 预约挂号 分组」</li>
+            <li>「第一步 选择科室 分组 共 5 个选项」</li>
+            <li>「康复理疗 切换按钮 未按下」</li>
+            <li>按下后：「康复理疗 已按下」</li>
+            <li>「状态 已选 康复理疗 尚未选择日期」</li>
+            <li>「10月10日 周五 切换按钮 已按下」</li>
+            <li>「09:30 仅余 3 个 紧张 切换按钮 未按下」</li>
+            <li>「10:30 约满 按钮已禁用」</li>
+            <li>「确认挂号 按钮」</li>
+            <li>「预约成功 预约号 KN-2026-4831」</li>
+          </ul>
+        </div>
+        <div class="voice-box">
+          <h3>真实语音出口</h3>
+          <p>演示区里的「语音播报当前选择」与这里的整段朗读，都调用浏览器内置的语音合成接口，中文语音即时可用；焦点顺序、分组与状态播报则交给完整的语义结构。</p>
+          <div class="act-row">
+            <button type="button" class="btn btn-main" id="speakScript">朗读整段文稿</button>
+            <button type="button" class="btn btn-ghost" id="stopSpeak">停止播报</button>
+          </div>
+          <p class="voice-note">触觉是第三条通道：支持振动接口的手机上，选中轻震 10 毫秒，提交成功以短促双震确认，无需看也不必听。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="sec" aria-labelledby="why-h">
+    <div class="wrap">
+      <h2 id="why-h">旁白 / 每个设计决定背后的为什么</h2>
+      <p class="sec-lede">包容设计不是清单式的合规，而是一组可以解释的决定。以下六条，每一条都能在上面的演示里找到对应。</p>
+      <div class="why-grid">
+        <article class="why">
+          <p class="w-no">01</p>
+          <h3>触控目标不小于 44 像素</h3>
+          <p>抱着婴儿的拇指在晃动中落点会偏移，目标越大误触越少。这是单手路径的物理前提，也顺带方便了戴手套的人和手抖的长者。</p>
+        </article>
+        <article class="why">
+          <p class="w-no">02</p>
+          <h3>选中态等于勾号加边框加文字</h3>
+          <p>色觉障碍者约占男性的百分之八，任何状态都不单独依赖颜色传达。勾号、反色边框与文字三重编码，黑白打印也能读懂。</p>
+        </article>
+        <article class="why">
+          <p class="w-no">03</p>
+          <h3>同一表单可拆成一步一题</h3>
+          <p>信息不变，认知负荷被切小。单手用户获得线性路径，读屏用户获得可预期的顺序，注意力有限的人也不用长页面来回找。</p>
+        </article>
+        <article class="why">
+          <p class="w-no">04</p>
+          <h3>状态变化写入实时播报区</h3>
+          <p>选择结果主动推送，读屏用户不必来回搜索页面变化。看得见的人看到状态行，看不见的人听到同一句话，信息完全等价。</p>
+        </article>
+        <article class="why">
+          <p class="w-no">05</p>
+          <h3>高对比按 AAA 7:1 以上校准</h3>
+          <p>正午屏幕反光会让对比度损失过半，7:1 在强光下仍有冗余。黑底白字加粗边框，是这个损失模型下的安全余量。</p>
+        </article>
+        <article class="why">
+          <p class="w-no">06</p>
+          <h3>全页只有一次入场动效</h3>
+          <p>前庭功能敏感的用户，动画是负担而非装饰。一次克制的进场之后页面静止，系统级减少动态偏好还会把它彻底关掉。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <p class="foot-title">UI 设计提示词库 / Inclusive Design 包容设计</p>
+    <p class="foot-links"><a href="style-catalog.html">返回风格目录</a></p>
+    <p class="foot-small">同路平台与康宁社区卫生服务中心均为演示用虚构名称 / 高对比模式文字对比按 AAA 7:1 以上校准 / 读屏文稿为演示节选</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var demo=document.getElementById('booking');
+  var live=document.getElementById('live');
+  var statusLine=document.getElementById('statusLine');
+  var modeNote=document.getElementById('modeNote');
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('.mode-tab'));
+  var deptName={q:'全科门诊',k:'康复理疗',m:'慢病随访',e:'儿童保健',v:'预防接种'};
+  var dateName={d1:'10月9日 周四',d2:'10月10日 周五',d3:'10月11日 周六'};
+  var state={dept:'',date:'',time:''};
+  var current=1;
+  var notes={
+    std:'标准视窗 / 基线形态：全部信息平铺，适合双手、坐姿与良好光线下的短暂操作。',
+    large:'大字模式 / 为低视力与老花准备：字号与触控目标整体放大，行距放宽，不必把手机凑到眼前。',
+    contrast:'高对比模式 / 为强光与低视力准备：黑底白字、加粗边框，文字对比按 AAA 7:1 以上校准。',
+    simple:'单手简化模式 / 为抱着婴儿的单手拇指准备：一步一题、底部大按钮，晃动中也能按中。'
+  };
+  function say(t){live.textContent=t;}
+  function buzz(p){if(navigator.vibrate){navigator.vibrate(p);}}
+  function sayAndPaint(){statusLine.textContent=statusText();}
+  function statusText(){
+    if(!state.dept&&!state.date&&!state.time){return '尚未选择，请从第一步开始。';}
+    var parts=[state.dept?deptName[state.dept]:'科室未选'];
+    if(state.date||state.time){
+      parts.push((state.date?dateName[state.date]:'日期未选')+(state.time?' '+state.time:'，时段未选'));
+    }
+    return '当前选择：'+parts.join(' / ');
+  }
+  function paintSummary(){
+    document.getElementById('sumDept').textContent=state.dept?deptName[state.dept]:'未选择';
+    document.getElementById('sumTime').textContent=(state.date?dateName[state.date]:'未选择')+(state.time?' '+state.time:'');
+  }
+  function firstOpen(){
+    if(!state.dept){return 1;}
+    if(!state.date||!state.time){return 2;}
+    return 3;
+  }
+  function goStep(n){
+    current=n;
+    for(var i=1;i<=3;i++){
+      document.getElementById('step'+i).classList.toggle('step-now',i===n);
+    }
+    document.getElementById('wPrev').disabled=(n===1);
+    document.getElementById('wNext').textContent=(n===3)?'确认挂号':'下一步';
+  }
+  function setMode(m){
+    demo.setAttribute('data-mode',m);
+    tabs.forEach(function(b){
+      b.setAttribute('aria-pressed',b.getAttribute('data-mode')===m?'true':'false');
+    });
+    modeNote.textContent=notes[m];
+    if(m==='simple'){goStep(firstOpen());}
+  }
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){setMode(b.getAttribute('data-mode'));say('已切换到'+notes[b.getAttribute('data-mode')].split(' / ')[0]);});
+  });
+  function wireChips(sel,kind){
+    document.querySelectorAll(sel).forEach(function(c){
+      c.addEventListener('click',function(){
+        if(c.getAttribute('aria-pressed')==='true'){
+          c.setAttribute('aria-pressed','false');
+          state[kind]='';
+        }else{
+          document.querySelectorAll(sel).forEach(function(o){o.setAttribute('aria-pressed','false');});
+          c.setAttribute('aria-pressed','true');
+          state[kind]=c.getAttribute('data-val');
+        }
+        if(demo.classList.contains('done')){demo.classList.remove('done');}
+        buzz(10);
+        sayAndPaint();
+        paintSummary();
+        say(statusText());
+      });
+    });
+  }
+  wireChips('.chip[data-kind="dept"]','dept');
+  wireChips('.chip[data-kind="date"]','date');
+  wireChips('.slot[data-kind="time"]','time');
+  function focusStep(n){
+    var s=document.getElementById('step'+n);
+    s.scrollIntoView({behavior:'smooth',block:'nearest'});
+    var f=s.querySelector('button:not(:disabled)');
+    if(f){f.focus();}
+  }
+  function confirmBook(){
+    if(!state.dept){say('请先选择科室');buzz(60);focusStep(1);return;}
+    if(!state.date||!state.time){say('请先选择日期与时段');buzz(60);focusStep(2);return;}
+    var code='KN-2026-'+(4000+Math.floor(Math.random()*5000));
+    document.getElementById('resCode').textContent=code;
+    document.getElementById('resDetail').textContent=deptName[state.dept]+' / '+dateName[state.date]+' '+state.time+' / 二楼分诊台报到';
+    demo.classList.add('done');
+    var r=document.getElementById('result');
+    r.removeAttribute('hidden');
+    r.focus();
+    buzz([20,60,20]);
+    say('预约成功，预约号 '+code+'，'+deptName[state.dept]+dateName[state.date]+state.time);
+  }
+  document.getElementById('confirmBtn').addEventListener('click',confirmBook);
+  document.getElementById('cancelBtn').addEventListener('click',function(){
+    demo.classList.remove('done');
+    document.getElementById('result').setAttribute('hidden','');
+    state={dept:'',date:'',time:''};
+    document.querySelectorAll('#booking [aria-pressed="true"]').forEach(function(b){
+      b.setAttribute('aria-pressed','false');
+    });
+    sayAndPaint();
+    paintSummary();
+    goStep(1);
+    buzz(20);
+    say('已取消预约，全部选择已清空。');
+  });
+  document.getElementById('wPrev').addEventListener('click',function(){
+    if(current>1){goStep(current-1);say('回到第'+(current-1)+'步');}
+  });
+  document.getElementById('wNext').addEventListener('click',function(){
+    if(current===1&&!state.dept){say('请先选择科室');buzz(60);return;}
+    if(current===2&&(!state.date||!state.time)){say('请先选择日期与时段');buzz(60);return;}
+    if(current<3){goStep(current+1);say('进入第'+current+'步');}
+    else{confirmBook();}
+  });
+  function speak(t){
+    if(!('speechSynthesis' in window)){say('当前浏览器不支持语音合成');return;}
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);
+    u.lang='zh-CN';
+    u.rate=1;
+    window.speechSynthesis.speak(u);
+  }
+  document.getElementById('speakSel').addEventListener('click',function(){speak(statusText());});
+  document.getElementById('speakScript').addEventListener('click',function(){
+    var lines=Array.prototype.map.call(document.querySelectorAll('#scriptList li'),function(li){
+      return li.textContent.replace(/[「」]/g,'');
+    }).join('。');
+    speak(lines);
+    say('开始朗读读屏文稿');
+  });
+  document.getElementById('stopSpeak').addEventListener('click',function(){
+    if('speechSynthesis' in window){window.speechSynthesis.cancel();}
+    say('已停止播报');
+  });
+  document.querySelectorAll('.p-cta').forEach(function(b){
+    b.addEventListener('click',function(){
+      var g=b.getAttribute('data-goto');
+      if(g==='audio'){
+        document.getElementById('audio').scrollIntoView({behavior:'smooth'});
+        setTimeout(function(){document.getElementById('speakScript').focus();},600);
+        return;
+      }
+      setMode(g);
+      document.getElementById('demo').scrollIntoView({behavior:'smooth'});
+      setTimeout(function(){document.getElementById('demo-h').focus();},600);
+      say('已切换到'+notes[g].split(' / ')[0]);
+    });
+  });
+})();
+</script>
+</body>
+</html>

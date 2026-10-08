@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Sketch Hand-Drawn Mobile / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Long+Cang&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划: paper #FDFBF7 / card #FFF / ink #2D2D2D / marker #FF4D4D(大字与装饰) #C62828(小字) / blue #2D5DA1 / highlight #FFF9C4 / 阴影 4px4px0 ink / 歪圆角 15 25 20 10 / Kalam+Long Cang 标题, Patrick Hand+Noto Sans SC 正文 */
+:root{
+  --paper:#FDFBF7;
+  --card:#FFFFFF;
+  --ink:#2D2D2D;
+  --ink-soft:#57514A;
+  --marker:#FF4D4D;
+  --marker-deep:#C62828;
+  --blue:#2D5DA1;
+  --hi:#FFF9C4;
+  --desk:#EFE8DA;
+  --line:2px solid var(--ink);
+  --shadow:4px 4px 0 var(--ink);
+  --wob-a:15px 25px 20px 10px;
+  --wob-b:22px 12px 26px 14px;
+  --wob-c:12px 24px 14px 26px;
+  --font-hand:'Long Cang','Kalam',cursive;
+  --font-latin:'Kalam',cursive;
+  --font-body:'Patrick Hand','Noto Sans SC',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background-color:var(--desk);
+  background-image:radial-gradient(rgba(45,45,45,.07) 1px,transparent 1px);
+  background-size:16px 16px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  line-height:1.6;
+}
+:focus-visible{outline:3px dashed var(--marker-deep);outline-offset:3px;border-radius:4px}
+.page-head{
+  width:min(560px,92vw);
+  text-align:center;
+  padding:34px 12px 8px;
+}
+.page-head .kicker{
+  font-size:14px;
+  color:var(--ink-soft);
+  letter-spacing:.5px;
+}
+.page-head h1{
+  font-family:var(--font-hand);
+  font-weight:400;
+  font-size:clamp(30px,6vw,42px);
+  line-height:1.25;
+  position:relative;
+  display:inline-block;
+  margin-top:4px;
+}
+.page-head h1 svg{
+  position:absolute;
+  left:-4%;
+  bottom:-12px;
+  width:108%;
+  height:16px;
+  display:block;
+}
+.stage{
+  position:relative;
+  padding:26px 14px 10px;
+}
+/* 桌面注释涂鸦: 仅宽屏出现 */
+.desk-note{
+  display:none;
+  position:absolute;
+  font-family:var(--font-hand);
+  font-size:20px;
+  color:var(--ink-soft);
+  line-height:1.35;
+  max-width:190px;
+}
+.desk-note svg{display:block;width:78px;height:52px;margin-top:4px}
+.note-a{top:64px;right:calc(50% + 230px);text-align:right}
+.note-a svg{margin-left:auto}
+.note-b{bottom:120px;left:calc(50% + 230px)}
+@media (min-width:1200px){
+  .desk-note{display:block}
+}
+/* 手机外框 */
+.phone{
+  position:relative;
+  width:min(400px,100vw - 24px);
+  border:3px solid var(--ink);
+  border-radius:38px 30px 42px 32px / 32px 42px 30px 38px;
+  background:var(--card);
+  box-shadow:8px 10px 0 rgba(45,45,45,.9);
+  padding:10px;
+}
+.screen{
+  position:relative;
+  height:730px;
+  overflow-y:auto;
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(45,45,45,.055) 1px,transparent 1px);
+  background-size:13px 13px;
+  border:2px solid var(--ink);
+  border-radius:26px 20px 28px 22px / 22px 28px 20px 26px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--ink-soft) transparent;
+}
+.screen::before{
+  content:"";
+  position:sticky;
+  display:block;
+  top:0;
+  height:0;
+  z-index:5;
+}
+.paper-grain{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.045 0'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+  border-radius:inherit;
+}
+.screen>*{position:relative;z-index:2}
+.app{padding:12px 14px 18px}
+/* 状态栏 */
+.statusbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 6px 4px;
+}
+.statusbar .time{
+  font-family:var(--font-latin);
+  font-weight:700;
+  font-size:16px;
+}
+.statusbar .icons{display:flex;gap:8px;align-items:center}
+.statusbar svg{display:block}
+/* 应用头 */
+.app-head{
+  padding:10px 4px 6px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+.date-line{
+  font-size:14px;
+  color:var(--ink-soft);
+}
+.app-head h2{
+  font-family:var(--font-hand);
+  font-weight:400;
+  font-size:40px;
+  line-height:1.1;
+  position:relative;
+  display:inline-block;
+  margin-top:2px;
+}
+.app-head h2 svg{
+  position:absolute;
+  left:-5%;
+  bottom:-8px;
+  width:110%;
+  height:12px;
+}
+.avatar{
+  width:52px;
+  height:52px;
+  flex:none;
+  border:var(--line);
+  border-radius:60% 42% 55% 45% / 48% 58% 42% 52%;
+  background:var(--hi);
+  box-shadow:3px 3px 0 var(--ink);
+  rotate:2deg;
+  display:grid;
+  place-items:center;
+}
+/* 通用卡片 */
+.card{
+  position:relative;
+  background:var(--card);
+  border:var(--line);
+  box-shadow:var(--shadow);
+  padding:14px 16px;
+  margin-top:18px;
+}
+.card h3{
+  font-family:var(--font-hand);
+  font-weight:400;
+  font-size:24px;
+  line-height:1.2;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.card h3 svg{flex:none}
+.card .hint{
+  font-family:var(--font-hand);
+  font-size:17px;
+  color:var(--ink-soft);
+  margin-left:auto;
+}
+.wob-a{border-radius:15px 25px 20px 10px / 20px 10px 25px 15px}
+.wob-b{border-radius:22px 12px 26px 14px / 14px 26px 12px 22px}
+.wob-c{border-radius:12px 24px 14px 26px / 26px 14px 24px 12px}
+.tilt-l{rotate:-1deg}
+.tilt-r{rotate:1deg}
+/* 胶带 */
+.tape{
+  position:absolute;
+  width:88px;
+  height:26px;
+  background:rgba(243,206,96,.55);
+  border:1px solid rgba(45,45,45,.16);
+  clip-path:polygon(0 14%,5% 0,95% 4%,100% 18%,97% 90%,88% 100%,4% 94%);
+  z-index:3;
+}
+.tape-c{top:-13px;left:50%;translate:-50% 0;rotate:-2deg}
+.tape-l{top:-12px;left:18px;rotate:-6deg;width:70px}
+.tape-r{top:-12px;right:16px;rotate:5deg;width:70px}
+/* 便签: 今日一句 */
+.note-card{
+  background:var(--hi);
+  padding:16px 18px 14px;
+}
+.note-card .quote{
+  font-family:var(--font-hand);
+  font-size:23px;
+  line-height:1.55;
+  margin-top:8px;
+}
+.note-card .from{
+  font-size:14px;
+  color:var(--ink-soft);
+  text-align:right;
+  margin-top:6px;
+}
+.clip{
+  position:absolute;
+  top:-20px;
+  right:22px;
+  rotate:8deg;
+}
+/* 清单 */
+.row{
+  position:relative;
+  display:grid;
+  grid-template-columns:44px 1fr auto;
+  align-items:center;
+  column-gap:10px;
+  min-height:50px;
+  padding:4px 0;
+  border-bottom:2px dashed rgba(45,45,45,.28);
+  cursor:pointer;
+}
+.row:last-of-type{border-bottom:none}
+.row input{
+  position:absolute;
+  opacity:0;
+  width:44px;
+  height:50px;
+  left:0;
+  top:4px;
+  margin:0;
+  cursor:pointer;
+}
+.box{
+  justify-self:start;
+  width:26px;
+  height:26px;
+  color:var(--ink);
+}
+.box svg{display:block;width:26px;height:26px}
+.box .tick{color:var(--marker)}
+.row input:focus-visible + .box{
+  outline:3px dashed var(--marker-deep);
+  outline-offset:3px;
+}
+.row input:checked ~ .txt{
+  text-decoration:line-through 2px var(--marker);
+  text-decoration-skip-ink:none;
+  color:var(--ink-soft);
+}
+.txt{
+  font-size:17px;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+.tag{
+  font-size:13px;
+  color:var(--blue);
+  border:2px dashed var(--blue);
+  border-radius:40% 55% 45% 60% / 60% 45% 55% 40%;
+  padding:2px 10px;
+  white-space:nowrap;
+  justify-self:end;
+}
+.list-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+  font-size:13.5px;
+  color:var(--ink-soft);
+}
+/* 拍立得 */
+.polaroid{
+  background:var(--card);
+  padding:12px 12px 8px;
+  margin-top:26px;
+}
+.photo{
+  border:2px solid var(--ink);
+  border-radius:8px 14px 9px 13px / 12px 9px 14px 8px;
+  background:linear-gradient(178deg,#FDF3DF 0%,#FBE9C8 58%,#D9EDD3 100%);
+  overflow:hidden;
+}
+.photo svg{display:block;width:100%;height:auto}
+.caption{
+  font-family:var(--font-hand);
+  font-size:21px;
+  text-align:center;
+  padding:8px 0 4px;
+}
+/* 心情 */
+.moods{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+.mood{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  padding:8px 2px 6px;
+  border:2px solid rgba(45,45,45,.35);
+  border-radius:55% 45% 60% 40% / 45% 55% 40% 60%;
+  cursor:pointer;
+  font-size:13px;
+  color:var(--ink-soft);
+  transition:background-color .15s;
+}
+.mood svg{display:block;width:34px;height:34px}
+.mood input{
+  position:absolute;
+  opacity:0;
+  inset:0;
+  margin:0;
+  cursor:pointer;
+}
+.mood:has(input:checked){
+  background:var(--hi);
+  border:2px solid var(--ink);
+  color:var(--ink);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.mood input:focus-visible{
+  outline:3px dashed var(--marker-deep);
+  outline-offset:2px;
+}
+/* 记录按钮 */
+.action{
+  margin:22px 4px 18px;
+}
+.btn{
+  display:block;
+  width:100%;
+  font-family:var(--font-hand);
+  font-size:26px;
+  line-height:1;
+  color:var(--paper);
+  background:var(--ink);
+  border:2px solid var(--ink);
+  border-radius:18px 26px 14px 24px / 24px 14px 26px 18px;
+  padding:15px 10px 17px;
+  cursor:pointer;
+  box-shadow:4px 4px 0 var(--marker);
+  transition:translate .06s ease,box-shadow .06s ease;
+}
+.btn:active{
+  translate:4px 4px;
+  box-shadow:0 0 0 var(--marker);
+}
+/* 底部导航 */
+.tabbar{
+  position:sticky;
+  bottom:0;
+  z-index:4;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:var(--card);
+  border-top:2px solid var(--ink);
+  padding:6px 4px 8px;
+}
+.tab{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  text-decoration:none;
+  color:var(--ink-soft);
+  font-size:12.5px;
+  padding:4px 0 2px;
+  min-height:48px;
+  justify-content:center;
+}
+.tab svg{display:block}
+.tab[aria-current="page"]{
+  color:var(--marker-deep);
+  font-weight:700;
+}
+/* 页脚 */
+.page-foot{
+  width:min(560px,92vw);
+  text-align:center;
+  font-size:14px;
+  color:var(--ink-soft);
+  padding:18px 12px 36px;
+}
+.page-foot a{
+  color:var(--marker-deep);
+  text-decoration:underline dashed;
+  text-underline-offset:4px;
+}
+.page-foot a:hover{color:var(--ink)}
+/* 一次亮相: 笔画被画上去(仅允许动效时), reduced-motion 下直接呈现 */
+@media (prefers-reduced-motion:no-preference){
+  .draw{
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+    animation:draw-in .7s ease-out forwards;
+  }
+  .d1{animation-delay:.15s}
+  .d2{animation-delay:.35s}
+  .d3{animation-delay:.55s}
+  .d4{animation-delay:.75s}
+  .d5{animation-delay:.95s}
+  .slap{
+    animation:slap-in .35s cubic-bezier(.2,1.4,.5,1) backwards;
+  }
+  .s1{animation-delay:.5s}
+  .s2{animation-delay:.7s}
+  .tick{
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+    transition:stroke-dashoffset .28s ease-out .05s;
+  }
+  .row input:checked ~ .box .tick{stroke-dashoffset:0}
+  @keyframes draw-in{to{stroke-dashoffset:0}}
+  @keyframes slap-in{from{scale:1.3 1.5;rotate:0deg}}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+/* 响应式 */
+@media (max-width:480px){
+  .stage{padding:8px 0 0}
+  .page-head{padding-top:22px}
+  .phone{
+    width:100%;
+    border:none;
+    border-radius:0;
+    box-shadow:none;
+    padding:0;
+    background:var(--paper);
+  }
+  .screen{
+    height:auto;
+    overflow:visible;
+    border:none;
+    border-radius:0;
+    background-size:13px 13px;
+  }
+  .tabbar{position:static}
+}
+@media (min-width:481px) and (max-width:900px){
+  .screen{height:640px}
+}
+</style>
+</head>
+<body>
+<header class="page-head">
+  <p class="kicker">Sketch Hand-Drawn (Mobile) / 手绘风移动端</p>
+  <h1>
+    走走手帐 / 随身涂鸦日记
+    <svg viewBox="0 0 220 16" aria-hidden="true" fill="none">
+      <path class="draw d2" d="M4 9 C 40 3, 78 13, 116 7 S 188 4, 216 8" stroke="#FF4D4D" stroke-width="3" stroke-linecap="round" pathLength="1"/>
+      <path class="draw d3" d="M10 12 C 60 8, 130 13, 210 11" stroke="#FF4D4D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+    </svg>
+  </h1>
+</header>
+
+<div class="stage">
+  <div class="desk-note note-a" aria-hidden="true">
+    每个角都不一样圆,
+    影子是硬的, 不许模糊
+    <svg viewBox="0 0 78 52" fill="none">
+      <path class="draw d4" d="M70 4 C 48 2, 22 10, 10 30" stroke="#57514A" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+      <path class="draw d4" d="M16 20 L 9 31 M9 31 L 21 34" stroke="#57514A" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+    </svg>
+  </div>
+  <div class="desk-note note-b" aria-hidden="true">
+    标题和图标像被笔
+    一次画上去, 只画一次
+    <svg viewBox="0 0 78 52" fill="none">
+      <path class="draw d5" d="M8 6 C 30 4, 56 12, 68 32" stroke="#57514A" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+      <path class="draw d5" d="M62 22 L 69 33 M69 33 L 57 36" stroke="#57514A" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+    </svg>
+  </div>
+
+  <div class="phone">
+    <div class="screen">
+      <div class="paper-grain"></div>
+      <div class="app">
+
+        <div class="statusbar">
+          <span class="time">9:41</span>
+          <span class="icons">
+            <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" fill="none">
+              <path class="draw d1" d="M3 12.5 L 3.5 8.4" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d1" d="M8.5 12.6 L 9 5.2" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d1" d="M14 12.4 L 14.6 2" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+            </svg>
+            <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" fill="none">
+              <path class="draw d1" d="M2.5 6 C 5 3.4, 8 2, 9 2 S 13 3.4, 15.5 6" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d1" d="M5 9.4 C 6.4 8, 8 7.2, 9 7.2 S 11.6 8, 13 9.4" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <circle cx="9" cy="11.8" r="1.1" fill="#2D2D2D"/>
+            </svg>
+            <svg width="26" height="14" viewBox="0 0 26 14" aria-hidden="true" fill="none">
+              <path class="draw d1" d="M2.5 3 C 6 1.6, 19 1.4, 22 2.6 L 21.6 11 C 18 12.4, 6 12.6, 3 11.4 Z" stroke="#2D2D2D" stroke-width="1.8" stroke-linejoin="round" pathLength="1"/>
+              <path d="M24 5 L 24 5.2 L 23.9 9 L 24 8.9" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+              <path class="draw d1" d="M4.5 4.8 L 17 4.5 L 14.5 10 L 4.4 9.8 Z" stroke="#2D2D2D" stroke-width="1.6" stroke-linejoin="round" pathLength="1"/>
+            </svg>
+          </span>
+        </div>
+
+        <div class="app-head">
+          <div>
+            <p class="date-line">10月8日 周四 / 晴, 有风</p>
+            <h2>
+              走走手帐
+              <svg viewBox="0 0 160 12" aria-hidden="true" fill="none">
+                <path class="draw d1" d="M4 6 C 40 2, 90 9, 156 5" stroke="#FF4D4D" stroke-width="2.6" stroke-linecap="round" pathLength="1"/>
+              </svg>
+            </h2>
+          </div>
+          <div class="avatar" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <path class="draw d2" d="M15 4 C 21 3.4, 24 8, 23.6 13 C 25 13.4, 25 16, 23.4 16.4 C 22.6 21, 19 24, 15 24 C 11 24, 7.4 21, 6.6 16.4 C 5 16, 5 13.4, 6.4 13 C 6 8, 9 3.4, 15 4 Z" stroke="#2D2D2D" stroke-width="2" stroke-linejoin="round" pathLength="1"/>
+              <circle cx="11.6" cy="14" r="1.2" fill="#2D2D2D"/>
+              <circle cx="18.6" cy="14" r="1.2" fill="#2D2D2D"/>
+              <path class="draw d2" d="M12 18.6 C 13.6 20, 16.6 20, 18.2 18.4" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <section class="card note-card wob-a tilt-l">
+          <span class="tape tape-c slap s1" aria-hidden="true"></span>
+          <svg class="clip" width="22" height="42" viewBox="0 0 22 42" aria-hidden="true" fill="none">
+            <path class="draw d3" d="M14 38 L 14 11 C 14 6.4, 7.6 6.4, 7.6 11 L 7.6 29 C 7.6 34.8, 17 35, 17 29 L 17 9.5 C 17 3, 5.4 3, 5.4 9.5 L 5.4 31" stroke="#2D5DA1" stroke-width="2.2" stroke-linecap="round" pathLength="1"/>
+          </svg>
+          <h3>
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" fill="none">
+              <path class="draw d2" d="M4 17 C 4 9, 8 5, 12 5 C 16 5, 18 8, 18 11 C 18 14.4, 15 16, 12.6 15 C 10.6 14.2, 10 12, 11 10.4" stroke="#C62828" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+            </svg>
+            今日一句
+          </h3>
+          <p class="quote">风是从杨公堤那边吹过来的, 带一点桂花味。走慢一点, 就都赶上了。</p>
+          <p class="from">写于断桥 / 上午八点五十</p>
+        </section>
+
+        <section class="card wob-b tilt-r">
+          <h3>
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" fill="none">
+              <path class="draw d2" d="M3.5 5.5 L 18 4.6 M3.4 11 L 18.4 10.2 M3.6 16.5 L 18 16" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d2" d="M2.8 4.6 C 4.4 3.4, 5.6 4.6, 5 6 M2.8 10.2 C 4.4 9, 5.6 10.2, 5 11.6 M2.9 15.6 C 4.5 14.4, 5.7 15.6, 5.1 17" stroke="#C62828" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+            </svg>
+            今天的走走清单
+            <span class="hint">点方框试试</span>
+          </h3>
+          <label class="row">
+            <input type="checkbox" checked>
+            <span class="box" aria-hidden="true">
+              <svg viewBox="0 0 26 26" fill="none">
+                <path d="M4.6 5.8 C 10 3.6, 18 4.2, 21.8 5.4 C 22.6 10.4, 22.2 17, 21.2 21.2 C 15.6 22.6, 9 22.4, 4.4 21.2 C 3.4 16, 3.8 10.4, 4.6 5.8 Z" stroke="#2D2D2D" stroke-width="2" stroke-linejoin="round"/>
+                <path class="tick" d="M6.6 13.5 L 11 17.6 L 19.6 8" stroke="#FF4D4D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>
+              </svg>
+            </span>
+            <span class="txt">在断桥看一场早雾</span>
+            <span class="tag">拍照</span>
+          </label>
+          <label class="row">
+            <input type="checkbox">
+            <span class="box" aria-hidden="true">
+              <svg viewBox="0 0 26 26" fill="none">
+                <path d="M4.8 5.2 C 10.4 3.8, 17.8 4.4, 21.4 5.6 C 22.4 10.6, 22 17.2, 21 21.4 C 15.4 22.6, 9 22.4, 4.6 21.4 C 3.6 16, 4 10.2, 4.8 5.2 Z" stroke="#2D2D2D" stroke-width="2" stroke-linejoin="round"/>
+                <path class="tick" d="M6.6 13.5 L 11 17.6 L 19.6 8" stroke="#FF4D4D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>
+              </svg>
+            </span>
+            <span class="txt">买一杯热的龙井奶绿</span>
+            <span class="tag">喝的</span>
+          </label>
+          <label class="row">
+            <input type="checkbox">
+            <span class="box" aria-hidden="true">
+              <svg viewBox="0 0 26 26" fill="none">
+                <path d="M4.4 5.6 C 9.8 3.6, 18.2 4, 22 5.2 C 22.8 10.2, 22.4 16.8, 21.4 21 C 15.8 22.6, 9.2 22.4, 4.6 21.4 C 3.6 16.2, 3.6 10.4, 4.4 5.6 Z" stroke="#2D2D2D" stroke-width="2" stroke-linejoin="round"/>
+                <path class="tick" d="M6.6 13.5 L 11 17.6 L 19.6 8" stroke="#FF4D4D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>
+              </svg>
+            </span>
+            <span class="txt">寄一张明信片给小满</span>
+            <span class="tag">寄出</span>
+          </label>
+          <label class="row">
+            <input type="checkbox">
+            <span class="box" aria-hidden="true">
+              <svg viewBox="0 0 26 26" fill="none">
+                <path d="M4.7 5.4 C 10.2 3.4, 18 4.4, 21.6 5.6 C 22.6 10.6, 22.2 17.4, 21.2 21.2 C 15.6 22.6, 9.2 22.4, 4.5 21.2 C 3.5 16.2, 3.9 10.2, 4.7 5.4 Z" stroke="#2D2D2D" stroke-width="2" stroke-linejoin="round"/>
+                <path class="tick" d="M6.6 13.5 L 11 17.6 L 19.6 8" stroke="#FF4D4D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>
+              </svg>
+            </span>
+            <span class="txt">走完苏堤的六座桥</span>
+            <span class="tag">暴走</span>
+          </label>
+          <p class="list-foot">
+            <span>已划掉 1 件 / 还剩 3 件</span>
+            <span>方框最小 44px, 好按</span>
+          </p>
+        </section>
+
+        <section class="polaroid card wob-c tilt-l">
+          <span class="tape tape-l slap s2" aria-hidden="true"></span>
+          <span class="tape tape-r slap s2" aria-hidden="true"></span>
+          <div class="photo">
+            <svg viewBox="0 0 320 200" aria-label="手绘涂鸦: 湖面、小山与太阳" fill="none">
+              <path class="draw d3" d="M252 38 C 264 26, 284 26, 292 38 C 300 50, 292 64, 272 64 C 254 64, 244 52, 252 38 Z" stroke="#C62828" stroke-width="2.4" pathLength="1"/>
+              <path class="draw d3" d="M246 44 C 258 34, 282 34, 290 44" stroke="#C62828" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d4" d="M6 148 C 50 100, 92 96, 122 122 C 152 96, 208 88, 250 130" stroke="#2D5DA1" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d4" d="M96 122 C 130 106, 178 104, 208 124" stroke="#2D5DA1" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d5" d="M22 162 C 60 156, 96 168, 138 160 S 216 152, 254 162 M40 178 C 80 172, 128 182, 172 176" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d5" d="M56 58 C 59 54, 64 54, 66 58 M64 56 C 66 52, 71 52, 73 56 M84 44 C 87 40, 92 40, 94 44 M92 42 C 94 38, 99 38, 101 42" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+              <path class="draw d5" d="M148 152 L 172 132 L 186 142 L 210 118" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>
+            </svg>
+          </div>
+          <p class="caption">西湖 / 午后三点, 风把云推得很快</p>
+        </section>
+
+        <section class="card wob-b tilt-r">
+          <h3>
+            <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" fill="none">
+              <path class="draw d4" d="M11 3.4 C 15.6 3, 18.6 6.4, 18.6 11 C 18.6 15.6, 15.4 18.6, 11 18.6 C 6.6 18.6, 3.4 15.6, 3.4 11 C 3.4 6.6, 6.6 3.4, 11 3.4 Z" stroke="#2D2D2D" stroke-width="2" pathLength="1"/>
+              <path class="draw d4" d="M7.4 9.4 C 8 8.6, 9.2 8.6, 9.8 9.2 M12.4 9.2 C 13 8.6, 14.2 8.6, 14.8 9.4 M7.8 13.4 C 9.4 15, 12.8 15, 14.4 13.2" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+            </svg>
+            今日心情
+          </h3>
+          <div class="moods">
+            <label class="mood">
+              <input type="radio" name="mood">
+              <svg viewBox="0 0 34 34" aria-hidden="true" fill="none">
+                <path d="M17 4.6 C 24 4.2, 29 9.4, 29 17 C 29 24.4, 24 29.4, 17 29.4 C 10 29.4, 5 24.6, 5 17 C 5 9.6, 10 4.6, 17 4.6 Z" stroke="#2D2D2D" stroke-width="2"/>
+                <circle cx="12" cy="14.4" r="1.3" fill="#2D2D2D"/>
+                <circle cx="22" cy="14.4" r="1.3" fill="#2D2D2D"/>
+                <path d="M12 21 C 14 22.6, 20 22.6, 22 21" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              还行
+            </label>
+            <label class="mood">
+              <input type="radio" name="mood" checked>
+              <svg viewBox="0 0 34 34" aria-hidden="true" fill="none">
+                <path d="M17 4.4 C 24.4 4, 29.4 9.2, 29.2 17 C 29 24.6, 24 29.6, 17 29.4 C 10 29.2, 4.8 24.4, 5 17 C 5.2 9.4, 10 4.6, 17 4.4 Z" stroke="#2D2D2D" stroke-width="2"/>
+                <path d="M11 13.6 C 11.6 12, 13 12, 13.6 13.4 M20.4 13.4 C 21 12, 22.4 12, 23 13.6" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+                <path d="M11 19.6 C 14 24, 20 24, 23 19.2" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              开心
+            </label>
+            <label class="mood">
+              <input type="radio" name="mood">
+              <svg viewBox="0 0 34 34" aria-hidden="true" fill="none">
+                <path d="M17 4.8 C 24 4.4, 29 9.6, 28.8 17 C 28.6 24.4, 24 29.2, 17 29.2 C 10 29.2, 5.2 24.6, 5.2 17 C 5.2 9.6, 10 4.8, 17 4.8 Z" stroke="#2D2D2D" stroke-width="2"/>
+                <path d="M11 14.6 L 14 13.6 M20 13.6 L 23 14.6" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 22.4 C 14 21, 17 22.6, 19 21.2 C 20.6 20.2, 21.6 21.6, 22.4 22" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              累瘫
+            </label>
+            <label class="mood">
+              <input type="radio" name="mood">
+              <svg viewBox="0 0 34 34" aria-hidden="true" fill="none">
+                <path d="M17 4.5 C 24.2 4.3, 29.2 9.5, 29 17 C 28.8 24.5, 24.2 29.5, 17 29.3 C 9.8 29.1, 5 24.5, 5.2 17 C 5.4 9.5, 10 4.6, 17 4.5 Z" stroke="#2D2D2D" stroke-width="2"/>
+                <path d="M10.6 12.4 C 11.4 11.4, 13 11.6, 13.4 12.8 M20.6 12.8 C 21 11.6, 22.6 11.4, 23.4 12.4" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+                <path d="M10.6 19 C 13 23.4, 21 23.6, 23.4 18.8" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+                <path d="M25.4 7.4 L 27.4 9.8 M7 7.6 L 5 10" stroke="#C62828" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              上头
+            </label>
+          </div>
+        </section>
+
+        <div class="action">
+          <button class="btn" type="button">记一笔今天的走走</button>
+        </div>
+
+      </div>
+      <nav class="tabbar" aria-label="底部导航">
+        <a class="tab" href="#" aria-current="page">
+          <svg width="26" height="24" viewBox="0 0 26 24" aria-hidden="true" fill="none">
+            <path d="M4 4.6 C 8 2.6, 11 3.4, 12.4 5 L 12.4 20 C 10.6 18.4, 8 18.2, 4.4 19.6 Z" stroke="#C62828" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M21.6 4.6 C 18 2.6, 15 3.4, 13.4 5 L 13.4 20 C 15.4 18.4, 18.2 18.2, 21.6 19.6 Z" stroke="#C62828" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          手帐
+        </a>
+        <a class="tab" href="#">
+          <svg width="26" height="24" viewBox="0 0 26 24" aria-hidden="true" fill="none">
+            <path d="M4 5.6 L 22 4.8 M4 12 L 22 11.2 M4 18.4 L 22 17.8" stroke="#57514A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18.6 3 L 21.4 6.4 M18.6 9.6 L 21.4 13 M18.6 16.4 L 21.4 20" stroke="#57514A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          清单
+        </a>
+        <a class="tab" href="#">
+          <svg width="26" height="24" viewBox="0 0 26 24" aria-hidden="true" fill="none">
+            <path d="M5 19.4 L 7 14 L 18.4 3.4 C 20 2, 22.6 4.4, 21.2 6.2 L 10.4 17.4 Z" stroke="#57514A" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M16.4 5.4 L 19.6 8.4" stroke="#57514A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M5 19.4 C 6.6 19.8, 8 19, 8 17.6" stroke="#57514A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          画笔
+        </a>
+        <a class="tab" href="#">
+          <svg width="26" height="24" viewBox="0 0 26 24" aria-hidden="true" fill="none">
+            <path d="M13 4 C 16.4 3.8, 18.4 6.4, 18.2 9.4 C 18 12.6, 15.8 14.6, 13 14.6 C 10.2 14.6, 7.8 12.4, 7.8 9.4 C 7.8 6.4, 9.8 3.8, 13 4 Z" stroke="#57514A" stroke-width="2"/>
+            <path d="M4.6 20.4 C 6 16.4, 9.6 14.8, 13 14.8 C 16.6 14.8, 20.2 16.4, 21.6 20.2" stroke="#57514A" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          我的
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<footer class="page-foot">
+  <p>UI 设计提示词库 / Sketch Hand-Drawn Mobile</p>
+  <p><a href="style-catalog.html">返回风格目录</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Flat Design Mobile Touch-First / UI 设计提示词库</title>
+<style>
+/* tokens: primary #2563EB(白字5.2:1) / 磁贴深化 red #DC2626(4.8:1) orange #C2410C(5.2:1) green #047857(5.5:1)，原始 #EA580C #059669 仅作浅底强调 / bg #F8FAFC / fg #0F172A / radius 4px / Inter，全站无阴影无渐变 */
+:root {
+  --blue: #2563EB;
+  --blue-deep: #1D4ED8;
+  --red: #DC2626;
+  --red-deep: #B91C1C;
+  --orange-ink: #C2410C;
+  --orange-deep: #9A3412;
+  --green-tile: #047857;
+  --green-deep: #065F46;
+  --accent-orange: #EA580C;
+  --accent-green: #059669;
+  --bg: #F8FAFC;
+  --fg: #0F172A;
+  --muted: #475569;
+  --line: #E2E8F0;
+  --white: #FFFFFF;
+  --r: 4px;
+  --ease: 160ms ease;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: "Inter", "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
+a { color: var(--blue); }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: var(--r); }
+.phone-hero :focus-visible { outline-color: var(--white); }
+::selection { background: var(--blue); color: var(--white); }
+
+/* ===== 桌面舞台 ===== */
+.stage { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 40px 16px 28px; }
+.page-head { text-align: center; max-width: 640px; margin-bottom: 30px; }
+.page-head h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+.page-head p { margin-top: 8px; font-size: 14px; color: var(--muted); }
+.page-head .sub { margin-top: 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.chip {
+  background: var(--white); border-radius: var(--r);
+  padding: 5px 12px; font-size: 12.5px; font-weight: 600; color: var(--muted);
+}
+.chip b { color: var(--fg); font-weight: 700; }
+
+/* ===== 手机壳 ===== */
+.phone {
+  width: 390px; background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); overflow: hidden;
+  display: flex; flex-direction: column;
+  height: 780px;
+}
+.js .phone { opacity: 0; transform: translateY(20px); }
+.js .phone.enter { opacity: 1; transform: translateY(0); transition: opacity 450ms ease, transform 450ms ease; }
+
+.statusbar {
+  background: var(--blue); color: var(--white);
+  height: 34px; flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 18px; font-size: 13px; font-weight: 700;
+}
+.statusbar .sicons { display: flex; align-items: center; gap: 5px; }
+
+.app { flex: 1; overflow-y: auto; background: var(--bg); scrollbar-width: none; }
+.app::-webkit-scrollbar { display: none; }
+
+/* ===== 顶部蓝色全宽分区 ===== */
+.phone-hero { background: var(--blue); color: var(--white); padding: 12px 16px 18px; }
+.loc-row { display: flex; align-items: center; justify-content: space-between; }
+.loc-row .loc { display: flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 700; }
+.loc-btn { color: var(--white); font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: var(--r); transition: background var(--ease); }
+.loc-btn:hover { background: var(--blue-deep); }
+.search {
+  margin-top: 12px; background: var(--white); border-radius: var(--r);
+  height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 14px;
+  width: 100%; text-align: left; transition: opacity var(--ease);
+}
+.search:hover { opacity: 0.88; }
+.search span { color: #64748B; font-size: 14px; }
+.slogan { margin-top: 16px; }
+.slogan strong { display: block; font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+.slogan span { display: block; margin-top: 3px; font-size: 13px; opacity: 0.95; }
+.gift {
+  margin-top: 14px; background: var(--white); color: var(--blue);
+  border-radius: var(--r); height: 40px; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 13.5px; font-weight: 700; transition: opacity var(--ease);
+}
+.gift:hover { opacity: 0.88; }
+.gift b { color: var(--orange-ink); font-weight: 800; }
+
+/* ===== 磁贴网格：全宽、无描边、纯色 ===== */
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.tile {
+  min-height: 118px; padding: 16px 14px;
+  display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;
+  color: var(--white); text-align: left; border-radius: 0;
+  transition: background var(--ease);
+}
+.tile .t-icon { width: 36px; height: 36px; }
+.tile b { font-size: 17px; font-weight: 800; display: block; }
+.tile span { font-size: 12.5px; display: block; margin-top: 3px; }
+.tile-blue { background: var(--blue); }
+.tile-blue:hover, .tile-blue:active { background: var(--blue-deep); }
+.tile-red { background: var(--red); }
+.tile-red:hover, .tile-red:active { background: var(--red-deep); }
+.tile-green { background: var(--green-tile); }
+.tile-green:hover, .tile-green:active { background: var(--green-deep); }
+.tile-orange { background: var(--orange-ink); }
+.tile-orange:hover, .tile-orange:active { background: var(--orange-deep); }
+.tile:active { transform: none; }
+
+/* ===== 分区标题 ===== */
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding: 20px 16px 12px;
+}
+.section-head h2 { font-size: 18px; font-weight: 800; }
+.section-head .more { font-size: 13px; font-weight: 700; color: var(--blue); padding: 4px 6px; border-radius: var(--r); transition: color var(--ease); }
+.section-head .more:hover { color: var(--blue-deep); }
+.section-head .more:active { color: var(--blue-deep); }
+
+/* ===== 今日必抢：商品卡 ===== */
+.deals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 4px; }
+.deal { background: var(--white); border-radius: var(--r); padding: 12px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+.deal:hover { background: #F1F5F9; }
+.deal .pic { height: 92px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; }
+.deal .pic svg { width: 44px; height: 44px; }
+.pic-red { background: var(--red); }
+.pic-blue { background: var(--blue); }
+.pic-orange { background: var(--orange-ink); }
+.pic-green { background: var(--green-tile); }
+.deal h3 { font-size: 15px; font-weight: 700; line-height: 1.35; }
+.deal .meta { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.deal .buy { display: flex; align-items: center; justify-content: space-between; margin-top: 2px; }
+.price { color: var(--red); font-size: 20px; font-weight: 800; }
+.price del { color: var(--muted); font-size: 12.5px; font-weight: 500; margin-left: 5px; }
+.buy-btn {
+  background: var(--blue); color: var(--white); font-size: 14px; font-weight: 700;
+  width: 74px; height: 34px; border-radius: var(--r);
+  transition: background var(--ease);
+}
+.buy-btn:hover { background: var(--blue-deep); }
+.buy-btn:active { background: var(--blue-deep); }
+
+/* ===== 明日开团预告：全宽纯色条 ===== */
+.teaser { margin: 16px 16px 0; background: var(--green-tile); color: var(--white); border-radius: var(--r); padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.teaser .t-txt b { display: block; font-size: 16px; font-weight: 800; }
+.teaser .t-txt span { display: block; font-size: 12.5px; margin-top: 3px; }
+.teaser-btn { flex: none; background: var(--white); color: var(--green-tile); font-size: 13.5px; font-weight: 800; height: 36px; padding: 0 16px; border-radius: var(--r); transition: opacity var(--ease); }
+.teaser-btn:hover { opacity: 0.88; }
+
+/* ===== 跟团玩法：三步 ===== */
+.steps { background: var(--white); margin-top: 18px; padding: 18px 16px 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.step { text-align: center; }
+.step .no { width: 34px; height: 34px; margin: 0 auto; border-radius: var(--r); color: var(--white); font-size: 17px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.no-blue { background: var(--blue); }
+.no-red { background: var(--red); }
+.no-orange { background: var(--orange-ink); }
+.step b { display: block; font-size: 14px; font-weight: 800; margin-top: 8px; }
+.step span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ===== 我的团：列表 + 左滑演示 ===== */
+.swipe-hint {
+  margin: 14px 16px 10px; background: var(--line); border-radius: var(--r);
+  padding: 9px 12px; font-size: 12.5px; color: #475569; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+}
+.swipe-hint svg { width: 16px; height: 16px; flex: none; }
+.groups { background: var(--white); }
+.swipe-item { position: relative; overflow: hidden; }
+.swipe-item .row { transition: transform 200ms ease; }
+.swipe-item + .swipe-item { border-top: 1px solid var(--line); }
+.swipe-actions { position: absolute; inset: 0; display: flex; justify-content: flex-end; }
+.swipe-del {
+  width: 104px; background: var(--red); color: var(--white);
+  font-size: 14px; font-weight: 700;
+}
+.swipe-del:hover { background: var(--red-deep); }
+.row {
+  position: relative; background: var(--white);
+  display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px;
+  padding: 14px 16px; min-height: 72px;
+}
+.row:not(.row-open):hover { background: #F1F5F9; }
+.row-open { transform: translateX(-104px); }
+.row .g-ico { width: 44px; height: 44px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; }
+.row .g-ico svg { width: 24px; height: 24px; }
+.ico-green { background: var(--green-tile); }
+.ico-red { background: var(--red); }
+.ico-orange { background: var(--orange-ink); }
+.row .g-txt b { display: block; font-size: 15px; font-weight: 700; }
+.row .g-txt span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.row .g-state { text-align: right; }
+.row .g-state em { display: block; font-style: normal; font-size: 13px; font-weight: 800; }
+.st-green { color: var(--green-tile); }
+.st-orange { color: var(--orange-ink); }
+.st-muted { color: var(--muted); font-weight: 600; }
+.pick-btn {
+  margin-top: 5px; background: var(--blue); color: var(--white);
+  font-size: 12.5px; font-weight: 700; height: 30px; padding: 0 14px; border-radius: var(--r);
+  transition: background var(--ease);
+}
+.pick-btn:hover { background: var(--blue-deep); }
+.pick-btn:active { background: var(--blue-deep); }
+.swipe-del:active { background: var(--red-deep); }
+
+/* ===== 底部大 tab ===== */
+.tabbar {
+  flex: none; background: var(--white); border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(4, 1fr); height: 62px;
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  color: var(--muted); border-radius: 0; transition: color var(--ease);
+}
+.tab svg { width: 26px; height: 26px; }
+.tab span { font-size: 13px; font-weight: 700; }
+.tab:hover { color: var(--blue); }
+.tab:active { color: var(--blue-deep); }
+.tab[aria-current="page"] { color: var(--blue); }
+
+/* ===== 设计要点（页面级说明） ===== */
+.notes { margin-top: 30px; max-width: 780px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.note { background: var(--white); border-radius: var(--r); padding: 14px 14px 16px; text-align: left; }
+.note .n-head { display: flex; align-items: center; gap: 8px; }
+.note .swatch { width: 18px; height: 18px; border-radius: var(--r); flex: none; }
+.note b { font-size: 13.5px; font-weight: 800; }
+.note p { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+.palette { margin-top: 10px; max-width: 780px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.color { border-radius: var(--r); overflow: hidden; }
+.color i { display: block; height: 44px; }
+.color span { display: block; background: var(--white); color: var(--muted); font-size: 11.5px; font-weight: 700; padding: 6px 8px; text-align: center; }
+
+/* ===== 页脚 ===== */
+.page-foot {
+  margin-top: 34px; text-align: center; font-size: 13px; color: var(--muted);
+  display: flex; flex-direction: column; gap: 6px; align-items: center;
+}
+.page-foot a { font-weight: 700; }
+.page-foot a:hover { color: var(--blue-deep); }
+
+/* ===== 响应式 ===== */
+@media (max-width: 420px) {
+  .stage { padding: 18px 10px 20px; }
+  .page-head { margin-bottom: 18px; }
+  .page-head h1 { font-size: 20px; }
+  .phone { width: 100%; height: calc(100dvh - 150px); min-height: 560px; border: 0; }
+  .notes { grid-template-columns: 1fr; }
+  .palette { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+}
+@media (max-width: 375px) {
+  .deals { grid-template-columns: 1fr; }
+  .slogan strong { font-size: 20px; }
+  .steps { gap: 8px; }
+}
+@media (min-width: 768px) and (max-width: 1439px) {
+  .stage { padding-top: 56px; }
+}
+@media (min-width: 1440px) {
+  .stage { padding-top: 72px; }
+  .page-head h1 { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .phone { opacity: 1; transform: none; }
+  .js .phone.enter { transition: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<main class="stage">
+  <header class="page-head">
+    <h1>Flat Design Mobile Touch-First</h1>
+    <p>扁平设计在触屏上的复兴 / 邻里拼团 社区团购工具演示</p>
+    <div class="sub">
+      <span class="chip"><b>纯色磁贴</b> 无阴影无渐变无描边</span>
+      <span class="chip"><b>全宽分区</b> 大图标大字</span>
+      <span class="chip"><b>触控优先</b> 大按钮与左滑操作</span>
+    </div>
+  </header>
+
+  <div class="phone">
+    <div class="statusbar" aria-hidden="true">
+      <span>9:41</span>
+      <span class="sicons">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="#FFFFFF"><rect x="0" y="7" width="3" height="5"/><rect x="4" y="5" width="3" height="7"/><rect x="8" y="3" width="3" height="9"/><rect x="12" y="0" width="3" height="12"/></svg>
+        <svg width="15" height="12" viewBox="0 0 15 12" fill="#FFFFFF"><path d="M7.5 12 10.4 8.9a4.1 4.1 0 0 0-5.8 0L7.5 12zM12.6 6.3l1.8-2A9.3 9.3 0 0 0 7.5 1.5 9.3 9.3 0 0 0 .6 4.3l1.8 2a6.8 6.8 0 0 1 10.2 0z"/></svg>
+        <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="1" y="1" width="17" height="10" rx="2" stroke="#FFFFFF" stroke-width="1.6"/><rect x="3" y="3" width="11" height="6" fill="#FFFFFF"/><rect x="19.5" y="4" width="2" height="4" rx="1" fill="#FFFFFF"/></svg>
+      </span>
+    </div>
+
+    <div class="app">
+      <section class="phone-hero">
+        <div class="loc-row">
+          <span class="loc">
+            <svg width="16" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 23s7-7.7 7-12.3A7 7 0 0 0 5 10.7C5 15.3 12 23 12 23z"/><circle cx="12" cy="10.5" r="2.6" fill="#2563EB"/></svg>
+            回龙观东大街站
+          </span>
+          <button class="loc-btn" type="button">切换小区</button>
+        </div>
+        <button class="search" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+          <span>搜一搜 / 车厘子 / 土鸡蛋 / 羊肉</span>
+        </button>
+        <div class="slogan">
+          <strong>今晚下单 / 明早自提</strong>
+          <span>3 个团正在你附近进行中</span>
+        </div>
+        <button class="gift" type="button">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="17" height="12.5" rx="1"/><path d="M3.5 12.5h17M12 8v12.5M12 8s-.5-4.5-3.5-4.5S5.5 8 8 8m4 0s.5-4.5 3.5-4.5S18.5 8 16 8"/></svg>
+          新人专享 / 1 分钱购 3 枚土鸡蛋
+          <b>领取</b>
+        </button>
+      </section>
+
+      <nav class="tiles" aria-label="常用功能">
+        <button class="tile tile-blue" type="button">
+          <svg class="t-icon" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M13.5 1 4 14h6l-1.5 9L19 10h-6.5l1-9z"/></svg>
+          <span><b>今日开团</b><span>大白菜 0.99 元一斤</span></span>
+        </button>
+        <button class="tile tile-red" type="button">
+          <svg class="t-icon" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 5h13M8 12h13M8 19h13"/><rect x="3" y="3.6" width="2.6" height="2.6" fill="#FFFFFF" stroke="none"/><rect x="3" y="10.7" width="2.6" height="2.6" fill="#FFFFFF" stroke="none"/><rect x="3" y="17.8" width="2.6" height="2.6" fill="#FFFFFF" stroke="none"/></svg>
+          <span><b>拼团清单</b><span>3 团进行中 / 1 团待取</span></span>
+        </button>
+        <button class="tile tile-green" type="button">
+          <svg class="t-icon" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 1.5 22.5 22 12 17.4 1.5 22 12 1.5z"/></svg>
+          <span><b>自提点导航</b><span>菜鸟驿站 / 距您 320 米</span></span>
+        </button>
+        <button class="tile tile-orange" type="button">
+          <svg class="t-icon" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 1.8 21 6v6.2c0 5.2-4.1 8.4-9 10-4.9-1.6-9-4.8-9-10V6l9-4.2z"/><path d="M8.6 12l2.4 2.5 4.6-5" fill="none" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b>售后秒退</b><span>坏果免单 / 上门取件</span></span>
+        </button>
+      </nav>
+
+      <div class="section-head">
+        <h2>今日必抢</h2>
+        <button class="more" type="button">查看全部</button>
+      </div>
+      <section class="deals" aria-label="今日必抢">
+        <article class="deal">
+          <div class="pic pic-red">
+            <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><circle cx="12" cy="14" r="8.2"/><path d="M12 6.4c-1.2-2.2-3.4-2.5-5.2-1.9 1.6.7 3.2.9 5.2 1.9zm0 0c1.2-2.2 3.4-2.5 5.2-1.9-1.6.7-3.2.9-5.2 1.9z"/></svg>
+          </div>
+          <h3>沙瓤西红柿 5 斤装</h3>
+          <div class="meta">已拼 214 团 / 今早到货</div>
+          <div class="buy">
+            <span class="price">¥12.9<del>¥18.0</del></span>
+            <button class="buy-btn" type="button">跟团</button>
+          </div>
+        </article>
+        <article class="deal">
+          <div class="pic pic-blue">
+            <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M9.4 1.5h5.2v3l2 3.1V22a.8.8 0 0 1-.8.8H8.2a.8.8 0 0 1-.8-.8V7.6l2-3.1v-3z"/><rect x="8.4" y="11" width="7.2" height="2" fill="#2563EB"/></svg>
+          </div>
+          <h3>现挤生牛乳 2 升瓶</h3>
+          <div class="meta">已拼 96 团 / 冷链直达</div>
+          <div class="buy">
+            <span class="price">¥19.9<del>¥26.0</del></span>
+            <button class="buy-btn" type="button">跟团</button>
+          </div>
+        </article>
+        <article class="deal">
+          <div class="pic pic-red">
+            <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.6" fill="#DC2626"/></svg>
+          </div>
+          <h3>内蒙古羔羊肉卷 2 斤</h3>
+          <div class="meta">已拼 158 团 / 顺丰发货</div>
+          <div class="buy">
+            <span class="price">¥69.0<del>¥89.0</del></span>
+            <button class="buy-btn" type="button">跟团</button>
+          </div>
+        </article>
+        <article class="deal">
+          <div class="pic pic-orange">
+            <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><ellipse cx="12" cy="13" rx="9" ry="7.5"/><rect x="11" y="3.5" width="2" height="4" rx="1"/><path d="M8 7.8C6.6 9.6 6.6 16.4 8 18.2M16 7.8c1.4 1.8 1.4 9.6 0 10.4" fill="none" stroke="#C2410C" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <h3>贝贝小南瓜 4 斤装</h3>
+          <div class="meta">已拼 67 团 / 粉糯香甜</div>
+          <div class="buy">
+            <span class="price">¥15.8<del>¥22.0</del></span>
+            <button class="buy-btn" type="button">跟团</button>
+          </div>
+        </article>
+      </section>
+
+      <aside class="teaser">
+        <div class="t-txt">
+          <b>明日 10 点 / 山东富士苹果开团</b>
+          <span>首批 500 箱 / 整箱 15 斤起拼</span>
+        </div>
+        <button class="teaser-btn" type="button">提醒我</button>
+      </aside>
+
+      <section class="steps" aria-label="跟团玩法">
+        <div class="step">
+          <span class="no no-blue">1</span>
+          <b>今晚下单</b>
+          <span>22 点截团</span>
+        </div>
+        <div class="step">
+          <span class="no no-red">2</span>
+          <b>凌晨送达</b>
+          <span>直发自提点</span>
+        </div>
+        <div class="step">
+          <span class="no no-orange">3</span>
+          <b>驿站自取</b>
+          <span>凭码一次取齐</span>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <h2>我的团</h2>
+        <button class="more" type="button">全部订单</button>
+      </div>
+      <div class="swipe-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h17M14 6l6 6-6 6"/></svg>
+        左滑任意团可退出团购或删除记录 / 点击已滑开的这一行可复位重播
+      </div>
+      <section class="groups" aria-label="我的团列表">
+        <div class="swipe-item">
+          <div class="swipe-actions"><button class="swipe-del" type="button">退出团购</button></div>
+          <div class="row row-open">
+            <span class="g-ico ico-red">
+              <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M12 3.2c3 0 5.6 2.5 5.6 6.2 0 4.4-3 8.4-5.6 11.4-2.6-3-5.6-7-5.6-11.4 0-3.7 2.6-6.2 5.6-6.2z"/><circle cx="12" cy="9.6" r="1.7" fill="#DC2626"/></svg>
+            </span>
+            <span class="g-txt"><b>阿克苏冰糖心苹果 5 斤</b><span>团长 王秀兰 / 团号 T-2087</span></span>
+            <span class="g-state"><em class="st-muted">明天送达</em></span>
+          </div>
+        </div>
+        <div class="swipe-item">
+          <div class="swipe-actions"><button class="swipe-del" type="button">删除记录</button></div>
+          <div class="row">
+            <span class="g-ico ico-green">
+              <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><ellipse cx="12" cy="13" rx="7.2" ry="8.6"/><path d="M8.5 5.5c1.4.2 2.5 1 3 2.2-1.5 0-2.7-.9-3-2.2z"/></svg>
+            </span>
+            <span class="g-txt"><b>山林散养土鸡蛋 30 枚</b><span>团长 李桂芳 / 团号 T-2051</span></span>
+            <span class="g-state"><em class="st-green">已到货</em><button class="pick-btn" type="button">去取货</button></span>
+          </div>
+        </div>
+        <div class="swipe-item">
+          <div class="swipe-actions"><button class="swipe-del" type="button">删除记录</button></div>
+          <div class="row">
+            <span class="g-ico ico-orange">
+              <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M6 8.5 12 3l6 5.5V21H6V8.5z"/><path d="M6 8.5h12" stroke="#C2410C" stroke-width="1.6" fill="none"/></svg>
+            </span>
+            <span class="g-txt"><b>五常长粒香大米 10 斤</b><span>团长 赵国栋 / 团号 T-2043</span></span>
+            <span class="g-state"><em class="st-orange">配送中</em></span>
+          </div>
+        </div>
+        <div class="swipe-item">
+          <div class="swipe-actions"><button class="swipe-del" type="button">删除记录</button></div>
+          <div class="row">
+            <span class="g-ico ico-green">
+              <svg viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="M4 10a8 8 0 0 0 16 0H4z"/><path d="M12 18v3M8.5 21h7" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M4 10a8 8 0 0 1 16 0" fill="none" stroke="#047857" stroke-width="1.8"/></svg>
+            </span>
+            <span class="g-txt"><b>麒麟西瓜对半切 1 个</b><span>团长 孙晓梅 / 团号 T-2038</span></span>
+            <span class="g-state"><em class="st-orange">待评价</em><button class="pick-btn" type="button">去评价</button></span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <nav class="tabbar" aria-label="主导航">
+      <button class="tab" type="button" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 11.2 12 3l9 8.2V21h-6.4v-6.2H9.4V21H3v-9.8z"/></svg>
+        <span>首页</span>
+      </button>
+      <button class="tab" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M15.5 8.5 13.2 13.2 8.5 15.5l2.3-4.7 4.7-2.3z" fill="currentColor" stroke="none"/></svg>
+        <span>附近</span>
+      </button>
+      <button class="tab" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M6.2 7.8h11.6L19 21.4H5L6.2 7.8z"/><path d="M9 7.8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+        <span>我的团</span>
+      </button>
+      <button class="tab" type="button">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7.6" r="4.2"/><path d="M3.8 21.4c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2H3.8z"/></svg>
+        <span>我的</span>
+      </button>
+    </nav>
+  </div>
+
+  <section class="notes" aria-label="设计要点">
+    <div class="note">
+      <div class="n-head">
+        <span class="swatch" style="background:#2563EB"></span>
+        <b>纯色磁贴</b>
+      </div>
+      <p>四至六个高饱和纯色 / 无阴影 / 无渐变 / 无描边 / 圆角不超过 4px / 白字对比全部不低于 4.5:1</p>
+    </div>
+    <div class="note">
+      <div class="n-head">
+        <span class="swatch" style="background:#C2410C"></span>
+        <b>触控优先</b>
+      </div>
+      <p>磁贴与按钮最小触面 34px 高 / 底部大字 tab / 按压即变色反馈 / 过渡 160ms ease</p>
+    </div>
+    <div class="note">
+      <div class="n-head">
+        <span class="swatch" style="background:#047857"></span>
+        <b>全宽分区</b>
+      </div>
+      <p>磁贴网格贴边铺满 / 分区之间以纯色块切换 / 列表行支持左滑退出与删除（静态演示态）</p>
+    </div>
+  </section>
+
+  <div class="palette" aria-label="配色 token">
+    <div class="color"><i style="background:#2563EB"></i><span>#2563EB</span></div>
+    <div class="color"><i style="background:#DC2626"></i><span>#DC2626</span></div>
+    <div class="color"><i style="background:#C2410C"></i><span>#C2410C</span></div>
+    <div class="color"><i style="background:#047857"></i><span>#047857</span></div>
+    <div class="color"><i style="background:#0F172A"></i><span>#0F172A</span></div>
+  </div>
+
+  <footer class="page-foot">
+    <p>UI 设计提示词库 / Flat Design Mobile Touch-First</p>
+    <p><a href="style-catalog.html">返回风格目录</a></p>
+  </footer>
+</main>
+
+<script>
+document.documentElement.classList.add('js');
+requestAnimationFrame(function () {
+  requestAnimationFrame(function () {
+    document.querySelector('.phone').classList.add('enter');
+  });
+});
+document.querySelectorAll('.tabbar .tab').forEach(function (tab) {
+  tab.addEventListener('click', function () {
+    document.querySelectorAll('.tabbar .tab').forEach(function (t) { t.removeAttribute('aria-current'); });
+    tab.setAttribute('aria-current', 'page');
+  });
+});
+var demoRow = document.querySelector('.row-open');
+if (demoRow) {
+  demoRow.addEventListener('click', function () {
+    demoRow.classList.toggle('row-open');
+  });
+}
+</script>
+</body>
+</html>

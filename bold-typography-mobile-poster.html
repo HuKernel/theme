@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="回声车库秋季演出季手机海报演示:字即海报,四张竖屏海报,字重对比、裁切、竖排、叠印四种字法构图。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Bold Typography Mobile Poster / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+/* tokens: bg #FAFAFA / ink #0A0A0A / accent #FF3D00 / line #262626 / head "Anton + Noto Sans SC 900" / body "Noto Sans SC" / mono "IBM Plex Mono" / radius 0 */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #FAFAFA;
+  --ink: #0A0A0A;
+  --acc: #FF3D00;
+  --line: #262626;
+  --r: 0px;
+  --sans: "Noto Sans SC", sans-serif;
+  --disp-en: "Anton", "Noto Sans SC", sans-serif;
+  --mono: "IBM Plex Mono", "Noto Sans SC", monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 1rem + 0.2vw, 1.0625rem);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--acc); color: #fff; }
+
+a { color: var(--ink); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+a:hover { color: var(--acc); }
+
+:focus-visible {
+  outline: 3px solid var(--acc);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 4vw, 3rem);
+}
+
+section { scroll-margin-top: 1.5rem; }
+
+.skip {
+  position: absolute; left: -999px; top: 0;
+  background: var(--ink); color: var(--bg);
+  padding: .6rem 1rem; z-index: 99;
+}
+.skip:focus-visible { left: 0; color: var(--bg); }
+
+.kicker {
+  font-family: var(--mono);
+  font-size: .82rem;
+  letter-spacing: .02em;
+  color: var(--ink);
+  margin-bottom: 1.1rem;
+}
+.kicker::before {
+  content: "";
+  display: inline-block;
+  width: .9em; height: .9em;
+  background: var(--acc);
+  margin-right: .55em;
+  vertical-align: -0.08em;
+}
+
+/* ---------- 顶栏 ---------- */
+
+.top { border-bottom: 4px solid var(--ink); }
+
+.bar {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  padding-block: .9rem;
+  font-family: var(--mono);
+  font-size: .85rem;
+}
+
+/* ---------- 主视觉:文案 + 手机框 ---------- */
+
+.hero { padding-block: clamp(2.6rem, 6vw, 4.8rem) clamp(2.4rem, 5vw, 4rem); }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.06fr 0.94fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.title {
+  font-weight: 900;
+  font-size: clamp(2.9rem, 5.4vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.4rem;
+}
+.title span { display: block; }
+.title .acc { color: var(--acc); }
+
+.sub {
+  font-size: 1.06rem;
+  line-height: 1.85;
+  max-width: 34em;
+  margin-bottom: 1.6rem;
+}
+.sub strong { font-weight: 700; }
+
+.specline {
+  font-family: var(--mono);
+  font-size: .84rem;
+  border-top: 2px solid var(--ink);
+  padding-top: .8rem;
+  max-width: 34em;
+}
+
+/* ---------- 手机框与海报轮播 ---------- */
+
+.phone {
+  width: min(392px, 100%);
+  margin-inline: auto;
+  border: 12px solid var(--ink);
+  background: var(--ink);
+  border-radius: var(--r);
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 9 / 19;
+}
+
+.p-top {
+  flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .55rem 1rem .7rem;
+  background: var(--ink); color: var(--bg);
+  font-family: var(--mono);
+  font-size: .78rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  touch-action: pan-y;
+  outline-offset: -3px;
+  background: var(--ink);
+}
+
+.poster {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  padding: 6cqw;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(3%);
+  transition: opacity .2s cubic-bezier(.25,0,0,1), transform .2s cubic-bezier(.25,0,0,1);
+  pointer-events: none;
+}
+.poster.on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.p-meta {
+  position: relative; z-index: 2;
+  display: flex; justify-content: space-between; gap: 1rem;
+  font-family: var(--mono);
+  font-size: clamp(14px, 3.8cqw, 15px);
+}
+
+.p-mid { flex: 1 1 auto; min-height: 0; position: relative; }
+
+.p-bottom {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; gap: .5rem;
+  padding-top: 1rem;
+}
+.band { font-weight: 700; font-size: clamp(16px, 4.4cqw, 17px); line-height: 1.5; }
+.price {
+  font-family: var(--mono);
+  font-size: clamp(14px, 3.8cqw, 15px);
+  opacity: .92;
+}
+
+.cta {
+  align-self: flex-start;
+  margin-top: .6rem;
+  background: none; border: none;
+  border-bottom: 3px solid var(--acc);
+  border-radius: var(--r);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1rem;
+  color: inherit;
+  padding: .1rem .1rem .45rem;
+  cursor: pointer;
+}
+.cta:hover { color: var(--acc); }
+
+/* 海报一 / 字重对比 */
+
+.p1 { background: var(--bg); color: var(--ink); }
+
+.weightmid {
+  display: flex; flex-direction: column;
+  justify-content: center;
+}
+.weightmid .w9 {
+  font-weight: 900; font-size: 33cqw; line-height: .98; letter-spacing: -0.03em;
+}
+.weightmid .w3 {
+  font-weight: 300; font-size: 33cqw; line-height: 1.02; letter-spacing: -0.01em;
+  border-top: 4px solid var(--acc); padding-top: 2cqw; margin-top: 2cqw;
+}
+
+/* 海报二 / 裁切 */
+
+.p2 { background: var(--ink); color: var(--bg); }
+
+.cropmid .giant {
+  position: absolute; right: -12cqw; bottom: 26cqw;
+  font-weight: 900; font-size: 92cqw; line-height: .88;
+  letter-spacing: -0.04em; color: var(--bg);
+}
+.cropmid .sq {
+  position: absolute; left: 6cqw; bottom: 8cqw;
+  width: 14cqw; height: 14cqw; background: var(--acc);
+}
+.cropmid .vtag {
+  position: absolute; left: 6cqw; top: 4cqw;
+  writing-mode: vertical-rl;
+  font-family: var(--mono);
+  font-size: clamp(14px, 3.8cqw, 15px);
+  letter-spacing: .3em;
+}
+
+/* 海报三 / 竖排 */
+
+.p3 { background: var(--acc); color: var(--ink); }
+
+.vertmid {
+  writing-mode: vertical-rl;
+  height: 100%;
+}
+.vertmid p { display: block; }
+.vertmid .v1 {
+  font-weight: 900; font-size: 24cqw; line-height: 1.06;
+  letter-spacing: .06em; margin-block-end: 4cqw;
+}
+.vertmid .v2 {
+  font-weight: 300; font-size: 15cqw; line-height: 1.1;
+  letter-spacing: .12em; margin-block-end: 4cqw;
+}
+.vertmid .v3 {
+  font-family: var(--mono); font-weight: 400;
+  font-size: clamp(14px, 3.8cqw, 15px); letter-spacing: .18em;
+  border-block-start: 2px solid var(--ink); padding-block-start: 1.5cqw;
+}
+.p3 .cta { border-bottom-color: var(--ink); }
+.p3 .cta:hover { color: var(--ink); opacity: .7; }
+
+/* 海报四 / 叠印 */
+
+.p4 { background: var(--ink); color: var(--bg); }
+
+.printmid {
+  display: flex; flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3cqw;
+}
+.stack {
+  position: relative;
+  font-weight: 900; font-size: 42cqw;
+  line-height: .95; letter-spacing: -0.03em;
+}
+.stack .ghost {
+  position: absolute; left: 0; top: 0;
+  transform: translate(-4cqw, -3.5cqw);
+  color: var(--acc); mix-blend-mode: screen;
+}
+.stack .top { position: relative; color: var(--bg); }
+.printmid .enline {
+  font-family: var(--disp-en); font-weight: 400;
+  font-size: 10cqw; line-height: 1;
+  letter-spacing: .05em; color: var(--acc); margin-left: 2cqw;
+}
+
+/* 底部操作条 / 页码指示 */
+
+.p-bot {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: .6rem;
+  padding: .55rem .9rem;
+  background: var(--ink); color: var(--bg);
+  border-top: 1px solid var(--line);
+}
+
+.nav {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: .8rem;
+  padding: .55rem .8rem;
+  min-height: 44px;
+  cursor: pointer;
+}
+.nav:hover { border-color: var(--acc); color: var(--acc); }
+.nav-prev { justify-self: start; }
+.nav-next { justify-self: end; }
+
+.indicator {
+  display: flex; flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+}
+
+.ticks { display: flex; gap: .5rem; }
+
+.tick {
+  width: 34px; height: 44px;
+  display: flex; align-items: center;
+  background: none; border: none;
+  border-radius: var(--r);
+  cursor: pointer;
+  padding: 0;
+}
+.tick::before {
+  content: "";
+  display: block;
+  width: 100%; height: 6px;
+  background: rgba(250,250,250,.35);
+}
+.tick[aria-current="true"]::before { background: var(--acc); }
+.tick:hover::before { background: var(--bg); }
+.tick[aria-current="true"]:hover::before { background: var(--acc); }
+
+.counter {
+  font-family: var(--mono);
+  font-size: .78rem;
+  color: var(--bg);
+  letter-spacing: .08em;
+}
+
+/* ---------- 演出季一览 ---------- */
+
+.seriessec { padding-block: clamp(2.4rem, 5vw, 4rem); }
+
+h2 {
+  font-weight: 900;
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.8rem;
+}
+h2 .acc { color: var(--acc); }
+
+.shows { list-style: none; border-top: 4px solid var(--ink); }
+
+.show {
+  display: grid;
+  grid-template-columns: 2.8rem 7.2rem 1fr 6rem 9rem;
+  gap: .4rem 1rem;
+  align-items: baseline;
+  padding: 1.05rem .2rem;
+  border-bottom: 2px solid var(--line);
+  font-size: .95rem;
+}
+.show.head {
+  font-family: var(--mono);
+  font-size: .8rem;
+  padding-block: .55rem;
+  border-bottom: 2px solid var(--ink);
+}
+.show .no { font-family: var(--mono); font-weight: 700; }
+.show .date { font-family: var(--mono); font-size: .88rem; }
+.show .name { font-weight: 700; }
+.show .how { font-size: .88rem; }
+.show .price { font-family: var(--mono); font-size: .88rem; text-align: right; }
+.shows-note {
+  font-family: var(--mono);
+  font-size: .82rem;
+  margin-top: 1rem;
+}
+
+/* ---------- 构图四法 ---------- */
+
+.methodssec { padding-block: clamp(2.4rem, 5vw, 4rem); }
+
+.methods { list-style: none; border-top: 4px solid var(--ink); }
+
+.m {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr auto;
+  gap: .8rem 1.6rem;
+  align-items: baseline;
+  padding: 1.5rem .2rem;
+  border-bottom: 2px solid var(--line);
+}
+.m-no {
+  font-family: var(--disp-en);
+  font-weight: 400;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--acc);
+}
+.m-body h3 {
+  font-weight: 900;
+  font-size: 1.25rem;
+  margin-bottom: .35rem;
+}
+.m-body p { font-size: .95rem; max-width: 42em; }
+.m-en {
+  font-family: var(--mono);
+  font-size: .82rem;
+  border: 1px solid var(--ink);
+  border-radius: var(--r);
+  padding: .18rem .6rem;
+}
+
+/* ---------- 关于 / 规格(深色) ---------- */
+
+.dark { background: var(--ink); color: var(--bg); }
+
+.darksec {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-block: clamp(2.6rem, 6vw, 4.4rem);
+}
+.dark .kicker { color: var(--bg); }
+.dark h2 { margin-bottom: 1.2rem; }
+.dark p { margin-bottom: 1.1rem; max-width: 36em; }
+.dark a { color: var(--bg); }
+.dark a:hover { color: var(--acc); }
+
+.specs { list-style: none; }
+.specs-title {
+  font-family: var(--mono);
+  font-size: .82rem;
+  margin-bottom: 1rem;
+}
+.specs li {
+  border-top: 2px solid var(--line);
+  padding: .9rem .1rem;
+  font-size: .95rem;
+}
+.specs li:last-child { border-bottom: 2px solid var(--line); }
+.specs .num {
+  font-family: var(--mono);
+  color: var(--acc);
+  margin-right: .6em;
+}
+
+/* ---------- footer ---------- */
+
+footer { border-top: 4px solid var(--ink); }
+
+.footer-inner {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 1rem; flex-wrap: wrap;
+  padding-block: 1.4rem;
+  font-family: var(--mono);
+  font-size: .84rem;
+}
+
+/* ---------- 一次亮相 ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .rise {
+    animation: rise .55s cubic-bezier(.25,0,0,1) both;
+  }
+  html.js .d1 { animation-delay: .04s; }
+  html.js .d2 { animation-delay: .10s; }
+  html.js .d3 { animation-delay: .16s; }
+  html.js .d4 { animation-delay: .22s; }
+  html.js .d5 { animation-delay: .28s; }
+  html.js .d6 { animation-delay: .34s; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .poster { transition: none; }
+  .rise { animation: none !important; }
+}
+
+/* ---------- 响应式 ---------- */
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .phone { margin-inline: auto; }
+  .darksec { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  .show.head { display: none; }
+  .show {
+    grid-template-columns: 2.4rem 1fr;
+    gap: .15rem .8rem;
+  }
+  .show .no { grid-row: 1 / span 3; }
+  .show .name { grid-column: 2; }
+  .show .date, .show .how, .show .price {
+    grid-column: 2;
+    text-align: left;
+  }
+  .m { grid-template-columns: 3.4rem 1fr; }
+  .m-en { grid-column: 2; justify-self: start; }
+  .nav { padding: .55rem .6rem; }
+  .footer-inner { flex-direction: column; gap: .4rem; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <p><strong>回声车库 / 秋季演出季</strong> / 海报 App 演示</p>
+    <p>Bold Typography Mobile Poster / supplemental</p>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero wrap">
+    <div class="hero-grid">
+
+      <div class="hero-copy">
+        <p class="kicker rise d1">移动海报 / 字即海报</p>
+        <h1 class="title">
+          <span class="rise d2">字 大到</span>
+          <span class="rise d3">成为<span class="acc">海报</span></span>
+        </h1>
+        <p class="sub rise d4">这是回声车库秋季演出季的宣传 App:一屏一张海报,一场演出一个字的构图。滑动换页,就是换一张贴在墙上的海报。<strong>不放图片,只放字</strong>,近黑与暖白压住底色,朱红只给最想被按下的那一处。</p>
+        <p class="specline rise d5">底色 近黑 #0A0A0A / 暖白 #FAFAFA / 强调 朱红 #FF3D00 / 圆角 0 / 过渡 200ms 无弹跳</p>
+      </div>
+
+      <div class="phone rise d6">
+        <div class="p-top">
+          <span>21:47</span>
+          <span>演出季</span>
+          <span>11 月</span>
+        </div>
+
+        <div class="stage" id="stage" tabindex="0" role="region" aria-roledescription="海报轮播" aria-label="演出季海报轮播 / 聚焦后可用左右方向键切换">
+
+          <article class="poster p1 on" aria-label="第一张 海啸警报 / 字重对比" aria-hidden="false">
+            <div class="p-meta">
+              <span>11 / 14 周五 20:00</span>
+              <span>回声车库</span>
+            </div>
+            <div class="p-mid weightmid">
+              <p class="w9">海啸</p>
+              <p class="w3">警报</p>
+            </div>
+            <div class="p-bottom">
+              <p class="band">假日群岛 / 新专辑《海啸警报》首发专场</p>
+              <p class="price">预售 120 / 现场 150</p>
+              <button class="cta" type="button">立即购票</button>
+            </div>
+          </article>
+
+          <article class="poster p2" aria-label="第二张 余震 / 主字被屏幕边缘裁切" aria-hidden="true" inert>
+            <div class="p-meta">
+              <span>11 / 21 周五 20:30</span>
+              <span>余震 巡演</span>
+            </div>
+            <div class="p-mid cropmid">
+              <p class="giant" aria-hidden="true">断</p>
+              <p class="vtag">余震 未平</p>
+              <span class="sq"></span>
+            </div>
+            <div class="p-bottom">
+              <p class="band">断桥 / 巡演 上海站</p>
+              <p class="price">预售 150 / 现场 180</p>
+              <button class="cta" type="button">立即购票</button>
+            </div>
+          </article>
+
+          <article class="poster p3" aria-label="第三张 夜航 / 竖排字法" aria-hidden="true" inert>
+            <div class="p-meta">
+              <span>11 / 28 周五 20:00</span>
+              <span>诗歌 × 钢琴</span>
+            </div>
+            <div class="p-mid vertmid">
+              <p class="v1">河流</p>
+              <p class="v2">在夜里练琴</p>
+              <p class="v3">夜航 专场 / 两节一组</p>
+            </div>
+            <div class="p-bottom">
+              <p class="band">河流钢琴 / 现场专辑《夜航》录制场</p>
+              <p class="price">预售 100 / 现场 120</p>
+              <button class="cta" type="button">立即购票</button>
+            </div>
+          </article>
+
+          <article class="poster p4" aria-label="第四张 Overload / 双色叠印" aria-hidden="true" inert>
+            <div class="p-meta">
+              <span>12 / 05 周五 21:00</span>
+              <span>跨年前夜</span>
+            </div>
+            <div class="p-mid printmid">
+              <div class="stack" aria-hidden="true">
+                <span class="ghost">超载</span>
+                <span class="top">超载</span>
+              </div>
+              <p class="enline">Overload Radio</p>
+            </div>
+            <div class="p-bottom">
+              <p class="band">超载电台 / 新单曲《Overload》首演</p>
+              <p class="price">预售 130 / 现场 160</p>
+              <button class="cta" type="button">立即购票</button>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="p-bot">
+          <button class="nav nav-prev" id="prev" type="button" aria-label="上一张海报">上一张</button>
+          <div class="indicator">
+            <div class="ticks">
+              <button class="tick" type="button" aria-label="第 1 张 海啸警报" aria-current="true"></button>
+              <button class="tick" type="button" aria-label="第 2 张 余震" aria-current="false"></button>
+              <button class="tick" type="button" aria-label="第 3 张 夜航" aria-current="false"></button>
+              <button class="tick" type="button" aria-label="第 4 张 Overload" aria-current="false"></button>
+            </div>
+            <p class="counter" id="counter" aria-live="polite">01 / 04</p>
+          </div>
+          <button class="nav nav-next" id="next" type="button" aria-label="下一张海报">下一张</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="seriessec wrap" id="series">
+    <p class="kicker">演出季 / 秋季档 四场</p>
+    <h2>四张海报 <span class="acc">四种字法</span></h2>
+    <ul class="shows">
+      <li class="show head" aria-hidden="true">
+        <span>期</span><span>日期</span><span>演出</span><span>构图</span><span>票价</span>
+      </li>
+      <li class="show">
+        <span class="no">01</span>
+        <span class="date">11 / 14 周五</span>
+        <span class="name">假日群岛「海啸警报」专辑首发</span>
+        <span class="how">字重对比</span>
+        <span class="price">预售 120 / 现场 150</span>
+      </li>
+      <li class="show">
+        <span class="no">02</span>
+        <span class="date">11 / 21 周五</span>
+        <span class="name">断桥「余震」巡演 上海站</span>
+        <span class="how">边缘裁切</span>
+        <span class="price">预售 150 / 现场 180</span>
+      </li>
+      <li class="show">
+        <span class="no">03</span>
+        <span class="date">11 / 28 周五</span>
+        <span class="name">河流钢琴「夜航」录制场</span>
+        <span class="how">竖排</span>
+        <span class="price">预售 100 / 现场 120</span>
+      </li>
+      <li class="show">
+        <span class="no">04</span>
+        <span class="date">12 / 05 周五</span>
+        <span class="name">超载电台「Overload」首演</span>
+        <span class="how">叠印</span>
+        <span class="price">预售 130 / 现场 160</span>
+      </li>
+    </ul>
+    <p class="shows-note">场地 / 上海 永嘉路 回声车库 / 全部站席 / 门外不设加座</p>
+  </section>
+
+  <section class="methodssec wrap" id="methods">
+    <p class="kicker">字法 / 每张海报只赌一件事</p>
+    <h2>构图四法</h2>
+    <ol class="methods">
+      <li class="m">
+        <span class="m-no" aria-hidden="true">01</span>
+        <div class="m-body">
+          <h3>字重对比</h3>
+          <p>900 与 300 同字号上下并置 / 粗的在喊 细的在耳语 / 层级不靠框线和颜色,只靠笔画粗细的落差。</p>
+        </div>
+        <span class="m-en">Weight</span>
+      </li>
+      <li class="m">
+        <span class="m-no" aria-hidden="true">02</span>
+        <div class="m-body">
+          <h3>边缘裁切</h3>
+          <p>主字放大到超出屏幕,被边缘切掉一角 / 缺的部分由眼睛补全 / 出血的张力比完整的字更大。</p>
+        </div>
+        <span class="m-en">Crop</span>
+      </li>
+      <li class="m">
+        <span class="m-no" aria-hidden="true">03</span>
+        <div class="m-body">
+          <h3>竖排</h3>
+          <p>writing-mode vertical-rl / 行序自右向左,是中文海报的原生语法 / 竖行本身就是节奏。</p>
+        </div>
+        <span class="m-en">Vertical</span>
+      </li>
+      <li class="m">
+        <span class="m-no" aria-hidden="true">04</span>
+        <div class="m-body">
+          <h3>叠印</h3>
+          <p>同一个字的两个颜色版本错位叠合 / 交叠处像油墨未干 / 丝网印刷的错觉,零图片成本。</p>
+        </div>
+        <span class="m-en">Overprint</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="dark" id="about">
+    <div class="wrap darksec">
+      <div>
+        <p class="kicker">关于粗体字海报</p>
+        <h2>不放图片<br>字自己<span class="acc">站上台</span></h2>
+        <p>粗体字海报把界面当海报贴:一屏只讲一件事,一个字占半屏,留白不是浪费,是音量。色彩压到两三种,近黑与暖白打底,再加一管朱红,只给最想被点的那一处。</p>
+        <p>这一季四张海报分别用了字重对比、裁切、竖排、叠印四种字法。切换只有一次 200ms 的过渡,不弹跳,不漂浮,像翻一张纸。</p>
+      </div>
+      <ul class="specs">
+        <li class="specs-title">规格 / 按官方清单核对</li>
+        <li><span class="num">a.</span>主标题字号为正文的 4 到 5 倍</li>
+        <li><span class="num">b.</span>所有容器 0 圆角 无阴影</li>
+        <li><span class="num">c.</span>行动按钮用 2 到 3px 下划线</li>
+        <li><span class="num">d.</span>段落之间留出 60px 以上大间距</li>
+        <li><span class="num">e.</span>动效统一 200ms 无弹跳</li>
+        <li><span class="num">f.</span>正文不小于 16px / 对比度不低于 4.5:1</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>UI 设计提示词库 / Bold Typography Mobile Poster</span>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* 海报轮播:按钮 / 页码点 / 方向键 / 指针横滑,一次 200ms 过渡 */
+(function () {
+  var stage = document.getElementById('stage');
+  var posters = Array.prototype.slice.call(stage.querySelectorAll('.poster'));
+  var ticks = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+  var counter = document.getElementById('counter');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var i = 0;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function go(n) {
+    i = (n + posters.length) % posters.length;
+    posters.forEach(function (p, k) {
+      var on = k === i;
+      p.classList.toggle('on', on);
+      p.setAttribute('aria-hidden', on ? 'false' : 'true');
+      if ('inert' in p) { p.inert = !on; }
+    });
+    ticks.forEach(function (t, k) {
+      t.setAttribute('aria-current', k === i ? 'true' : 'false');
+    });
+    counter.textContent = pad(i + 1) + ' / ' + pad(posters.length);
+  }
+
+  ticks.forEach(function (t, k) {
+    t.addEventListener('click', function () { go(k); });
+  });
+  prev.addEventListener('click', function () { go(i - 1); });
+  next.addEventListener('click', function () { go(i + 1); });
+
+  stage.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
+  });
+
+  var x0 = null;
+  stage.addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+  stage.addEventListener('pointerup', function (e) {
+    if (x0 === null) { return; }
+    var dx = e.clientX - x0;
+    x0 = null;
+    if (dx > 40) { go(i - 1); }
+    else if (dx < -40) { go(i + 1); }
+  });
+
+  go(0);
+})();
+</script>
+</body>
+</html>

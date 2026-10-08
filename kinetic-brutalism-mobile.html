@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kinetic Brutalism Mobile 动能粗野移动端演示：地下说唱厂牌限量黑胶 drop 预约界面">
+<title>Kinetic Brutalism Mobile / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划: 底 #0D0F16 / 字 #EEF1F7 / 酸黄 #DFE104 / 电蓝 #0604E1 / 边 2px #3F3F46 / 圆角 0 / Space Grotesk 700 + 系统黑体 900 / 字距 大字-0.04em 标签 0.14em / 行高 0.95-1.05 / marquee 线性循环 / 按压 0.95+洪水反转 100ms */
+:root {
+  --acid: #DFE104;
+  --ink: #09090B;
+  --blue: #0604E1;
+  --bg: #0D0F16;
+  --panel: #15171F;
+  --fg: #EEF1F7;
+  --mut: #A1A1AA;
+  --line: #3F3F46;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: "Space Grotesk", "PingFang SC", "Hiragino Sans GB", "MiSans", "Microsoft YaHei", sans-serif;
+  background: #05060A;
+  color: var(--fg);
+  line-height: 1.5;
+  min-height: 100svh;
+}
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--acid); outline-offset: 2px; }
+
+/* ============ 桌面舞台 ============ */
+.stage {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  padding: 48px 20px 36px;
+  position: relative;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 52px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 52px);
+}
+.stage-note {
+  position: absolute;
+  left: clamp(16px, 6vw, 90px);
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--mut);
+  border-left: 2px solid var(--acid);
+  padding-left: 10px;
+}
+.stage-note em { font-style: normal; color: var(--acid); }
+
+/* ============ 手机框（粗野：直角 + 厚边 + 硬投影） ============ */
+.phone {
+  position: relative;
+  z-index: 1;
+  width: min(392px, 100%);
+  height: min(842px, calc(100svh - 150px));
+  min-height: 640px;
+  background: var(--ink);
+  border: 3px solid var(--line);
+  border-radius: 0;
+  padding: 10px;
+  box-shadow: 16px 16px 0 var(--blue), 16px 16px 0 3px var(--ink);
+}
+.screen {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  border: 2px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ============ 状态栏 ============ */
+.status {
+  flex: none;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--ink);
+  border-bottom: 2px solid var(--line);
+}
+.status svg { display: block; }
+.status .sicons { display: flex; align-items: center; gap: 6px; }
+
+/* ============ 跑马灯 ============ */
+.mq { overflow: hidden; }
+.mq-track {
+  display: flex;
+  width: max-content;
+  animation: mq 10s linear infinite;
+}
+.mq-track.rev { animation-direction: reverse; }
+.mq-chunk {
+  flex: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  padding-right: 32px;
+}
+@keyframes mq { to { transform: translateX(-50%); } }
+
+.ticker { background: var(--acid); color: var(--ink); border-bottom: 2px solid var(--ink); }
+.ticker .mq-chunk { font-size: 13px; font-weight: 700; letter-spacing: 0.02em; height: 36px; }
+
+/* ============ 滚动区 ============ */
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.scroll::-webkit-scrollbar { width: 6px; }
+.scroll::-webkit-scrollbar-thumb { background: var(--line); }
+
+/* ============ 砸入编排（位移+斜切，非淡入） ============ */
+.smash { animation: smashL 0.42s cubic-bezier(0.18, 0.9, 0.22, 1) both; animation-delay: var(--d, 0s); }
+.smash-r { animation-name: smashR; }
+@keyframes smashL {
+  from { transform: translateX(-135%) skewX(-16deg); }
+}
+@keyframes smashR {
+  from { transform: translateX(135%) skewX(12deg); }
+}
+.ticker { animation: dropY 0.3s steps(4, end) both; }
+@keyframes dropY { from { transform: translateY(-100%); } }
+.tabbar { animation: riseY 0.36s cubic-bezier(0.2, 0.9, 0.2, 1) 0.8s both; }
+@keyframes riseY { from { transform: translateY(110%); } }
+
+/* ============ 区块通用 ============ */
+section { padding: 20px 16px 22px; position: relative; }
+.blk-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--mut);
+  margin-bottom: 14px;
+}
+.blk-label::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--acid);
+  flex: none;
+}
+
+/* ============ 主视觉 ============ */
+.hero {
+  background: var(--ink);
+  border-bottom: 2px solid var(--line);
+  overflow: hidden;
+  padding-top: 26px;
+}
+.hero-no {
+  position: absolute;
+  right: -8px;
+  bottom: 54px;
+  font-size: 148px;
+  font-weight: 700;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--line);
+  pointer-events: none;
+  user-select: none;
+}
+.hero-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  background: var(--fg);
+  padding: 4px 10px;
+}
+.hero-chip {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--fg);
+  background: var(--blue);
+  border: 2px solid var(--fg);
+  padding: 3px 9px;
+  margin-left: 8px;
+  transform: skewX(-10deg);
+}
+.hero-title-wrap { will-change: transform; transform-origin: 12% 100%; margin: 18px 0 14px; position: relative; }
+.hero-slash {
+  position: absolute;
+  left: -14px;
+  top: -14px;
+  width: 96px;
+  height: 16px;
+  background: var(--blue);
+  transform: rotate(-5deg);
+}
+.hero-slash.s2 { top: auto; bottom: -10px; left: auto; right: 30px; width: 64px; height: 12px; background: var(--acid); }
+.hero-title {
+  position: relative;
+  font-size: clamp(64px, 21vw, 86px);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+.hero-title .t1 { display: block; color: var(--fg); }
+.hero-title .t2 {
+  display: inline-block;
+  background: var(--acid);
+  color: var(--ink);
+  padding: 2px 14px 6px 10px;
+  transform: skewX(-8deg) translateX(10px);
+  margin-top: 8px;
+}
+.hero-sub {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--mut);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.hero-sub b { color: var(--acid); font-weight: 700; }
+
+/* ============ 数字大爆炸：倒计时 ============ */
+.count { background: var(--bg); border-bottom: 2px solid var(--line); }
+.count-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+  border: 2px solid var(--line);
+  background: var(--ink);
+}
+.unit { text-align: center; padding: 14px 2px 10px; }
+.unit b {
+  display: block;
+  font-size: clamp(30px, 9.6vw, 40px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.unit:first-child b { color: var(--acid); }
+.unit span { display: block; font-size: 11px; color: var(--mut); margin-top: 6px; }
+.count-sep {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--acid);
+  padding-bottom: 18px;
+}
+.count-sub {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fg);
+  background: var(--acid);
+  color: var(--ink);
+  display: inline-block;
+  padding: 5px 12px;
+  transform: rotate(-1deg);
+}
+
+/* ============ 歌单跑马灯 ============ */
+.tracks { padding-left: 0; padding-right: 0; }
+.tracks .blk-label { padding: 0 16px; }
+.mq-row-a { background: var(--acid); color: var(--ink); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.mq-row-a .mq-track { animation-duration: 9s; }
+.mq-row-a .mq-chunk { font-size: 17px; font-weight: 700; height: 44px; }
+.mq-row-b { background: var(--panel); color: var(--fg); border-bottom: 2px solid var(--line); }
+.mq-row-b .mq-track { animation-duration: 11s; }
+.mq-row-b .mq-chunk { font-size: 15px; font-weight: 700; height: 38px; }
+
+/* ============ 出场名单：错位冲撞 ============ */
+.crew { background: var(--bg); }
+.crew-list { display: grid; gap: 16px; }
+.crew-card {
+  border: 2px solid var(--fg);
+  padding: 14px 16px;
+  position: relative;
+  transition: background-color 100ms linear, color 100ms linear;
+}
+.crew-card:active { background: var(--acid); color: var(--ink); }
+.crew-card .no {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.crew-card .nm { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; margin-top: 6px; }
+.crew-card .rl { font-size: 13px; font-weight: 700; margin-top: 4px; }
+.crew-card .ds { font-size: 12px; margin-top: 8px; opacity: 0.85; }
+.crew-card.c1 { background: var(--acid); color: var(--ink); transform: rotate(-1.6deg) translateX(-6px); }
+.crew-card.c2 { background: var(--panel); color: var(--fg); transform: rotate(1.2deg); margin-left: 42px; margin-top: -8px; }
+.crew-card.c2 .no { color: var(--acid); }
+.crew-card.c3 { background: var(--fg); color: var(--ink); transform: rotate(-0.8deg) translateX(8px); margin-top: -6px; }
+.crew-card .no::after {
+  content: "";
+  display: inline-block;
+  width: 34px;
+  height: 8px;
+  margin-left: 10px;
+}
+
+/* ============ 认购清单：对齐网格 ============ */
+.spec { background: var(--bg); padding-top: 6px; }
+.spec-list { border-top: 2px solid var(--line); }
+.spec-row {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  align-items: baseline;
+  border-bottom: 2px solid var(--line);
+  padding: 12px 2px;
+}
+.spec-row dt { font-size: 13px; font-weight: 700; color: var(--mut); }
+.spec-row dd { font-size: 15px; font-weight: 700; color: var(--fg); }
+.spec-row dd b { color: var(--acid); font-weight: 700; }
+
+/* ============ 直播预约 ============ */
+.live { background: var(--bg); }
+.live-box {
+  background: var(--blue);
+  border: 2px solid var(--fg);
+  padding: 18px 16px;
+  transform: skewY(-1deg);
+}
+.live-box h3 { font-size: 22px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.05; }
+.live-box .lc { font-size: 13px; font-weight: 700; margin-top: 6px; }
+.live-num { display: flex; align-items: baseline; gap: 8px; margin: 14px 0; }
+.live-num b {
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--acid);
+  font-variant-numeric: tabular-nums;
+}
+.live-num span { font-size: 13px; font-weight: 700; }
+.btn-remind {
+  width: 100%;
+  border: 2px solid var(--fg);
+  background: var(--ink);
+  color: var(--fg);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 13px 10px;
+  transition: background-color 100ms linear, color 100ms linear, transform 100ms linear;
+}
+.btn-remind:active { background: var(--acid); color: var(--ink); border-color: var(--ink); transform: scale(0.95); }
+.btn-remind.on { background: var(--acid); color: var(--ink); border-color: var(--ink); }
+
+/* ============ 主 CTA ============ */
+.cta { padding-bottom: 26px; background: var(--bg); }
+.btn-grab {
+  width: 100%;
+  border: 2px solid var(--fg);
+  background: var(--blue);
+  color: var(--fg);
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 16px 10px;
+  transition: background-color 100ms linear, color 100ms linear, transform 100ms linear;
+}
+.btn-grab:active { background: var(--acid); color: var(--ink); border-color: var(--ink); transform: scale(0.95); }
+.btn-grab.got { background: var(--acid); color: var(--ink); border-color: var(--ink); }
+.cta-note { margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--mut); text-align: center; }
+
+/* ============ 底部导航 ============ */
+.tabbar {
+  flex: none;
+  display: flex;
+  background: var(--ink);
+  border-top: 2px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 4px 8px;
+  background: none;
+  border: 0;
+  color: var(--mut);
+  font-size: 11px;
+  font-weight: 700;
+  transition: color 100ms linear, transform 100ms linear;
+}
+.tab:active { transform: scale(0.95); }
+.tab[aria-selected="true"] { color: var(--acid); }
+.tab svg { display: block; }
+
+/* ============ 页脚 ============ */
+.page-foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mut);
+}
+.foot-link {
+  color: var(--fg);
+  text-decoration: none;
+  border: 2px solid var(--line);
+  padding: 8px 14px;
+  transition: background-color 100ms linear, color 100ms linear;
+}
+.foot-link:hover { background: var(--acid); color: var(--ink); border-color: var(--ink); }
+
+/* ============ 响应式 ============ */
+@media (max-width: 900px) { .stage-note { display: none; } }
+@media (max-width: 760px) {
+  .stage { padding: 28px 16px 24px; gap: 18px; }
+  .phone { height: min(842px, calc(100svh - 120px)); }
+}
+@media (max-width: 480px) {
+  .stage { padding: 0 0 16px; gap: 14px; }
+  .phone {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    border: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .screen { border: 0; min-height: 100svh; }
+  .scroll { flex: 1; }
+  .page-foot { padding: 0 16px; }
+  .hero-no { bottom: 66px; }
+}
+
+/* ============ 降级 ============ */
+@media (prefers-reduced-motion: reduce) {
+  .mq-track, .smash, .ticker, .tabbar { animation: none !important; }
+  .crew-card, .btn-remind, .btn-grab, .tab, .foot-link { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <p class="stage-note">Kinetic Brutalism <em>/</em> 动能粗野 <em>/</em> 移动端 009</p>
+
+  <div class="phone">
+    <div class="screen">
+
+      <div class="status">
+        <span>20:00</span>
+        <span class="sicons" aria-label="信号与电量">
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none" aria-hidden="true">
+            <rect x="0" y="7" width="3" height="5" fill="#EEF1F7"/>
+            <rect x="4.5" y="5" width="3" height="7" fill="#EEF1F7"/>
+            <rect x="9" y="2.5" width="3" height="9.5" fill="#EEF1F7"/>
+            <rect x="13.5" y="0" width="3" height="12" fill="#3F3F46"/>
+          </svg>
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none" aria-hidden="true">
+            <rect x="0.5" y="0.5" width="17" height="11" stroke="#EEF1F7"/>
+            <rect x="2" y="2" width="12" height="8" fill="#DFE104"/>
+            <rect x="19" y="3.5" width="2.5" height="5" fill="#EEF1F7"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="ticker mq" aria-label="发售公告">
+        <div class="mq-track">
+          <div class="mq-chunk">玄武唱片 第 009 号计划 / 《午夜轰鸣》限定彩胶 / 编号 001-500 / 10.24 20:00 准时开抢 / 售完即止 不加印 /</div>
+          <div class="mq-chunk" aria-hidden="true">玄武唱片 第 009 号计划 / 《午夜轰鸣》限定彩胶 / 编号 001-500 / 10.24 20:00 准时开抢 / 售完即止 不加印 /</div>
+        </div>
+      </div>
+
+      <div class="scroll">
+
+        <section class="hero smash smash-r" style="--d: 0.1s">
+          <div class="hero-no" aria-hidden="true">009</div>
+          <p><span class="hero-tag">玄武唱片 009 号计划</span><span class="hero-chip">新碟首曝</span></p>
+          <div class="hero-title-wrap">
+            <div class="hero-slash" aria-hidden="true"></div>
+            <div class="hero-slash s2" aria-hidden="true"></div>
+            <h1 class="hero-title"><span class="t1">午夜</span><span class="t2">轰鸣</span></h1>
+          </div>
+          <p class="hero-sub">限定彩胶双 LP / <b>10.24 20:00</b> 开抢 / 主理人 Venom K 全碟 12 首</p>
+        </section>
+
+        <section class="count smash" style="--d: 0.22s">
+          <p class="blk-label">距离《午夜轰鸣》开抢</p>
+          <div class="count-grid" role="timer" aria-label="开抢倒计时">
+            <div class="unit"><b id="cd-d">16</b><span>天</span></div>
+            <div class="count-sep" aria-hidden="true">/</div>
+            <div class="unit"><b id="cd-h">03</b><span>时</span></div>
+            <div class="count-sep" aria-hidden="true">/</div>
+            <div class="unit"><b id="cd-m">42</b><span>分</span></div>
+            <div class="count-sep" aria-hidden="true">/</div>
+            <div class="unit"><b id="cd-s">18</b><span>秒</span></div>
+          </div>
+          <p class="count-sub">编号 001-500 / 售完即止</p>
+        </section>
+
+        <section class="tracks smash smash-r" style="--d: 0.34s">
+          <p class="blk-label">街区正在循环 / 全碟曲目</p>
+          <div class="mq mq-row-a">
+            <div class="mq-track">
+              <div class="mq-chunk">01 开门见山 / 02 混凝土 / 03 蟒 / 04 慢火 / 05 无人区 /</div>
+              <div class="mq-chunk" aria-hidden="true">01 开门见山 / 02 混凝土 / 03 蟒 / 04 慢火 / 05 无人区 /</div>
+            </div>
+          </div>
+          <div class="mq mq-row-b">
+            <div class="mq-track rev">
+              <div class="mq-chunk">06 灯下黑 / 07 走地 / 08 峰值 / 09 旧铁桥 / 10 黑冰 / 11 轰鸣 / 12 收山 /</div>
+              <div class="mq-chunk" aria-hidden="true">06 灯下黑 / 07 走地 / 08 峰值 / 09 旧铁桥 / 10 黑冰 / 11 轰鸣 / 12 收山 /</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="crew smash" style="--d: 0.46s">
+          <p class="blk-label">出场名单</p>
+          <div class="crew-list">
+            <article class="crew-card c1">
+              <p class="no">01</p>
+              <h3 class="nm">Venom K 玄武奇</h3>
+              <p class="rl">厂牌主理人 / 主音</p>
+              <p class="ds">6 首主音 / 全碟混音在城中村地下室完成</p>
+            </article>
+            <article class="crew-card c2">
+              <p class="no">02</p>
+              <h3 class="nm">Akui 阿鬼</h3>
+              <p class="rl">特邀客串</p>
+              <p class="ds">3 段 verse / 最长一段连押 4 分 11 秒</p>
+            </article>
+            <article class="crew-card c3">
+              <p class="no">03</p>
+              <h3 class="nm">Tie Ma 铁马</h3>
+              <p class="rl">全碟制作</p>
+              <p class="ds">12 首 beat / 采样全部来自旧铁桥工地</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="spec smash smash-r" style="--d: 0.58s">
+          <p class="blk-label">认购清单</p>
+          <dl class="spec-list">
+            <div class="spec-row">
+              <dt>规格</dt>
+              <dd>180g 限定彩胶 / 双 LP</dd>
+            </div>
+            <div class="spec-row">
+              <dt>编号</dt>
+              <dd>手写 <b>001-500</b> / 附编号卡</dd>
+            </div>
+            <div class="spec-row">
+              <dt>定价</dt>
+              <dd><b>¥269</b> / 邮费另计</dd>
+            </div>
+            <div class="spec-row">
+              <dt>附赠</dt>
+              <dd>复刻海报 1 张 / 贴纸包 1 套</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="live smash" style="--d: 0.7s">
+          <p class="blk-label">直播听歌会</p>
+          <div class="live-box">
+            <h3>全碟首播 / 主理人连麦</h3>
+            <p class="lc">10.24 20:00 / 开抢同步开场 / 不回放</p>
+            <div class="live-num">
+              <b id="live-n">3,842</b>
+              <span>人已预约</span>
+            </div>
+            <button type="button" class="btn-remind" id="btn-remind" aria-pressed="false">开播提醒</button>
+          </div>
+        </section>
+
+        <section class="cta smash smash-r" style="--d: 0.8s">
+          <button type="button" class="btn-grab" id="btn-grab">加入开抢清单</button>
+          <p class="cta-note">开抢前 10 分钟推送提醒 / 每人限购 2 张</p>
+        </section>
+
+      </div>
+
+      <nav class="tabbar" aria-label="主导航">
+        <button type="button" class="tab" aria-selected="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <rect x="11.5" y="2.5" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <rect x="2.5" y="11.5" width="6" height="6" stroke="currentColor" stroke-width="2"/>
+            <rect x="11.5" y="11.5" width="6" height="6" fill="currentColor"/>
+          </svg>
+          厂牌
+        </button>
+        <button type="button" class="tab" aria-selected="false">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="2"/>
+            <circle cx="10" cy="10" r="2" fill="currentColor"/>
+          </svg>
+          新碟
+        </button>
+        <button type="button" class="tab" aria-selected="false">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M3.5 6.5 H16.5 L15 17.5 H5 Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 6.5 V5 a3 3 0 0 1 6 0 V6.5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          购物袋
+        </button>
+        <button type="button" class="tab" aria-selected="false">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="6.5" r="3.5" stroke="currentColor" stroke-width="2"/>
+            <path d="M3.5 17.5 V16 a6.5 6.5 0 0 1 13 0 V17.5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          我的
+        </button>
+      </nav>
+
+    </div>
+  </div>
+
+  <footer class="page-foot">
+    <p>UI 设计提示词库 / Kinetic Brutalism Mobile</p>
+    <a class="foot-link" href="style-catalog.html">返回风格目录</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  /* 倒计时：目标为下一个 10.24 20:00 */
+  function target() {
+    var now = new Date();
+    var t = new Date(now.getFullYear(), 9, 24, 20, 0, 0);
+    if (t <= now) { t.setFullYear(t.getFullYear() + 1); }
+    return t;
+  }
+  var T = target();
+  var el = {
+    d: document.getElementById("cd-d"),
+    h: document.getElementById("cd-h"),
+    m: document.getElementById("cd-m"),
+    s: document.getElementById("cd-s")
+  };
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function tick() {
+    var left = Math.max(0, T - new Date());
+    var sec = Math.floor(left / 1000);
+    el.d.textContent = pad(Math.floor(sec / 86400));
+    el.h.textContent = pad(Math.floor(sec % 86400 / 3600));
+    el.m.textContent = pad(Math.floor(sec % 3600 / 60));
+    el.s.textContent = pad(sec % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* 主视觉视差：滚动时标题放大（reduced-motion 跳过） */
+  var sc = document.querySelector(".scroll");
+  var heroT = document.querySelector(".hero-title-wrap");
+  if (!rm.matches && sc && heroT) {
+    var raf = 0;
+    sc.addEventListener("scroll", function () {
+      if (raf) { return; }
+      raf = requestAnimationFrame(function () {
+        var t = Math.min(sc.scrollTop / 300, 1);
+        heroT.style.transform = "scale(" + (1 + t * 0.22).toFixed(3) + ")";
+        raf = 0;
+      });
+    }, { passive: true });
+  }
+
+  /* 开播提醒：洪水反转 + 预约人数 +1 */
+  var remind = document.getElementById("btn-remind");
+  var liveN = document.getElementById("live-n");
+  remind.addEventListener("click", function () {
+    if (remind.classList.contains("on")) { return; }
+    remind.classList.add("on");
+    remind.setAttribute("aria-pressed", "true");
+    remind.textContent = "已订阅开播提醒";
+    liveN.textContent = "3,843";
+  });
+
+  /* 主 CTA */
+  var grab = document.getElementById("btn-grab");
+  grab.addEventListener("click", function () {
+    if (grab.classList.contains("got")) { return; }
+    grab.classList.add("got");
+    grab.textContent = "已加入 / 10.24 见";
+  });
+
+  /* 底部导航切换 */
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      tabs.forEach(function (o) { o.setAttribute("aria-selected", "false"); });
+      t.setAttribute("aria-selected", "true");
+    });
+  });
+})();
+</script>
+</body>
+</html>

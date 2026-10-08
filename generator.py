@@ -2797,6 +2797,13 @@ def main():
             'Academia (Scholarly Mobile)': 'academia-scholarly-mobile.html',
             'Bitcoin DeFi (Mobile)': 'bitcoin-defi-mobile.html',
             'Modern Dark (Cinema Mobile)': 'modern-dark-cinema-mobile.html',
+            'Bold Typography (Mobile Poster)': 'bold-typography-mobile-poster.html',
+            'Enterprise SaaS (Mobile)': 'enterprise-saas-mobile.html',
+            'Flat Design Mobile (Touch-First)': 'flat-design-mobile-touch-first.html',
+            'Inclusive Design': 'inclusive-design.html',
+            'Kinetic Brutalism (Mobile)': 'kinetic-brutalism-mobile.html',
+            'SaaS Mobile (High-Tech Boutique)': 'saas-mobile-high-tech-boutique.html',
+            'Sketch Hand-Drawn (Mobile)': 'sketch-hand-drawn-mobile.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

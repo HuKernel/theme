@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Enterprise SaaS Mobile / UI 设计提示词库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+/* Token 计划 | hex：primary #4F46E5 / secondary #7C3AED / bg #F8FAFC / surface #FFFFFF / text #0F172A / muted #64748B / border #E2E8F0 / success 文本 #047857 / danger 文本 #B91C1C / 卡片阴影 rgba(79,70,229,0.08) | 字体：Plus Jakarta Sans + Noto Sans SC，标题 15-20 / 正文 12.5-14，tabular-nums 数字 | 布局：396x848 居中手机框，screenPadding 20，卡片圆角 16，按钮 pill 999，触达区不小于 44px | 独特性：Indigo 到 Violet 渐变主 CTA 与活跃页签高亮，审批卡双按钮拇指决策，底部 Sheet 拖拽下滑关闭 */
+
+:root {
+  --primary: #4F46E5; --primary-deep: #4338CA; --secondary: #7C3AED;
+  --grad: linear-gradient(135deg, #4F46E5, #7C3AED);
+  --bg: #F8FAFC; --surface: #FFFFFF; --ink: #0F172A; --muted: #64748B; --muted-2: #566374;
+  --border: #E2E8F0; --border-soft: #EEF1F7; --ok: #047857; --danger: #B91C1C;
+  --shadow-card: 0 8px 24px rgba(79, 70, 229, 0.08);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 0.9, 0.28, 1.02);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif; background: radial-gradient(1100px 520px at 50% -8%, #E3E8F7, #E8ECF4); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+button { font: inherit; cursor: pointer; }
+svg { display: block; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+
+/* ---------- 页面外壳（桌面展示形态） ---------- */
+.page-head { text-align: center; max-width: 660px; padding: 44px 22px 26px; }
+.page-head .kicker { font-size: 12.5px; font-weight: 700; color: var(--primary-deep); letter-spacing: 0.02em; margin-bottom: 10px; }
+.page-head h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.page-head h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.page-head .desc { margin-top: 12px; font-size: 14px; line-height: 1.7; color: var(--muted-2); }
+.page-head .meta { margin-top: 10px; font-size: 12px; color: var(--muted); }
+main { flex: 1; width: 100%; display: flex; justify-content: center; padding: 6px 20px 52px; }
+footer { width: 100%; text-align: center; padding: 20px 16px 26px; font-size: 12.5px; color: #556070; border-top: 1px solid rgba(79, 70, 229, 0.14); }
+footer p { margin: 3px 0; }
+footer a { color: var(--primary-deep); font-weight: 600; }
+
+/* ---------- 手机框 ---------- */
+.phone { position: relative; width: min(400px, 100%); background: var(--bg); border: 1px solid #D6DDEC; border-radius: 48px; box-shadow: 0 40px 90px rgba(30, 41, 90, 0.22), 0 8px 24px rgba(79, 70, 229, 0.10); overflow: hidden; animation: phone-in 0.8s var(--ease-out) both; }
+.notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 118px; height: 27px; background: #0F172A; border-radius: 999px; z-index: 12; }
+@keyframes phone-in { from { opacity: 0; transform: translateY(30px) scale(0.985); } to { opacity: 1; transform: none; } }
+.status-bar { position: sticky; top: 0; z-index: 11; display: flex; justify-content: space-between; align-items: center; padding: 17px 27px 8px; font-size: 13px; font-weight: 700; background: rgba(248, 250, 252, 0.86); backdrop-filter: blur(10px); }
+.sb-icons { display: flex; align-items: center; gap: 6px; }
+.app { height: 100%; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #CBD5E1 transparent; padding-bottom: 104px; }
+
+/* ---------- 应用头部 ---------- */
+.app-head { padding: 10px 20px 0; }
+.head-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; }
+.me { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.avatar { width: 44px; height: 44px; border-radius: 14px; background: var(--grad); color: #FFFFFF; display: grid; place-items: center; font-size: 16px; font-weight: 700; flex: none; }
+.me-text { display: grid; gap: 2px; min-width: 0; }
+.me-text b { font-size: 16px; font-weight: 800; letter-spacing: -0.01em; }
+.me-text span { font-size: 11.5px; color: var(--muted); }
+.icon-btn { position: relative; width: 42px; height: 42px; border-radius: 13px; border: none; background: #EEF2FF; color: var(--primary-deep); display: grid; place-items: center; transition: transform 0.25s var(--spring); }
+.icon-btn:active { transform: scale(0.92); }
+.badge { position: absolute; top: -4px; right: -4px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 999px; background: #DC2626; color: #FFFFFF; font-size: 10px; font-weight: 700; display: grid; place-items: center; border: 2px solid #FFFFFF; }
+.head-bar { height: 3px; margin-top: 14px; border-radius: 999px; background: var(--grad); transform-origin: left center; animation: bar-sweep 0.9s 0.2s var(--ease-out) both; }
+@keyframes bar-sweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ---------- 分段筛选与内容区 ---------- */
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: #EDF0F7; border-radius: 999px; padding: 4px; margin: 14px 20px 0; }
+.seg button { height: 38px; border: none; border-radius: 999px; background: none; font-size: 13px; font-weight: 600; color: var(--muted-2); transition: transform 0.25s var(--spring); }
+.seg button:active { transform: scale(0.96); }
+.seg button[aria-selected="true"] { background: var(--grad); color: #FFFFFF; font-weight: 700; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.32); }
+.app-body { padding: 16px 20px 6px; display: grid; gap: 20px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+.sec-head h2 { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.count-pill { font-size: 11px; font-weight: 700; color: #FFFFFF; background: var(--primary); border-radius: 999px; padding: 2px 8px; font-variant-numeric: tabular-nums; }
+.link-btn { border: none; background: none; font-size: 12.5px; font-weight: 600; color: var(--primary-deep); padding: 6px 2px; }
+
+/* 今日速览 */
+.glance { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-card); display: grid; grid-template-columns: repeat(4, 1fr); }
+.gcell { padding: 14px 4px 12px; text-align: center; display: grid; gap: 3px; border-left: 1px solid var(--border-soft); }
+.gcell:first-child { border-left: none; }
+.gcell b { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.gcell.hot b { color: var(--primary-deep); }
+.gcell.risk b { color: var(--danger); }
+.gcell span { font-size: 10.5px; color: var(--muted); }
+
+/* 审批卡 */
+.card-list { display: grid; gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-card); padding: 16px; display: grid; gap: 12px; transition: border-color 0.3s ease; }
+.card.is-ok { border-color: #A7F3D0; }
+.card.is-no { border-color: #FECACA; }
+.card-top { display: grid; grid-template-columns: 42px 1fr auto; gap: 12px; align-items: center; }
+.ava-sm { width: 42px; height: 42px; border-radius: 13px; background: #EEF2FF; color: var(--primary-deep); display: grid; place-items: center; font-size: 15px; font-weight: 700; }
+.who { display: grid; gap: 2px; min-width: 0; }
+.who b { font-size: 14px; font-weight: 700; }
+.who span { font-size: 11.5px; color: var(--muted); }
+.kind { display: grid; gap: 6px; justify-items: end; }
+.chip { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.chip.type { background: #EEF2FF; color: var(--primary-deep); }
+.chip.urgent { background: #FEF2F2; color: var(--danger); }
+.card h3 { font-size: 15px; font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; }
+.meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; background: var(--bg); border: 1px solid var(--border-soft); border-radius: 12px; padding: 12px 14px; }
+.meta > div { display: grid; gap: 2px; min-width: 0; }
+.meta dt { font-size: 10.5px; font-weight: 600; color: var(--muted); }
+.meta dd { font-size: 13.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.meta dd.warn { color: #B45309; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { height: 46px; border-radius: 999px; border: none; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 7px; transition: transform 0.25s var(--spring), box-shadow 0.25s ease; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--grad); color: #FFFFFF; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35); }
+.btn-primary:active { box-shadow: 0 3px 10px rgba(79, 70, 229, 0.35); }
+.btn-ghost { background: var(--surface); border: 1.5px solid #E3E7F1; color: #DC2626; }
+.verdict { display: flex; align-items: center; justify-content: center; gap: 8px; height: 46px; border-radius: 999px; font-size: 13.5px; font-weight: 700; animation: pop 0.4s var(--spring) both; }
+.verdict.ok { background: #ECFDF5; color: var(--ok); border: 1px solid #A7F3D0; }
+.verdict.no { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; }
+@keyframes pop { 0% { transform: scale(0.9); opacity: 0; } 60% { transform: scale(1.03); } 100% { transform: scale(1); opacity: 1; } }
+
+/* 通知中心 */
+.notice-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-card); overflow: hidden; }
+.nrow { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center; padding: 14px 16px; width: 100%; border: none; background: none; text-align: left; }
+.nrow + .nrow { border-top: 1px solid var(--border-soft); }
+.nrow:active { background: #F4F6FB; }
+.nicon { position: relative; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+.nicon.indigo { background: #EEF2FF; color: var(--primary-deep); }
+.nicon.red { background: #FEF2F2; color: var(--danger); }
+.nicon.violet { background: #F3E8FF; color: #6D28D9; }
+.nicon.green { background: #D1FAE5; color: var(--ok); }
+.nrow.unread .nicon::after { content: ""; position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: #DC2626; border: 2px solid #FFFFFF; }
+.ntext { display: grid; gap: 3px; min-width: 0; }
+.ntext b { font-size: 14px; font-weight: 700; }
+.ntext span { font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+.nty { font-size: 11px; color: var(--muted); white-space: nowrap; align-self: start; padding-top: 3px; }
+
+/* ---------- 底部页签 ---------- */
+.tabbar { position: absolute; bottom: 0; left: 0; right: 0; z-index: 9; display: grid; grid-template-columns: repeat(4, 1fr); background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 8px 8px calc(10px + env(safe-area-inset-bottom)); }
+.tab { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 0 3px; border: none; background: none; color: var(--muted-2); }
+.tab .ticon { position: relative; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; color: inherit; }
+.tab .tbadge { position: absolute; top: -4px; right: -8px; min-width: 15px; height: 15px; padding: 0 4px; border-radius: 999px; background: #DC2626; color: #FFFFFF; font-size: 9.5px; font-weight: 700; display: grid; place-items: center; border: 2px solid #FFFFFF; }
+.tab .tlabel { font-size: 10.5px; font-weight: 600; }
+.tab.active { color: var(--primary-deep); }
+.tab.active .ticon { background: var(--grad); color: #FFFFFF; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35); }
+.tab.active .tlabel { font-weight: 700; }
+
+/* ---------- 底部 Sheet ---------- */
+.backdrop { position: absolute; inset: 0; z-index: 20; background: rgba(15, 23, 42, 0.42); opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+.backdrop.show { opacity: 1; pointer-events: auto; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 30; background: var(--surface); border-radius: 22px 22px 0 0; box-shadow: 0 -12px 40px rgba(15, 23, 42, 0.18); max-height: 78%; display: flex; flex-direction: column; transform: translateY(103%); transition: transform 0.5s var(--ease-out); }
+.sheet.open { transform: translateY(0); }
+.sheet-head { padding: 10px 0 4px; cursor: grab; touch-action: none; }
+.sheet-head:active { cursor: grabbing; }
+.grab { display: block; width: 42px; height: 4px; border-radius: 999px; background: #CBD5E1; margin: 0 auto; }
+.sheet-body { overflow-y: auto; padding: 6px 20px calc(20px + env(safe-area-inset-bottom)); display: grid; gap: 14px; }
+.sheet-top { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+.sheet-kind { font-size: 11.5px; font-weight: 700; color: var(--primary-deep); margin-bottom: 4px; }
+.sheet-top h3 { font-size: 17px; font-weight: 800; line-height: 1.45; letter-spacing: -0.01em; }
+.sheet-close { width: 34px; height: 34px; border-radius: 10px; border: none; background: #EEF2FF; color: var(--primary-deep); display: grid; place-items: center; transition: transform 0.25s var(--spring); }
+.sheet-close:active { transform: scale(0.92); }
+.sheet-person { display: flex; align-items: center; gap: 10px; }
+.ava-xs { width: 34px; height: 34px; border-radius: 10px; background: #EEF2FF; color: var(--primary-deep); display: grid; place-items: center; font-size: 13px; font-weight: 700; flex: none; }
+.sheet-person div { display: grid; gap: 1px; }
+.sheet-person b { font-size: 13.5px; font-weight: 700; }
+.sheet-person span { font-size: 11.5px; color: var(--muted); }
+.flow h4 { font-size: 13px; font-weight: 800; }
+.flow ol { list-style: none; display: grid; margin-top: 4px; }
+.step { display: grid; grid-template-columns: 24px 1fr; gap: 12px; position: relative; padding: 9px 0 13px; }
+.step::before { content: ""; position: absolute; left: 11px; top: 24px; bottom: -2px; width: 2px; background: var(--border); }
+.step:last-child::before { display: none; }
+.pt { width: 24px; height: 24px; border-radius: 50%; background: var(--border); display: grid; place-items: center; color: #94A3B8; z-index: 1; }
+.step.done .pt { background: #10B981; color: #FFFFFF; }
+.step.now .pt { background: var(--grad); color: #FFFFFF; box-shadow: 0 0 0 4px #EEF2FF; }
+.step .stext { display: grid; gap: 1px; }
+.step b { font-size: 13px; font-weight: 700; }
+.step span { font-size: 11.5px; color: var(--muted); }
+.step.wait b { color: var(--muted-2); }
+.sheet-note { font-size: 12.5px; line-height: 1.65; color: var(--muted-2); background: var(--bg); border: 1px solid var(--border-soft); border-radius: 12px; padding: 11px 13px; }
+.files { display: flex; flex-wrap: wrap; gap: 8px; }
+.file { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--primary-deep); background: #EEF2FF; border-radius: 999px; padding: 7px 13px; }
+.file svg { color: var(--primary); }
+
+/* ---------- 响应式与降级 ---------- */
+@media (min-width: 768px) { .phone { width: 396px; height: min(848px, calc(100svh - 190px)); min-height: 620px; } }
+@media (min-width: 1440px) { .page-head { padding-top: 56px; } .page-head h1 { font-size: 38px; } }
+@media (max-width: 767px) {
+  body { background: var(--bg); }
+  .page-head { padding: 30px 20px 14px; }
+  .page-head .desc { display: none; }
+  main { padding: 0; }
+  .phone { width: 100%; height: 100svh; min-height: 640px; border: none; border-radius: 0; box-shadow: none; }
+  .notch { display: none; }
+  .status-bar { padding-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .phone, .head-bar { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <p class="kicker">企业移动办公 / 碎片时间处理要务</p>
+  <h1><span class="grad">Enterprise SaaS Mobile</span></h1>
+  <p class="desc">移动审批、通知中心与数据速览的整合工作台。为通勤与会议间隙的一分钟决断而设计：信息密度高于消费级应用，但所有决策按钮都落在拇指热区之内。</p>
+  <p class="meta">Indigo #4F46E5 / Violet #7C3AED / Plus Jakarta Sans / 卡片阴影 rgba(79,70,229,0.08)</p>
+</header>
+
+<main>
+  <div class="phone">
+    <div class="notch" aria-hidden="true"></div>
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="sb-icons" aria-hidden="true">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6.5a15 15 0 0 1 20 0"/><path d="M5.5 10.5a10 10 0 0 1 13 0"/><path d="M9 14.5a5 5 0 0 1 6 0"/><circle cx="12" cy="17" r="1.1" fill="currentColor" stroke="none"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="15" height="8" rx="1.6" fill="currentColor"/><path d="M23 4v4a2.2 2.2 0 0 0 0-4z" fill="currentColor" opacity="0.4"/></svg>
+      </div>
+    </div>
+
+    <div class="app">
+      <header class="app-head">
+        <div class="head-row">
+          <div class="me">
+            <div class="avatar" aria-hidden="true">林</div>
+            <div class="me-text">
+              <b>早上好，林见秋</b>
+              <span>运营总监 / 华东供应链事业部</span>
+            </div>
+          </div>
+          <button class="icon-btn" type="button" aria-label="打开通知设置">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span class="badge" id="bell-badge">2</span>
+          </button>
+        </div>
+        <div class="head-bar" aria-hidden="true"></div>
+      </header>
+
+      <div class="seg" role="group" aria-label="审批筛选">
+        <button type="button" aria-selected="true">待我审批 3</button>
+        <button type="button" aria-selected="false">抄送我的 5</button>
+        <button type="button" aria-selected="false">已处理 18</button>
+      </div>
+
+      <div class="app-body">
+        <section aria-labelledby="t-glance">
+          <div class="sec-head">
+            <h2 id="t-glance">今日速览</h2>
+            <button class="link-btn" type="button">查看本周报表</button>
+          </div>
+          <div class="glance">
+            <div class="gcell hot"><b id="pend-count">3</b><span>待我审批</span></div>
+            <div class="gcell"><b id="done-count">5</b><span>今日已批</span></div>
+            <div class="gcell risk"><b>1</b><span>超时风险</span></div>
+            <div class="gcell"><b>4.2h</b><span>平均耗时</span></div>
+          </div>
+        </section>
+
+        <section aria-labelledby="t-approval">
+          <div class="sec-head">
+            <h2 id="t-approval">待我审批<span class="count-pill">3</span></h2>
+            <button class="link-btn" type="button">批量操作</button>
+          </div>
+          <div class="card-list">
+
+            <article class="card" data-kind="合同" data-title="供应商年度框架合同（包材类）续签" data-person="李承泽" data-dept="采购部 / 供应链事业部" data-amount="¥420,000.00" data-deadline="剩 26 小时" data-no="HT-2024-077">
+              <div class="card-top">
+                <div class="ava-sm" aria-hidden="true">李</div>
+                <div class="who"><b>李承泽</b><span>采购部 / 10-07 09:12 提交</span></div>
+                <div class="kind"><span class="chip type">合同</span><span class="chip urgent">限时 26 小时</span></div>
+              </div>
+              <h3>供应商年度框架合同（包材类）续签</h3>
+              <dl class="meta">
+                <div><dt>合同金额</dt><dd>¥420,000.00</dd></div>
+                <div><dt>审批时限</dt><dd class="warn">剩 26 小时</dd></div>
+                <div><dt>单据编号</dt><dd>HT-2024-077</dd></div>
+                <div><dt>当前节点</dt><dd>财务复核 3/4</dd></div>
+              </dl>
+              <div class="actions">
+                <button class="btn btn-ghost act-reject" type="button">驳回</button>
+                <button class="btn btn-primary act-approve" type="button">同意</button>
+              </div>
+            </article>
+
+            <article class="card" data-kind="报销" data-title="深圳供应商稽核差旅报销" data-person="王思远" data-dept="品控部 / 供应链事业部" data-amount="¥3,860.00" data-deadline="剩 8 小时" data-no="BX-2024-1086">
+              <div class="card-top">
+                <div class="ava-sm" aria-hidden="true">王</div>
+                <div class="who"><b>王思远</b><span>品控部 / 10-07 08:45 提交</span></div>
+                <div class="kind"><span class="chip type">报销</span><span class="chip urgent">加急</span></div>
+              </div>
+              <h3>深圳供应商稽核差旅报销（含机票 2 张 / 高铁 1 程）</h3>
+              <dl class="meta">
+                <div><dt>报销金额</dt><dd>¥3,860.00</dd></div>
+                <div><dt>审批时限</dt><dd class="warn">剩 8 小时</dd></div>
+                <div><dt>票据校验</dt><dd>5 张已通过</dd></div>
+                <div><dt>当前节点</dt><dd>财务复核 3/4</dd></div>
+              </dl>
+              <div class="actions">
+                <button class="btn btn-ghost act-reject" type="button">驳回</button>
+                <button class="btn btn-primary act-approve" type="button">同意</button>
+              </div>
+            </article>
+
+            <article class="card" data-kind="请假" data-title="婚假申请 / 10 月 14 日至 21 日" data-person="陈雨桐" data-dept="采购部 / 供应链事业部" data-amount="不涉及金额" data-deadline="今日 18:00 前" data-no="QJ-2024-0392">
+              <div class="card-top">
+                <div class="ava-sm" aria-hidden="true">陈</div>
+                <div class="who"><b>陈雨桐</b><span>采购部 / 10-06 16:20 提交</span></div>
+                <div class="kind"><span class="chip type">请假</span></div>
+              </div>
+              <h3>婚假申请 / 10 月 14 日至 21 日，共 6 个工作日，交接人已确认</h3>
+              <dl class="meta">
+                <div><dt>假期类型</dt><dd>婚假（法定）</dd></div>
+                <div><dt>申请时长</dt><dd>6 个工作日</dd></div>
+                <div><dt>涉及金额</dt><dd>不涉及</dd></div>
+                <div><dt>审批时限</dt><dd class="warn">今日 18:00 前</dd></div>
+              </dl>
+              <div class="actions">
+                <button class="btn btn-ghost act-reject" type="button">驳回</button>
+                <button class="btn btn-primary act-approve" type="button">同意</button>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section aria-labelledby="t-notice">
+          <div class="sec-head">
+            <h2 id="t-notice">通知中心<span class="count-pill">2</span></h2>
+            <button class="link-btn" type="button" id="read-all">全部已读</button>
+          </div>
+          <div class="notice-card">
+
+            <button class="nrow unread" type="button">
+              <span class="nicon indigo" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+              </span>
+              <span class="ntext"><b>付款申请待会签</b><span>刘畅提交的机房扩容付款 ¥86,000，等待你会签</span></span>
+              <span class="nty">09:58</span>
+            </button>
+
+            <button class="nrow unread" type="button">
+              <span class="nicon red" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4"/><path d="M12 17.2h.01"/></svg>
+              </span>
+              <span class="ntext"><b>超时预警</b><span>合同 HT-2024-077 距审批超时不足 26 小时</span></span>
+              <span class="nty">08:30</span>
+            </button>
+
+            <button class="nrow" type="button">
+              <span class="nicon violet" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4h3l6 4V6l-6 4H3z"/><path d="M16 9a5 5 0 0 1 0 6"/></svg>
+              </span>
+              <span class="ntext"><b>费控新规上线</b><span>10 月起报销单须关联电子发票与预算科目</span></span>
+              <span class="nty">昨天</span>
+            </button>
+
+            <button class="nrow" type="button">
+              <span class="nicon green" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              </span>
+              <span class="ntext"><b>抄送备案</b><span>采购单 PO-58231 已由周敏审批通过</span></span>
+              <span class="nty">昨天</span>
+            </button>
+
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="tabbar" aria-label="主导航">
+      <button class="tab" type="button">
+        <span class="ticon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span>
+        <span class="tlabel">工作台</span>
+      </button>
+      <button class="tab active" type="button">
+        <span class="ticon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4a3 3 0 0 1 6 0"/><path d="M9 13l2 2 4-4"/></svg></span>
+        <span class="tlabel">审批</span>
+      </button>
+      <button class="tab" type="button">
+        <span class="ticon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="tbadge" id="tab-badge">2</span></span>
+        <span class="tlabel">通知</span>
+      </button>
+      <button class="tab" type="button">
+        <span class="ticon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+        <span class="tlabel">我的</span>
+      </button>
+    </nav>
+
+    <div class="backdrop" id="backdrop"></div>
+
+    <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-hidden="true">
+      <div class="sheet-head" id="sheet-head"><span class="grab" aria-hidden="true"></span></div>
+      <div class="sheet-body">
+        <div class="sheet-top">
+          <div>
+            <p class="sheet-kind" id="sheet-kind">合同审批</p>
+            <h3 id="sheet-title">供应商年度框架合同（包材类）续签</h3>
+          </div>
+          <button class="sheet-close" type="button" aria-label="关闭审批详情" id="sheet-close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-person">
+          <div class="ava-xs" id="sheet-ava" aria-hidden="true">李</div>
+          <div><b id="sheet-person">李承泽</b><span id="sheet-dept">采购部 / 供应链事业部</span></div>
+        </div>
+        <dl class="meta">
+          <div><dt>涉及金额</dt><dd id="sheet-amount">¥420,000.00</dd></div>
+          <div><dt>审批时限</dt><dd class="warn" id="sheet-deadline">剩 26 小时</dd></div>
+          <div><dt>单据编号</dt><dd id="sheet-no">HT-2024-077</dd></div>
+          <div><dt>当前节点</dt><dd>财务复核 3/4</dd></div>
+        </dl>
+        <div class="flow">
+          <h4>流程进度</h4>
+          <ol>
+            <li class="step done">
+              <span class="pt" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+              <span class="stext"><b>提交申请</b><span>发起人 / 10-07 09:12</span></span>
+            </li>
+            <li class="step done">
+              <span class="pt" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+              <span class="stext"><b>部门主管审批</b><span>周敏 / 已通过 10-07 10:40</span></span>
+            </li>
+            <li class="step now">
+              <span class="pt" aria-hidden="true"><span style="width:8px;height:8px;border-radius:50%;background:#FFFFFF"></span></span>
+              <span class="stext"><b>财务复核</b><span>张珂 / 处理中，待你会签确认</span></span>
+            </li>
+            <li class="step wait">
+              <span class="pt" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 6v12"/><path d="M6 12h12"/></svg></span>
+              <span class="stext"><b>分管总监终审</b><span>林见秋 / 待处理</span></span>
+            </li>
+          </ol>
+        </div>
+        <p class="sheet-note">校验提示 / 发起人已上传年度框架合同与三家比价单，发票信息已通过费控系统自动核验，预算科目余额充足。</p>
+        <div class="files">
+          <span class="file"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>框架合同.pdf / 1.2MB</span>
+          <span class="file"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>三家比价单.xlsx / 86KB</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost act-reject" type="button">驳回</button>
+          <button class="btn btn-primary act-approve" type="button">同意</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <p>UI 设计提示词库 / Enterprise SaaS Mobile</p>
+  <p><a href="style-catalog.html">返回风格目录</a></p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, el) { return (el || document).querySelector(s); };
+  var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
+  function haptic() { try { if (navigator.vibrate) navigator.vibrate(9); } catch (e) {} }
+
+  /* 分段筛选与底部页签：切换选中态 */
+  var segBtns = $$('.seg button');
+  segBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      segBtns.forEach(function (b) { b.setAttribute('aria-selected', 'false'); });
+      btn.setAttribute('aria-selected', 'true');
+      haptic();
+    });
+  });
+  var tabs = $$('.tabbar .tab');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      haptic();
+    });
+  });
+
+  /* 审批决策：卡片换成裁决条，今日速览计数联动 */
+  var pend = $('#pend-count'), done = $('#done-count');
+  function nowTime() {
+    var d = new Date();
+    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function resolve(card, ok) {
+    if (!card || card.dataset.done) return;
+    card.dataset.done = '1';
+    card.classList.add(ok ? 'is-ok' : 'is-no');
+    var box = $('.actions', card), t = nowTime();
+    box.innerHTML = ok
+      ? '<div class="verdict ok"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 5-5"/></svg><span>已同意 / ' + t + ' 完成，已通知发起人</span></div>'
+      : '<div class="verdict no"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6"/><path d="M15 9l-6 6"/></svg><span>已驳回 / ' + t + ' 退回发起人补充说明</span></div>';
+    pend.textContent = Math.max(0, parseInt(pend.textContent, 10) - 1);
+    done.textContent = parseInt(done.textContent, 10) + 1;
+    haptic();
+  }
+  $$('.card .actions').forEach(function (box) {
+    box.addEventListener('click', function (e) {
+      var btn = e.target.closest('button');
+      if (btn) resolve(btn.closest('.card'), btn.classList.contains('act-approve'));
+    });
+  });
+
+  /* 底部 Sheet：点卡片打开，遮罩 / Esc / 拖拽把手关闭 */
+  var sheet = $('#sheet'), backdrop = $('#backdrop'), sheetCard = null;
+  function openSheet(card) {
+    sheetCard = card;
+    var d = card.dataset;
+    $('#sheet-kind').textContent = d.kind + '审批';
+    $('#sheet-title').textContent = d.title;
+    $('#sheet-ava').textContent = d.person.charAt(0);
+    $('#sheet-person').textContent = d.person;
+    $('#sheet-dept').textContent = d.dept;
+    $('#sheet-amount').textContent = d.amount;
+    $('#sheet-deadline').textContent = d.deadline;
+    $('#sheet-no').textContent = d.no;
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden', 'false');
+    backdrop.classList.add('show');
+    $('#sheet-close').focus();
+  }
+  function closeSheet() {
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('show');
+    sheet.style.transform = '';
+    sheet.style.transition = '';
+    sheetCard = null;
+  }
+  $$('.card').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('button')) return;
+      openSheet(card);
+    });
+  });
+  backdrop.addEventListener('click', closeSheet);
+  $('#sheet-close').addEventListener('click', closeSheet);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
+  });
+  $$('.sheet .actions').forEach(function (box) {
+    box.addEventListener('click', function (e) {
+      var btn = e.target.closest('button');
+      if (!btn) return;
+      var target = sheetCard;
+      closeSheet();
+      resolve(target, btn.classList.contains('act-approve'));
+    });
+  });
+
+  /* 把手拖拽下滑关闭 */
+  var head = $('#sheet-head');
+  head.addEventListener('pointerdown', function (start) {
+    start.preventDefault();
+    head.setPointerCapture(start.pointerId);
+    var dy = 0;
+    sheet.style.transition = 'none';
+    function onMove(move) {
+      dy = Math.max(0, move.clientY - start.clientY);
+      sheet.style.transform = 'translateY(' + dy + 'px)';
+    }
+    function onUp() {
+      head.removeEventListener('pointermove', onMove);
+      head.removeEventListener('pointerup', onUp);
+      head.removeEventListener('pointercancel', onUp);
+      sheet.style.transition = '';
+      sheet.style.transform = '';
+      if (dy > 110) closeSheet();
+    }
+    head.addEventListener('pointermove', onMove);
+    head.addEventListener('pointerup', onUp);
+    head.addEventListener('pointercancel', onUp);
+  });
+
+  /* 通知中心：全部已读 */
+  $('#read-all').addEventListener('click', function () {
+    $$('.nrow').forEach(function (r) { r.classList.remove('unread'); });
+    var b1 = $('#bell-badge'), b2 = $('#tab-badge'), pill = $('#t-notice .count-pill');
+    if (b1) b1.remove();
+    if (b2) b2.remove();
+    if (pill) pill.remove();
+    this.textContent = '已全部标记';
+    this.disabled = true;
+    haptic();
+  });
+})();
+</script>
+
+</body>
+</html>
