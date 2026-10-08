@@ -455,12 +455,16 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <footer>SellForge · Memphis Design 版导航 · 提示词数据来自 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max 官方风格库 ↗</a> · <a href="style-catalog.html">打开风格目录</a></footer>
 </div>
 
+<script src="stats.js"></script>
 <script>
 Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(btn) {
   btn.addEventListener('click', function() {
     var pre = document.getElementById(btn.getAttribute('data-target'));
     var text = pre.textContent;
-    var done = function() { btn.textContent = '已复制'; setTimeout(function() { btn.textContent = '复制提示词'; }, 1600); };
+    var done = function() {
+      btn.textContent = '已复制'; setTimeout(function() { btn.textContent = '复制提示词'; }, 1600);
+      ThemeStats.mark(btn);
+    };
     var fallback = function() {
       var ta = document.createElement('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';

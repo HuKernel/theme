@@ -4317,6 +4317,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <footer>Memphis Design 版 · 生成自 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max</a> 官方风格库 styles.csv（已剔除 9 个废弃风格）· <a href="index.html">返回八版精修样张</a></footer>
 </div>
+<script src="stats.js"></script>
 <script>
 var cards = Array.prototype.slice.call(document.querySelectorAll('.m-card'));
 var searchEl = document.getElementById('search');
@@ -4346,7 +4347,10 @@ Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(ch) {
 Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(btn) {
   btn.addEventListener('click', function() {
     var text = btn.closest('.m-card').querySelector('.prompt').textContent;
-    var done = function() { btn.textContent = '已复制'; setTimeout(function() { btn.textContent = '复制提示词'; }, 1600); };
+    var done = function() {
+      btn.textContent = '已复制'; setTimeout(function() { btn.textContent = '复制提示词'; }, 1600);
+      ThemeStats.mark(btn);
+    };
     var fallback = function() {
       var ta = document.createElement('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
