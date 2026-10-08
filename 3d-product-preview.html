@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- tokens: primary #E8E8E8 / secondary #FFFFFF / accent #E8E8E8 / bg #F8FAFC / fg #0F172A / radius 16px / head Outfit / body Rubik -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="3D Product Preview 风格演示：MIST65 机械键盘产品页，纯 CSS preserve-3d 旋转舞台、配色切换与细节放大标注。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>3D Product Preview / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F8FAFC;
+    --fg: #0F172A;
+    --muted: #475569;
+    --line: #E2E8F0;
+    --ink-accent: #B4552D;
+    --radius: 16px;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --font-head: "Outfit", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-body: "Rubik", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--fg); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--fg); color: #FFFFFF; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid #1D4ED8; outline-offset: 2px; border-radius: 4px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .sr { position: absolute; width: 1px; height: 1px; margin: -1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+
+  /* 顶栏 */
+  .top { position: sticky; top: 0; z-index: 50; background: rgba(248,250,252,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .top-in { display: flex; align-items: center; gap: 30px; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 600 16px var(--font-head); text-decoration: none; }
+  .top nav { margin-left: auto; display: flex; gap: 24px; }
+  .top nav a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .top nav a:hover { color: var(--fg); }
+
+  /* hero 文案区 */
+  .hero { display: grid; gap: 44px; padding: 52px 0 30px; }
+  .eyebrow { font-size: 13px; font-weight: 500; color: var(--ink-accent); letter-spacing: .04em; margin-bottom: 14px; }
+  h1 { font: 700 clamp(34px, 4.6vw, 52px)/1.18 var(--font-head); letter-spacing: -.01em; }
+  .lede { margin-top: 16px; max-width: 46ch; color: var(--muted); line-height: 1.85; }
+  .price-line { margin-top: 26px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .price { font: 700 38px/1 var(--font-head); }
+  .price s { margin-left: 8px; font: 500 16px var(--font-body); color: #5B6779; }
+  .save { padding: 3px 10px; border-radius: 999px; background: #FBE9DF; color: #9C3B1A; font-size: 12px; font-weight: 500; }
+  .cta { margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; height: 46px; padding: 0 28px; border-radius: 12px; border: 1px solid transparent; font: 500 15px var(--font-body); cursor: pointer; text-decoration: none; transition: background-color .2s, border-color .2s, transform .15s; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--fg); color: #FFFFFF; }
+  .btn-primary:hover { background: #1E2B3E; }
+  .btn-ghost { background: #FFFFFF; border-color: #C9D0DD; color: var(--fg); }
+  .btn-ghost:hover { border-color: var(--fg); }
+  .assure { margin-top: 18px; font-size: 13px; color: var(--muted); }
+
+  /* 3D 舞台：透视 / 光影分层 / 悬浮投影 */
+  .stage-wrap { min-width: 0; }
+  .stage { position: relative; height: 430px; display: grid; place-items: center; perspective: 1500px; perspective-origin: 50% 28%; user-select: none; -webkit-user-select: none; touch-action: pan-y;
+    --u: 20px; --case-h: calc(var(--u) * .62); --cap-h: calc(var(--u) * .34);
+    --case: #252A33; --deck: #2C323C; --key: #39404C; --key-top: #454D5A; --legend: #E9EAE6; --acc-key: #DFA95C; --acc-legend: #2A2114; }
+  .stage > * { grid-area: 1 / 1; }
+  .backdrop { position: absolute; inset: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid #DCE0E8;
+    background: radial-gradient(130% 100% at 50% -10%, color-mix(in oklab, var(--case) 10%, #FEFEFE), color-mix(in oklab, var(--case) 16%, #ECEEF2) 55%, color-mix(in oklab, var(--case) 22%, #E1E4EA)); }
+  .backdrop::after { content: ""; position: absolute; left: 16%; right: 16%; top: 4%; bottom: 40%; background: radial-gradient(50% 42% at 50% 0%, rgba(255,255,255,.92), transparent 72%); }
+  .floor { position: absolute; left: 50%; bottom: 6%; width: min(78%, 560px); height: calc(var(--u) * 2.7); transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 58%, rgba(13,18,28,.28), rgba(13,18,28,.10) 55%, transparent 76%); filter: blur(calc(var(--u) * .16)); }
+  .floor::after { content: ""; position: absolute; inset: 24% 28%; border-radius: 50%; background: radial-gradient(50% 50% at 50% 50%, rgba(13,18,28,.4), transparent 72%); filter: blur(calc(var(--u) * .1)); }
+  .hint { position: absolute; left: 14px; bottom: 12px; z-index: 4; display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,.88); border: 1px solid rgba(15,23,42,.1); color: #334155; font-size: 12px; }
+  .hint svg { flex: none; }
+
+  /* 键盘：纯 CSS preserve-3d 盒体 + 键帽三层挤出 */
+  .scene-in { transform-style: preserve-3d; margin-top: -4%; animation: kb-enter 1.5s .15s var(--ease) both; }
+  .scene { position: relative; width: calc(var(--u) * 16.6); height: calc(var(--u) * 5.6); transform-style: preserve-3d; transform: rotateX(58deg) rotateZ(-28deg); transition: transform .8s var(--ease); cursor: grab; }
+  .scene.dragging { transition: none; cursor: grabbing; }
+  .stage:hover .scene:not(.dragging) { transform: rotateX(53deg) rotateZ(-21deg); }
+  .kb { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .w { position: absolute; backface-visibility: hidden; }
+  .w-front { left: 0; top: 100%; width: 100%; height: var(--case-h); transform-origin: 50% 0; transform: translateZ(var(--case-h)) rotateX(-90deg); background: color-mix(in oklab, var(--case) 86%, #000); }
+  .w-back { left: 0; bottom: 100%; width: 100%; height: var(--case-h); transform-origin: 50% 100%; transform: translateZ(var(--case-h)) rotateX(90deg); background: color-mix(in oklab, var(--case) 58%, #000); }
+  .w-left { right: 100%; top: 0; width: var(--case-h); height: 100%; transform-origin: 100% 50%; transform: translateZ(var(--case-h)) rotateY(-90deg); background: color-mix(in oklab, var(--case) 70%, #000); }
+  .w-right { left: 100%; top: 0; width: var(--case-h); height: 100%; transform-origin: 0 50%; transform: translateZ(var(--case-h)) rotateY(90deg); background: color-mix(in oklab, var(--case) 78%, #000); }
+  .w-right::after { content: ""; position: absolute; left: 26%; top: 40%; width: 30%; height: 22%; border-radius: 4px; background: #10151D; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+  .deck { position: absolute; inset: 0; transform: translateZ(var(--case-h)); transform-style: preserve-3d; background: var(--deck); border-radius: calc(var(--u) * .3);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--deck) 78%, #000), inset 0 2px 0 color-mix(in oklab, var(--deck) 84%, #fff); }
+  .keys { position: absolute; inset: calc(var(--u) * .3); transform-style: preserve-3d; }
+  .key { position: absolute; transform-style: preserve-3d; transform: translateZ(var(--cap-h)); background: var(--key-top); border-radius: calc(var(--u) * .12);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--key-top) 78%, #000), inset 0 2px 0 color-mix(in oklab, var(--key-top) 85%, #fff); }
+  .key::before { content: ""; position: absolute; inset: 0; border-radius: inherit; transform: translateZ(calc(var(--cap-h) * -.55)); background: color-mix(in oklab, var(--key) 64%, #000); }
+  .key::after { content: ""; position: absolute; inset: calc(var(--u) * .05); border-radius: 50%; transform: translateZ(calc(var(--cap-h) * -.95)); background: rgba(12,16,24,.3); filter: blur(calc(var(--u) * .1)); }
+  .key b { position: absolute; inset: 0; display: grid; place-items: center; font: 600 max(8px, calc(var(--u) * .3))/1 var(--font-head); color: var(--legend); }
+  .key svg { width: max(9px, calc(var(--u) * .3)); height: max(9px, calc(var(--u) * .3)); }
+  .k-acc { background: var(--acc-key); }
+  .k-acc b { color: var(--acc-legend); }
+  .k-acc::before { background: color-mix(in oklab, var(--acc-key) 60%, #000); }
+  .k-acc::after { background: rgba(12,16,24,.34); }
+  @keyframes kb-enter {
+    0% { transform: rotateZ(-150deg) translateY(72px) scale(.92); opacity: 0; }
+    55% { opacity: 1; }
+    100% { transform: none; opacity: 1; }
+  }
+
+  /* 配色切换：radio 联动舞台 token */
+  #sw-moon:checked ~ .stage { --case: #E3DFD6; --deck: #ECE8DF; --key: #F4F1E9; --key-top: #FCFAF4; --legend: #4A463D; --acc-key: #A64B24; --acc-legend: #FFFFFF; }
+  #sw-mist:checked ~ .stage { --case: #3C5070; --deck: #475C7E; --key: #4F6586; --key-top: #546884; --legend: #FFFFFF; --acc-key: #E8C86E; --acc-legend: #2A2410; }
+  .sw-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .sw-label { font-size: 13px; color: var(--muted); margin-right: 2px; }
+  .sw { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 9px; border: 1px solid var(--line); border-radius: 999px; background: #FDFDFE; font-size: 13px; cursor: pointer; transition: border-color .2s, box-shadow .2s, background-color .2s; }
+  .sw .dot { width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(15,23,42,.22); }
+  .sw-obsidian .dot { background: #252A33; }
+  .sw-moon .dot { background: #EFEBE1; }
+  .sw-mist .dot { background: #465B7E; }
+  #sw-obsidian:checked ~ .sw-row .sw-obsidian,
+  #sw-moon:checked ~ .sw-row .sw-moon,
+  #sw-mist:checked ~ .sw-row .sw-mist { border-color: var(--fg); background: #FFFFFF; box-shadow: 0 2px 10px rgba(15,23,42,.12); font-weight: 600; }
+  #sw-obsidian:focus-visible ~ .sw-row .sw-obsidian,
+  #sw-moon:focus-visible ~ .sw-row .sw-moon,
+  #sw-mist:focus-visible ~ .sw-row .sw-mist { outline: 2px solid #1D4ED8; outline-offset: 2px; }
+
+  /* 热点：细节放大标注 */
+  .hs { position: absolute; z-index: 5; }
+  .hs-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #C9D0DD; background: #FFFFFF; color: var(--fg); font: 600 13px/1 var(--font-head); display: grid; place-items: center; cursor: pointer; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(15,23,42,.2), 0 0 0 4px rgba(255,255,255,.6); }
+  .hs.open .hs-btn { background: var(--fg); color: #FFFFFF; border-color: var(--fg); }
+  .hs-card { position: absolute; top: 26px; left: -16px; width: 236px; padding: 12px 14px 13px; background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 16px 36px rgba(15,23,42,.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease, visibility .25s; z-index: 6; }
+  .hs.flip .hs-card { left: auto; right: -16px; }
+  .hs.open .hs-card { opacity: 1; visibility: visible; transform: none; }
+  .hs-card svg { display: block; width: 100%; height: 58px; background: #F2F5FA; border-radius: 8px; }
+  .hs-card h3 { margin: 9px 0 3px; font: 600 13px/1.4 var(--font-head); }
+  .hs-card p { font-size: 12px; line-height: 1.65; color: var(--muted); }
+
+  /* 章节通用 */
+  section { scroll-margin-top: 76px; }
+  #details, #specs { padding-top: 78px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+  .sec-head i { font: 600 13px var(--font-head); font-style: normal; color: var(--ink-accent); }
+  h2 { font: 600 clamp(22px, 3vw, 30px)/1.35 var(--font-head); letter-spacing: -.01em; }
+  .sec-intro { color: var(--muted); margin-bottom: 30px; max-width: 62ch; }
+  .figs { display: grid; gap: 22px; }
+  .fig { background: #FFFFFF; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+  .fig svg { display: block; width: 100%; height: auto; background: #F7F9FC; border-radius: 10px; }
+  .fig h3 { margin: 15px 0 6px; font: 600 15px/1.5 var(--font-head); }
+  .fig p { font-size: 13px; line-height: 1.75; color: var(--muted); }
+  .fine { margin-top: 12px; padding-top: 11px; border-top: 1px dashed #D9DFE9; font-size: 12px; color: var(--muted); }
+
+  /* 参数与购买 */
+  .buy-grid { display: grid; gap: 36px; }
+  .specs div { display: flex; justify-content: space-between; gap: 24px; padding: 11px 0; border-bottom: 1px dashed #D9DFE9; }
+  .specs dt { color: var(--muted); font-size: 14px; flex: none; }
+  .specs dd { font-size: 14px; font-weight: 500; text-align: right; }
+  .buy-card { background: #FFFFFF; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 26px 24px; box-shadow: 0 22px 48px rgba(15,23,42,.09); align-self: start; }
+  .buy-card .price { font-size: 42px; }
+  .buy-note { margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .buy-card .cta { margin-top: 20px; }
+  .buy-card .assure { margin-top: 14px; }
+
+  footer { margin-top: 80px; border-top: 1px solid var(--line); }
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; min-height: 74px; font-size: 13px; color: var(--muted); }
+  .foot a { color: var(--fg); text-decoration: none; border-bottom: 1px solid #B9C2D0; padding-bottom: 1px; }
+  .foot a:hover { border-color: var(--fg); }
+
+  @media (min-width: 768px) {
+    .stage { --u: 30px; height: 470px; }
+    .figs { grid-template-columns: repeat(3, 1fr); }
+    .specs { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; }
+    .buy-grid { grid-template-columns: 7fr 5fr; gap: 44px; }
+  }
+  @media (min-width: 1200px) {
+    .hero { grid-template-columns: 5fr 6fr; align-items: center; gap: 40px; }
+    .stage { --u: 36px; height: 520px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scene-in { animation: none; }
+    .scene, .hs-card, .btn, .top nav a { transition: none; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#overview">
+      <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 22 7 12 12 2 7Z" fill="#0F172A"/><path d="m2 12.5 10 5 10-5V15l-10 5-10-5Z" fill="#475569"/><path d="m2 17.5 10 5 10-5V19l-10 5-10-5Z" fill="#B4552D"/></svg>
+      雾岫工作室
+    </a>
+    <nav aria-label="页面导航">
+      <a href="#overview">概览</a>
+      <a href="#details">结构细节</a>
+      <a href="#specs">参数与购买</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="overview">
+    <div class="hero-copy">
+      <p class="eyebrow">三模客制化机械键盘 / 68 键 / Gasket 结构</p>
+      <h1>MIST65 雾岫机械键盘</h1>
+      <p class="lede">CNC 铝合金一体外壳之内，是 Gasket 垫片结构与五层声学填充。出厂预润的佳达隆黄轴、壁厚 1.4mm 的 PBT 键帽，把每一次回弹都调到刚好的声音。</p>
+      <div class="price-line">
+        <span class="price">¥699<s>¥899</s></span>
+        <span class="save">首发立减 200</span>
+      </div>
+      <div class="cta">
+        <button class="btn btn-primary" type="button">立即购买</button>
+        <a class="btn btn-ghost" href="#specs">查看完整参数</a>
+      </div>
+      <p class="assure">48 小时内发货 / 七天无理由退换 / 三年质保</p>
+    </div>
+
+    <div class="stage-wrap">
+      <p class="sr">MIST65 三维预览，可拖动旋转，含三处细节标注与三档配色切换</p>
+      <input class="sr" type="radio" name="palette" id="sw-obsidian" checked>
+      <input class="sr" type="radio" name="palette" id="sw-moon">
+      <input class="sr" type="radio" name="palette" id="sw-mist">
+      <div class="stage">
+        <div class="backdrop" aria-hidden="true"></div>
+        <div class="floor" aria-hidden="true"></div>
+        <div class="scene-in">
+          <div class="scene">
+            <div class="kb" aria-hidden="true">
+              <i class="w w-back"></i><i class="w w-left"></i><i class="w w-right"></i><i class="w w-front"></i>
+              <div class="deck"><div class="keys" id="keys"></div></div>
+            </div>
+          </div>
+        </div>
+        <p class="hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>拖动旋转 / 悬停微调</p>
+
+        <div class="hs" style="left:33%;top:40%">
+          <button class="hs-btn" type="button" aria-expanded="false" aria-controls="hc-key">1</button>
+          <div class="hs-card" id="hc-key">
+            <svg viewBox="0 0 212 58" aria-hidden="true">
+              <rect width="212" height="58" fill="#F2F5FA"/>
+              <path d="M28 46 40 14h22l12 32Z" fill="#EDE9E0" stroke="#A8A296" stroke-width="1.5"/>
+              <line x1="92" y1="14" x2="92" y2="46" stroke="#8A93A3" stroke-width="1.5"/>
+              <line x1="86" y1="14" x2="98" y2="14" stroke="#8A93A3" stroke-width="1.5"/>
+              <line x1="86" y1="46" x2="98" y2="46" stroke="#8A93A3" stroke-width="1.5"/>
+              <text x="106" y="33" font-size="11" fill="#475569">壁厚 1.4 mm</text>
+            </svg>
+            <h3>PBT 双色注塑键帽</h3>
+            <p>Cherry 高度 / 闭口字符工艺，久用不打油、不掉字</p>
+          </div>
+        </div>
+        <div class="hs" style="left:79%;top:50%">
+          <button class="hs-btn" type="button" aria-expanded="false" aria-controls="hc-case">2</button>
+          <div class="hs-card" id="hc-case">
+            <svg viewBox="0 0 212 58" aria-hidden="true">
+              <rect width="212" height="58" fill="#F2F5FA"/>
+              <rect x="26" y="13" width="54" height="9" rx="4" fill="#9AA5B4"/>
+              <rect x="26" y="26" width="54" height="9" rx="4" fill="#C2CBD8"/>
+              <rect x="26" y="39" width="54" height="9" rx="4" fill="#78849A"/>
+              <text x="94" y="33" font-size="11" fill="#475569">6063 铝 / 阳极氧化</text>
+            </svg>
+            <h3>CNC 铝合金外壳</h3>
+            <p>6063 铝材五轴 CNC / 细腻喷砂 / 整机约 1.86kg</p>
+          </div>
+        </div>
+        <div class="hs flip" style="left:62%;top:72%">
+          <button class="hs-btn" type="button" aria-expanded="false" aria-controls="hc-port">3</button>
+          <div class="hs-card" id="hc-port">
+            <svg viewBox="0 0 212 58" aria-hidden="true">
+              <rect width="212" height="58" fill="#F2F5FA"/>
+              <rect x="24" y="15" width="30" height="13" rx="6.5" fill="#1B2430" stroke="#8A93A3"/>
+              <rect x="62" y="12" width="11" height="21" rx="3" fill="#B4552D"/>
+              <rect x="24" y="41" width="42" height="9" rx="4.5" fill="none" stroke="#8A93A3"/>
+              <rect x="27" y="44" width="26" height="3" rx="1.5" fill="#7FA96B"/>
+              <text x="90" y="33" font-size="11" fill="#475569">接口 / 拨杆 / 电池</text>
+            </svg>
+            <h3>三模连接与续航</h3>
+            <p>2.4G / 蓝牙 5.1 / Type-C 有线 / 4000mAh 续航约 6 周</p>
+          </div>
+        </div>
+      </div>
+      <div class="sw-row">
+        <span class="sw-label">配色</span>
+        <label class="sw sw-obsidian" for="sw-obsidian"><span class="dot"></span>曜岩黑</label>
+        <label class="sw sw-moon" for="sw-moon"><span class="dot"></span>月霜白</label>
+        <label class="sw sw-mist" for="sw-mist"><span class="dot"></span>雾海蓝</label>
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="sec-head"><i>01</i><h2>结构与材质</h2></div>
+    <p class="sec-intro">把键盘拆开给你看：六层堆叠、四级键帽高度，与一颗出厂预润的线性轴。</p>
+    <div class="figs">
+      <figure class="fig">
+        <svg viewBox="0 0 320 190" role="img" aria-label="Gasket 结构分层示意图">
+          <line x1="128" y1="8" x2="128" y2="178" stroke="#B9C2D0" stroke-dasharray="3 5"/>
+          <rect x="44" y="14" width="168" height="13" rx="6.5" fill="#303743"/>
+          <rect x="58" y="41" width="168" height="13" rx="6.5" fill="#22262D"/>
+          <rect x="48" y="68" width="168" height="13" rx="6.5" fill="#93A8BC"/>
+          <rect x="62" y="95" width="168" height="13" rx="6.5" fill="#E4DBBE"/>
+          <rect x="52" y="122" width="168" height="13" rx="6.5" fill="#C7CBD2"/>
+          <rect x="46" y="149" width="168" height="13" rx="6.5" fill="#262B33"/>
+          <g font-size="10" fill="#475569">
+            <text x="224" y="24">CNC 铝合金上盖</text>
+            <text x="224" y="51">Poron 夹心棉</text>
+            <text x="224" y="78">PC 定位板</text>
+            <text x="224" y="105">PET 声学膜</text>
+            <text x="224" y="132">底部硅胶垫</text>
+            <text x="224" y="159">铝合金底壳</text>
+          </g>
+        </svg>
+        <h3>Gasket 垫片结构</h3>
+        <p>定位板由硅胶垫片悬挂于外壳之间，敲击应力被五层填充逐级吸收，手感均匀不震手。</p>
+        <p class="fine">六层堆叠 / 无刚性接触 / 大乳胶卫星轴</p>
+      </figure>
+      <figure class="fig">
+        <svg viewBox="0 0 320 190" role="img" aria-label="Cherry 高度键帽剖面示意图">
+          <g fill="#EAE6DD" stroke="#A8A296" stroke-width="1.5">
+            <path d="M32 150 38 116h36l6 34Z"/>
+            <path d="M98 150 104 108h36l6 42Z"/>
+            <path d="M164 150 170 101h36l6 49Z"/>
+            <path d="M230 150 236 95h36l6 55Z"/>
+          </g>
+          <g font-size="10" fill="#8A93A3" text-anchor="middle">
+            <text x="56" y="106">8.6</text>
+            <text x="122" y="98">9.4</text>
+            <text x="188" y="91">10.1</text>
+            <text x="254" y="85">10.7</text>
+          </g>
+          <g font-size="11" fill="#475569" text-anchor="middle">
+            <text x="56" y="170">R1</text>
+            <text x="122" y="170">R2</text>
+            <text x="188" y="170">R3</text>
+            <text x="254" y="170">R4</text>
+          </g>
+          <text x="290" y="170" font-size="9" fill="#8A93A3">单位 mm</text>
+        </svg>
+        <h3>Cherry 高度键帽</h3>
+        <p>R1 至 R4 梯度剖面贴合指尖弧线，长时间输入来回不刮手。</p>
+        <p class="fine">PBT 双色注塑 / 闭口字符 / 壁厚 1.4mm</p>
+      </figure>
+      <figure class="fig">
+        <svg viewBox="0 0 320 190" role="img" aria-label="佳达隆黄轴剖视示意图">
+          <rect x="96" y="22" width="140" height="30" rx="8" fill="#D9DEE6" stroke="#99A3B2" stroke-width="1.5"/>
+          <rect x="134" y="30" width="64" height="22" rx="6" fill="#C2CBD6"/>
+          <rect x="152" y="52" width="28" height="34" rx="4" fill="#E5B45C" stroke="#B98F3E" stroke-width="1.5"/>
+          <rect x="84" y="88" width="164" height="46" rx="9" fill="#D3D8DF" stroke="#99A3B2" stroke-width="1.5"/>
+          <polyline points="98,124 106,112 116,126 126,112 136,126 146,112 156,126 166,112 176,126 186,112 196,124" fill="none" stroke="#8A93A3" stroke-width="2.4" stroke-linejoin="round"/>
+          <line x1="92" y1="100" x2="112" y2="100" stroke="#C9A24B" stroke-width="3"/>
+          <line x1="186" y1="52" x2="262" y2="52" stroke="#8A93A3" stroke-dasharray="4 4"/>
+          <line x1="248" y1="52" x2="248" y2="134" stroke="#8A93A3"/>
+          <line x1="242" y1="52" x2="254" y2="52" stroke="#8A93A3"/>
+          <line x1="242" y1="134" x2="254" y2="134" stroke="#8A93A3"/>
+          <line x1="186" y1="134" x2="262" y2="134" stroke="#8A93A3" stroke-dasharray="4 4"/>
+          <g font-size="10" fill="#475569">
+            <text x="96" y="14">触发压力 55 gf</text>
+            <text x="188" y="46">导通 2.0 mm</text>
+            <text x="188" y="152">总行程 4.0 mm</text>
+          </g>
+        </svg>
+        <h3>佳达隆 G Pro 3.0 黄轴</h3>
+        <p>出厂预润线性轴，触发压力 55gf，配全键热插拔底座可随时更换轴体。</p>
+        <p class="fine">导通 2.0mm / 总行程 4.0mm / 5000 万次寿命</p>
+      </figure>
+    </div>
+  </section>
+
+  <section id="specs">
+    <div class="sec-head"><i>02</i><h2>参数与购买</h2></div>
+    <div class="buy-grid">
+      <dl class="specs">
+        <div><dt>配列</dt><dd>65% / 68 键</dd></div>
+        <div><dt>结构</dt><dd>Gasket 垫片 / 五层填充</dd></div>
+        <div><dt>外壳</dt><dd>6063 铝合金 CNC / 阳极氧化</dd></div>
+        <div><dt>定位板</dt><dd>PC / 热插拔底座</dd></div>
+        <div><dt>键帽</dt><dd>PBT 双色注塑 / Cherry 高度</dd></div>
+        <div><dt>轴体</dt><dd>G Pro 3.0 黄轴 / 线性 55gf</dd></div>
+        <div><dt>连接</dt><dd>2.4G / 蓝牙 5.1 / Type-C 有线</dd></div>
+        <div><dt>电池</dt><dd>4000mAh / 蓝牙续航约 6 周</dd></div>
+        <div><dt>尺寸重量</dt><dd>326 x 115 x 36mm / 约 1.86kg</dd></div>
+        <div><dt>售后</dt><dd>三年质保 / 七天无理由</dd></div>
+      </dl>
+      <aside class="buy-card">
+        <div class="price-line">
+          <span class="price">¥699<s>¥899</s></span>
+          <span class="save">首发立减 200</span>
+        </div>
+        <p class="buy-note">赠 PBT 备用键帽一套 / 顺丰包邮 / 支持七天无理由退换</p>
+        <div class="cta">
+          <button class="btn btn-primary" type="button">立即购买</button>
+          <button class="btn btn-ghost" type="button">加入购物车</button>
+        </div>
+        <p class="assure">48 小时内发货 / 三年质保 / 全国联保</p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>UI 设计提示词库 / 3D Product Preview</p>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* 生成 68 键：[键名, 宽度 u, 强调色]，方向键用内联 SVG */
+  var ARW = {
+    "AR-L": '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 6h-7M5.5 2.5 2 6l3.5 3.5"/></svg>',
+    "AR-R": '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6h7M6.5 2.5 10 6 6.5 9.5"/></svg>',
+    "AR-U": '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5v-7M2.5 5.5 6 2l3.5 3.5"/></svg>',
+    "AR-D": '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5v7M2.5 6.5 6 10l3.5-3.5"/></svg>'
+  };
+  var ROWS = [
+    [["Esc",1,1],["1"],["2"],["3"],["4"],["5"],["6"],["7"],["8"],["9"],["0"],["-"],["="],["Back",2],["Del"]],
+    [["Tab",1.5],["Q"],["W"],["E"],["R"],["T"],["Y"],["U"],["I"],["O"],["P"],["["],["]"],["\\",1.5],["Home"]],
+    [["Caps",1.75],["A"],["S"],["D"],["F"],["G"],["H"],["J"],["K"],["L"],[";"],["'"],["Enter",2.25,1],["PgUp"]],
+    [["Shift",2.25],["Z"],["X"],["C"],["V"],["B"],["N"],["M"],[","],["."],["/"],["Shift",1.75],["AR-U"],["PgDn"]],
+    [["Ctrl",1.25],["Win",1.25],["Alt",1.25],["",6.25],["Alt"],["Fn"],["Ctrl"],["AR-L"],["AR-D"],["AR-R"]]
+  ];
+  var html = "", x;
+  ROWS.forEach(function (row, r) {
+    x = 0;
+    row.forEach(function (k) {
+      var w = k[1] || 1;
+      html += '<div class="key' + (k[2] ? " k-acc" : "") + '" style="left:calc(' + (x / 16 * 100).toFixed(3) +
+        '% + 2px);top:calc(' + (r * 20) + '% + 2px);width:calc(' + (w / 16 * 100).toFixed(3) +
+        '% - 4px);height:calc(20% - 4px)"><b>' + (ARW[k[0]] || k[0]) + "</b></div>";
+      x += w;
+    });
+  });
+  document.getElementById("keys").innerHTML = html;
+
+  /* 热点标注：点开其一，收起其余 */
+  var spots = Array.prototype.slice.call(document.querySelectorAll(".hs"));
+  spots.forEach(function (s) {
+    var btn = s.querySelector(".hs-btn");
+    btn.addEventListener("click", function () {
+      var open = s.classList.contains("open");
+      spots.forEach(function (o) {
+        o.classList.remove("open");
+        o.querySelector(".hs-btn").setAttribute("aria-expanded", "false");
+      });
+      if (!open) {
+        s.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  /* 拖动旋转（悬停微调由 CSS 过渡承接） */
+  var stage = document.querySelector(".stage"), scene = document.querySelector(".scene");
+  var rx = 58, rz = -28, px = 0, py = 0, drag = false;
+  stage.addEventListener("pointerdown", function (e) {
+    if (e.target.closest(".hs")) return;
+    drag = true; px = e.clientX; py = e.clientY;
+    scene.classList.add("dragging");
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener("pointermove", function (e) {
+    if (!drag) return;
+    rz += (e.clientX - px) * 0.32;
+    rx = Math.max(30, Math.min(76, rx - (e.clientY - py) * 0.26));
+    px = e.clientX; py = e.clientY;
+    scene.style.transform = "rotateX(" + rx.toFixed(2) + "deg) rotateZ(" + rz.toFixed(2) + "deg)";
+  });
+  ["pointerup", "pointercancel"].forEach(function (t) {
+    stage.addEventListener(t, function () {
+      drag = false;
+      scene.classList.remove("dragging");
+    });
+  });
+})();
+</script>
+</body>
+</html>

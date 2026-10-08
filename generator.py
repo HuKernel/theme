@@ -2756,6 +2756,7 @@ def main():
             'Organic Biophilic': 'organic-biophilic.html',
             'Data-Dense Dashboard': 'data-dense-dashboard.html',
             'HUD / Sci-Fi FUI': 'hud-sci-fi-fui.html',
+            '3D Product Preview': '3d-product-preview.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版
