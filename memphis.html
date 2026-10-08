@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格 H · Memphis Design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --pink: #FF71CE;
+  --yellow: #FFCE5C;
+  --teal: #86CCCA;
+  --purple: #6A7BB4;
+  --ink: #16161D;
+  --bg: #FFFDF6;
+  --pattern: 22px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* 波点底纹 */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1;
+  background-image: radial-gradient(rgba(22, 22, 29, 0.08) 1.5px, transparent 1.5px);
+  background-size: var(--pattern) var(--pattern);
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- 几何装饰 ---------- */
+.deco { position: absolute; pointer-events: none; }
+.deco-tri {
+  width: 0; height: 0;
+  border-left: 34px solid transparent; border-right: 34px solid transparent;
+  border-bottom: 58px solid var(--yellow);
+}
+.deco-circle {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--teal);
+}
+.deco-ring {
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 12px solid var(--pink); background: transparent;
+}
+.deco-zig { color: var(--purple); }
+.deco-cross { color: var(--pink); }
+
+/* ---------- 顶栏 ---------- */
+.topbar { padding: 26px 0 6px; position: relative; }
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 66px; padding: 0 20px;
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 var(--yellow);
+  position: relative; z-index: 1;
+}
+.logo {
+  font-weight: 800; font-size: 18px;
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--ink);
+}
+.logo-mark {
+  width: 38px; height: 38px;
+  background: var(--pink);
+  border: 3px solid var(--ink); border-radius: 50%;
+  display: grid; place-items: center;
+  transform: rotate(-8deg);
+}
+nav { display: flex; gap: 6px; }
+nav a {
+  font-weight: 600; font-size: 14.5px;
+  color: var(--ink); text-decoration: none;
+  padding: 7px 14px; border-radius: 999px;
+  border: 2.5px dashed transparent;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+nav a:hover, nav a:focus-visible {
+  background: var(--teal);
+  border-color: var(--ink);
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: inherit; font-weight: 700; font-size: 15px;
+  padding: 12px 26px; border-radius: 999px;
+  cursor: pointer; text-decoration: none;
+  border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+.btn-pink { background: var(--pink); color: var(--ink); }
+.btn-yellow { background: var(--yellow); color: var(--ink); }
+.btn-white { background: #fff; color: var(--ink); }
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--purple); outline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 84px 0 64px;
+  display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 44px; align-items: center;
+  position: relative;
+}
+.tag {
+  display: inline-block;
+  font-weight: 700; font-size: 13.5px;
+  background: var(--purple); color: #fff;
+  border: 3px solid var(--ink);
+  padding: 6px 16px; border-radius: 999px;
+  margin-bottom: 24px;
+  transform: rotate(-2deg);
+}
+h1 {
+  font-size: clamp(36px, 5.2vw, 60px);
+  font-weight: 900; line-height: 1.08; letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+h1 .u-pink {
+  background: linear-gradient(transparent 62%, var(--pink) 62%, var(--pink) 92%, transparent 92%);
+}
+h1 .u-teal {
+  background: linear-gradient(transparent 62%, var(--teal) 62%, var(--teal) 92%, transparent 92%);
+}
+.sub {
+  font-size: 17px; font-weight: 500;
+  max-width: 460px; margin-bottom: 34px;
+}
+.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Hero 卡：贴纸感数据牌 */
+.sticker {
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 10px 10px 0 var(--teal);
+  padding: 30px;
+  transform: rotate(2.5deg);
+  position: relative;
+}
+.sticker::after {
+  content: ''; position: absolute; top: -16px; right: 26px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+}
+.sticker b {
+  display: block; font-size: 58px; font-weight: 900; line-height: 1;
+}
+.sticker b span { color: var(--pink); }
+.sticker p { font-weight: 600; font-size: 15px; margin-top: 6px; }
+.sticker small { display: block; margin-top: 10px; color: #5C5C66; font-size: 12.5px; }
+
+/* ---------- 功能卡 ---------- */
+.section-title {
+  font-size: 34px; font-weight: 900;
+  margin: 70px 0 34px;
+  display: flex; align-items: center; gap: 16px;
+}
+.section-title .sq {
+  width: 20px; height: 20px; flex: none;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  transform: rotate(12deg);
+}
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.card {
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 26px 24px;
+  position: relative;
+  transition: transform 180ms ease;
+}
+.card:nth-child(1) { box-shadow: 8px 8px 0 var(--pink); }
+.card:nth-child(2) { box-shadow: 8px 8px 0 var(--yellow); transform: rotate(-1deg); }
+.card:nth-child(3) { box-shadow: 8px 8px 0 var(--teal); }
+.card:hover { transform: rotate(0deg) translateY(-4px); }
+.card-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  border: 3px solid var(--ink);
+  display: grid; place-items: center; margin-bottom: 16px;
+}
+.card:nth-child(1) .card-icon { background: var(--pink); }
+.card:nth-child(2) .card-icon { background: var(--teal); }
+.card:nth-child(3) .card-icon { background: var(--yellow); }
+.card h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.card p { font-size: 14.5px; font-weight: 500; color: #3D3D47; }
+
+/* ---------- 指标 ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+  margin: 40px 0 76px;
+}
+.stat {
+  text-align: center; padding: 26px 16px;
+  background: #fff;
+  border: 3px solid var(--ink); border-radius: 999px;
+  position: relative;
+}
+.stat:nth-child(1) { background: var(--yellow); }
+.stat:nth-child(2) { background: var(--teal); transform: rotate(-1.5deg); }
+.stat:nth-child(3) { background: var(--pink); }
+.stat b { display: block; font-size: 34px; font-weight: 900; }
+.stat span { font-weight: 600; font-size: 14px; }
+
+footer {
+  text-align: center; padding: 28px 0 40px;
+  font-weight: 600; font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  nav { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .grid, .stats { grid-template-columns: 1fr; }
+  .deco { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container" style="position:relative">
+    <span class="deco deco-tri" style="top:-18px; left:-6px; transform:rotate(-14deg)" aria-hidden="true"></span>
+    <span class="deco deco-cross" style="top:-14px; right:38%" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg>
+    </span>
+    <div class="topbar-inner">
+      <a class="logo" href="#">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
+        </span>
+        西环街市
+      </a>
+      <nav aria-label="主导航">
+        <a href="#features">功能</a>
+        <a href="#stats">成效</a>
+        <a href="#">摊位地图</a>
+      </nav>
+      <a class="btn btn-pink" href="#">看行情</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero container" style="position:relative">
+    <span class="deco deco-ring" style="top:12px; right:4%; transform:rotate(10deg)" aria-hidden="true"></span>
+    <span class="deco deco-zig" style="bottom:6px; left:-10px" aria-hidden="true">
+      <svg width="90" height="22" viewBox="0 0 90 22" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16 12 6l10 10L32 6l10 10L52 6l10 10L72 6l10 10"/></svg>
+    </span>
+    <div>
+      <span class="tag">今日行情 · 鲜鱼到港 04:30 · 摊位 214 家</span>
+      <h1>凌晨四点半的码头，<br>决定你<span class="u-pink">中午的汤</span></h1>
+      <p class="sub">街市每日行情：什么当造、什么涨价、哪档的姜最辣。摊贩的话比广告可信。</p>
+      <div class="cta-row">
+        <a class="btn btn-yellow" href="#">看今日行情</a>
+        <a class="btn btn-white" href="#">摊位地图</a>
+      </div>
+    </div>
+
+    <aside class="sticker" aria-label="数据示例">
+      <b>214<span>家</span></b>
+      <p>家在市摊位，今晨全部开档</p>
+      <small>行情每日 05:30 更新 · 风雨无阻</small>
+    </aside>
+  </section>
+
+  <section id="features" class="container">
+    <h2 class="section-title"><span class="sq" aria-hidden="true"></span>一个智能体，三份工作</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <h3>今日鲜鱼</h3>
+        <p>黄花鱼大造，一字刀鲳涨价两成，买鱼看眼不看价牌。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>当造蔬果</h3>
+        <p>本地菜心甜到不用焯，白露后苦瓜转面。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </div>
+        <h3>摊位榜</h3>
+        <p>213 号档的豆腐每天十点前售罄，不是饥饿营销。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="stats" class="container">
+    <div class="stats">
+      <div class="stat"><b>214家</b><span>在市摊位</span></div>
+      <div class="stat"><b>04:30</b><span>渔获到港</span></div>
+      <div class="stat"><b>±20%</b><span>日价波幅</span></div>
+    </div>
+  </section>
+</main>
+
+<footer>西环街市 · 风格样张 H（Memphis Design）</footer>
+
+</body>
+</html>

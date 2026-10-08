@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claymorphism (Mobile) · 风格样张 — ui-ux-pro-max + frontend-design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Nunito:ital,wght@0,700;0,800;0,900;1,700&display=swap');
+:root {
+  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
+  --border: rgba(124,58,237,.28); --primary: #7C3AED; --secondary: #DB2777;
+  --accent: #abed3a; --on-primary: #fff;
+  --radius: 26px; --btn-radius: 16px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg); color: var(--fg); line-height: 1.6;
+  
+}
+h1, h2, h3, .num { font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 2px solid rgba(255,255,255,.65); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--fg); font-family: 'Nunito', sans-serif; }
+.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
+  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
+nav { display: flex; gap: 22px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
+nav a:hover, nav a:focus-visible { color: var(--primary); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-weight: 600; font-size: 14.5px;
+  padding: 11px 22px; border-radius: var(--btn-radius);
+  cursor: pointer; text-decoration: none; border: 2px solid rgba(255,255,255,.65);
+  background: var(--card); color: var(--fg);
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.btn-primary:hover { transform: translateY(-2px);  }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.card { background: var(--card); border: 2px solid rgba(255,255,255,.65); border-radius: var(--radius);
+  box-shadow: inset 0 -6px 12px rgba(0,0,0,.07), inset 0 6px 12px rgba(255,255,255,.75), 0 14px 28px rgba(0,0,0,.16); padding: 24px;
+  transition: transform 200ms ease, box-shadow 200ms ease; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(124,58,237,.2);  }
+.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
+  background: var(--primary); color: var(--on-primary);
+  display: grid; place-items: center; margin-bottom: 14px; }
+.card h3 { font-size: 16.5px; margin-bottom: 6px; }
+.card p { font-size: 13.5px; color: var(--muted); }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
+.stat span { font-size: 13px; color: var(--muted); }
+footer { border-top: 2px solid rgba(255,255,255,.65); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
+footer a { color: var(--primary); }
+@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.stage { min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 36px 16px;  }
+.phone { width: 390px; max-width: 100%; height: 780px; background: var(--bg);
+  border: 2px solid rgba(255,255,255,.65); border-radius: 44px; overflow: hidden; position: relative;
+  box-shadow: inset 0 -6px 12px rgba(0,0,0,.07), inset 0 6px 12px rgba(255,255,255,.75), 0 14px 28px rgba(0,0,0,.16); display: flex; flex-direction: column; }
+.notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 26px; border-radius: 999px; background: var(--fg); opacity: .92; z-index: 2; }
+.statusbar { display: flex; justify-content: space-between; padding: 16px 26px 6px; font-size: 12.5px; color: var(--muted); }
+.apphead { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px; }
+.apphead small { font-size: 12.5px; color: var(--muted); }
+.apphead h1 { font-size: 22px; font-weight: 800; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
+.summary { display: flex; justify-content: space-around; text-align: center; margin: 4px 18px 14px; padding: 16px; }
+.summary b { display: block; font-size: 24px; font-weight: 800; color: var(--primary); }
+.summary span { font-size: 11.5px; color: var(--muted); }
+.tabs { display: flex; gap: 8px; padding: 0 18px 12px; }
+.tab { font: inherit; font-size: 13px; font-weight: 600; padding: 7px 16px;
+  border-radius: 999px; border: 2px solid rgba(255,255,255,.65); background: var(--card); color: var(--muted); cursor: pointer; }
+.tab.on { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.leads { flex: 1; overflow-y: auto; padding: 0 18px; display: grid; gap: 10px; align-content: start; }
+.lead { display: flex; align-items: center; gap: 12px; padding: 13px 14px;
+  background: var(--card); border: 2px solid rgba(255,255,255,.65); border-radius: var(--radius); }
+.lead-score { width: 42px; height: 42px; flex: none; display: grid; place-items: center;
+  font-weight: 800; font-size: 15px; border-radius: calc(var(--radius) * .7); }
+.lead:nth-child(1) .lead-score { background: var(--primary); color: var(--on-primary); }
+.lead:nth-child(n+2) .lead-score { background: rgba(124,58,237,.14); color: var(--primary); }
+.lead b { display: block; font-size: 14.5px; }
+.lead small { font-size: 12px; color: var(--muted); }
+.lead > div { flex: 1; }
+.pill { font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+.pill.hot { background: var(--primary); color: var(--on-primary); }
+.pill.warm { background: rgba(124,58,237,.14); color: var(--primary); }
+.pill.cold { background: rgba(120,120,130,.14); color: var(--muted); }
+.tabbar { display: flex; border-top: 2px solid rgba(255,255,255,.65); background: var(--card); padding: 8px 0 18px; }
+.tabbar a { flex: 1; display: grid; place-items: center; gap: 3px; color: var(--muted); text-decoration: none; font-size: 10.5px; }
+.tabbar a.on { color: var(--primary); }
+.stage-note { margin-top: 18px; font-size: 13px; color: var(--muted); text-align: center; }
+.stage-note a { color: var(--primary); }
+
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="notch" aria-hidden="true"></div>
+    <div class="statusbar"><span>9:41</span><span>WHEAT AWN BAKERY</span><span>5G ▮▮▮</span></div>
+    <header class="apphead">
+      <div><small>今日炉次 #264 · 醒面 18 小时 · 07:00 出</small><h1>麦芒</h1></div>
+      <span class="avatar" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>
+    </header>
+    <div class="summary card"><div><b class="num">18h</b><span>低温醒面</span></div><div><b class="num">27层</b><span>可颂开酥</span></div><div><b class="num">07:00</b><span>头炉出炉</span></div></div>
+    <div class="tabs" role="tablist" aria-label="内容筛选">
+      <button class="tab on" role="tab" aria-selected="true">全部</button>
+      <button class="tab" role="tab" aria-selected="false">乡村棍</button>
+      <button class="tab" role="tab" aria-selected="false">可颂</button>
+    </div>
+    <div class="leads"><div class="lead"><span class="lead-score num">18h</span><div><b>乡村棍</b><small>TK 面粉 + 20% 全麦，皮脆心润，配浓汤或什么都不配。</small></div><span class="pill hot">主推</span></div><div class="lead"><span class="lead-score num">27层</span><div><b>可颂</b><small>法国黄油开 27 层，出炉两小时内是它的黄金时段。</small></div><span class="pill warm">在册</span></div><div class="lead"><span class="lead-score num">07:00</span><div><b>碱水结</b><small>碱水重口，配啤酒刚好。下午四点后第二炉半价。</small></div><span class="pill cold">备览</span></div></div>
+    <nav class="tabbar" aria-label="主导航">
+      <a class="on" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>乡村棍</span></a>
+      <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>可颂</span></a>
+      <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg><span>碱水结</span></a>
+      <a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg><span>我的</span></a>
+    </nav>
+  </div>
+  <p class="stage-note">麦芒 · 街角面包房 · <a href="../style-catalog.html">返回风格目录</a> · <a href="../index.html">八版精修样张</a></p>
+</div>
+
+</body>
+</html>

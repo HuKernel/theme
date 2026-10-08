@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格 C · Brutalism</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Rubik:wght@400;500;600;700&display=swap');
+
+:root {
+  --pink: #EC4899;
+  --pink-deep: #831843;
+  --orange: #EA580C;
+  --bg: #FDF2F8;
+  --card: #FFFFFF;
+  --border: 3px solid #000;
+  --shadow: 6px 6px 0 #000;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Rubik', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--pink-deep);
+  line-height: 1.5;
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  border-bottom: var(--border);
+  background: var(--card);
+  position: sticky; top: 0; z-index: 10;
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+}
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900; font-size: 20px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: #000;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: var(--pink); border: var(--border);
+  display: grid; place-items: center; color: #000;
+  box-shadow: var(--shadow);
+}
+nav { display: flex; gap: 8px; }
+nav a {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700; font-size: 14px; text-transform: uppercase;
+  color: #000; text-decoration: none;
+  padding: 8px 12px; border: var(--border); background: var(--card);
+  box-shadow: 4px 4px 0 #000;
+  transition: none;
+}
+nav a:hover, nav a:focus-visible { background: var(--pink); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800; font-size: 15px; text-transform: uppercase;
+  padding: 12px 24px;
+  border: var(--border); border-radius: 0;
+  cursor: pointer; text-decoration: none;
+  box-shadow: var(--shadow);
+  transition: none;
+}
+.btn-pink { background: var(--pink); color: #000; }
+.btn-pink:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
+.btn-pink:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #000; }
+.btn-orange { background: var(--orange); color: #000; }
+.btn-orange:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
+.btn-orange:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0 #000; }
+
+a:focus-visible, button:focus-visible {
+  outline: 4px solid var(--orange); outline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 72px 0 56px;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+}
+.tag {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800; font-size: 13px; text-transform: uppercase;
+  background: #000; color: var(--bg);
+  padding: 6px 12px; margin-bottom: 22px;
+  transform: rotate(-2deg);
+}
+h1 {
+  font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: clamp(40px, 6.5vw, 72px);
+  font-weight: 900; line-height: 1.02;
+  text-transform: uppercase; letter-spacing: -0.02em;
+  color: #000;
+  margin-bottom: 22px;
+}
+h1 .hl {
+  background: var(--pink); color: #000;
+  padding: 0 10px;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
+h1 .hl-o { background: var(--orange); }
+.sub {
+  font-size: 17px; font-weight: 500;
+  max-width: 480px; margin-bottom: 32px;
+  border-left: 6px solid var(--orange); padding-left: 16px;
+}
+.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Hero 侧标语牌 */
+.hero-note {
+  border: var(--border); background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 28px; transform: rotate(2deg);
+}
+.hero-note b {
+  font-family: 'Outfit', sans-serif;
+  display: block; font-size: 64px; font-weight: 900;
+  color: var(--pink); line-height: 1;
+}
+.hero-note span { font-weight: 700; font-size: 15px; }
+.hero-note small { display: block; margin-top: 10px; font-size: 12.5px; color: #475569; }
+
+/* ---------- 跑马灯 ---------- */
+.marquee {
+  border-top: var(--border); border-bottom: var(--border);
+  background: #000; color: var(--bg);
+  overflow: hidden; white-space: nowrap;
+  padding: 12px 0;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 0.08em;
+}
+.marquee-track { display: inline-block; animation: scroll 22s linear infinite; }
+.marquee-track span { margin: 0 28px; }
+.marquee-track .p { color: var(--pink); }
+.marquee-track .o { color: var(--orange); }
+@keyframes scroll { to { transform: translateX(-50%); } }
+
+/* ---------- 功能卡 ---------- */
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 40px; font-weight: 900; text-transform: uppercase;
+  color: #000; margin: 64px 0 32px;
+  display: inline-block;
+  background: var(--orange); padding: 4px 16px;
+  border: var(--border); box-shadow: var(--shadow);
+}
+.grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+  margin-bottom: 24px;
+}
+.card {
+  border: var(--border); background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 26px 24px;
+}
+.card:nth-child(2) { transform: rotate(-1deg); }
+.card:nth-child(3) { transform: rotate(1deg); }
+.card-head {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.card-num {
+  font-family: 'Outfit', sans-serif;
+  width: 42px; height: 42px; flex: none;
+  display: grid; place-items: center;
+  font-size: 20px; font-weight: 900;
+  background: var(--pink); border: var(--border); color: #000;
+}
+.card:nth-child(3) .card-num { background: var(--orange); }
+.card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 19px; font-weight: 800; color: #000;
+}
+.card p { font-size: 14.5px; font-weight: 500; }
+
+/* ---------- 指标 ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+  margin: 40px 0 72px;
+}
+.stat {
+  border: var(--border); box-shadow: var(--shadow);
+  padding: 24px; text-align: center;
+  background: #000; color: var(--bg);
+}
+.stat:nth-child(2) { background: var(--pink); color: #000; }
+.stat:nth-child(3) { background: var(--orange); color: #000; }
+.stat b {
+  font-family: 'Outfit', sans-serif;
+  display: block; font-size: 46px; font-weight: 900; line-height: 1.05;
+}
+.stat span { font-weight: 700; font-size: 14px; text-transform: uppercase; }
+
+footer {
+  border-top: var(--border);
+  padding: 26px 0; text-align: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700; font-size: 13px; text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  nav { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .grid, .stats { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
+      </span>
+      地下一层
+    </a>
+    <nav aria-label="主导航">
+      <a href="#features">功能</a>
+      <a href="#stats">成效</a>
+      <a href="#">场地守则</a>
+    </nav>
+    <a class="btn btn-pink" href="#">看本周演出</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <div>
+      <span class="tag">本周演出 4 场 · 21:00 准时开演 · 不直播</span>
+      <h1>声音<br><span class="hl">大一点</span>，<br><span class="hl hl-o">世界就小一点</span></h1>
+      <p class="sub">老防空洞改的场子，隔音是水泥的，耳朵是自己的。来看现场，别看屏幕。</p>
+      <div class="cta-row">
+        <a class="btn btn-orange" href="#">本周演出</a>
+        <a class="btn btn-pink" href="#">场地守则</a>
+      </div>
+    </div>
+    <aside class="hero-note">
+      <b>4</b>
+      <span>场演出本周：周四后摇，周六硬核</span>
+      <small>260 人容量 · 20:30 开门 · 准时开演</small>
+    </aside>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>周四后摇</span><span class="p">◆</span><span>周六硬核</span><span class="o">◆</span><span>Open Mic</span><span class="p">◆</span><span>不直播</span><span class="o">◆</span>
+      <span>周四后摇</span><span class="p">◆</span><span>周六硬核</span><span class="o">◆</span><span>Open Mic</span><span class="p">◆</span><span>不直播</span><span class="o">◆</span>
+    </div>
+  </div>
+
+  <section id="features" class="container">
+    <h2 class="section-title">一个场子 = 一星期三场好演出</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="card-head">
+          <span class="card-num">01</span>
+          <h3>周四 · 后摇</h3>
+        </div>
+        <p>三支本地新队，压轴那支 40 分钟不说话。</p>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <span class="card-num">02</span>
+          <h3>周六 · 硬核</h3>
+        </div>
+        <p>全场开火车，护场在两侧，眼镜收好。</p>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <span class="card-num">03</span>
+          <h3>月末 · OpenMic</h3>
+        </div>
+        <p>新人开放麦，设备免费用，冷场也是经历。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="stats" class="container">
+    <div class="stats">
+      <div class="stat"><b>260人</b><span>场地容量</span></div>
+      <div class="stat"><b>4场</b><span>本周演出</span></div>
+      <div class="stat"><b>21:00</b><span>准时开演</span></div>
+    </div>
+  </section>
+</main>
+
+<footer>地下一层 · 风格样张 C（Brutalism）</footer>
+
+</body>
+</html>

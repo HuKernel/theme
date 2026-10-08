@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格 E · Aurora UI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --secondary: #6366F1;
+  --accent: #EC4899;
+  --cyan: #06B6D4;
+  --bg: #FAF5FF;
+  --fg: #0F172A;
+  --card: rgba(255, 255, 255, 0.72);
+  --border: rgba(124, 58, 237, 0.16);
+  --muted-fg: #475569;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+/* ---------- 极光背景层 ---------- */
+.aurora {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  filter: saturate(1.2);
+}
+.aurora i {
+  position: absolute; border-radius: 50%;
+  mix-blend-mode: multiply;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+.aurora i:nth-child(1) {
+  width: 55vw; height: 55vw; top: -18vw; left: -10vw;
+  background: radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.34), transparent 65%);
+}
+.aurora i:nth-child(2) {
+  width: 48vw; height: 48vw; top: -8vw; right: -12vw;
+  background: radial-gradient(circle at 55% 45%, rgba(6, 182, 212, 0.26), transparent 65%);
+  animation-duration: 10s; animation-delay: -4s;
+}
+.aurora i:nth-child(3) {
+  width: 42vw; height: 42vw; top: 34vh; left: 30vw;
+  background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.2), transparent 65%);
+  animation-duration: 11s; animation-delay: -2s;
+}
+.aurora i:nth-child(4) {
+  width: 60vw; height: 40vw; bottom: -20vw; left: 8vw;
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.24), transparent 65%);
+  animation-duration: 9s; animation-delay: -6s;
+}
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(6vw, 4vh) scale(1.12); }
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(250, 245, 255, 0.6);
+  backdrop-filter: blur(16px) saturate(1.3);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700; font-size: 18px;
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--fg);
+}
+.logo-mark {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--cyan) 55%, var(--accent));
+  display: grid; place-items: center; color: #fff;
+}
+nav { display: flex; gap: 26px; }
+nav a { color: var(--muted-fg); text-decoration: none; font-size: 15px; }
+nav a:hover, nav a:focus-visible { color: var(--primary); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-weight: 500; font-size: 15px;
+  padding: 10px 20px; border-radius: 12px;
+  cursor: pointer; text-decoration: none;
+  border: 1px solid transparent;
+  transition: box-shadow 250ms ease, transform 250ms ease, background 250ms ease;
+}
+.btn-aurora {
+  background: linear-gradient(120deg, var(--primary), var(--secondary) 50%, var(--accent));
+  background-size: 200% 200%;
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4);
+  animation: flow 10s ease infinite;
+}
+@keyframes flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.btn-aurora:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(124, 58, 237, 0.5); }
+.btn-glass {
+  background: var(--card); color: var(--fg);
+  border-color: var(--border);
+  backdrop-filter: blur(10px);
+}
+.btn-glass:hover { background: rgba(255, 255, 255, 0.9); }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 8px;
+}
+
+/* ---------- Hero ---------- */
+.hero { padding: 96px 0 64px; text-align: center; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  color: var(--primary); font-size: 13px; font-weight: 500;
+  padding: 6px 14px; border-radius: 999px; margin-bottom: 24px;
+}
+.badge .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: glow 3s ease-in-out infinite;
+}
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.5); }
+  50% { box-shadow: 0 0 0 7px rgba(236, 72, 153, 0); }
+}
+h1 {
+  font-family: 'Space Grotesk', 'PingFang SC', sans-serif;
+  font-size: clamp(34px, 5vw, 58px);
+  font-weight: 700; line-height: 1.14; letter-spacing: -0.02em;
+  max-width: 740px; margin: 0 auto 20px;
+}
+h1 .grad {
+  background: linear-gradient(90deg, var(--primary), var(--cyan), var(--accent), var(--primary));
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: flow 8s ease infinite;
+}
+.sub {
+  font-size: 18px; color: var(--muted-fg);
+  max-width: 560px; margin: 0 auto 36px;
+}
+.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* 夏季大三角星图：天文馆签名组件 */
+.star-map { width: min(560px, 82%); display: block; margin: 0 auto 6px; }
+
+/* ---------- 功能卡 ---------- */
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  text-align: center; font-size: 30px; font-weight: 600;
+  margin: 76px 0 36px;
+}
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card {
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px;
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(99, 102, 241, 0.18);
+}
+.card-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center; margin-bottom: 16px;
+  color: #fff;
+}
+.card:nth-child(1) .card-icon { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+.card:nth-child(2) .card-icon { background: linear-gradient(135deg, var(--secondary), var(--cyan)); }
+.card:nth-child(3) .card-icon { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
+.card h3 { font-size: 17px; margin-bottom: 8px; }
+.card p { font-size: 14.5px; color: var(--muted-fg); }
+
+/* ---------- 指标（极光环） ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  margin: 20px 0 76px;
+}
+.stat {
+  text-align: center; padding: 30px 16px;
+  border-radius: 18px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.stat::before {
+  content: ''; position: absolute; inset: -1px; border-radius: 19px;
+  padding: 1px;
+  background: conic-gradient(from 180deg, var(--primary), var(--cyan), var(--accent), var(--primary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0.5;
+}
+.stat b {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.stat span { font-size: 14px; color: var(--muted-fg); }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0; text-align: center;
+  font-size: 13.5px; color: var(--muted-fg);
+}
+
+@media (max-width: 768px) {
+  nav { display: none; }
+  .grid, .stats { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
+      </span>
+      市立天文馆
+    </a>
+    <nav aria-label="主导航">
+      <a href="#features">功能</a>
+      <a href="#stats">成效</a>
+      <a href="#">到馆路线</a>
+    </nav>
+    <a class="btn btn-aurora" href="#">订观测夜</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <!-- 主题签名组件：夏季大三角星图连线（叠加在极光上，静态克制） -->
+    <svg class="star-map" viewBox="0 0 560 130" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+      <g stroke="rgba(124,58,237,.35)" stroke-width="1" stroke-dasharray="3 4">
+        <path d="M120 96 L300 26 L470 78 M300 26 L382 108 M120 96 L382 108"/>
+      </g>
+      <g fill="#0F172A" stroke="#7C3AED" stroke-width="1.6">
+        <circle cx="120" cy="96" r="3.4"/><circle cx="470" cy="78" r="2.6"/>
+        <circle cx="382" cy="108" r="2.2"/>
+      </g>
+      <circle cx="300" cy="26" r="4.6" fill="#EC4899"/>
+      <g font-family="DM Sans, sans-serif" font-size="9.5" fill="rgba(15,23,42,.55)">
+        <text x="300" y="14" text-anchor="middle">织女星 Vega</text>
+        <text x="120" y="114" text-anchor="middle">天津四 Deneb</text>
+        <text x="470" y="66" text-anchor="middle">牛郎星 Altair</text>
+      </g>
+    </svg>
+    <span class="badge"><span class="dot"></span>本周天象 · 木星冲日 · 观测夜 20:00 · 云量 &lt;20%</span>
+    <h1>把灯关掉，<br>城市才看得见<span class="grad">银河</span></h1>
+    <p class="sub">穹顶直径 23 米，每周五公众观测夜。带件外套，星星不看天气预报以外的软件。</p>
+    <div class="cta-row">
+      <a class="btn btn-aurora" href="#">订观测夜</a>
+      <a class="btn btn-glass" href="#">本月天象</a>
+    </div>
+  </section>
+
+  <section id="features" class="container">
+    <h2 class="section-title">一个智能体，三份工作</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <h3>穹顶影院</h3>
+        <p>全天域投影 9,000 颗恒星，讲解员开麦只讲轨道不讲神话。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>公众观测夜</h3>
+        <p>140mm 折射镜看木星条纹与四颗伽利略卫星，排队制。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </div>
+        <h3>流星雨专场</h3>
+        <p>英仙座极大值夜场，屋顶开放，垫子自备。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="stats" class="container">
+    <div class="stats">
+      <div class="stat"><b>23m</b><span>穹顶直径</span></div>
+      <div class="stat"><b>9,000</b><span>投影恒星</span></div>
+      <div class="stat"><b>140mm</b><span>主镜口径</span></div>
+    </div>
+  </section>
+</main>
+
+<footer>市立天文馆 · 风格样张 E（Aurora UI）</footer>
+
+</body>
+</html>

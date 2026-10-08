@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格 F · Neumorphism</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  --bg: #EAE6F3;
+  --primary: #7C3AED;
+  --accent: #059669;
+  --fg: #3B3553;
+  --muted-fg: #6E678C;
+  --shadow-dark: rgba(163, 148, 205, 0.55);
+  --shadow-light: rgba(255, 255, 255, 0.9);
+  --raised: -7px -7px 14px var(--shadow-light), 7px 7px 14px var(--shadow-dark);
+  --pressed: inset -4px -4px 10px var(--shadow-light), inset 4px 4px 10px var(--shadow-dark);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.55;
+}
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar { padding: 20px 0 4px; }
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; padding: 0 22px;
+  background: var(--bg);
+  border-radius: 20px;
+  box-shadow: var(--raised);
+}
+.logo {
+  font-weight: 700; font-size: 17px;
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none; color: var(--fg);
+}
+.logo-mark {
+  width: 36px; height: 36px; border-radius: 12px;
+  background: var(--bg);
+  box-shadow: var(--pressed);
+  display: grid; place-items: center; color: var(--primary);
+}
+nav { display: flex; gap: 10px; }
+nav a {
+  color: var(--muted-fg); text-decoration: none; font-size: 14.5px;
+  padding: 8px 16px; border-radius: 12px;
+  transition: color 150ms ease, box-shadow 150ms ease;
+}
+nav a:hover, nav a:focus-visible {
+  color: var(--primary);
+  box-shadow: var(--pressed);
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: inherit; font-weight: 600; font-size: 15px;
+  padding: 12px 26px; border-radius: 16px;
+  cursor: pointer; text-decoration: none;
+  background: var(--bg); color: var(--primary);
+  border: none;
+  box-shadow: var(--raised);
+  transition: box-shadow 150ms ease, transform 150ms ease, color 150ms ease;
+}
+.btn:hover { color: #5B21B6; }
+.btn:active { box-shadow: var(--pressed); transform: translateY(1px); }
+.btn-accent { color: var(--accent); }
+.btn-accent:hover { color: #047857; }
+
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--primary); outline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 84px 0 60px;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 44px; align-items: center;
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 18px; border-radius: 999px;
+  box-shadow: var(--pressed);
+  color: var(--muted-fg); font-size: 13.5px; font-weight: 500;
+  margin-bottom: 24px;
+}
+.badge i {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent);
+}
+h1 {
+  font-size: clamp(30px, 4.4vw, 46px);
+  font-weight: 700; line-height: 1.2;
+  margin-bottom: 18px;
+}
+h1 em { font-style: normal; color: var(--primary); }
+.sub {
+  font-size: 16.5px; color: var(--muted-fg);
+  margin-bottom: 34px; max-width: 460px;
+}
+.cta-row { display: flex; gap: 18px; flex-wrap: wrap; }
+
+/* Hero 侧：控制面板玩具 */
+.panel {
+  background: var(--bg);
+  border-radius: 26px;
+  box-shadow: var(--raised);
+  padding: 30px;
+}
+.panel-rows { display: grid; gap: 18px; }
+.row {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 16px 18px; border-radius: 16px;
+  box-shadow: var(--pressed);
+}
+.row .name { font-weight: 600; font-size: 14.5px; }
+.row .name small {
+  display: block; font-weight: 400; font-size: 12.5px; color: var(--muted-fg);
+}
+.knob {
+  width: 46px; height: 26px; border-radius: 999px; flex: none;
+  background: var(--bg); box-shadow: var(--pressed);
+  position: relative;
+}
+.knob::after {
+  content: ''; position: absolute; top: 4px; left: 5px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--bg); box-shadow: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);
+}
+.knob.on::after {
+  left: 23px;
+  background: var(--primary);
+}
+.row .val { font-weight: 700; color: var(--primary); }
+
+/* ---------- 功能卡 ---------- */
+.section-title {
+  text-align: center; font-size: 28px; font-weight: 700;
+  margin: 76px 0 36px;
+}
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.card {
+  background: var(--bg);
+  border-radius: 22px;
+  box-shadow: var(--raised);
+  padding: 28px 26px;
+  transition: box-shadow 150ms ease;
+}
+.card:hover { box-shadow: var(--pressed); }
+.card-icon {
+  width: 52px; height: 52px; border-radius: 16px;
+  box-shadow: var(--pressed);
+  display: grid; place-items: center; margin-bottom: 18px;
+  color: var(--primary);
+}
+.card:nth-child(2) .card-icon { color: var(--accent); }
+.card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+.card p { font-size: 14px; color: var(--muted-fg); }
+
+/* ---------- 指标（凹槽数字） ---------- */
+.stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px;
+  margin: 26px 0 76px;
+}
+.stat {
+  text-align: center; padding: 30px 16px;
+  border-radius: 22px;
+  box-shadow: var(--pressed);
+}
+.stat b {
+  display: block; font-size: 34px; font-weight: 700; color: var(--primary);
+}
+.stat:nth-child(2) b { color: var(--accent); }
+.stat span { font-size: 14px; color: var(--muted-fg); }
+
+footer {
+  text-align: center; padding: 30px 0 40px;
+  font-size: 13.5px; color: var(--muted-fg);
+}
+
+@media (max-width: 768px) {
+  nav { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .grid, .stats { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <div class="topbar-inner">
+      <a class="logo" href="#">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
+        </span>
+        松之本汤
+      </a>
+      <nav aria-label="主导航">
+        <a href="#features">功能</a>
+        <a href="#stats">成效</a>
+        <a href="#">交通接驳</a>
+      </nav>
+      <a class="btn" href="#">查空房</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <div>
+      <span class="badge"><i></i>一泊二食 · 満室 8 间 · 泉质单纯硫磺 42°C</span>
+      <h1>山把风挡在外面，<br><em>汤</em>把山还给你</h1>
+      <p class="sub">百年木造汤宿，一处内汤一处露天。泡完不要赶路，炉上有焙茶。</p>
+      <div class="cta-row">
+        <a class="btn" href="#">查空房</a>
+        <a class="btn btn-accent" href="#">交通与接驳</a>
+      </div>
+    </div>
+
+    <aside class="panel" aria-label="智能体自动化开关示例">
+      <div class="panel-rows">
+        <div class="row">
+          <div class="name">晨汤六点半<small>六点半烧到七点整</small></div>
+          <span class="knob on" aria-hidden="true"></span>
+        </div>
+        <div class="row">
+          <div class="name">岩风吕注水<small>母岩原样凿成</small></div>
+          <span class="knob on" aria-hidden="true"></span>
+        </div>
+        <div class="row">
+          <div class="name">炉上焙茶<small>晚饭后保温</small></div>
+          <span class="knob" aria-hidden="true"></span>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section id="features" class="container">
+    <h2 class="section-title">一个智能体，三份工作</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <h3>晨汤</h3>
+        <p>六点半烧到七点整，硫磺味最正。冬季加雪见酒一盏。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>岩风吕</h3>
+        <p>母岩原样凿成，水位随山雨涨落，落款在石头上。</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </div>
+        <h3>炉边夜话</h3>
+        <p>晚饭后炉边焙茶配腌梅干，老板娘讲这座山五十年的事。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="stats" class="container">
+    <div class="stats">
+      <div class="stat"><b>42°C</b><span>泉温常年</span></div>
+      <div class="stat"><b>8间</b><span>满室即止</span></div>
+      <div class="stat"><b>1908</b><span>汤屋始建</span></div>
+    </div>
+  </section>
+</main>
+
+<footer>松之本汤 · 风格样张 F（Neumorphism）</footer>
+
+</body>
+</html>

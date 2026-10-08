@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>落地结构 · Hero-Centric Design — landing.csv 官方模式</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?Inter:wght@300;400;500;600;700&display=swap');
+:root {
+  --bg: #ECEAF2; --fg: #0F172A; --muted: #475569; --card: #ECEAF2;
+  --border: transparent; --primary: #C8E0F4; --secondary: #F5E0E8;
+  --accent: #E8E8E8; --on-primary: #111;
+  --radius: 18px; --btn-radius: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg); color: var(--fg); line-height: 1.6;
+  
+}
+h1, h2, h3, .num { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: none; }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--fg); font-family: 'Inter', sans-serif; }
+.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
+  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
+nav { display: flex; gap: 22px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
+nav a:hover, nav a:focus-visible { color: var(--primary); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-weight: 600; font-size: 14.5px;
+  padding: 11px 22px; border-radius: var(--btn-radius);
+  cursor: pointer; text-decoration: none; border: none;
+  background: var(--card); color: var(--fg);
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.btn-primary:hover { transform: translateY(-2px);  }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.card { background: var(--card); border: none; border-radius: var(--radius);
+  box-shadow: -7px -7px 14px rgba(255,255,255,.9), 7px 7px 14px rgba(0,0,0,.14); padding: 24px;
+  transition: transform 200ms ease, box-shadow 200ms ease; }
+.card:hover { transform: translateY(-4px); box-shadow: inset -4px -4px 10px rgba(255,255,255,.9), inset 4px 4px 10px rgba(0,0,0,.12);  }
+.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
+  background: var(--primary); color: var(--on-primary);
+  display: grid; place-items: center; margin-bottom: 14px; }
+.card h3 { font-size: 16.5px; margin-bottom: 6px; }
+.card p { font-size: 13.5px; color: var(--muted); }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
+.stat span { font-size: 13px; color: var(--muted); }
+footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
+footer a { color: var(--primary); }
+@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+
+.hero { padding: 72px 0 48px; text-align: center; position: relative; }
+.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
+.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
+.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.sec { margin: 26px 0; }
+.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
+  display: flex; align-items: baseline; gap: 10px; }
+.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat { text-align: center; }
+.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
+.stat span { font-size: 13px; color: var(--muted); }
+.stats-row { margin: 10px 0; }
+.card-pad { padding: 26px; }
+.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.tst { padding: 20px; }
+.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
+.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
+.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+.vd { position: relative; height: 340px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
+.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
+  background: var(--card); color: var(--fg); display: grid; place-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace; color: #fff; }
+.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
+.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
+.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
+.faq { max-width: 640px; }
+.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
+.cp-us { color: var(--primary); font-weight: 600; }
+.cp-old { color: var(--muted); }
+.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
+  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
+.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
+.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
+.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
+.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
+.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
+  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
+  background: var(--bg); color: var(--fg); }
+.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
+.nl small { width: 100%; font-size: 12px; color: var(--muted); }
+.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.st-ch { padding: 22px; display: grid; gap: 8px; }
+.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
+.st-ch b { font-size: 16px; }
+.st-ch p { font-size: 13.5px; color: var(--muted); }
+.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
+.pb-list { list-style: none; display: grid; gap: 6px; }
+.pb-list li { font-size: 14px; color: var(--muted); }
+.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
+.val b { font-size: 17px; display: block; margin-bottom: 6px; }
+.val p { font-size: 14px; color: var(--muted); }
+.val { max-width: 640px; }
+.cta-full { text-align: center; margin: 30px 0 60px; }
+.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
+.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
+  font-family: 'IBM Plex Mono', monospace; }
+footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
+footer a { color: var(--primary); }
+@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
+@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>午夜调频</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">今晚节目单</a></div></header><main><section class="hero container"><p class="doc-meta">今夜节目 23:00-01:00 · 主持人 老麦 · 点播线 6220 3141</p><h1>两点前睡着的，都不算失眠</h1><p class="sub">深夜电台：点播、读信、放歌。城市关灯之后的声音都在这个频段。</p><div class="cta-row"><a class="btn btn-primary" href="#">今晚节目单</a><a class="btn" href="#">写一封信</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>点播榜</b><p>《晚安》连续七周第一，点歌人每次都说同一句话。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>老麦的话</b><p>凌晨一点之后的话别当真，但今晚这句你记住。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>今晚节目单，现在</h2><p>今夜节目 23:00-01:00 · 主持人 老麦 · 点播线 6220 3141</p><a class="btn btn-primary" href="#">今晚节目单</a></div></section><footer>午夜调频 89.3 · 23:00 · 落地页结构样板 · <a href="../style-catalog.html">返回目录</a></footer></main>
+</body>
+</html>

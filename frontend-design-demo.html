@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SellForge 销售情报 · 号外 — frontend-design × ui-ux-pro-max 联合演示</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+/* token 系统：4 个命名色，全部由「号外」主题推导（frontend-design 第一遍：设计计划） */
+:root {
+  --ink: #17150F;      /* 油墨黑 */
+  --paper: #F6F1E5;    /* 电报纸 */
+  --red: #C6362C;      /* 印章红 */
+  --gold: #A0762B;     /* 勋章金 */
+  --muted: #6E6858;    /* 纸上灰 */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Serif SC', 'SimSun', serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  /* 纸张纤维感：极淡的横向帘纹 */
+  background-image: repeating-linear-gradient(0deg, rgba(23,21,15,.018) 0 1px, transparent 1px 5px);
+}
+
+.sheet { max-width: 880px; margin: 0 auto; padding: 48px 40px 56px; position: relative; }
+
+/* ---------- 报头 ---------- */
+.rule-double { border-top: 3.5px solid var(--ink); border-bottom: 1px solid var(--ink); height: 7px; }
+.masthead { text-align: center; padding: 18px 0 14px; }
+.paper-name {
+  font-size: clamp(26px, 4.4vw, 40px); font-weight: 900; letter-spacing: .18em;
+}
+.paper-name small {
+  display: block; font-size: 12px; font-weight: 600; letter-spacing: .55em;
+  color: var(--muted); margin-top: 6px; text-indent: .55em;
+}
+.dateline {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 18px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+  padding: 6px 2px; margin-top: 14px;
+}
+
+/* ---------- 头版头条 ---------- */
+.headline-wrap { position: relative; padding: 40px 0 34px; border-bottom: 3.5px solid var(--ink); }
+.headline {
+  font-size: clamp(30px, 5.4vw, 52px); font-weight: 900; line-height: 1.32;
+  letter-spacing: .02em; max-width: 620px;
+}
+.headline .num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 1.5em; line-height: 1; letter-spacing: 0;
+  color: var(--ink); padding: 0 4px;
+  border-bottom: 6px solid var(--red);
+}
+.kicker-line {
+  font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
+  margin-bottom: 18px;
+}
+.byline {
+  margin-top: 22px; font-size: 13.5px; color: var(--muted);
+  display: flex; gap: 18px; flex-wrap: wrap;
+}
+
+/* 印章：全页唯一一次动效（frontend-design：一次编排好的亮相） */
+.stamp {
+  position: absolute; right: 4px; bottom: 52px;
+  width: 128px; height: 128px; border-radius: 50%;
+  border: 5px solid var(--red);
+  display: grid; place-items: center; text-align: center;
+  color: var(--red);
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 21px; letter-spacing: .06em; line-height: 1.15;
+  transform: rotate(-12deg);
+  mix-blend-mode: multiply;
+  opacity: .88;
+  /* 章面残墨 */
+  -webkit-mask-image: radial-gradient(circle at 35% 30%, transparent 0 8px, #000 14px),
+                      repeating-radial-gradient(circle at 60% 65%, transparent 0 3px, #000 4px);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  animation: stamp-in .55s cubic-bezier(.18, 1.5, .36, 1) both;
+  animation-delay: .25s;
+}
+.stamp span { display: block; }
+.stamp .zh { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 26px; }
+@keyframes stamp-in {
+  from { transform: rotate(-38deg) scale(2.4); opacity: 0; filter: blur(3px); }
+  to   { transform: rotate(-12deg) scale(1);   opacity: .88; filter: blur(0); }
+}
+
+/* ---------- 双栏正文 ---------- */
+.cols {
+  display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px;
+  padding-top: 30px;
+}
+.cols h2 {
+  font-size: 17px; font-weight: 900; letter-spacing: .3em;
+  border-bottom: 2.5px solid var(--ink); padding-bottom: 8px; margin-bottom: 4px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.cols h2 .en {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10.5px;
+  font-weight: 400; letter-spacing: .12em; color: var(--muted);
+}
+
+/* 将领榜：密集表格（排行榜是真实序列，编号有语义） */
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead th {
+  font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 11px;
+  color: var(--muted); text-align: left; padding: 8px 6px;
+  border-bottom: 1px solid var(--ink);
+}
+tbody td { padding: 9px 6px; border-bottom: 1px dotted var(--muted); }
+tbody tr:hover td { background: rgba(23,21,15,.045); }
+td.rank { font-family: 'Archivo Black', sans-serif; width: 34px; color: var(--gold); }
+tr:first-child td.rank { color: var(--red); }
+td.name b { display: block; }
+td.name small { color: var(--muted); font-size: 12px; }
+td.fig { font-family: 'IBM Plex Mono', monospace; text-align: right; white-space: nowrap; }
+td.fig.win { color: var(--red); font-weight: 600; }
+
+/* 前线电报 */
+.telegram { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; }
+.telegram .msg {
+  border-left: 3px solid var(--ink); padding: 10px 0 10px 14px; margin: 10px 0;
+  white-space: pre-wrap; word-break: break-word;
+}
+.telegram .msg time { color: var(--muted); font-size: 11px; }
+.telegram .msg.vip { border-left-color: var(--red); }
+
+.sheet-footer {
+  margin-top: 44px; padding-top: 14px; border-top: 3.5px solid var(--ink);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--muted);
+}
+
+a { color: var(--ink); text-decoration-color: var(--red); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+
+@media (max-width: 720px) {
+  .sheet { padding: 32px 20px 44px; }
+  .cols { grid-template-columns: 1fr; }
+  .stamp { width: 96px; height: 96px; font-size: 15px; bottom: 20px; }
+  .stamp .zh { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .stamp { opacity: .88; }
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <div class="rule-double" aria-hidden="true"></div>
+    <p class="paper-name">SellForge 销售情报<small>THE SALES INTELLIGENCE EXTRA</small></p>
+    <p class="dateline">
+      <span>第 41 期</span>
+      <span>2026 年第四季度 · 号外</span>
+      <span>发电时间 09:00 CST</span>
+      <span>内部发行</span>
+    </p>
+    <div class="rule-double" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <section class="headline-wrap">
+      <p class="kicker-line">// 本季度智能体代为跟进 4,192 次，人力只出现在签约桌上 //</p>
+      <h1 class="headline">
+        四季度总动员：<span class="num">1,286</span> 条情报入库，
+        跟进快了<span class="num">3</span>倍，一分力气也没浪费在重复劳动上。
+      </h1>
+      <p class="byline">
+        <span>记者：SellForge 智能体</span>
+        <span>数据核验：CRM 全量流水</span>
+        <span>覆盖周期：10-01 至 12-31</span>
+      </p>
+      <div class="stamp" role="img" aria-label="战报盖章：达成"><span class="zh">达成</span><span>Q4 · CLEAR</span></div>
+    </section>
+
+    <div class="cols">
+      <article>
+        <h2>将领排行榜<span class="en">TOP GENERALS</span></h2>
+        <table>
+          <caption class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">四季度成交排行</caption>
+          <thead>
+            <tr><th>序</th><th>将领 / 战区</th><th>情报量</th><th>成交</th><th>赢率</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="rank">1</td><td class="name"><b>王琳</b><small>华东 · 精密制造</small></td><td class="fig">312</td><td class="fig">28</td><td class="fig win">68%</td></tr>
+            <tr><td class="rank">2</td><td class="name"><b>陈昊</b><small>华北 · 教育行业</small></td><td class="fig">268</td><td class="fig">22</td><td class="fig win">61%</td></tr>
+            <tr><td class="rank">3</td><td class="name"><b>李想</b><small>华南 · 物流运输</small></td><td class="fig">241</td><td class="fig">19</td><td class="fig win">57%</td></tr>
+            <tr><td class="rank">4</td><td class="name"><b>赵鹏</b><small>西南 · 能源化工</small></td><td class="fig">197</td><td class="fig">14</td><td class="fig win">49%</td></tr>
+            <tr><td class="rank">5</td><td class="name"><b>孙悦</b><small>东北 · 医疗器械</small></td><td class="fig">173</td><td class="fig">12</td><td class="fig win">46%</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article>
+        <h2>前线电报<span class="en">TELEGRAM</span></h2>
+        <div class="telegram">
+          <div class="msg vip"><time>[12-28 09:03]</time>
+华东精密制造 92 分线索三次触达未回复，
+智能体改走技术负责人侧路，今晨已约 Demo。</div>
+          <div class="msg"><time>[12-26 16:40]</time>
+启明教育采购流程冻结至一月，
+风险标记已挂，节后首日自动复活跟进。</div>
+          <div class="msg"><time>[12-21 11:15]</time>
+星辰物流竞品报价低 12%，
+反击话术已生成三套，重点打交付与 SLA。</div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="sheet-footer">
+    <span>SELLFORGE 销售智能体 出品</span>
+    <span>本号外由 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max</a> 检索 · <a href="https://github.com/anthropics/skills/tree/main/skills/frontend-design" target="_blank" rel="noopener">frontend-design</a> 审改 联合完成</span>
+    <span>下一期：年度盘点 · 01-05</span>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格样张 · 八版对比（Memphis）— SellForge 销售智能体</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Rubik:wght@400;500;600;700&display=swap');
+
+:root {
+  --memphis-pink: #FF71CE;
+  --memphis-yellow: #FFCE5C;
+  --memphis-teal: #86CCCA;
+  --memphis-purple: #6A7BB4;
+  --ink: #16161D;
+  --bg: #FFFDF6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Rubik', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  background-image: radial-gradient(rgba(22,22,29,.09) 1.6px, transparent 1.6px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.wrap { max-width: 1000px; margin: 0 auto; padding: 44px 24px 60px; position: relative; }
+
+/* ---------- 几何装饰（官方：triangles, squiggles, circles, patterns） ---------- */
+.deco { position: absolute; pointer-events: none; z-index: 0; }
+.deco-tri { width: 0; height: 0; border-left: 30px solid transparent; border-right: 30px solid transparent; border-bottom: 52px solid var(--memphis-yellow); }
+.deco-ring { width: 64px; height: 64px; border-radius: 50%; border: 12px solid var(--memphis-pink); }
+.deco-disc { width: 42px; height: 42px; border-radius: 50%; background: var(--memphis-teal); }
+.deco-cross { color: var(--memphis-purple); }
+
+/* ---------- Hero ---------- */
+.hero { text-align: center; padding: 26px 0 34px; position: relative; z-index: 1; }
+.hero-tag {
+  display: inline-block; font-family: 'Outfit', sans-serif;
+  font-weight: 800; font-size: 13.5px; text-transform: uppercase; letter-spacing: .06em;
+  background: var(--memphis-purple); color: #fff;
+  border: 3px solid var(--ink); border-radius: 999px;
+  padding: 6px 18px; margin-bottom: 20px;
+  transform: rotate(-2deg);
+  box-shadow: 4px 4px 0 var(--memphis-yellow);
+}
+h1 {
+  font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: clamp(36px, 6vw, 58px); font-weight: 900; line-height: 1.1;
+  text-transform: uppercase; letter-spacing: -0.01em;
+  margin-bottom: 14px;
+}
+h1 .u-pink { background: linear-gradient(transparent 60%, var(--memphis-pink) 60%, var(--memphis-pink) 92%, transparent 92%); }
+h1 .u-teal { background: linear-gradient(transparent 60%, var(--memphis-teal) 60%, var(--memphis-teal) 92%, transparent 92%); }
+.hero p { font-size: 16px; font-weight: 500; max-width: 520px; margin: 0 auto; }
+
+.squiggle { display: block; margin: 18px auto 0; color: var(--memphis-purple); }
+
+/* ---------- 目录入口 ---------- */
+.catalog-link {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  background: var(--ink); color: #fff;
+  border: 3px solid var(--ink); border-radius: 20px;
+  box-shadow: 8px 8px 0 var(--memphis-pink);
+  padding: 20px 24px; margin: 26px 0 36px;
+  text-decoration: none; position: relative; z-index: 1;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.catalog-link:hover { transform: translate(-2px, -2px); box-shadow: 11px 11px 0 var(--memphis-pink); }
+.catalog-link:focus-visible { outline: 4px solid var(--memphis-purple); outline-offset: 4px; }
+.catalog-link b { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; display: block; }
+.catalog-link small { color: rgba(255,255,255,.72); font-size: 13px; }
+.catalog-link .arrow {
+  width: 46px; height: 46px; flex: none; border-radius: 50%;
+  background: var(--memphis-yellow); color: var(--ink);
+  display: grid; place-items: center;
+  border: 3px solid var(--ink);
+}
+
+/* ---------- 卡片网格 ---------- */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; position: relative; z-index: 1; }
+.m-card {
+  background: #fff;
+  border: 3px solid var(--ink); border-radius: 22px;
+  padding: 24px;
+  position: relative;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.m-card.c0 { box-shadow: 8px 8px 0 var(--memphis-pink); }
+.m-card.c1 { box-shadow: 8px 8px 0 var(--memphis-yellow); transform: rotate(-.6deg); }
+.m-card.c2 { box-shadow: 8px 8px 0 var(--memphis-teal); }
+.m-card.c3 { box-shadow: 8px 8px 0 var(--memphis-purple); transform: rotate(.5deg); }
+.m-card:hover { transform: rotate(0deg) translateY(-4px); }
+.m-card.c0:hover { box-shadow: 10px 12px 0 var(--memphis-pink); }
+.m-card.c1:hover { box-shadow: 10px 12px 0 var(--memphis-yellow); }
+.m-card.c2:hover { box-shadow: 10px 12px 0 var(--memphis-teal); }
+.m-card.c3:hover { box-shadow: 10px 12px 0 var(--memphis-purple); }
+
+.m-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.m-letter {
+  font-family: 'Outfit', sans-serif;
+  width: 46px; height: 46px; flex: none;
+  display: grid; place-items: center;
+  font-size: 21px; font-weight: 900;
+  border: 3px solid var(--ink); border-radius: 14px;
+  transform: rotate(-4deg);
+}
+.c0 .m-letter { background: var(--memphis-pink); }
+.c1 .m-letter { background: var(--memphis-yellow); }
+.c2 .m-letter { background: var(--memphis-teal); }
+.c3 .m-letter { background: var(--memphis-purple); color: #fff; }
+.m-head h2 { font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 800; }
+.m-head h2 a { color: var(--ink); text-decoration: none; border-bottom: 3px solid var(--memphis-teal); }
+.m-head h2 a:hover { background: var(--memphis-yellow); }
+.m-head h2 a:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.en { font-size: 12.5px; color: #8A8A96; letter-spacing: .04em; }
+
+.swatch { display: flex; gap: 6px; margin: 12px 0; }
+.swatch i { width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--ink); }
+
+.desc { font-size: 14px; font-weight: 500; color: #3D3D47; margin-bottom: 12px; }
+
+.kw { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+.kw span {
+  font-size: 12px; font-weight: 600;
+  border: 2px dashed var(--ink); border-radius: 999px;
+  padding: 2px 12px; background: var(--bg);
+}
+
+/* ---------- 提示词区 ---------- */
+.prompt-bar { border-top: 3px dotted var(--ink); padding-top: 14px; }
+.copy-btn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13.5px; font-weight: 700;
+  padding: 9px 20px;
+  background: var(--memphis-pink); color: var(--ink);
+  border: 3px solid var(--ink); border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--ink);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.copy-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.copy-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.copy-btn:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+details { margin-top: 12px; }
+summary {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13.5px; font-weight: 700; cursor: pointer;
+  color: var(--ink); width: fit-content;
+  border-bottom: 2px dashed var(--memphis-purple);
+}
+summary:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.prompt {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 12.5px; line-height: 1.65; white-space: pre-wrap; word-break: break-word;
+  background: #FFFBEC; color: var(--ink);
+  border: 2.5px dashed var(--ink); border-radius: 14px;
+  padding: 16px 18px;
+  margin-top: 12px; max-height: 300px; overflow-y: auto;
+}
+
+footer {
+  text-align: center; margin-top: 40px;
+  font-size: 13px; font-weight: 600; color: #6E6E78;
+}
+footer a { color: var(--memphis-purple); font-weight: 700; }
+
+@media (max-width: 700px) {
+  .grid { grid-template-columns: 1fr; }
+  .deco { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="deco deco-tri" style="top:18px; left:-8px; transform:rotate(-16deg)" aria-hidden="true"></span>
+  <span class="deco deco-ring" style="top:34px; right:6%; transform:rotate(12deg)" aria-hidden="true"></span>
+  <span class="deco deco-disc" style="top:190px; left:2%" aria-hidden="true"></span>
+  <span class="deco deco-cross" style="top:210px; right:10%" aria-hidden="true">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg>
+  </span>
+
+  <section class="hero">
+    <span class="hero-tag">SellForge · 风格样张</span>
+    <h1>八版<span class="u-pink">精修</span>样张<br>× <span class="u-teal">官方</span>提示词</h1>
+    <p>同一个「销售智能体」，八种设计系统方向。看中哪版就复制哪版的官方提示词，交给 AI 复刻。</p>
+    <svg class="squiggle" width="120" height="22" viewBox="0 0 120 22" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 16 12 6l10 10L32 6l10 10L52 6l10 10L72 6l10 10L92 6l10 10"/></svg>
+  </section>
+
+  <a class="catalog-link" href="style-catalog.html">
+    <span>
+      <b>风格目录 · 79 种风格提示词手册 →</b>
+      <small>全部风格可搜索筛选，每个配官方提示词 + 自动样张</small>
+    </span>
+    <span class="arrow" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </span>
+  </a>
+
+  <div class="grid">
+<article class="m-card c0">
+  <div class="m-head">
+    <span class="m-letter">A</span>
+    <div>
+      <h2><a href="ai-native.html">AI 原生界面</a></h2>
+      <span class="en">AI-Native UI</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#7C3AED"></i><i style="background:#A78BFA"></i><i style="background:#0891B2"></i><i style="background:#FAF5FF"></i></div>
+  <p class="desc">浅底紫青双色，打字指示器、流式文本等 AI 特征动效。适合 AI 产品、对话式助手。</p>
+  <div class="kw"><span>流式动效</span><span>轻装饰</span><span>科技感</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p0">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p0">请以「AI-Native UI」样板的设计语言，实现：〔在这里写下你的页面需求与主题，主题由你确定〕
+
+▍本页设计 token（实际使用值）：
+- 主 #7C3AED / 辅 #A78BFA / 强调 #0891B2（青）/ 底 #FAF5FF / 卡白
+- 标题 Space Grotesk + 正文 DM Sans；圆角 12-18px，柔和紫阴影
+
+▍动效（只此一次）：三点点头打字指示 + 流式文本光标闪烁，其余仅 hover 微浮
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 装饰眉标（信息行须有语义：档案编号 / 收录条数 / 授权方式）
+- 按钮尾部箭头 →、中点分隔 meta、逐卡片 fade-in、默认 Inter 字体、emoji 图标
+
+▍验收：正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c1">
+  <div class="m-head">
+    <span class="m-letter">B</span>
+    <div>
+      <h2><a href="liquid-glass.html">液态玻璃</a></h2>
+      <span class="en">Liquid Glass</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#0A0908"></i><i style="background:#D4A857"></i><i style="background:rgba(255,255,255,0.12)"></i></div>
+  <p class="desc">深色底 + 玻璃卡模糊 + 金色点缀 + 衬线大标题。高端会员、发布会质感。</p>
+  <div class="kw"><span>backdrop-blur</span><span>光斑背景</span><span>衬线标题</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p1">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p1">请以「Liquid Glass 黑金」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token：
+- 底 #0A0908 深黑 / 点缀金 #D4A857 / 文字 #F5F1E8 / 玻璃卡 rgba(255,255,255,.06) + blur(24px)
+- 标题 Cormorant（衬线）+ 正文 Montserrat；罗马数字 No. I/II/III 分节（展览语义）
+
+▍动效：无入场动画，材质本身即视觉；hover 仅玻璃卡边框转金
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 眉标（展期 / 展厅号是语义信息行）；按钮尾箭头；逐卡 fade-in；米白+赤陶默认配色；emoji 图标
+
+▍验收：对比度 ≥4.5:1；:focus-visible 金色环；prefers-reduced-motion；响应式 375/768/1440</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c2">
+  <div class="m-head">
+    <span class="m-letter">C</span>
+    <div>
+      <h2><a href="brutalism.html">新粗野主义</a></h2>
+      <span class="en">Brutalism</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#EC4899"></i><i style="background:#EA580C"></i><i style="background:#000000"></i><i style="background:#FDF2F8"></i></div>
+  <p class="desc">粗黑边框、硬阴影、锐角大色块与跑马灯，文案直接喊话。</p>
+  <div class="kw"><span>硬阴影</span><span>大字报</span><span>高对比</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p2">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p2">请以「Brutalism」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token：
+- 主 #EC4899 粉 / 强调 #EA580C 橙 / 底 #FDF2F8 / 边框 3px 黑 #101014
+- 标题 Outfit 900 + 正文 Rubik；圆角 0；硬阴影 6px 6px 0 纯黑；过渡 0ms（瞬时即风格）
+
+▍动效：瞬时位移（hover 位移+阴影加深，无平滑过渡）；跑马灯滚动演出词条
+
+▍必须避开（AI 指纹清单）：
+- 按钮尾箭头 →；ALL-CAPS 装饰眉标（演出场次/开演时间是语义行）；柔和圆角阴影；emoji 图标
+- 编号仅用于真实序列（周四/周六/月末的演出排期）
+
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion（跑马灯停）；响应式 375/768/1440</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c3">
+  <div class="m-head">
+    <span class="m-letter">D</span>
+    <div>
+      <h2><a href="flat-crm.html">扁平设计</a></h2>
+      <span class="en">Flat Design</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#2563EB"></i><i style="background:#059669"></i><i style="background:#F8FAFC"></i><i style="background:#E4ECFC"></i></div>
+  <p class="desc">专业蓝 + 成交绿、零阴影零渐变、表格状态标签齐全。B 端工作台首选。</p>
+  <div class="kw"><span>零装饰</span><span>高密度</span><span>可信感</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p3">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p3">请以「Flat Design」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token：
+- 主 #2563EB 蓝 / 强调 #059669 绿 / 底 #F8FAFC / 边 #E4ECFC
+- 标题 Lexend + 正文 Source Sans 3；圆角 6-8px；无阴影，边框分隔
+
+▍动效：仅 180ms ease 的底色/透明度切换，无入场动画
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 眉标（班次表/票价是语义行）；按钮尾箭头；逐卡 fade-in；阴影与渐变（本风格零容忍）；emoji 图标
+
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440；表格移动端横向可滚</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c0">
+  <div class="m-head">
+    <span class="m-letter">E</span>
+    <div>
+      <h2><a href="aurora.html">极光渐变</a></h2>
+      <span class="en">Aurora UI</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#7C3AED"></i><i style="background:#6366F1"></i><i style="background:#EC4899"></i><i style="background:#06B6D4"></i></div>
+  <p class="desc">多团渐变光斑缓慢漂移、渐变流光按钮——与项目“浅极光画布”同族。</p>
+  <div class="kw"><span>mesh 渐变</span><span>缓慢流动</span><span>氛围感</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p4">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p4">请以「Aurora UI」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token：
+- 主 #7C3AED / 辅 #6366F1 / 强调 #EC4899 + #06B6D4 / 底 #FAF5FF + 光斑 radial-gradient
+- 标题 Space Grotesk + 正文 DM Sans；玻璃感卡片 rgba(255,255,255,.72)
+
+▍动效（克制）：光斑 8-12s 缓慢漂移（氛围）+ 渐变文字流光；其余仅 hover
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 装饰眉标（天象/观测时间/云量是语义行）；按钮尾箭头；逐卡 fade-in；默认 Inter；emoji 图标
+
+▍验收：对比度 ≥4.5:1（浅底渐变上尤注意）；:focus-visible；prefers-reduced-motion 光斑静止；响应式 375/768/1440</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c1">
+  <div class="m-head">
+    <span class="m-letter">F</span>
+    <div>
+      <h2><a href="neumorphism.html">新拟态</a></h2>
+      <span class="en">Neumorphism</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#EAE6F3"></i><i style="background:#7C3AED"></i><i style="background:#059669"></i></div>
+  <p class="desc">同色底面靠双向软阴影塑形，按钮开关有物理按键手感。</p>
+  <div class="kw"><span>双向阴影</span><span>凹凸控件</span><span>低饱和</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p5">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p5">请以「Neumorphism」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token：
+- 底=卡面 #EAE6F3 同色 / 主 #7C3AED / 强调 #059669
+- 凸起阴影 -7px -7px 14px 白 + 7px 7px 14px 暗紫；按下=内凹 inset 同参
+- 标题 Plus Jakarta Sans；圆角 18-26px
+
+▍动效：开关按压 150ms（内凹反馈），无入场动画
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 眉标（泉质/満室数/泉温是语义行）；按钮尾箭头；逐卡 fade-in；强对比描边；emoji 图标
+- 可访问性高危风格：弱文字对比需专门校验 ≥4.5:1，焦点环用主色 3px
+
+▍验收：:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c2">
+  <div class="m-head">
+    <span class="m-letter">G</span>
+    <div>
+      <h2><a href="bento.html">便当盒网格</a></h2>
+      <span class="en">Bento Box Grid</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#F5F5F7"></i><i style="background:#FFFFFF"></i><i style="background:#7C3AED"></i><i style="background:#059669"></i></div>
+  <p class="desc">Apple 发布会式变跨度卡片网格（2×2 / 2×1 / 1×1）+ 迷你图表。</p>
+  <div class="kw"><span>变跨度网格</span><span>模块化</span><span>Apple 风</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p6">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p6">请以「Bento Box Grid」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token：
+- 底 #F5F5F7 / 卡白 / 主 #7C3AED / 强调 #059669
+- 标题 Inter 800；圆角 24px；微阴影 0 4px 6px rgba(0,0,0,.05)；瓦片跨度 2×2/2×1/1×1
+
+▍动效：hover scale(1.02) 仅此一处
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 眉标（炉次号/醒面时长/出炉时间是语义行）；按钮尾箭头；逐卡 fade-in；无语义 01/02/03；emoji 图标
+
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 4→2→1 列</pre>
+    </details>
+  </div>
+</article>
+<article class="m-card c3">
+  <div class="m-head">
+    <span class="m-letter">H</span>
+    <div>
+      <h2><a href="memphis.html">孟菲斯</a></h2>
+      <span class="en">Memphis Design</span>
+    </div>
+  </div>
+  <div class="swatch"><i style="background:#FF71CE"></i><i style="background:#FFCE5C"></i><i style="background:#86CCCA"></i><i style="background:#6A7BB4"></i></div>
+  <p class="desc">波点底纹 + 三角圆环波浪装饰 + 四色碰撞贴纸卡。（本页即此风格）</p>
+  <div class="kw"><span>几何装饰</span><span>波点纹理</span><span>复古活泼</span></div>
+  <div class="prompt-bar">
+    <button class="copy-btn" type="button" data-target="p7">复制提示词</button>
+    <details>
+      <summary>查看官方提示词</summary>
+      <pre class="prompt" id="p7">请以「Memphis Design」样板的设计语言，实现：〔需求〕
+
+▍本页设计 token（官方色板）：
+- 粉 #FF71CE / 黄 #FFCE5C / 青 #86CCCA / 蓝紫 #6A7BB4 / 墨 #16161D / 底 #FFFDF6
+- 标题 Outfit 800 + 正文 Rubik；粗黑边 3px；硬阴影 8px 8px 0 轮换四色；元素轻微 rotate
+
+▍动效：色块/贴纸瞬时入场，hover 位移加深硬阴影
+
+▍必须避开（AI 指纹清单）：
+- ALL-CAPS 装饰眉标（到港时间/摊位数/更新时间是语义行）；按钮尾箭头；柔和渐变阴影；emoji 图标
+
+▍验收：对比度 ≥4.5:1（四色上放字注意）；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+    </details>
+  </div>
+</article>
+  </div>
+
+  <footer>SellForge · Memphis Design 版导航 · 提示词数据来自 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max 官方风格库 ↗</a> · <a href="style-catalog.html">打开风格目录</a></footer>
+</div>
+
+<script>
+Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(btn) {
+  btn.addEventListener('click', function() {
+    var pre = document.getElementById(btn.getAttribute('data-target'));
+    var text = pre.textContent;
+    var done = function() { btn.textContent = '已复制'; setTimeout(function() { btn.textContent = '复制提示词'; }, 1600); };
+    var fallback = function() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); }
+      catch (e) { btn.textContent = '请手动选择复制'; }
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else fallback();
+  });
+});
+</script>
+</body>
+</html>

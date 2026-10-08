@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>风格 G · Bento Box Grid</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --page-bg: #F5F5F7;
+  --card-bg: #FFFFFF;
+  --ink: #1D1D1F;
+  --muted-fg: #6E6E73;
+  --brand: #7C3AED;
+  --brand-soft: #F3EEFF;
+  --green: #059669;
+  --radius: 24px;
+  --gap: 16px;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--page-bg);
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 24px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; margin-bottom: 28px;
+}
+.logo {
+  font-weight: 700; font-size: 17px;
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--ink);
+}
+.logo-mark {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: var(--ink); color: #fff;
+  display: grid; place-items: center;
+}
+nav { display: flex; gap: 24px; }
+nav a { font-size: 14.5px; color: var(--muted-fg); text-decoration: none; }
+nav a:hover, nav a:focus-visible { color: var(--ink); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-weight: 600; font-size: 14.5px;
+  padding: 10px 20px; border-radius: 999px;
+  cursor: pointer; text-decoration: none;
+  border: none;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+.btn-dark { background: var(--ink); color: #fff; }
+.btn-dark:hover { transform: scale(1.03); opacity: 0.92; }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 8px;
+}
+
+/* ---------- Bento 网格 ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 210px;
+  gap: var(--gap);
+}
+.tile {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px;
+  overflow: hidden; position: relative;
+  display: flex; flex-direction: column;
+  transition: transform 200ms ease;
+}
+.tile:hover { transform: scale(1.02); }
+
+.tile-hero { grid-column: span 2; grid-row: span 2; justify-content: center; }
+.oven-line { display: flex; align-items: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.oven-line span { display: grid; gap: 1px; }
+.oven-line b { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 800; }
+.oven-line small { font-size: 11px; color: #6E6E73; }
+.oven-line i { flex: 1; min-width: 18px; height: 0; border-top: 2px dotted #C7C7CC; }
+.tile-hero .kicker {
+  font-size: 13px; font-weight: 600; color: var(--brand);
+  margin-bottom: 14px;
+}
+.tile-hero h1 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 800; line-height: 1.18; letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.tile-hero h1 span { color: var(--brand); }
+.tile-hero p { font-size: 15px; color: var(--muted-fg); max-width: 400px; margin-bottom: 24px; }
+.cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-outline {
+  background: transparent; color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px #D2D2D7;
+}
+.btn-outline:hover { background: #FAFAFC; }
+
+/* 对话演示瓦片 */
+.tile-chat { grid-column: span 2; }
+.tile-chat .t-head {
+  font-size: 13px; font-weight: 600; color: var(--muted-fg); margin-bottom: 12px;
+}
+.chat { display: grid; gap: 10px; }
+.chat .m {
+  font-size: 13.5px; padding: 9px 14px; border-radius: 14px;
+  max-width: 85%;
+}
+.chat .m.bot { background: var(--brand-soft); color: #4C1D95; border-bottom-left-radius: 4px; }
+.chat .m.user {
+  background: var(--ink); color: #fff; justify-self: end;
+  border-bottom-right-radius: 4px;
+}
+
+/* 指标瓦片 */
+.tile-stat b {
+  font-size: 38px; font-weight: 800; letter-spacing: -0.02em;
+  display: block; line-height: 1.1;
+}
+.tile-stat span { font-size: 13.5px; color: var(--muted-fg); }
+.tile-stat .spark {
+  margin-top: auto; height: 44px;
+  display: flex; align-items: flex-end; gap: 5px;
+}
+.tile-stat .spark i {
+  flex: 1; border-radius: 3px 3px 0 0;
+  background: var(--brand-soft);
+}
+.tile-stat .spark i.hot { background: var(--brand); }
+.tile-stat.green b { color: var(--green); }
+.tile-stat.green .spark i.hot { background: var(--green); }
+
+/* 功能瓦片 */
+.tile-feature .f-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--brand-soft); color: var(--brand);
+  display: grid; place-items: center; margin-bottom: 14px;
+}
+.tile-feature h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 5px; }
+.tile-feature p { font-size: 13px; color: var(--muted-fg); }
+
+/* CTA 瓦片 */
+.tile-cta {
+  background: linear-gradient(135deg, #7C3AED, #6366F1);
+  color: #fff; justify-content: center; align-items: flex-start;
+}
+.tile-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.tile-cta p { font-size: 13.5px; opacity: 0.85; margin-bottom: 18px; }
+.tile-cta .btn { background: #fff; color: #4C1D95; }
+
+.t-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted-fg);
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center; padding: 34px 0 20px;
+  font-size: 13px; color: var(--muted-fg);
+}
+
+@media (max-width: 900px) {
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .tile-hero { grid-column: span 2; }
+}
+@media (max-width: 600px) {
+  .bento { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .tile { grid-column: span 1 !important; min-height: 170px; }
+  nav { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="topbar">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg>
+      </span>
+      麦芒
+    </a>
+    <nav aria-label="主导航">
+      <a href="#bento">功能</a>
+      <a href="#">炉单</a>
+      <a href="#">到店</a>
+    </nav>
+    <a class="btn btn-dark" href="#">看炉单</a>
+  </header>
+
+  <main class="bento" id="bento">
+    <section class="tile tile-hero">
+      <p class="kicker">WHEAT AWN BAKERY · 今日炉单</p>
+      <h1>六点半的队伍，<br>等的是<span>同一炉面包</span></h1>
+      <p>今日炉次 #264 · 醒面 18 小时 · 07:00 出炉。天然酵母，只用粉、水、盐和一点耐心。</p>
+      <div class="cta-row">
+        <a class="btn btn-dark" href="#">看今日炉单</a>
+        <a class="btn btn-outline" href="#">预约周六</a>
+      </div>
+      <div class="oven-line" role="img" aria-label="今日炉次时间轴：06:00 备料，07:00 头炉，11:00 可颂出炉，16:00 碱水结半价">
+        <span><b>06:00</b><small>备料醒面</small></span><i aria-hidden="true"></i>
+        <span><b>07:00</b><small>头炉 · 乡村棍</small></span><i aria-hidden="true"></i>
+        <span><b>11:00</b><small>可颂出炉</small></span><i aria-hidden="true"></i>
+        <span><b>16:00</b><small>碱水结半价</small></span>
+      </div>
+    </section>
+
+    <section class="tile tile-chat">
+      <p class="t-head">柜台 · 今晨对话</p>
+      <div class="chat">
+        <div class="m bot">早。头炉 07:00 出炉，乡村棍 12 根，可颂等到十点。</div>
+        <div class="m user">来一根乡村棍，再留两个可颂</div>
+        <div class="m bot">好，可颂出炉给你留最酥的那两个。</div>
+      </div>
+    </section>
+
+    <section class="tile tile-stat">
+      <p class="t-label">今日出炉</p>
+      <b>3 炉</b>
+      <div class="spark" aria-hidden="true">
+        <i style="height:30%"></i><i style="height:45%"></i><i style="height:38%"></i>
+        <i style="height:60%"></i><i style="height:52%"></i><i class="hot" style="height:85%"></i>
+      </div>
+    </section>
+
+    <section class="tile tile-stat green">
+      <p class="t-label">头炉时间</p>
+      <b>07:00</b>
+      <div class="spark" aria-hidden="true">
+        <i style="height:40%"></i><i style="height:55%"></i><i class="hot" style="height:78%"></i>
+        <i style="height:50%"></i><i class="hot" style="height:90%"></i><i style="height:62%"></i>
+      </div>
+    </section>
+
+    <section class="tile tile-feature">
+      <div class="f-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <h3>乡村棍</h3>
+      <p>TK 面粉加 20% 全麦，皮脆心润，配浓汤或什么都不配。</p>
+    </section>
+
+    <section class="tile tile-feature">
+      <div class="f-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>可颂</h3>
+      <p>法国黄油开 27 层，出炉两小时内是它的黄金时段。</p>
+    </section>
+
+    <section class="tile tile-stat">
+      <p class="t-label">低温醒面</p>
+      <b>18h</b>
+      <div class="spark" aria-hidden="true">
+        <i style="height:35%"></i><i class="hot" style="height:70%"></i><i style="height:48%"></i>
+        <i style="height:58%"></i><i class="hot" style="height:82%"></i><i style="height:66%"></i>
+      </div>
+    </section>
+
+    <section class="tile tile-feature">
+      <div class="f-icon">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+      </div>
+      <h3>碱水结</h3>
+      <p>碱水重口配啤酒刚好。下午四点后第二炉半价。</p>
+    </section>
+
+    <section class="tile tile-cta">
+      <h3>今日炉单</h3>
+      <p>卖完是真的卖完，赶早。</p>
+      <a class="btn" href="#">看炉单</a>
+    </section>
+  </main>
+
+  <footer>麦芒 · 风格样张 G（Bento Box Grid）</footer>
+</div>
+
+</body>
+</html>
