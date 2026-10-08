@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Spectrum 2 / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet">
+<style>
+/* token 计划: bg #F8FAFC / surface #FFF / fg #0F172A / 交互蓝 #2563EB(hover #1D4ED8) / 静态色 #0B1220(媒体底, 不随语义漂移) / 辅紫 #6B25EB / 琥珀 #EBAD25 仅点缀 / 圆角 卡片12px 控件8px / 字体 Source Sans 3 + Source Code Pro(替换 CSV 的 Fredoka/Nunito, 更贴合官方 Spectrum 2 气氛) / focus ring 双层 外白内蓝 */
+:root{
+  --bg:#F8FAFC; --surface:#FFFFFF; --surface-2:#F1F5F9;
+  --fg:#0F172A; --fg-muted:#475569; --fg-subtle:#566274;
+  --border:#E2E8F0; --border-strong:#CBD5E1;
+  --info:#2563EB; --info-hover:#1D4ED8; --info-soft:#E8EFFD;
+  --static-ink:#0B1220;
+  --violet:#6B25EB; --violet-soft:#F0E9FC;
+  --accent:#EBAD25; --accent-ink:#7A5200; --accent-soft:#FAEEDA;
+  --positive:#1E6F4C; --positive-soft:#E4F4EC;
+  --r-card:12px; --r-ctl:8px;
+  --shadow-1:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.08);
+  --shadow-2:0 8px 20px -6px rgba(15,23,42,.16),0 2px 6px -2px rgba(15,23,42,.10);
+  --ring:0 0 0 2px var(--surface),0 0 0 4px var(--info);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Source Sans 3","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--fg);font-size:15px;line-height:1.55;
+}
+a{color:var(--info);text-decoration:none}
+a:hover{color:var(--info-hover);text-decoration:underline;text-underline-offset:3px}
+svg{display:block;flex:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:none;box-shadow:var(--ring)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-in{display:flex;align-items:center;gap:20px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--fg);font-weight:700}
+.brand:hover{text-decoration:none;color:var(--fg)}
+.brand-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--info),var(--violet));display:grid;place-items:center;color:#fff}
+.brand small{display:block;font-weight:500;font-size:11.5px;color:var(--fg-subtle);line-height:1.2;letter-spacing:.01em}
+.nav{display:flex;gap:4px;margin-left:6px}
+.nav a{
+  color:var(--fg-muted);font-weight:600;font-size:14px;padding:7px 12px;border-radius:var(--r-ctl);
+}
+.nav a:hover{background:var(--surface-2);color:var(--fg);text-decoration:none}
+.nav a[aria-current="page"]{color:var(--info);background:var(--info-soft)}
+.topbar-search{margin-left:auto;position:relative;width:min(320px,32vw)}
+.topbar-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--fg-subtle)}
+.topbar-search input{
+  width:100%;height:36px;border:1px solid var(--border-strong);border-radius:var(--r-ctl);
+  background:var(--surface-2);padding:0 12px 0 36px;font:inherit;font-size:14px;color:var(--fg);
+}
+.topbar-search input::placeholder{color:var(--fg-subtle)}
+.topbar-search input:hover{border-color:#94A3B8}
+.topbar-search input:focus{background:var(--surface)}
+.avatar{
+  width:34px;height:34px;border-radius:50%;background:var(--static-ink);color:#fff;
+  display:grid;place-items:center;font-weight:600;font-size:14px;flex:none;
+}
+
+/* ---------- 按钮 ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 15px;
+  border-radius:var(--r-ctl);border:1px solid transparent;font-weight:600;font-size:14px;
+  transition:background .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.btn-primary{background:var(--info);color:#fff}
+.btn-primary:hover{background:var(--info-hover)}
+.btn-quiet{background:transparent;color:var(--fg);border-color:var(--border-strong)}
+.btn-quiet:hover{background:var(--surface-2)}
+.btn-static{background:var(--static-ink);color:#fff}
+.btn-static:hover{background:#1D2939}
+.btn-sm{height:30px;padding:0 11px;font-size:13px}
+.btn-icon{width:34px;height:34px;padding:0;justify-content:center;border-radius:var(--r-ctl);background:transparent;color:var(--fg-muted)}
+.btn-icon:hover{background:var(--surface-2);color:var(--fg)}
+
+/* ---------- 页头 ---------- */
+main{padding:34px 0 56px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:22px}
+.page-head h1{font-size:27px;font-weight:700;letter-spacing:-.01em}
+.page-head .crumb{font-size:13.5px;color:var(--fg-subtle);margin-bottom:4px}
+.statline{display:flex;gap:0;margin-top:12px;color:var(--fg-muted);font-size:13.5px}
+.statline b{color:var(--fg);font-weight:700}
+.statline span{padding:0 12px;border-left:1px solid var(--border-strong)}
+.statline span:first-child{padding-left:0;border-left:none}
+.page-actions{display:flex;gap:10px}
+
+/* ---------- 筛选工具条 ---------- */
+.toolbar{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);
+  padding:12px 16px;box-shadow:var(--shadow-1);margin-bottom:30px;
+}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chip{
+  height:32px;padding:0 14px;border-radius:999px;border:1px solid transparent;
+  background:var(--surface-2);color:var(--fg-muted);font-weight:600;font-size:13.5px;white-space:nowrap;
+  transition:background .15s ease,color .15s ease;
+}
+.chip:hover{background:#E2E8F0;color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--info-soft);color:var(--info)}
+.chip em{font-style:normal;font-weight:500;opacity:.75;margin-left:5px;font-size:12.5px}
+.toolbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.seg{display:flex;border:1px solid var(--border-strong);border-radius:var(--r-ctl);overflow:hidden}
+.seg .btn-icon{width:34px;height:32px;border-radius:0}
+.seg .btn-icon[aria-pressed="true"]{background:var(--info-soft);color:var(--info)}
+select{
+  height:32px;border:1px solid var(--border-strong);border-radius:var(--r-ctl);background:var(--surface);
+  font:inherit;font-size:13.5px;font-weight:600;color:var(--fg);padding:0 8px;
+}
+
+/* ---------- 区块标题 ---------- */
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 2px 14px}
+.sec-head h2{font-size:17.5px;font-weight:700}
+.sec-head p{font-size:13.5px;color:var(--fg-subtle);margin-top:2px}
+.sec-head a{font-size:13.5px;font-weight:600}
+
+/* ---------- 舒适密度: 资产卡片 ---------- */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:44px}
+.asset-card{
+  display:flex;flex-direction:column;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;
+  box-shadow:var(--shadow-1);transition:transform .18s ease,box-shadow .18s ease;
+}
+.asset-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-2)}
+.thumb{position:relative;aspect-ratio:16/9;overflow:hidden}
+.thumb-watermark{position:absolute;inset:0;display:grid;place-items:center;color:#fff;opacity:.9}
+.thumb-format{
+  position:absolute;top:10px;left:10px;height:22px;padding:0 9px;border-radius:6px;
+  background:rgba(11,18,32,.72);color:#fff;font-family:"Source Code Pro",monospace;
+  font-size:11.5px;font-weight:500;letter-spacing:.02em;display:flex;align-items:center;
+}
+.thumb-dur{position:absolute;bottom:10px;right:10px;height:22px;padding:0 8px;border-radius:6px;background:rgba(11,18,32,.72);color:#fff;font-size:11.5px;display:flex;align-items:center;font-family:"Source Code Pro",monospace}
+.card-tools{
+  position:absolute;inset:auto 10px 10px auto;display:flex;gap:6px;
+  opacity:0;transform:translateY(4px);transition:opacity .18s ease,transform .18s ease;
+}
+.asset-card:hover .card-tools,.asset-card:focus-within .card-tools{opacity:1;transform:none}
+.card-tools .btn-icon{background:rgba(11,18,32,.78);color:#fff;width:32px;height:32px}
+.card-tools .btn-icon:hover{background:var(--static-ink)}
+.t-dusk{background:linear-gradient(158deg,#16213E 8%,#43306F 58%,#8A5A1C 118%)}
+.t-vector{background:var(--violet-soft);background-image:radial-gradient(circle,#C9B2F5 1.4px,transparent 1.5px);background-size:16px 16px}
+.t-video{background:linear-gradient(150deg,#0B1220,#253752)}
+.t-cube{background:linear-gradient(160deg,#DCEAFB,#F1F5F9 70%)}
+.t-type{background:var(--surface-2)}
+.t-ui{background:linear-gradient(165deg,#EEF2FF,#F8FAFC 80%)}
+.t-vector .thumb-watermark,.t-cube .thumb-watermark,.t-type .thumb-watermark,.t-ui .thumb-watermark{opacity:1}
+.card-body{display:flex;flex-direction:column;gap:3px;padding:14px 16px 16px;flex:1}
+.card-body h3{font-size:15.5px;font-weight:600;line-height:1.35}
+.card-meta{font-size:13px;color:var(--fg-muted)}
+.card-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:600;color:var(--violet);background:var(--violet-soft);padding:2px 9px;border-radius:999px}
+.tag-amber{color:var(--accent-ink);background:var(--accent-soft)}
+
+/* ---------- 徽章 ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:6px;font-size:12.5px;font-weight:600}
+.badge-ok{background:var(--positive-soft);color:var(--positive)}
+.badge-info{background:var(--info-soft);color:var(--info)}
+.badge-wait{background:var(--accent-soft);color:var(--accent-ink)}
+.badge svg{width:13px;height:13px}
+
+/* ---------- 紧凑密度: 资产列表 ---------- */
+.list-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);box-shadow:var(--shadow-1);overflow:hidden;margin-bottom:44px}
+.asset-row{
+  display:grid;grid-template-columns:minmax(230px,1.9fr) 96px 100px 130px 128px 128px;
+  gap:16px;align-items:center;padding:0 18px;
+}
+.list-head{height:42px;background:var(--surface-2);border-bottom:1px solid var(--border);font-size:12.5px;color:var(--fg-subtle);font-weight:600}
+.list-head .asset-row{height:42px}
+.asset-row+.asset-row{border-top:1px solid var(--border)}
+.list-body .asset-row{height:56px;font-size:13.5px;transition:background .12s ease}
+.list-body .asset-row:hover{background:#FAFBFE}
+.cell-name{display:flex;align-items:center;gap:11px;min-width:0}
+.file-ico{width:34px;height:34px;border-radius:8px;background:var(--info-soft);color:var(--info);display:grid;place-items:center;flex:none}
+.file-ico.v{background:var(--violet-soft);color:var(--violet)}
+.file-ico.d{background:var(--surface-2);color:var(--fg-muted)}
+.cell-name b{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.cell-name small{color:var(--fg-subtle);font-size:12.5px}
+.cell-type,.cell-size,.cell-owner{color:var(--fg-muted);white-space:nowrap}
+.cell-owner{display:flex;align-items:center;gap:8px}
+.mini-ava{width:24px;height:24px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border-strong);color:var(--fg-muted);display:grid;place-items:center;font-size:11.5px;font-weight:600;flex:none}
+.cell-actions{display:flex;gap:6px;justify-content:flex-end}
+.cell-actions .btn-icon{width:30px;height:30px}
+.mono{font-family:"Source Code Pro",monospace;font-size:12.5px}
+
+/* ---------- 工作流集成带 ---------- */
+.feat-band{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:20px;box-shadow:var(--shadow-1);display:flex;flex-direction:column;gap:10px}
+.feat-ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;margin-bottom:2px}
+.feat h3{font-size:15.5px;font-weight:700}
+.feat p{font-size:13.5px;color:var(--fg-muted)}
+.feat code{font-family:"Source Code Pro",monospace;font-size:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:1px 6px;color:var(--fg)}
+
+/* ---------- 列表底部 ---------- */
+.list-foot{display:flex;align-items:center;justify-content:center;gap:16px;padding:6px 2px 0}
+.list-foot p{font-size:13px;color:var(--fg-subtle)}
+
+/* ---------- 页脚 ---------- */
+footer{border-top:1px solid var(--border);background:var(--surface)}
+.foot-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px 0;font-size:13.5px;color:var(--fg-muted)}
+.foot-in p span{color:var(--fg-subtle)}
+
+/* ---------- 一次亮相动效 ---------- */
+.reveal{animation:s2-rise .5s cubic-bezier(.22,.68,.36,1) both}
+@keyframes s2-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .reveal{animation:none}
+  .asset-card,.btn,.chip,.card-tools,.list-body .asset-row{transition:none}
+  .asset-card:hover{transform:none}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:900px){
+  .nav{display:none}
+  .card-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-band{grid-template-columns:1fr}
+  .asset-row{grid-template-columns:minmax(190px,1.9fr) 90px 118px 112px}
+  .cell-size,.c-size{display:none}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .topbar-in{gap:10px}
+  .topbar-search{display:none}
+  .page-head h1{font-size:23px}
+  .statline{flex-wrap:wrap;row-gap:6px}
+  .statline span{border-left:none;padding:0 14px 0 0}
+  .card-grid{grid-template-columns:1fr}
+  .asset-row{grid-template-columns:minmax(0,1fr) 104px;row-gap:6px;padding:12px 14px;height:auto;grid-template-areas:"name actions" "type status"}
+  .list-head{display:none}
+  .c-name{grid-area:name}
+  .c-actions{grid-area:actions}
+  .c-type{grid-area:type}
+  .c-status{grid-area:status}
+  .cell-owner,.c-owner,.cell-size,.c-size{display:none}
+  .list-body .asset-row{height:auto}
+  .list-body .asset-row+.asset-row{border-top:1px solid var(--border)}
+  .foot-in{flex-direction:column;align-items:flex-start;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="4.5" width="8" height="8" rx="2" fill="#fff" fill-opacity=".95"/><rect x="6.5" y="1.5" width="8" height="8" rx="2" fill="#fff" fill-opacity=".55"/></svg>
+      </span>
+      <span>Spectrum Studio<small>晨光创意 / 品牌设计部</small></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#" aria-current="page">资产库</a>
+      <a href="#">集合</a>
+      <a href="#">审批</a>
+      <a href="#">见解</a>
+    </nav>
+    <div class="topbar-search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="4.6"/><path d="m10.6 10.6 3.2 3.2"/></svg>
+      <input type="search" placeholder="搜索资产、集合或标签" aria-label="搜索资产">
+    </div>
+    <button class="btn btn-quiet btn-sm">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="5.5" r="2.8"/><path d="M1.8 13.4c.5-2.4 2.2-3.6 4.2-3.6s3.7 1.2 4.2 3.6"/><circle cx="11.6" cy="6.4" r="2.1"/><path d="M11 10.2c1.7.2 2.8 1.2 3.2 3"/></svg>
+      邀请成员
+    </button>
+    <button class="btn btn-primary">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8 2.8v10.4M2.8 8h10.4"/></svg>
+      上传资产
+    </button>
+    <span class="avatar" title="林奕辰">林</span>
+  </div>
+</header>
+
+<main class="wrap reveal">
+  <div class="page-head">
+    <div>
+      <p class="crumb">资产库 / 全部资产</p>
+      <h1>创意资产库</h1>
+      <div class="statline">
+        <span><b>1,284</b> 个资产</span>
+        <span><b>32</b> 个集合</span>
+        <span><b>46.7 GB</b> 已用存储</span>
+        <span>上周新增 <b>38</b></span>
+      </div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-quiet">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h7"/><circle cx="5.2" cy="4.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="10.4" cy="8" r="1.3" fill="currentColor" stroke="none"/></svg>
+        筛选
+      </button>
+      <button class="btn btn-static">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 9.8 8 4.3l5.5 5.5M4.4 8v5.4h7.2V8"/></svg>
+        批量导出
+      </button>
+    </div>
+  </div>
+
+  <section class="toolbar" aria-label="筛选与排序">
+    <div class="chips" role="group" aria-label="按类型筛选">
+      <button class="chip" aria-pressed="true">全部<em>1,284</em></button>
+      <button class="chip" aria-pressed="false">图像<em>512</em></button>
+      <button class="chip" aria-pressed="false">矢量<em>297</em></button>
+      <button class="chip" aria-pressed="false">视频<em>86</em></button>
+      <button class="chip" aria-pressed="false">三维<em>61</em></button>
+      <button class="chip" aria-pressed="false">字体<em>44</em></button>
+      <button class="chip" aria-pressed="false">文档<em>84</em></button>
+    </div>
+    <div class="toolbar-right">
+      <label class="sr-only" for="sortsel" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">排序方式</label>
+      <select id="sortsel">
+        <option>最近更新</option>
+        <option>名称 A 到 Z</option>
+        <option>使用次数</option>
+        <option>文件大小</option>
+      </select>
+      <div class="seg" role="group" aria-label="视图切换">
+        <button class="btn-icon" aria-pressed="true" title="网格视图">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="5" height="5" rx="1.2"/><rect x="9" y="2" width="5" height="5" rx="1.2"/><rect x="2" y="9" width="5" height="5" rx="1.2"/><rect x="9" y="9" width="5" height="5" rx="1.2"/></svg>
+        </button>
+        <button class="btn-icon" aria-pressed="false" title="列表视图">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="12" height="2.4" rx="1"/><rect x="2" y="6.8" width="12" height="2.4" rx="1"/><rect x="2" y="10.6" width="12" height="2.4" rx="1"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="recent-title">
+    <div class="sec-head">
+      <div>
+        <h2 id="recent-title">最近更新</h2>
+        <p>过去 7 天内团队上传或修改的资源</p>
+      </div>
+      <a href="#">查看全部</a>
+    </div>
+    <div class="card-grid">
+
+      <article class="asset-card">
+        <div class="thumb t-dusk">
+          <span class="thumb-format">PSD</span>
+          <div class="thumb-watermark" aria-hidden="true">
+            <svg width="104" height="72" viewBox="0 0 104 72" fill="none"><path d="M2 62 30 28l20 22 14-14 18 18 18-14v18H2Z" fill="#fff" fill-opacity=".16"/><circle cx="78" cy="18" r="9" fill="#EBAD25" fill-opacity=".9"/></svg>
+          </div>
+          <div class="card-tools">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>秋日系列主视觉 / 山峦海报</h3>
+          <p class="card-meta">林奕辰 / 昨天 16:42 更新 / 已被 6 个项目引用</p>
+          <div class="card-tags"><span class="tag">秋季 campaign</span><span class="tag">主视觉</span></div>
+        </div>
+      </article>
+
+      <article class="asset-card">
+        <div class="thumb t-vector">
+          <span class="thumb-format">AI</span>
+          <div class="thumb-watermark" aria-hidden="true">
+            <svg width="76" height="76" viewBox="0 0 76 76" fill="none" stroke="#6B25EB" stroke-width="2.2"><circle cx="30" cy="30" r="17"/><path d="M42.5 42.5 62 62" stroke-linecap="round"/><path d="M24 36.5c3-7 11-9 15-4" stroke-linecap="round" stroke="#3B1288"/></svg>
+          </div>
+          <div class="card-tools">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>品牌辅助图形 v3 / 圆与笔触</h3>
+          <p class="card-meta">周雨桐 / 2 天前更新 / 矢量可缩放至户外尺寸</p>
+          <div class="card-tags"><span class="tag">品牌系统</span><span class="tag">图形元素</span></div>
+        </div>
+      </article>
+
+      <article class="asset-card">
+        <div class="thumb t-video">
+          <span class="thumb-format">MP4</span><span class="thumb-dur">01:24</span>
+          <div class="thumb-watermark" aria-hidden="true">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="24" stroke="#fff" stroke-opacity=".45" stroke-width="2"/><path d="M25 21.5 39 30l-14 8.5V21.5Z" fill="#fff"/></svg>
+          </div>
+          <div class="card-tools">
+            <button class="btn-icon" title="播放"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.6 12.2 8 5 12.4V3.6Z"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>产品发布短片 / 成片 B</h3>
+          <p class="card-meta">陈子昂 / 3 天前更新 / 4K 代理剪辑已同步</p>
+          <div class="card-tags"><span class="tag">产品视频</span><span class="tag tag-amber">审阅中</span></div>
+        </div>
+      </article>
+
+      <article class="asset-card">
+        <div class="thumb t-cube">
+          <span class="thumb-format">GLB</span>
+          <div class="thumb-watermark" aria-hidden="true">
+            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="#2563EB" stroke-width="2.2" stroke-linejoin="round"><path d="M36 7 63 21.5v29L36 64 9 50.5v-29L36 7Z"/><path d="M9 21.5 36 36l27-14.5M36 36v28" stroke-opacity=".55"/></svg>
+          </div>
+          <div class="card-tools">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>三维包装模型 / 礼盒 v2</h3>
+          <p class="card-meta">林奕辰 / 上周更新 / 含材质贴图与展 UV</p>
+          <div class="card-tags"><span class="tag">三维资产</span><span class="tag">包装</span></div>
+        </div>
+      </article>
+
+      <article class="asset-card">
+        <div class="thumb t-type">
+          <span class="thumb-format">OTF</span>
+          <div class="thumb-watermark" aria-hidden="true">
+            <svg width="120" height="72" viewBox="0 0 120 72"><text x="60" y="52" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-weight="700" font-size="52" fill="#0B1220">Aa</text><rect x="86" y="10" width="12" height="12" rx="3" fill="#6B25EB"/></svg>
+          </div>
+          <div class="card-tools">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>标题字体样张 / 思源黑体加粗</h3>
+          <p class="card-meta">苏清和 / 上周更新 / 含 9 档字重排印对照</p>
+          <div class="card-tags"><span class="tag">字体</span><span class="tag">排印规范</span></div>
+        </div>
+      </article>
+
+      <article class="asset-card">
+        <div class="thumb t-ui">
+          <span class="thumb-format">FIG</span>
+          <div class="thumb-watermark" aria-hidden="true">
+            <svg width="110" height="68" viewBox="0 0 110 68" fill="none"><rect x="4" y="6" width="42" height="26" rx="4" stroke="#2563EB" stroke-width="2"/><rect x="52" y="6" width="54" height="56" rx="4" stroke="#6B25EB" stroke-width="2"/><rect x="4" y="38" width="18" height="24" rx="4" stroke="#2563EB" stroke-opacity=".5" stroke-width="2"/><rect x="26" y="38" width="20" height="24" rx="4" stroke="#2563EB" stroke-opacity=".5" stroke-width="2"/></svg>
+          </div>
+          <div class="card-tools">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>界面组件库封面 / 晨光设计系统</h3>
+          <p class="card-meta">周雨桐 / 上周更新 / 组件与令牌同步到 v14</p>
+          <div class="card-tags"><span class="tag">设计系统</span><span class="tag">组件</span></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="all-title">
+    <div class="sec-head">
+      <div>
+        <h2 id="all-title">全部资产</h2>
+        <p>紧凑视图 / 适合快速比对与批量操作</p>
+      </div>
+      <a href="#">管理视图列</a>
+    </div>
+    <div class="list-panel">
+      <div class="list-head">
+        <div class="asset-row">
+          <span class="c-name">资产名称</span>
+          <span class="c-type">类型</span>
+          <span class="c-size">大小</span>
+          <span class="c-owner">负责人</span>
+          <span class="c-status">授权状态</span>
+          <span class="c-actions" style="font-size:12.5px">操作</span>
+        </div>
+      </div>
+      <div class="list-body">
+
+        <div class="asset-row">
+          <div class="cell-name c-name">
+            <span class="file-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2.5" width="12" height="11" rx="2"/><circle cx="5.8" cy="6.2" r="1.3"/><path d="m2.5 11.5 3.4-3 2.6 2.4 2.4-2.2 2.6 2.4"/></svg></span>
+            <span><b>秋日系列主视觉 / 山峦海报</b><small>版本 12 / 昨天更新</small></span>
+          </div>
+          <span class="cell-type c-type mono">PSD</span>
+          <span class="cell-size c-size mono">84.2 MB</span>
+          <span class="cell-owner c-owner"><span class="mini-ava">林</span>林奕辰</span>
+          <span class="c-status"><span class="badge badge-ok"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8.5 3.2 3L13 4.8"/></svg>已授权</span></span>
+          <div class="cell-actions c-actions">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+
+        <div class="asset-row">
+          <div class="cell-name c-name">
+            <span class="file-ico v"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.4"/><path d="m10.4 10.4 3 3"/></svg></span>
+            <span><b>品牌辅助图形 v3 / 圆与笔触</b><small>版本 3 / 2 天前更新</small></span>
+          </div>
+          <span class="cell-type c-type mono">AI</span>
+          <span class="cell-size c-size mono">2.4 MB</span>
+          <span class="cell-owner c-owner"><span class="mini-ava">周</span>周雨桐</span>
+          <span class="c-status"><span class="badge badge-info"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.4 1.6"/></svg>审核中</span></span>
+          <div class="cell-actions c-actions">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+
+        <div class="asset-row">
+          <div class="cell-name c-name">
+            <span class="file-ico d"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2.8" width="12" height="10.4" rx="2"/><path d="M5.5 5.5 11 8l-5.5 2.5v-5Z"/></svg></span>
+            <span><b>产品发布短片 / 成片 B</b><small>版本 6 / 3 天前更新</small></span>
+          </div>
+          <span class="cell-type c-type mono">MP4</span>
+          <span class="cell-size c-size mono">246 MB</span>
+          <span class="cell-owner c-owner"><span class="mini-ava">陈</span>陈子昂</span>
+          <span class="c-status"><span class="badge badge-ok"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8.5 3.2 3L13 4.8"/></svg>已授权</span></span>
+          <div class="cell-actions c-actions">
+            <button class="btn-icon" title="播放"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.6 12.2 8 5 12.4V3.6Z"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+
+        <div class="asset-row">
+          <div class="cell-name c-name">
+            <span class="file-ico"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M8 1.8 13.6 4.9v6.2L8 14.2 2.4 11.1V4.9L8 1.8Z"/><path d="M2.4 4.9 8 8l5.6-3.1M8 8v6.2" stroke-opacity=".55"/></svg></span>
+            <span><b>三维包装模型 / 礼盒 v2</b><small>版本 2 / 上周更新</small></span>
+          </div>
+          <span class="cell-type c-type mono">GLB</span>
+          <span class="cell-size c-size mono">58.6 MB</span>
+          <span class="cell-owner c-owner"><span class="mini-ava">林</span>林奕辰</span>
+          <span class="c-status"><span class="badge badge-wait"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.2 9.5 6l4 .3-3 2.7 1 4L8 10.7 4.5 13l1-4-3-2.7 4-.3L8 2.2Z"/></svg>需确认</span></span>
+          <div class="cell-actions c-actions">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+
+        <div class="asset-row">
+          <div class="cell-name c-name">
+            <span class="file-ico d"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 2.5h7l3 3v8H3v-11Z"/><path d="M10 2.5v3h3"/></svg></span>
+            <span><b>年度报告版式模板</b><small>版本 8 / 上周更新</small></span>
+          </div>
+          <span class="cell-type c-type mono">INDD</span>
+          <span class="cell-size c-size mono">6.1 MB</span>
+          <span class="cell-owner c-owner"><span class="mini-ava">苏</span>苏清和</span>
+          <span class="c-status"><span class="badge badge-ok"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8.5 3.2 3L13 4.8"/></svg>已授权</span></span>
+          <div class="cell-actions c-actions">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+
+        <div class="asset-row">
+          <div class="cell-name c-name">
+            <span class="file-ico v"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="5.4" cy="5.4" r="2.6"/><circle cx="11" cy="6.6" r="2"/><path d="M1.5 13.2c.5-2.2 2-3.3 3.9-3.3s3.4 1.1 3.9 3.3M9.4 10.3c1.5.2 2.5 1.1 2.9 2.9"/></svg></span>
+            <span><b>门店导视图标集 / 48 色</b><small>版本 5 / 两周前更新</small></span>
+          </div>
+          <span class="cell-type c-type mono">SVG</span>
+          <span class="cell-size c-size mono">0.9 MB</span>
+          <span class="cell-owner c-owner"><span class="mini-ava">周</span>周雨桐</span>
+          <span class="c-status"><span class="badge badge-ok"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 8.5 3.2 3L13 4.8"/></svg>已授权</span></span>
+          <div class="cell-actions c-actions">
+            <button class="btn-icon" title="预览"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.6 8s2.5-4.6 6.4-4.6S14.4 8 14.4 8 11.9 12.6 8 12.6 1.6 8 1.6 8Z"/><circle cx="8" cy="8" r="2.1"/></svg></button>
+            <button class="btn-icon" title="下载"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2.6v7.2M4.8 6.8 8 10l3.2-3.2M3 12.8h10"/></svg></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="list-foot">
+      <p>已显示 6 / 1,284 个资产</p>
+      <button class="btn btn-quiet btn-sm">加载更多</button>
+    </div>
+  </section>
+
+  <section class="feat-band" aria-label="工作流集成">
+    <div class="feat">
+      <span class="feat-ico" style="background:var(--info-soft);color:var(--info)">
+        <svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.8" y="2.8" width="6.4" height="5" rx="1.4"/><rect x="7.8" y="8.2" width="6.4" height="5" rx="1.4"/><path d="M5.9 7.8v2.4a1.6 1.6 0 0 0 1.6 1.6h.3"/></svg>
+      </span>
+      <h3>置入即用</h3>
+      <p>在 <code>Photoshop</code> 与 <code>Illustrator</code> 中直接置入库内最新版本，链接资产更新后自动提示刷新，无需重复下载。</p>
+    </div>
+    <div class="feat">
+      <span class="feat-ico" style="background:var(--violet-soft);color:var(--violet)">
+        <svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.8 9.6 5.4l3.9.4-2.9 2.6.9 3.9L8 10.4l-3.5 1.9.9-3.9L2.5 5.8l3.9-.4L8 1.8Z"/></svg>
+      </span>
+      <h3>版本与审批</h3>
+      <p>每次上传自动保留版本历史；品牌门禁未通过的资源会被标记为「需确认」并即时通知提交人。</p>
+    </div>
+    <div class="feat">
+      <span class="feat-ico" style="background:var(--accent-soft);color:var(--accent-ink)">
+        <svg width="19" height="19" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.2" y="7" width="9.6" height="7" rx="1.6"/><path d="M5.6 7V5.2a2.4 2.4 0 0 1 4.8 0V7"/></svg>
+      </span>
+      <h3>权限随集合走</h3>
+      <p>按集合授予编辑或只读权限；外部分享链接支持到期时间与预览水印，到期自动失效。</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <p>UI 设计提示词库 / Spectrum 2 <span>/ 演示页面，数据均为示例</span></p>
+    <p><a href="style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

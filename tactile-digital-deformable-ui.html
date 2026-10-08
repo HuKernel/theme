@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tactile Digital 可触形变界面演示页：果冻笔记 Jellynote，按压凹陷、拖拽拉伸、spring 过冲回弹的形变物理反馈。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Tactile Digital 可触形变 / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划：CSV 主色 Chrome Silver #C0C0C0 / Jelly Pink #FF9ECD / Soft Blue #87CEEB 铺为果冻面材，底 #F8FAFC 墨 #0F172A；文字级深色自派生 #A0235F / #17607E 保 4.5:1；圆角 26px；回弹统一 cubic-bezier(0.34,1.56,0.64,1)；Nunito 标题 + DM Sans 正文 */
+:root {
+  --bg: #F8FAFC;
+  --card: #FFFFFF;
+  --ink: #0F172A;
+  --ink-soft: #46536B;
+  --pink: #FF9ECD;
+  --pink-hi: #FFC9E6;
+  --pink-lo: #F585BC;
+  --pink-deep: #A0235F;
+  --pink-edge: #E06FA8;
+  --blue: #87CEEB;
+  --blue-soft: #CFEAF8;
+  --blue-deep: #17607E;
+  --silver: #C0C0C0;
+  --silver-soft: #E9EDF2;
+  --silver-edge: #AEB6C0;
+  --edge: #E7DDE7;
+  --r-xl: 30px;
+  --r-lg: 26px;
+  --r-md: 20px;
+  --r-sm: 14px;
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --font-head: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: 'DM Sans', 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  background-image: radial-gradient(560px 380px at 88% -6%, rgba(255, 158, 205, 0.16), transparent 70%), radial-gradient(620px 420px at -8% 30%, rgba(135, 206, 235, 0.16), transparent 70%);
+  background-repeat: no-repeat;
+  line-height: 1.65;
+}
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; }
+a { color: var(--blue-deep); }
+.skip { position: absolute; left: -9999px; top: 12px; z-index: 99; background: var(--ink); color: #fff; padding: 10px 18px; border-radius: var(--r-sm); }
+.skip:focus { left: 12px; color: #fff; }
+:is(a, button, input):focus-visible { outline: 3px solid var(--pink-deep); outline-offset: 3px; }
+
+/* 顶栏 */
+.topbar { background: rgba(248, 250, 252, 0.92); border-bottom: 1px solid var(--edge); position: sticky; top: 0; z-index: 20; backdrop-filter: blur(8px); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: var(--font-head); font-weight: 900; font-size: 19px; }
+.brand em { font-style: normal; color: var(--pink-deep); font-weight: 800; }
+.topbar nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.topbar nav a { text-decoration: none; color: var(--ink-soft); font-weight: 500; font-size: 15px; padding: 8px 14px; border-radius: 999px; transition: transform .4s var(--spring), background-color .3s; }
+.topbar nav a:hover, .topbar nav a:focus-visible { background: #FFE4F2; color: var(--pink-deep); transform: scale(1.06, 0.94); }
+
+/* 一次亮相 */
+.rv { opacity: 0; animation: rise .7s var(--spring) both; animation-delay: var(--d, 0s); }
+@keyframes rise { from { opacity: 0; transform: translateY(26px) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes drop-in { 0% { opacity: 0; transform: translateY(-46px) scale(0.78, 0.66); } 55% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+
+/* 首屏 */
+.hero { padding: 72px 0 64px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+.kicker { font-weight: 700; color: var(--pink-deep); font-size: 14px; letter-spacing: 0.02em; }
+.hero h1 { font-size: clamp(32px, 4.6vw, 48px); font-weight: 900; margin: 12px 0 16px; }
+.lede { font-size: 17px; color: var(--ink-soft); max-width: 46ch; }
+.cta-row { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+.hero-meta { margin-top: 22px; font-size: 13px; color: var(--ink-soft); }
+
+.jelly-btn {
+  font: 800 17px/1 var(--font-head); color: #2B0D1E; background: linear-gradient(180deg, var(--pink-hi) 0%, var(--pink) 100%);
+  border: none; border-radius: var(--r-md); padding: 16px 28px; cursor: pointer;
+  box-shadow: 0 7px 0 var(--pink-edge), 0 16px 28px rgba(160, 35, 95, 0.22), inset 0 2px 0 rgba(255, 255, 255, 0.75), inset 0 -8px 12px rgba(160, 35, 95, 0.16);
+  transition: transform .45s var(--spring), box-shadow .45s var(--spring), filter .45s var(--spring);
+}
+.jelly-btn:hover { transform: scale(1.03, 0.98); }
+.jelly-btn:active { transition-duration: .06s; transform: scale(1.09, 0.85) translateY(3px); filter: brightness(1.05) saturate(1.06); box-shadow: 0 2px 0 var(--pink-edge), 0 6px 10px rgba(160, 35, 95, 0.2), inset 0 3px 7px rgba(160, 35, 95, 0.3), inset 0 -3px 6px rgba(255, 255, 255, 0.4); }
+.ghost-btn {
+  display: inline-block; font: 700 17px/1 var(--font-head); color: var(--pink-deep); text-decoration: none; background: #fff;
+  border: 2px solid var(--pink); border-radius: var(--r-md); padding: 14px 26px;
+  box-shadow: 0 5px 0 #EFD9E8;
+  transition: transform .45s var(--spring), box-shadow .45s var(--spring), background-color .3s;
+}
+.ghost-btn:hover { background: #FFF0F8; transform: scale(1.03, 0.97); }
+.ghost-btn:active { transition-duration: .06s; transform: scale(1.07, 0.87) translateY(2px); box-shadow: 0 1px 0 #EFD9E8; }
+
+/* 吉祥物 */
+.hero-mascot { text-align: center; }
+.mascot {
+  display: inline-block; border: none; background: transparent; padding: 0; cursor: pointer;
+  border-radius: 50%; touch-action: none; -webkit-tap-highlight-color: transparent;
+}
+.mascot svg { display: block; transform: scale(var(--sx, 1), var(--sy, 1)); transform-origin: 50% 100%; transition: transform .65s var(--spring); }
+.mascot:not(.holding):hover svg { transform: scale(1.04, 0.965); }
+.mascot.holding svg { transition: transform .08s linear; }
+.mascot.settle svg { animation: jelly-settle .8s var(--spring) both; }
+@keyframes jelly-settle { 0% { transform: scale(1.16, 0.86); } 45% { transform: scale(0.92, 1.08); } 75% { transform: scale(1.05, 0.96); } 100% { transform: scale(1, 1); } }
+.hint { margin-top: 10px; font-size: 14px; color: var(--ink-soft); }
+.meter { margin-top: 6px; font-size: 14px; color: var(--ink-soft); }
+.meter b { color: var(--pink-deep); font-family: var(--font-head); font-size: 16px; }
+
+/* 分区 */
+.sec { padding: 64px 0; }
+.sec-alt { background: #EFF4FA; border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge); }
+.sec-head { max-width: 62ch; margin-bottom: 34px; }
+.sec-head h2 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 900; margin: 10px 0 12px; }
+.sec-sub { color: var(--ink-soft); font-size: 16px; }
+section[id] { scroll-margin-top: 76px; }
+
+/* 笔记卡片：按压 / 拖拽捏起 */
+.note-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 22px; }
+.note-card {
+  --tl: 26px; --tr: 26px; --br: 26px; --bl: 26px; --lift: 0;
+  background: linear-gradient(180deg, #FFFFFF, #FCF3F9);
+  border: 1px solid var(--edge); border-radius: var(--tl) var(--tr) var(--br) var(--bl);
+  padding: 20px 20px 16px; display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 calc(3px + var(--lift) * 18px) calc(10px + var(--lift) * 26px) rgba(15, 23, 42, calc(0.08 + var(--lift) * 0.12)), inset 0 1px 0 #fff;
+  transition: transform .55s var(--spring), box-shadow .55s var(--spring), border-radius .35s ease;
+  touch-action: pan-y; user-select: none; -webkit-user-select: none; position: relative;
+}
+.note-card.lift { transition: none; cursor: grabbing; z-index: 6;
+  transform: translate(var(--dx, 0px), calc(var(--dy, 0px) - var(--lift) * 12px)) rotate(var(--rot, 0deg)) scale(calc(1.025 + var(--lift) * 0.05), calc(0.982 + var(--lift) * 0.03)); }
+.note-card.pulse { animation: card-pulse .6s var(--spring); }
+@keyframes card-pulse { 0% { transform: scale(1, 1); } 35% { transform: scale(1.06, 0.93); } 70% { transform: scale(0.98, 1.02); } 100% { transform: scale(1, 1); } }
+.tint-blue { background: linear-gradient(180deg, #FFFFFF, #EFF8FE); }
+.tint-silver { background: linear-gradient(180deg, #FFFFFF, #F0F2F6); }
+.nc-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.nc-head h3 { font-size: 18px; font-weight: 800; }
+.tag { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; background: var(--pink-hi); color: var(--pink-deep); white-space: nowrap; }
+.tint-blue .tag { background: var(--blue-soft); color: var(--blue-deep); }
+.tint-silver .tag { background: var(--silver-soft); color: #3D454F; }
+.nc-list { list-style: none; display: grid; gap: 6px; color: var(--ink-soft); font-size: 14.5px; }
+.nc-list li::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--pink); margin-right: 9px; vertical-align: 2px; }
+.tint-blue .nc-list li::before { background: var(--blue); }
+.tint-silver .nc-list li::before { background: var(--silver); }
+.nc-quote { color: var(--ink-soft); font-size: 14.5px; border-left: 3px solid var(--silver); padding-left: 12px; }
+.nc-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 6px; }
+.drag-hint { font-size: 12.5px; color: var(--ink-soft); }
+.pin-btn {
+  font: 700 13px/1 var(--font-head); color: var(--blue-deep); background: #fff; border: 1.5px solid var(--blue); border-radius: 999px;
+  padding: 8px 16px; cursor: pointer; box-shadow: 0 3px 0 #A9CFE0;
+  transition: transform .4s var(--spring), box-shadow .4s var(--spring), background-color .25s, color .25s;
+}
+.pin-btn:active { transition-duration: .05s; transform: scale(1.12, 0.82) translateY(2px); box-shadow: 0 1px 0 #A9CFE0; }
+.pin-btn.on { background: var(--blue); color: #06222E; box-shadow: inset 0 3px 6px rgba(6, 34, 46, 0.25); }
+
+/* 软键盘 */
+.board { background: var(--card); border: 1px solid var(--edge); border-radius: var(--r-xl); padding: 26px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08), inset 0 1px 0 #fff; max-width: 720px; }
+.field-label { display: block; font-size: 13px; font-weight: 700; color: var(--ink-soft); margin-bottom: 8px; }
+.jelly-field {
+  width: 100%; font: 500 17px var(--font-body); color: var(--ink); background: linear-gradient(180deg, #FFF3F9, #FFE9F4);
+  border: 2px solid var(--pink); border-radius: var(--r-md); padding: 14px 18px;
+  box-shadow: inset 0 3px 8px rgba(160, 35, 95, 0.12), 0 4px 0 #F2CBDF;
+}
+.jelly-field::placeholder { color: #7A5A6C; }
+.jelly-field:focus { outline: 3px solid var(--pink-deep); outline-offset: 2px; }
+.jelly-field.bump { animation: field-bump .4s var(--spring); }
+@keyframes field-bump { 0% { transform: scale(1.015, 0.985); } 60% { transform: scale(0.996, 1.004); } 100% { transform: scale(1, 1); } }
+.kb-rows { margin-top: 20px; display: grid; gap: 10px; }
+.kb-row { display: flex; gap: 8px; }
+.row-mid { padding: 0 4%; }
+.key {
+  flex: 1; min-width: 0; height: 50px; font: 800 15px var(--font-head); color: #22303F; cursor: pointer;
+  background: linear-gradient(180deg, #FFFFFF 0%, #E9EDF3 68%, #D6DCE5 100%); border: 1px solid var(--silver-edge); border-radius: var(--r-sm);
+  box-shadow: 0 4px 0 #B7BFCC, inset 0 1px 0 #fff;
+  transition: transform .38s var(--spring), box-shadow .38s var(--spring), filter .38s var(--spring);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.key.press, .key:active { transition-duration: .05s; transform: scale(1.14, 0.76) translateY(3px); filter: brightness(0.97); box-shadow: 0 1px 0 #B7BFCC, inset 0 3px 8px rgba(34, 48, 63, 0.24); }
+.key.util { background: linear-gradient(180deg, var(--pink-hi), var(--pink)); color: #2B0D1E; border-color: var(--pink-edge); box-shadow: 0 4px 0 #D6649B, inset 0 1px 0 rgba(255, 255, 255, 0.7); }
+.key.util.press, .key.util:active { box-shadow: 0 1px 0 #D6649B, inset 0 3px 7px rgba(160, 35, 95, 0.3); }
+.key.wide { flex: 4.4; }
+.kb-note { margin-top: 18px; font-size: 13px; color: var(--ink-soft); }
+
+/* 形变物理 */
+.phys-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 40px; align-items: start; }
+.rules { list-style: none; display: grid; gap: 16px; counter-reset: rule; }
+.rules li { background: var(--card); border: 1px solid var(--edge); border-radius: var(--r-lg); padding: 18px 20px; box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06); counter-increment: rule; }
+.rules h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+.rules h3::before { content: counter(rule); display: inline-block; width: 26px; height: 26px; margin-right: 10px; border-radius: 9px; text-align: center; line-height: 26px; font-size: 14px; color: #2B0D1E; background: linear-gradient(180deg, var(--pink-hi), var(--pink)); box-shadow: 0 2px 0 var(--pink-edge); }
+.rules p { font-size: 14.5px; color: var(--ink-soft); }
+.pgrid-wrap { background: var(--card); border: 1px solid var(--edge); border-radius: var(--r-lg); padding: 8px 18px 14px; box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06); overflow-x: auto; }
+.pgrid { display: grid; grid-template-columns: 1.15fr 0.9fr 1.15fr 1.65fr 0.6fr; min-width: 620px; }
+.prow { display: contents; }
+.pgrid span { padding: 12px 10px; font-size: 14px; border-bottom: 1px solid var(--edge); color: var(--ink-soft); overflow-wrap: anywhere; }
+.pgrid .ph { font-weight: 800; color: var(--ink); font-size: 13.5px; border-bottom: 2px solid var(--ink); }
+.pgrid .pc { font-weight: 700; color: var(--ink); }
+.pgrid .pv { font-family: 'Consolas', 'DM Sans', monospace; font-size: 13px; color: var(--blue-deep); }
+.token-row { list-style: none; display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; }
+.token-row li { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--edge); border-radius: 999px; padding: 7px 14px 7px 8px; font-size: 13px; color: var(--ink-soft); }
+.swatch { width: 24px; height: 24px; border-radius: 9px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 3px rgba(15, 23, 42, 0.2); }
+.degrade { margin-top: 22px; font-size: 13.5px; color: var(--ink-soft); }
+
+/* 页脚 */
+footer { padding: 42px 0 50px; }
+.foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--card); border: 1px solid var(--edge); border-radius: var(--r-lg); padding: 22px 26px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07); }
+.foot-inner p { color: var(--ink-soft); font-size: 14px; }
+.foot-inner a { font-weight: 700; }
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hero { padding: 52px 0 48px; }
+  .phys-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 560px) {
+  .sec { padding: 50px 0; }
+  .board { padding: 18px; }
+  .key { height: 44px; font-size: 13.5px; }
+  .kb-row { gap: 5px; }
+  .row-mid { padding: 0 2%; }
+  .mascot svg { width: 216px; height: 180px; }
+  .cta-row .jelly-btn, .cta-row .ghost-btn { width: 100%; text-align: center; }
+}
+/* 降级：形变交互退化为瞬时状态切换 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv { opacity: 1; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFC9E6"/><stop offset="1" stop-color="#FF9ECD"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="4" width="26" height="24" rx="9" fill="url(#lg)"/>
+        <ellipse cx="10.5" cy="11" rx="5" ry="3" fill="rgba(255,255,255,0.65)"/>
+      </svg>
+      <span>果冻笔记 <em>Jellynote</em></span>
+    </a>
+    <nav aria-label="页面导航">
+      <a href="#pinch">试捏笔记</a>
+      <a href="#keyboard">软键盘</a>
+      <a href="#physics">形变物理</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker rv" style="--d:.05s">Tactile Digital 可触形变 / 让捏成为输入方式</p>
+        <h1 class="rv" style="--d:.12s">把笔记捏成你顺手的形状</h1>
+        <p class="lede rv" style="--d:.19s">在果冻笔记里，每一次触碰都会留下形状：按下去凹陷，拖起来拉伸，松手后像软物质一样晃两下再归位。界面不是一块擦不花的玻璃，而是能按出指印、会呼吸回弹的果冻。</p>
+        <div class="cta-row rv" style="--d:.26s">
+          <button class="jelly-btn" id="newNoteBtn" type="button">新建一篇软笔记</button>
+          <a class="ghost-btn" href="#physics">看形变物理</a>
+        </div>
+        <p class="hero-meta rv" style="--d:.33s">回弹曲线 cubic-bezier(0.34, 1.56, 0.64, 1) / 按压行程约 8% / 鼠标、触屏与键盘同样可试</p>
+      </div>
+      <div class="hero-mascot rv" style="--d:.22s">
+        <button class="mascot" id="mascot" type="button" aria-describedby="mascotHint">
+          <svg viewBox="0 0 240 200" width="264" height="220" role="img" aria-label="果冻布丁吉祥物，按住可压扁">
+            <defs>
+              <linearGradient id="jellyG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFD3E8"/><stop offset="0.55" stop-color="#FF9ECD"/><stop offset="1" stop-color="#F585BC"/>
+              </linearGradient>
+              <linearGradient id="chromeG" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#E9EDF2"/><stop offset="0.4" stop-color="#C0C0C0"/><stop offset="0.7" stop-color="#9FA6AE"/><stop offset="1" stop-color="#C6CCD4"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="120" cy="190" rx="92" ry="9" fill="rgba(15,23,42,0.14)"/>
+            <ellipse cx="120" cy="173" rx="100" ry="13" fill="url(#chromeG)"/>
+            <path d="M36 150 C24 95 62 40 120 40 C178 40 216 95 204 150 C200 166 170 173 120 173 C70 173 40 166 36 150 Z" fill="url(#jellyG)"/>
+            <ellipse cx="86" cy="74" rx="26" ry="15" fill="rgba(255,255,255,0.55)" transform="rotate(-18 86 74)"/>
+            <circle cx="97" cy="110" r="7" fill="#33132A"/>
+            <circle cx="143" cy="110" r="7" fill="#33132A"/>
+            <path d="M106 130 C113 138 127 138 134 130" stroke="#33132A" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <circle cx="72" cy="126" r="9" fill="rgba(255,110,180,0.35)"/>
+            <circle cx="168" cy="126" r="9" fill="rgba(255,110,180,0.35)"/>
+          </svg>
+        </button>
+        <p class="hint" id="mascotHint">按住布丁慢慢压扁 / 松手看它弹回来（键盘：聚焦后按住空格）</p>
+        <p class="meter">当前指压 <b id="sqVal">0</b>% / 今日解压 <b id="sqCount">0</b> 次</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pinch" class="sec">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="kicker">01 / 试捏笔记</p>
+        <h2>每一张便签都是软的</h2>
+        <p class="sec-sub">按住任意一张并拖动：离抓点近的一侧圆角会收紧，卡片离开桌面，影子随抬起的高度一起变长变淡。松手后它带着一点过冲落回网格。</p>
+      </header>
+      <div class="note-grid">
+        <article class="note-card">
+          <header class="nc-head">
+            <h3>周三的樱桃</h3><span class="tag">采购</span>
+          </header>
+          <ul class="nc-list">
+            <li>樱桃 500 克，要带杆的</li>
+            <li>无糖苏打水一箱</li>
+            <li>猫罐头补两盒</li>
+          </ul>
+          <footer class="nc-foot">
+            <span class="drag-hint">按住拖我</span>
+            <button class="pin-btn" type="button" aria-pressed="false">钉住</button>
+          </footer>
+        </article>
+        <article class="note-card tint-blue">
+          <header class="nc-head">
+            <h3>转租看房清单</h3><span class="tag">周六</span>
+          </header>
+          <ul class="nc-list">
+            <li>问清物业费和取暖费谁交</li>
+            <li>拍水表电表读数</li>
+            <li>开窗听一次街噪</li>
+            <li>试热水器出热水速度</li>
+          </ul>
+          <footer class="nc-foot">
+            <span class="drag-hint">按住拖我</span>
+            <button class="pin-btn" type="button" aria-pressed="false">钉住</button>
+          </footer>
+        </article>
+        <article class="note-card tint-silver">
+          <header class="nc-head">
+            <h3>给阿橙的信 开头</h3><span class="tag">草稿</span>
+          </header>
+          <p class="nc-quote">阿橙：展信佳。上周你说的那家汤馆我去了，老板娘记得你，还多送了我半勺辣油。等降温了，想约你再去一次。</p>
+          <footer class="nc-foot">
+            <span class="drag-hint">按住拖我</span>
+            <button class="pin-btn" type="button" aria-pressed="false">钉住</button>
+          </footer>
+        </article>
+        <article class="note-card">
+          <header class="nc-head">
+            <h3>周报素材</h3><span class="tag">快记</span>
+          </header>
+          <ul class="nc-list">
+            <li>下载转化 37%，比上周高 4 点</li>
+            <li>一句用户反馈：手势终于跟手了</li>
+            <li>一个坑：低端机回弹掉帧</li>
+          </ul>
+          <footer class="nc-foot">
+            <span class="drag-hint">按住拖我</span>
+            <button class="pin-btn" type="button" aria-pressed="false">钉住</button>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="keyboard" class="sec sec-alt">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="kicker">02 / 软键盘实验</p>
+        <h2>键帽也是软的</h2>
+        <p class="sec-sub">把光标放进下面的软输入框直接打字，或点按键帽。每次敲击，键帽前倾压扁再弹回，字符落进果冻里，输入框跟着轻轻一颤。</p>
+      </header>
+      <div class="board">
+        <label class="field-label" for="jellyField">正在输入</label>
+        <input class="jelly-field" id="jellyField" type="text" value="" placeholder="点按下面的键帽，或在这里直接打字" autocomplete="off">
+        <div class="kb-rows">
+          <div class="kb-row">
+            <button class="key" type="button" data-k="q">Q</button>
+            <button class="key" type="button" data-k="w">W</button>
+            <button class="key" type="button" data-k="e">E</button>
+            <button class="key" type="button" data-k="r">R</button>
+            <button class="key" type="button" data-k="t">T</button>
+            <button class="key" type="button" data-k="y">Y</button>
+            <button class="key" type="button" data-k="u">U</button>
+            <button class="key" type="button" data-k="i">I</button>
+            <button class="key" type="button" data-k="o">O</button>
+            <button class="key" type="button" data-k="p">P</button>
+          </div>
+          <div class="kb-row row-mid">
+            <button class="key" type="button" data-k="a">A</button>
+            <button class="key" type="button" data-k="s">S</button>
+            <button class="key" type="button" data-k="d">D</button>
+            <button class="key" type="button" data-k="f">F</button>
+            <button class="key" type="button" data-k="g">G</button>
+            <button class="key" type="button" data-k="h">H</button>
+            <button class="key" type="button" data-k="j">J</button>
+            <button class="key" type="button" data-k="k">K</button>
+            <button class="key" type="button" data-k="l">L</button>
+          </div>
+          <div class="kb-row">
+            <button class="key" type="button" data-k="z">Z</button>
+            <button class="key" type="button" data-k="x">X</button>
+            <button class="key" type="button" data-k="c">C</button>
+            <button class="key" type="button" data-k="v">V</button>
+            <button class="key" type="button" data-k="b">B</button>
+            <button class="key" type="button" data-k="n">N</button>
+            <button class="key" type="button" data-k="m">M</button>
+            <button class="key util" type="button" data-k="back">退格</button>
+          </div>
+          <div class="kb-row">
+            <button class="key wide" type="button" data-k=" ">空格</button>
+            <button class="key util" type="button" data-k="clear">清空</button>
+          </div>
+        </div>
+        <p class="kb-note">键帽按下时前倾压扁约 12%，弹回走同一根过冲曲线 / 用 Tab 与回车操作键帽时，形变反馈同样触发</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="physics" class="sec">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="kicker">03 / 形变物理</p>
+        <h2>软物质的三条规矩</h2>
+        <p class="sec-sub">与静态的黏土拟物不同，可触形变的灵魂不在材质，而在反馈：形状永远是力的结果。本页所有交互共用下面这张参数表。</p>
+      </header>
+      <div class="phys-grid">
+        <ol class="rules">
+          <li>
+            <h3>压下去要有代价</h3>
+            <p>按压不只是缩小元素：内阴影同步加深，底部接触阴影变薄，亮度略抬。位移与光影同向，材质才可信。</p>
+          </li>
+          <li>
+            <h3>松手要有余韵</h3>
+            <p>回弹统一使用过冲曲线 cubic-bezier(0.34, 1.56, 0.64, 1)，让元素多晃半拍再停住，而不是被橡皮筋瞬间拽回。</p>
+          </li>
+          <li>
+            <h3>拖到哪里哪里绷紧</h3>
+            <p>拖拽时被抓点一侧的圆角逐帧收紧，对侧放松，卡片微微向拖动方向旋转，边界像真的被手指牵起。</p>
+          </li>
+        </ol>
+        <div>
+          <div class="pgrid-wrap">
+            <div class="pgrid" role="table" aria-label="形变参数表">
+              <div class="prow" role="row">
+                <span class="ph" role="columnheader">组件</span>
+                <span class="ph" role="columnheader">触发</span>
+                <span class="ph" role="columnheader">形变量</span>
+                <span class="ph" role="columnheader">回弹方式</span>
+                <span class="ph" role="columnheader">阻尼</span>
+              </div>
+              <div class="prow" role="row">
+                <span class="pc" role="cell">主按钮</span>
+                <span role="cell">按压</span>
+                <span role="cell">8% 挤压</span>
+                <span class="pv" role="cell">过冲贝塞尔 450ms</span>
+                <span role="cell">0.62</span>
+              </div>
+              <div class="prow" role="row">
+                <span class="pc" role="cell">笔记卡</span>
+                <span role="cell">拖拽捏起</span>
+                <span role="cell">位移 + 3 度旋转</span>
+                <span class="pv" role="cell">spring 过渡 550ms</span>
+                <span role="cell">0.58</span>
+              </div>
+              <div class="prow" role="row">
+                <span class="pc" role="cell">软键帽</span>
+                <span role="cell">点按</span>
+                <span role="cell">前倾 12%</span>
+                <span class="pv" role="cell">过冲贝塞尔 380ms</span>
+                <span role="cell">0.70</span>
+              </div>
+              <div class="prow" role="row">
+                <span class="pc" role="cell">吉祥物</span>
+                <span role="cell">长按</span>
+                <span role="cell">渐进 22% 凹陷</span>
+                <span class="pv" role="cell">jelly-settle 双段回弹</span>
+                <span role="cell">0.45</span>
+              </div>
+            </div>
+          </div>
+          <ul class="token-row">
+            <li><span class="swatch" style="background:#C0C0C0"></span>Chrome Silver #C0C0C0</li>
+            <li><span class="swatch" style="background:#FF9ECD"></span>Jelly Pink #FF9ECD</li>
+            <li><span class="swatch" style="background:#87CEEB"></span>Soft Blue #87CEEB</li>
+            <li><span class="swatch" style="background:#FFFFFF;border:1px solid #E7DDE7"></span>圆角 26px / Nunito + DM Sans</li>
+          </ul>
+          <p class="degrade">开启系统级减少动态后，本页撤掉全部动画，形变退化为瞬时状态切换，按压、拖拽与输入功能不受影响。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <p>UI 设计提示词库 / Tactile Digital 可触形变</p>
+    <p>果冻笔记 Jellynote 为风格演示虚构产品 / <a href="style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp = function (v, lo, hi) { return Math.max(lo, Math.min(hi, v)); };
+
+  /* 吉祥物：长按渐陷，松手 spring 回弹（指针与键盘共用） */
+  var mascot = document.getElementById('mascot');
+  var sqVal = document.getElementById('sqVal');
+  var sqCount = document.getElementById('sqCount');
+  var count = 0, sq = 0, holding = false, rafId = 0, lastT = 0;
+  function renderSq() {
+    mascot.style.setProperty('--sx', (1 + sq * 0.52).toFixed(3));
+    mascot.style.setProperty('--sy', (1 - sq).toFixed(3));
+    if (sqVal) { sqVal.textContent = String(Math.round((sq / 0.22) * 100)); }
+  }
+  function tick(t) {
+    if (!holding) { return; }
+    var dt = Math.min(64, t - lastT) / 1000;
+    lastT = t;
+    sq = Math.min(0.22, sq + dt * 0.2);
+    renderSq();
+    rafId = requestAnimationFrame(tick);
+  }
+  function startHold() {
+    if (holding) { return; }
+    holding = true;
+    mascot.classList.add('holding');
+    if (RM) { sq = 0.22; renderSq(); }
+    else { lastT = performance.now(); rafId = requestAnimationFrame(tick); }
+  }
+  function release() {
+    if (!holding) { return; }
+    holding = false;
+    cancelAnimationFrame(rafId);
+    mascot.classList.remove('holding');
+    count += 1;
+    if (sqCount) { sqCount.textContent = String(count); }
+    sq = 0;
+    if (RM) { renderSq(); }
+    else {
+      mascot.style.removeProperty('--sx');
+      mascot.style.removeProperty('--sy');
+      if (sqVal) { sqVal.textContent = '0'; }
+      mascot.classList.add('settle');
+    }
+  }
+  mascot.addEventListener('animationend', function () { mascot.classList.remove('settle'); });
+  mascot.addEventListener('pointerdown', function (e) { e.preventDefault(); startHold(); });
+  mascot.addEventListener('pointerup', release);
+  mascot.addEventListener('pointercancel', release);
+  mascot.addEventListener('keydown', function (e) {
+    if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); startHold(); }
+  });
+  mascot.addEventListener('keyup', function (e) {
+    if (e.key === ' ' || e.key === 'Enter') { release(); }
+  });
+  mascot.addEventListener('blur', release);
+
+  /* 笔记卡：按住拖拽捏起，圆角跟随抓点，影子随高度生长 */
+  var dragCard = null, startX = 0, startY = 0;
+  var cornerVars = ['--tl', '--tr', '--br', '--bl'];
+  var cards = document.querySelectorAll('.note-card');
+  function endDrag(card) {
+    if (dragCard !== card) { return; }
+    dragCard = null;
+    card.classList.remove('lift');
+    card.style.removeProperty('--dx');
+    card.style.removeProperty('--dy');
+    card.style.removeProperty('--rot');
+    card.style.removeProperty('--lift');
+    for (var i = 0; i < 4; i++) { card.style.removeProperty(cornerVars[i]); }
+  }
+  Array.prototype.forEach.call(cards, function (card) {
+    card.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('button, a, input')) { return; }
+      e.preventDefault();
+      dragCard = card;
+      startX = e.clientX;
+      startY = e.clientY;
+      card.classList.add('lift');
+      card.setPointerCapture(e.pointerId);
+    });
+    card.addEventListener('pointermove', function (e) {
+      if (dragCard !== card) { return; }
+      var dx = clamp(e.clientX - startX, -72, 72);
+      var dy = clamp(e.clientY - startY, -46, 46);
+      var lift = clamp(Math.sqrt(dx * dx + dy * dy) / 46, 0, 1);
+      card.style.setProperty('--dx', dx + 'px');
+      card.style.setProperty('--dy', dy + 'px');
+      card.style.setProperty('--rot', (dx * 0.05).toFixed(2) + 'deg');
+      card.style.setProperty('--lift', lift.toFixed(3));
+      var r = card.getBoundingClientRect();
+      var px = e.clientX - r.left, py = e.clientY - r.top;
+      var maxD = Math.sqrt(r.width * r.width + r.height * r.height);
+      var ds = [
+        Math.sqrt(px * px + py * py),
+        Math.sqrt((r.width - px) * (r.width - px) + py * py),
+        Math.sqrt((r.width - px) * (r.width - px) + (r.height - py) * (r.height - py)),
+        Math.sqrt(px * px + (r.height - py) * (r.height - py))
+      ];
+      for (var i = 0; i < 4; i++) {
+        var rad = 9 + 17 * (ds[i] / maxD);
+        card.style.setProperty(cornerVars[i], rad.toFixed(1) + 'px');
+      }
+    });
+    card.addEventListener('pointerup', function () { endDrag(card); });
+    card.addEventListener('pointercancel', function () { endDrag(card); });
+  });
+
+  /* 钉住按钮：按压形变 + 持久按下态 */
+  Array.prototype.forEach.call(document.querySelectorAll('.pin-btn'), function (btn) {
+    btn.addEventListener('click', function () {
+      var on = btn.classList.toggle('on');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? '已钉住' : '钉住';
+    });
+  });
+
+  /* 新建按钮：滚动到卡片并弹一下第一张 */
+  var newNoteBtn = document.getElementById('newNoteBtn');
+  var noteGrid = document.querySelector('.note-grid');
+  newNoteBtn.addEventListener('click', function () {
+    var first = noteGrid && noteGrid.querySelector('.note-card');
+    if (!first) { return; }
+    first.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'center' });
+    if (!RM) {
+      first.classList.remove('pulse');
+      void first.offsetWidth;
+      first.classList.add('pulse');
+    }
+  });
+
+  /* 软键盘：键帽形变 + 字符落进果冻输入框 */
+  var field = document.getElementById('jellyField');
+  var keys = document.querySelectorAll('.key');
+  function pressFx(btn) {
+    btn.classList.add('press');
+    window.setTimeout(function () { btn.classList.remove('press'); }, RM ? 60 : 150);
+  }
+  function insertKey(k) {
+    if (!field) { return; }
+    field.focus();
+    var v = field.value, s = field.selectionStart, e = field.selectionEnd, p = 0;
+    if (k === 'clear') { field.value = ''; p = 0; }
+    else if (k === 'back') {
+      if (s === e && s > 0) { s -= 1; }
+      field.value = v.slice(0, s) + v.slice(e);
+      p = s;
+    } else {
+      field.value = v.slice(0, s) + k + v.slice(e);
+      p = s + 1;
+    }
+    field.setSelectionRange(p, p);
+    if (!RM) {
+      field.classList.remove('bump');
+      void field.offsetWidth;
+      field.classList.add('bump');
+    }
+  }
+  Array.prototype.forEach.call(keys, function (btn) {
+    btn.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      pressFx(btn);
+      insertKey(btn.getAttribute('data-k'));
+    });
+    btn.addEventListener('click', function (e) {
+      if (e.detail === 0) { pressFx(btn); insertKey(btn.getAttribute('data-k')); }
+    });
+  });
+  field.addEventListener('keydown', function (e) {
+    var k = null;
+    if (e.key === 'Backspace') { k = 'back'; }
+    else if (e.key === ' ') { k = ' '; }
+    else if (e.key.length === 1) { k = e.key.toLowerCase(); }
+    if (k === null) { return; }
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i].getAttribute('data-k') === k) { pressFx(keys[i]); break; }
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -2773,6 +2773,14 @@ def main():
             'Gradient Mesh / Aurora Evolved': 'gradient-mesh-aurora-evolved.html',
             'Nature Distilled': 'nature-distilled.html',
             'Soft UI Evolution': 'soft-ui-evolution.html',
+            'Minimalism & Swiss Style': 'minimalism-swiss-style.html',
+            'Vibrant & Block-based': 'vibrant-block-based.html',
+            'Voice-First Multimodal': 'voice-first-multimodal.html',
+            'Zero Interface': 'zero-interface.html',
+            'Tactile Digital / Deformable UI': 'tactile-digital-deformable-ui.html',
+            'Spectrum 2': 'spectrum-2.html',
+            'Accessible & Ethical': 'accessible-ethical.html',
+            'Real-Time Monitoring': 'real-time-monitoring.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

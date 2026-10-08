@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Raster und Schrift：瑞士国际主义平面设计文献展 1950-1966，苏黎世设计博物馆。Minimalism & Swiss Style 风格演示页。">
+<title>Minimalism & Swiss / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划：纯白 #FFFFFF 底 / 黑 #000000 文字与结构线 / 唯一强调红 #E30613 / 次级灰 #4A4A4A / Archivo 展示字体 + Inter 正文 / 12 列等分网格 gap 20 / 直角、无阴影、无圆角 */
+:root{
+  --white:#FFFFFF;
+  --ink:#000000;
+  --red:#E30613;
+  --gray:#4A4A4A;
+  --hair:rgba(0,0,0,.16);
+  --font-d:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --font-t:'Inter','Helvetica Neue',Helvetica,Arial,'PingFang SC','Microsoft YaHei',sans-serif;
+  --gap:clamp(12px,1.6vw,20px);
+  --pad:clamp(20px,4vw,48px);
+  --w:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--white);
+  color:var(--ink);
+  font:400 16px/1.65 var(--font-t);
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--red);color:var(--white)}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{
+  position:fixed;top:10px;left:10px;z-index:20;
+  background:var(--ink);color:var(--white);
+  padding:10px 16px;font:600 13px/1 var(--font-t);
+  text-decoration:none;transform:translateY(-300%);
+}
+.skip:focus{transform:none}
+.wrap{max-width:var(--w);margin-inline:auto;padding-inline:var(--pad)}
+
+/* ---------- 顶栏 ---------- */
+.topbar{border-bottom:1px solid var(--ink)}
+.topbar .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding-block:15px;
+}
+.brand{display:flex;align-items:center;gap:10px;font:600 13px/1 var(--font-t)}
+.sq{width:12px;height:12px;background:var(--red);flex:none}
+.loc{font:500 13px/1 var(--font-t);color:var(--gray)}
+.toggle{
+  font:600 12px/1 var(--font-t);
+  background:var(--white);color:var(--ink);
+  border:1px solid var(--ink);padding:9px 14px;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.toggle:hover{background:var(--ink);color:var(--white)}
+
+/* ---------- 海报首屏与外露网格 ---------- */
+.hero{position:relative;border-bottom:1px solid var(--ink)}
+.guides{position:absolute;inset:0;pointer-events:none}
+.guides .in{
+  height:100%;max-width:var(--w);margin-inline:auto;
+  padding-inline:var(--pad);
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  column-gap:var(--gap);
+}
+.guides i{border-left:1px solid rgba(0,0,0,.10);position:relative;font-style:normal}
+.guides i:last-child{border-right:1px solid rgba(0,0,0,.10)}
+.guides i::before{
+  content:attr(data-n);position:absolute;top:9px;left:5px;
+  font:500 10px/1 var(--font-t);color:#6B6B6B;
+}
+body.grid-off .guides{display:none}
+.hero .wrap{
+  display:flex;flex-direction:column;
+  min-height:calc(100vh - 54px);
+  min-height:calc(100svh - 54px);
+  padding-top:clamp(24px,4vh,44px);
+}
+.hero-top{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  column-gap:var(--gap);align-items:start;
+  padding-bottom:clamp(20px,4vh,44px);
+}
+.kicker{grid-column:1/7;font-size:16px/1.7}
+.kicker p{max-width:34ch;font-size:16px;line-height:1.7}
+.kicker .de{margin-top:14px;font:500 13px/1.5 var(--font-t);color:var(--gray)}
+.circle{grid-column:8/10;aspect-ratio:1;background:var(--red)}
+.stat{grid-column:11/13;font:500 13px/1.8 var(--font-t);color:var(--gray)}
+.stat b{color:var(--ink);font-weight:700;font-feature-settings:'tnum' 1}
+.hl{margin-top:auto;padding-bottom:clamp(20px,4vh,44px)}
+.mask{display:block;overflow:hidden}
+.l{
+  display:block;font-family:var(--font-d);font-weight:900;
+  letter-spacing:-.035em;line-height:.84;color:var(--ink);
+  animation:rise .75s cubic-bezier(.22,.61,.21,1) both;
+}
+.l1{font-size:clamp(72px,19vw,260px)}
+.l2{font-size:clamp(26px,6vw,84px);line-height:.95;color:var(--red)}
+.l3{font-size:clamp(56px,17vw,216px)}
+@keyframes rise{from{transform:translateY(112%)}to{transform:none}}
+.hl-sub{
+  margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 26px;
+  font:600 15px/1.5 var(--font-t);
+}
+.hl-sub .de{font-weight:500;color:var(--gray)}
+.h-meta{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:var(--gap);
+}
+.h-meta>div{border-top:1px solid var(--ink);padding:13px 18px 26px 0}
+.h-meta b{display:block;font:600 11px/1 var(--font-t);letter-spacing:.02em;margin-bottom:8px}
+.h-meta span{font:500 14px/1.55 var(--font-t);font-feature-settings:'tnum' 1}
+
+/* ---------- 分节通用 ---------- */
+section{border-bottom:1px solid var(--ink)}
+.sec-head{
+  display:flex;align-items:baseline;gap:20px;
+  padding-block:28px 24px;
+}
+.sec-no{font:700 14px/1 var(--font-d);color:var(--red);font-feature-settings:'tnum' 1}
+.sec-head h2{font:800 clamp(28px,3.4vw,44px)/1.05 var(--font-d);letter-spacing:-.02em}
+.sec-de{margin-left:auto;font:500 14px/1 var(--font-t);color:var(--gray)}
+
+/* ---------- 展讯 Datenblatt ---------- */
+.spec{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:32px;row-gap:26px;padding-bottom:38px;
+}
+.spec>div{border-top:1px solid var(--hair);padding-top:12px}
+.spec dt{font:600 12px/1 var(--font-t);color:var(--gray);margin-bottom:7px}
+.spec dd{font:500 15px/1.6 var(--font-t);font-feature-settings:'tnum' 1}
+
+/* ---------- 讲座 ---------- */
+.lecs{list-style:none;padding-bottom:34px}
+.lecs li{
+  display:grid;grid-template-columns:72px 150px minmax(0,1fr) 250px;
+  gap:6px 24px;align-items:baseline;
+  padding:20px 12px 20px 8px;border-top:1px solid var(--hair);
+  transition:background .2s;
+}
+.lecs li:last-child{border-bottom:1px solid var(--hair)}
+.lecs li:hover{background:#F5F5F3}
+.lecs .no{font:800 20px/1 var(--font-d);color:var(--red);font-feature-settings:'tnum' 1}
+.lecs .date{font:500 14px/1.5 var(--font-t);font-feature-settings:'tnum' 1}
+.lecs .t{font:700 17px/1.4 var(--font-t);letter-spacing:-.01em}
+.lecs .who{display:block;margin-top:4px;font:400 14px/1.5 var(--font-t);color:var(--gray)}
+.lecs .where{font:500 14px/1.6 var(--font-t);color:var(--gray)}
+
+/* ---------- 构成说明 ---------- */
+.k-grid{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  column-gap:var(--gap);row-gap:var(--gap);padding-bottom:10px;
+}
+.k-cell{
+  border:1px solid var(--ink);min-height:58px;
+  display:flex;align-items:flex-end;padding:8px 10px;
+  font:500 11px/1.2 var(--font-t);color:var(--gray);
+}
+.k-cell.red{background:var(--red);border-color:var(--red);color:var(--white)}
+.k-notes{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  column-gap:32px;row-gap:22px;padding:26px 0 38px;
+}
+.k-notes b{display:block;font:700 15px/1.4 var(--font-t);margin-bottom:6px}
+.k-notes b i{font-style:normal;font-weight:500;color:var(--gray)}
+.k-notes p{font:400 13.5px/1.7 var(--font-t);color:var(--gray)}
+
+/* ---------- 年表 ---------- */
+.chron{list-style:none;padding-bottom:40px}
+.chron li{
+  display:grid;grid-template-columns:110px minmax(0,1fr);
+  gap:8px 24px;align-items:baseline;
+  padding:14px 8px;border-top:1px solid var(--hair);
+}
+.chron li:last-child{border-bottom:1px solid var(--hair)}
+.chron .cy{font:800 20px/1.2 var(--font-d);font-feature-settings:'tnum' 1}
+.chron .ce{font:400 15px/1.65 var(--font-t)}
+
+/* ---------- 海报墙 ---------- */
+.poster-row{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--gap);padding-bottom:40px;
+}
+.poster-row figure{display:flex;flex-direction:column;gap:12px}
+.po{
+  position:relative;aspect-ratio:707/1000;overflow:hidden;
+  background:var(--white);border:1px solid var(--ink);
+  container-type:inline-size;
+}
+.po figcaption{font:400 12.5px/1.6 var(--font-t);color:var(--gray)}
+.po figcaption b{color:var(--ink);font-weight:600}
+.pa-t{position:absolute;left:8%;bottom:6%;font-family:var(--font-d)}
+.pa-t .w{display:block;font-size:9cqi;font-weight:800;letter-spacing:-.02em;line-height:1}
+.pa-t .s{display:block;margin-top:6px;font:500 3.6cqi/1 var(--font-t);color:var(--gray)}
+.arcs{
+  position:absolute;top:-62%;left:50%;width:190%;aspect-ratio:1;
+  transform:translateX(-50%);border-radius:50%;
+  background:repeating-radial-gradient(circle,#000 0 2cqi,transparent 2cqi 7cqi);
+}
+.pb{background:var(--ink)}
+.pb::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,#fff 0 2cqi,transparent 2cqi 6.4cqi);
+}
+.pb-t{
+  position:absolute;left:0;bottom:14%;background:#fff;color:#000;
+  padding:2.6cqi 3.2cqi;font-family:var(--font-d);
+  font-size:8cqi;font-weight:800;letter-spacing:-.02em;line-height:1;
+}
+.pb-y{position:absolute;top:6%;right:7%;font:500 3.6cqi/1 var(--font-t);color:#fff;background:var(--ink);padding:5px 8px}
+.pc{background:var(--red)}
+.pc-z{
+  position:absolute;left:3%;bottom:-8%;
+  font-family:var(--font-d);font-weight:900;
+  font-size:62cqi;line-height:.9;color:#fff;letter-spacing:-.04em;
+}
+.pc-y{position:absolute;top:6%;left:7%;font:500 3.6cqi/1 var(--font-t);color:#fff}
+.pc-s{position:absolute;top:6%;right:7%;width:4cqi;height:4cqi;background:#fff}
+
+/* ---------- 文献 ---------- */
+.bib{list-style:none;padding-bottom:40px}
+.bib li{
+  display:grid;grid-template-columns:56px minmax(0,1.1fr) minmax(0,1.6fr) 90px minmax(0,1fr);
+  gap:6px 20px;align-items:baseline;
+  padding:16px 8px;border-top:1px solid var(--hair);
+}
+.bib li:last-child{border-bottom:1px solid var(--hair)}
+.bib .bn{font:700 13px/1 var(--font-d);color:var(--red);font-feature-settings:'tnum' 1}
+.bib .ba{font:600 15px/1.5 var(--font-t)}
+.bib .bt{font:400 15px/1.5 var(--font-t)}
+.bib .bt i{font-style:normal;color:var(--gray)}
+.bib .by{font:500 14px/1.5 var(--font-t);font-feature-settings:'tnum' 1}
+.bib .bp{font:400 14px/1.5 var(--font-t);color:var(--gray)}
+
+/* ---------- footer ---------- */
+footer{border-top:4px solid var(--ink)}
+footer .wrap{padding-block:22px 30px}
+.foot-row{
+  display:flex;flex-wrap:wrap;align-items:baseline;
+  justify-content:space-between;gap:10px 28px;
+  border-bottom:1px solid var(--hair);padding-bottom:16px;
+}
+.foot-row strong{font:700 16px/1.4 var(--font-d);letter-spacing:-.01em}
+.foot-row a{font:600 14px/1.4 var(--font-t);text-underline-offset:4px}
+.foot-row a:hover{color:var(--red)}
+.colophon{margin-top:14px;font:400 12.5px/1.8 var(--font-t);color:var(--gray)}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:920px){
+  .guides i:nth-child(odd){display:none}
+  .guides i::before{display:none}
+  .kicker{grid-column:1/13}
+  .kicker p{max-width:52ch}
+  .circle{grid-column:1/4;max-width:160px;margin-top:8px}
+  .stat{grid-column:5/13;align-self:end;text-align:left}
+  .h-meta{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:0}
+  .spec{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lecs li{grid-template-columns:56px minmax(0,1fr)}
+  .lecs .no{grid-row:1;grid-column:1}
+  .lecs .date{grid-row:1;grid-column:2}
+  .lecs .t{grid-column:2}
+  .lecs .where{grid-column:2}
+  .bib li{grid-template-columns:40px minmax(0,1fr)}
+  .bib .ba,.bib .bt,.bib .by,.bib .bp{grid-column:2}
+  .k-notes{grid-template-columns:1fr}
+  .k-grid .k-cell{min-height:44px}
+}
+@media (max-width:560px){
+  :root{--pad:18px}
+  .topbar .loc{display:none}
+  .sec-de{display:none}
+  .h-meta{grid-template-columns:1fr}
+  .spec{grid-template-columns:1fr}
+  .chron li{grid-template-columns:72px minmax(0,1fr)}
+  .poster-row{grid-template-columns:1fr;max-width:400px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .l{animation:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#info">跳到展讯</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="sq" aria-hidden="true"></span>Museum für Gestaltung Zürich</div>
+    <span class="loc">苏黎世 / 1950–1966</span>
+    <button class="toggle" id="gridToggle" type="button" aria-pressed="true">网格构造线 <span>开</span></button>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-label="展览海报">
+  <div class="guides" aria-hidden="true">
+    <div class="in">
+      <i data-n="1"></i><i data-n="2"></i><i data-n="3"></i><i data-n="4"></i><i data-n="5"></i><i data-n="6"></i>
+      <i data-n="7"></i><i data-n="8"></i><i data-n="9"></i><i data-n="10"></i><i data-n="11"></i><i data-n="12"></i>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="kicker">
+        <p>一九五〇年代的苏黎世与巴塞尔，一群设计师把版面交给网格，把层级交给字号，把颜色压缩到红与黑。本次文献展以原始手稿与印刷实物，回到国际主义风格的第一现场。</p>
+        <p class="de">Ausstellung über die klassische Phase der Schweizer Grafik / 原件 214 件</p>
+      </div>
+      <div class="circle" aria-hidden="true"></div>
+      <div class="stat">
+        <span>展品 <b>214</b> 件 / 手稿 <b>61</b> 件</span><br>
+        展签德英双语 / 中文导览每周末
+      </div>
+    </div>
+    <div class="hl">
+      <h1 aria-label="Raster und Schrift，网格与文字，瑞士国际主义平面设计文献展">
+        <span class="mask"><span class="l l1">RASTER</span></span>
+        <span class="mask"><span class="l l2">und</span></span>
+        <span class="mask"><span class="l l3">SCHRIFT</span></span>
+      </h1>
+      <p class="hl-sub">
+        <span>网格与文字 / 瑞士国际主义平面设计文献展</span>
+        <span class="de">Raster und Schrift / Plakate, Handschriften, Bücher</span>
+      </p>
+    </div>
+    <div class="h-meta">
+      <div><b>展期</b><span>2026.11.14 – 2027.03.07</span></div>
+      <div><b>开放</b><span>周二至周日 10:00–17:00 / 周一闭馆</span></div>
+      <div><b>地点</b><span>Ausstellungsstrasse 60 / 8005 Zürich</span></div>
+      <div><b>入场</b><span>18 CHF / 学生 12 CHF / 周三免费</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="info">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>展讯</h2>
+      <span class="sec-de">Datenblatt</span>
+    </div>
+    <dl class="spec">
+      <div><dt>展览全称</dt><dd>Raster und Schrift / 网格与文字 / 瑞士国际主义平面设计 1950–1966</dd></div>
+      <div><dt>策展</dt><dd>宋以宁 / 顾岚</dd></div>
+      <div><dt>学术支持</dt><dd>苏黎世艺术大学 ZHDK / 巴塞尔字体排印协会</dd></div>
+      <div><dt>图录</dt><dd>德英双语 344 页 / Niggli 出版 / 45 CHF</dd></div>
+      <div><dt>展区</dt><dd>四个展厅 / 按网格、文字、海报、书籍四条线索</dd></div>
+      <div><dt>讲座</dt><dd>三场 / 见下方系列安排 / 德语同传中文</dd></div>
+      <div><dt>无障碍</dt><dd>全馆轮椅通行 / 提供大字版展签</dd></div>
+      <div><dt>团体</dt><dd>十人以上预约制 / 每工作日两场</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>构成说明</h2>
+      <span class="sec-de">Konstruktion</span>
+    </div>
+    <div class="k-grid" aria-label="本页十二列网格的三种分栏方式示意">
+      <div class="k-cell" style="grid-column:1/7">列 1–6 / 标题区</div>
+      <div class="k-cell" style="grid-column:7/13">列 7–12 / 辅助信息区</div>
+      <div class="k-cell" style="grid-column:1/5">列 1–4</div>
+      <div class="k-cell" style="grid-column:5/13">列 5–12 / 长文本依 34 字符行宽折行</div>
+      <div class="k-cell" style="grid-column:1/10">列 1–9 / 主标题不居中，左缘即轴线</div>
+      <div class="k-cell red" style="grid-column:10/13">列 10–12 / 唯一的红</div>
+    </div>
+    <div class="k-notes">
+      <div>
+        <b>左对齐法则 <i>/ Flush left</i></b>
+        <p>所有文字从左轴线起步，右侧自然参差。居中在瑞士学派看来等于放弃排版决策。</p>
+      </div>
+      <div>
+        <b>负空间 <i>/ Nichts ist leer</i></b>
+        <p>空白不是剩余物，是构件。栏与栏之间的空气量和字号一起构成层级。</p>
+      </div>
+      <div>
+        <b>一处红 <i>/ Ein Rot</i></b>
+        <p>全页只允许一个强调色。红出现在该出现的地方，黑色承担其余全部。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>讲座系列</h2>
+      <span class="sec-de">Vortragsreihe</span>
+    </div>
+    <ol class="lecs">
+      <li>
+        <span class="no">01</span>
+        <span class="date">2026.11.26 / 19:00</span>
+        <span class="t">网格作为秩序 / 《平面设计中的网格系统》导读
+          <span class="who">讲者 / 宋以宁（排版史研究者）</span>
+        </span>
+        <span class="where">Werkschau 厅 / 德语同传中文 / 免费入场</span>
+      </li>
+      <li>
+        <span class="no">02</span>
+        <span class="date">2026.12.10 / 19:00</span>
+        <span class="t">文字的呼吸 / Emil Ruder 与巴塞尔字排传统
+          <span class="who">讲者 / 林文灏（字体排印师）</span>
+        </span>
+        <span class="where">Werkschau 厅 / 德语同传中文 / 免费入场</span>
+      </li>
+      <li>
+        <span class="no">03</span>
+        <span class="date">2027.01.21 / 19:00</span>
+        <span class="t">程序化的设计 / Karl Gerstner 与设计算法的先声
+          <span class="who">讲者 / 顾维桢（设计师与写作者）</span>
+        </span>
+        <span class="where">Werkschau 厅 / 德语同传中文 / 免费入场</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>海报墙</h2>
+      <span class="sec-de">Plakatwände</span>
+    </div>
+    <div class="poster-row">
+      <figure>
+        <div class="po" role="img" aria-label="海报构成一：白底，弧线自下而上收束，左下角书写 beethoven">
+          <span class="arcs" aria-hidden="true"></span>
+          <span class="pa-t"><span class="w">beethoven</span><span class="s">konzert / 1955</span></span>
+        </div>
+        <figcaption><b>构成一 / 弧线</b> / 向 Josef Müller-Brockmann《Beethoven》音乐会海报的同心弧致敬，半径差恒定，文字退到网格左下角。</figcaption>
+      </figure>
+      <figure>
+        <div class="po pb" role="img" aria-label="海报构成二：黑底白色斜向条纹，左下白色标签书写 musica viva">
+          <span class="pb-y" aria-hidden="true">1958</span>
+          <span class="pb-t">musica viva</span>
+        </div>
+        <figcaption><b>构成二 / 斜向运动</b> / 黑白节奏来自《Musica Viva》系列，等距条纹以 45 度行走，标签贴齐左缘。</figcaption>
+      </figure>
+      <figure>
+        <div class="po pc" role="img" aria-label="海报构成三：红底，右下角超大白色字母 z，左上标注 tonhalle">
+          <span class="pc-y" aria-hidden="true">tonhalle</span>
+          <span class="pc-s" aria-hidden="true"></span>
+          <span class="pc-z" aria-hidden="true">z</span>
+        </div>
+        <figcaption><b>构成三 / 单字母</b> / 单一色块与单个字母，是五十年代苏黎世海报的典型语法：一个字母也是一次排版。</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
+      <h2>年表</h2>
+      <span class="sec-de">Chronologie 1950–1966</span>
+    </div>
+    <ol class="chron">
+      <li>
+        <span class="cy">1950</span>
+        <span class="ce">Josef Müller-Brockmann 在苏黎世开设工作室，从戏剧海报转向客观、功能主义的委托设计。</span>
+      </li>
+      <li>
+        <span class="cy">1955</span>
+        <span class="ce">《Beethoven》音乐会海报发表，同心弧线构成成为网格思维的最早公开示范。</span>
+      </li>
+      <li>
+        <span class="cy">1957</span>
+        <span class="ce">Neue Haas Grotesk 在 Münchenstein 铸字厂发布，1960 年更名 Helvetica，为国际主义提供标准字体。</span>
+      </li>
+      <li>
+        <span class="cy">1958</span>
+        <span class="ce">《Neue Grafik》杂志创刊，Lohse、Neuburg、Müller-Brockmann 与 Ruder 轮值主编，纲领随杂志传向世界。</span>
+      </li>
+      <li>
+        <span class="cy">1961</span>
+        <span class="ce">《Raster-Systeme für die visuelle Gestaltung》出版，网格从工作室经验变成可以传授的方法。</span>
+      </li>
+      <li>
+        <span class="cy">1965</span>
+        <span class="ce">《Neue Grafik》出完最后一期停刊，前后十八期杂志构成这场运动最完整的自述文献。</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no">06</span>
+      <h2>文献</h2>
+      <span class="sec-de">Literatur</span>
+    </div>
+    <ol class="bib">
+      <li>
+        <span class="bn">01</span>
+        <span class="ba">Karl Gerstner</span>
+        <span class="bt">Designing Programmes <i>/ 设计程序</i></span>
+        <span class="by">1964</span>
+        <span class="bp">Verlag Arthur Niggli, Teufen</span>
+      </li>
+      <li>
+        <span class="bn">02</span>
+        <span class="ba">Emil Ruder</span>
+        <span class="bt">Typographie <i>/ 排版</i></span>
+        <span class="by">1967</span>
+        <span class="bp">Verlag Arthur Niggli, Teufen</span>
+      </li>
+      <li>
+        <span class="bn">03</span>
+        <span class="ba">Josef Müller-Brockmann</span>
+        <span class="bt">Raster-Systeme für die visuelle Gestaltung <i>/ 网格系统</i></span>
+        <span class="by">1961</span>
+        <span class="bp">Verlag Arthur Niggli, Teufen</span>
+      </li>
+      <li>
+        <span class="bn">04</span>
+        <span class="ba">Armin Hofmann</span>
+        <span class="bt">Graphic Design Manual <i>/ 图形设计手册</i></span>
+        <span class="by">1965</span>
+        <span class="bp">Verlag Arthur Niggli, Teufen</span>
+      </li>
+      <li>
+        <span class="bn">05</span>
+        <span class="ba">Hans Neuburg</span>
+        <span class="bt">Konstruktive Grafik <i>/ 构成平面</i></span>
+        <span class="by">1958</span>
+        <span class="bp">Verlag Arthur Niggli, Teufen</span>
+      </li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <strong>UI 设计提示词库 / Minimalism &amp; Swiss</strong>
+      <a href="style-catalog.html">返回风格目录</a>
+    </div>
+    <p class="colophon">Archivo 与 Inter 排版 / 底 #FFFFFF / 墨 #000000 / 红 #E30613 / 12 列网格与外露构造线 / 展览信息为风格演示而虚构，文献条目为真实出版物</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById('gridToggle');
+  b.addEventListener('click',function(){
+    var off=document.body.classList.toggle('grid-off');
+    b.setAttribute('aria-pressed',off?'false':'true');
+    b.querySelector('span').textContent=off?'关':'开';
+  });
+})();
+</script>
+</body>
+</html>

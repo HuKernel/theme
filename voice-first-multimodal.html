@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Voice-First 语音优先 / UI 设计提示词库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&family=Nunito+Sans:wght@400;600;700;800&display=swap');
+/* token 计划: 底 #F8FAFC / 卡面 #FFFFFF / 正文 #0F172A / 次级 #475569 / 蓝(文字级) #4A6E8C / 蓝(图形) #6B8FAF / 紫(文字级) #6C5F93 / 紫(图形) #9B8FBB / 圆角 14px / 字体 Varela Round + Nunito Sans */
+
+:root {
+  --bg: #F8FAFC;
+  --card: #FFFFFF;
+  --fg: #0F172A;
+  --muted: #475569;
+  --line: #E2E8F0;
+  --blue: #4A6E8C;
+  --blue-gfx: #6B8FAF;
+  --blue-soft: #EDF3F8;
+  --purple: #6C5F93;
+  --purple-gfx: #9B8FBB;
+  --purple-soft: #F1EFF7;
+  --radius: 14px;
+  --font-head: 'Varela Round', 'Nunito Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: 'Nunito Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-head); font-weight: 400; line-height: 1.3; }
+
+a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--fg); color: #FFFFFF;
+  padding: 10px 16px; border-radius: 0 0 var(--radius) 0; z-index: 9;
+}
+.skip:focus { left: 0; }
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+/* ---------- 顶栏 ---------- */
+.top { border-bottom: 1px solid var(--line); background: rgba(248, 250, 252, .92); position: sticky; top: 0; z-index: 5; }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 18px; }
+.brand svg { display: block; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--muted);
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #64748B; flex: none; }
+body[data-state="listen"] .dot { background: var(--blue-gfx); box-shadow: 0 0 0 4px var(--blue-soft); }
+body[data-state="think"]  .dot { background: var(--purple-gfx); box-shadow: 0 0 0 4px var(--purple-soft); }
+body[data-state="speak"]  .dot { background: var(--fg); }
+
+/* ---------- 首屏 ---------- */
+.hero { text-align: center; padding: 56px 0 8px; }
+.hero h1 { font-size: 34px; letter-spacing: .5px; }
+.hero .sub { color: var(--muted); max-width: 34em; margin: 14px auto 0; }
+.hero .sub b { color: var(--blue); font-weight: 700; }
+
+.orb-zone { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 34px 0 6px; }
+.orb {
+  position: relative; width: 96px; height: 96px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-gfx), var(--purple-gfx));
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 10px 30px rgba(74, 110, 140, .35);
+  transition: transform .25s ease;
+}
+.orb:hover { transform: scale(1.04); }
+.orb:active { transform: scale(.97); }
+.orb svg { display: block; }
+.orb .ring {
+  position: absolute; inset: -8px; border-radius: 50%;
+  border: 2px solid var(--blue-gfx); opacity: 0; pointer-events: none;
+}
+.orb.play .ring { animation: halo .8s ease-out 1 backwards; }
+@keyframes halo {
+  from { transform: scale(.9); opacity: .8; }
+  to   { transform: scale(1.35); opacity: 0; }
+}
+.orb-label { font-size: 15px; color: var(--muted); }
+.try { font-size: 14px; color: var(--blue); background: var(--blue-soft); border-radius: 999px; padding: 7px 16px; }
+
+/* ---------- 声波（静态波形 + 状态点，仅一次性起振） ---------- */
+.wave-box { margin: 30px 0 6px; text-align: center; }
+.wave {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  height: 84px; padding: 0 8px;
+}
+.wave .bar {
+  width: 5px; border-radius: 3px; height: var(--h);
+  background: #94A3B8; transform-origin: center bottom;
+}
+.wave[data-state="listen"] .bar { background: var(--blue-gfx); }
+.wave[data-state="think"]  .bar { background: var(--purple-gfx); transform: scaleY(.4); transform-origin: center; }
+.wave[data-state="speak"]  .bar { background: linear-gradient(180deg, var(--blue), var(--purple)); }
+.wave.play .bar { animation: rise .9s cubic-bezier(.2, .7, .3, 1.15) 1 backwards; animation-delay: var(--d); }
+@keyframes rise {
+  from { transform: scaleY(.12); opacity: .3; }
+  to   { transform: scaleY(1);   opacity: 1; }
+}
+.state-line { font-size: 14px; color: var(--muted); margin-top: 10px; }
+.state-line strong { color: var(--fg); font-weight: 800; }
+
+.legend { list-style: none; display: flex; justify-content: center; gap: 22px; margin-top: 14px; }
+.legend li { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+.legend .dot { width: 8px; height: 8px; }
+body[data-state="listen"] .legend li[data-n="listen"],
+body[data-state="think"]  .legend li[data-n="think"],
+body[data-state="speak"]  .legend li[data-n="speak"] { color: var(--fg); font-weight: 800; }
+
+/* ---------- 对话流（主视觉） ---------- */
+.conv-sec { padding: 44px 0 8px; }
+.conv-sec > .wrap > h2 { text-align: center; font-size: 24px; }
+.conv-sec .lead { text-align: center; color: var(--muted); font-size: 14.5px; margin: 8px 0 26px; }
+.conv { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.msg { display: flex; flex-direction: column; max-width: 86%; }
+.msg.user { align-self: flex-end; align-items: flex-end; }
+.msg.ai { align-self: flex-start; align-items: flex-start; }
+.bubble {
+  border-radius: var(--radius); padding: 14px 18px; min-width: 0;
+  font-size: 15.5px; position: relative;
+}
+.msg.user .bubble {
+  background: var(--blue); color: #FFFFFF;
+  border-bottom-right-radius: 4px;
+}
+.msg.ai .bubble {
+  background: var(--card); border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+}
+.bubble .say { margin: 0 0 10px; }
+.msg.user .say { margin: 0; }
+
+/* 气泡内明细行: 统一 grid, 跨气泡列对齐 */
+.rows { display: grid; grid-template-columns: 4.5em 1fr; row-gap: 6px; margin: 10px 0 4px; }
+.rows .k { color: var(--muted); font-size: 13.5px; }
+.rows .v { font-weight: 700; font-size: 14.5px; }
+.rows .v .money { color: var(--blue); font-weight: 800; font-variant-numeric: tabular-nums; }
+.sum { border-top: 1px dashed var(--line); margin-top: 10px; padding-top: 10px; font-size: 14px; color: var(--muted); }
+.sum strong { color: var(--purple); }
+
+.meta { font-size: 12.5px; color: var(--muted); margin-top: 6px; padding: 0 4px; }
+
+.replay {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px;
+  font-size: 13.5px; color: var(--purple); background: var(--purple-soft);
+  min-height: 34px; transition: background .2s ease;
+}
+.replay:hover { background: #E7E3F2; }
+.replay .eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.replay .eq i { width: 3px; border-radius: 1px; background: var(--purple); }
+.replay .eq i:nth-child(1) { height: 6px; }
+.replay .eq i:nth-child(2) { height: 11px; }
+.replay .eq i:nth-child(3) { height: 8px; }
+.replay .eq i:nth-child(4) { height: 12px; }
+.replay.play .eq i { animation: eq .7s ease 1 backwards; animation-delay: var(--d); }
+@keyframes eq {
+  0%   { transform: scaleY(.3); }
+  55%  { transform: scaleY(1.25); }
+  100% { transform: scaleY(1); }
+}
+
+/* 对话流末尾: 正在听 */
+.listening {
+  align-self: flex-start; display: flex; align-items: center; gap: 10px;
+  background: var(--blue-soft); border: 1px solid #D8E4EE;
+  border-radius: 999px; padding: 9px 18px; font-size: 14px; color: var(--blue);
+}
+.listening .mini-bars { display: inline-flex; align-items: flex-end; gap: 3px; height: 16px; }
+.listening .mini-bars i { width: 3.5px; border-radius: 2px; background: var(--blue-gfx); }
+.listening .mini-bars i:nth-child(1) { height: 7px; }
+.listening .mini-bars i:nth-child(2) { height: 14px; }
+.listening .mini-bars i:nth-child(3) { height: 10px; }
+.listening .mini-bars i:nth-child(4) { height: 16px; }
+.listening .mini-bars i:nth-child(5) { height: 8px; }
+
+/* ---------- 三态说明 ---------- */
+.states-sec { padding: 52px 0 8px; }
+.states-sec h2 { text-align: center; font-size: 24px; }
+.states-sec .lead { text-align: center; color: var(--muted); font-size: 14.5px; margin: 8px 0 26px; }
+.states { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: stretch; }
+.state-card {
+  text-align: left; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 20px 22px; min-height: 44px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.state-card:hover { border-color: var(--blue-gfx); box-shadow: 0 6px 18px rgba(74, 110, 140, .12); }
+.state-card[aria-pressed="true"] { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue-soft); }
+.state-card .tag { display: flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 800; }
+.state-card .viz { height: 44px; display: flex; align-items: center; }
+.state-card p { font-size: 14px; color: var(--muted); }
+.state-card .eg { font-size: 13.5px; color: var(--blue); background: var(--blue-soft); border-radius: 8px; padding: 6px 10px; margin-top: auto; }
+
+/* 三态小图形: 倾听 = 抬起的短波形 / 思考 = 虚线圆环 / 回应 = 喇叭加短杠 */
+.viz .v-bars { display: inline-flex; align-items: center; gap: 3px; height: 34px; }
+.viz .v-bars i { width: 4px; border-radius: 2px; background: var(--blue-gfx); }
+.viz .v-ring { width: 30px; height: 30px; border-radius: 50%; border: 3px dashed var(--purple-gfx); }
+.viz .v-speak, .v-speak.viz { display: inline-flex; align-items: center; gap: 6px; color: var(--fg); }
+.viz .v-speak .bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 20px; }
+.viz .v-speak .bars i { width: 3px; border-radius: 1px; background: var(--purple); }
+.viz .v-speak .bars i:nth-child(1) { height: 8px; }
+.viz .v-speak .bars i:nth-child(2) { height: 16px; }
+.viz .v-speak .bars i:nth-child(3) { height: 12px; }
+.viz .v-speak .bars i:nth-child(4) { height: 20px; }
+
+/* ---------- 大按钮: 可点可说 ---------- */
+.actions-sec { padding: 52px 0 60px; }
+.actions-sec h2 { text-align: center; font-size: 24px; }
+.actions-sec .lead { text-align: center; color: var(--muted); font-size: 14.5px; margin: 8px 0 26px; }
+.actions { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.action {
+  display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px; min-height: 88px; text-align: left;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.action:hover { border-color: var(--blue-gfx); box-shadow: 0 8px 20px rgba(74, 110, 140, .14); transform: translateY(-2px); }
+.action:active { transform: translateY(0); }
+.action .ico {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--blue-soft); color: var(--blue);
+}
+.action:nth-child(3) .ico, .action:nth-child(4) .ico { background: var(--purple-soft); color: var(--purple); }
+.action .lab { font-size: 17px; font-weight: 800; }
+.action .hint { font-size: 13.5px; color: var(--blue); margin-top: 3px; }
+.action:nth-child(3) .hint, .action:nth-child(4) .hint { color: var(--purple); }
+
+/* ---------- 页脚 ---------- */
+.foot { border-top: 1px solid var(--line); background: var(--card); }
+.foot .wrap {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding-top: 22px; padding-bottom: 22px; flex-wrap: wrap;
+  font-size: 14px; color: var(--muted);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 480px) {
+  .hero { padding-top: 40px; }
+  .hero h1 { font-size: 26px; }
+  .wave { gap: 3px; }
+  .wave .bar { width: 4px; }
+  .wave .bar:nth-child(n+29) { display: none; }
+  .msg { max-width: 92%; }
+  .legend { gap: 14px; }
+  .foot .wrap { justify-content: center; text-align: center; }
+}
+
+@media (min-width: 768px) {
+  .hero h1 { font-size: 40px; }
+  .states { grid-template-columns: repeat(3, 1fr); }
+  .actions { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1440px) {
+  .wrap { max-width: 800px; }
+  .hero { padding-top: 72px; }
+  .hero h1 { font-size: 44px; }
+  .conv { gap: 18px; }
+  .msg { max-width: 78%; }
+}
+
+/* 一次性动效的降级: 全部关闭, 波形保持静态绘制 */
+@media (prefers-reduced-motion: reduce) {
+  .wave.play .bar, .orb.play .ring, .replay.play .eq i { animation: none; }
+  .orb, .action, .state-card, .replay { transition: none; }
+}
+</style>
+</head>
+<body data-state="idle">
+<a class="skip" href="#conv">跳到对话流</a>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="1"  y="10" width="3" height="6"  rx="1.5" fill="#6B8FAF"/>
+        <rect x="6"  y="6"  width="3" height="14" rx="1.5" fill="#6B8FAF"/>
+        <rect x="11" y="2"  width="3" height="22" rx="1.5" fill="#9B8FBB"/>
+        <rect x="16" y="7"  width="3" height="12" rx="1.5" fill="#9B8FBB"/>
+        <rect x="21" y="11" width="3" height="4"  rx="1.5" fill="#6B8FAF"/>
+      </svg>
+      声迹记账
+    </div>
+    <p class="chip" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="chipText">待命中 / 说「记一笔」唤醒</span>
+    </p>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>拎着购物袋，也能三秒记一笔</h1>
+      <p class="sub">
+        语音优先的记账助手。结账后双手被占满、屏幕看不清的时候，
+        <b>说出金额和用途</b>就够了，归类、算账、念结果都交给它。
+        屏幕退到第二层，只留下倾听、思考与回应。
+      </p>
+      <div class="orb-zone">
+        <button class="orb" id="orb" aria-label="按住说话，开始语音记账">
+          <span class="ring" aria-hidden="true"></span>
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="9" y="3" width="6" height="11" rx="3" fill="#FFFFFF"/>
+            <path d="M5 11a7 7 0 0 0 14 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M12 18v3M8.5 21h7" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </button>
+        <p class="orb-label">按住说话 / 松手即记</p>
+        <p class="try">试试说 / 「记一笔，午饭在面馆花了二十八」</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wave-box" aria-label="声波与状态演示区">
+    <div class="wrap">
+      <div class="wave play" id="wave" data-state="idle" role="img" aria-label="静态声波示意图，当前为待命状态">
+        <span class="bar" style="--h:8px;--d:0s"></span>
+        <span class="bar" style="--h:18px;--d:.02s"></span>
+        <span class="bar" style="--h:10px;--d:.04s"></span>
+        <span class="bar" style="--h:26px;--d:.06s"></span>
+        <span class="bar" style="--h:14px;--d:.08s"></span>
+        <span class="bar" style="--h:34px;--d:.1s"></span>
+        <span class="bar" style="--h:20px;--d:.12s"></span>
+        <span class="bar" style="--h:44px;--d:.14s"></span>
+        <span class="bar" style="--h:16px;--d:.16s"></span>
+        <span class="bar" style="--h:38px;--d:.18s"></span>
+        <span class="bar" style="--h:24px;--d:.2s"></span>
+        <span class="bar" style="--h:52px;--d:.22s"></span>
+        <span class="bar" style="--h:18px;--d:.24s"></span>
+        <span class="bar" style="--h:30px;--d:.26s"></span>
+        <span class="bar" style="--h:42px;--d:.28s"></span>
+        <span class="bar" style="--h:22px;--d:.3s"></span>
+        <span class="bar" style="--h:58px;--d:.32s"></span>
+        <span class="bar" style="--h:28px;--d:.34s"></span>
+        <span class="bar" style="--h:36px;--d:.36s"></span>
+        <span class="bar" style="--h:48px;--d:.38s"></span>
+        <span class="bar" style="--h:20px;--d:.4s"></span>
+        <span class="bar" style="--h:64px;--d:.42s"></span>
+        <span class="bar" style="--h:32px;--d:.44s"></span>
+        <span class="bar" style="--h:44px;--d:.46s"></span>
+        <span class="bar" style="--h:26px;--d:.48s"></span>
+        <span class="bar" style="--h:54px;--d:.5s"></span>
+        <span class="bar" style="--h:38px;--d:.52s"></span>
+        <span class="bar" style="--h:70px;--d:.54s"></span>
+        <span class="bar" style="--h:30px;--d:.56s"></span>
+        <span class="bar" style="--h:46px;--d:.58s"></span>
+        <span class="bar" style="--h:58px;--d:.6s"></span>
+        <span class="bar" style="--h:24px;--d:.62s"></span>
+        <span class="bar" style="--h:66px;--d:.64s"></span>
+        <span class="bar" style="--h:34px;--d:.66s"></span>
+        <span class="bar" style="--h:50px;--d:.68s"></span>
+        <span class="bar" style="--h:28px;--d:.7s"></span>
+        <span class="bar" style="--h:40px;--d:.72s"></span>
+        <span class="bar" style="--h:60px;--d:.74s"></span>
+        <span class="bar" style="--h:22px;--d:.76s"></span>
+        <span class="bar" style="--h:48px;--d:.78s"></span>
+        <span class="bar" style="--h:32px;--d:.8s"></span>
+        <span class="bar" style="--h:56px;--d:.82s"></span>
+        <span class="bar" style="--h:18px;--d:.84s"></span>
+        <span class="bar" style="--h:36px;--d:.86s"></span>
+      </div>
+      <p class="state-line">当前状态 / <strong id="stateText">待命</strong>，唤醒后点亮倾听</p>
+      <ul class="legend" aria-label="三态图例">
+        <li data-n="listen"><span class="dot" aria-hidden="true"></span>倾听</li>
+        <li data-n="think"><span class="dot" aria-hidden="true"></span>思考</li>
+        <li data-n="speak"><span class="dot" aria-hidden="true"></span>回应</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="conv-sec" id="conv" aria-label="今天的对话流">
+    <div class="wrap">
+      <h2>今天的对话流</h2>
+      <p class="lead">全程不需要打字 / 下面是真实的一段记账记录</p>
+      <ol class="conv">
+        <li class="msg user">
+          <div class="bubble">
+            <p class="say">帮我记一笔，早上坐地铁花了四块五</p>
+          </div>
+          <p class="meta">今天 08:12</p>
+        </li>
+        <li class="msg ai">
+          <div class="bubble">
+            <p class="say">已记好这笔。</p>
+            <div class="rows">
+              <span class="k">类别</span><span class="v">交通 / 地铁</span>
+              <span class="k">金额</span><span class="v"><span class="money">¥4.50</span></span>
+            </div>
+            <p class="sum">今天已花 <strong>¥4.50</strong>，本月预算还剩 ¥2,995.50</p>
+          </div>
+          <p class="meta">声迹回应 / 08:12</p>
+        </li>
+        <li class="msg user">
+          <div class="bubble">
+            <p class="say">午饭在楼下兰州拉面，花了二十八</p>
+          </div>
+          <p class="meta">今天 12:36</p>
+        </li>
+        <li class="msg ai">
+          <div class="bubble">
+            <p class="say">已记好这笔。</p>
+            <div class="rows">
+              <span class="k">类别</span><span class="v">餐饮 / 午餐</span>
+              <span class="k">商户</span><span class="v">兰州拉面（近店常去）</span>
+              <span class="k">金额</span><span class="v"><span class="money">¥28.00</span></span>
+            </div>
+            <p class="sum">今天合计 <strong>¥32.50</strong>，本月预算还剩 ¥2,967.50</p>
+            <button class="replay" type="button" aria-label="重听这条语音回应">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+                <path d="M16.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+              重听
+              <span class="eq" aria-hidden="true"><i style="--d:0s"></i><i style="--d:.08s"></i><i style="--d:.16s"></i><i style="--d:.24s"></i></span>
+            </button>
+          </div>
+          <p class="meta">声迹回应 / 12:36</p>
+        </li>
+        <li class="msg user">
+          <div class="bubble">
+            <p class="say">记一下，刚才打车回家三十五</p>
+          </div>
+          <p class="meta">今天 17:48</p>
+        </li>
+        <li class="msg ai">
+          <div class="bubble">
+            <p class="say">已记好这笔。</p>
+            <div class="rows">
+              <span class="k">类别</span><span class="v">交通 / 网约车</span>
+              <span class="k">金额</span><span class="v"><span class="money">¥35.00</span></span>
+            </div>
+            <p class="sum">今天合计 <strong>¥67.50</strong>，交通类已占今天开销的 58%</p>
+            <button class="replay" type="button" aria-label="重听这条语音回应">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+                <path d="M16.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+              重听
+              <span class="eq" aria-hidden="true"><i style="--d:0s"></i><i style="--d:.08s"></i><i style="--d:.16s"></i><i style="--d:.24s"></i></span>
+            </button>
+          </div>
+          <p class="meta">声迹回应 / 17:48</p>
+        </li>
+        <li class="msg user">
+          <div class="bubble">
+            <p class="say">今天一共花了多少？</p>
+          </div>
+          <p class="meta">今天 18:05</p>
+        </li>
+        <li class="msg ai">
+          <div class="bubble">
+            <p class="say">今天记了 3 笔，合计 67 元 5 角。</p>
+            <div class="rows">
+              <span class="k">最大一笔</span><span class="v">网约车 <span class="money">¥35.00</span></span>
+              <span class="k">餐饮占比</span><span class="v">41%</span>
+              <span class="k">对比昨天</span><span class="v">多花 ¥9.20</span>
+            </div>
+            <p class="sum">要我把三笔明细念一遍吗 / 说「念明细」即可</p>
+          </div>
+          <p class="meta">声迹回应 / 18:05</p>
+        </li>
+        <li class="msg ai">
+          <p class="listening">
+            <span class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            正在听 / 就说出金额和用途
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="states-sec" aria-label="三种状态的视觉语言">
+    <div class="wrap">
+      <h2>三种状态，一眼读懂</h2>
+      <p class="lead">不看屏幕也知道它做到哪一步 / 点卡片可在上方声波区预览</p>
+      <div class="states">
+        <button class="state-card" type="button" data-state="listen" aria-pressed="false">
+          <span class="tag">
+            <span class="viz">
+              <span class="v-bars" aria-hidden="true">
+                <i style="height:12px"></i><i style="height:22px"></i><i style="height:32px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:34px"></i><i style="height:14px"></i>
+              </span>
+            </span>
+            倾听
+          </span>
+          <p>蓝色状态点亮，声波随音量起伏。你只管说，识别在后台进行，不用盯屏幕。</p>
+          <span class="eg">示例 / 「记一笔，打车回家花了三十五」</span>
+        </button>
+        <button class="state-card" type="button" data-state="think" aria-pressed="false">
+          <span class="tag">
+            <span class="viz"><span class="v-ring" aria-hidden="true"></span></span>
+            思考
+          </span>
+          <p>波形收拢成一圈虚线环，提示正在核对金额、商户与类别，数字会先高亮再确认。</p>
+          <span class="eg">示例 / 识别出 ¥35.00 / 交通 / 网约车</span>
+        </button>
+        <button class="state-card" type="button" data-state="speak" aria-pressed="false">
+          <span class="tag">
+            <span class="v-speak viz">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>
+                <path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+              <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            </span>
+            回应
+          </span>
+          <p>结果先念给你听，屏幕同步高亮关键数字。嘈杂环境下文字与语音互为备份。</p>
+          <span class="eg">示例 / 已记好，今天合计 ¥67.50</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="actions-sec" aria-label="常用操作，可点可说">
+    <div class="wrap">
+      <h2>常用操作 / 点一下，或直接说</h2>
+      <p class="lead">每个按钮都对应一句固定的说法 / 按钮尺寸按盲操作设计</p>
+      <div class="actions">
+        <button class="action" type="button" data-state="listen">
+          <span class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/>
+              <path d="M5 11a7 7 0 0 0 14 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M12 18v3M8.5 21h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </span>
+          <span>
+            <span class="lab">记一笔</span>
+            <span class="hint">语音说法 / 「记一笔，午饭花了二十八」</span>
+          </span>
+        </button>
+        <button class="action" type="button" data-state="speak">
+          <span class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+          </span>
+          <span>
+            <span class="lab">今天花了多少</span>
+            <span class="hint">语音说法 / 「今天一共花了多少」</span>
+          </span>
+        </button>
+        <button class="action" type="button" data-state="speak">
+          <span class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 19a9 9 0 0 1 14 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M12 13l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <circle cx="12" cy="13" r="2" fill="currentColor"/>
+            </svg>
+          </span>
+          <span>
+            <span class="lab">预算还剩多少</span>
+            <span class="hint">语音说法 / 「这个月预算还剩多少」</span>
+          </span>
+        </button>
+        <button class="action" type="button" data-state="think">
+          <span class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12a8 8 0 1 1 2.3 5.6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M4 13l-1-4 4 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </span>
+          <span>
+            <span class="lab">撤销上一笔</span>
+            <span class="hint">语音说法 / 「撤销刚才那笔」</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>UI 设计提示词库 / Voice-First 语音优先</p>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var body = document.body;
+  var wave = document.getElementById('wave');
+  var orb = document.getElementById('orb');
+  var chipText = document.getElementById('chipText');
+  var stateText = document.getElementById('stateText');
+
+  var LABEL = {
+    idle:   ['待命',   '待命中 / 说「记一笔」唤醒'],
+    listen: ['倾听中', '正在倾听 / 请说出金额和用途'],
+    think:  ['思考中', '正在核对金额 / 商户与类别'],
+    speak:  ['回应中', '正在念出结果 / 屏幕同步高亮']
+  };
+
+  function vibrate(el) {
+    el.classList.remove('play');
+    void el.offsetWidth;
+    el.classList.add('play');
+  }
+
+  function setState(name) {
+    var s = LABEL[name] ? name : 'idle';
+    body.dataset.state = s;
+    wave.dataset.state = s;
+    stateText.textContent = LABEL[s][0];
+    chipText.textContent = LABEL[s][1];
+    vibrate(wave);
+    vibrate(orb);
+    var cards = document.querySelectorAll('.state-card');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].setAttribute('aria-pressed', cards[i].dataset.state === s ? 'true' : 'false');
+    }
+  }
+
+  orb.addEventListener('click', function () { setState('listen'); });
+
+  var cards = document.querySelectorAll('.state-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].addEventListener('click', function () { setState(this.dataset.state); });
+  }
+
+  var acts = document.querySelectorAll('.action');
+  for (var j = 0; j < acts.length; j++) {
+    acts[j].addEventListener('click', function () { setState(this.dataset.state); });
+  }
+
+  var replays = document.querySelectorAll('.replay');
+  for (var k = 0; k < replays.length; k++) {
+    replays[k].addEventListener('click', function () { vibrate(this); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessible &amp; Ethical 无障碍伦理 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* token 计划：primary #1E40AF（token #2563EB 加深至 AAA）/ secondary #5B21B6 / accent #EBAD25 仅作底色配深字 / bg #F8FAFC / fg #0F172A / muted #334155 / radius 6px / Atkinson Hyperlegible */
+:root{
+  --bg:#F8FAFC;
+  --surface:#FFFFFF;
+  --zebra:#EFF3F9;
+  --ink:#0F172A;
+  --muted:#334155;
+  --blue:#1E40AF;
+  --blue-deep:#1B3A9E;
+  --violet:#5B21B6;
+  --amber:#EBAD25;
+  --err:#991B1B;
+  --ok:#14532D;
+  --dark:#0F172A;
+  --sky:#A5C8FF;
+  --foot-muted:#C7D2E4;
+  --line:#C9D3E0;
+  --line-strong:#7C8DA6;
+  --focus:#1E40AF;
+  --lh:1.8;
+  --radius:6px;
+}
+:root[data-lh="compact"]{--lh:1.6}
+:root[data-lh="roomy"]{--lh:2.0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:17px;-webkit-text-size-adjust:100%}
+body{
+  font-family:"Atkinson Hyperlegible","Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:var(--lh);font-size:1rem;
+}
+/* 可见且漂亮的焦点态：3px 实线描边加 2px 留白，深色区换琥珀色 */
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:3px}
+.site-foot :focus-visible{outline-color:var(--amber)}
+a{color:var(--blue)}
+a:hover{text-decoration-thickness:2px}
+.prose a,.check a,.foot-links a,.sub-note a{text-decoration:underline}
+img,svg{display:block}
+.wrap{max-width:72rem;margin-inline:auto;padding-inline:clamp(1rem,3vw,2rem)}
+.skip{
+  position:absolute;left:1rem;top:-5rem;z-index:60;background:var(--dark);color:#FFFFFF;
+  padding:.75rem 1.25rem;border-radius:var(--radius);font-weight:700;text-decoration:none;
+}
+.skip:focus{top:1rem;color:#FFFFFF}
+/* 页头 */
+.site-head{
+  position:sticky;top:0;z-index:20;background:var(--surface);
+  border-bottom:2px solid var(--line);
+}
+.head-in{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  padding-block:.85rem;
+}
+.brand{font-weight:700;font-size:1.15rem;color:var(--ink);text-decoration:none;display:flex;align-items:baseline;gap:.55rem}
+.brand small{font-weight:400;font-size:.85rem;color:var(--muted)}
+.site-nav ul{display:flex;gap:1.4rem;list-style:none;flex-wrap:wrap}
+.site-nav a{font-weight:700;font-size:.95rem;text-decoration:none;padding:.35rem .1rem}
+.site-nav a:hover,.site-nav a:focus-visible{text-decoration:underline}
+/* 英雄区 */
+.hero{padding-block:clamp(3rem,8vw,5.5rem);border-bottom:2px solid var(--line)}
+.kicker{color:var(--violet);font-weight:700;font-size:.98rem;margin-bottom:1rem}
+.hero h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.2;max-width:24ch;letter-spacing:-.01em}
+.lede{margin-top:1.25rem;font-size:1.15rem;max-width:46em}
+.cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px;min-width:44px;padding:.7rem 1.6rem;border-radius:var(--radius);
+  font:inherit;font-weight:700;border:2px solid transparent;cursor:pointer;text-decoration:none;
+}
+.btn-primary{background:var(--blue);color:#FFFFFF}
+.btn-primary:hover{background:var(--blue-deep)}
+.btn-ghost{background:transparent;color:var(--blue);border-color:var(--blue)}
+.btn-ghost:hover{background:var(--blue);color:#FFFFFF}
+/* 指标 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.75rem}
+.stat{background:var(--surface);border:2px solid var(--line);border-left-width:.5rem;border-left-color:var(--blue);border-radius:var(--radius);padding:1.1rem 1.25rem}
+.stat b{display:block;font-size:1.9rem;line-height:1.15;color:var(--blue)}
+.stat span{display:block;margin-top:.35rem;color:var(--muted);font-size:.95rem}
+/* 章节通用 */
+section{padding-block:clamp(2.5rem,6vw,4.5rem)}
+.band{background:var(--surface);border-bottom:2px solid var(--line)}
+section h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.25;margin-bottom:1rem}
+.sec-intro{max-width:44em;color:var(--muted)}
+/* 阅读设置与试读 */
+.reading-grid{display:grid;grid-template-columns:23rem 1fr;gap:1.5rem;margin-top:2rem}
+.panel,.prose{background:var(--surface);border:2px solid var(--line);border-radius:var(--radius)}
+.panel{padding:1.4rem}
+fieldset{border:2px solid var(--line);border-radius:var(--radius);padding:1.1rem 1.2rem}
+fieldset + fieldset{margin-top:1.1rem}
+legend{font-weight:700;padding-inline:.45rem}
+.fs-btns{display:flex;gap:.6rem;align-items:center}
+.step{
+  min-width:44px;min-height:44px;font:inherit;font-size:1.05rem;font-weight:700;
+  border:2px solid var(--blue);background:var(--surface);color:var(--blue);
+  border-radius:var(--radius);cursor:pointer;
+}
+.step:hover{background:var(--blue);color:#FFFFFF}
+.step:disabled{color:var(--muted);border-color:var(--muted);background:var(--zebra);cursor:not-allowed}
+.fs-out{margin-top:.7rem;color:var(--muted);font-size:.95rem}
+.lh-opts{display:flex;gap:1.4rem;flex-wrap:wrap}
+.lh-opts label,.check{display:flex;align-items:flex-start;gap:.55rem}
+input[type="radio"],input[type="checkbox"]{width:1.3rem;height:1.3rem;flex:none;margin-top:.2rem;accent-color:var(--blue)}
+.prose{padding:clamp(1.25rem,3vw,2rem)}
+.prose .meta{color:var(--muted);font-size:.95rem;margin-bottom:1.2rem}
+.prose h3{font-size:1.35rem;line-height:1.3;margin-bottom:1rem}
+.prose p + p{margin-top:1rem}
+mark{background:var(--amber);color:var(--ink);padding:0 .18em;border-radius:3px}
+/* 数据声明表格：行以 grid 对齐 */
+.never{list-style:none;display:grid;gap:.6rem;margin-top:1.5rem;max-width:44em}
+.never li{display:flex;gap:.6rem;align-items:flex-start;color:var(--muted)}
+.never svg{width:1.15rem;height:1.15rem;flex:none;margin-top:.3rem;color:var(--ok)}
+.table-wrap{overflow-x:auto;border:2px solid var(--line);border-radius:var(--radius);background:var(--surface);margin-top:2rem}
+table{display:block;min-width:660px;border-collapse:collapse}
+caption{text-align:left;font-weight:700;padding:1.1rem 1.3rem .2rem;font-size:1.05rem}
+tr{display:grid;gap:.35rem 1.5rem;align-items:center;padding:.85rem 1.3rem;border-top:1px solid var(--line)}
+thead tr{grid-template-columns:10rem 8rem 1fr;border-top:0;background:var(--zebra)}
+tbody tr{grid-template-columns:10rem 8rem 1fr}
+tbody tr:nth-child(even){background:var(--zebra)}
+th,td{display:block;text-align:left}
+th{font-weight:700}
+th:first-child{grid-row:1}
+td.desc{color:var(--muted);font-size:.95rem}
+tr.trow-c{grid-template-columns:22rem 1fr 8.5rem 7.5rem}
+.pill{display:inline-block;border:2px solid currentColor;border-radius:999px;padding:.1rem .75rem;font-weight:700;font-size:.9rem}
+.pill-yes{color:var(--blue)}
+.pill-no{color:var(--ok)}
+.swatch{display:inline-block;width:1.05rem;height:1.05rem;border-radius:3px;border:1px solid var(--line-strong);vertical-align:-.15em;margin-right:.45rem}
+/* 表单 */
+.sub-form{max-width:41rem;background:var(--surface);border:2px solid var(--line);border-radius:var(--radius);padding:clamp(1.25rem,3vw,2rem);margin-top:2rem}
+.sub-note{color:var(--muted);margin-bottom:1.4rem}
+.field{margin-bottom:1.3rem}
+label{font-weight:700;display:block;margin-bottom:.45rem}
+.hint{color:var(--muted);font-size:.92rem;margin-bottom:.55rem}
+input[type="email"]{
+  width:100%;min-height:44px;padding:.6rem .85rem;font:inherit;color:var(--ink);
+  background:#FFFFFF;border:2px solid var(--line-strong);border-radius:var(--radius);
+}
+input[type="email"][aria-invalid="true"]{border-color:var(--err)}
+.err{color:var(--err);font-weight:700;font-size:.95rem;margin-top:.55rem}
+.err::before{content:"错误："}
+.check{margin-top:.95rem}
+.check span{color:var(--muted)}
+.check.req span{color:var(--ink)}
+.sub-form .btn{margin-top:1.5rem}
+.form-status{margin-top:1rem;font-weight:700;min-height:1.6rem}
+.form-status.ok{color:var(--ok)}
+/* 卡片 */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2rem}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:var(--radius);padding:1.5rem;display:flex;flex-direction:column;gap:.7rem}
+.card svg{width:1.7rem;height:1.7rem;color:var(--ok)}
+.card h3{font-size:1.15rem;line-height:1.3}
+.card p{color:var(--muted)}
+/* 页脚 */
+.site-foot{background:var(--dark);color:#F8FAFC;margin-top:4rem}
+.foot-in{padding-block:3rem;display:grid;gap:.85rem}
+.foot-title{font-weight:700;font-size:1.1rem}
+.foot-links a{color:var(--sky);font-weight:700}
+.foot-small{color:var(--foot-muted);font-size:.92rem}
+/* 响应式 */
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .reading-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .head-in{justify-content:center}
+  .cta .btn{width:100%}
+}
+@media (min-width:1440px){
+  .wrap{max-width:80rem}
+}
+/* 高对比偏好：线条与辅助文字全面加深 */
+@media (prefers-contrast:more){
+  :root{--line:#334155;--line-strong:#0F172A;--muted:#0F172A}
+  .btn,.step{border-width:3px}
+  .stat,.card,.panel,.prose,.sub-form,.table-wrap{border-width:3px}
+  .site-nav a{text-decoration:underline}
+}
+/* 强制色彩模式：交给系统配色，保证结构与描边仍在 */
+@media (forced-colors:active){
+  .stat,.card,.panel,.prose,.sub-form,.table-wrap,fieldset,.btn,.step{border:1px solid CanvasText}
+  .stat{border-left-width:.5rem}
+  :focus-visible{outline-color:Highlight}
+  mark{background:Mark;color:MarkText}
+}
+/* 一次亮相动效，尊重减少动态偏好 */
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+  .rise{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
+  .rise.d1{animation-delay:.08s}
+  .rise.d2{animation-delay:.16s}
+  .rise.d3{animation-delay:.24s}
+  .rise.d4{animation-delay:.34s}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .btn,.step,.site-nav a{transition:background-color .18s,color .18s,border-color .18s}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top">明阅<small>公益无障碍阅读平台</small></a>
+    <nav class="site-nav" aria-label="主导航">
+      <ul>
+        <li><a href="#reading">阅读设置</a></li>
+        <li><a href="#data">数据声明</a></li>
+        <li><a href="#subscribe">订阅周报</a></li>
+        <li><a href="#contrast">对比度自查</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-h">
+    <div class="wrap">
+      <p class="kicker rise">无障碍 / 伦理 / 高对比设计</p>
+      <h1 id="hero-h" class="rise d1">让每个人都能读到这里，是一切的起点</h1>
+      <p class="lede rise d2">明阅是面向低视力、阅读障碍者与所有读者的公益阅读平台。我们以 WCAG 2.2 增强级（AAA）为自律目标：全站文字对比度不低于 7:1，正文不小于 16 像素，触控目标不小于 44 像素，并且不追踪你的任何站外行为。</p>
+      <div class="cta rise d3">
+        <a class="btn btn-primary" href="#subscribe">订阅无障碍周报</a>
+        <a class="btn btn-ghost" href="#data">查看数据声明</a>
+      </div>
+      <dl class="stats rise d4">
+        <div class="stat">
+          <dt><b>7.0:1</b></dt>
+          <dd><span>全站文字对比度下限，实测均高于此值</span></dd>
+        </div>
+        <div class="stat">
+          <dt><b>16px</b></dt>
+          <dd><span>正文字号下限，且可随时放大调节</span></dd>
+        </div>
+        <div class="stat">
+          <dt><b>44px</b></dt>
+          <dd><span>所有按钮与控件的触控目标下限</span></dd>
+        </div>
+        <div class="stat">
+          <dt><b>0 个</b></dt>
+          <dd><span>第三方追踪器，一个也没有接入</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="reading" aria-labelledby="reading-h">
+    <div class="wrap">
+      <h2 id="reading-h">阅读度量，交给读者</h2>
+      <p class="sec-intro">字号与行距不该由设计师替你决定。下面的调节器真实可用，设置仅保存在你的浏览器本地，并即时作用于整个页面与右侧试读样例。</p>
+      <div class="reading-grid">
+        <form class="panel" aria-labelledby="setting-h" onsubmit="return false">
+          <h3 id="setting-h" style="font-size:1.15rem;margin-bottom:1.1rem">阅读设置</h3>
+          <fieldset>
+            <legend>字号</legend>
+            <div class="fs-btns">
+              <button type="button" class="step" id="fs-minus" aria-label="减小字号">A−</button>
+              <button type="button" class="step" id="fs-reset" aria-label="恢复默认字号">A</button>
+              <button type="button" class="step" id="fs-plus" aria-label="增大字号">A+</button>
+            </div>
+            <p class="fs-out" id="fs-out" role="status" aria-live="polite">当前字号 17px</p>
+          </fieldset>
+          <fieldset>
+            <legend>行距</legend>
+            <div class="lh-opts" role="radiogroup" aria-label="行距">
+              <label><input type="radio" name="lh" value="compact">紧凑</label>
+              <label><input type="radio" name="lh" value="cozy" checked>舒适</label>
+              <label><input type="radio" name="lh" value="roomy">宽松</label>
+            </div>
+          </fieldset>
+        </form>
+        <article class="prose" aria-labelledby="sample-h">
+          <p class="meta">试读样例 / 来自《无障碍设计实践手册》第一章 / 字号与行距设置即时生效</p>
+          <h3 id="sample-h">无障碍不是功能，而是立场</h3>
+          <p>在明阅，无障碍从来不是需求列表里的一项，而是做每一个决定的前提。字号的判断权交给读者，行距的松紧由你决定，焦点的位置永远可见。我们相信，一座不设台阶的图书馆，不需要解释自己为什么没有台阶。</p>
+          <p>高对比也不是丑的借口。<mark>深墨色的文字落在安静的白纸上</mark>，本身就是一种克制的庄重。我们把每一个颜色组合的对比度算清楚、写明白，不靠感觉，只靠数据。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="data" class="band" aria-labelledby="data-h">
+    <div class="wrap">
+      <h2 id="data-h">我们如何对待你的数据</h2>
+      <p class="sec-intro">以下表格逐项列明数据的去向与保留期限。我们不做定向广告，不出售数据，也不把阅读行为拼接成画像。表中标记为否的项，代表该类数据从采集环节就不存在，而不是存在但默认关闭。</p>
+      <div class="table-wrap" role="region" aria-label="数据处理明细表，可横向滚动" tabindex="0">
+        <table>
+          <caption>数据处理明细</caption>
+          <thead>
+            <tr role="row">
+              <th scope="col" role="columnheader">数据项</th>
+              <th scope="col" role="columnheader">是否收集</th>
+              <th scope="col" role="columnheader">去向与保留期</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr role="row">
+              <th scope="row" role="rowheader">邮箱地址</th>
+              <td role="cell"><span class="pill pill-yes">是</span></td>
+              <td role="cell" class="desc">仅用于发送周报，退订后 24 小时内删除</td>
+            </tr>
+            <tr role="row">
+              <th scope="row" role="rowheader">字号与行距设置</th>
+              <td role="cell"><span class="pill pill-yes">是</span></td>
+              <td role="cell" class="desc">仅保存在你的浏览器本地存储，不上传服务器</td>
+            </tr>
+            <tr role="row">
+              <th scope="row" role="rowheader">阅读进度</th>
+              <td role="cell"><span class="pill pill-yes">是</span></td>
+              <td role="cell" class="desc">仅保存在本机，换设备不会跟随</td>
+            </tr>
+            <tr role="row">
+              <th scope="row" role="rowheader">精确位置</th>
+              <td role="cell"><span class="pill pill-no">否</span></td>
+              <td role="cell" class="desc">不采集</td>
+            </tr>
+            <tr role="row">
+              <th scope="row" role="rowheader">设备广告标识符</th>
+              <td role="cell"><span class="pill pill-no">否</span></td>
+              <td role="cell" class="desc">不采集</td>
+            </tr>
+            <tr role="row">
+              <th scope="row" role="rowheader">阅读内容兴趣画像</th>
+              <td role="cell"><span class="pill pill-no">否</span></td>
+              <td role="cell" class="desc">不采集，也不用于任何形式的推荐</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="never">
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>不使用第三方追踪器或广告 SDK，页面资源全部自托管</span></li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>不记录你在本站之外的任何行为</span></li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>不以任何形式出售或共享可识别个人的数据</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="subscribe" aria-labelledby="sub-h">
+    <div class="wrap">
+      <h2 id="sub-h">订阅《无障碍周报》</h2>
+      <p class="sec-intro">每周一封，精选无障碍设计与数字伦理的实践案例。下面这份表单是标签与错误提示的模范实现：错误就地提示并朗读，焦点自动落到第一个出错的控件。</p>
+      <form class="sub-form" id="sub-form" novalidate>
+        <p class="sub-note" id="sub-note">随时可退订，退订后 24 小时内删除你的邮箱。需要了解详情，请先阅读<a href="#data">数据声明</a>。</p>
+        <div class="field">
+          <label for="email">电子邮箱（必填）</label>
+          <p class="hint" id="email-hint">格式如 ming@example.com，仅用于发送周报</p>
+          <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-hint email-err">
+          <p class="err" id="email-err" hidden>请输入有效的邮箱地址，例如 ming@example.com</p>
+        </div>
+        <fieldset>
+          <legend>订阅版本（必选其一）</legend>
+          <div class="lh-opts">
+            <label><input type="radio" name="fmt" value="text" checked>纯文字版</label>
+            <label><input type="radio" name="fmt" value="rich">图文版</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>知情同意</legend>
+          <p class="check req">
+            <input type="checkbox" id="consent" name="consent" required aria-describedby="consent-err">
+            <span>我已阅读<a href="#data">数据声明</a>，并知晓邮箱仅用于发送周报</span>
+          </p>
+          <p class="err" id="consent-err" hidden>需要你的知情同意后，我们才能发送周报</p>
+          <p class="check">
+            <input type="checkbox" id="anon" name="anon">
+            <span>同意将我的打开行为计入匿名聚合统计（不包含任何身份信息，可选）</span>
+          </p>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">确认订阅</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="contrast" class="band" aria-labelledby="contrast-h">
+    <div class="wrap">
+      <h2 id="contrast-h">对比度自查，数据说话</h2>
+      <p class="sec-intro">本页使用的每一种文字颜色组合都经过算法实测，全部高于 7:1。我们不展示做不到的数字，也不省略做不到的部分。</p>
+      <div class="table-wrap" role="region" aria-label="文字对比度实测表，可横向滚动" tabindex="0">
+        <table>
+          <caption>文字对比度实测记录</caption>
+          <thead>
+            <tr class="trow-c" role="row">
+              <th scope="col" role="columnheader">颜色组合</th>
+              <th scope="col" role="columnheader">用途</th>
+              <th scope="col" role="columnheader">实测对比度</th>
+              <th scope="col" role="columnheader">结论</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="trow-c" role="row">
+              <th scope="row" role="rowheader"><span class="swatch" style="background:#0F172A" aria-hidden="true"></span>墨色 #0F172A 落在纸白 #F8FAFC</th>
+              <td role="cell" class="desc">正文文字</td>
+              <td role="cell">17.0:1</td>
+              <td role="cell">达标（AAA）</td>
+            </tr>
+            <tr class="trow-c" role="row">
+              <th scope="row" role="rowheader"><span class="swatch" style="background:#1E40AF" aria-hidden="true"></span>纯白 #FFFFFF 落在深蓝 #1E40AF</th>
+              <td role="cell" class="desc">主按钮文字</td>
+              <td role="cell">8.7:1</td>
+              <td role="cell">达标（AAA）</td>
+            </tr>
+            <tr class="trow-c" role="row">
+              <th scope="row" role="rowheader"><span class="swatch" style="background:#5B21B6" aria-hidden="true"></span>深紫 #5B21B6 落在纯白</th>
+              <td role="cell" class="desc">小节导语</td>
+              <td role="cell">9.0:1</td>
+              <td role="cell">达标（AAA）</td>
+            </tr>
+            <tr class="trow-c" role="row">
+              <th scope="row" role="rowheader"><span class="swatch" style="background:#EBAD25" aria-hidden="true"></span>墨色 #0F172A 落在琥珀 #EBAD25</th>
+              <td role="cell" class="desc">重点标记</td>
+              <td role="cell">8.9:1</td>
+              <td role="cell">达标（AAA）</td>
+            </tr>
+            <tr class="trow-c" role="row">
+              <th scope="row" role="rowheader"><span class="swatch" style="background:#334155" aria-hidden="true"></span>石板灰 #334155 落在纸白</th>
+              <td role="cell" class="desc">辅助说明文字</td>
+              <td role="cell">9.9:1</td>
+              <td role="cell">达标（AAA）</td>
+            </tr>
+            <tr class="trow-c" role="row">
+              <th scope="row" role="rowheader"><span class="swatch" style="background:#A5C8FF" aria-hidden="true"></span>淡蓝 #A5C8FF 落在墨色 #0F172A</th>
+              <td role="cell" class="desc">深色页脚链接</td>
+              <td role="cell">10.4:1</td>
+              <td role="cell">达标（AAA）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>高对比即庄重</h3>
+          <p>深墨与纸白之间 17:1 的落差，让文字自己站到台前。对比度不是妥协后的结果，而是这份设计落下的第一笔。</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>焦点应当被看见</h3>
+          <p>用 Tab 键在本页走一圈，每个可交互元素都会出现 3px 的清晰描边与 2px 留白。焦点环不是瑕疵，而是键盘用户的路标。</p>
+        </div>
+        <div class="card">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>数据要诚实呈现</h3>
+          <p>坐标轴从零起步，百分比写明分母，样本不足就直说。不裁剪、不放大的呈现方式，是数字伦理的最低标准。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <p class="foot-title">UI 设计提示词库 / Accessible &amp; Ethical 无障碍伦理</p>
+    <p class="foot-links"><a href="style-catalog.html">返回风格目录</a></p>
+    <p class="foot-small">明阅为演示用虚构组织 / 本页按 WCAG 2.2 增强级（AAA）目标自律 / 表中对比度数值为算法实测</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  /* 字号调节器：范围 16 至 22 像素，持久化到本地存储 */
+  var SIZES = [16, 17, 18, 20, 22];
+  var DEF = 1;
+  var cur = DEF;
+  try {
+    var saved = parseInt(localStorage.getItem("ae-fs"), 10);
+    var idx = SIZES.indexOf(saved);
+    if (idx > -1) cur = idx;
+  } catch (e) {}
+  var out = document.getElementById("fs-out");
+  var btnMinus = document.getElementById("fs-minus");
+  var btnPlus = document.getElementById("fs-plus");
+  var btnReset = document.getElementById("fs-reset");
+  function applyFs() {
+    root.style.fontSize = SIZES[cur] + "px";
+    out.textContent = "当前字号 " + SIZES[cur] + "px";
+    btnMinus.disabled = cur === 0;
+    btnPlus.disabled = cur === SIZES.length - 1;
+    try { localStorage.setItem("ae-fs", String(SIZES[cur])); } catch (e) {}
+  }
+  btnMinus.addEventListener("click", function () {
+    if (cur > 0) { cur -= 1; applyFs(); }
+  });
+  btnPlus.addEventListener("click", function () {
+    if (cur < SIZES.length - 1) { cur += 1; applyFs(); }
+  });
+  btnReset.addEventListener("click", function () {
+    cur = DEF;
+    applyFs();
+  });
+  applyFs();
+  /* 行距调节：紧凑 1.6 / 舒适 1.8 / 宽松 2.0 */
+  var radios = document.querySelectorAll('input[name="lh"]');
+  try {
+    var savedLh = localStorage.getItem("ae-lh");
+    if (savedLh === "compact" || savedLh === "roomy") {
+      root.dataset.lh = savedLh;
+      radios.forEach(function (r) { r.checked = r.value === savedLh; });
+    }
+  } catch (e) {}
+  radios.forEach(function (r) {
+    r.addEventListener("change", function () {
+      root.dataset.lh = r.value;
+      try { localStorage.setItem("ae-lh", r.value); } catch (e) {}
+    });
+  });
+  /* 表单验证：就地错误提示加焦点管理 */
+  var form = document.getElementById("sub-form");
+  var email = document.getElementById("email");
+  var consent = document.getElementById("consent");
+  var emailErr = document.getElementById("email-err");
+  var consentErr = document.getElementById("consent-err");
+  var status = document.getElementById("form-status");
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function showErr(input, errEl, show) {
+    errEl.hidden = !show;
+    input.setAttribute("aria-invalid", show ? "true" : "false");
+  }
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    status.textContent = "";
+    status.classList.remove("ok");
+    var emailOk = EMAIL_RE.test(email.value.trim());
+    showErr(email, emailErr, !emailOk);
+    showErr(consent, consentErr, !consent.checked);
+    if (!emailOk && !consent.checked) { email.focus(); return; }
+    if (!emailOk) { email.focus(); return; }
+    if (!consent.checked) { consent.focus(); return; }
+    status.textContent = "订阅成功。确认邮件已发送至 " + email.value.trim() + "，请于七日内点击确认。";
+    status.classList.add("ok");
+    form.reset();
+  });
+  email.addEventListener("input", function () { showErr(email, emailErr, false); });
+  consent.addEventListener("change", function () { showErr(consent, consentErr, false); });
+})();
+</script>
+</body>
+</html>
