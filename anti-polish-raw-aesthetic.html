@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="反抛光原生风格演示页：地下演出厂牌「防空洞现场」，排期、场地、公开账本。">
+<title>反抛光原生 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+/* token 计划：纸白 #FAFAF8 / 墨黑 #1A1A1A / 铅灰 #4A4A4A / 牛皮纸 #C4A77D / 默认链接蓝 #0000EE（自觉引用）/ 边框 1px 墨线 / 圆角 0 / 系统等宽 × 系统无衬线 */
+:root {
+  --paper: #FAFAF8;
+  --ink: #1A1A1A;
+  --grey: #4A4A4A;
+  --kraft: #C4A77D;
+  --link: #0000EE;
+  --visited: #551A8B;
+  --tint: #F3ECDE;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+  --u: 7px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #F0EEE6;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+}
+/* 刻意保留默认蓝链接与下划线：这是本风格的立场，不是疏忽 */
+a {
+  color: var(--link);
+  text-decoration: underline;
+}
+a:visited {
+  color: var(--visited);
+}
+a:hover {
+  color: var(--ink);
+  background: var(--kraft);
+}
+a:active {
+  color: var(--paper);
+  background: var(--ink);
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+.foot a:focus-visible {
+  outline-color: var(--paper);
+}
+::selection {
+  background: var(--kraft);
+  color: var(--ink);
+}
+.mono {
+  font-family: var(--mono);
+}
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+}
+.skip:focus-visible {
+  left: 8px;
+  position: absolute;
+  background: var(--paper);
+  padding: 6px 12px;
+  z-index: 10;
+}
+.sheet {
+  max-width: 1120px;
+  margin: 0 auto;
+  background: var(--paper);
+  border-left: 1px solid var(--ink);
+  border-right: 1px solid var(--ink);
+}
+.specbar {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  padding: 5px 24px;
+}
+.specbar .sl {
+  color: var(--kraft);
+}
+.masthead {
+  padding: 34px 24px 28px;
+  position: relative;
+}
+.masthead::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ink);
+  transform-origin: left;
+  animation: snapline .6s steps(8) .1s both;
+}
+.kicker {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: var(--grey);
+}
+.titlebar {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px 30px;
+  margin-top: 12px;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(46px, 9.5vw, 104px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: .01em;
+}
+.tsub {
+  margin: 0 0 10px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: var(--grey);
+}
+.stamp {
+  margin-left: auto;
+  align-self: flex-start;
+  margin-top: calc(var(--u) * 3);
+  background: var(--kraft);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+  padding: 9px 14px;
+  transform: rotate(-2.5deg);
+  white-space: nowrap;
+}
+.tagline {
+  margin: 16px 0 0;
+  max-width: 44em;
+  font-size: 18px;
+}
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding-top: 20px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+.toc .sep {
+  color: var(--grey);
+}
+.sec {
+  padding: 56px 24px 62px;
+}
+.sec + .sec {
+  border-top: 1px solid var(--ink);
+}
+main {
+  display: block;
+}
+.sechead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 0 0 26px;
+}
+.secno {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+}
+h2 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: .02em;
+}
+.secnote {
+  margin: 0 0 0 auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+}
+/* 未对齐中的对齐：每个区块标题向右递增 14px（--u 的倍数），暗中仍受同一网格约束 */
+@media (min-width: 900px) {
+  main .sec:nth-of-type(2) .sechead { margin-left: calc(var(--u) * 2); }
+  main .sec:nth-of-type(3) .sechead { margin-left: calc(var(--u) * 4); }
+  main .sec:nth-of-type(4) .sechead { margin-left: calc(var(--u) * 6); }
+  main .sec:nth-of-type(5) .sechead { margin-left: calc(var(--u) * 8); }
+}
+.tablewrap {
+  overflow-x: auto;
+}
+.rawtable {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 760px;
+  font-size: 15.5px;
+}
+.rawtable caption {
+  caption-side: top;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+  padding: 0 0 10px;
+}
+.rawtable th,
+.rawtable td {
+  border: 1px solid var(--ink);
+  padding: 9px 12px;
+  vertical-align: top;
+  text-align: left;
+}
+.rawtable thead th {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+}
+.num {
+  font-family: var(--mono);
+  text-align: right;
+  white-space: nowrap;
+}
+.datecell {
+  font-family: var(--mono);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.datecell small {
+  color: var(--grey);
+  font-size: 12px;
+}
+tr.soldout td {
+  color: var(--grey);
+}
+.chip {
+  display: inline-block;
+  background: var(--kraft);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 1px 8px;
+}
+tr.total td {
+  border-top: 3px double var(--ink);
+  font-weight: 700;
+  background: var(--tint);
+}
+.note {
+  margin: 14px 0 0;
+  max-width: 58em;
+  font-size: 14px;
+  color: var(--grey);
+}
+.venues {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  align-items: stretch;
+  padding-bottom: calc(var(--u) * 2);
+}
+.venue {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  padding: 0 18px 16px;
+}
+.vindex {
+  align-self: flex-start;
+  margin: -12px 0 10px -10px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 2px 10px;
+}
+.venue:nth-child(1) .vindex { transform: rotate(-2deg); }
+.venue:nth-child(2) .vindex { transform: rotate(1.5deg); }
+.venue:nth-child(3) .vindex { transform: rotate(-1deg); }
+.venue h3 {
+  margin: 2px 0 2px;
+  font-size: 21px;
+}
+.vsub {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--grey);
+}
+.venue dl {
+  margin: 14px 0 0;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  row-gap: 9px;
+}
+.venue dt {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--grey);
+  border-top: 1px solid var(--ink);
+  padding-top: 7px;
+}
+.venue dd {
+  margin: 0;
+  font-size: 15px;
+  border-top: 1px solid var(--ink);
+  padding-top: 5px;
+}
+/* 刻意偏移：二号下移 14px、三号下移 7px，均为 --u 的倍数 */
+@media (min-width: 900px) {
+  .venue:nth-child(2) { transform: translateY(calc(var(--u) * 2)); }
+  .venue:nth-child(3) { transform: translateY(var(--u)); }
+}
+.vgridnote {
+  margin: 8px 0 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+}
+.ledgerwrap {
+  position: relative;
+}
+.tape {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  z-index: 2;
+  background: var(--kraft);
+  border: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 4px 12px;
+  transform: rotate(2deg);
+}
+.reg fieldset {
+  border: 1px solid var(--ink);
+  margin: 0 0 18px;
+  padding: 12px 16px 16px;
+}
+.reg legend {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+  padding: 0 6px;
+}
+.field {
+  margin: 0 0 16px;
+}
+.field label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--grey);
+}
+.reg input[type="text"],
+.reg select {
+  font: inherit;
+  padding: 7px 9px;
+  width: min(340px, 100%);
+}
+.check {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 16px;
+}
+.btnbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  border: 1px solid var(--ink);
+  background: var(--tint);
+  padding: 12px 16px;
+}
+.btnbar button {
+  font: inherit;
+}
+.btnbar .mono {
+  font-size: 13px;
+  color: var(--grey);
+}
+.rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: r;
+}
+.rules li {
+  counter-increment: r;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  font-size: 17px;
+}
+.rules li + li {
+  border-top: 1px solid var(--ink);
+}
+.rules li::before {
+  content: counter(r, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--grey);
+}
+.contact {
+  margin: 36px 0 0;
+  border: 1px solid var(--ink);
+  padding: 14px 18px;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 2.1;
+  font-style: normal;
+}
+.contact .sl {
+  color: var(--grey);
+}
+.foot {
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 24px;
+  padding: 20px 24px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+}
+.foot a {
+  color: var(--paper);
+}
+.foot .sl {
+  color: var(--kraft);
+}
+/* 一次亮相动效：无平滑过渡，全部 steps() 顿挫完成，只播一次 */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(var(--u)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes snapline {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes stampin {
+  0% { opacity: 0; transform: rotate(-2.5deg) scale(1.2); }
+  55% { opacity: 1; transform: rotate(-2.5deg) scale(.94); }
+  100% { opacity: 1; transform: rotate(-2.5deg) scale(1); }
+}
+.specbar { animation: rise .3s steps(3) both; }
+.kicker { animation: rise .4s steps(4) both; }
+.titlebar { animation: rise .45s steps(4) .08s both; }
+.tagline { animation: rise .45s steps(4) .16s both; }
+.toc { animation: rise .45s steps(4) .24s both; }
+.stamp { animation: stampin .5s steps(5) .34s both; }
+@media (prefers-reduced-motion: reduce) {
+  .specbar,
+  .kicker,
+  .titlebar,
+  .tagline,
+  .toc,
+  .stamp {
+    animation: none;
+  }
+  .masthead::after {
+    animation: none;
+  }
+}
+@media (max-width: 899px) {
+  .sechead {
+    margin-left: 0;
+  }
+  .venue:nth-child(2),
+  .venue:nth-child(3) {
+    transform: none;
+  }
+}
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+  .sec {
+    padding: 44px 18px 50px;
+  }
+  .masthead {
+    padding: 26px 18px 24px;
+  }
+  h2 {
+    font-size: 26px;
+  }
+  h1 {
+    font-size: clamp(42px, 12vw, 64px);
+  }
+  .stamp {
+    margin-left: 0;
+  }
+  .secnote {
+    margin-left: 0;
+    width: 100%;
+  }
+  .foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#gigs">跳到演出排期</a>
+<div class="sheet">
+  <p class="specbar">纸 #FAFAF8 <span class="sl">/</span> 墨 #1A1A1A <span class="sl">/</span> 灰 #4A4A4A <span class="sl">/</span> 牛皮纸 #C4A77D <span class="sl">/</span> 链接 #0000EE <span class="sl">/</span> 边框 1px <span class="sl">/</span> 圆角 0 <span class="sl">/</span> 系统等宽 × 系统无衬线</p>
+  <header class="masthead">
+    <p class="kicker">防空洞现场 / UNDERGROUND GIG PROMOTER / 北京 / EST. 2019</p>
+    <div class="titlebar">
+      <h1>防空洞现场</h1>
+      <p class="tsub">FANGKONGDONG LIVEHOUSE<br>一切写在明面上</p>
+      <p class="stamp">账目已公开<br>2026.10 / 第 4 次</p>
+    </div>
+    <p class="tagline">一家只办地下演出的厂牌。票价、场地容量、每一笔收支，全部摊在这本网站上。没有算法推荐，没有第三方票务，没有隐藏条款。</p>
+    <nav class="toc" aria-label="页内导航">
+      <a href="#gigs">排期</a><span class="sep">/</span><a href="#venues">场地</a><span class="sep">/</span><a href="#ledger">账本</a><span class="sep">/</span><a href="#volunteer">志愿者</a><span class="sep">/</span><a href="#manifesto">章程</a>
+    </nav>
+  </header>
+  <main>
+    <section class="sec" id="gigs">
+      <header class="sechead">
+        <p class="secno">[ 01 ]</p>
+        <h2>演出排期</h2>
+        <p class="secnote">售罄场次只划线，不删行</p>
+      </header>
+      <div class="tablewrap">
+        <table class="rawtable">
+          <caption>表 1 / 2026-10 至 2026-11 排期 / 票价单位：人民币</caption>
+          <thead>
+            <tr>
+              <th scope="col">日期</th>
+              <th scope="col">阵容</th>
+              <th scope="col">场地</th>
+              <th scope="col" class="num">票价</th>
+              <th scope="col">状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="datecell">10-11 <small>周六</small></td>
+              <td>车库点火 / 螺旋桨嘶鸣 / 白噪青年</td>
+              <td>锅炉房</td>
+              <td class="num">预售 80 / 现场 100</td>
+              <td>售票中</td>
+            </tr>
+            <tr>
+              <td class="datecell">10-17 <small>周六</small></td>
+              <td>失眠电台 / 卷帘门</td>
+              <td>防空洞本体</td>
+              <td class="num">预售 60 / 现场 80</td>
+              <td>售票中</td>
+            </tr>
+            <tr class="soldout">
+              <td class="datecell">10-24 <small>周六</small></td>
+              <td><del>混凝土诗歌 / 低频慰藉</del></td>
+              <td>锅炉房</td>
+              <td class="num"><del>预售 90 / 现场 110</del></td>
+              <td><span class="chip">售罄</span></td>
+            </tr>
+            <tr>
+              <td class="datecell">10-31 <small>周六</small></td>
+              <td>万圣夜通宵场 / 全部阵容保密</td>
+              <td>天台货柜</td>
+              <td class="num">120（含热汤）</td>
+              <td><span class="mono">待定</span></td>
+            </tr>
+            <tr>
+              <td class="datecell">11-02 <small>周一</small></td>
+              <td>铁皮鼓点 / 断电重启</td>
+              <td>防空洞本体</td>
+              <td class="num">预售 60 / 现场 80</td>
+              <td>售票中</td>
+            </tr>
+            <tr>
+              <td class="datecell">11-08 <small>周日</small></td>
+              <td>噪音工作坊 / 自制失真踏板</td>
+              <td>锅炉房</td>
+              <td class="num">150（含材料）</td>
+              <td><span class="mono">剩 6 席</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">预售票截止到开演当天 18:00，之后只卖现场票。通宵场含一碗热汤。本厂牌不经过任何第三方票务渠道，你在这张表之外看到的高价票都是转卖。</p>
+    </section>
+    <section class="sec" id="venues">
+      <header class="sechead">
+        <p class="secno">[ 02 ]</p>
+        <h2>场地</h2>
+        <p class="secnote">三处都在地铁步行可达范围</p>
+      </header>
+      <div class="venues">
+        <article class="venue">
+          <p class="vindex">01</p>
+          <h3>锅炉房</h3>
+          <p class="vsub">CAP 220 / 全站席</p>
+          <dl>
+            <dt>声学</dt><dd>顶部桁架反射强，吊挂音箱补后区，前排偏硬。</dd>
+            <dt>交通</dt><dd>地铁 7 号线 B 口步行 9 分钟。</dd>
+            <dt>备注</dt><dd>出汗量大，自备水，现场只卖瓶装。</dd>
+          </dl>
+        </article>
+        <article class="venue">
+          <p class="vindex">02</p>
+          <h3>防空洞本体</h3>
+          <p class="vsub">CAP 120 / 全站席</p>
+          <dl>
+            <dt>声学</dt><dd>全干无混响，后朋克友好，鼓组不插电麦。</dd>
+            <dt>交通</dt><dd>地铁 13 号线 D 口步行 4 分钟。</dd>
+            <dt>备注</dt><dd>常年 17 度，夏天也带外套。</dd>
+          </dl>
+        </article>
+        <article class="venue">
+          <p class="vindex">03</p>
+          <h3>天台货柜</h3>
+          <p class="vsub">CAP 80 / 露天</p>
+          <dl>
+            <dt>声学</dt><dd>露天不拢音，靠返听硬撑，雨天自动改期。</dd>
+            <dt>交通</dt><dd>地铁 10 号线 A 口步行 12 分钟。</dd>
+            <dt>备注</dt><dd>风大，穿稳当的鞋，不设座位。</dd>
+          </dl>
+        </article>
+      </div>
+      <p class="vgridnote">三张卡片共用同一网格与等高约束；二号下移 14px、三号下移 7px，是刻意的排版偏移，不是没对齐。</p>
+    </section>
+    <section class="sec" id="ledger">
+      <header class="sechead">
+        <p class="secno">[ 03 ]</p>
+        <h2>公开账本</h2>
+        <p class="secnote">每季度更新一次 / 下一次 2027-01</p>
+      </header>
+      <div class="ledgerwrap">
+        <p class="tape">发票 214 张 / 原件可翻</p>
+        <div class="tablewrap">
+          <table class="rawtable">
+            <caption>表 2 / 2026 年 4-9 月收支 / 单位：人民币元</caption>
+            <thead>
+              <tr>
+                <th scope="col">月份</th>
+                <th scope="col" class="num">票款收入</th>
+                <th scope="col" class="num">其他收入</th>
+                <th scope="col" class="num">支出</th>
+                <th scope="col" class="num">当月结余</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="datecell">2026-04</td>
+                <td class="num">18,400</td>
+                <td class="num">0</td>
+                <td class="num">21,050</td>
+                <td class="num">-2,650</td>
+              </tr>
+              <tr>
+                <td class="datecell">2026-05</td>
+                <td class="num">26,700</td>
+                <td class="num">800</td>
+                <td class="num">22,300</td>
+                <td class="num">+5,200</td>
+              </tr>
+              <tr>
+                <td class="datecell">2026-06</td>
+                <td class="num">31,250</td>
+                <td class="num">1,500</td>
+                <td class="num">24,600</td>
+                <td class="num">+8,150</td>
+              </tr>
+              <tr>
+                <td class="datecell">2026-07</td>
+                <td class="num">19,800</td>
+                <td class="num">400</td>
+                <td class="num">21,900</td>
+                <td class="num">-1,700</td>
+              </tr>
+              <tr>
+                <td class="datecell">2026-08</td>
+                <td class="num">28,600</td>
+                <td class="num">2,000</td>
+                <td class="num">25,400</td>
+                <td class="num">+5,200</td>
+              </tr>
+              <tr>
+                <td class="datecell">2026-09</td>
+                <td class="num">33,400</td>
+                <td class="num">1,800</td>
+                <td class="num">26,200</td>
+                <td class="num">+9,000</td>
+              </tr>
+              <tr class="total">
+                <td class="datecell">合计</td>
+                <td class="num">158,150</td>
+                <td class="num">6,500</td>
+                <td class="num">141,450</td>
+                <td class="num">+23,200</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="note">支出包含：场租、音箱运输、乐手差旅、热汤与志愿者夜宵。每一笔都留了发票，编号从 001 到 214，来现场可以翻原件，翻完记得放回去。合计行按会计惯例使用双线。</p>
+    </section>
+    <section class="sec" id="volunteer">
+      <header class="sechead">
+        <p class="secno">[ 04 ]</p>
+        <h2>志愿者登记</h2>
+        <p class="secnote">每场 4 人 / 管一顿夜宵</p>
+      </header>
+      <form class="reg" action="#volunteer">
+        <p class="field">
+          <label for="v-name">称呼</label>
+          <input type="text" id="v-name" name="name" placeholder="怎么叫你就行" autocomplete="off">
+        </p>
+        <p class="field">
+          <label for="v-city">常住城区</label>
+          <select id="v-city" name="city">
+            <option>东城</option>
+            <option>朝阳</option>
+            <option>海淀</option>
+            <option>丰台</option>
+            <option>石景山</option>
+            <option>其他</option>
+          </select>
+        </p>
+        <fieldset>
+          <legend>岗位（可多选）</legend>
+          <p class="check"><input type="checkbox" id="p1" name="post" value="door"><label for="p1">场务与检票</label></p>
+          <p class="check"><input type="checkbox" id="p2" name="post" value="photo"><label for="p2">现场摄影</label></p>
+          <p class="check"><input type="checkbox" id="p3" name="post" value="drive"><label for="p3">接驳司机</label></p>
+          <p class="check"><input type="checkbox" id="p4" name="post" value="cash"><label for="p4">票务核对</label></p>
+        </fieldset>
+        <fieldset>
+          <legend>每月能来</legend>
+          <p class="check"><input type="radio" id="f1" name="freq" value="1"><label for="f1">一场</label></p>
+          <p class="check"><input type="radio" id="f2" name="freq" value="2"><label for="f2">两场</label></p>
+          <p class="check"><input type="radio" id="f3" name="freq" value="3"><label for="f3">三场及以上</label></p>
+        </fieldset>
+        <div class="btnbar">
+          <button type="submit">提交登记</button>
+          <span class="mono">[ 此按钮保留浏览器默认样式 ]</span>
+        </div>
+      </form>
+      <p class="note">提交后 72 小时内回信。只收集本表所列项，登记表每季度清空一次，不留底。</p>
+    </section>
+    <section class="sec" id="manifesto">
+      <header class="sechead">
+        <p class="secno">[ 05 ]</p>
+        <h2>章程</h2>
+        <p class="secnote">2019 年订立 / 未修改过</p>
+      </header>
+      <ol class="rules">
+        <li>票价写死在海报上，现场不涨，门口不收现金以外的任何加价。</li>
+        <li>售罄场次从排期表里删除之前，先划掉，保留一年，任何人可查。</li>
+        <li>账目每季度公开一次，发票原件可到现场翻阅。</li>
+        <li>不做算法投放，演出信息只走这本网站和一个微信群。</li>
+        <li>场地容量写多少就是多少，超员立刻停售，关系再好也不放进来。</li>
+      </ol>
+      <address class="contact">
+        演出申请 <span class="sl">/</span> <a href="mailto:book@fangkongdong.live">book@fangkongdong.live</a><br>
+        志愿者 <span class="sl">/</span> 用上面的表单，不用另发邮件<br>
+        场地合作 <span class="sl">/</span> 每周三 19:00 / 锅炉房后台 / 直接到
+      </address>
+    </section>
+  </main>
+  <footer class="foot">
+    <p>『UI 设计提示词库 <span class="sl">/</span> 反抛光原生』</p>
+    <p><a href="style-catalog.html">返回风格目录</a></p>
+  </footer>
+</div>
+</body>
+</html>

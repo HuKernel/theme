@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- tokens: primary #001F3F / secondary #228B22 / accent #800020 / bg #F8FAFC / fg #0F172A / radius 16px / head Nunito / body DM Sans -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="3D 超写实风格演示:鎏夜 No.9 香水摄影棚产品页,纯 CSS 多层渐变光影与 SVG 噪点滤镜渲染玻璃 / 钛金属 / 陶瓷三种真实材质。">
+<title>3D 超写实 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root{
+  --navy:#001F3F;
+  --navy-deep:#000F22;
+  --green:#1E6B2C;
+  --wine:#800020;
+  --gold:#FFD700;
+  --gold-dim:#C9A544;
+  --silver:#C0C0C0;
+  --bg:#F8FAFC;
+  --ink:#0F172A;
+  --ink-soft:#52616F;
+  --paper-line:#E2E8F0;
+  --hero-text:#EAF0F8;
+  --hero-mut:#A9BCD0;
+  --r:16px;
+  --ease:cubic-bezier(.3,.9,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Nunito","DM Sans",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold);color:var(--navy-deep)}
+a{color:inherit;text-decoration:none}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.light-zone :focus-visible{outline-color:var(--navy)}
+img,svg{display:block}
+
+/* ============ 顶栏 ============ */
+.top{
+  position:absolute;top:0;left:0;right:0;z-index:20;
+  padding:22px clamp(18px,4vw,56px);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{
+  color:var(--hero-text);font-weight:800;font-size:1.02rem;letter-spacing:.04em;
+  display:flex;align-items:baseline;gap:10px;
+}
+.brand em{font-style:normal;color:var(--gold);font-size:.78rem;font-weight:600}
+.nav{display:flex;gap:clamp(12px,2.4vw,30px);flex-wrap:wrap}
+.nav a{
+  color:var(--hero-mut);font-size:.9rem;padding:6px 2px;
+  border-bottom:1px solid transparent;transition:color .25s var(--ease),border-color .25s var(--ease);
+}
+.nav a:hover{color:var(--hero-text);border-color:var(--gold)}
+
+/* ============ 摄影棚主舞台 ============ */
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 50% -12%,#14375F 0%,#0A2947 32%,#001F3F 60%,#000F22 100%);
+  color:var(--hero-text);
+  display:grid;grid-template-columns:1.08fr 1fr;
+  min-height:100vh;align-items:center;
+  padding:110px clamp(18px,4.5vw,64px) 70px;
+  gap:clamp(20px,4vw,56px);
+}
+.hero::before{ /* 主柔光箱:左上方大面积冷白光 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(42% 58% at 24% 8%,rgba(178,214,255,.20),transparent 70%);
+}
+.hero::after{ /* 暗角:镜头四周失光 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(125% 105% at 50% 42%,transparent 52%,rgba(0,8,20,.62) 100%);
+}
+.grain{ /* SVG 噪点:胶片颗粒层 */
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:.07;mix-blend-mode:overlay;pointer-events:none;z-index:6;
+}
+.hero-glow{ /* 金色低位轮廓光晕 */
+  position:absolute;left:-8%;bottom:-14%;width:60%;height:56%;pointer-events:none;
+  background:radial-gradient(52% 46% at 50% 50%,rgba(255,196,92,.16),transparent 72%);
+  filter:blur(4px);
+}
+.bokeh-far{ /* 远景虚化光斑:景深第一层 */
+  position:absolute;inset:0;pointer-events:none;filter:blur(5px);
+  background:
+    radial-gradient(circle at 12% 26%,rgba(120,172,226,.34) 0 15px,transparent 16px),
+    radial-gradient(circle at 86% 18%,rgba(255,214,120,.26) 0 11px,transparent 12px),
+    radial-gradient(circle at 72% 66%,rgba(110,160,220,.20) 0 20px,transparent 21px),
+    radial-gradient(circle at 30% 74%,rgba(255,190,110,.16) 0 9px,transparent 10px);
+}
+.bokeh-near{ /* 前景虚化光斑:景深第二层,覆盖被摄物之前 */
+  position:absolute;inset:0;pointer-events:none;z-index:5;filter:blur(14px);opacity:.8;
+  background:
+    radial-gradient(circle at 88% 78%,rgba(140,190,240,.30) 0 52px,transparent 54px),
+    radial-gradient(circle at 6% 88%,rgba(255,205,120,.22) 0 34px,transparent 36px);
+}
+
+/* ---- 舞台与被摄物 ---- */
+.scene{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.stage{position:relative;width:min(420px,86vw);perspective:1100px}
+.floor-far{ /* 地台远沿:越远越虚 */
+  position:absolute;left:-16%;right:-16%;top:6%;height:26px;
+  background:linear-gradient(90deg,transparent,rgba(120,160,215,.14) 30%,rgba(120,160,215,.14) 70%,transparent);
+  filter:blur(6px);
+}
+.floor{ /* 地台近面:中央亮池 */
+  position:absolute;left:-14%;right:-14%;bottom:-6px;height:120px;
+  background:
+    radial-gradient(58% 74% at 50% 92%,rgba(148,188,236,.30),rgba(28,62,110,.10) 56%,transparent 76%),
+    linear-gradient(180deg,rgba(150,190,240,.12),transparent 42%);
+  filter:blur(1.5px);
+}
+.float{position:relative;z-index:2;will-change:transform}
+.rig{transform-style:preserve-3d;animation:turn-into-light 1.15s var(--ease) .15s both}
+.bottle{position:relative;width:156px;margin:0 auto}
+
+.cap{
+  position:relative;z-index:5;width:50px;height:56px;margin:0 auto;
+  border-radius:9px 9px 12px 12px;
+  background:linear-gradient(90deg,#4A3810 0%,#8A6B1E 9%,#F4D774 20%,#FFF3C4 26%,#D4AF37 35%,#8A6B1E 53%,#6B5218 76%,#C9A544 89%,#43320E 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255,240,190,.65),
+    inset 0 -5px 7px rgba(40,26,4,.65),
+    inset 2px 0 4px rgba(255,235,170,.30),
+    0 8px 18px rgba(0,5,15,.55);
+}
+.cap::after{ /* 拉丝纹理 */
+  content:"";position:absolute;inset:2px 3px;border-radius:inherit;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 3px);
+}
+.collar{
+  position:relative;z-index:4;width:42px;height:9px;margin:0 auto;
+  background:linear-gradient(90deg,#3A2C0C,#C9A544 22%,#FFEFA8 34%,#8A6B1E 60%,#C9A544 82%,#33260A);
+  box-shadow:inset 0 1px 1px rgba(255,240,190,.6),0 3px 6px rgba(0,5,15,.5);
+}
+.neck{
+  position:relative;z-index:3;width:34px;height:15px;margin:0 auto;
+  background:
+    linear-gradient(90deg,rgba(4,16,34,.6),transparent 22%,rgba(210,236,255,.34) 34%,transparent 46%,rgba(4,16,34,.62) 92%),
+    linear-gradient(180deg,rgba(24,56,102,.42),rgba(8,24,50,.55));
+}
+.shoulder{
+  position:relative;z-index:2;width:104px;height:20px;margin:0 auto;
+  clip-path:polygon(16% 100%,84% 100%,100% 0,0 0);
+  background:
+    linear-gradient(90deg,rgba(4,16,34,.5) 0%,transparent 9%,rgba(215,238,255,.28) 22%,transparent 36%,transparent 72%,rgba(255,214,120,.14) 88%,rgba(4,16,34,.6) 100%),
+    linear-gradient(180deg,rgba(28,62,110,.46),rgba(10,28,58,.55));
+}
+.body{
+  position:relative;width:156px;height:188px;
+  border-radius:26px 26px 32px 32px;
+  background:
+    /* 左右边缘环境光遮蔽 */
+    linear-gradient(90deg,rgba(4,16,34,.66) 0%,transparent 8%,transparent 92%,rgba(4,16,34,.72) 100%),
+    /* 右侧金色轮廓光(暖色反光板) */
+    linear-gradient(100deg,transparent 70%,rgba(255,214,120,.26) 81%,rgba(255,242,214,.44) 86%,rgba(255,214,120,.10) 90%,transparent 94%),
+    /* 左侧主光镜面高光带 */
+    linear-gradient(88deg,transparent 8%,rgba(190,225,255,.08) 13%,rgba(238,249,255,.5) 17.5%,rgba(160,205,245,.10) 23%,transparent 29%),
+    /* 肩部上表面受光 */
+    radial-gradient(120% 46% at 50% -8%,rgba(212,236,255,.26),transparent 58%),
+    /* 底部液体折射暖光 */
+    radial-gradient(140% 46% at 50% 112%,rgba(255,178,88,.34),rgba(255,138,58,.08) 55%,transparent 72%),
+    /* 内部斜向折射亮带 */
+    linear-gradient(163deg,transparent 32%,rgba(255,255,255,.07) 39%,transparent 47%),
+    /* 玻璃基色 */
+    linear-gradient(180deg,rgba(20,48,92,.48),rgba(8,24,50,.56));
+  box-shadow:
+    inset 0 1px 1px rgba(225,242,255,.34),
+    inset 0 -14px 26px rgba(2,10,26,.5),
+    0 30px 46px -18px rgba(0,6,18,.72);
+}
+/* 瓶内香液 */
+.liquid{
+  position:absolute;left:8px;right:8px;bottom:8px;top:34%;
+  border-radius:18px 18px 25px 25px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(198,122,44,.86),rgba(150,78,22,.93) 46%,rgba(96,45,12,.96));
+  box-shadow:inset 0 6px 14px rgba(60,26,4,.55),inset 0 -4px 10px rgba(255,190,110,.28);
+  transition:opacity .38s var(--ease);
+}
+.liquid::before{ /* 液面弯月面高光 */
+  content:"";position:absolute;top:0;left:10%;right:10%;height:6px;
+  background:linear-gradient(90deg,transparent,rgba(255,226,160,.85),transparent);
+}
+.liquid::after{ /* 液体内左向受光 */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(92deg,rgba(255,204,128,.34),transparent 42%);
+}
+/* 瓶身刻字 */
+.label{
+  position:absolute;left:24px;right:24px;top:38%;z-index:3;
+  text-align:center;color:rgba(232,242,252,.88);
+  border-block:1px solid rgba(232,242,252,.28);
+  padding:9px 0 7px;
+}
+.label b{display:block;font-weight:800;font-size:.95rem;letter-spacing:.34em;margin-left:.34em}
+.label i{display:block;font-style:normal;font-size:.62rem;letter-spacing:.22em;margin-left:.22em;opacity:.82;margin-top:2px}
+/* 接地阴影与焦散 */
+.pool{
+  position:relative;width:236px;height:40px;margin:-16px auto 0;z-index:1;
+}
+.pool::before{ /* 硬接触阴影 */
+  content:"";position:absolute;inset:4px 18px;border-radius:50%;
+  background:radial-gradient(50% 76% at 50% 58%,rgba(0,6,18,.68),transparent 72%);
+  filter:blur(5px);
+}
+.pool::after{ /* 大范围环境光遮蔽 + 瓶底金色焦散 */
+  content:"";position:absolute;inset:-16px -34px;border-radius:50%;
+  background:
+    radial-gradient(56% 96% at 50% 104%,rgba(255,186,92,.30),transparent 66%),
+    radial-gradient(46% 68% at 50% 62%,rgba(0,8,22,.44),transparent 74%);
+  filter:blur(15px);
+}
+/* 镜面地板倒影 */
+.mirror{
+  width:118px;height:74px;margin:-30px auto 0;opacity:.32;
+  border-radius:20px 20px 34px 34px;
+  background:linear-gradient(180deg,rgba(96,132,190,.42),rgba(184,120,52,.30) 58%,transparent);
+  filter:blur(2px) saturate(.85);
+  -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.85),transparent 78%);
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.85),transparent 78%);
+}
+/* 一次亮相的扫光层 */
+.sweep{
+  position:absolute;top:2%;bottom:22%;left:-34%;width:46%;z-index:7;
+  background:linear-gradient(100deg,transparent,rgba(222,240,255,.13) 45%,rgba(255,248,224,.20) 55%,transparent);
+  transform:skewX(-14deg);mix-blend-mode:screen;pointer-events:none;
+  animation:light-sweep 1s var(--ease) .55s both;
+}
+
+/* ---- 材质版本切换:同一形体的三种渲染 ---- */
+.mats{
+  position:relative;z-index:8;margin-top:26px;
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+}
+.mat-btn{
+  display:flex;align-items:center;gap:9px;
+  padding:10px 16px;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(169,188,208,.34);
+  background:rgba(4,20,44,.42);color:var(--hero-text);
+  font:inherit;font-size:.88rem;
+  transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease);
+}
+.mat-btn:hover{border-color:rgba(255,215,0,.55);transform:translateY(-1px)}
+.mat-btn[aria-pressed="true"]{
+  border-color:var(--gold);background:rgba(255,215,0,.10);
+  box-shadow:0 6px 20px -8px rgba(255,215,0,.35),inset 0 1px 0 rgba(255,255,255,.14);
+}
+.swatch{width:15px;height:15px;border-radius:50%;flex:none;box-shadow:inset 0 -2px 3px rgba(0,0,0,.3),inset 0 2px 2px rgba(255,255,255,.4)}
+.sw-glass{background:radial-gradient(circle at 34% 30%,rgba(240,250,255,.9),rgba(70,120,180,.75) 62%,rgba(10,30,60,.9))}
+.sw-metal{background:linear-gradient(135deg,#39404A 8%,#DDE5EC 34%,#8E98A2 60%,#22272E 100%)}
+.sw-ceramic{background:radial-gradient(circle at 32% 28%,#FFFFFF,#EFE8DC 52%,#C6BBA8 100%)}
+
+/* ---- 钛金属鎏金版 ---- */
+.stage[data-mat="metal"] .body{
+  background:
+    /* 发丝纹:各向异性高光 */
+    repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
+    /* 双道锐利镜面高光 */
+    linear-gradient(88deg,transparent 14%,rgba(255,255,255,.14) 17%,rgba(245,251,255,.72) 19.5%,rgba(255,255,255,.12) 23%,transparent 30%),
+    linear-gradient(100deg,transparent 76%,rgba(255,214,120,.20) 84%,rgba(255,240,205,.34) 88%,transparent 93%),
+    /* 钛金属柱面明暗 */
+    linear-gradient(90deg,#22262C 0%,#5B636D 9%,#98A2AC 18%,#E6EDF2 24%,#AEB7C0 36%,#596069 56%,#3C424A 78%,#8E98A2 90%,#1B1F24 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(240,248,255,.5),
+    inset 0 -16px 30px rgba(2,8,18,.66),
+    0 34px 50px -18px rgba(0,6,18,.8);
+}
+.stage[data-mat="metal"] .liquid{opacity:0}
+.stage[data-mat="metal"] .label{color:rgba(18,26,36,.68);border-color:rgba(18,26,36,.32)}
+.stage[data-mat="metal"] .cap{
+  background:linear-gradient(90deg,#101317 0%,#4C545E 12%,#B9C4CE 22%,#F1F6FA 27%,#7C858F 42%,#2E343B 68%,#C6CFD7 88%,#0D1014 100%);
+  box-shadow:inset 0 2px 3px rgba(230,240,250,.6),inset 0 -5px 7px rgba(4,8,16,.7),0 8px 18px rgba(0,5,15,.6);
+}
+.stage[data-mat="metal"] .collar{
+  background:linear-gradient(90deg,#33260A,#C9A544 24%,#FFEFA8 36%,#8A6B1E 62%,#C9A544 84%,#2B2008);
+}
+.stage[data-mat="metal"] .neck,.stage[data-mat="metal"] .shoulder{
+  background:linear-gradient(90deg,#1B1F25 0%,#6E7883 20%,#DFE7EE 30%,#8E98A2 48%,#3C424A 78%,#9AA3AD 90%,#16191E 100%);
+}
+.stage[data-mat="metal"] .mirror{background:linear-gradient(180deg,rgba(150,165,182,.46),rgba(210,220,232,.22) 55%,transparent)}
+
+/* ---- 皓白陶瓷版 ---- */
+.stage[data-mat="ceramic"] .body{
+  background:
+    /* 宽域柔和高光:釉面漫反射 */
+    radial-gradient(88% 58% at 30% 16%,rgba(255,255,255,.88),rgba(255,255,255,0) 56%),
+    /* 下缘环境色渗入 */
+    radial-gradient(130% 40% at 62% 116%,rgba(122,142,178,.30),transparent 62%),
+    linear-gradient(160deg,#F9F6F0 0%,#F0EADD 30%,#DFD6C6 62%,#C8BEAC 88%,#B3A892 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(118,105,84,.24),
+    inset 0 -12px 26px rgba(112,92,62,.20),
+    inset 0 3px 5px rgba(255,255,255,.85),
+    0 30px 44px -16px rgba(0,6,18,.66);
+}
+.stage[data-mat="ceramic"] .liquid{opacity:0}
+.stage[data-mat="ceramic"] .label{color:rgba(84,70,48,.78);border-color:rgba(84,70,48,.36)}
+.stage[data-mat="ceramic"] .cap{
+  background:
+    radial-gradient(70% 60% at 32% 20%,rgba(255,255,255,.95),transparent 58%),
+    linear-gradient(160deg,#FAF7F1,#E8E0D2 46%,#C9BFAE 100%);
+  box-shadow:inset 0 0 0 1px rgba(118,105,84,.22),inset 0 -5px 8px rgba(110,92,64,.24),0 8px 18px rgba(0,5,15,.5);
+}
+.stage[data-mat="ceramic"] .collar{
+  background:linear-gradient(90deg,#3A2C0C,#C9A544 22%,#FFEFA8 34%,#8A6B1E 60%,#C9A544 82%,#33260A);
+}
+.stage[data-mat="ceramic"] .neck,.stage[data-mat="ceramic"] .shoulder{
+  background:linear-gradient(160deg,#F5F1E9,#DFD6C6 60%,#C2B7A2);
+}
+.stage[data-mat="ceramic"] .pool::after{
+  background:
+    radial-gradient(56% 96% at 50% 104%,rgba(210,220,240,.26),transparent 66%),
+    radial-gradient(46% 68% at 50% 62%,rgba(0,8,22,.40),transparent 74%);
+}
+.stage[data-mat="ceramic"] .mirror{background:linear-gradient(180deg,rgba(228,222,208,.4),rgba(190,182,164,.2) 55%,transparent)}
+/* 材质切换的重新布光 */
+.stage.relight .bottle{animation:relight-settle .38s var(--ease)}
+.stage.relight .sweep{animation:light-sweep .85s var(--ease) both}
+
+/* ---- 文案栏 ---- */
+.hero-copy{position:relative;z-index:3;max-width:56ch}
+.eyebrow{
+  color:var(--gold);font-size:.86rem;font-weight:700;letter-spacing:.12em;
+  margin-bottom:14px;
+}
+.hero-copy h1{
+  font-size:clamp(2.1rem,4.4vw,3.3rem);line-height:1.16;letter-spacing:.01em;
+  margin-bottom:18px;font-weight:800;
+}
+.hero-copy h1 span{color:var(--gold)}
+.lede{color:var(--hero-mut);max-width:44ch;margin-bottom:30px}
+.price-line{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:18px 22px;border-radius:var(--r);
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  border:1px solid rgba(169,188,208,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 18px 34px -22px rgba(0,6,18,.85);
+  margin-bottom:26px;
+}
+.price{display:flex;align-items:baseline;gap:6px}
+.price b{font-size:2rem;font-weight:800;color:var(--hero-text);letter-spacing:.01em}
+.price s{display:none}
+.edition{color:var(--hero-mut);font-size:.88rem}
+.edition b{color:var(--hero-text);font-weight:700}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.cta{
+  padding:14px 30px;border:none;border-radius:999px;cursor:pointer;
+  background:linear-gradient(180deg,#FFE45C,#E8BE2A 58%,#C79A18);
+  color:#001528;font:inherit;font-weight:800;font-size:.98rem;
+  box-shadow:
+    inset 0 1px 1px rgba(255,252,230,.8),
+    inset 0 -3px 5px rgba(120,84,4,.4),
+    0 14px 30px -10px rgba(255,199,24,.42);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.cta:hover{transform:translateY(-2px);box-shadow:inset 0 1px 1px rgba(255,252,230,.8),inset 0 -3px 5px rgba(120,84,4,.4),0 20px 36px -10px rgba(255,199,24,.5)}
+.ghost{
+  padding:14px 26px;border-radius:999px;
+  border:1px solid rgba(169,188,208,.4);color:var(--hero-text);
+  font-size:.94rem;font-weight:700;
+  transition:border-color .3s var(--ease),background .3s var(--ease);
+}
+.ghost:hover{border-color:rgba(255,215,0,.55);background:rgba(255,215,0,.06)}
+.trust{color:var(--hero-mut);font-size:.84rem}
+
+/* ============ 香调结构 ============ */
+.notes{
+  padding:clamp(56px,7vw,96px) clamp(18px,4.5vw,64px);
+  max-width:1200px;margin:0 auto;
+}
+.sec-head{max-width:62ch;margin-bottom:clamp(28px,4vw,44px)}
+.sec-head h2{font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:800;margin-bottom:10px}
+.sec-head p{color:var(--ink-soft)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.card{
+  background:#FFFFFF;border-radius:var(--r);padding:26px 24px 22px;
+  border:1px solid var(--paper-line);
+  box-shadow:
+    0 1px 2px rgba(15,23,42,.05),
+    0 12px 28px -14px rgba(15,23,42,.16),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  display:flex;flex-direction:column;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(15,23,42,.05),0 22px 40px -16px rgba(15,23,42,.22),inset 0 1px 0 rgba(255,255,255,.9)}
+.card-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.card-top h3{font-size:1.06rem;font-weight:800}
+.card-top span{font-size:.78rem;color:var(--ink-soft)}
+.card-rule{height:3px;border-radius:2px;margin:10px 0 16px}
+.rule-top{background:linear-gradient(90deg,#1E6B2C,#7FBF8A)}
+.rule-heart{background:linear-gradient(90deg,#800020,#D08198)}
+.rule-base{background:linear-gradient(90deg,#5C4322,#C9A544)}
+.card ul{list-style:none;flex:1}
+.card li{padding:7px 0;border-bottom:1px dashed var(--paper-line);font-size:.9rem}
+.card li:last-child{border-bottom:none}
+.card li b{display:block;font-weight:700}
+.card li span{color:var(--ink-soft);font-size:.83rem}
+
+/* ============ 布光札记与技术规格 ============ */
+.specs-sec{
+  padding:clamp(48px,6vw,84px) clamp(18px,4.5vw,64px) clamp(64px,8vw,110px);
+  background:
+    radial-gradient(80% 50% at 85% 0%,rgba(192,205,220,.35),transparent 70%),
+    linear-gradient(180deg,#F1F5F9,#F8FAFC 40%);
+  border-top:1px solid var(--paper-line);
+}
+.spec-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(28px,4.5vw,64px);align-items:start;
+}
+.craft h2{font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:800;margin-bottom:10px}
+.craft>p{color:var(--ink-soft);margin-bottom:22px;max-width:48ch}
+.craft ol{list-style:none;counter-reset:note}
+.craft li{
+  counter-increment:note;
+  display:grid;grid-template-columns:44px 1fr;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--paper-line);
+}
+.craft li::before{
+  content:counter(note,decimal-leading-zero);
+  font-weight:800;color:var(--wine);font-size:.95rem;padding-top:2px;
+}
+.craft li b{display:block;font-weight:700;font-size:.95rem}
+.craft li span{color:var(--ink-soft);font-size:.86rem}
+.specs{
+  background:#FFFFFF;border:1px solid var(--paper-line);border-radius:var(--r);
+  padding:8px 26px;
+  box-shadow:0 1px 2px rgba(15,23,42,.05),0 16px 34px -18px rgba(15,23,42,.18);
+}
+.specs .row{
+  display:grid;grid-template-columns:168px minmax(0,1fr);gap:16px;
+  padding:15px 0;border-bottom:1px solid var(--paper-line);
+}
+.specs .row:last-child{border-bottom:none}
+.specs dt{font-weight:700;color:var(--ink-soft);font-size:.88rem;padding-top:2px}
+.specs dd{font-size:.94rem}
+
+/* ============ 页脚 ============ */
+.foot{
+  background:var(--navy-deep);color:#93A6BB;
+  padding:30px clamp(18px,4.5vw,64px);
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.foot p{font-size:.9rem}
+.foot a{
+  color:var(--gold);font-weight:700;border-bottom:1px solid rgba(255,215,0,.35);
+  padding-bottom:2px;transition:border-color .25s var(--ease);
+}
+.foot a:hover{border-color:var(--gold)}
+
+/* ============ 动效 ============ */
+@keyframes turn-into-light{
+  0%{opacity:0;transform:perspective(1100px) rotateY(-46deg) translateY(34px) rotateX(7deg)}
+  55%{opacity:1}
+  100%{opacity:1;transform:perspective(1100px) rotateY(0deg) translateY(0) rotateX(0)}
+}
+@keyframes light-sweep{
+  0%{transform:skewX(-14deg) translateX(0);opacity:0}
+  18%{opacity:1}
+  82%{opacity:1}
+  100%{transform:skewX(-14deg) translateX(430%);opacity:0}
+}
+@keyframes relight-settle{
+  0%{transform:perspective(1100px) rotateY(-9deg) scale(.984)}
+  100%{transform:perspective(1100px) rotateY(0) scale(1)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rig,.sweep{animation:none}
+  .stage.relight .bottle,.stage.relight .sweep{animation:none}
+  .card,.mat-btn,.cta,.ghost,.nav a,.foot a{transition:none}
+}
+
+/* ============ 响应式 ============ */
+@media (max-width:1023px){
+  .hero{grid-template-columns:1fr;min-height:0;padding-top:96px;text-align:left}
+  .scene{order:-1}
+  .stage{transform:scale(.92);transform-origin:top center}
+  .bokeh-near{display:none}
+}
+@media (max-width:767px){
+  .top{padding:16px 18px}
+  .nav{display:none}
+  .hero{padding-top:84px}
+  .stage{transform:scale(.86)}
+  .cards{grid-template-columns:1fr}
+  .spec-grid{grid-template-columns:1fr}
+  .specs .row{grid-template-columns:128px minmax(0,1fr)}
+  .price-line{padding:15px 18px}
+}
+</style>
+</head>
+<body>
+
+<svg class="grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <filter id="grainF">
+    <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#grainF)"/>
+</svg>
+
+<header class="top">
+  <a class="brand" href="#top">鎏夜 <em>Maison Nocturne</em></a>
+  <nav class="nav" aria-label="页面导航">
+    <a href="#material-jump">材质版本</a>
+    <a href="#notes">香调结构</a>
+    <a href="#specs">技术规格</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" aria-label="产品主展示">
+    <div class="hero-glow layer" data-depth="6"></div>
+    <div class="bokeh-far layer" data-depth="12"></div>
+
+    <div class="scene">
+      <div class="stage" id="stage" data-mat="glass">
+        <div class="floor-far layer" data-depth="4"></div>
+        <div class="floor"></div>
+        <div class="float layer" data-depth="20">
+          <div class="rig">
+            <div class="bottle">
+              <div class="cap"></div>
+              <div class="collar"></div>
+              <div class="neck"></div>
+              <div class="shoulder"></div>
+              <div class="body">
+                <div class="liquid"></div>
+                <div class="label"><b>Nocturne</b><i>No.9 墨金</i></div>
+              </div>
+              <div class="pool"></div>
+              <div class="mirror"></div>
+            </div>
+          </div>
+        </div>
+        <div class="sweep"></div>
+      </div>
+      <div class="mats" id="material-jump" role="group" aria-label="选择瓶身材质版本">
+        <button class="mat-btn" type="button" data-mat="glass" aria-pressed="true">
+          <span class="swatch sw-glass" aria-hidden="true"></span>玻璃典藏版
+        </button>
+        <button class="mat-btn" type="button" data-mat="metal" aria-pressed="false">
+          <span class="swatch sw-metal" aria-hidden="true"></span>钛金属鎏金版
+        </button>
+        <button class="mat-btn" type="button" data-mat="ceramic" aria-pressed="false">
+          <span class="swatch sw-ceramic" aria-hidden="true"></span>皓白陶瓷版
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Maison Nocturne / Paris / 高定香氛工坊</p>
+      <h1>鎏夜 No.9<br><span>墨金</span> Eau de Parfum</h1>
+      <p class="lede">佛手柑划破夜色的第一刀,檀香与龙涎在暗处沉淀成墨。瓶身以摄影棚三点布光呈现:主光自左上方柔光箱落下,金色反光板自右侧补入轮廓,所见明暗皆为真实渲染。</p>
+      <div class="price-line">
+        <div class="price" aria-live="polite"><b>&yen;&nbsp;<span id="priceNum">1,280</span></b></div>
+        <p class="edition"><b id="editionName">玻璃典藏版</b><br><span id="editionDesc">手工吹制硼硅玻璃 / 壁厚 2.4 毫米 / 光学级通透</span></p>
+      </div>
+      <div class="actions">
+        <button class="cta" type="button">加入购物袋</button>
+        <a class="ghost" href="#specs">预约到店试香</a>
+      </div>
+      <p class="trust">顺丰包邮 / 30 天无理由退换 / 专柜同源验货</p>
+    </div>
+
+    <div class="bokeh-near layer" data-depth="34"></div>
+  </section>
+
+  <section class="notes light-zone" id="notes" aria-label="香调结构">
+    <header class="sec-head">
+      <h2>三阶香调结构</h2>
+      <p>每一批次香精均在格拉斯实验室完成气相色谱配比,以下为织物喷洒实测的时间线。</p>
+    </header>
+    <div class="cards">
+      <article class="card">
+        <div class="card-top"><h3>前调</h3><span>0 至 15 分钟</span></div>
+        <div class="card-rule rule-top"></div>
+        <ul>
+          <li><b>意大利佛手柑</b><span>冷压果皮油,清苦中带微甜的开场</span></li>
+          <li><b>斯里兰卡肉桂叶</b><span>辛香叶油,提供轻微的灼热棱角</span></li>
+          <li><b>粉红胡椒</b><span>埃塞俄比亚产区,浆果感的松木尾韵</span></li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="card-top"><h3>中调</h3><span>15 分钟至 2 小时</span></div>
+        <div class="card-rule rule-heart"></div>
+        <ul>
+          <li><b>保加利亚玫瑰原精</b><span>卡赞勒克谷五月采摘,溶剂萃取浓缩</span></li>
+          <li><b>佛罗伦萨鸢尾根</b><span>三年陈化根茎,粉感与绒质的地基</span></li>
+          <li><b>紫檀木</b><span>印度迈索尔,微酸木香衔接前后两阶</span></li>
+        </ul>
+      </article>
+      <article class="card">
+        <div class="card-top"><h3>后调</h3><span>2 小时以上</span></div>
+        <div class="card-rule rule-base"></div>
+        <ul>
+          <li><b>澳洲檀香</b><span>可持续种植园檀香醇,奶感的木质底色</span></li>
+          <li><b>龙涎香醚</b><span>合成分子 Ambroxan,温热的皮肤感</span></li>
+          <li><b>波旁香草</b><span>马达加斯加发酵荚果,收束为微苦焦糖</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="specs-sec light-zone" id="specs" aria-label="布光札记与技术规格">
+    <div class="spec-grid">
+      <div class="craft">
+        <h2>布光与渲染札记</h2>
+        <p>本页未使用任何 3D 库。被摄物的玻璃、钛金属与陶瓷质感,全部由多层渐变、阴影与一个 SVG 噪点滤镜叠合而成。</p>
+        <ol>
+          <li><b>主光与轮廓光</b><span>左上柔光箱冷白高光带,右侧金色反光板勾出暖边,构成双色温布光</span></li>
+          <li><b>环境光遮蔽</b><span>瓶身边缘内阴影与地台双层层叠暗部,模拟物体与地面咬合的软接触</span></li>
+          <li><b>景深虚化</b><span>远景与前景各设一层高斯模糊光斑,被摄物保持锐利,形成镜头纵深感</span></li>
+          <li><b>材质置换</b><span>切换材质即重放一次扫光与 380 毫秒微转体,模拟重新布光的过程</span></li>
+        </ol>
+      </div>
+      <dl class="specs">
+        <div class="row"><dt>容量</dt><dd>50 毫升(另有 100 毫升补充装)</dd></div>
+        <div class="row"><dt>香精浓度</dt><dd>20%,Eau de Parfum 规格</dd></div>
+        <div class="row"><dt>瓶身(典藏版)</dt><dd>中性硼硅玻璃,壁厚 2.4 毫米,手工吹制</dd></div>
+        <div class="row"><dt>瓶盖</dt><dd>黄铜基材,24K 金电镀 3 微米,拉丝处理</dd></div>
+        <div class="row"><dt>喷雾泵</dt><dd>每次按压 0.18 毫升,雾化粒径 40 微米</dd></div>
+        <div class="row"><dt>留香时长</dt><dd>织物实测 8 至 10 小时</dd></div>
+        <div class="row"><dt>调香师</dt><dd>Elise Marchand,格拉斯调香世家第四代</dd></div>
+        <div class="row"><dt>产地</dt><dd>法国格拉斯(Grasse)自有工坊灌装</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>UI 设计提示词库 / 3D 超写实</p>
+  <p><a href="style-catalog.html">返回风格目录</a></p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* 材质数据 */
+  var MATS = {
+    glass:   { name: "玻璃典藏版",   price: "1,280", desc: "手工吹制硼硅玻璃 / 壁厚 2.4 毫米 / 光学级通透" },
+    metal:   { name: "钛金属鎏金版", price: "1,980", desc: "一体切削铝合金 / 离子镀钛发丝纹 / 耐刮 9H" },
+    ceramic: { name: "皓白陶瓷版",   price: "1,580", desc: "1320 度高温釉 / 哑光皓白釉面 / 24K 镀金颈环" }
+  };
+
+  var stage = document.getElementById("stage");
+  var priceNum = document.getElementById("priceNum");
+  var editionName = document.getElementById("editionName");
+  var editionDesc = document.getElementById("editionDesc");
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".mat-btn"));
+
+  btns.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var mat = btn.getAttribute("data-mat");
+      btns.forEach(function(b){ b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+      stage.setAttribute("data-mat", mat);
+      var data = MATS[mat];
+      priceNum.textContent = data.price;
+      editionName.textContent = data.name;
+      editionDesc.textContent = data.desc;
+      if (!reduce) {
+        stage.classList.remove("relight");
+        void stage.offsetWidth;
+        stage.classList.add("relight");
+      }
+    });
+  });
+
+  /* 视差:多层深度随指针平移 */
+  if (!reduce && window.matchMedia("(pointer: fine)").matches) {
+    var hero = document.querySelector(".hero");
+    var layers = Array.prototype.slice.call(document.querySelectorAll(".hero .layer"));
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+    function tick(){
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      layers.forEach(function(el){
+        var d = parseFloat(el.getAttribute("data-depth")) || 0;
+        el.style.transform = "translate3d(" + (cx * d).toFixed(2) + "px," + (cy * d * 0.6).toFixed(2) + "px,0)";
+      });
+      if (Math.abs(tx - cx) > 0.002 || Math.abs(ty - cy) > 0.002) {
+        raf = requestAnimationFrame(tick);
+      } else { raf = null; }
+    }
+    hero.addEventListener("pointermove", function(e){
+      var r = hero.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    hero.addEventListener("pointerleave", function(){ tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(tick); });
+  }
+})();
+</script>
+</body>
+</html>

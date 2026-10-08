@@ -2765,6 +2765,14 @@ def main():
             'Gen Z Chaos / Maximalism': 'gen-z-chaos-maximalism.html',
             'Dimensional Layering': 'dimensional-layering.html',
             'Minimalist Monochrome': 'minimalist-monochrome.html',
+            '3D & Hyperrealism': '3d-hyperrealism.html',
+            'Anti-Polish / Raw Aesthetic': 'anti-polish-raw-aesthetic.html',
+            'Biomimetic / Organic 2.0': 'biomimetic-organic-2-0.html',
+            'Chromatic Aberration / RGB Split': 'chromatic-aberration-rgb-split.html',
+            'Exaggerated Minimalism': 'exaggerated-minimalism.html',
+            'Gradient Mesh / Aurora Evolved': 'gradient-mesh-aurora-evolved.html',
+            'Nature Distilled': 'nature-distilled.html',
+            'Soft UI Evolution': 'soft-ui-evolution.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

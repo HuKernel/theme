@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="渐变极光进化：多焦点径向渐变场编码五维声学特征，整场色温随曲库流派实时迁移。">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>渐变极光进化 / UI 设计提示词库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@600&display=swap');
+
+/* token 计划：官方五色全保留（#00FFFF/#FF00FF/#FFFF00/#0066FF/#00FF66 为特征色相域）/ bg-fg 反转为深空底 #070B14 + 亮字以承载等离子发光并满足 Text remains readable / 玻璃面板 rgba(9,14,26,.58)+blur / radius 14px / 标题 Playfair Display+Noto Serif SC 正文 Inter */
+
+@property --c { syntax: '<color>'; inherits: false; initial-value: #00ffff; }
+@property --s { syntax: '<number>'; inherits: false; initial-value: 1; }
+
+:root {
+  --primary: #00FFFF;
+  --secondary: #FF00FF;
+  --accent: #FFFF00;
+  --bg: #070B14;
+  --fg: #EEF3FB;
+  --muted: #AEBBD3;
+  --panel: rgba(9, 14, 26, 0.66);
+  --line: rgba(140, 200, 255, 0.16);
+  --radius: 14px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px; }
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(7, 11, 20, 0.82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .container {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; gap: 24px;
+}
+.brand { color: var(--fg); font-weight: 600; font-size: 15px; }
+.brand em { font-style: normal; color: var(--muted); font-weight: 400; margin-left: 8px; font-size: 13px; }
+.topnav { display: flex; gap: 22px; font-size: 14px; }
+.topnav a { color: var(--muted); }
+.topnav a:hover { color: var(--primary); text-decoration: none; }
+
+/* ---------- 光谱台（多焦点 mesh 场） ---------- */
+.stage {
+  position: relative;
+  min-height: min(92vh, 860px);
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+  background:
+    radial-gradient(130% 90% at 78% 8%, rgba(0, 102, 255, 0.14), transparent 55%),
+    var(--bg);
+}
+.field { position: absolute; inset: 0; }
+.focus {
+  position: absolute; left: 50%; top: 50%;
+  width: 48vmax; height: 48vmax; border-radius: 50%;
+  background: radial-gradient(circle closest-side, var(--c) 0%, transparent 70%);
+  filter: blur(34px);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(var(--s));
+  transition: --c 1.1s ease, --s 1.1s ease, left 1.1s ease, top 1.1s ease;
+  animation: bloom 1.4s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+@keyframes bloom {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(calc(var(--s) * 0.3)); }
+  to   { opacity: 0.8; transform: translate(-50%, -50%) scale(var(--s)); }
+}
+.stage .veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 110% at 50% 100%, transparent 42%, rgba(5, 8, 16, 0.66) 100%);
+}
+.stage .container {
+  position: relative; z-index: 2;
+  width: 100%; padding-top: 96px; padding-bottom: 84px;
+}
+.stage-copy { max-width: 640px; margin-bottom: 26px; }
+.kicker { color: var(--primary); font-size: 14px; letter-spacing: 0.14em; }
+h1 {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: clamp(40px, 6vw, 68px);
+  font-weight: 600; line-height: 1.12; margin: 10px 0 16px;
+}
+.stage-copy p { color: var(--muted); font-size: 16px; max-width: 560px; }
+
+/* 玻璃控制面板 */
+.glass {
+  background: var(--panel);
+  backdrop-filter: blur(18px) saturate(1.35);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.console { padding: 22px 24px; max-width: 860px; }
+.console-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px;
+  margin-bottom: 14px;
+}
+.console-head strong { font-size: 15px; }
+.console-head .sig { color: var(--muted); font-size: 14px; }
+.console-head .sig b { color: var(--fg); font-weight: 600; }
+.console-head .temp {
+  font-size: 12px; padding: 2px 10px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--primary);
+}
+.gbtns { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.gbtn {
+  font: inherit; font-size: 14px; cursor: pointer;
+  color: var(--fg); background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 16px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.gbtn:hover { border-color: rgba(0, 255, 255, 0.55); }
+.gbtn[aria-pressed="true"] {
+  background: var(--btn-c, #00FFFF);
+  border-color: transparent;
+  color: #081018; font-weight: 600;
+}
+.legend {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+  padding-top: 16px; border-top: 1px solid var(--line);
+}
+.lg-item { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.lg-item .sw {
+  width: 12px; height: 12px; border-radius: 50%; flex: none;
+  background: var(--c);
+  box-shadow: 0 0 10px var(--c);
+}
+.lg-item .lg-t { font-size: 13px; white-space: nowrap; }
+.lg-item .lg-t b { font-size: 15px; }
+.lg-item .lg-t small { display: block; color: var(--muted); font-size: 11px; }
+.console-note { margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+/* ---------- 通用章节 ---------- */
+section.block { padding: 72px 0 8px; }
+.sec-head { margin-bottom: 28px; max-width: 720px; }
+.sec-head h2 {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: clamp(26px, 3.2vw, 36px); font-weight: 600; margin-bottom: 8px;
+}
+.sec-head p { color: var(--muted); font-size: 15px; }
+
+/* ---------- 特征矩阵 ---------- */
+.matrix-scroll { overflow-x: auto; padding-bottom: 6px; }
+.matrix { min-width: 680px; border-radius: var(--radius); overflow: hidden; }
+.mgrid {
+  display: grid;
+  grid-template-columns: minmax(160px, 1.15fr) repeat(5, minmax(96px, 1fr));
+  align-items: center;
+}
+.matrix .mhead {
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px; color: var(--muted);
+}
+.matrix .mhead .gname { color: var(--fg); font-weight: 600; font-size: 13.5px; }
+.matrix .mhead .dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 7px; vertical-align: 1px;
+}
+.mrow { border-bottom: 1px solid rgba(140, 200, 255, 0.08); }
+.mrow:last-child { border-bottom: none; }
+.mrow > div { padding: 13px 18px; }
+.mfeat small { display: block; color: var(--muted); font-size: 11.5px; }
+.mbar {
+  height: 8px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07); position: relative; overflow: hidden;
+}
+.mbar i {
+  position: absolute; inset: 0 auto 0 0; border-radius: 999px;
+  transition: width 0.9s ease;
+}
+.mval {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+}
+.mval .mbar { flex: 1; }
+.mval span:last-child { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ---------- 曲库指纹 ---------- */
+.library { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; align-items: stretch; }
+.tgrid {
+  display: grid;
+  grid-template-columns: 140px 1fr 100px 70px 64px;
+  align-items: center; gap: 14px;
+}
+.thead { padding: 12px 18px; color: var(--muted); font-size: 12.5px; border-bottom: 1px solid var(--line); }
+.tracks { border-radius: var(--radius); overflow: hidden; }
+.trow {
+  width: 100%; font: inherit; text-align: left; cursor: pointer;
+  color: var(--fg); background: transparent; border: none;
+  border-bottom: 1px solid rgba(140, 200, 255, 0.08);
+  padding: 13px 18px;
+  transition: background 0.2s;
+}
+.trow:last-child { border-bottom: none; }
+.trow:hover { background: rgba(255, 255, 255, 0.045); }
+.trow[aria-pressed="true"] { background: rgba(0, 255, 255, 0.07); }
+.fp { height: 14px; border-radius: 6px; }
+.tname b { display: block; font-size: 14.5px; font-weight: 600; }
+.tname span { color: var(--muted); font-size: 12.5px; }
+.tgenre { font-size: 12.5px; color: var(--muted); }
+.tbpm, .tene { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
+
+/* 单曲细读面板 */
+.detail { padding: 22px 24px; display: flex; flex-direction: column; }
+.detail h3 { font-size: 16px; margin-bottom: 2px; }
+.detail .d-meta { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+.d-fp {
+  height: 52px; border-radius: 10px; margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.d-feats { display: flex; flex-direction: column; gap: 9px; }
+.df { display: grid; grid-template-columns: 52px 1fr 86px; align-items: center; gap: 10px; font-size: 12.5px; }
+.df .db { height: 7px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); position: relative; overflow: hidden; }
+.df .db i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; transition: width 0.7s ease; }
+.df .dv { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.df .dv b { color: var(--fg); font-weight: 600; }
+.d-sum { margin-top: auto; padding-top: 16px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.d-sum b { color: var(--fg); }
+
+/* ---------- 设计准则 ---------- */
+.rules { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; align-items: stretch; }
+.rule-list { list-style: none; display: flex; flex-direction: column; }
+.rule-list li {
+  display: grid; grid-template-columns: 44px 1fr; gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(140, 200, 255, 0.08);
+}
+.rule-list li:last-child { border-bottom: none; }
+.rule-list .no {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: 22px; color: var(--primary); line-height: 1.2;
+}
+.rule-list b { display: block; font-size: 14.5px; margin-bottom: 3px; }
+.rule-list p { color: var(--muted); font-size: 13.5px; }
+.kw-panel { padding: 20px 22px; }
+.kw-panel h3 { font-size: 15px; margin-bottom: 12px; }
+.kw-panel p { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.kws { display: flex; flex-wrap: wrap; gap: 8px; }
+.kws span {
+  font-size: 12px; color: #CFE9FF;
+  background: rgba(0, 255, 255, 0.08);
+  border: 1px solid rgba(0, 255, 255, 0.22);
+  border-radius: 999px; padding: 3px 12px;
+}
+
+/* ---------- 页脚 ---------- */
+footer { margin-top: 84px; border-top: 1px solid var(--line); padding: 34px 0 44px; }
+footer .container {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 12px;
+}
+footer p { font-size: 14px; }
+footer p span { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+footer a {
+  font-size: 14px; padding: 9px 18px; border-radius: 10px;
+  border: 1px solid var(--line); color: var(--fg);
+}
+footer a:hover { border-color: var(--primary); text-decoration: none; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1024px) {
+  .library { grid-template-columns: 1fr; }
+  .rules { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .topnav { display: none; }
+  .stage { min-height: auto; padding-bottom: 20px; }
+  .stage .container { padding-top: 72px; padding-bottom: 56px; }
+  .legend { grid-template-columns: repeat(2, 1fr); }
+  .tgrid { grid-template-columns: 84px 1fr 52px; }
+  .tgrid .cell-g { display: none; }
+  section.block { padding-top: 56px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 18px; }
+  .legend { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .gbtn { padding: 7px 12px; font-size: 13px; }
+}
+
+/* ---------- 降级 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .focus { animation: none; transition-duration: 0.01s; }
+  .mbar i, .df .db i { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container">
+    <div class="brand">渐变极光进化<em>Gradient Mesh / Aurora Evolved</em></div>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#stage">光谱台</a>
+      <a href="#matrix">特征矩阵</a>
+      <a href="#library">曲库指纹</a>
+      <a href="#rules">设计准则</a>
+    </nav>
+  </div>
+</header>
+
+<section class="stage" id="stage">
+  <div class="field" id="field" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="container">
+    <div class="stage-copy">
+      <p class="kicker">光谱数据可视化 / Spectrum Field</p>
+      <h1>渐变极光进化</h1>
+      <p>当渐变不再是装饰，而成为数据的载体：五个声学特征被映射为五束等离子焦点，焦点的高低与半径编码强度，色相编码维度，整场色温随曲库流派实时迁移。</p>
+    </div>
+    <div class="glass console">
+      <div class="console-head">
+        <strong>数据源</strong>
+        <span class="sig">当前信号 / <b id="sigName">电子 Techno</b></span>
+        <span class="temp" id="sigTemp">冷调</span>
+      </div>
+      <div class="gbtns" id="gbtns" role="group" aria-label="流派数据源切换"></div>
+      <div class="legend" id="legend"></div>
+      <p class="console-note">焦点横轴 = 特征维度 / 纵轴与半径 = 强度 / 色相 = 当前流派色温。切换数据源，观察整场迁移。</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="matrix">
+  <div class="container">
+    <div class="sec-head">
+      <h2>特征矩阵</h2>
+      <p>五个流派的基准特征值对照。单元格颜色即该流派在光谱台上的焦点色相，条宽即强度——矩阵与场共用同一套映射规则。</p>
+    </div>
+    <div class="matrix-scroll">
+      <div class="matrix glass">
+        <div class="mgrid mhead" id="mhead"></div>
+        <div id="mrows"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="library">
+  <div class="container">
+    <div class="sec-head">
+      <h2>曲库指纹</h2>
+      <p>每一首单曲的频谱指纹都是一段由五个特征值直接生成的渐变——各色段宽度与特征占比一致。选择曲目，上方的光谱场与右侧细读面板将同步迁移。</p>
+    </div>
+    <div class="library">
+      <div class="tracks glass">
+        <div class="tgrid thead">
+          <div>频谱指纹</div>
+          <div>曲目 / 艺人</div>
+          <div class="cell-g">流派</div>
+          <div class="cell-g">BPM</div>
+          <div class="cell-e">能量</div>
+        </div>
+        <div id="trows"></div>
+      </div>
+      <aside class="detail glass" id="detail" aria-live="polite">
+        <h3 id="dName">选择单曲</h3>
+        <p class="d-meta" id="dMeta">在左侧曲库中选择曲目，查看其频谱构成</p>
+        <div class="d-fp" id="dFp"></div>
+        <div class="d-feats" id="dFeats"></div>
+        <p class="d-sum" id="dSum"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="rules">
+  <div class="container">
+    <div class="sec-head">
+      <h2>设计准则</h2>
+      <p>渐变洗板做背景是最高频的俗套。这一风格的正解是让渐变升格为仪器：它必须读取数据，而不是渲染情绪。</p>
+    </div>
+    <div class="rules">
+      <ul class="rule-list glass">
+        <li>
+          <span class="no">01</span>
+          <div><b>渐变必须编码数据</b><p>本页每个渐变都由五维特征值驱动：焦点位置、半径、色相与指纹色段宽度均来自真实数值。移除数据，渐变即失去存在理由。</p></div>
+        </li>
+        <li>
+          <span class="no">02</span>
+          <div><b>色彩流动但不洗板</b><p>场迁移只在切换数据源时发生一次，约 1.1 秒完成叙事后即静止。无限循环的流动动画会立刻把仪器降级为壁纸。</p></div>
+        </li>
+        <li>
+          <span class="no">03</span>
+          <div><b>可读性优先于绚烂</b><p>全部正文由深色磨砂玻璃面板承载，焦点场经暗角压暗，任何前景文字与渐变的对比度不低于 4.5:1。</p></div>
+        </li>
+        <li>
+          <span class="no">04</span>
+          <div><b>性能与移动端</b><p>多焦点场仅五个合成层元素，blur 作用于渐变本体一次成型、不参与逐帧动画，面板走 backdrop-filter，中端机型可稳定渲染。</p></div>
+        </li>
+      </ul>
+      <div class="kw-panel glass">
+        <h3>提示词关键词</h3>
+        <p>面向风格库调用时的核心词组，与光谱台的实现一一对应。</p>
+        <div class="kws">
+          <span>multi-color mesh gradients</span>
+          <span>aurora / northern lights</span>
+          <span>flowing color transitions</span>
+          <span>iridescent</span>
+          <span>prismatic</span>
+          <span>radial-gradient 多焦点场</span>
+          <span>mix-blend-mode: screen</span>
+          <span>@property 色彩插值</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>UI 设计提示词库 / 渐变极光进化<span>多焦点径向场 / 数据驱动色温迁移 / 玻璃面板浮层</span></p>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var F = [
+    { k: 'energy',      label: '能量', hint: 'RMS 响度与鼓组密度' },
+    { k: 'brightness',  label: '亮度', hint: '高频质心位置' },
+    { k: 'bass',        label: '低频', hint: '20-160Hz 能量占比' },
+    { k: 'distortion',  label: '失真', hint: '谐波饱和度' },
+    { k: 'space',       label: '空间', hint: '混响衰减与声场宽度' }
+  ];
+
+  var GENRES = {
+    techno: {
+      name: '电子 Techno', temp: '冷调',
+      colors: ['#00FFFF', '#0066FF', '#16E0C8', '#00FF66', '#7DF9FF'],
+      f: { energy: 92, brightness: 74, bass: 88, distortion: 35, space: 60 }
+    },
+    jazz: {
+      name: '爵士 Jazz', temp: '暖调',
+      colors: ['#FFC53D', '#FF7A45', '#E8556D', '#FFD98E', '#C77BFF'],
+      f: { energy: 45, brightness: 58, bass: 40, distortion: 8, space: 78 }
+    },
+    hiphop: {
+      name: '嘻哈 Hip-hop', temp: '品红调',
+      colors: ['#FF00FF', '#A24BFF', '#7A5CFF', '#FF5C8A', '#C440FF'],
+      f: { energy: 80, brightness: 40, bass: 95, distortion: 30, space: 35 }
+    },
+    ambient: {
+      name: '氛围 Ambient', temp: '深蓝调',
+      colors: ['#0066FF', '#33E5FF', '#00C2A8', '#5D5CFF', '#00FF9D'],
+      f: { energy: 18, brightness: 50, bass: 30, distortion: 5, space: 96 }
+    },
+    rock: {
+      name: '摇滚 Rock', temp: '熔岩调',
+      colors: ['#FF5E3A', '#FFFF00', '#FF2E63', '#FF9F1C', '#E8FF3A'],
+      f: { energy: 85, brightness: 80, bass: 60, distortion: 90, space: 50 }
+    }
+  };
+
+  var TRACKS = [
+    { name: 'Neon Tide',       artist: 'Vektor Field',          g: 'techno',  bpm: 132, f: { energy: 90, brightness: 78, bass: 92, distortion: 30, space: 58 } },
+    { name: 'Ion Bloom',       artist: 'Vektor Field',          g: 'techno',  bpm: 128, f: { energy: 84, brightness: 70, bass: 86, distortion: 42, space: 66 } },
+    { name: 'Blue Hour Waltz', artist: 'Marlene Aubert Trio',   g: 'jazz',    bpm: 96,  f: { energy: 42, brightness: 56, bass: 38, distortion: 6,  space: 82 } },
+    { name: 'Copper Rain',     artist: 'Marlene Aubert Trio',   g: 'jazz',    bpm: 104, f: { energy: 51, brightness: 62, bass: 44, distortion: 12, space: 74 } },
+    { name: 'Concrete Lotus',  artist: 'Kairo Dane',            g: 'hiphop',  bpm: 88,  f: { energy: 78, brightness: 44, bass: 94, distortion: 28, space: 38 } },
+    { name: 'Velvet Static',   artist: 'Kairo Dane',            g: 'hiphop',  bpm: 82,  f: { energy: 70, brightness: 38, bass: 88, distortion: 36, space: 44 } },
+    { name: 'Slow Glacier',    artist: 'Ana Mowen',             g: 'ambient', bpm: 60,  f: { energy: 16, brightness: 48, bass: 32, distortion: 4,  space: 96 } },
+    { name: 'Fault Line Anthem', artist: 'Sea of Wires',        g: 'rock',    bpm: 142, f: { energy: 86, brightness: 78, bass: 62, distortion: 92, space: 48 } }
+  ];
+
+  var curGenre = 'techno';
+  var curTrack = 0;
+
+  /* ----- 多焦点场 ----- */
+  var field = document.getElementById('field');
+  var foci = [];
+  F.forEach(function (f, i) {
+    var d = document.createElement('div');
+    d.className = 'focus';
+    d.style.animationDelay = (i * 90) + 'ms';
+    field.appendChild(d);
+    foci.push(d);
+  });
+
+  function renderField(feats, colors) {
+    F.forEach(function (f, i) {
+      var v = feats[f.k];
+      var el = foci[i];
+      el.style.setProperty('--c', colors[i]);
+      el.style.setProperty('--s', (0.72 + v / 100 * 0.55).toFixed(3));
+      el.style.left = (12 + i * 19) + '%';
+      el.style.top = (88 - v * 0.62) + '%';
+    });
+  }
+
+  /* ----- 数据源按钮 + 图例 ----- */
+  var gbtns = document.getElementById('gbtns');
+  Object.keys(GENRES).forEach(function (k) {
+    var g = GENRES[k];
+    var b = document.createElement('button');
+    b.className = 'gbtn';
+    b.type = 'button';
+    b.textContent = g.name;
+    b.setAttribute('aria-pressed', 'false');
+    b.style.setProperty('--btn-c', g.colors[0]);
+    b.addEventListener('click', function () { selectGenre(k); });
+    b.dataset.g = k;
+    gbtns.appendChild(b);
+  });
+
+  var legend = document.getElementById('legend');
+  var legendVals = [];
+  F.forEach(function (f, i) {
+    var item = document.createElement('div');
+    item.className = 'lg-item';
+    var sw = document.createElement('span');
+    sw.className = 'sw';
+    var t = document.createElement('span');
+    t.className = 'lg-t';
+    t.innerHTML = f.label + ' <b>0</b><small>' + f.hint + '</small>';
+    item.appendChild(sw);
+    item.appendChild(t);
+    legend.appendChild(item);
+    legendVals.push({ sw: sw, b: t.querySelector('b') });
+  });
+
+  function renderLegend(feats, colors) {
+    F.forEach(function (f, i) {
+      legendVals[i].sw.style.setProperty('--c', colors[i]);
+      legendVals[i].b.textContent = feats[f.k];
+    });
+  }
+
+  /* ----- 特征矩阵 ----- */
+  var mhead = document.getElementById('mhead');
+  mhead.appendChild(document.createElement('div')).textContent = '特征维度';
+  Object.keys(GENRES).forEach(function (k) {
+    var g = GENRES[k];
+    var c = document.createElement('div');
+    c.innerHTML = '<span class="dot" style="background:' + g.colors[0] + '"></span><span class="gname">' + g.name + '</span>';
+    mhead.appendChild(c);
+  });
+
+  var mrows = document.getElementById('mrows');
+  F.forEach(function (f) {
+    var row = document.createElement('div');
+    row.className = 'mgrid mrow';
+    var feat = document.createElement('div');
+    feat.className = 'mfeat';
+    feat.innerHTML = f.label + '<small>' + f.hint + '</small>';
+    row.appendChild(feat);
+    Object.keys(GENRES).forEach(function (k) {
+      var g = GENRES[k];
+      var cell = document.createElement('div');
+      cell.className = 'mval';
+      cell.innerHTML = '<span class="mbar"><i style="width:' + g.f[f.k] + '%;background:' + g.colors[F.indexOf(f)] + '"></i></span><span>' + g.f[f.k] + '</span>';
+      row.appendChild(cell);
+    });
+    mrows.appendChild(row);
+  });
+
+  /* ----- 指纹渐变生成 ----- */
+  function fingerprint(feats, colors) {
+    var total = F.reduce(function (s, f) { return s + feats[f.k]; }, 0);
+    var acc = 0;
+    var stops = [];
+    F.forEach(function (f, i) {
+      var w = feats[f.k] / total * 100;
+      stops.push(colors[i] + ' ' + acc.toFixed(1) + '%', colors[i] + ' ' + (acc + w).toFixed(1) + '%');
+      acc += w;
+    });
+    return 'linear-gradient(90deg,' + stops.join(',') + ')';
+  }
+
+  /* ----- 曲库行 ----- */
+  var trows = document.getElementById('trows');
+  var trackBtns = [];
+  TRACKS.forEach(function (t, idx) {
+    var g = GENRES[t.g];
+    var b = document.createElement('button');
+    b.className = 'trow';
+    b.type = 'button';
+    b.setAttribute('aria-pressed', 'false');
+    var inner = document.createElement('div');
+    inner.className = 'tgrid';
+    inner.innerHTML =
+      '<span class="fp" style="background:' + fingerprint(t.f, g.colors) + '"></span>' +
+      '<span class="tname"><b>' + t.name + '</b><span>' + t.artist + '</span></span>' +
+      '<span class="tgenre cell-g">' + g.name + '</span>' +
+      '<span class="tbpm cell-g">' + t.bpm + '</span>' +
+      '<span class="tene cell-e">' + t.f.energy + '</span>';
+    b.appendChild(inner);
+    b.addEventListener('click', function () { selectTrack(idx); });
+    trows.appendChild(b);
+    trackBtns.push(b);
+  });
+
+  /* ----- 细读面板 ----- */
+  function renderDetail(t) {
+    var g = GENRES[t.g];
+    document.getElementById('dName').textContent = t.name;
+    document.getElementById('dMeta').textContent = t.artist + ' / ' + g.name + ' / ' + g.temp + ' / ' + t.bpm + ' BPM';
+    document.getElementById('dFp').style.background = fingerprint(t.f, g.colors);
+    var wrap = document.getElementById('dFeats');
+    wrap.innerHTML = '';
+    var deltas = [];
+    F.forEach(function (f, i) {
+      var d = t.f[f.k] - g.f[f.k];
+      deltas.push({ label: f.label, d: d });
+      var row = document.createElement('div');
+      row.className = 'df';
+      row.innerHTML =
+        '<span>' + f.label + '</span>' +
+        '<span class="db"><i style="width:' + t.f[f.k] + '%;background:' + g.colors[i] + '"></i></span>' +
+        '<span class="dv"><b>' + t.f[f.k] + '</b> ' + (d >= 0 ? '+' : '') + d + '</span>';
+      wrap.appendChild(row);
+    });
+    deltas.sort(function (a, b2) { return Math.abs(b2.d) - Math.abs(a.d); });
+    var s = document.getElementById('dSum');
+    s.innerHTML = '相对流派基准：<b>' + deltas[0].label + ' ' + (deltas[0].d >= 0 ? '+' : '') + deltas[0].d +
+      '</b> / ' + deltas[1].label + ' ' + (deltas[1].d >= 0 ? '+' : '') + deltas[1].d +
+      '。上方的光谱场已同步呈现这支单曲的焦点布局。';
+  }
+
+  /* ----- 状态切换 ----- */
+  function syncButtons() {
+    Array.prototype.forEach.call(gbtns.children, function (b) {
+      b.setAttribute('aria-pressed', b.dataset.g === curGenre ? 'true' : 'false');
+    });
+    trackBtns.forEach(function (b, i) {
+      b.setAttribute('aria-pressed', i === curTrack ? 'true' : 'false');
+    });
+  }
+
+  function apply() {
+    var g = GENRES[curGenre];
+    var feats = curTrack === null ? g.f : TRACKS[curTrack].f;
+    renderField(feats, g.colors);
+    renderLegend(feats, g.colors);
+    document.getElementById('sigName').textContent = curTrack === null ? g.name : TRACKS[curTrack].name + ' / ' + g.name;
+    document.getElementById('sigTemp').textContent = g.temp;
+    syncButtons();
+    if (curTrack !== null) renderDetail(TRACKS[curTrack]);
+  }
+
+  function selectGenre(k) {
+    curGenre = k;
+    curTrack = null;
+    apply();
+  }
+
+  function selectTrack(idx) {
+    curTrack = idx;
+    curGenre = TRACKS[idx].g;
+    apply();
+  }
+
+  apply();
+})();
+</script>
+
+</body>
+</html>

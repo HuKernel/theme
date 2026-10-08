@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>夸张极简 / UI 设计提示词库</title>
+<!-- token 计划: 纸白 #FAFAF8 / 墨黑 #0B0B0B 双色 + 单一强调 印章红 #C8102E（全部灰阶为墨黑透明度），字重 900 / 字距 -0.05em，radius 0 / 无阴影无渐变，尺度 = 视口 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF8;
+    --ink: #0B0B0B;
+    --accent: #C8102E;
+    --muted: rgba(11, 11, 11, 0.62);
+    --hairline: rgba(11, 11, 11, 0.18);
+    --gutter: clamp(20px, 6vw, 96px);
+    --fx-hero: clamp(180px, 42vw, 620px);
+    --fx-stat: clamp(160px, 36vw, 540px);
+    --fx-price: clamp(96px, 22vw, 300px);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  body {
+    font-family: "Space Grotesk", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .wrap {
+    width: min(1280px, 100% - 2 * var(--gutter));
+    margin-inline: auto;
+  }
+
+  /* ===== 顶栏 ===== */
+
+  .site-head {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px var(--gutter);
+    background: var(--paper);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .brand {
+    font-weight: 900;
+    font-size: 17px;
+    letter-spacing: 0.06em;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: clamp(12px, 3vw, 36px);
+  }
+
+  .site-nav a {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 2px;
+  }
+
+  .site-nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  /* ===== 第一屏 / 巨字开场 ===== */
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+    gap: clamp(20px, 4vh, 44px);
+    padding: 96px var(--gutter) 72px;
+  }
+
+  .hero-char {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: var(--fx-hero);
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .hero-line {
+    font-size: clamp(18px, 2.4vw, 30px);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-meta {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-hint {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    translate: -50% 0;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .hint-line {
+    width: 1px;
+    height: 40px;
+    background: var(--ink);
+  }
+
+  /* ===== 第二屏 / 一句话 ===== */
+
+  .statement {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-content: center;
+    padding: 0 var(--gutter);
+  }
+
+  .statement-text {
+    max-width: 22em;
+    font-size: clamp(30px, 5.4vw, 84px);
+    font-weight: 700;
+    line-height: 1.32;
+    letter-spacing: 0.01em;
+  }
+
+  .statement-text em {
+    font-style: normal;
+    font-weight: 900;
+    color: var(--accent);
+  }
+
+  /* ===== 第三屏 / 巨型数字 ===== */
+
+  .stat {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: clamp(28px, 6vh, 64px);
+    padding: 96px var(--gutter);
+    text-align: center;
+  }
+
+  .stat-num {
+    display: flex;
+    align-items: baseline;
+    line-height: 0.9;
+  }
+
+  .stat-num .num {
+    font-size: var(--fx-stat);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+
+  .stat-num .unit {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: calc(var(--fx-stat) * 0.24);
+    font-weight: 900;
+    color: var(--accent);
+    margin-left: 0.08em;
+  }
+
+  .stat-caps {
+    display: grid;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== 密排章节共用头 ===== */
+
+  .dense {
+    padding-block: clamp(90px, 16vh, 180px);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .dense-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-bottom: clamp(36px, 6vh, 64px);
+  }
+
+  .dense-head h2 {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+  }
+
+  .dense-head p {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== 第四屏 / 产品档案（密排小字） ===== */
+
+  .archive-rows {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .archive-rows .row {
+    display: grid;
+    grid-template-columns: minmax(6.5em, 9em) 1fr;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .archive-rows dt {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .archive-rows dd {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ===== 第五屏 / 五道工序（密排横栏） ===== */
+
+  .steps {
+    list-style: none;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .steps li {
+    display: grid;
+    gap: 10px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .step-no {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .steps h3 {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .steps p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ===== 第六屏 / 宣言（回到极空） ===== */
+
+  .manifesto {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: clamp(24px, 5vh, 48px);
+    padding: 96px var(--gutter);
+    text-align: center;
+  }
+
+  .manifesto-line {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: clamp(44px, 9vw, 150px);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: 0.01em;
+  }
+
+  .manifesto-sub {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== 第七屏 / 冲泡表（表格行 grid 对齐） ===== */
+
+  .brew-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .brew-table tr {
+    display: grid;
+    grid-template-columns: 3.6rem 4.4rem 4.8rem 1fr;
+    align-items: baseline;
+    gap: 8px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .brew-table thead tr {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .brew-table th {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 12px 0;
+  }
+
+  .brew-table td {
+    font-size: 13px;
+    padding: 14px 0;
+  }
+
+  .brew-table td:nth-child(n + 2) {
+    font-weight: 500;
+  }
+
+  .brew-table td:last-child {
+    color: var(--muted);
+  }
+
+  /* ===== 第八屏 / 三问三答（密排） ===== */
+
+  .faq-list {
+    display: grid;
+    gap: clamp(32px, 5vh, 56px);
+    border-top: 1px solid var(--hairline);
+    padding-top: clamp(32px, 5vh, 56px);
+  }
+
+  .faq-item h3 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+
+  .faq-item p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 44em;
+  }
+
+  /* ===== 第九屏 / 价格 ===== */
+
+  .order {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: clamp(18px, 3.5vh, 36px);
+    padding: 96px var(--gutter);
+    text-align: center;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .order-note {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .price {
+    display: flex;
+    align-items: baseline;
+    line-height: 0.9;
+  }
+
+  .price .yen {
+    font-size: calc(var(--fx-price) * 0.32);
+    font-weight: 700;
+    margin-right: 0.04em;
+  }
+
+  .price .num {
+    font-size: var(--fx-price);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+
+  .price .per {
+    font-size: calc(var(--fx-price) * 0.18);
+    font-weight: 500;
+    color: var(--muted);
+    margin-left: 0.12em;
+  }
+
+  .order-sub {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .btn {
+    margin-top: clamp(10px, 2vh, 24px);
+    padding: 18px 64px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    transition: background-color 0.25s ease;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+  }
+
+  /* ===== 页脚 ===== */
+
+  .site-foot {
+    border-top: 1px solid var(--hairline);
+    padding: 36px var(--gutter) 44px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .site-foot .foot-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
+  }
+
+  .site-foot p {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .site-foot a {
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+
+  .foot-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ===== 一次亮相动效（仅首屏，加载时一次） ===== */
+
+  @keyframes settle {
+    from {
+      opacity: 0;
+      transform: translateY(6vh) scale(0.98);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+
+  .hero-char {
+    animation: settle 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+  }
+
+  .hero-line {
+    animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+  }
+
+  .hero-meta {
+    animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both;
+  }
+
+  .hero-hint {
+    animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.82s both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .hero-char,
+    .hero-line,
+    .hero-meta,
+    .hero-hint {
+      animation: none;
+    }
+
+    .btn {
+      transition: none;
+    }
+  }
+
+  /* ===== 响应式 ===== */
+
+  @media (min-width: 768px) {
+    .stat-caps {
+      grid-auto-flow: column;
+      gap: 0;
+    }
+
+    .stat-caps p {
+      padding: 0 clamp(16px, 2.5vw, 40px);
+      border-left: 1px solid var(--hairline);
+    }
+
+    .stat-caps p:first-child {
+      border-left: none;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 clamp(20px, 3vw, 44px);
+    }
+
+    .steps li {
+      align-content: start;
+      border-bottom: 1px solid var(--hairline);
+    }
+
+    .brew-table tr {
+      grid-template-columns: 6rem 7rem 7rem 1fr;
+    }
+
+    .faq-list {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 clamp(20px, 3vw, 44px);
+    }
+
+    .faq-item {
+      border-left: 1px solid var(--hairline);
+      padding-left: clamp(16px, 2vw, 32px);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .steps {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .steps li {
+      border-left: 1px solid var(--hairline);
+      padding-left: clamp(16px, 1.5vw, 24px);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="#top">一味茶事</a>
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="#archive">档案</a>
+    <a href="#craft">工序</a>
+    <a href="#brew">冲泡</a>
+    <a href="#order">预订</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-label="开场">
+    <p class="hero-char" aria-hidden="true">茶</p>
+    <h1 class="hero-line">只做一款茶。</h1>
+    <p class="hero-meta">杭州 / 西湖产区 / 狮峰山 / 二〇二六春</p>
+    <div class="hero-hint" aria-hidden="true">
+      <span>向下滚动</span>
+      <span class="hint-line"></span>
+    </div>
+  </section>
+
+  <section class="statement" aria-label="一年十八天">
+    <p class="statement-text">一年之中，只有<em>十八天</em>，配得上这杯茶。</p>
+  </section>
+
+  <section class="stat" aria-label="十八天">
+    <p class="stat-num"><span class="num">18</span><span class="unit">天</span></p>
+    <div class="stat-caps">
+      <p>春分 / 三月二十日</p>
+      <p>清明 / 四月五日</p>
+      <p>狮峰山 / 海拔二百八十米</p>
+    </div>
+  </section>
+
+  <section class="dense" id="archive" aria-label="产品档案">
+    <div class="wrap">
+      <div class="dense-head">
+        <h2>产品档案</h2>
+        <p>二〇二六 / 明前 / 群体种 / 全程手工</p>
+      </div>
+      <dl class="archive-rows">
+        <div class="row">
+          <dt>产地</dt>
+          <dd>浙江省杭州市西湖区 / 狮峰山核心地块</dd>
+        </div>
+        <div class="row">
+          <dt>茶树品种</dt>
+          <dd>群体种老茶园 / 树龄六十年以上</dd>
+        </div>
+        <div class="row">
+          <dt>采摘标准</dt>
+          <dd>一芽一叶初展 / 芽长不超过 2.5 厘米</dd>
+        </div>
+        <div class="row">
+          <dt>采摘时段</dt>
+          <dd>清晨五点至上午十点 / 露水未干时收青</dd>
+        </div>
+        <div class="row">
+          <dt>采摘日期</dt>
+          <dd>二〇二六年三月二十日至四月四日</dd>
+        </div>
+        <div class="row">
+          <dt>摊放</dt>
+          <dd>竹匾薄摊 8 至 12 小时 / 至含水率约七成</dd>
+        </div>
+        <div class="row">
+          <dt>杀青</dt>
+          <dd>手工锅炒 / 锅温约 220°C / 每锅投叶 120 克</dd>
+        </div>
+        <div class="row">
+          <dt>回潮</dt>
+          <dd>摊凉 40 分钟 / 待热度退去、茶芽回软</dd>
+        </div>
+        <div class="row">
+          <dt>辉锅</dt>
+          <dd>低温慢炒约 40 分钟 / 至扁平挺秀、嫩绿光润</dd>
+        </div>
+        <div class="row">
+          <dt>成品含水率</dt>
+          <dd>不超过 6.5%</dd>
+        </div>
+        <div class="row">
+          <dt>包装</dt>
+          <dd>五十克 / 避光铁罐充氮封装</dd>
+        </div>
+        <div class="row">
+          <dt>年产量</dt>
+          <dd>300 罐 / 售完即止 / 不补货</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="dense" id="craft" aria-label="五道工序">
+    <div class="wrap">
+      <div class="dense-head">
+        <h2>五道工序</h2>
+        <p>从一筐青叶到一罐干茶 / 约三十小时 / 全程不落地</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="step-no">一</span>
+          <h3>采摘</h3>
+          <p>清晨五点上山，只取一芽一叶初展，青叶不过夜，当天下午进厂。</p>
+        </li>
+        <li>
+          <span class="step-no">二</span>
+          <h3>摊放</h3>
+          <p>竹匾薄摊八至十二小时，散去青草气，香气在静置中转向花香。</p>
+        </li>
+        <li>
+          <span class="step-no">三</span>
+          <h3>杀青</h3>
+          <p>二百二十度手工锅炒十分钟，抓、抖、搭、拓，手上见分寸。</p>
+        </li>
+        <li>
+          <span class="step-no">四</span>
+          <h3>回潮</h3>
+          <p>摊凉四十分钟，让热度退去、茶芽回软，为辉锅留住韧性。</p>
+        </li>
+        <li>
+          <span class="step-no">五</span>
+          <h3>辉锅</h3>
+          <p>低温慢炒四十分钟，磨压成形，直到扁平挺秀、嫩绿光润。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="manifesto" aria-label="只做一款">
+    <h2 class="manifesto-line">只做这一款，<br>今年第九年。</h2>
+    <p class="manifesto-sub">没有礼盒 / 没有系列 / 没有第二选择</p>
+  </section>
+
+  <section class="dense" id="brew" aria-label="冲泡建议">
+    <div class="wrap">
+      <div class="dense-head">
+        <h2>冲泡建议</h2>
+        <p>投茶 3 克 / 水 150 毫升 / 玻璃杯 / 无需洗茶</p>
+      </div>
+      <table class="brew-table">
+        <caption class="visually-hidden">明前龙井冲泡参数</caption>
+        <thead>
+          <tr>
+            <th scope="col">泡次</th>
+            <th scope="col">水温</th>
+            <th scope="col">时间</th>
+            <th scope="col">滋味</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>一泡</td>
+            <td>85°C</td>
+            <td>30 秒</td>
+            <td>香气高扬 / 兰豆香</td>
+          </tr>
+          <tr>
+            <td>二泡</td>
+            <td>80°C</td>
+            <td>20 秒</td>
+            <td>滋味最盛 / 鲜爽饱满</td>
+          </tr>
+          <tr>
+            <td>三泡</td>
+            <td>85°C</td>
+            <td>40 秒</td>
+            <td>甘甜回韵 / 汤色嫩绿</td>
+          </tr>
+          <tr>
+            <td>四泡</td>
+            <td>90°C</td>
+            <td>60 秒</td>
+            <td>尾水清甜 / 可续至六泡</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dense" aria-label="三问三答">
+    <div class="wrap">
+      <div class="dense-head">
+        <h2>三问三答</h2>
+        <p>每年被问到最多的三个问题</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>为什么每年只有三百罐</h3>
+          <p>三亩群体种老茶园，明前十八天，一天一锅一百二十克，做完即止，不收夏秋茶。</p>
+        </div>
+        <div class="faq-item">
+          <h3>为什么没有礼盒</h3>
+          <p>避光铁罐充氮已经是最好的保存方式，预算应当全部花在茶上，而不是盒子上。</p>
+        </div>
+        <div class="faq-item">
+          <h3>明前与雨前差在哪</h3>
+          <p>清明前氨基酸含量高、苦涩物质低，鲜爽度完全不同，所以我们只做这十八天。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="order" id="order" aria-label="预订">
+    <p class="order-note">二〇二六明前 / 限量三百罐 / 四月发货</p>
+    <p class="price"><span class="yen">¥</span><span class="num">168</span><span class="per">/ 罐</span></p>
+    <p class="order-sub">五十克装 / 顺丰包邮 / 售完即止</p>
+    <button class="btn" type="button">预订春茶</button>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="foot-row">
+    <p>UI 设计提示词库 / 夸张极简</p>
+    <a href="style-catalog.html">返回风格目录</a>
+  </div>
+  <p class="foot-sub">一味茶事 / 概念演示页 / 二〇二六</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柔和 UI 进化 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划 / 暖白底 #F6F3ED + 白卡双色柔影（右上受光 / 左下沉影）/ 墨字 #3A3A46 / 柔蓝 #87CEEB 柔粉 #FFB6C1 柔绿 #90EE90 / 卡片 60px 圆角 / 控件 pill / 200-300ms 过渡 */
+:root {
+  --bg: #F6F3ED;
+  --card: #FFFFFF;
+  --well: #ECE8E0;
+  --ink: #3A3A46;
+  --ink-soft: #5B5B68;
+  --ink-faint: #6E6E7A;
+  --line: #E9E3D8;
+  --blue: #87CEEB;
+  --blue-deep: #21648C;
+  --pink: #FFB6C1;
+  --pink-deep: #A94B5E;
+  --green: #90EE90;
+  --green-deep: #276B44;
+  --peach: #FFD3A8;
+  --peach-deep: #7A4A12;
+  --r-card: 60px;
+  --r-mid: 28px;
+  --r-pill: 999px;
+  --sh-raise: 12px -12px 26px rgba(255, 255, 255, 0.95), -14px 16px 34px rgba(162, 152, 135, 0.36);
+  --sh-raise-sm: 7px -7px 16px rgba(255, 255, 255, 0.9), -8px 9px 20px rgba(162, 152, 135, 0.3);
+  --sh-press: inset 7px -7px 15px rgba(162, 152, 135, 0.4), inset -7px 8px 15px rgba(255, 255, 255, 0.95);
+  --tr: 260ms cubic-bezier(0.33, 0.7, 0.35, 1);
+  --font: "Plus Jakarta Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+a { color: var(--blue-deep); text-decoration: none; }
+p a:hover, footer a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--blue-deep); outline-offset: 3px; border-radius: 12px; }
+
+/* ---------- 柔影基元 ---------- */
+.raised { background: var(--card); box-shadow: var(--sh-raise); border-radius: var(--r-card); }
+.pressed { background: var(--well); box-shadow: var(--sh-press); border-radius: var(--r-pill); }
+
+/* ---------- 顶部导航 ---------- */
+header { padding: 26px 0 10px; }
+.nav {
+  display: flex; align-items: center; gap: 28px;
+  background: var(--card); box-shadow: var(--sh-raise);
+  border-radius: var(--r-pill); padding: 12px 14px 12px 26px;
+}
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 19px; margin-right: auto; }
+.brand-disc {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--blue); box-shadow: var(--sh-raise-sm);
+  display: grid; place-items: center; flex: none;
+}
+.brand-disc span {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--card); box-shadow: var(--sh-press);
+}
+.nav-links { display: flex; gap: 6px; }
+.nav-links a {
+  color: var(--ink-soft); font-weight: 600; font-size: 15px;
+  padding: 9px 18px; border-radius: var(--r-pill);
+  transition: color var(--tr), background var(--tr), box-shadow var(--tr);
+}
+.nav-links a:hover { color: var(--ink); background: var(--well); box-shadow: var(--sh-press); }
+.nav-cta {
+  display: inline-block; background: var(--ink); color: #FFFFFF;
+  font-weight: 700; font-size: 15px; padding: 12px 26px;
+  border-radius: var(--r-pill); transition: transform var(--tr), box-shadow var(--tr);
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: -8px 10px 22px rgba(58, 58, 70, 0.35); color: #FFFFFF; }
+
+/* ---------- 首屏 ---------- */
+.hero { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 56px; align-items: center; padding: 64px 0 30px; }
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 700; color: var(--green-deep);
+  background: var(--card); box-shadow: var(--sh-press);
+  border-radius: var(--r-pill); padding: 8px 18px; margin-bottom: 22px;
+}
+.kicker i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex: none; }
+.hero h1 { font-size: clamp(34px, 4.6vw, 56px); line-height: 1.22; font-weight: 800; letter-spacing: -0.5px; }
+.hero h1 em { font-style: normal; color: var(--blue-deep); }
+.hero-lead { color: var(--ink-soft); font-size: 17px; max-width: 46ch; margin: 20px 0 30px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 26px; }
+.btn {
+  display: inline-block; font-family: inherit; cursor: pointer;
+  font-weight: 700; font-size: 16px; padding: 15px 30px;
+  border: none; border-radius: var(--r-pill);
+  transition: transform var(--tr), box-shadow var(--tr), background var(--tr);
+}
+.btn-primary { background: var(--blue); color: #1B4A63; box-shadow: var(--sh-raise-sm); }
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost { background: var(--card); color: var(--ink); box-shadow: var(--sh-press); }
+.btn-ghost:hover { box-shadow: var(--sh-raise-sm); transform: translateY(-2px); }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 12px; }
+.stat-pill {
+  font-size: 14px; font-weight: 600; color: var(--ink-soft);
+  background: var(--card); box-shadow: var(--sh-raise-sm);
+  border-radius: var(--r-pill); padding: 9px 18px;
+}
+.stat-pill b { color: var(--ink); font-weight: 800; }
+
+/* 呼吸圆盘 */
+.breath-stage { display: grid; justify-items: center; gap: 22px; }
+.breath {
+  width: min(340px, 74vw); aspect-ratio: 1; border-radius: 50%;
+  background: var(--card); box-shadow: var(--sh-raise);
+  display: grid; place-items: center;
+}
+.breath-ring {
+  width: 68%; aspect-ratio: 1; border-radius: 50%;
+  background: var(--well); box-shadow: var(--sh-press);
+  display: grid; place-items: center;
+  animation: breathe 19s ease-in-out infinite;
+}
+.breath-core {
+  width: 62%; aspect-ratio: 1; border-radius: 50%;
+  background: var(--blue); box-shadow: 10px -10px 22px rgba(255, 255, 255, 0.7), -12px 14px 26px rgba(33, 100, 140, 0.28);
+  display: grid; place-items: center; text-align: center;
+}
+.breath-core strong { display: block; font-size: 30px; font-weight: 800; color: #143A50; letter-spacing: 1px; }
+.breath-core small { font-size: 13px; font-weight: 700; color: #1B4A63; }
+.breath-note { font-size: 14px; color: var(--ink-faint); text-align: center; }
+
+/* ---------- 区块通用 ---------- */
+section { padding: 44px 0; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; margin-bottom: 8px; }
+.sec-head h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -0.3px; }
+.sec-head p { color: var(--ink-faint); font-size: 15px; }
+
+/* ---------- 混音台（表格化网格行） ---------- */
+.panel { padding: 36px clamp(24px, 4vw, 46px); }
+.mix-table { display: grid; gap: 14px; margin-top: 22px; }
+.mix-row {
+  display: grid; grid-template-columns: 56px 1fr minmax(170px, 250px) 70px;
+  align-items: center; gap: 20px;
+  background: var(--card); box-shadow: var(--sh-raise-sm);
+  border-radius: var(--r-mid); padding: 16px 22px;
+  transition: transform var(--tr), box-shadow var(--tr);
+}
+.mix-row:hover { transform: translateY(-2px); }
+.ch-disc {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 20px; font-weight: 800; box-shadow: var(--sh-press);
+}
+.ch-blue { background: var(--blue); color: #1B4A63; }
+.ch-green { background: var(--green); color: #235C3A; }
+.ch-pink { background: var(--pink); color: #7E3342; }
+.ch-peach { background: var(--peach); color: var(--peach-deep); }
+.ch-name { font-weight: 800; font-size: 16px; }
+.ch-desc { font-size: 13.5px; color: var(--ink-faint); }
+.mix-val {
+  justify-self: end; font-size: 14px; font-weight: 800; color: var(--ink);
+  background: var(--well); box-shadow: var(--sh-press);
+  border-radius: var(--r-pill); padding: 6px 14px; min-width: 58px; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+/* 内凹滑杆 */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 14px; border-radius: var(--r-pill);
+  background: var(--well); box-shadow: var(--sh-press);
+  cursor: pointer; border: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--card); border: none;
+  box-shadow: 6px -6px 14px rgba(255, 255, 255, 0.95), -7px 8px 16px rgba(162, 152, 135, 0.45);
+  transition: transform var(--tr);
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.08); }
+input[type="range"]::-moz-range-thumb {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--card); border: none;
+  box-shadow: 6px -6px 14px rgba(255, 255, 255, 0.95), -7px 8px 16px rgba(162, 152, 135, 0.45);
+}
+/* 开关 */
+.switch-row {
+  display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 20px;
+  background: var(--card); box-shadow: var(--sh-raise-sm);
+  border-radius: var(--r-mid); padding: 16px 22px;
+}
+.switch {
+  position: relative; display: inline-block; width: 66px; height: 38px; flex: none;
+  border-radius: var(--r-pill); background: var(--well); box-shadow: var(--sh-press);
+  transition: background var(--tr); cursor: pointer;
+}
+.switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.knob {
+  position: absolute; top: 5px; left: 5px; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--card);
+  box-shadow: 5px -5px 12px rgba(255, 255, 255, 0.95), -6px 7px 14px rgba(162, 152, 135, 0.5);
+  transition: transform var(--tr);
+}
+.switch input:checked + .knob { transform: translateX(28px); }
+.switch input:focus-visible + .knob { outline: 3px solid var(--blue-deep); outline-offset: 3px; }
+.switch.on { background: var(--green); }
+.switch-state { font-size: 13px; font-weight: 800; color: var(--green-deep); margin-left: 14px; }
+.switch-state.off { color: var(--ink-faint); }
+
+/* ---------- 场景 ---------- */
+.scene-bar { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 26px; }
+.scene-bar input { position: absolute; opacity: 0; pointer-events: none; }
+.scene-pill {
+  padding: 13px 28px; border-radius: var(--r-pill); cursor: pointer;
+  background: var(--well); box-shadow: var(--sh-press);
+  font-weight: 700; font-size: 15px; color: var(--ink-soft);
+  transition: background var(--tr), color var(--tr), box-shadow var(--tr), transform var(--tr);
+}
+.scene-pill:hover { transform: translateY(-2px); }
+.scene-bar input:checked + .scene-pill {
+  background: var(--card); color: var(--ink); box-shadow: var(--sh-raise-sm);
+}
+.scene-bar input:focus-visible + .scene-pill { outline: 3px solid var(--blue-deep); outline-offset: 3px; }
+.scene-card {
+  border-radius: var(--r-card); background: var(--card); box-shadow: var(--sh-raise);
+  padding: 30px 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px;
+}
+.scene-card h3 { font-size: 20px; font-weight: 800; }
+.scene-card p { color: var(--ink-soft); font-size: 15px; }
+.scene-card .scene-tag {
+  margin-left: auto; font-size: 14px; font-weight: 700; color: var(--blue-deep);
+  background: var(--blue); box-shadow: var(--sh-press);
+  border-radius: var(--r-pill); padding: 8px 18px;
+}
+
+/* ---------- 课程卡 ---------- */
+.course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 26px; }
+.course { padding: 26px 26px 30px; display: flex; flex-direction: column; gap: 16px; border-radius: var(--r-card); }
+.course-visual {
+  height: 130px; border-radius: var(--r-mid); box-shadow: var(--sh-press);
+  position: relative; overflow: hidden;
+}
+.v-1 { background: linear-gradient(135deg, #DCEEF7 0%, #B7DCF0 55%, #9FD0EA 100%); }
+.v-2 { background: linear-gradient(135deg, #FFE3E8 0%, #FFCBD4 55%, #FFB6C1 100%); }
+.v-3 { background: linear-gradient(135deg, #E2F6E2 0%, #C2EFC2 55%, #A8E6A8 100%); }
+.course-visual i {
+  position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.55);
+}
+.course-visual i:nth-child(1) { width: 90px; height: 90px; right: 18px; top: -26px; }
+.course-visual i:nth-child(2) { width: 46px; height: 46px; left: 26px; bottom: -16px; background: rgba(255, 255, 255, 0.4); }
+.course-visual i:nth-child(3) { width: 20px; height: 20px; left: 46%; top: 40%; background: rgba(255, 255, 255, 0.7); }
+.course-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+.tag {
+  font-size: 13px; font-weight: 800; border-radius: var(--r-pill); padding: 6px 15px;
+}
+.tag-blue { background: var(--blue); color: #1B4A63; }
+.tag-pink { background: var(--pink); color: #7E3342; }
+.tag-green { background: var(--green); color: #235C3A; }
+.course h3 { font-size: 21px; font-weight: 800; }
+.course p { color: var(--ink-soft); font-size: 15px; flex: 1; }
+.course .btn { align-self: flex-start; padding: 12px 24px; font-size: 15px; }
+
+/* ---------- 报告双栏 ---------- */
+.report-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 26px; margin-top: 26px; }
+.report-card { padding: 32px clamp(24px, 3.4vw, 40px); border-radius: var(--r-card); }
+.report-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.report-sub { font-size: 14px; color: var(--ink-faint); margin-bottom: 24px; }
+.bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; height: 190px; }
+.bar-cell { display: flex; flex-direction: column; align-items: center; gap: 9px; height: 100%; }
+.bar-val { font-size: 13px; font-weight: 800; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.bar-stack { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+.bar {
+  width: 100%; border-radius: 14px 14px 10px 10px;
+  background: var(--blue); box-shadow: 6px -6px 14px rgba(255, 255, 255, 0.55), -6px 7px 14px rgba(33, 100, 140, 0.22);
+  transform-origin: bottom; animation: grow 700ms cubic-bezier(0.33, 0.7, 0.35, 1) both;
+}
+.bar.best { background: var(--green); box-shadow: 6px -6px 14px rgba(255, 255, 255, 0.55), -6px 7px 14px rgba(46, 125, 79, 0.28); }
+.bar-label { font-size: 13px; font-weight: 700; color: var(--ink-faint); }
+.chart-foot { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.ritual { display: grid; gap: 14px; }
+.ritual-row {
+  display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 16px;
+  background: var(--well); box-shadow: var(--sh-press);
+  border-radius: var(--r-mid); padding: 15px 20px;
+}
+.check {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--green); display: grid; place-items: center;
+  box-shadow: 5px -5px 12px rgba(255, 255, 255, 0.6), -6px 7px 13px rgba(46, 125, 79, 0.3);
+}
+.check svg { width: 18px; height: 18px; }
+.ritual-row strong { font-size: 15px; font-weight: 700; display: block; }
+.ritual-row small { font-size: 13px; color: var(--ink-soft); }
+.ritual-days { font-size: 13px; font-weight: 800; color: var(--green-deep); white-space: nowrap; }
+.privacy {
+  margin-top: 20px; font-size: 13.5px; color: var(--ink-soft);
+  background: var(--well); box-shadow: var(--sh-press);
+  border-radius: var(--r-pill); padding: 10px 20px; text-align: center;
+}
+
+/* ---------- 页脚 ---------- */
+footer { padding: 46px 0 54px; }
+.footer-inner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+  background: var(--card); box-shadow: var(--sh-raise);
+  border-radius: var(--r-pill); padding: 20px 34px;
+}
+.footer-inner p { color: var(--ink-soft); font-size: 14px; font-weight: 600; }
+.footer-inner a {
+  color: var(--blue-deep); font-weight: 700; font-size: 14px;
+  background: var(--well); box-shadow: var(--sh-press);
+  border-radius: var(--r-pill); padding: 10px 20px;
+  transition: box-shadow var(--tr), transform var(--tr);
+}
+.footer-inner a:hover { box-shadow: var(--sh-raise-sm); transform: translateY(-2px); text-decoration: none; }
+
+/* ---------- 一次亮相 ---------- */
+.reveal { animation: rise 700ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes breathe { 0% { transform: scale(0.9); } 21% { transform: scale(1.045); } 58% { transform: scale(1.045); } 100% { transform: scale(0.9); } }
+@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 44px; }
+  .breath-stage { order: -1; }
+  .course-grid { grid-template-columns: repeat(2, 1fr); }
+  .report-grid { grid-template-columns: 1fr; }
+  .mix-row { grid-template-columns: 48px 1fr 70px; }
+  .mix-row input[type="range"] { grid-column: 1 / -1; }
+  .nav { flex-wrap: wrap; gap: 12px; padding: 14px 18px; border-radius: var(--r-mid); }
+  .nav-links { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; }
+}
+@media (max-width: 560px) {
+  .wrap { padding: 0 18px; }
+  .course-grid { grid-template-columns: 1fr; }
+  .panel { border-radius: 40px; }
+  .raised { border-radius: 40px; }
+  .switch-row { grid-template-columns: 48px 1fr; }
+  .switch-row .switch { grid-column: 3; grid-row: 1; }
+  .switch-row .switch-state { display: none; }
+  .scene-card .scene-tag { margin-left: 0; }
+  .footer-inner { flex-direction: column; text-align: center; border-radius: var(--r-mid); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .bar { animation: none; }
+  .breath-ring { animation: none; }
+  * { transition-duration: 1ms; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <nav class="nav" aria-label="主导航">
+    <div class="brand">
+      <div class="brand-disc"><span></span></div>
+      云绒
+    </div>
+    <div class="nav-links">
+      <a href="#mixer">混音台</a>
+      <a href="#scenes">场景</a>
+      <a href="#courses">睡前课程</a>
+      <a href="#report">睡眠报告</a>
+    </div>
+    <a class="nav-cta" href="#mixer">开始今晚的睡眠</a>
+  </nav>
+</header>
+
+<main>
+  <section class="wrap hero reveal" aria-labelledby="hero-title">
+    <div>
+      <span class="kicker"><i></i>已陪伴 218,940 个夜晚</span>
+      <h1 id="hero-title">今晚，把世界的音量<br>调低一点，交给<em>柔软的白噪音</em></h1>
+      <p class="hero-lead">云绒把雨声、远浪与炉火叠成一张温柔的床。设定好属于你的背景音，剩下的交给呼吸。醒来时，世界还在，而你已休息够了。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#courses">开始 7 分钟呼吸练习</a>
+        <a class="btn btn-ghost" href="#mixer">调整我的混音</a>
+      </div>
+      <div class="hero-stats">
+        <span class="stat-pill">今晚平均入睡用时 <b>11 分钟</b></span>
+        <span class="stat-pill">连续入睡打卡 <b>6 天</b></span>
+      </div>
+    </div>
+    <div class="breath-stage">
+      <div class="breath">
+        <div class="breath-ring">
+          <div class="breath-core">
+            <strong>04:32</strong>
+            <small>跟随圆盘呼吸</small>
+          </div>
+        </div>
+      </div>
+      <p class="breath-note">圆盘缓慢胀缩 / 吸 4 秒 停 7 秒 呼 8 秒</p>
+    </div>
+  </section>
+
+  <section class="wrap" id="mixer" aria-labelledby="mixer-title">
+    <div class="sec-head">
+      <h2 id="mixer-title">白噪音混音台</h2>
+      <p>拖动凹槽里的滑杆，声音会实时交叉淡化</p>
+    </div>
+    <div class="raised panel">
+      <div class="mix-table">
+        <div class="mix-row">
+          <div class="ch-disc ch-blue" aria-hidden="true">雨</div>
+          <div>
+            <div class="ch-name">屋檐细雨</div>
+            <div class="ch-desc">落在帆布棚上的绵密小雨</div>
+          </div>
+          <input type="range" min="0" max="100" value="62" aria-label="屋檐细雨音量">
+          <output class="mix-val">62</output>
+        </div>
+        <div class="mix-row">
+          <div class="ch-disc ch-green" aria-hidden="true">浪</div>
+          <div>
+            <div class="ch-name">退潮远浪</div>
+            <div class="ch-desc">隔着一片松林的低缓浪涌</div>
+          </div>
+          <input type="range" min="0" max="100" value="45" aria-label="退潮远浪音量">
+          <output class="mix-val">45</output>
+        </div>
+        <div class="mix-row">
+          <div class="ch-disc ch-pink" aria-hidden="true">风</div>
+          <div>
+            <div class="ch-name">林间夜风</div>
+            <div class="ch-desc">穿过杉树梢的沙沙气流</div>
+          </div>
+          <input type="range" min="0" max="100" value="30" aria-label="林间夜风音量">
+          <output class="mix-val">30</output>
+        </div>
+        <div class="mix-row">
+          <div class="ch-disc ch-peach" aria-hidden="true">炉</div>
+          <div>
+            <div class="ch-name">暖炉柴火</div>
+            <div class="ch-desc">偶尔爆裂的细碎噼啪声</div>
+          </div>
+          <input type="range" min="0" max="100" value="18" aria-label="暖炉柴火音量">
+          <output class="mix-val">18</output>
+        </div>
+        <div class="switch-row">
+          <div class="ch-disc ch-blue" aria-hidden="true">眠</div>
+          <div>
+            <div class="ch-name">90 分钟后定时关闭</div>
+            <div class="ch-desc">音量会在最后 10 分钟缓缓淡出</div>
+          </div>
+          <div>
+            <span class="switch-state">已开启</span>
+            <label class="switch on">
+              <input type="checkbox" checked aria-label="90 分钟后定时关闭">
+              <span class="knob"></span>
+            </label>
+          </div>
+        </div>
+        <div class="switch-row">
+          <div class="ch-disc ch-pink" aria-hidden="true">梦</div>
+          <div>
+            <div class="ch-name">浅睡期音量自适应</div>
+            <div class="ch-desc">监测到翻身时自动降低 20% 音量</div>
+          </div>
+          <div>
+            <span class="switch-state off">已关闭</span>
+            <label class="switch">
+              <input type="checkbox" aria-label="浅睡期音量自适应">
+              <span class="knob"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="scenes" aria-labelledby="scene-title">
+    <div class="sec-head">
+      <h2 id="scene-title">今晚去哪儿</h2>
+      <p>三个预设场景，一键换掉整组混音</p>
+    </div>
+    <div class="scene-bar" role="group" aria-label="场景选择">
+      <input type="radio" name="scene" id="scene-1" checked>
+      <label class="scene-pill" for="scene-1">深夜书房</label>
+      <input type="radio" name="scene" id="scene-2">
+      <label class="scene-pill" for="scene-2">雨夜车厢</label>
+      <input type="radio" name="scene" id="scene-3">
+      <label class="scene-pill" for="scene-3">清晨湖畔</label>
+    </div>
+    <div class="scene-card">
+      <div>
+        <h3 id="scene-name">深夜书房</h3>
+        <p id="scene-desc">台灯电流的轻微嗡鸣 / 偶尔翻页的纸张声 / 远处滚过一声闷雷</p>
+      </div>
+      <span class="scene-tag" id="scene-tag">主打音 / 暖炉柴火</span>
+    </div>
+  </section>
+
+  <section class="wrap" id="courses" aria-labelledby="course-title">
+    <div class="sec-head">
+      <h2 id="course-title">睡前课程</h2>
+      <p>都是躺着就能完成的练习</p>
+    </div>
+    <div class="course-grid">
+      <article class="raised course">
+        <div class="course-visual v-1" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="course-meta">
+          <span class="tag tag-blue">10 分钟</span>
+          <span class="tag tag-blue">初阶</span>
+        </div>
+        <h3>身体扫描</h3>
+        <p>从脚趾到眉心，逐段松开白天攒下的紧绷，适合肩颈总是发硬的人。</p>
+        <button class="btn btn-ghost" type="button">开始练习</button>
+      </article>
+      <article class="raised course">
+        <div class="course-visual v-2" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="course-meta">
+          <span class="tag tag-pink">6 分钟</span>
+          <span class="tag tag-pink">全部级别</span>
+        </div>
+        <h3>4-7-8 呼吸</h3>
+        <p>用更长的呼气把心率慢慢带下来，跟着首页圆盘的节奏一起做就可以。</p>
+        <button class="btn btn-ghost" type="button">开始练习</button>
+      </article>
+      <article class="raised course">
+        <div class="course-visual v-3" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="course-meta">
+          <span class="tag tag-green">12 分钟</span>
+          <span class="tag tag-green">中阶</span>
+        </div>
+        <h3>睡前放下</h3>
+        <p>把没做完的事逐条写进「明天再说」的清单，给大脑一个可以收工的信号。</p>
+        <button class="btn btn-ghost" type="button">开始练习</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap" id="report" aria-labelledby="report-title">
+    <div class="sec-head">
+      <h2 id="report-title">本周睡眠报告</h2>
+      <p>数据只用来帮你睡得更好</p>
+    </div>
+    <div class="report-grid">
+      <div class="raised report-card">
+        <h3>每晚入睡时长</h3>
+        <p class="report-sub">最近七天 / 单位为小时</p>
+        <div class="bars" role="img" aria-label="最近七天入睡时长柱状图，分别为 7.2、6.8、7.5、8.1、7.9、8.6、7.4 小时">
+          <div class="bar-cell"><span class="bar-val">7.2</span><div class="bar-stack"><div class="bar" style="height:72%"></div></div><span class="bar-label">一</span></div>
+          <div class="bar-cell"><span class="bar-val">6.8</span><div class="bar-stack"><div class="bar" style="height:68%"></div></div><span class="bar-label">二</span></div>
+          <div class="bar-cell"><span class="bar-val">7.5</span><div class="bar-stack"><div class="bar" style="height:75%"></div></div><span class="bar-label">三</span></div>
+          <div class="bar-cell"><span class="bar-val">8.1</span><div class="bar-stack"><div class="bar" style="height:81%"></div></div><span class="bar-label">四</span></div>
+          <div class="bar-cell"><span class="bar-val">7.9</span><div class="bar-stack"><div class="bar" style="height:79%"></div></div><span class="bar-label">五</span></div>
+          <div class="bar-cell"><span class="bar-val">8.6</span><div class="bar-stack"><div class="bar best" style="height:86%"></div></div><span class="bar-label">六</span></div>
+          <div class="bar-cell"><span class="bar-val">7.4</span><div class="bar-stack"><div class="bar" style="height:74%"></div></div><span class="bar-label">日</span></div>
+        </div>
+        <div class="chart-foot">
+          <span class="stat-pill">本周平均 <b>7.6 小时</b></span>
+          <span class="stat-pill">比上周多睡 <b>0.4 小时</b></span>
+        </div>
+      </div>
+      <div class="raised report-card">
+        <h3>睡前仪式完成度</h3>
+        <p class="report-sub">坚持得越久，入睡越快</p>
+        <div class="ritual">
+          <div class="ritual-row">
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#235C3A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <div>
+              <strong>二十三点后调暗屏幕</strong>
+              <small>连续完成可缩短入睡时间</small>
+            </div>
+            <span class="ritual-days">6 天</span>
+          </div>
+          <div class="ritual-row">
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#235C3A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <div>
+              <strong>白噪音定时九十分钟</strong>
+              <small>让声音在深睡前自然退场</small>
+            </div>
+            <span class="ritual-days">5 天</span>
+          </div>
+          <div class="ritual-row">
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#235C3A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <div>
+              <strong>呼吸练习至少六分钟</strong>
+              <small>呼气越长，心率越平稳</small>
+            </div>
+            <span class="ritual-days">4 天</span>
+          </div>
+        </div>
+        <p class="privacy">数据仅保存在本机 / 不会上传任何服务器</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <p>UI 设计提示词库 / 柔和 UI 进化</p>
+      <a href="style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var sliders = document.querySelectorAll('.mix-row input[type="range"]');
+  sliders.forEach(function (s) {
+    var out = s.parentElement.querySelector('.mix-val');
+    var paint = function () {
+      var p = ((s.value - s.min) / (s.max - s.min)) * 100;
+      s.style.background = 'linear-gradient(to right, #87CEEB 0%, #87CEEB ' + p + '%, #ECE8E0 ' + p + '%, #ECE8E0 100%)';
+      if (out) { out.textContent = s.value; }
+    };
+    s.addEventListener('input', paint);
+    paint();
+  });
+  document.querySelectorAll('.switch input').forEach(function (c) {
+    var wrap = c.parentElement;
+    var state = wrap.parentElement.querySelector('.switch-state');
+    var sync = function () {
+      wrap.classList.toggle('on', c.checked);
+      if (state) {
+        state.textContent = c.checked ? '已开启' : '已关闭';
+        state.classList.toggle('off', !c.checked);
+      }
+    };
+    c.addEventListener('change', sync);
+  });
+  var scenes = {
+    'scene-1': { name: '深夜书房', desc: '台灯电流的轻微嗡鸣 / 偶尔翻页的纸张声 / 远处滚过一声闷雷', tag: '主打音 / 暖炉柴火' },
+    'scene-2': { name: '雨夜车厢', desc: '铁轨规律的低频震动 / 玻璃上滑落的雨珠 / 邻座翻开的毯子', tag: '主打音 / 屋檐细雨' },
+    'scene-3': { name: '清晨湖畔', desc: '水鸟掠过的扑翅声 / 芦苇分开的细响 / 极轻的湖面风', tag: '主打音 / 林间夜风' }
+  };
+  document.querySelectorAll('.scene-bar input').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var d = scenes[r.id];
+      if (!d) { return; }
+      document.getElementById('scene-name').textContent = d.name;
+      document.getElementById('scene-desc').textContent = d.desc;
+      document.getElementById('scene-tag').textContent = d.tag;
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

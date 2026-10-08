@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>色差 RGB 分离 / UI 设计提示词库</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* token 计划：纸白底 #F5F6F4 / 墨黑 #101418 / 通道红 #FF2B2B / 通道青 #00B2D1 / 信号黄 #F2C94C（仅小面积状态块）/ 标题 Space Grotesk / 正文 DM Sans / 直角 0 半径 */
+:root {
+  --bg: #F5F6F4;
+  --ink: #101418;
+  --muted: #46505A;
+  --line: #D8DBD6;
+  --card: #FFFFFF;
+  --red: #FF2B2B;
+  --cyan: #00B2D1;
+  --cyan-deep: #00708A;
+  --signal: #F2C94C;
+  --shadow-red: rgba(255, 43, 43, 0.55);
+  --shadow-cyan: rgba(0, 178, 209, 0.5);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.62;
+  overflow-x: hidden;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+h1, h2, h3, .num-font { font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+
+a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* ---------- 全局覆层：扫描线 + CRT 色散边缘 ---------- */
+.scanlines {
+  position: fixed; inset: 0; z-index: 80;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(16, 20, 24, 0.045) 0 1px,
+    transparent 1px 3px
+  );
+}
+.crt { position: fixed; inset: 0; z-index: 79; pointer-events: none; }
+.crt::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-left: 3px solid rgba(255, 43, 43, 0.26);
+  border-right: 3px solid rgba(0, 178, 209, 0.28);
+}
+.crt::after {
+  content: "";
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 110px rgba(16, 20, 24, 0.055);
+}
+.track {
+  position: absolute; left: 0; right: 0; height: 96px; top: -14%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 178, 209, 0.10) 38%,
+    rgba(255, 43, 43, 0.10) 62%,
+    transparent
+  );
+  opacity: 0;
+}
+.booted .track { animation: track-sweep 1.5s cubic-bezier(.2, .7, .3, 1) 1 .3s; }
+@keyframes track-sweep {
+  0%   { top: -14%; opacity: 1; }
+  100% { top: 110%; opacity: 1; }
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(245, 246, 244, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 24px;
+}
+.logo {
+  display: flex; align-items: baseline; gap: 10px;
+  text-decoration: none; font-weight: 600;
+}
+.logo .zh {
+  font-family: 'Space Grotesk', 'PingFang SC', sans-serif;
+  font-size: 1.22rem; letter-spacing: 0.04em;
+  text-shadow: -2px 0 var(--shadow-red), 2px 0 var(--shadow-cyan);
+}
+.logo .en { font-size: 0.8rem; color: var(--muted); }
+.nav { display: flex; gap: 26px; }
+.nav a {
+  text-decoration: none; font-size: 0.94rem; color: var(--muted);
+  transition: color 0.15s ease;
+}
+.nav a:hover, .nav a:focus-visible { color: var(--ink); }
+.nav a .pulse-t { display: inline-block; }
+.nav a:hover .pulse-t,
+.nav a:focus-visible .pulse-t { animation: rgb-pulse 0.42s ease-out 1; }
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 11px 22px;
+  font: inherit; font-size: 0.95rem; font-weight: 600;
+  border-radius: 2px; cursor: pointer;
+  text-decoration: none; border: 1.5px solid var(--ink);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.btn-primary { background: var(--ink); color: #FFFFFF; }
+.btn-primary:hover, .btn-primary:focus-visible {
+  box-shadow: -3px 0 0 var(--shadow-red), 3px 0 0 var(--shadow-cyan);
+  animation: btn-pulse 0.42s ease-out 1;
+}
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover, .btn-ghost:focus-visible {
+  box-shadow: -3px 0 0 var(--shadow-red), 3px 0 0 var(--shadow-cyan);
+  animation: btn-pulse 0.42s ease-out 1;
+}
+@keyframes btn-pulse {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(-2px) skewX(-1deg); }
+  60%  { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--cyan-deep);
+  outline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+.hero { padding: 88px 0 56px; }
+.hero-kicker {
+  font-size: 0.92rem; color: var(--muted); margin-bottom: 18px;
+}
+.hero-title-wrap { margin-bottom: 26px; }
+.glitch {
+  position: relative; display: inline-block;
+  font-size: clamp(3.4rem, 11vw, 7.6rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: 0.02em;
+  text-shadow: -3px 0 var(--shadow-red), 3px 0 var(--shadow-cyan);
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  background: var(--bg);
+  opacity: 0; pointer-events: none;
+  text-shadow: none;
+}
+.glitch::before { color: var(--red); z-index: -1; }
+.glitch::after { color: var(--cyan); z-index: -2; }
+.booted .glitch { animation: glitch-base 0.9s steps(2, jump-none) 1 0.15s; }
+.booted .glitch::before { opacity: 1; animation: glitch-a 0.9s ease-out 1 0.15s forwards; }
+.booted .glitch::after { opacity: 1; animation: glitch-b 0.9s ease-out 1 0.15s forwards; }
+@keyframes glitch-base {
+  0%   { transform: translate(0, 0) skewX(0deg); }
+  15%  { transform: translate(-3px, 1px) skewX(-1.2deg); }
+  30%  { transform: translate(3px, -1px) skewX(1deg); }
+  45%  { transform: translate(-2px, 0) skewX(0.6deg); }
+  60%  { transform: translate(2px, 1px) skewX(-0.6deg); }
+  75%  { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0) skewX(0deg); }
+}
+@keyframes glitch-a {
+  0%   { clip-path: inset(18% 0 74% 0); transform: translate(-5px, -2px); }
+  15%  { clip-path: inset(58% 0 12% 0); transform: translate(4px, 1px); }
+  30%  { clip-path: inset(4% 0 88% 0); transform: translate(-6px, 0); }
+  45%  { clip-path: inset(72% 0 8% 0); transform: translate(5px, 2px); }
+  60%  { clip-path: inset(34% 0 52% 0); transform: translate(-4px, -1px); }
+  75%  { clip-path: inset(84% 0 2% 0); transform: translate(3px, 0); }
+  100% { clip-path: inset(50% 0 50% 0); transform: translate(-5px, 0); opacity: 0; }
+}
+@keyframes glitch-b {
+  0%   { clip-path: inset(64% 0 18% 0); transform: translate(5px, 2px); }
+  15%  { clip-path: inset(8% 0 78% 0); transform: translate(-4px, -1px); }
+  30%  { clip-path: inset(46% 0 40% 0); transform: translate(6px, 0); }
+  45%  { clip-path: inset(22% 0 64% 0); transform: translate(-5px, 1px); }
+  60%  { clip-path: inset(88% 0 4% 0); transform: translate(4px, -2px); }
+  75%  { clip-path: inset(2% 0 92% 0); transform: translate(-3px, 1px); }
+  100% { clip-path: inset(50% 0 50% 0); transform: translate(5px, 0); opacity: 0; }
+}
+.hero-en {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem; color: var(--muted); letter-spacing: 0.14em;
+  text-shadow: -1.5px 0 var(--shadow-red), 1.5px 0 var(--shadow-cyan);
+}
+.hero-sub {
+  max-width: 560px; font-size: 1.06rem; color: var(--muted);
+  margin: 22px 0 32px;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 44px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 40px; border-top: 1px solid var(--line); padding-top: 22px; }
+.hero-meta dt { font-size: 0.82rem; color: var(--muted); margin-bottom: 2px; }
+.hero-meta dd { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 0.98rem; }
+
+/* ---------- 信息条 ---------- */
+.strip {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  background: #EDEEEA;
+}
+.strip-inner {
+  display: flex; flex-wrap: wrap; gap: 12px 36px;
+  padding: 13px 0; font-size: 0.88rem; color: var(--muted);
+}
+.strip-inner span { display: inline-flex; align-items: center; gap: 8px; }
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--signal); border: 1px solid var(--ink);
+}
+
+/* ---------- 区块标题 ---------- */
+.section { padding: 72px 0 0; }
+.section-head { margin-bottom: 34px; }
+.section-head h2 {
+  display: inline-block;
+  font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 600;
+  text-shadow: -2px 0 var(--shadow-red), 2px 0 var(--shadow-cyan);
+  margin-bottom: 8px;
+}
+.section-head p { color: var(--muted); max-width: 620px; }
+
+/* ---------- 发行：封面 + 曲目表 ---------- */
+.release-grid {
+  display: grid; grid-template-columns: minmax(280px, 5fr) 7fr;
+  gap: 36px; align-items: stretch;
+}
+.release-cover {
+  position: relative; overflow: hidden;
+  background: var(--ink); color: #FFFFFF;
+  border: 1px solid var(--ink);
+  min-height: 420px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 26px;
+}
+.release-cover .waves {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 38% at 30% 32%, rgba(255, 43, 43, 0.5), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 74% 66%, rgba(0, 178, 209, 0.45), transparent 72%),
+    repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0 1px, transparent 1px 6px);
+  mix-blend-mode: screen;
+}
+.release-cover .cat {
+  position: relative;
+  font-family: 'Space Grotesk', monospace; font-size: 0.9rem; letter-spacing: 0.1em;
+}
+.release-cover h3 {
+  position: relative;
+  font-size: 2rem; font-weight: 600; line-height: 1.25;
+  text-shadow: -2px 0 rgba(255, 43, 43, 0.85), 2px 0 rgba(0, 178, 209, 0.85);
+}
+.release-cover .cover-meta { position: relative; font-size: 0.88rem; color: rgba(255, 255, 255, 0.82); }
+
+.tracks { border: 1px solid var(--line); background: var(--card); }
+.track-row {
+  display: grid;
+  grid-template-columns: 4.2rem 1fr 8.6rem 4.4rem 6.4rem 3.4rem;
+  gap: 14px; align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.track-row:last-child { border-bottom: none; }
+.track-row.head {
+  background: #EDEEEA;
+  font-size: 0.8rem; color: var(--muted);
+  padding: 10px 20px;
+}
+.track-row:not(.head):hover { background: #F0F4F2; }
+.t-num { font-family: 'Space Grotesk', monospace; font-size: 0.86rem; color: var(--muted); }
+.t-title { font-weight: 600; min-width: 0; }
+.t-title .pulse-t { display: inline-block; }
+.track-row:not(.head):hover .t-title .pulse-t,
+.track-row:not(.head):focus-within .t-title .pulse-t { animation: rgb-pulse 0.42s ease-out 1; }
+.t-artist, .t-format { font-size: 0.88rem; color: var(--muted); }
+.t-dur { font-family: 'Space Grotesk', monospace; font-size: 0.88rem; color: var(--muted); text-align: right; }
+.play-btn {
+  justify-self: end;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid var(--ink); background: transparent; cursor: pointer;
+  font: inherit; font-size: 0.72rem; font-weight: 700; color: var(--ink);
+  transition: box-shadow 0.15s ease;
+}
+.play-btn:hover, .play-btn:focus-visible {
+  box-shadow: -2px 0 0 var(--shadow-red), 2px 0 0 var(--shadow-cyan);
+}
+.play-btn[aria-pressed="true"] { background: var(--signal); border-color: var(--ink); }
+
+@keyframes rgb-pulse {
+  0%   { text-shadow: none; transform: translateX(0); }
+  25%  { text-shadow: 3px 0 rgba(255, 43, 43, 0.75), -3px 0 rgba(0, 178, 209, 0.7); transform: translateX(-2px); }
+  50%  { text-shadow: -4px 0 rgba(255, 43, 43, 0.65), 4px 0 rgba(0, 178, 209, 0.6); transform: translateX(2px) skewX(-1.5deg); }
+  75%  { text-shadow: 2px 0 rgba(255, 43, 43, 0.5), -2px 0 rgba(0, 178, 209, 0.5); transform: translateX(-1px); }
+  100% { text-shadow: none; transform: translateX(0); }
+}
+
+/* ---------- 艺术家 ---------- */
+.artist-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 22px; align-items: stretch;
+}
+.artist-card {
+  border: 1px solid var(--line); background: var(--card);
+  display: flex; flex-direction: column;
+  transition: box-shadow 0.18s ease;
+}
+.artist-card:hover, .artist-card:focus-within {
+  box-shadow: -4px 0 0 var(--shadow-red), 4px 0 0 var(--shadow-cyan);
+}
+.artist-art {
+  height: 168px; position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+}
+.artist-art i {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 28% 30%, rgba(255, 43, 43, 0.55), transparent 72%),
+    radial-gradient(ellipse 64% 52% at 72% 70%, rgba(0, 178, 209, 0.5), transparent 74%);
+}
+.artist-art b {
+  position: relative;
+  font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700;
+  color: var(--ink);
+  text-shadow: -3px 0 var(--shadow-red), 3px 0 var(--shadow-cyan);
+}
+.artist-art.s2 i { background:
+  radial-gradient(ellipse 66% 54% at 70% 28%, rgba(0, 178, 209, 0.55), transparent 74%),
+  radial-gradient(ellipse 68% 48% at 26% 72%, rgba(242, 201, 76, 0.6), transparent 76%);
+}
+.artist-art.s3 i { background:
+  radial-gradient(ellipse 60% 58% at 50% 50%, rgba(16, 20, 24, 0.18), transparent 70%),
+  radial-gradient(ellipse 74% 44% at 22% 26%, rgba(255, 43, 43, 0.42), transparent 76%),
+  radial-gradient(ellipse 70% 46% at 80% 78%, rgba(0, 178, 209, 0.44), transparent 78%);
+}
+.artist-art.s4 i { background:
+  conic-gradient(from 210deg at 50% 50%, rgba(255, 43, 43, 0.38), rgba(0, 178, 209, 0.38), rgba(242, 201, 76, 0.4), rgba(255, 43, 43, 0.38));
+}
+.artist-body { padding: 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.artist-body h3 { font-size: 1.12rem; font-weight: 600; }
+.artist-body .genre { font-size: 0.84rem; color: var(--muted); }
+.artist-body p { font-size: 0.9rem; color: var(--muted); flex: 1; }
+.artist-body a {
+  align-self: flex-start; font-size: 0.9rem; font-weight: 600;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* ---------- 现场：两栏 ---------- */
+.live-grid {
+  display: grid; grid-template-columns: 5fr 7fr;
+  gap: 40px; align-items: stretch;
+}
+.about-block {
+  border-left: 3px solid var(--ink);
+  padding: 6px 0 6px 24px;
+}
+.about-block p { color: var(--muted); margin-bottom: 14px; }
+.about-block p:last-child { margin-bottom: 0; }
+.fact-list { margin-top: 22px; display: grid; gap: 10px; }
+.fact-list div {
+  display: flex; justify-content: space-between; gap: 16px;
+  border-bottom: 1px dashed var(--line); padding-bottom: 10px;
+  font-size: 0.92rem;
+}
+.fact-list dt { color: var(--muted); }
+.fact-list dd { font-family: 'Space Grotesk', monospace; font-weight: 500; }
+.show-list { border: 1px solid var(--line); background: var(--card); }
+.show-row {
+  display: grid;
+  grid-template-columns: 5.4rem 1fr 8.6rem 6.8rem;
+  gap: 14px; align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.show-row:last-child { border-bottom: none; }
+.show-row:not(.head):hover { background: #F0F4F2; }
+.show-row.head {
+  background: #EDEEEA; font-size: 0.8rem; color: var(--muted);
+  padding: 10px 20px;
+}
+.show-date { font-family: 'Space Grotesk', monospace; font-weight: 500; }
+.show-city .pulse-t { display: inline-block; font-weight: 600; }
+.show-row:not(.head):hover .show-city .pulse-t,
+.show-row:not(.head):focus-within .show-city .pulse-t { animation: rgb-pulse 0.42s ease-out 1; }
+.show-venue { font-size: 0.9rem; color: var(--muted); }
+.chip {
+  justify-self: start;
+  display: inline-block; padding: 3px 12px;
+  font-size: 0.8rem; font-weight: 700;
+  border: 1px solid var(--ink); border-radius: 2px;
+  background: var(--signal); color: var(--ink);
+}
+.chip.soldout { background: #E4E6E2; color: var(--muted); font-weight: 500; }
+.chip.soon { background: var(--card); color: var(--ink); font-weight: 500; }
+
+/* ---------- 订阅 ---------- */
+.subscribe {
+  margin-top: 72px;
+  background: var(--ink); color: #FFFFFF;
+  padding: 56px 0;
+}
+.subscribe .container {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+}
+.subscribe h2 {
+  font-size: clamp(1.5rem, 3.4vw, 2rem); font-weight: 600; margin-bottom: 10px;
+  text-shadow: -2px 0 rgba(255, 43, 43, 0.85), 2px 0 rgba(0, 178, 209, 0.85);
+}
+.subscribe p { color: rgba(255, 255, 255, 0.78); font-size: 0.98rem; }
+.subscribe-form { display: flex; gap: 12px; }
+.subscribe-form input {
+  flex: 1; min-width: 0;
+  padding: 12px 16px;
+  font: inherit; font-size: 0.95rem;
+  background: #FFFFFF; color: var(--ink);
+  border: 1.5px solid #FFFFFF; border-radius: 2px;
+}
+.subscribe-form .btn { border-color: #FFFFFF; color: #FFFFFF; background: transparent; white-space: nowrap; }
+.subscribe-form .btn:hover, .subscribe-form .btn:focus-visible {
+  background: var(--signal); color: var(--ink); border-color: var(--signal);
+  animation: btn-pulse 0.42s ease-out 1;
+}
+.subscribe-done {
+  font-family: 'Space Grotesk', 'PingFang SC', sans-serif;
+  font-size: 1.05rem; font-weight: 600;
+  text-shadow: -2px 0 rgba(255, 43, 43, 0.85), 2px 0 rgba(0, 178, 209, 0.85);
+}
+.subscribe-done.flash { animation: glitch-base 0.6s steps(2, jump-none) 1; }
+
+/* ---------- 页脚 ---------- */
+footer { padding: 44px 0 56px; border-top: 1px solid var(--line); }
+.footer-inner {
+  display: flex; flex-wrap: wrap; gap: 18px 40px;
+  align-items: center; justify-content: space-between;
+}
+.footer-brand { font-weight: 600; }
+.footer-brand .pulse-t { display: inline-block; text-shadow: -2px 0 var(--shadow-red), 2px 0 var(--shadow-cyan); }
+.footer-note { font-size: 0.86rem; color: var(--muted); }
+.footer-note a { color: var(--cyan-deep); font-weight: 600; }
+.footer-colophon {
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.82rem; color: var(--muted);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1020px) {
+  .artist-grid { grid-template-columns: repeat(2, 1fr); }
+  .release-grid { grid-template-columns: 1fr; }
+  .release-cover { min-height: 300px; }
+  .subscribe .container { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 900px) {
+  .live-grid { grid-template-columns: 1fr; }
+  .track-row { grid-template-columns: 3rem 1fr 4rem 3rem; }
+  .t-artist, .t-format { display: none; }
+  .track-row.head .t-artist, .track-row.head .t-format { display: none; }
+  .show-row { grid-template-columns: 4.6rem 1fr 6.4rem; }
+  .show-venue { display: none; }
+  .show-row.head .show-venue { display: none; }
+}
+
+@media (max-width: 560px) {
+  .container { padding: 0 20px; }
+  .topbar-inner { height: auto; flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 0; }
+  .nav { flex-wrap: wrap; gap: 16px 22px; }
+  .hero { padding-top: 60px; }
+  .hero-meta { gap: 22px; }
+  .strip-inner { gap: 8px 22px; }
+  .artist-grid { grid-template-columns: 1fr; }
+  .subscribe-form { flex-direction: column; }
+  .subscribe-form .btn { width: 100%; }
+  .show-row { grid-template-columns: 4.2rem 1fr; row-gap: 8px; }
+  .chip { grid-column: 2; }
+}
+
+@media (min-width: 1440px) {
+  .container { max-width: 1240px; }
+  body { font-size: 1.02rem; }
+}
+
+/* ---------- 无障碍：减少动态 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .glitch::before, .glitch::after { opacity: 0; }
+  .track { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="crt" aria-hidden="true"><span class="track"></span></div>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="zh">漂移信号</span>
+      <span class="en">Drift Signal Records</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#releases"><span class="pulse-t">发行</span></a>
+      <a href="#artists"><span class="pulse-t">艺术家</span></a>
+      <a href="#live"><span class="pulse-t">现场</span></a>
+      <a href="#subscribe"><span class="pulse-t">订阅</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero container">
+    <p class="hero-kicker">独立电子音乐厂牌 / 上海 / 2019 年成立</p>
+    <div class="hero-title-wrap">
+      <h1 class="glitch" data-text="漂移信号">漂移信号</h1>
+      <p class="hero-en">Drift Signal Records</p>
+    </div>
+    <p class="hero-sub">在三通道错位之间，听见颜色。我们发行偏移的节拍、失真的氛围，以及那些刚好卡在两帧之间的声音。红移向左，青移向右，中频留在原地。</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#releases">收听最新发行</a>
+      <button class="btn btn-ghost" id="glitch-btn" type="button">重放一次信号故障</button>
+    </div>
+    <dl class="hero-meta">
+      <div><dt>当前信道</dt><dd>CH 03 / 立体声</dd></div>
+      <div><dt>采样规格</dt><dd>44.1 kHz / 24 bit</dd></div>
+      <div><dt>最新发行</dt><dd>错位之春 / SSHA</dd></div>
+      <div><dt>母带状态</dt><dd>三通道已校准</dd></div>
+    </dl>
+  </section>
+
+  <div class="strip">
+    <div class="container strip-inner">
+      <span><i class="dot" aria-hidden="true"></i>信号正常</span>
+      <span>信道 03 / 44.1 kHz</span>
+      <span>三通道母带室 / 上海莫干山路</span>
+      <span>全世界流媒体平台均可收听</span>
+    </div>
+  </div>
+
+  <section class="section container" id="releases">
+    <div class="section-head">
+      <h2>新发行</h2>
+      <p>本月从母带室输出的最新曲目。悬停任意一行，可以看到通道短暂错位又重新对齐。</p>
+    </div>
+    <div class="release-grid">
+      <div class="release-cover">
+        <div class="waves" aria-hidden="true"></div>
+        <p class="cat">DS-042 / EP / 六曲目</p>
+        <h3>错位之春<br>Vernal Offset</h3>
+        <p class="cover-meta">SSHA / 2026 年 10 月 / 磁带与数字同步发行 / 母带由厂牌三通道工作室完成</p>
+      </div>
+      <div class="tracks">
+        <div class="track-row head" aria-hidden="true">
+          <span class="t-num">编号</span>
+          <span class="t-title">曲目</span>
+          <span class="t-artist">艺人</span>
+          <span class="t-dur">时长</span>
+          <span class="t-format">格式</span>
+          <span class="play-col"></span>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-042</span>
+          <span class="t-title"><span class="pulse-t">错位之春 Vernal Offset</span></span>
+          <span class="t-artist">SSHA</span>
+          <span class="t-dur">4:12</span>
+          <span class="t-format">磁带 / 数字</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 错位之春">播</button>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-042</span>
+          <span class="t-title"><span class="pulse-t">三帧之后 After Three Frames</span></span>
+          <span class="t-artist">SSHA 与陆透</span>
+          <span class="t-dur">5:08</span>
+          <span class="t-format">磁带 / 数字</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 三帧之后">播</button>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-041</span>
+          <span class="t-title"><span class="pulse-t">信道回声 Channel Echo</span></span>
+          <span class="t-artist">低通滤波器</span>
+          <span class="t-dur">6:31</span>
+          <span class="t-format">数字</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 信道回声">播</button>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-040</span>
+          <span class="t-title"><span class="pulse-t">玻璃偏振 Glass Polarizer</span></span>
+          <span class="t-artist">海森堡时钟</span>
+          <span class="t-dur">3:57</span>
+          <span class="t-format">黑胶 / 数字</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 玻璃偏振">播</button>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-039</span>
+          <span class="t-title"><span class="pulse-t">慢放电 Slow Discharge</span></span>
+          <span class="t-artist">陆透</span>
+          <span class="t-dur">7:44</span>
+          <span class="t-format">数字</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 慢放电">播</button>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-038</span>
+          <span class="t-title"><span class="pulse-t">红移 Redshift Dub</span></span>
+          <span class="t-artist">低通滤波器</span>
+          <span class="t-dur">5:22</span>
+          <span class="t-format">数字</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 红移">播</button>
+        </div>
+        <div class="track-row">
+          <span class="t-num">DS-037</span>
+          <span class="t-title"><span class="pulse-t">夜间校准 Night Calibration</span></span>
+          <span class="t-artist">SSHA</span>
+          <span class="t-dur">4:03</span>
+          <span class="t-format">磁带</span>
+          <button class="play-btn" type="button" aria-pressed="false" aria-label="播放 夜间校准">播</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" id="artists">
+    <div class="section-head">
+      <h2>常驻艺术家</h2>
+      <p>四位对信号错误有不同执念的制作人。他们的共同点：都不肯把通道对齐。</p>
+    </div>
+    <div class="artist-grid">
+      <div class="artist-card">
+        <div class="artist-art"><i aria-hidden="true"></i><b>S1</b></div>
+        <div class="artist-body">
+          <h3>SSHA</h3>
+          <p class="genre">氛围电子 / 故障流行 / 上海</p>
+          <p>用三台卡座机互相转录同一段人声，直到它开始像合唱。代表作《错位之春》。</p>
+          <a href="#releases">查看全部发行</a>
+        </div>
+      </div>
+      <div class="artist-card">
+        <div class="artist-art s2"><i aria-hidden="true"></i><b>S2</b></div>
+        <div class="artist-body">
+          <h3>陆透</h3>
+          <p class="genre">慢速氛围 / 长篇即兴 / 杭州</p>
+          <p>坚持在凌晨录制合成器，因为他说白天的电网不够干净。代表作《慢放电》。</p>
+          <a href="#releases">查看全部发行</a>
+        </div>
+      </div>
+      <div class="artist-card">
+        <div class="artist-art s3"><i aria-hidden="true"></i><b>S3</b></div>
+        <div class="artist-body">
+          <h3>低通滤波器</h3>
+          <p class="genre">IDM / 德式节拍 / 成都</p>
+          <p>双人组合，一个只写高频，一个只写低频，混音时才第一次听到完整的曲子。</p>
+          <a href="#releases">查看全部发行</a>
+        </div>
+      </div>
+      <div class="artist-card">
+        <div class="artist-art s4"><i aria-hidden="true"></i><b>S4</b></div>
+        <div class="artist-body">
+          <h3>海森堡时钟</h3>
+          <p class="genre">节拍实验 / 量化误差 / 北京</p>
+          <p>让鼓机故意错过每一个网格点，观众以为是他迟了，其实是网格迟了。</p>
+          <a href="#releases">查看全部发行</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container" id="live">
+    <div class="section-head">
+      <h2>现场与信道</h2>
+      <p>今年最后一次巡演，主题是「校准失败」。演出当晚允许小幅度的信号错误存在。</p>
+    </div>
+    <div class="live-grid">
+      <div class="about-block">
+        <p>漂移信号成立于 2019 年的上海，起初只是两位制作人在莫干山路合租的母带室。第一次「故障」来自一台老式监视器：红通道向左偏了两毫米，青通道向右偏了两毫米，画面反而比校准后更好看。</p>
+        <p>从那以后，我们不再急着修复错误，而是学习与它合作。每一张发行的母带都保留一次真实的通道错位，位置由当天的信号状态决定，不重录、不修正。</p>
+        <dl class="fact-list">
+          <div><dt>成立以来发行</dt><dd>42 张</dd></div>
+          <div><dt>常驻艺术家</dt><dd>4 组</dd></div>
+          <div><dt>巡演覆盖城市</dt><dd>16 座</dd></div>
+          <div><dt>母带室 monitors</dt><dd>3 台 / 永不校准</dd></div>
+        </dl>
+      </div>
+      <div class="show-list">
+        <div class="show-row head" aria-hidden="true">
+          <span class="show-date">日期</span>
+          <span class="show-city">城市</span>
+          <span class="show-venue">场地</span>
+          <span>状态</span>
+        </div>
+        <div class="show-row">
+          <span class="show-date num-font">10.26</span>
+          <span class="show-city"><span class="pulse-t">上海</span></span>
+          <span class="show-venue">育音堂 / 凯旋路</span>
+          <span class="chip">售票中</span>
+        </div>
+        <div class="show-row">
+          <span class="show-date num-font">11.02</span>
+          <span class="show-city"><span class="pulse-t">杭州</span></span>
+          <span class="show-venue">酒球会 / 万塘路</span>
+          <span class="chip">售票中</span>
+        </div>
+        <div class="show-row">
+          <span class="show-date num-font">11.16</span>
+          <span class="show-city"><span class="pulse-t">成都</span></span>
+          <span class="show-venue">正火艺术中心 / 东郊记忆</span>
+          <span class="chip soldout">已售罄</span>
+        </div>
+        <div class="show-row">
+          <span class="show-date num-font">12.07</span>
+          <span class="show-city"><span class="pulse-t">北京</span></span>
+          <span class="show-venue">疆进酒 / 桥园</span>
+          <span class="chip">售票中</span>
+        </div>
+        <div class="show-row">
+          <span class="show-date num-font">12.20</span>
+          <span class="show-city"><span class="pulse-t">深圳</span></span>
+          <span class="show-venue">B10 现场 / 北区</span>
+          <span class="chip soon">即将开票</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="subscribe" id="subscribe">
+    <div class="container">
+      <div>
+        <h2>订阅故障通告</h2>
+        <p>每月一封。包含新发行预告、巡演信号、以及一段可以自由使用的白噪采样包。不发广告，不卖地址，随时退订。</p>
+      </div>
+      <form class="subscribe-form" id="sub-form" novalidate>
+        <label class="sr-only" for="sub-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">电子邮箱地址</label>
+        <input id="sub-email" type="email" name="email" placeholder="你的邮箱地址" autocomplete="email" required>
+        <button class="btn" type="submit">接入信道</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <p class="footer-brand"><span class="pulse-t">漂移信号 Drift Signal</span></p>
+      <p class="footer-note">本页面为风格演示所设想的虚构厂牌，人物与发行均非真实。</p>
+    </div>
+    <div>
+      <p class="footer-note">UI 设计提示词库 / 色差 RGB 分离 / <a href="style-catalog.html">返回风格目录</a></p>
+    </div>
+  </div>
+  <div class="container footer-colophon">
+    风格要点 / RGB 通道分离 / 红青错位描边 / 交互触发的一次 glitch 脉冲 / 扫描线与 CRT 色散边缘 / 纸白底克制色板 / 减少动态时全部故障效果关闭
+  </div>
+</footer>
+
+<script>
+(function () {
+  var body = document.body;
+
+  /* 一次亮相：页面加载后触发标题 glitch 与扫描带，均为一次性动画 */
+  window.addEventListener('load', function () {
+    body.classList.add('booted');
+  });
+
+  /* 交互触发：按钮重放信号故障（重挂 class 以重启动画） */
+  var glitchBtn = document.getElementById('glitch-btn');
+  if (glitchBtn) {
+    glitchBtn.addEventListener('click', function () {
+      body.classList.remove('booted');
+      void body.offsetWidth;
+      body.classList.add('booted');
+    });
+  }
+
+  /* 播放按钮：仅切换状态与文案，不引入循环动画 */
+  document.querySelectorAll('.play-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pressed = btn.getAttribute('aria-pressed') === 'true';
+      document.querySelectorAll('.play-btn').forEach(function (b) {
+        b.setAttribute('aria-pressed', 'false');
+        b.textContent = '播';
+      });
+      if (!pressed) {
+        btn.setAttribute('aria-pressed', 'true');
+        btn.textContent = '停';
+      }
+    });
+  });
+
+  /* 订阅表单：提交后一次性确认文案 */
+  var form = document.getElementById('sub-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = document.getElementById('sub-email');
+      if (!input.value || input.value.indexOf('@') < 0) {
+        input.focus();
+        return;
+      }
+      var done = document.createElement('p');
+      done.className = 'subscribe-done flash';
+      done.textContent = '已接入信道 03 / 确认邮件稍后到达';
+      form.replaceWith(done);
+    });
+  }
+})();
+</script>
+</body>
+</html>
