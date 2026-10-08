@@ -280,6 +280,17 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
         </dl>
         </div>
       </div>
+      <div class="panel">
+        <div class="panel-h"><h2>链路 / COMM</h2><span class="code">S/X</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>地面站</dt><span class="dots"></span><dd>DSS-43 / 堪培拉</dd></div>
+          <div class="t-row"><dt>单向延迟</dt><span class="dots"></span><dd>1.28<span class="u">s</span></dd></div>
+          <div class="t-row"><dt>下行速率</dt><span class="dots"></span><dd>412<span class="u">kbps</span></dd></div>
+          <div class="t-row"><dt>EIRP</dt><span class="dots"></span><dd>18.6<span class="u">dBW</span></dd></div>
+          <div class="t-row"><dt>载波信噪</dt><span class="dots"></span><dd>18.0<span class="u">dB</span></dd></div>
+        </dl>
+        <div class="bar" role="img" aria-label="链路余量 6.2 dB"><i style="width:72%"></i></div>
+      </div>
     </section>
 
     <section class="col col-main" aria-label="态势与导航">
@@ -382,6 +393,26 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
         </svg>
       </div>
 
+    </section>
+
+    <section class="col col-right" aria-label="导航与链路">
+      <div class="panel">
+        <div class="panel-h"><h2>导航 / NAV</h2><span class="code">J2000</span></div>
+        <dl class="tele">
+          <div class="t-row"><dt>地心距</dt><span class="dots"></span><dd>384,172<span class="u">km</span></dd></div>
+          <div class="t-row"><dt>月心距</dt><span class="dots"></span><dd>21,704<span class="u">km</span></dd></div>
+          <div class="t-row"><dt>对地速度</dt><span class="dots"></span><dd>1.84<span class="u">km/s</span></dd></div>
+          <div class="t-row"><dt>对月速度</dt><span class="dots"></span><dd>0.94<span class="u">km/s</span></dd></div>
+        </dl>
+        <div class="blk"><dl class="tele">
+          <div class="t-row"><dt>姿态 q0</dt><span class="dots"></span><dd>+0.912</dd></div>
+          <div class="t-row"><dt>q1</dt><span class="dots"></span><dd>-0.204</dd></div>
+          <div class="t-row"><dt>q2</dt><span class="dots"></span><dd>+0.336</dd></div>
+          <div class="t-row"><dt>q3</dt><span class="dots"></span><dd>+0.087</dd></div>
+        </dl>
+        </div>
+      </div>
+
       <div class="panel">
         <div class="panel-h"><h2>机动计划 / MNVR</h2><span class="code">SYS/GNC</span></div>
         <svg class="radar" viewBox="0 0 300 120" style="max-width:380px" role="img" aria-label="机动示意：点火抬高近月点至 812 km">
@@ -419,37 +450,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
           <div><dt>锁定状态</dt><dd>READY<span class="u">latch</span></dd></div>
         </dl>
       </div>
-    </section>
-
-    <section class="col col-right" aria-label="导航与链路">
-      <div class="panel">
-        <div class="panel-h"><h2>导航 / NAV</h2><span class="code">J2000</span></div>
-        <dl class="tele">
-          <div class="t-row"><dt>地心距</dt><span class="dots"></span><dd>384,172<span class="u">km</span></dd></div>
-          <div class="t-row"><dt>月心距</dt><span class="dots"></span><dd>21,704<span class="u">km</span></dd></div>
-          <div class="t-row"><dt>对地速度</dt><span class="dots"></span><dd>1.84<span class="u">km/s</span></dd></div>
-          <div class="t-row"><dt>对月速度</dt><span class="dots"></span><dd>0.94<span class="u">km/s</span></dd></div>
-        </dl>
-        <div class="blk"><dl class="tele">
-          <div class="t-row"><dt>姿态 q0</dt><span class="dots"></span><dd>+0.912</dd></div>
-          <div class="t-row"><dt>q1</dt><span class="dots"></span><dd>-0.204</dd></div>
-          <div class="t-row"><dt>q2</dt><span class="dots"></span><dd>+0.336</dd></div>
-          <div class="t-row"><dt>q3</dt><span class="dots"></span><dd>+0.087</dd></div>
-        </dl>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-h"><h2>链路 / COMM</h2><span class="code">S/X</span></div>
-        <dl class="tele">
-          <div class="t-row"><dt>地面站</dt><span class="dots"></span><dd>DSS-43 / 堪培拉</dd></div>
-          <div class="t-row"><dt>单向延迟</dt><span class="dots"></span><dd>1.28<span class="u">s</span></dd></div>
-          <div class="t-row"><dt>下行速率</dt><span class="dots"></span><dd>412<span class="u">kbps</span></dd></div>
-          <div class="t-row"><dt>EIRP</dt><span class="dots"></span><dd>18.6<span class="u">dBW</span></dd></div>
-          <div class="t-row"><dt>载波信噪</dt><span class="dots"></span><dd>18.0<span class="u">dB</span></dd></div>
-        </dl>
-        <div class="bar" role="img" aria-label="链路余量 6.2 dB"><i style="width:72%"></i></div>
-      </div>
 
       <div class="panel">
         <div class="panel-h"><h2>事件日志 / LOG</h2><span class="code">RING 64</span></div>
@@ -463,18 +463,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
         </ul>
       </div>
     </section>
-  </main>
-
-  <div class="actions" id="actions">
-    <button class="btn" type="button" onclick="var p=document.getElementById('sweeppath'),n=document.getElementById('needle');[p,n].forEach(function(el){el.style.animation='none';void el.getBoundingClientRect();el.style.animation=''})">重放雷达扫描</button>
-    <button class="btn" type="button" onclick="var n=document.getElementById('needle');n.style.animation='none';void n.getBoundingClientRect();n.style.animation=''">重跑航向校准</button>
-    <button class="btn" type="button" onclick="var m=document.getElementById('met'),s=m,t=0+0,s=0,f=8558;f=(function(){s++;m.textContent='T+ '+String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s/60)%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0')});s<8558&amp;&amp;setTimeout(f,200)})()">任务时钟走秒</button>
-  </div>
-
-  <footer class="frame pagefoot">
-    <p>UI 设计提示词库 / HUD Sci-Fi FUI / 单文件演示，视觉与遥测数据均为设定演示内容</p>
-    <a class="back" href="style-catalog.html">返回风格目录</a>
-  </footer>
 </div>
 </body>
 </html>
