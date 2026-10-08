@@ -19,7 +19,8 @@ dict(id='timeline-story', zh='时间线叙事', en='Timeline Story',
     anti='不做运营仪表盘；时间是主轴而不是下拉筛选器',
     t=dict(bg='#F7F3EA', panel='#FFFFFF', ink='#2C2A26', muted='#8A8272',
            accent='#B4552D', line='#D8D2C4', fh='Noto Serif SC', fb='Noto Serif SC', radius='10px'),
-    hero='timeline'),
+    hero='timeline',
+    wire='首屏：开场时间透镜（大标题+三个大数字统计）→ 左侧竖向时间主轴贯穿节点（强调色圆点+黑描边），每节点一张章节卡（标题一行+弱文说明一行）→ 底部一条 12 格迷你节奏条'),
 dict(id='teaching', zh='教学工作室', en='Teaching Studio',
     use='教程、课程页、交互讲解、"教我 X"、任何需要引导式学习序列的页面',
     system='引导式学习装置：看着学、改着学、测着学、走向下一个概念',
@@ -33,7 +34,8 @@ dict(id='teaching', zh='教学工作室', en='Teaching Studio',
     anti='不像论文、博客或仪表盘；不是滚动长文而是分段工作室',
     t=dict(bg='#FBF9F4', panel='#FFFFFF', ink='#1F2429', muted='#6E7568',
            accent='#2F6F4F', line='#DCE2D8', fh='Zilla Slab', fb='IBM Plex Sans', radius='12px'),
-    hero='teaching'),
+    hero='teaching',
+    wire='首屏三栏（1:1.6:1）：左窄栏课程列表（目标/模式/对象清单）｜中央模型舞台放大（SVG 轨道图或大图形，选中即换）｜右窄栏检查器（事实+为什么重要）'),
 dict(id='living-essay', zh='菌丝长文', en='Living Essay',
     use='高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被"读"而不是被"操作"的内容',
     system='菌丝发酵式慢读环境：诗意阅读工具，不是产品仪表盘',
@@ -47,7 +49,8 @@ dict(id='living-essay', zh='菌丝长文', en='Living Essay',
     anti='不做产品化卡片墙；装饰必须服务于词与概念的连接',
     t=dict(bg='#F4F1E8', panel='#FBF9F2', ink='#33322D', muted='#8C8878',
            accent='#6B7F3E', line='#DDD8C8', fh='Noto Serif SC', fb='Noto Serif SC', radius='6px'),
-    hero='essay'),
+    hero='essay',
+    wire='中央单栏阅读长文（衬线、宽行距、行长<80字符）+ 左缘竖排文字胶囊（强调色描边）+ 正文内孢子词强调色下划线 + SVG 细菌丝线连接胶囊与孢子词'),
 dict(id='dashboard', zh='运营控制台', en='Ops Dashboard',
     use='CSV、表格、财务/后台数据、日志、工单、日历导出等结构化数据集',
     system='为反复扫视、筛选、决策而生的运营台',
@@ -61,7 +64,8 @@ dict(id='dashboard', zh='运营控制台', en='Ops Dashboard',
     anti='不做 storytelling 大卡片；紧凑行、标签页、分段控件优先',
     t=dict(bg='#F2F4F7', panel='#FFFFFF', ink='#1B2733', muted='#69788C',
            accent='#0F62FE', line='#D5DBE3', fh='IBM Plex Sans', fb='IBM Plex Sans', radius='8px'),
-    hero='dashboard'),
+    hero='dashboard',
+    wire='命令栏一行（标题/时段/搜索/筛选）→ 三格 KPI（等宽大数字+环比小字）→ 全宽主工作面（折线或条形图）→ 异常队列 2-3 行（状态点+行文）'),
 dict(id='soft-saas', zh='轻软控制台', en='Soft SaaS',
     use='客服邮箱、邮件营销、客户成功队列、轻量产品分析——要"好操作"但别成重后台',
     system='淡灰画布上的悬浮面板：精确、友好、低摩擦、安静地活着',
@@ -75,7 +79,8 @@ dict(id='soft-saas', zh='轻软控制台', en='Soft SaaS',
     anti='禁止剧场式滚动与装饰动效；hover 抬升、联动选中这类产品级动效',
     t=dict(bg='#F5F7FA', panel='#FFFFFF', ink='#2A2F38', muted='#7A8494',
            accent='#4F6BFF', line='#E3E8F0', fh='Manrope', fb='Inter', radius='16px'),
-    hero='saas'),
+    hero='saas',
+    wire='淡灰画布上不对称拼贴（1:1.8:1）：左队列面板｜中央大走势折线 SVG｜右状态面板；小蓝胶囊+状态圆点，白色圆角面板软阴影'),
 dict(id='kinetic-scoreboard', zh='动能计分板', en='Kinetic Scoreboard',
     use='多参与者流：群聊活跃度、销售、客服、作者、玩家——"谁做了多少、何时、效果如何"',
     system='实时竞标赛场：首屏像一块锦标赛转播屏，不是报表',
@@ -89,7 +94,8 @@ dict(id='kinetic-scoreboard', zh='动能计分板', en='Kinetic Scoreboard',
     anti='不是报表/仪表盘/文章；克制使用网格纸与黑 rule 线，数字是主角',
     t=dict(bg='#F5F2E8', panel='#FFFFFF', ink='#141414', muted='#6F6A5E',
            accent='#D7263D', line='#C9C4B4', fh='Archivo Black', fb='JetBrains Mono', radius='4px'),
-    hero='scoreboard'),
+    hero='scoreboard',
+    wire='3 条全高泳道堆叠（网格纸质感+黑 rule 线）：每条三列（超大编号/名称/强调色超大数字）+ 底部遥测标签行（phase/load/pace）'),
 dict(id='map-atlas', zh='地图图集', en='Map Atlas',
     use='收藏地点、GPX/KML 路线、旅行行程、照片地理数据、地点历史、房源清单',
     system='空间探索系统：首屏被一张地图/路线/散点锚定',
@@ -103,7 +109,8 @@ dict(id='map-atlas', zh='地图图集', en='Map Atlas',
     anti='地图是主角；列表与指标都是配角',
     t=dict(bg='#EEF1EA', panel='#FFFFFF', ink='#2B3230', muted='#75796F',
            accent='#2E6E4E', line='#D3D9CF', fh='Fraunces', fb='IBM Plex Sans', radius='10px'),
-    hero='atlas'),
+    hero='atlas',
+    wire='全宽 SVG 地图舞台（点阵大陆感+虚线航路连接强调色图钉）+ 右下浮动地点卡（选中地点+停留数据）+ 一行时空控件（城市片/时段）'),
 dict(id='global-travel', zh='环球旅册', en='Global Travel',
     use='个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面',
     system='居中式旅行档案：优雅 dossier，不是地图应用',
@@ -117,7 +124,8 @@ dict(id='global-travel', zh='环球旅册', en='Global Travel',
     anti='不做密集图集或运营面板；淡蓝绿画布、珊瑚主行动',
     t=dict(bg='#EAF2F0', panel='#FFFFFF', ink='#22333B', muted='#6E8483',
            accent='#FF6B4A', line='#CFE0DC', fh='Fraunces', fb='Inter', radius='8px'),
-    hero='travel'),
+    hero='travel',
+    wire='居中标题块 → 大幅低对比点阵世界地图（SVG，暖色 pin 标注+一张浮动 callout 卡）→ 下方 4-6 个大数字计数器一行（数字即节奏）'),
 dict(id='network-map', zh='关系图谱', en='Network Map',
     use='人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要',
     system='关系图系统：揭示簇、桥、反复交易对手与模式',
@@ -131,7 +139,8 @@ dict(id='network-map', zh='关系图谱', en='Network Map',
     anti='不做行列表首页；节点/边/簇/桥是语言',
     t=dict(bg='#F4F5F7', panel='#FFFFFF', ink='#23272E', muted='#737B88',
            accent='#5B4FFF', line='#DCDFE6', fh='Manrope', fb='Inter', radius='12px'),
-    hero='network'),
+    hero='network',
+    wire='全宽 SVG 关系图：6-8 节点（强调色大圆+灰阶小圆分聚类）+ 细边连线 + 右侧实体检查器卡（选中实体+关联数）'),
 dict(id='document', zh='档案审阅', en='Document Review',
     use='文章、阅读清单、研究合集、PDF/DOCX、法律/医疗/政策等高风险长文档',
     system='阅读与审阅系统：有主张、有证据、可追溯的结构化文档',
@@ -145,7 +154,8 @@ dict(id='document', zh='档案审阅', en='Document Review',
     anti='不是营销页；两种调性（叙事/正式）只换语气密度与色板，骨架不变',
     t=dict(bg='#FBFAF7', panel='#FFFFFF', ink='#26282B', muted='#7D7A72',
            accent='#7A4E2D', line='#E0DCD0', fh='Source Serif 4', fb='IBM Plex Sans', radius='6px'),
-    hero='document'),
+    hero='document',
+    wire='刊头（标题+来源元数据+强调色粗底线）→ 细读者栏（速览|大纲|证据 三态）→ 正文主张段 → 证据表（来源/日期/摘录三列）'),
 dict(id='kami-reading', zh='羊皮长读', en='Kami Reading',
     use='该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记',
     system='温暖的印刷页面搬进浏览器：克制的文档系统，不是应用 UI',
@@ -159,7 +169,8 @@ dict(id='kami-reading', zh='羊皮长读', en='Kami Reading',
     anti='不要任何应用壳；像一册书',
     t=dict(bg='#F5F4ED', panel='#FAF9F5', ink='#3A3631', muted='#8C8677',
            accent='#8A5A2B', line='#E4E0D2', fh='Noto Serif SC', fb='Noto Serif SC', radius='2px'),
-    hero='kami'),
+    hero='kami',
+    wire='暖羊皮底居中排版：小字距眉行 → 大衬线标题 → 短导语 → 一条短墨线 → 细目录条 → 首章正文；无任何应用壳'),
 dict(id='architectural-spread', zh='建筑式跨页', en='Architectural Spread',
     use='视觉主导的编辑页：长文、文化评论、概念笔记、设计宣言、物件档案',
     system='全屏分跨页：更像被设计过的杂志跨页而不是网站',
@@ -173,7 +184,8 @@ dict(id='architectural-spread', zh='建筑式跨页', en='Architectural Spread',
     anti='不做滚动长文、仪表盘、卡片网格或营销 hero',
     t=dict(bg='#C9BFB0', panel='#F6F1E7', ink='#26221C', muted='#7C7264',
            accent='#A05000', line='#B4A896', fh='Playfair Display', fb='Noto Serif SC', radius='0px'),
-    hero='spread'),
+    hero='spread',
+    wire='全屏左右对分：左大地色视觉舱（单个大 SVG 图形垂直居中+左下角小插图）｜右奶油编辑栏（章节标签+大标题+衬线斜体强调词+正文+角落锚点小字 Next Chapter ( + )）'),
 dict(id='digital-eguide', zh='电子指南册', en='Digital E-Guide',
     use='电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览',
     system='暖桌上的两页 PDF 预览：纸页、衬线大字、目录、练习条',
@@ -186,7 +198,8 @@ dict(id='digital-eguide', zh='电子指南册', en='Digital E-Guide',
     anti='不是仪表盘、应用壳或普通文档页',
     t=dict(bg='#E9E2D6', panel='#FBF8F1', ink='#2E2A22', muted='#8A8172',
            accent='#B0483B', line='#D8CFBE', fh='Playfair Display', fb='Noto Serif SC', radius='6px'),
-    hero='eguide'),
+    hero='eguide',
+    wire='暖色桌面上两张 3:4 纸页并排：左封面（等宽小眉标+超大衬线标题+斜体强调词+署名+3 格统计+双栏点线目录）｜右内页（章节眉标+deck 段+步骤列表+练习条）'),
 dict(id='editorial-carousel', zh='编辑轮播', en='Editorial Carousel',
     use='品牌策略文、创始人信、趋势解读、宣言、高管摘要、可分享的观点小卡组',
     system='高级社交杂志轮播：轮播本身即是页面骨架',
@@ -200,7 +213,8 @@ dict(id='editorial-carousel', zh='编辑轮播', en='Editorial Carousel',
     anti='不是落地页/文章/应用；每张卡画幅稳定、字体混排（衬线/手写/等宽）',
     t=dict(bg='#DDD8CE', panel='#F4EFE6', ink='#17150F', muted='#797262',
            accent='#C0392B', line='#C9C1B2', fh='Playfair Display', fb='Noto Serif SC', radius='8px'),
-    hero='carousel'),
+    hero='carousel',
+    wire='暖灰桌面横排 4-5 张 4:5 幻灯卡：每卡超大强调色编号+两行主张+folio 页脚；卡画幅固定、衬线/手写/等宽混排'),
 dict(id='terminal-cli', zh='终端命令行', en='Terminal CLI',
     use='用户明说终端/CLI/shell/主机/黑客/服务器控制台；CI 日志、堆栈、runbook、技术时间线',
     system='磷光屏上的 tmux/vim 分屏：功能至上、仅深色、全等宽、围绕命令与原始证据',
@@ -214,7 +228,8 @@ dict(id='terminal-cli', zh='终端命令行', en='Terminal CLI',
     anti='不是赛博朋克装饰：无 Matrix 雨、无霓虹紫渐变、无圆角 SaaS 卡、无玻璃拟态',
     t=dict(bg='#0B0F0C', panel='#101610', ink='#C8E6C9', muted='#5F7A62',
            accent='#37D67A', line='#2A3A2E', fh='JetBrains Mono', fb='JetBrains Mono', radius='2px'),
-    hero='terminal'),
+    hero='terminal',
+    wire='深色等宽终端窗：prompt 命令行（operator@host:~$ + 闪烁光标）→ 状态轨（[OK]/[ERR] 标签 + ASCII 进度条 [||||..] 62%）→ 1px 绿框 pane 网格（+--- TITLE ---+ 标题条 + 行内容）'),
 dict(id='developer', zh='取证工作台', en='Developer Workbench',
     use='GitHub 仓库、diff、PR 补丁、CI/构建/测试日志、堆栈跟踪等技术工件',
     system='终端取证工作台：像 tmux 分屏的事故控制台，可审计、扫读快',
@@ -228,7 +243,8 @@ dict(id='developer', zh='取证工作台', en='Developer Workbench',
     anti='不做通用 SaaS 审阅页；一切以终端设计语言表达',
     t=dict(bg='#101418', panel='#161C22', ink='#D7DEE8', muted='#71818F',
            accent='#4FC3F7', line='#2A333D', fh='JetBrains Mono', fb='JetBrains Mono', radius='4px'),
-    hero='workbench'),
+    hero='workbench',
+    wire='深色取证面板：顶部 prompt/发现栏（疑似原因+置信标签）→ [ERR][WARN][OK][HYP] 前缀的风险清单（按严重度）→ diff/堆栈 pane（行号+增删行染色）→ 可复制交接块'),
 dict(id='default', zh='洞察简报', en='Insight Brief',
     use='需求不明时的默认形态：仍要有设计感，不做文档倾倒',
     system='面向模糊输入的紧凑简报系统：不是仪表盘也不是文章',
@@ -241,7 +257,8 @@ dict(id='default', zh='洞察简报', en='Insight Brief',
     anti='少用卡片；一个好面板 + 分组证据行优先',
     t=dict(bg='#FAFAF8', panel='#FFFFFF', ink='#202124', muted='#787D85',
            accent='#3452FF', line='#E4E5E8', fh='Inter', fb='Inter', radius='12px'),
-    hero='brief'),
+    hero='brief',
+    wire='答案头（直给标题+一句有用的话+2-4 枚关键点胶囊）→ 唯一主洞察面板（一张最有用的图/对比）→ 3-5 节证据堆（各一句主张+支撑行）'),
 dict(id='love-romance-3d', zh='恋爱纪念 3D', en='Keepsake 3D',
     use='情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3D 纪念品质感',
     system='关系节奏的纪念品界面：圆润形体、透明高光、粉红渐变、小金饰',
@@ -255,7 +272,8 @@ dict(id='love-romance-3d', zh='恋爱纪念 3D', en='Keepsake 3D',
     anti='不做中性报告页；也不变成原始聊天记录浏览器',
     t=dict(bg='#FDF0F3', panel='#FFFFFF', ink='#3A2530', muted='#9C7A87',
            accent='#E85D8A', line='#F2DCE3', fh='Quicksand', fb='Noto Sans SC', radius='20px'),
-    hero='keepsake'),
+    hero='keepsake',
+    wire='粉渐变底三区：左大爱心 SVG（柔和高光+投影）｜中右立体感指标块（大数字+小标签+高光）→ 下方圆糖果格热力条 + A/B 对比泳道'),
 ]
 
 # ---------- 样张主视觉块（每风格一段静态示意，token 由 CSS 变量驱动） ----------
@@ -268,11 +286,14 @@ def hero_html(s):
 
 def _timeline(v):
     return f'''<div class="hx" style="--a:{v['accent']};--l:{v['line']}">
-  <div class="tl">
+  <div class="lens"><div><b>38</b><span>本年读完</span></div><div><b>11</b><span>最长连胜（天）</span></div><div><b>4.2</b><span>平均评分</span></div></div>
+  <div class="tl tl-grow">
     <div class="tl-node"><i></i><div class="tl-card"><b>3 月 · 峰值月</b><span>读完 6 本，最长连胜 11 天</span></div></div>
     <div class="tl-node"><i></i><div class="tl-card"><b>7 月 · 沉寂期</b><span>只补完了 1 本随笔</span></div></div>
     <div class="tl-node"><i></i><div class="tl-card"><b>11 月 · 回归</b><span>科幻月：4 本长篇连读</span></div></div>
-  </div></div>'''
+  </div>
+  <div class="rhythm">{''.join('<i style="height:%d%%"></i>' % (30 + (i * 37) % 65) for i in range(12))}</div>
+</div>'''
 
 def _teaching(v):
     return f'''<div class="hx grid3" style="--l:{v['line']}">
@@ -291,6 +312,7 @@ def _dashboard(v):
     return f'''<div class="hx" style="--a:{v['accent']};--l:{v['line']}">
   <div class="kpis"><div class="kpi"><b>128</b><span>本年读完 · +12%</span></div><div class="kpi"><b>42</b><span>高亮条数</span></div><div class="kpi"><b>11</b><span>最长连胜（天）</span></div></div>
   <div class="bars"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:95%"></i><i style="height:60%"></i><i style="height:80%"></i></div>
+  <div class="flags"><span class="fl"><i class="fdot"></i>2 本中途弃读</span><span class="fl"><i class="fdot warn"></i>11 月加书架未读 5 本</span><span class="fl"><i class="fdot ok"></i>导出可用</span></div>
 </div>'''
 
 def _saas(v):
@@ -369,7 +391,7 @@ def _terminal(v):
     return f'''<div class="hx termh" style="--a:{v['accent']};--p:{v['panel']};--l:{v['line']}">
   <div class="prompt">reader@2026:~$ reading --summary --evidence<span class="cur">▌</span></div>
   <div class="rail2"><span>[OK] total=38</span><span>[||||||||..] 82%</span></div>
-  <div class="pane">+--- TOP 3 ---+<br>1. 索拉里斯星  ★5<br>2. 万历十五年  ★5<br>3. 云游        ★4</div>
+  <div class="panes"><div class="pane">+--- TOP 3 ---+<br>1. 索拉里斯星  ★5<br>2. 万历十五年  ★5<br>3. 云游        ★4</div><div class="pane">+--- RHYTHM ---+<br>peak 23:00-01:00<br>weekend x1.8<br>abandoned: 2</div></div>
 </div>'''
 
 def _workbench(v):
@@ -404,22 +426,25 @@ _HEROES = dict(timeline=_timeline, teaching=_teaching, essay=_essay, dashboard=_
 def content_prompt(s):
     t = s['t']
     return ('请以「%s %s」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕\n\n'
+            '▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否"任何项目都会生成的默认"，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。\n\n'
             '▍适用：%s\n'
             '▍底层系统：%s\n'
             '▍页面骨架（逐条落实）：\n%s\n'
             '▍组件词汇：%s\n'
+            '▍样张构图（wireframe，按此布局复刻，主题内容可换）：%s\n'
             '▍本页 token（可直接用）：底 %s / 面板 %s / 主字 %s / 弱文 %s / 强调 %s / 分隔线 %s / 圆角 %s / 标题字体 %s / 正文字体 %s\n'
             '▍动效（只此一次，别加第二处）：%s\n'
             '▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；%s\n'
             '▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440') % (
         s['zh'], s['en'], s['use'], s['system'],
-        '\n'.join('- ' + x for x in s['scaffold']), s['vocab'],
+        '\n'.join('- ' + x for x in s['scaffold']), s['vocab'], s['wire'],
         t['bg'], t['panel'], t['ink'], t['muted'], t['accent'], t['line'], t['radius'], t['fh'], t['fb'],
         s['motion'], s['anti'])
 
 
 _HERO_CSS = '''
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: 22px; margin: 4px 0 26px; }
+.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
+.hx b { font-size: 1.06em; }
 .hx b { font-family: var(--fh); }
 .tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
 .tl-node { position: relative; }
@@ -506,7 +531,23 @@ _HERO_CSS = '''
   .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
   .keeph { grid-template-columns: 56px 1fr 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { .termh .cur { animation: none; } }
+.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
+.lens span { font-size: 12.5px; color: var(--muted); }
+.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
+.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
+.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
+.fl { display: inline-flex; align-items: center; gap: 6px; }
+.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
+.fdot.warn { background: #C77D2B; }
+.fdot.ok { background: #2FA463; }
+.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.termh .pane { margin: 0; }
+.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
+@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+.hx { animation: hx-rise 700ms ease-out both; }
+@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 '''
 
 

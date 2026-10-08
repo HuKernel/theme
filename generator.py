@@ -2296,9 +2296,32 @@ footer a { color: var(--primary); }
 @media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
 """
 
-def pattern_prompt(l, s):
+# 分区布局要点：与 render_section 渲染同源，进提示词让 AI 复刻的布局与样张一致
+SECTION_HINTS = {
+    'hero': '居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）',
+    'features': '三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明',
+    'stats': '三格大数字：数字大而醒目（主色），下配一行小标签',
+    'testi': '三栏引用卡：圆形占位头像 + 一句引文 + 署名',
+    'video': '视频位卡片：居中播放按钮（内联 SVG 三角）+ 时长标注一行',
+    'faq': '折叠问答组（details/summary），默认展开第一条，答案一两句',
+    'compare': '对比表：三列（环节 / 现在 / 以前），4 行左右，"现在"列强调',
+    'gallery': '四格图位（纯色或渐变占位块），等分一行',
+    'logos': '客户名一行文字排（弱化色，不做图片墙）',
+    'newsletter': '邮箱输入 + 订阅按钮的横排卡片，附一句承诺小字（频率/退订）',
+    'story': '两章编号卡（真实序列才用编号）：两位编号 + 标题 + 两行说明',
+    'problem': '痛点卡：一句加粗大痛点 + 三条短列表（每条三五字）',
+    'cta': '全宽 CTA 卡：标题 + 一行信息 + 主按钮',
+    'value': '单条价值主张卡：一句加粗主张 + 两行说明',
+    'footer': '一行版权与返回链接',
+}
+
+def pattern_prompt(l, s, fonts):
+    secs = parse_sections(l['Section Order'])
+    hints = '\n'.join('%d. %s' % (i + 1, SECTION_HINTS.get(k, k)) for i, k in enumerate(secs))
     return '\n'.join([
-        '请按「落地页结构：%s」官方模式实现落地页：〔在这里写下你的产品/需求〕' % l['Pattern Name'],
+        '请按「落地页结构：%s」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕' % l['Pattern Name'],
+        '',
+        '▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像"任何项目都会生成的默认"，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用"大数字+小标签+渐变强调"的默认套路；大胆只花在一处，其余克制。',
         '',
         '▍官方结构（landing.csv 原文，零改写）：',
         '- Section Order: %s' % l['Section Order'].strip(),
@@ -2307,14 +2330,20 @@ def pattern_prompt(l, s):
         '- Recommended Effects: %s' % l['Recommended Effects'].strip(),
         '- Conversion Optimization: %s' % l['Conversion Optimization'].strip(),
         '',
-        '▍本样板 token（实际使用值）：',
+        '▍分区布局要点（与样张同源，逐区落实）：',
+        hints,
+        '',
+        '▍本样板 token（实际使用值，直接可用）：',
         '- 主 %s / 辅 %s / 强调 %s / 底 %s / 圆角 %s' % (s['primary'], s['secondary'], s['accent'], s['bg'], s['radius']),
+        '- 标题字体 %s / 正文字体 %s（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）' % fonts,
+        '',
+        '▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升',
         '',
         '▍必须避开（AI 指纹清单，frontend-design 原则）：',
-        '- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in',
-        '- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标',
+        '- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）',
+        '- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色',
         '',
-        '▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440',
+        '▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符',
     ])
 
 # ---------- Memphis Design 目录页（官方四色 #FF71CE/#FFCE5C/#86CCCA/#6A7BB4） ----------
@@ -2387,7 +2416,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None):
                   file, html.escape(product_prompt(p, col, layout))))
 
     # 落地页结构卡（第三层：landing.csv 官方结构）
-    for l, s, file in (lentries or []):
+    for l, s, file, fonts in (lentries or []):
         cards.append('''<article class="m-card s%s" data-type="pattern" data-status="pattern" data-search="%s">
   <div class="m-head">
     <div>
@@ -2404,7 +2433,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None):
                   html.escape((l['Pattern Name'] + ' ' + l['Keywords'] + ' 落地页 结构 landing').lower()),
                   html.escape(l['Pattern Name']), l['No'],
                   html.escape(l['Section Order'].strip()[:120]),
-                  file, html.escape(pattern_prompt(l, s))))
+                  file, html.escape(pattern_prompt(l, s, fonts))))
 
     # 内容排版卡（第四层：html-anything 18 种内容排版风格，转写见 content_styles.py）
     for ci, cs in enumerate(centries or []):
@@ -2748,7 +2777,7 @@ def main():
         css = PATTERN_CSS.replace('__BORDER__', s['border'].replace('VAR_BORDER', s['border_c']))
         page = base_css(s, fh, fb, fq, title, css).replace('__BODY__', body)
         open(os.path.join(OUT_LDIR, file), 'w', encoding='utf-8').write(page)
-        lentries.append((l, s, file))
+        lentries.append((l, s, file, (fh, fb)))
     print('落地结构样板:', len(lentries))
 
     # ---- 目录页：Memphis Design 版完整重建（风格 + 落地结构） ----

@@ -35,7 +35,8 @@ h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
 .note { margin-top: 40px; font-size: 13px; color: var(--muted); }
 .note a { color: var(--accent); font-weight: 600; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: 22px; margin: 4px 0 26px; }
+.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
+.hx b { font-size: 1.06em; }
 .hx b { font-family: var(--fh); }
 .tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
 .tl-node { position: relative; }
@@ -122,7 +123,23 @@ h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
   .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
   .keeph { grid-template-columns: 56px 1fr 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { .termh .cur { animation: none; } }
+.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
+.lens span { font-size: 12.5px; color: var(--muted); }
+.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
+.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
+.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
+.fl { display: inline-flex; align-items: center; gap: 6px; }
+.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
+.fdot.warn { background: #C77D2B; }
+.fdot.ok { background: #2FA463; }
+.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.termh .pane { margin: 0; }
+.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
+@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+.hx { animation: hx-rise 700ms ease-out both; }
+@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
 </style>
 </head>
@@ -136,11 +153,14 @@ h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
 
   <h2>结构示意</h2>
   <div class="hx" style="--a:#B4552D;--l:#D8D2C4">
-  <div class="tl">
+  <div class="lens"><div><b>38</b><span>本年读完</span></div><div><b>11</b><span>最长连胜（天）</span></div><div><b>4.2</b><span>平均评分</span></div></div>
+  <div class="tl tl-grow">
     <div class="tl-node"><i></i><div class="tl-card"><b>3 月 · 峰值月</b><span>读完 6 本，最长连胜 11 天</span></div></div>
     <div class="tl-node"><i></i><div class="tl-card"><b>7 月 · 沉寂期</b><span>只补完了 1 本随笔</span></div></div>
     <div class="tl-node"><i></i><div class="tl-card"><b>11 月 · 回归</b><span>科幻月：4 本长篇连读</span></div></div>
-  </div></div>
+  </div>
+  <div class="rhythm"><i style="height:30%"></i><i style="height:67%"></i><i style="height:39%"></i><i style="height:76%"></i><i style="height:48%"></i><i style="height:85%"></i><i style="height:57%"></i><i style="height:94%"></i><i style="height:66%"></i><i style="height:38%"></i><i style="height:75%"></i><i style="height:47%"></i></div>
+</div>
 
   <h2>页面骨架（官方定义，逐条落实）</h2>
   <ol class="steps"><li><b>01</b><span>开场时间透镜：覆盖时段、总量、一个作故事钩子的记忆模式</span></li><li><b>02</b><span>时间主轴：年/月/周是主导航，选中时段过滤全页模块</span></li><li><b>03</b><span>章节面板：每个时段一个紧凑场景（最高频项/重复习惯/峰值/沉寂期）</span></li><li><b>04</b><span>节奏条：热力图或堆叠条展示节奏，不做运营图表</span></li><li><b>05</b><span>记忆抽屉：可搜索的条目浏览器，按章节过滤</span></li></ol>

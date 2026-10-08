@@ -3344,7 +3344,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero with headline/image &gt; Value prop &gt; Key features (3-5) &gt; CTA section &gt; Footer</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l1-hero-features-cta.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Hero + Features + CTA」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Hero + Features + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero with headline/image &gt; Value prop &gt; Key features (3-5) &gt; CTA section &gt; Footer
@@ -3353,14 +3355,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Hero parallax, feature card hover lift, CTA glow on hover
 - Conversion Optimization: Deep CTA placement. For CTA label text, verify at least 4.5:1 against the button fill; use 7:1 only when the product explicitly targets AAA normal-text contrast. Keep focus and component boundaries independently visible. Disable hero parallax under reduced motion and render its static final state.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #000000 / 辅 #FFFFFF / 强调 #000000 / 底 #0D0F16 / 圆角 4px
+- 标题字体 Inter / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="hero + testimonials + cta hero, testimonials, social-proof, social-proof-focused, social proof focused, trust, reviews, cta, carousel accessibility, keyboard accessible carousel, pause auto rotation, reduced motion final state 落地页 结构 landing">
@@ -3373,7 +3385,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero &gt; Problem statement &gt; Solution overview &gt; Testimonials carousel &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l2-hero-testimonials-cta.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Hero + Testimonials + CTA」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Hero + Testimonials + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero &gt; Problem statement &gt; Solution overview &gt; Testimonials carousel &gt; CTA
@@ -3382,14 +3396,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Testimonial carousel slide animations, quote marks animations, avatar fade-in
 - Conversion Optimization: Social proof before CTA. Use a concise set of verified testimonials with photo, name, and role. CTA after social proof. Provide previous/next and pause controls; stop rotation on focus, hover, and reduced motion; announce slide position. Previous/next buttons and keyboard controls must expose every slide without dragging.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三格大数字：数字大而醒目（主色），下配一行小标签
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FF0000 / 辅 #0000FF / 强调 #FFFF00 / 底 #0D0F16 / 圆角 0px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="product demo + features demo, product-demo, features, showcase, interactive, interactive-product-demo, interactive product demo 落地页 结构 landing">
@@ -3402,7 +3427,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero &gt; Product video/mockup (center) &gt; Feature breakdown per section &gt; Comparison (optional) &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l3-product-demo-features.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Product Demo + Features」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Product Demo + Features」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero &gt; Product video/mockup (center) &gt; Feature breakdown per section &gt; Comparison (optional) &gt; CTA
@@ -3411,14 +3438,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Video play button pulse, feature scroll reveals, demo interaction highlights
 - Conversion Optimization: Use an interactive demo only when it explains value better than static media. Provide captions, transcript, visible play/pause controls, and a non-video fallback; do not autoplay under reduced motion. Pause media when offscreen or hidden and keep the final product state available as static content.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 视频位卡片：居中播放按钮（内联 SVG 三角）+ 时长标注一行
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 对比表：三列（环节 / 现在 / 以前），4 行左右，&quot;现在&quot;列强调
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #F5F5F5 / 辅 #f5f5f5 / 强调 #f5f5f5 / 底 #F8FAFC / 圆角 18px
+- 标题字体 Outfit / 正文字体 Rubik（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="minimal single column minimal, simple, direct, minimal &amp; direct, minimal-direct, single-column, clean 落地页 结构 landing">
@@ -3431,7 +3469,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero headline &gt; Short description &gt; Benefit bullets (3 max) &gt; CTA &gt; Footer</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l4-minimal-single-column.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Minimal Single Column」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Minimal Single Column」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero headline &gt; Short description &gt; Benefit bullets (3 max) &gt; CTA &gt; Footer
@@ -3440,14 +3480,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Minimal hover effects. Smooth scroll. CTA scale on hover (subtle)
 - Conversion Optimization: Single CTA focus. Large typography. Lots of whitespace. No nav clutter. Mobile-first.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #F5E6C8 / 辅 #D4A574 / 强调 #4A7B7C / 底 #FAF7F0 / 圆角 6px
+- 标题字体 Inter / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="funnel (3-step conversion) funnel, conversion, conversion-optimized, conversion optimized, steps, wizard, onboarding 落地页 结构 landing">
@@ -3460,7 +3510,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero &gt; Step 1 (problem) &gt; Step 2 (solution) &gt; Step 3 (action) &gt; CTA progression</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l5-funnel-3-step-conversion.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Funnel (3-Step Conversion)」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Funnel (3-Step Conversion)」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero &gt; Step 1 (problem) &gt; Step 2 (solution) &gt; Step 3 (action) &gt; CTA progression
@@ -3469,14 +3521,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Step number animations, progress bar fill, step transitions smooth scroll
 - Conversion Optimization: Progressive disclosure. Show only essential info per step. Use progress indicators. Multiple CTAs.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 痛点卡：一句加粗大痛点 + 三条短列表（每条三五字）
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #0080FF / 辅 #FF1493 / 强调 #00FFFF / 底 #F8FAFC / 圆角 14px
+- 标题字体 Rubik / 正文字体 Nunito Sans（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="comparison table + cta comparison, table, compare, versus, cta 落地页 结构 landing">
@@ -3489,7 +3552,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero &gt; Problem intro &gt; Comparison table (product vs competitors) &gt; Pricing (optional) &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l6-comparison-table-cta.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Comparison Table + CTA」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Comparison Table + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero &gt; Problem intro &gt; Comparison table (product vs competitors) &gt; Pricing (optional) &gt; CTA
@@ -3498,14 +3563,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Table row hover highlight, price toggle animations, feature checkmark animations
 - Conversion Optimization: Use comparison to show unique value. Highlight your product row. Include &#x27;free trial&#x27; in pricing row.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 痛点卡：一句加粗大痛点 + 三条短列表（每条三五字）
+3. 对比表：三列（环节 / 现在 / 以前），4 行左右，&quot;现在&quot;列强调
+4. pricing
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FF71CE / 辅 #FFCE5C / 强调 #86CCCA / 底 #F8FAFC / 圆角 14px
+- 标题字体 Playfair Display / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="lead magnet + form lead, form, signup, capture, email, magnet 落地页 结构 landing">
@@ -3518,7 +3594,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (benefit headline) &gt; Lead magnet preview (ebook cover, checklist, etc) &gt; Form (minimal fields) &gt; CTA submit</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l7-lead-magnet-form.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Lead Magnet + Form」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Lead Magnet + Form」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (benefit headline) &gt; Lead magnet preview (ebook cover, checklist, etc) &gt; Form (minimal fields) &gt; CTA submit
@@ -3527,14 +3605,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Form focus state animations, input validation animations, success confirmation animation
 - Conversion Optimization: Ask only for information necessary to deliver the lead magnet. Preview its value and show submission progress.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #C8E0F4 / 辅 #F5E0E8 / 强调 #E8E8E8 / 底 #ECEAF2 / 圆角 18px
+- 标题字体 Playfair Display / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="pricing page + cta pricing, plans, tiers, comparison, cta 落地页 结构 landing">
@@ -3547,7 +3635,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (pricing headline) &gt; Price comparison cards &gt; Feature comparison table &gt; FAQ section &gt; Final CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l8-pricing-page-cta.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Pricing Page + CTA」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Pricing Page + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (pricing headline) &gt; Price comparison cards &gt; Feature comparison table &gt; FAQ section &gt; Final CTA
@@ -3556,14 +3646,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Price toggle animation (monthly/yearly), card comparison highlight, FAQ accordion open/close
 - Conversion Optimization: Highlight the plan that matches the intended audience and show actual annual savings transparently. Use FAQs to address concerns.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 对比表：三列（环节 / 现在 / 以前），4 行左右，&quot;现在&quot;列强调
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 折叠问答组（details/summary），默认展开第一条，答案一两句
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #228B22 / 辅 #8B4513 / 强调 #87CEEB / 底 #F8FAFC / 圆角 20px 26px 18px 28px
+- 标题字体 Playfair Display / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="video-first hero video, hero, media, visual, engaging 落地页 结构 landing">
@@ -3576,7 +3677,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero with video background &gt; Key features overlay &gt; Benefits section &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l9-video-first-hero.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Video-First Hero」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Video-First Hero」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero with video background &gt; Key features overlay &gt; Benefits section &gt; CTA
@@ -3585,14 +3688,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Video autoplay muted, parallax scroll, text fade-in on scroll
 - Conversion Optimization: Use video only when it demonstrates value better than static media. Add captions for accessibility. Compress video for performance. Provide captions and a visible pause control; use a static poster when reduced motion is requested. Pause video when offscreen or hidden; the reduced-motion poster must preserve the final message and CTA.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #00FF00 / 辅 #FF00FF / 强调 #00FFFF / 底 #0D0F16 / 圆角 4px
+- 标题字体 Inter / 正文字体 Playfair Display（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="scroll-triggered storytelling storytelling, scroll, narrative, story, immersive 落地页 结构 landing">
@@ -3605,7 +3718,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Intro hook &gt; Chapter 1 (problem) &gt; Chapter 2 (journey) &gt; Chapter 3 (solution) &gt; Climax CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l10-scroll-triggered-storytelling.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Scroll-Triggered Storytelling」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Scroll-Triggered Storytelling」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Intro hook &gt; Chapter 1 (problem) &gt; Chapter 2 (journey) &gt; Chapter 3 (solution) &gt; Climax CTA
@@ -3614,14 +3729,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: ScrollTrigger animations, parallax layers, progressive disclosure, chapter transitions
 - Conversion Optimization: Keep the narrative understandable without scroll-driven effects. Use progress indicator. Mobile: simplify animations. Keep DOM reading order complete; disable parallax and scroll-scrub under reduced motion. Pause scroll animation when offscreen or hidden and render each chapter in its final readable state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 单条价值主张卡：一句加粗主张 + 两行说明
+2. 两章编号卡（真实序列才用编号）：两位编号 + 标题 + 两行说明
+3. 两章编号卡（真实序列才用编号）：两位编号 + 标题 + 两行说明
+4. 两章编号卡（真实序列才用编号）：两位编号 + 标题 + 两行说明
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FF71CE / 辅 #01CDFE / 强调 #05FFA1 / 底 #F8FAFC / 圆角 14px
+- 标题字体 Orbitron / 正文字体 JetBrains Mono（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="ai personalization landing ai, personalization, smart, recommendation, dynamic 落地页 结构 landing">
@@ -3634,7 +3760,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Dynamic hero (personalized) &gt; Relevant features &gt; Tailored testimonials &gt; Smart CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l11-ai-personalization-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：AI Personalization Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：AI Personalization Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Dynamic hero (personalized) &gt; Relevant features &gt; Tailored testimonials &gt; Smart CTA
@@ -3643,14 +3771,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Dynamic content swap, fade transitions, personalized product recommendations
 - Conversion Optimization: Validate personalization with consent-aware product analytics. Requires analytics integration. Fallback for new users.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+3. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #001F3F / 辅 #228B22 / 强调 #800020 / 底 #F8FAFC / 圆角 16px
+- 标题字体 Space Grotesk / 正文字体 DM Sans（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="waitlist/coming soon waitlist, coming-soon, launch, early-access, notify, countdown accessibility, pause animation, reduced motion final state, verified waitlist count 落地页 结构 landing">
@@ -3663,7 +3801,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero with countdown &gt; Product teaser/preview &gt; Email capture form &gt; Social proof (waitlist count)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l12-waitlist-coming-soon.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Waitlist/Coming Soon」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Waitlist/Coming Soon」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero with countdown &gt; Product teaser/preview &gt; Email capture form &gt; Social proof (waitlist count)
@@ -3672,14 +3812,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Countdown timer animation, email validation feedback, success confetti, social share buttons
 - Conversion Optimization: Explain early-access benefits without fabricated scarcity. Show a waitlist count only when it is current, verified, and dated. Provide a static launch deadline, pause decorative countdown motion when offscreen/hidden, and render the final readable timer state under reduced motion. Email form and referral actions remain keyboard operable.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+3. 邮箱输入 + 订阅按钮的横排卡片，附一句承诺小字（频率/退订）
+4. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #F5F5F5 / 辅 #333333 / 强调 #f5f5f5 / 底 #0D0F16 / 圆角 10px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="comparison table focus comparison, table, versus, compare, features 落地页 结构 landing">
@@ -3692,7 +3842,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (problem statement) &gt; Comparison matrix (you vs competitors) &gt; Feature deep-dive &gt; Winner CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l13-comparison-table-focus.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Comparison Table Focus」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Comparison Table Focus」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (problem statement) &gt; Comparison matrix (you vs competitors) &gt; Feature deep-dive &gt; Winner CTA
@@ -3701,14 +3853,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Table row hover highlight, feature checkmark animations, sticky comparison header
 - Conversion Optimization: Show value vs competitors. Measure comparison performance with product-specific analytics. Be factual. Include pricing if favorable.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 对比表：三列（环节 / 现在 / 以前），4 行左右，&quot;现在&quot;列强调
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #2563EB / 辅 #6b25eb / 强调 #ebad25 / 底 #F8FAFC / 圆角 14px
+- 标题字体 Playfair Display / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="pricing-focused landing pricing, price, cost, plans, subscription 落地页 结构 landing">
@@ -3721,7 +3883,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (value proposition) &gt; Pricing cards (3 tiers) &gt; Feature comparison &gt; FAQ &gt; Final CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l14-pricing-focused-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Pricing-Focused Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Pricing-Focused Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (value proposition) &gt; Pricing cards (3 tiers) &gt; Feature comparison &gt; FAQ &gt; Final CTA
@@ -3730,14 +3894,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Price toggle monthly/annual animation, card hover lift, FAQ accordion smooth open
 - Conversion Optimization: Show actual monthly and annual totals and savings transparently. Explain plan differences and address objections in the FAQ.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. pricing
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 折叠问答组（details/summary），默认展开第一条，答案一两句
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #6750A4 / 辅 #E8DEF8 / 强调 #7D5260 / 底 #F8FAFC / 圆角 28px
+- 标题字体 Outfit / 正文字体 Work Sans（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="app store style landing app, mobile, download, store, install, carousel accessibility, keyboard accessible carousel, pause auto rotation, reduced motion final state, single pointer buttons 落地页 结构 landing">
@@ -3750,7 +3925,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero with device mockup &gt; Screenshots carousel &gt; Features with icons &gt; Reviews/ratings &gt; Download CTAs</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l15-app-store-style-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：App Store Style Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：App Store Style Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero with device mockup &gt; Screenshots carousel &gt; Features with icons &gt; Reviews/ratings &gt; Download CTAs
@@ -3759,14 +3936,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Device mockup rotations, screenshot slider, star rating animations, download button pulse
 - Conversion Optimization: Show real screenshots and only current verified ratings. Provide platform-specific CTAs, buttons and keyboard controls in addition to swipe, and pause any auto-rotation. Stop auto-rotation on focus, hover, offscreen/hidden, or reduced motion and render the selected screenshot as the static final state.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #D02020 / 辅 #1040C0 / 强调 #F0C020 / 底 #F8FAFC / 圆角 0px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="faq/documentation landing faq, documentation, help, support, questions, faq/documentation, knowledge base 落地页 结构 landing">
@@ -3779,7 +3967,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero with search bar &gt; Popular categories &gt; FAQ accordion &gt; Contact/support CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l16-faq-documentation-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：FAQ/Documentation Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：FAQ/Documentation Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero with search bar &gt; Popular categories &gt; FAQ accordion &gt; Contact/support CTA
@@ -3788,14 +3978,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Search autocomplete, smooth accordion open/close, category hover, helpful feedback buttons
 - Conversion Optimization: Reduce support tickets. Track search analytics. Show related articles. Contact escalation path.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 折叠问答组（details/summary），默认展开第一条，答案一两句
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #87CEEB / 辅 #FFB6C1 / 强调 #90EE90 / 底 #F8FAFC / 圆角 24px
+- 标题字体 Inter / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="immersive/interactive experience immersive, interactive, experience, 3d, animation, immersive/interactive experience 落地页 结构 landing">
@@ -3808,7 +4008,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Full-screen interactive element &gt; Guided product tour &gt; Key benefits revealed &gt; CTA after completion</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l17-immersive-interactive-experience.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Immersive/Interactive Experience」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Immersive/Interactive Experience」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Full-screen interactive element &gt; Guided product tour &gt; Key benefits revealed &gt; CTA after completion
@@ -3817,14 +4019,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: WebGL, 3D interactions, gamification elements, progress indicators, reward animations
 - Conversion Optimization: Measure engagement for the specific audience and device mix. Performance trade-off. Provide skip option. Mobile fallback essential. Provide skip, keyboard, reduced-motion, and non-3D fallback paths. Pause animation when offscreen/hidden and preserve the completed final state when reduced motion is enabled.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 单条价值主张卡：一句加粗主张 + 两行说明
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FDBCB4 / 辅 #ADD8E6 / 强调 #98FF98 / 底 #F8FAFC / 圆角 26px
+- 标题字体 Nunito / 正文字体 DM Sans（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="event/conference landing event, conference, meetup, registration, schedule, hero-centric design, hero-centric, countdown accessibility, pause animation, reduced motion final state 落地页 结构 landing">
@@ -3837,7 +4049,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (date/location/countdown) &gt; Speakers grid &gt; Agenda/schedule &gt; Sponsors &gt; Register CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l18-event-conference-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Event/Conference Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Event/Conference Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (date/location/countdown) &gt; Speakers grid &gt; Agenda/schedule &gt; Sponsors &gt; Register CTA
@@ -3846,14 +4060,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Countdown timer, speaker hover cards with bio, agenda tabs, early bird countdown
 - Conversion Optimization: Early bird pricing with deadline. Social proof (past attendees). Speaker credibility. Multi-ticket discounts. Expose the exact deadline as text; pause decorative countdown motion offscreen/hidden and show a static final state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #2563EB / 辅 #6b25eb / 强调 #ebad25 / 底 #F8FAFC / 圆角 12px
+- 标题字体 Atkinson Hyperlegible / 正文字体 Atkinson Hyperlegible（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="product review/ratings focused reviews, ratings, testimonials, social-proof, social-proof-focused, stars 落地页 结构 landing">
@@ -3866,7 +4091,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (product + aggregate rating) &gt; Rating breakdown &gt; Individual reviews &gt; Buy/CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l19-product-review-ratings-focused.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Product Review/Ratings Focused」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Product Review/Ratings Focused」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (product + aggregate rating) &gt; Rating breakdown &gt; Individual reviews &gt; Buy/CTA
@@ -3875,14 +4102,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Star fill animations, review filtering, helpful vote interactions, photo lightbox
 - Conversion Optimization: User-generated content builds trust. Show verified purchases. Filter by rating. Respond to negative reviews.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #2563EB / 辅 #6b25eb / 强调 #ebad25 / 底 #F8FAFC / 圆角 6px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="community/forum landing community, forum, social, members, discussion, verified member count, live update accessibility, pause updates, reduced motion final state 落地页 结构 landing">
@@ -3895,7 +4132,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (community value prop) &gt; Popular topics/categories &gt; Active members showcase &gt; Join CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l20-community-forum-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Community/Forum Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Community/Forum Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (community value prop) &gt; Popular topics/categories &gt; Active members showcase &gt; Join CTA
@@ -3904,14 +4143,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Member avatars animation, activity feed live updates, topic hover previews, join success celebration
 - Conversion Optimization: Preview real community value and simplify onboarding. Show member and activity counts only when current, verified, and dated; label activity as live only when backed by an active real-time source. Provide pause/update-frequency controls for moving feeds, stop work offscreen/hidden, and keep a static final state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #000000 / 辅 #121212 / 强调 #0A0E27 / 底 #0D0F16 / 圆角 14px
+- 标题字体 Space Grotesk / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="before-after transformation before-after, transformation, results, comparison, accessible drag interaction, drag single pointer alternative, keyboard drag alternative 落地页 结构 landing">
@@ -3924,7 +4173,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (problem state) &gt; Transformation slider/comparison &gt; How it works &gt; Results CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l21-before-after-transformation.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Before-After Transformation」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Before-After Transformation」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (problem state) &gt; Transformation slider/comparison &gt; How it works &gt; Results CTA
@@ -3933,14 +4184,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Slider comparison interaction, before/after reveal animations, result counters, testimonial videos
 - Conversion Optimization: Visual proof of value. Measure the outcome with product-specific analytics. Real results. Specific metrics. Guarantee offer. Provide arrow buttons and keyboard steps so dragging is not required. Arrow buttons and keyboard steps expose the same final before/after positions; reduced motion removes reveal animation.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 对比表：三列（环节 / 现在 / 以前），4 行左右，&quot;现在&quot;列强调
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #2563EB / 辅 #6b25eb / 强调 #ebad25 / 底 #F8FAFC / 圆角 0px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="marketplace / directory marketplace, directory, search, listing, carousel accessibility, keyboard accessible carousel, pause auto rotation, reduced motion final state, marketplace carousel, keyboard carousel controls 落地页 结构 landing">
@@ -3953,7 +4214,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (Search focused) &gt; Categories &gt; Featured Listings &gt; Trust/Safety &gt; CTA (Become a host/seller)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l22-marketplace-directory.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Marketplace / Directory」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Marketplace / Directory」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (Search focused) &gt; Categories &gt; Featured Listings &gt; Trust/Safety &gt; CTA (Become a host/seller)
@@ -3962,14 +4225,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Search autocomplete animation, map hover pins, card carousel
 - Conversion Optimization: Search is the primary CTA. Reduce friction with useful suggestions. For featured-listing carousels, provide previous/next and play/pause buttons, full keyboard access, and a single-pointer alternative to swiping; stop rotation on focus, hover, offscreen/hidden, or reduced motion and render the selected listing as the static final state.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #22C55E / 辅 #EF4444 / 强调 #F59E0B / 底 #F8FAFC / 圆角 14px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="newsletter / content first newsletter, content, writer, blog, subscribe, minimal &amp; direct, minimal-direct, verified subscriber count, dated social proof 落地页 结构 landing">
@@ -3982,7 +4256,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (Value Prop + Form) &gt; Recent Issues/Archives &gt; Social Proof (Subscriber count) &gt; About Author</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l23-newsletter-content-first.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Newsletter / Content First」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Newsletter / Content First」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (Value Prop + Form) &gt; Recent Issues/Archives &gt; Social Proof (Subscriber count) &gt; About Author
@@ -3991,14 +4267,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Text highlight animations, typewriter effect, subtle fade-in
 - Conversion Optimization: Keep the form to the fields actually required and link to a sample issue. Show a subscriber count only when it is current, verified, and dated; otherwise use qualitative social proof.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #39FF14 / 辅 #BF00FF / 强调 #FF1493 / 底 #F8FAFC / 圆角 8px
+- 标题字体 Inter / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="webinar registration webinar, registration, event, training, live, webinar ticker accessibility, pause ticker, verified seat availability, verified live status, reduced motion final state 落地页 结构 landing">
@@ -4011,7 +4297,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (Topic + Timer + Form) &gt; What you&#x27;ll learn &gt; Speaker Bio &gt; Urgency/Bonuses &gt; Form (again)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l24-webinar-registration.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Webinar Registration」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Webinar Registration」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (Topic + Timer + Form) &gt; What you&#x27;ll learn &gt; Speaker Bio &gt; Urgency/Bonuses &gt; Form (again)
@@ -4020,14 +4308,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Countdown timer, speaker avatar float, urgent ticker
 - Conversion Optimization: State the event time and timezone in text. Claim limited seats or live status only when current capacity or stream state is verified and timestamped. Provide pause/hide controls for the urgency ticker, stop it offscreen/hidden, keep controls keyboard operable, and render a static final state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 单条价值主张卡：一句加粗主张 + 两行说明
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FF00FF / 辅 #00FF00 / 强调 #FFFF00 / 底 #F8FAFC / 圆角 14px
+- 标题字体 Bebas Neue / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="enterprise gateway enterprise, corporate, gateway, solutions, portal, trust, authority, trust &amp; authority, carousel accessibility, keyboard accessible carousel, pause auto rotation, reduced motion final state 落地页 结构 landing">
@@ -4040,7 +4339,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (Video/Mission) &gt; Solutions by Industry &gt; Solutions by Role &gt; Client Logos &gt; Contact Sales</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l25-enterprise-gateway.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Enterprise Gateway」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Enterprise Gateway」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (Video/Mission) &gt; Solutions by Industry &gt; Solutions by Role &gt; Client Logos &gt; Contact Sales
@@ -4049,14 +4350,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Slow video background, logo carousel, tab switching for industries
 - Conversion Optimization: Path selection (I am a...). Mega menu navigation. Trust signals prominent. Provide pause/stop for video and rotating logos; stop on focus and reduced motion. Logo carousel controls must be keyboard operable; pause moving media offscreen/hidden and render a static final state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 客户名一行文字排（弱化色，不做图片墙）
+5. 单条价值主张卡：一句加粗主张 + 两行说明
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #2563EB / 辅 #6b25eb / 强调 #ebad25 / 底 #F8FAFC / 圆角 8px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="portfolio grid portfolio, grid, showcase, gallery, masonry, portfolio grid + visuals 落地页 结构 landing">
@@ -4069,7 +4381,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (Name/Role) &gt; Project Grid (Masonry) &gt; About/Philosophy &gt; Contact</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l26-portfolio-grid.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Portfolio Grid」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Portfolio Grid」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (Name/Role) &gt; Project Grid (Masonry) &gt; About/Philosophy &gt; Contact
@@ -4078,14 +4392,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Image lazy load reveal, hover overlay info, lightbox view
 - Conversion Optimization: Visuals first. Filter by category. Fast loading essential.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #000000 / 辅 #FFFFFF / 强调 #000000 / 底 #0D0F16 / 圆角 4px
+- 标题字体 Archivo / 正文字体 Space Grotesk（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="horizontal scroll journey horizontal, scroll, journey, gallery, storytelling, panoramic, storytelling-driven 落地页 结构 landing">
@@ -4098,7 +4422,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Intro (Vertical) &gt; The Journey (Horizontal Track) &gt; Detail Reveal &gt; Vertical Footer</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l27-horizontal-scroll-journey.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Horizontal Scroll Journey」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Horizontal Scroll Journey」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Intro (Vertical) &gt; The Journey (Horizontal Track) &gt; Detail Reveal &gt; Vertical Footer
@@ -4107,14 +4433,23 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Scroll-jacking (careful), parallax layers, horizontal slide, progress indicator
 - Conversion Optimization: Immersive product discovery. High engagement. Keep navigation visible. Preserve a normal vertical navigation path and disable scroll-jacking under reduced motion. Pause effects when offscreen/hidden and render every chapter in its final vertical reading state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 单条价值主张卡：一句加粗主张 + 两行说明
+2. 两章编号卡（真实序列才用编号）：两位编号 + 标题 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FF0000 / 辅 #0000FF / 强调 #FFFF00 / 底 #0D0F16 / 圆角 0px
+- 标题字体 Playfair Display / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="bento grid showcase bento, grid, features, modular, apple-style, showcase, feature-rich showcase 落地页 结构 landing">
@@ -4127,7 +4462,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero &gt; Bento Grid (Key Features) &gt; Detail Cards &gt; Tech Specs &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l28-bento-grid-showcase.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Bento Grid Showcase」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Bento Grid Showcase」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero &gt; Bento Grid (Key Features) &gt; Detail Cards &gt; Tech Specs &gt; CTA
@@ -4136,14 +4473,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Hover card scale (1.02), video inside cards, tilt effect, staggered reveal
 - Conversion Optimization: Scannable value props. High information density without clutter. Mobile stack. Keep cards usable without hover and suppress tilt/stagger/video motion under reduced motion. Pause card media offscreen/hidden and render cards in their final readable state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #F5F5F5 / 辅 #f5f5f5 / 强调 #f5f5f5 / 底 #F8FAFC / 圆角 18px
+- 标题字体 Space Grotesk / 正文字体 Space Grotesk（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="interactive 3d configurator 3d, configurator, customizer, interactive, product, interactive product demo, accessible drag interaction, drag single pointer alternative, keyboard drag alternative 落地页 结构 landing">
@@ -4156,7 +4504,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (Configurator) &gt; Feature Highlight (synced) &gt; Price/Specs &gt; Purchase</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l29-interactive-3d-configurator.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Interactive 3D Configurator」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Interactive 3D Configurator」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (Configurator) &gt; Feature Highlight (synced) &gt; Price/Specs &gt; Purchase
@@ -4165,14 +4515,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Real-time rendering, material swap animation, camera rotate/zoom, light reflection
 - Conversion Optimization: Let users inspect product details before purchase. Provide buttons and keyboard controls for rotate/zoom plus a 2D/specification fallback. Named rotate/zoom buttons and keyboard controls replace drag gestures; pause rendering offscreen/hidden and preserve the chosen configuration as the reduced-motion final state.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #F5E6C8 / 辅 #D4A574 / 强调 #4A7B7C / 底 #FAF7F0 / 圆角 6px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="ai-driven dynamic landing ai, dynamic, personalized, adaptive, generative 落地页 结构 landing">
@@ -4185,7 +4545,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Prompt/Input Hero &gt; Generated Result Preview &gt; How it Works &gt; Value Prop</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l30-ai-driven-dynamic-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：AI-Driven Dynamic Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：AI-Driven Dynamic Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Prompt/Input Hero &gt; Generated Result Preview &gt; How it Works &gt; Value Prop
@@ -4194,14 +4556,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Typing text effects, shimmering generation loaders, morphing layouts
 - Conversion Optimization: Immediate value demonstration. &#x27;Show, don&#x27;t tell&#x27;. Low friction start. Disable typing, shimmer, and morphing effects when reduced motion is requested. Pause loaders offscreen/hidden and render generated content in its final state under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 单条价值主张卡：一句加粗主张 + 两行说明
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #0080FF / 辅 #FF1493 / 强调 #00FFFF / 底 #F8FAFC / 圆角 14px
+- 标题字体 Space Grotesk / 正文字体 DM Sans（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sd" data-type="pattern" data-status="pattern" data-search="feature-rich showcase feature-rich, feature-rich showcase, features, showcase, product showcase 落地页 结构 landing">
@@ -4214,7 +4586,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (value prop) &gt; Feature grid/cards (4-6) &gt; Use cases or benefits &gt; Social proof or logos &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l31-feature-rich-showcase.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Feature-Rich Showcase」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Feature-Rich Showcase」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (value prop) &gt; Feature grid/cards (4-6) &gt; Use cases or benefits &gt; Social proof or logos &gt; CTA
@@ -4223,14 +4597,25 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Feature card hover lift, scroll reveal, icon micro-interactions
 - Conversion Optimization: Clear feature hierarchy. One key message per card. Strong CTA repetition.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三栏等宽卡片：内联 SVG 图标 + 卡题 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 三栏引用卡：圆形占位头像 + 一句引文 + 署名
+5. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+6. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #FF71CE / 辅 #FFCE5C / 强调 #86CCCA / 底 #F8FAFC / 圆角 14px
+- 标题字体 Outfit / 正文字体 Rubik（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="pattern" data-status="pattern" data-search="hero-centric design hero-centric, hero-centric design, hero-first, hero above fold 落地页 结构 landing">
@@ -4243,7 +4628,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Full-bleed Hero (headline + visual) &gt; Single value prop strip &gt; Key benefit or proof &gt; Primary CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l32-hero-centric-design.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Hero-Centric Design」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Hero-Centric Design」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Full-bleed Hero (headline + visual) &gt; Single value prop strip &gt; Key benefit or proof &gt; Primary CTA
@@ -4252,14 +4639,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Hero parallax or video, CTA pulse on scroll, minimal chrome
 - Conversion Optimization: One primary CTA. Let the hero dominate the initial viewport without hiding the next content cue. Use a static hero and non-pulsing CTA when reduced motion is requested; provide video controls. Pause hero media offscreen/hidden and keep the final hero message and CTA static under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 单条价值主张卡：一句加粗主张 + 两行说明
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #C8E0F4 / 辅 #F5E0E8 / 强调 #E8E8E8 / 底 #ECEAF2 / 圆角 18px
+- 标题字体 Inter / 正文字体 Inter（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sb" data-type="pattern" data-status="pattern" data-search="trust &amp; authority + conversion trust &amp; authority, trust, authority, conversion, credibility, enterprise, carousel accessibility, keyboard accessible carousel, pause auto rotation, reduced motion final state 落地页 结构 landing">
@@ -4272,7 +4669,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (mission/credibility) &gt; Proof (logos, certs, stats) &gt; Solution overview &gt; Clear CTA path</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l33-trust-authority-conversion.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Trust &amp; Authority + Conversion」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Trust &amp; Authority + Conversion」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (mission/credibility) &gt; Proof (logos, certs, stats) &gt; Solution overview &gt; Clear CTA path
@@ -4281,14 +4680,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Logo carousel, stat counters, testimonial strip
 - Conversion Optimization: Security badges. Case studies. Transparent pricing. Low-friction form. Provide pause/stop and stop the logo carousel on focus, hover, and reduced motion. Previous/next controls provide the keyboard equivalent; pause offscreen/hidden and render a static logo set under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 客户名一行文字排（弱化色，不做图片墙）
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #228B22 / 辅 #8B4513 / 强调 #87CEEB / 底 #F8FAFC / 圆角 20px 26px 18px 28px
+- 标题字体 Lexend / 正文字体 Source Sans 3（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sc" data-type="pattern" data-status="pattern" data-search="real-time / operations landing real-time, real-time monitor, operations, dashboard, telemetry, live data, live ticker accessibility, pause live updates, verified live status, reduced motion final state 落地页 结构 landing">
@@ -4301,7 +4710,9 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   </div>
   <p class="best">Hero (product + live preview or status) &gt; Key metrics/indicators &gt; How it works &gt; CTA (Start trial / Contact)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l34-real-time-operations-landing.html">查看样张</a></div>
-  <pre class="prompt">请按「落地页结构：Real-Time / Operations Landing」官方模式实现落地页：〔在这里写下你的产品/需求〕
+  <pre class="prompt">请按「落地页结构：Real-Time / Operations Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
+
+▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
 
 ▍官方结构（landing.csv 原文，零改写）：
 - Section Order: Hero (product + live preview or status) &gt; Key metrics/indicators &gt; How it works &gt; CTA (Start trial / Contact)
@@ -4310,14 +4721,24 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - Recommended Effects: Live data ticker, status pulse, minimal decoration
 - Conversion Optimization: Offer a demo or sandbox and show trust signals. Label telemetry as live only when backed by a current source, with update time and stale state. Provide pause/hide or update-frequency controls for tickers and previews, stop offscreen/hidden work, support keyboard controls, and render a static final snapshot under reduced motion.
 
-▍本样板 token（实际使用值）：
+▍分区布局要点（与样张同源，逐区落实）：
+1. 居中大标题 + 一句副题 + 主/次两个按钮；标题上方放一行等宽小字的语义信息行（期号/批次/日期，禁止 ALL-CAPS 装饰眉标）
+2. 三格大数字：数字大而醒目（主色），下配一行小标签
+3. 单条价值主张卡：一句加粗主张 + 两行说明
+4. 全宽 CTA 卡：标题 + 一行信息 + 主按钮
+5. 一行版权与返回链接
+
+▍本样板 token（实际使用值，直接可用）：
 - 主 #00FF00 / 辅 #FF00FF / 强调 #00FFFF / 底 #0D0F16 / 圆角 4px
+- 标题字体 Fira Code / 正文字体 Fira Sans（Google Fonts，中文回退 PingFang SC / Microsoft YaHei）
+
+▍动效：按钮 hover 抬升属常规交互；全页只允许一次亮相动效（建议给 hero 的一个元素），禁止逐区块 fade-in 上升
 
 ▍必须避开（AI 指纹清单，frontend-design 原则）：
-- ALL-CAPS 装饰性眉标；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in
-- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto；emoji 图标
+- ALL-CAPS 装饰性眉标（信息行必须有语义）；按钮尾部箭头 →；中点分隔 meta 串（A · B · C）
+- 无语义 01/02/03 编号（结构分区名须有语义）；默认 Inter/Roboto 字体；emoji 图标（一律内联 SVG）；近黑 #0B0B0B 假装黑色
 
-▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre>
+▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符</pre>
   <button class="copy-btn" type="button">复制提示词</button>
 </article>
 <article class="m-card sa" data-type="content" data-status="content" data-search="时间线叙事 timeline story 个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾 内容 排版 content">
@@ -4332,6 +4753,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/timeline-story.html">查看样张</a></div>
   <pre class="prompt">请以「时间线叙事 Timeline Story」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾
 ▍底层系统：滚动驱动的记忆系统——像走过一段人生，不是读仪表盘
 ▍页面骨架（逐条落实）：
@@ -4341,6 +4764,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 节奏条：热力图或堆叠条展示节奏，不做运营图表
 - 记忆抽屉：可搜索的条目浏览器，按章节过滤
 ▍组件词汇：.story-shell .time-lens .timeline-spine .chapter-panel .period-scrubber .rhythm-strip .memory-drawer
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：首屏：开场时间透镜（大标题+三个大数字统计）→ 左侧竖向时间主轴贯穿节点（强调色圆点+黑描边），每节点一张章节卡（标题一行+弱文说明一行）→ 底部一条 12 格迷你节奏条
 ▍本页 token（可直接用）：底 #F7F3EA / 面板 #FFFFFF / 主字 #2C2A26 / 弱文 #8A8272 / 强调 #B4552D / 分隔线 #D8D2C4 / 圆角 10px / 标题字体 Noto Serif SC / 正文字体 Noto Serif SC
 ▍动效（只此一次，别加第二处）：时间主轴一次描边生长
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做运营仪表盘；时间是主轴而不是下拉筛选器
@@ -4359,6 +4783,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/teaching.html">查看样张</a></div>
   <pre class="prompt">请以「教学工作室 Teaching Studio」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：教程、课程页、交互讲解、&quot;教我 X&quot;、任何需要引导式学习序列的页面
 ▍底层系统：引导式学习装置：看着学、改着学、测着学、走向下一个概念
 ▍页面骨架（逐条落实）：
@@ -4368,6 +4794,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 步骤进度轨：贯穿学习序列的骨架
 - 自测关卡：小步检查而非期末考试
 ▍组件词汇：.lesson-rail .object-stage .inspector .step-track .check-gate
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：首屏三栏（1:1.6:1）：左窄栏课程列表（目标/模式/对象清单）｜中央模型舞台放大（SVG 轨道图或大图形，选中即换）｜右窄栏检查器（事实+为什么重要）
 ▍本页 token（可直接用）：底 #FBF9F4 / 面板 #FFFFFF / 主字 #1F2429 / 弱文 #6E7568 / 强调 #2F6F4F / 分隔线 #DCE2D8 / 圆角 12px / 标题字体 Zilla Slab / 正文字体 IBM Plex Sans
 ▍动效（只此一次，别加第二处）：模型舞台一次旋转入场
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不像论文、博客或仪表盘；不是滚动长文而是分段工作室
@@ -4386,6 +4813,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/living-essay.html">查看样张</a></div>
   <pre class="prompt">请以「菌丝长文 Living Essay」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被&quot;读&quot;而不是被&quot;操作&quot;的内容
 ▍底层系统：菌丝发酵式慢读环境：诗意阅读工具，不是产品仪表盘
 ▍页面骨架（逐条落实）：
@@ -4395,6 +4824,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 孢子词：正文内被连接/选中时下划线的术语
 - 安静附录：阅读节奏、书架、主题等以细线条列表收尾，不做卡片
 ▍组件词汇：.layout .mycelium-layer .question-zone .capsule-container .spore
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：中央单栏阅读长文（衬线、宽行距、行长&lt;80字符）+ 左缘竖排文字胶囊（强调色描边）+ 正文内孢子词强调色下划线 + SVG 细菌丝线连接胶囊与孢子词
 ▍本页 token（可直接用）：底 #F4F1E8 / 面板 #FBF9F2 / 主字 #33322D / 弱文 #8C8878 / 强调 #6B7F3E / 分隔线 #DDD8C8 / 圆角 6px / 标题字体 Noto Serif SC / 正文字体 Noto Serif SC
 ▍动效（只此一次，别加第二处）：菌丝 SVG 一次生长
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做产品化卡片墙；装饰必须服务于词与概念的连接
@@ -4413,6 +4843,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/dashboard.html">查看样张</a></div>
   <pre class="prompt">请以「运营控制台 Ops Dashboard」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：CSV、表格、财务/后台数据、日志、工单、日历导出等结构化数据集
 ▍底层系统：为反复扫视、筛选、决策而生的运营台
 ▍页面骨架（逐条落实）：
@@ -4422,6 +4854,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 异常队列：待处理、重复、失败的任务行
 - 数据网格：可搜索排序的表格或虚拟行
 ▍组件词汇：.ops-shell .command-bar .kpi-rail .work-surface .flag-queue .data-grid
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：命令栏一行（标题/时段/搜索/筛选）→ 三格 KPI（等宽大数字+环比小字）→ 全宽主工作面（折线或条形图）→ 异常队列 2-3 行（状态点+行文）
 ▍本页 token（可直接用）：底 #F2F4F7 / 面板 #FFFFFF / 主字 #1B2733 / 弱文 #69788C / 强调 #0F62FE / 分隔线 #D5DBE3 / 圆角 8px / 标题字体 IBM Plex Sans / 正文字体 IBM Plex Sans
 ▍动效（只此一次，别加第二处）：主图表条形一次生长
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做 storytelling 大卡片；紧凑行、标签页、分段控件优先
@@ -4440,6 +4873,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/soft-saas.html">查看样张</a></div>
   <pre class="prompt">请以「轻软控制台 Soft SaaS」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：客服邮箱、邮件营销、客户成功队列、轻量产品分析——要&quot;好操作&quot;但别成重后台
 ▍底层系统：淡灰画布上的悬浮面板：精确、友好、低摩擦、安静地活着
 ▍页面骨架（逐条落实）：
@@ -4449,6 +4884,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 小蓝胶囊标签与状态圆点，替代大声的徽章
 - 迷你指标：等宽百分比、迷你走势、微热力图
 ▍组件词汇：.saas-shell .float-panel .metric-card .status-dot .activity-strip
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：淡灰画布上不对称拼贴（1:1.8:1）：左队列面板｜中央大走势折线 SVG｜右状态面板；小蓝胶囊+状态圆点，白色圆角面板软阴影
 ▍本页 token（可直接用）：底 #F5F7FA / 面板 #FFFFFF / 主字 #2A2F38 / 弱文 #7A8494 / 强调 #4F6BFF / 分隔线 #E3E8F0 / 圆角 16px / 标题字体 Manrope / 正文字体 Inter
 ▍动效（只此一次，别加第二处）：中央图表一次揭示
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；禁止剧场式滚动与装饰动效；hover 抬升、联动选中这类产品级动效
@@ -4467,6 +4903,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/kinetic-scoreboard.html">查看样张</a></div>
   <pre class="prompt">请以「动能计分板 Kinetic Scoreboard」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：多参与者流：群聊活跃度、销售、客服、作者、玩家——&quot;谁做了多少、何时、效果如何&quot;
 ▍底层系统：实时竞标赛场：首屏像一块锦标赛转播屏，不是报表
 ▍页面骨架（逐条落实）：
@@ -4476,6 +4914,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 遥测页脚：每条泳道的阶段/负载/配速标签
 - 证据坑：下方的回合分析、原始记录浏览器
 ▍组件词汇：.scoreboard .lane .kinetic-body .telemetry .evidence-pit
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：3 条全高泳道堆叠（网格纸质感+黑 rule 线）：每条三列（超大编号/名称/强调色超大数字）+ 底部遥测标签行（phase/load/pace）
 ▍本页 token（可直接用）：底 #F5F2E8 / 面板 #FFFFFF / 主字 #141414 / 弱文 #6F6A5E / 强调 #D7263D / 分隔线 #C9C4B4 / 圆角 4px / 标题字体 Archivo Black / 正文字体 JetBrains Mono
 ▍动效（只此一次，别加第二处）：泳道分数一次滚动到位
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是报表/仪表盘/文章；克制使用网格纸与黑 rule 线，数字是主角
@@ -4494,6 +4933,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/map-atlas.html">查看样张</a></div>
   <pre class="prompt">请以「地图图集 Map Atlas」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：收藏地点、GPX/KML 路线、旅行行程、照片地理数据、地点历史、房源清单
 ▍底层系统：空间探索系统：首屏被一张地图/路线/散点锚定
 ▍页面骨架（逐条落实）：
@@ -4503,6 +4944,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 移动指标：距离/停留/频次作上下文，不做 KPI 墙
 - 路点浏览器：与舞台联动的可搜索列表
 ▍组件词汇：.map-shell .atlas-stage .place-drawer .city-chip .period-scrubber .waypoint-browser
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：全宽 SVG 地图舞台（点阵大陆感+虚线航路连接强调色图钉）+ 右下浮动地点卡（选中地点+停留数据）+ 一行时空控件（城市片/时段）
 ▍本页 token（可直接用）：底 #EEF1EA / 面板 #FFFFFF / 主字 #2B3230 / 弱文 #75796F / 强调 #2E6E4E / 分隔线 #D3D9CF / 圆角 10px / 标题字体 Fraunces / 正文字体 IBM Plex Sans
 ▍动效（只此一次，别加第二处）：航线一次描边
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；地图是主角；列表与指标都是配角
@@ -4521,6 +4963,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/global-travel.html">查看样张</a></div>
   <pre class="prompt">请以「环球旅册 Global Travel」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面
 ▍底层系统：居中式旅行档案：优雅 dossier，不是地图应用
 ▍页面骨架（逐条落实）：
@@ -4530,6 +4974,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 数字跑道：4-6 个大计数器配细描边图标，数字即节奏
 - 折叠线以下的细节：时间线、花费、下钻都从属于地图舞台
 ▍组件词汇：.travel-shell .world-field .pin .callout-card .metric-runway
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：居中标题块 → 大幅低对比点阵世界地图（SVG，暖色 pin 标注+一张浮动 callout 卡）→ 下方 4-6 个大数字计数器一行（数字即节奏）
 ▍本页 token（可直接用）：底 #EAF2F0 / 面板 #FFFFFF / 主字 #22333B / 弱文 #6E8483 / 强调 #FF6B4A / 分隔线 #CFE0DC / 圆角 8px / 标题字体 Fraunces / 正文字体 Inter
 ▍动效（只此一次，别加第二处）：点阵地图一次浮现
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做密集图集或运营面板；淡蓝绿画布、珊瑚主行动
@@ -4548,6 +4993,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/network-map.html">查看样张</a></div>
   <pre class="prompt">请以「关系图谱 Network Map」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要
 ▍底层系统：关系图系统：揭示簇、桥、反复交易对手与模式
 ▍页面骨架（逐条落实）：
@@ -4557,6 +5004,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 桥与枢纽卡：最强连接、陈旧关系、未回复线程
 - 关联记录浏览器：随选中节点/边过滤
 ▍组件词汇：.network-shell .network-canvas .entity-inspector .cluster-controls .hub-card
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：全宽 SVG 关系图：6-8 节点（强调色大圆+灰阶小圆分聚类）+ 细边连线 + 右侧实体检查器卡（选中实体+关联数）
 ▍本页 token（可直接用）：底 #F4F5F7 / 面板 #FFFFFF / 主字 #23272E / 弱文 #737B88 / 强调 #5B4FFF / 分隔线 #DCDFE6 / 圆角 12px / 标题字体 Manrope / 正文字体 Inter
 ▍动效（只此一次，别加第二处）：节点一次弹入
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做行列表首页；节点/边/簇/桥是语言
@@ -4575,6 +5023,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/document.html">查看样张</a></div>
   <pre class="prompt">请以「档案审阅 Document Review」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：文章、阅读清单、研究合集、PDF/DOCX、法律/医疗/政策等高风险长文档
 ▍底层系统：阅读与审阅系统：有主张、有证据、可追溯的结构化文档
 ▍页面骨架（逐条落实）：
@@ -4584,6 +5034,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 证据摊开：摘录、来源标签、日期、当事方
 - 审查脚注：定义、警示、版本与变更记录
 ▍组件词汇：.masthead .reader-rail .body-sheet .evidence-spread .caveat
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：刊头（标题+来源元数据+强调色粗底线）→ 细读者栏（速览|大纲|证据 三态）→ 正文主张段 → 证据表（来源/日期/摘录三列）
 ▍本页 token（可直接用）：底 #FBFAF7 / 面板 #FFFFFF / 主字 #26282B / 弱文 #7D7A72 / 强调 #7A4E2D / 分隔线 #E0DCD0 / 圆角 6px / 标题字体 Source Serif 4 / 正文字体 IBM Plex Sans
 ▍动效（只此一次，别加第二处）：目录条一次滑入
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是营销页；两种调性（叙事/正式）只换语气密度与色板，骨架不变
@@ -4602,6 +5053,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/kami-reading.html">查看样张</a></div>
   <pre class="prompt">请以「羊皮长读 Kami Reading」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记
 ▍底层系统：温暖的印刷页面搬进浏览器：克制的文档系统，不是应用 UI
 ▍页面骨架（逐条落实）：
@@ -4611,6 +5064,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 章节如可打印页：眉标、题、导语、正文
 - 无粘性侧栏、无应用顶栏、无营销 hero
 ▍组件词汇：.parchment .cover .contents-strip .chapter .folio
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：暖羊皮底居中排版：小字距眉行 → 大衬线标题 → 短导语 → 一条短墨线 → 细目录条 → 首章正文；无任何应用壳
 ▍本页 token（可直接用）：底 #F5F4ED / 面板 #FAF9F5 / 主字 #3A3631 / 弱文 #8C8677 / 强调 #8A5A2B / 分隔线 #E4E0D2 / 圆角 2px / 标题字体 Noto Serif SC / 正文字体 Noto Serif SC
 ▍动效（只此一次，别加第二处）：墨线一次展开
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不要任何应用壳；像一册书
@@ -4629,6 +5083,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/architectural-spread.html">查看样张</a></div>
   <pre class="prompt">请以「建筑式跨页 Architectural Spread」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：视觉主导的编辑页：长文、文化评论、概念笔记、设计宣言、物件档案
 ▍底层系统：全屏分跨页：更像被设计过的杂志跨页而不是网站
 ▍页面骨架（逐条落实）：
@@ -4638,6 +5094,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 页码圆点：内容栏下中部的章节圆点
 - 安静动效：淡入/滑动、物件微漂移，无喧闹转场
 ▍组件词汇：.spread .visual-bay .editorial-panel .corner-anchor .dot-nav
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：全屏左右对分：左大地色视觉舱（单个大 SVG 图形垂直居中+左下角小插图）｜右奶油编辑栏（章节标签+大标题+衬线斜体强调词+正文+角落锚点小字 Next Chapter ( + )）
 ▍本页 token（可直接用）：底 #C9BFB0 / 面板 #F6F1E7 / 主字 #26221C / 弱文 #7C7264 / 强调 #A05000 / 分隔线 #B4A896 / 圆角 0px / 标题字体 Playfair Display / 正文字体 Noto Serif SC
 ▍动效（只此一次，别加第二处）：左视觉物件一次淡入漂移
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做滚动长文、仪表盘、卡片网格或营销 hero
@@ -4656,6 +5113,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/digital-eguide.html">查看样张</a></div>
   <pre class="prompt">请以「电子指南册 Digital E-Guide」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览
 ▍底层系统：暖桌上的两页 PDF 预览：纸页、衬线大字、目录、练习条
 ▍页面骨架（逐条落实）：
@@ -4664,6 +5123,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 内页跨页：章节眉标、编辑体标题、deck 段、双栏正文或步骤列表、置顶引文、行动条
 - 工具层：搜索/复制/章节控件做成极小的 mono TOOLS 标签页
 ▍组件词汇：.eguide-desk .guide-page .cover-page .inside-spread .exercise-strip
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：暖色桌面上两张 3:4 纸页并排：左封面（等宽小眉标+超大衬线标题+斜体强调词+署名+3 格统计+双栏点线目录）｜右内页（章节眉标+deck 段+步骤列表+练习条）
 ▍本页 token（可直接用）：底 #E9E2D6 / 面板 #FBF8F1 / 主字 #2E2A22 / 弱文 #8A8172 / 强调 #B0483B / 分隔线 #D8CFBE / 圆角 6px / 标题字体 Playfair Display / 正文字体 Noto Serif SC
 ▍动效（只此一次，别加第二处）：书页一次翻开
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是仪表盘、应用壳或普通文档页
@@ -4682,6 +5142,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/editorial-carousel.html">查看样张</a></div>
   <pre class="prompt">请以「编辑轮播 Editorial Carousel」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：品牌策略文、创始人信、趋势解读、宣言、高管摘要、可分享的观点小卡组
 ▍底层系统：高级社交杂志轮播：轮播本身即是页面骨架
 ▍页面骨架（逐条落实）：
@@ -4691,6 +5153,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 版面语言：folio 页码、卷标、星芒贴纸、灰阶编辑图
 - 无 hero、无应用顶栏、无解释性壳
 ▍组件词汇：.carousel-stage .slide .folio .volume-badge .starburst
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：暖灰桌面横排 4-5 张 4:5 幻灯卡：每卡超大强调色编号+两行主张+folio 页脚；卡画幅固定、衬线/手写/等宽混排
 ▍本页 token（可直接用）：底 #DDD8CE / 面板 #F4EFE6 / 主字 #17150F / 弱文 #797262 / 强调 #C0392B / 分隔线 #C9C1B2 / 圆角 8px / 标题字体 Playfair Display / 正文字体 Noto Serif SC
 ▍动效（只此一次，别加第二处）：首帧幻灯一次滑入
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是落地页/文章/应用；每张卡画幅稳定、字体混排（衬线/手写/等宽）
@@ -4709,6 +5172,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/terminal-cli.html">查看样张</a></div>
   <pre class="prompt">请以「终端命令行 Terminal CLI」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：用户明说终端/CLI/shell/主机/黑客/服务器控制台；CI 日志、堆栈、runbook、技术时间线
 ▍底层系统：磷光屏上的 tmux/vim 分屏：功能至上、仅深色、全等宽、围绕命令与原始证据
 ▍页面骨架（逐条落实）：
@@ -4718,6 +5183,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 命令控件：提示符式输入与 [ COPY SUMMARY ] 括号按钮
 - 原始证据：行号、可折叠、可搜索的源材料
 ▍组件词汇：.shell-header .status-rail .pane-grid .command-control .raw-log
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：深色等宽终端窗：prompt 命令行（operator@host:~$ + 闪烁光标）→ 状态轨（[OK]/[ERR] 标签 + ASCII 进度条 [||||..] 62%）→ 1px 绿框 pane 网格（+--- TITLE ---+ 标题条 + 行内容）
 ▍本页 token（可直接用）：底 #0B0F0C / 面板 #101610 / 主字 #C8E6C9 / 弱文 #5F7A62 / 强调 #37D67A / 分隔线 #2A3A2E / 圆角 2px / 标题字体 JetBrains Mono / 正文字体 JetBrains Mono
 ▍动效（只此一次，别加第二处）：首行命令一次打字（光标常闪不算动效）
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不是赛博朋克装饰：无 Matrix 雨、无霓虹紫渐变、无圆角 SaaS 卡、无玻璃拟态
@@ -4736,6 +5202,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/developer.html">查看样张</a></div>
   <pre class="prompt">请以「取证工作台 Developer Workbench」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：GitHub 仓库、diff、PR 补丁、CI/构建/测试日志、堆栈跟踪等技术工件
 ▍底层系统：终端取证工作台：像 tmux 分屏的事故控制台，可审计、扫读快
 ▍页面骨架（逐条落实）：
@@ -4745,6 +5213,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - diff/日志/搜索窗：并排可扫读
 - 可复制交接：一段能贴走的结论块
 ▍组件词汇：.finding-bar .pane .risk-checklist .stack-frame .handoff
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：深色取证面板：顶部 prompt/发现栏（疑似原因+置信标签）→ [ERR][WARN][OK][HYP] 前缀的风险清单（按严重度）→ diff/堆栈 pane（行号+增删行染色）→ 可复制交接块
 ▍本页 token（可直接用）：底 #101418 / 面板 #161C22 / 主字 #D7DEE8 / 弱文 #71818F / 强调 #4FC3F7 / 分隔线 #2A333D / 圆角 4px / 标题字体 JetBrains Mono / 正文字体 JetBrains Mono
 ▍动效（只此一次，别加第二处）：diff 行一次高亮扫过
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做通用 SaaS 审阅页；一切以终端设计语言表达
@@ -4763,6 +5232,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/default.html">查看样张</a></div>
   <pre class="prompt">请以「洞察简报 Insight Brief」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：需求不明时的默认形态：仍要有设计感，不做文档倾倒
 ▍底层系统：面向模糊输入的紧凑简报系统：不是仪表盘也不是文章
 ▍页面骨架（逐条落实）：
@@ -4771,6 +5242,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 证据堆：3-5 节按有用度排序，各带主张与支撑行
 - 局部下钻：解读之后的搜索/筛选/浏览
 ▍组件词汇：.brief-header .answer-strip .primary-insight .evidence-stack .useful-chip
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：答案头（直给标题+一句有用的话+2-4 枚关键点胶囊）→ 唯一主洞察面板（一张最有用的图/对比）→ 3-5 节证据堆（各一句主张+支撑行）
 ▍本页 token（可直接用）：底 #FAFAF8 / 面板 #FFFFFF / 主字 #202124 / 弱文 #787D85 / 强调 #3452FF / 分隔线 #E4E5E8 / 圆角 12px / 标题字体 Inter / 正文字体 Inter
 ▍动效（只此一次，别加第二处）：主面板一次轻抬升入场
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；少用卡片；一个好面板 + 分组证据行优先
@@ -4789,6 +5261,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="links"><a class="demo-link" href="content-demos/love-romance-3d.html">查看样张</a></div>
   <pre class="prompt">请以「恋爱纪念 3D Keepsake 3D」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
+▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
+
 ▍适用：情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3D 纪念品质感
 ▍底层系统：关系节奏的纪念品界面：圆润形体、透明高光、粉红渐变、小金饰
 ▍页面骨架（逐条落实）：
@@ -4798,6 +5272,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 - 软对比泳道：A/B 双人经均衡泳道、共同词、回应节奏
 - 隐私证据抽屉：证据匿名化且极小，不做原始聊天回放器
 ▍组件词汇：.keepsake-cover .icon-stage .pulse-board .compare-lane .privacy-drawer
+▍样张构图（wireframe，按此布局复刻，主题内容可换）：粉渐变底三区：左大爱心 SVG（柔和高光+投影）｜中右立体感指标块（大数字+小标签+高光）→ 下方圆糖果格热力条 + A/B 对比泳道
 ▍本页 token（可直接用）：底 #FDF0F3 / 面板 #FFFFFF / 主字 #3A2530 / 弱文 #9C7A87 / 强调 #E85D8A / 分隔线 #F2DCE3 / 圆角 20px / 标题字体 Quicksand / 正文字体 Noto Sans SC
 ▍动效（只此一次，别加第二处）：漂浮物件一次入场
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标（信息行必须有语义：批次/期号/时段）；按钮尾部箭头 →；中点分隔 meta 串；逐卡片 fade-in 上升；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）；不做中性报告页；也不变成原始聊天记录浏览器
