@@ -2781,6 +2781,14 @@ def main():
             'Spectrum 2': 'spectrum-2.html',
             'Accessible & Ethical': 'accessible-ethical.html',
             'Real-Time Monitoring': 'real-time-monitoring.html',
+            'Financial Dashboard': 'financial-dashboard.html',
+            'Executive Dashboard': 'executive-dashboard.html',
+            'Sales Intelligence Dashboard': 'sales-intelligence-dashboard.html',
+            'Comparative Analysis Dashboard': 'comparative-analysis-dashboard.html',
+            'Drill-Down Analytics': 'drill-down-analytics.html',
+            'Predictive Analytics': 'predictive-analytics.html',
+            'Heat Map & Heatmap Style': 'heat-map-heatmap-style.html',
+            'User Behavior Analytics': 'user-behavior-analytics.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版

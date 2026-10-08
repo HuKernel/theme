@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Heat Map 热力图风格演示页: 全年日历热力、时段星期矩阵与区域热力平面, 连续色阶编码真实数值。">
+<title>Heat Map 热力图 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+/* token 计划: 主 #0080FF / 热端 #FF0000(格内文字场景深化为 #E01B24 保对比) / 橙 #ff7f00 / 底 #F8FAFC / 文 #0F172A / 圆角 10px / Orbitron + JetBrains Mono */
+:root{
+  --bg:#F8FAFC; --fg:#0F172A; --muted:#475569; --line:#DCE4EE; --card:#FFFFFF;
+  --deep:#0060D6; --primary:#0080FF; --accent:#ff7f00;
+  --l0:#E8F0F9; --l1:#A9CDF7; --l2:#4E9DF9; --l3:#FFD34D; --l4:#FF8A2B; --l5:#E01B24;
+  --radius:10px; --cell:13px; --gap:3px;
+  --mono:'JetBrains Mono','Microsoft YaHei',monospace;
+  --head:'Orbitron','JetBrains Mono','Microsoft YaHei',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--mono);
+  font-size:14px; line-height:1.65; -webkit-text-size-adjust:100%;
+}
+.page{max-width:1180px;margin:0 auto;padding:26px 20px 44px;}
+a{color:var(--deep);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible,.cal-scroll:focus-visible,.mx-scroll:focus-visible{
+  outline:3px solid var(--deep);outline-offset:2px;border-radius:6px;
+}
+
+/* 顶栏 */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:26px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+.brand-mark{
+  width:28px;height:28px;border-radius:8px;flex:none;
+  background:linear-gradient(135deg,#0080FF 0%,#ff7f00 55%,#E01B24 100%);
+  box-shadow:0 2px 8px rgba(15,23,42,.18);
+}
+.brand-text strong{font-family:var(--head);font-size:15px;letter-spacing:.5px;display:block;line-height:1.3;}
+.brand-text small{font-size:11px;color:var(--muted);display:block;}
+
+/* hero */
+.back{font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);white-space:nowrap;}
+.back:hover{text-decoration:none;border-color:var(--deep);}
+.hero{background:linear-gradient(180deg,#FFFFFF 0%,#F8FAFC 100%);border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px 28px;}
+.kicker{font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;}
+.hero h1{font-family:var(--head);font-size:34px;font-weight:900;letter-spacing:1px;line-height:1.25;margin-bottom:12px;}
+.lede{max-width:760px;color:var(--muted);margin-bottom:24px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px 12px;}
+.stat-num{font-family:var(--head);font-size:30px;font-weight:700;line-height:1.15;display:flex;align-items:baseline;gap:3px;}
+.stat-num small{font-size:14px;color:var(--muted);font-weight:500;font-family:var(--mono);}
+.stat p{font-size:12px;color:var(--muted);margin-top:4px;}
+
+/* 区块通用 */
+.block{margin-top:34px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 24px 22px;}
+.block-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.block-head h2{font-family:var(--head);font-size:19px;font-weight:700;display:flex;align-items:baseline;gap:10px;}
+.idx{font-size:15px;color:var(--deep);font-weight:700;}
+.block-head p{font-size:12px;color:var(--muted);}
+.note{font-size:12px;color:var(--muted);margin-top:12px;}
+
+/* 日历热力: 53 列网格, 月标签与格网共享同一套 cell/gap 度量, 严格对齐 */
+.cal-scroll{overflow-x:auto;padding-bottom:6px;}
+.cal-inner{display:flex;gap:8px;min-width:max-content;}
+.cal-wd{display:grid;grid-template-rows:repeat(7,var(--cell));gap:var(--gap);width:18px;padding-top:24px;}
+.cal-wd span{display:flex;align-items:center;justify-content:flex-end;font-size:10px;color:var(--muted);}
+.cal-months{display:grid;grid-template-columns:repeat(53,var(--cell));gap:var(--gap);height:20px;margin-bottom:4px;}
+.mo{font-size:11px;color:var(--muted);white-space:nowrap;line-height:20px;}
+.cal-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,var(--cell));grid-auto-columns:var(--cell);gap:var(--gap);}
+.hcell{width:var(--cell);height:var(--cell);border-radius:3px;position:relative;}
+.hcell:hover{outline:2px solid var(--fg);z-index:3;}
+.l0{background:var(--l0);}
+.l1{background:var(--l1);}
+.l2{background:var(--l2);}
+.l3{background:var(--l3);}
+.l4{background:var(--l4);}
+.l5{background:var(--l5);}
+
+/* 图例: 六级离散 + 0 至 100% 连续渐变 */
+.legend{
+  display:flex;
+  gap:26px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+}
+.sw-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+.sw{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.sw i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(15,23,42,.12);}
+.sw-cap{font-size:12px;color:var(--fg);font-weight:700;}
+.grad{
+  flex:1;
+  min-width:220px;
+  max-width:340px;
+}
+.grad-bar{
+  height:10px;border-radius:5px;border:1px solid var(--line);
+  background:linear-gradient(90deg,#E8F0F9 0%,#A9CDF7 20%,#4E9DF9 40%,#FFD34D 60%,#FF8A2B 75%,#E01B24 100%);
+}
+.grad-ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* 时段 × 星期矩阵: 单一 grid, 行列严格对齐 */
+.mx-scroll{overflow-x:auto;padding-bottom:4px;}
+.matrix{display:grid;grid-template-columns:104px repeat(7,minmax(58px,1fr)) 92px;gap:4px;min-width:660px;}
+.mhead{font-size:12px;color:var(--muted);font-weight:700;padding:6px 6px;text-align:center;align-self:end;}
+.mhead.corner{text-align:left;padding-left:2px;line-height:1.4;}
+.mlab{font-size:12px;font-weight:500;color:var(--fg);display:flex;align-items:center;padding-left:2px;}
+.mcell{border-radius:6px;display:flex;align-items:center;justify-content:center;gap:1px;height:44px;font-size:14px;font-weight:700;color:var(--fg);}
+.mcell i{font-style:normal;font-size:10px;opacity:.8;}
+.mcell:hover{outline:2px solid var(--fg);}
+.mcell.lv5{color:#FFFFFF;}
+.mavg{border-radius:6px;display:flex;align-items:center;justify-content:center;height:44px;font-size:13px;font-weight:700;background:var(--fg);color:#F8FAFC;}
+.mavg i{font-style:normal;font-size:10px;opacity:.75;}
+
+/* 区域热力: 楼层平面 grid-areas */
+.zones{display:grid;gap:12px;grid-template-columns:repeat(4,1fr);grid-template-areas:"quiet quiet window sofa" "keys keys booth room";}
+.zone{
+  --zt:var(--fg);
+  border-radius:var(--radius);
+  padding:16px 18px 14px;
+  color:var(--zt);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-height:118px;
+}
+.zone.lv5{--zt:#FFFFFF;}
+.zone-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.zone-top strong{font-size:14px;font-weight:700;}
+.zone-top span{font-size:12px;opacity:.92;}
+.zone-num{
+  font-family:var(--head);
+  font-size:34px;
+  font-weight:900;
+  line-height:1.05;
+  display:flex;
+  align-items:baseline;
+  gap:2px;
+}
+.zone-num small{font-size:15px;font-family:var(--mono);font-weight:500;}
+.zone p{font-size:12px;opacity:.95;}
+.z-quiet{grid-area:quiet;background:var(--l5);}
+.z-keys{grid-area:keys;background:var(--l4);}
+.z-window{grid-area:window;background:var(--l5);}
+.z-sofa{grid-area:sofa;background:var(--l3);}
+.z-booth{grid-area:booth;background:var(--l4);}
+.z-room{grid-area:room;background:var(--l1);}
+
+/* 要点与 tokens */
+.twin{margin-top:34px;display:grid;grid-template-columns:3fr 2fr;gap:18px;align-items:stretch;}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;}
+.panel h2{font-family:var(--head);font-size:19px;font-weight:700;display:flex;align-items:baseline;gap:10px;}
+.checks{list-style:none;}
+.checks li{display:flex;flex-direction:column;gap:1px;padding:9px 0;border-bottom:1px dashed var(--line);}
+.checks li:last-child{border-bottom:none;}
+.checks strong{font-size:13px;}
+.checks span{font-size:12px;color:var(--muted);}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 16px;}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--card);}
+.chip i{width:14px;height:14px;border-radius:4px;display:inline-block;}
+.tok{list-style:none;}
+.tok li{font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line);color:var(--fg);}
+.tok li:last-child{border-bottom:none;}
+
+/* footer */
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted);}
+
+/* 一次亮相动效: 日历按周列、矩阵按行晕开; reduced-motion 降级为直接呈现 */
+.hcell,.mcell{opacity:0;animation:cellIn .5s cubic-bezier(.2,.7,.3,1) both;}
+@keyframes cellIn{
+  from{opacity:0;transform:scale(.3);}
+  to{opacity:1;transform:scale(1);}
+}
+@media (prefers-reduced-motion: reduce){
+  .hcell,.mcell{animation:none;opacity:1;transform:none;}
+}
+
+/* 响应式: 1440 / 768 / 375 */
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .twin{grid-template-columns:1fr;}
+  .zones{grid-template-columns:1fr 1fr;grid-template-areas:none;}
+  .zone{grid-area:auto;}
+}
+@media (max-width:560px){
+  .page{padding:18px 12px 32px;}
+  .hero{padding:24px 18px 20px;}
+  .hero h1{font-size:27px;}
+  .block{padding:18px 14px 16px;}
+  .zones{grid-template-columns:1fr;}
+  .topbar{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div class="brand-text">
+        <strong>Heat Map 热力图</strong>
+        <small>拾光自习室旗舰店 / 全年座位占用观测</small>
+      </div>
+    </div>
+    <a class="back" href="style-catalog.html">返回风格目录</a>
+  </header>
+
+  <section class="hero">
+    <p class="kicker">数据分析 / 补充风格 supplemental</p>
+    <h1>热力矩阵即主角</h1>
+    <p class="lede">自习室是热力图最有解释力的场景之一: 座位占用率天然落在 0 到 100 之间, 冷色代表空座, 暖色代表满员。本页以拾光自习室旗舰店的运营样本为数据, 用同一套蓝到红的六级色阶贯穿三个视角: 年度日历热力、时段与星期矩阵、楼层区域平面。每一格都标注数值或提供悬停提示, 颜色不是唯一的读取通道。</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num"><span id="statAvg">--</span><small>%</small></div>
+        <p>全年日均占用率 / 滚动 12 个月均值</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span id="statBusy">--</span><small>天</small></div>
+        <p>全年满座天数 / 单日占用 ≥90%</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>97</span><small>%</small></div>
+        <p>黄金时段占用 / 周日 20:00-22:00</p>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>147</span><small>座</small></div>
+        <p>在册座位 / 六个功能区域</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">01</span>全年日历热力</h2>
+      <p>53 周 × 7 天 / 每格一天 / 悬停查看日期与占用率 / 窄屏可横向滚动</p>
+    </div>
+    <div class="cal-scroll" tabindex="0" role="region" aria-label="全年座位占用日历热力图, 可横向滚动">
+      <div class="cal-inner">
+        <div class="cal-wd" aria-hidden="true">
+          <span></span>
+          <span title="周一">一</span>
+          <span></span>
+          <span title="周三">三</span>
+          <span></span>
+          <span title="周五">五</span>
+          <span></span>
+        </div>
+        <div class="cal-main">
+          <div class="cal-months" id="calMonths" aria-hidden="true"></div>
+          <div class="cal-grid" id="calGrid" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="sw-row">
+        <span class="sw"><i style="background:#E8F0F9"></i>&lt;20</span>
+        <span class="sw"><i style="background:#A9CDF7"></i>20-39</span>
+        <span class="sw"><i style="background:#4E9DF9"></i>40-59</span>
+        <span class="sw"><i style="background:#FFD34D"></i>60-74</span>
+        <span class="sw"><i style="background:#FF8A2B"></i>75-89</span>
+        <span class="sw"><i style="background:#E01B24"></i>90 以上</span>
+        <span class="sw-cap">占用率 / %</span>
+      </div>
+      <div class="grad">
+        <div class="grad-bar"></div>
+        <div class="grad-ticks">
+          <span>0%</span>
+          <span>25%</span>
+          <span>50%</span>
+          <span>75%</span>
+          <span>100%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">02</span>时段 × 星期占用矩阵</h2>
+      <p>每格为四周滑动均值 / 数值直标不依赖颜色 / 右列与底行为均值</p>
+    </div>
+    <div class="mx-scroll" tabindex="0" role="region" aria-label="时段与星期占用矩阵, 可横向滚动">
+      <div class="matrix" id="matrix"></div>
+    </div>
+    <p class="note">读取示例: 周日 20:00-22:00 平均占用 97%, 为全周峰值; 周六与周日的早间 08:00-10:00 不足 25%, 是错峰自习的最佳窗口。</p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">03</span>区域热力 / 实时平面</h2>
+      <p>周日 20:40 快照 / 在座 126 人 / 全店 147 座 / 总占用 86%</p>
+    </div>
+    <div class="zones">
+      <div class="zone lv5 z-quiet" title="静音区 A / 48 座 / 当前占用 98%">
+        <div class="zone-top">
+          <strong>静音区 A</strong>
+          <span>48 座</span>
+        </div>
+        <div class="zone-num">98<small>%</small></div>
+        <p>近满座 / 仅余 1 个位置</p>
+      </div>
+      <div class="zone lv5 z-window" title="窗边单人座 / 28 座 / 当前占用 93%">
+        <div class="zone-top">
+          <strong>窗边单人座</strong>
+          <span>28 座</span>
+        </div>
+        <div class="zone-num">93<small>%</small></div>
+        <p>紧张 / 空余 2 座</p>
+      </div>
+      <div class="zone z-sofa" title="沙发阅读区 / 20 座 / 当前占用 60%">
+        <div class="zone-top">
+          <strong>沙发阅读区</strong>
+          <span>20 座</span>
+        </div>
+        <div class="zone-num">60<small>%</small></div>
+        <p>适中 / 空余 8 座</p>
+      </div>
+      <div class="zone z-keys" title="键盘区 / 36 座 / 当前占用 86%">
+        <div class="zone-top">
+          <strong>键盘区</strong>
+          <span>36 座</span>
+        </div>
+        <div class="zone-num">86<small>%</small></div>
+        <p>紧张 / 空余 5 座</p>
+      </div>
+      <div class="zone z-booth" title="独立包间 / 12 间 / 当前占用 75%">
+        <div class="zone-top">
+          <strong>独立包间</strong>
+          <span>12 间</span>
+        </div>
+        <div class="zone-num">75<small>%</small></div>
+        <p>偏满 / 空余 3 间</p>
+      </div>
+      <div class="zone z-room" title="讨论室 / 3 间 / 当前占用 33%">
+        <div class="zone-top">
+          <strong>讨论室</strong>
+          <span>3 间</span>
+        </div>
+        <div class="zone-num">33<small>%</small></div>
+        <p>空闲 / 2 间可用</p>
+      </div>
+    </div>
+    <p class="note">平面色块与百分比同源, 数值直标即色盲替代通道; 悬停任一区域可看完整详情。</p>
+  </section>
+
+  <section class="twin">
+    <div class="panel">
+      <h2><span class="idx">04</span>落地要点</h2>
+      <ul class="checks">
+        <li>
+          <strong>色阶分级明确</strong>
+          <span>六级阈值 20 / 40 / 60 / 75 / 90, 分级图例常驻视口</span>
+        </li>
+        <li>
+          <strong>连续映射可读</strong>
+          <span>渐变图例给出 0% 至 100% 的连续取值范围, 冷暖方向固定</span>
+        </li>
+        <li>
+          <strong>悬停即数</strong>
+          <span>日历每格 title 提示完整日期与当日占用率</span>
+        </li>
+        <li>
+          <strong>色盲替代通道</strong>
+          <span>矩阵与区域全部直标数值, 不依赖颜色单通道读取</span>
+        </li>
+        <li>
+          <strong>渲染性能</strong>
+          <span>365 格上下使用纯 CSS grid; 万级数据量建议切换 canvas 渲染</span>
+        </li>
+        <li>
+          <strong>语义一致</strong>
+          <span>同一套蓝到红色阶贯穿日历、矩阵与平面, 学习成本为零</span>
+        </li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2><span class="idx">05</span>风格 tokens</h2>
+      <div class="chips">
+        <span class="chip"><i style="background:#0080FF"></i>#0080FF / 主色</span>
+        <span class="chip"><i style="background:#FF0000"></i>#FF0000 / 热端</span>
+        <span class="chip"><i style="background:#ff7f00"></i>#ff7f00 / 强调</span>
+        <span class="chip"><i style="background:#F8FAFC;border:1px solid #DCE4EE"></i>#F8FAFC / 底色</span>
+        <span class="chip"><i style="background:#0F172A"></i>#0F172A / 文字</span>
+      </div>
+      <ul class="tok">
+        <li>圆角 / 10px, 热力小格 3px</li>
+        <li>标题字体 / Orbitron</li>
+        <li>正文字体 / JetBrains Mono</li>
+        <li>中文回退 / 微软雅黑</li>
+        <li>色阶 / 蓝 空闲 到 红 满座, 六级离散</li>
+        <li>热端微调 / 纯红压文字时深化为 #E01B24</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>UI 设计提示词库 / Heat Map 热力图</span>
+    <a href="style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+<noscript><p style="text-align:center;color:#475569;padding:16px;">日历热力与时段矩阵由脚本渲染, 请启用 JavaScript 后查看完整演示。</p></noscript>
+<script>
+(function(){
+  'use strict';
+
+  /* 确定性伪随机: 同一日期永远得到同一噪声, 保证数据可复现 */
+  function dayNoise(y, m, d){
+    var n = y * 10000 + (m + 1) * 100 + d;
+    n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
+    n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
+    n ^= n >>> 16;
+    return (n >>> 0) / 4294967296;
+  }
+
+  function lvl(v){
+    if(v < 20){return 0;}
+    if(v < 40){return 1;}
+    if(v < 60){return 2;}
+    if(v < 75){return 3;}
+    if(v < 90){return 4;}
+    return 5;
+  }
+
+  /* 真实感压力模型: 周末高、工作日晚间次之, 叠加考试月与假期修正 */
+  function pressure(dt){
+    var wd = dt.getDay();
+    var base = [80, 57, 54, 56, 61, 69, 76][wd];
+    var m = dt.getMonth();
+    var dom = dt.getDate();
+    var y = dt.getFullYear();
+    var adj = [13, 2, 2, 0, 4, 15, 7, 0, 5, 0, 8, 19][m];
+    var v = base + adj;
+    if(y === 2026 && m === 1 && dom >= 14 && dom <= 22){ v -= 52; }
+    if(y === 2026 && m === 1 && dom >= 1 && dom <= 13){ v -= 28; }
+    if(m === 9 && dom <= 7){ v -= 30; }
+    if(m === 0 && dom <= 2){ v -= 20; }
+    v += (dayNoise(y, m, dom) - 0.5) * 22;
+    if(v < 4){ v = 4; }
+    if(v > 99){ v = 99; }
+    return Math.round(v);
+  }
+
+  /* 一、年度日历热力: 截至今天, 回溯 364 天并对齐周一, 共 53 列 */
+  var end = new Date();
+  end.setHours(12, 0, 0, 0);
+  var start = new Date(end.getTime() - 364 * 86400000);
+  start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+
+  var calGrid = document.getElementById('calGrid');
+  var calMonths = document.getElementById('calMonths');
+  var WD = '日一二三四五六';
+  var weeks = [];
+  var cursor = new Date(start.getTime());
+  while(cursor <= end){
+    var wk = [];
+    for(var i = 0; i < 7 && cursor <= end; i++){
+      wk.push(new Date(cursor.getTime()));
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    weeks.push(wk);
+  }
+
+  var sum = 0;
+  var busy = 0;
+  var days = 0;
+  var prevMonth = null;
+  weeks.forEach(function(wk, wi){
+    wk.forEach(function(d, di){
+      var v = pressure(d);
+      sum += v;
+      days++;
+      if(v >= 90){ busy++; }
+      var cell = document.createElement('div');
+      cell.className = 'hcell l' + lvl(v);
+      cell.title = d.getFullYear() + ' 年 ' + (d.getMonth() + 1) + ' 月 ' +
+        d.getDate() + ' 日 / 周' + WD.charAt(d.getDay()) + ' / 座位占用 ' + v + '%';
+      cell.style.animationDelay = (wi * 26 + di * 8) + 'ms';
+      calGrid.appendChild(cell);
+    });
+    var m0 = wk[0].getMonth();
+    if(prevMonth !== null && m0 !== prevMonth){
+      var mo = document.createElement('span');
+      mo.className = 'mo';
+      mo.textContent = (m0 + 1) + '月';
+      mo.style.gridColumn = (wi + 1) + ' / span 3';
+      calMonths.appendChild(mo);
+    }
+    prevMonth = m0;
+  });
+
+  document.getElementById('statAvg').textContent = days ? Math.round(sum / days) : 0;
+  document.getElementById('statBusy').textContent = busy;
+
+  /* 二、时段 × 星期矩阵: 每格四周滑动均值, 均值行列由同一数据推导 */
+  var MX = [
+    ['08:00-10:00', [42, 38, 40, 44, 40, 18, 24]],
+    ['10:00-12:00', [55, 58, 52, 57, 60, 46, 58]],
+    ['12:00-14:00', [38, 35, 41, 44, 52, 64, 71]],
+    ['14:00-16:00', [51, 49, 55, 58, 66, 79, 84]],
+    ['16:00-18:00', [63, 60, 66, 71, 82, 88, 91]],
+    ['18:00-20:00', [86, 82, 88, 92, 90, 76, 95]],
+    ['20:00-22:00', [92, 88, 90, 94, 93, 68, 97]],
+    ['22:00-24:00', [58, 55, 62, 66, 61, 34, 72]]
+  ];
+  var DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  var matrix = document.getElementById('matrix');
+
+  var rowAvg = MX.map(function(r){
+    var s = r[1].reduce(function(a, b){ return a + b; }, 0);
+    return Math.round(s / 7);
+  });
+  var colAvg = DAYS.map(function(_, j){
+    var s = MX.reduce(function(a, r){ return a + r[1][j]; }, 0);
+    return Math.round(s / MX.length);
+  });
+  var total = Math.round(MX.reduce(function(a, r){
+    return a + r[1].reduce(function(x, y){ return x + y; }, 0);
+  }, 0) / (MX.length * 7));
+
+  function mk(cls, html, title){
+    var el = document.createElement('div');
+    el.className = cls;
+    el.innerHTML = html;
+    if(title){ el.title = title; }
+    return el;
+  }
+
+  matrix.appendChild(mk('mhead corner', '时段 / 星期', null));
+  DAYS.forEach(function(dn){
+    matrix.appendChild(mk('mhead', dn, null));
+  });
+  matrix.appendChild(mk('mhead', '时段均值', null));
+
+  MX.forEach(function(row, r){
+    matrix.appendChild(mk('mlab', row[0], null));
+    row[1].forEach(function(v, c){
+      var lv = lvl(v);
+      var cell = mk('mcell l' + lv + (lv === 5 ? ' lv5' : ''),
+        v + '<i>%</i>',
+        DAYS[c] + ' / ' + row[0] + ' / 平均占用 ' + v + '%');
+      cell.style.animationDelay = (r * 90 + c * 20) + 'ms';
+      matrix.appendChild(cell);
+    });
+    matrix.appendChild(mk('mavg', rowAvg[r] + '<i>%</i>',
+      row[0] + ' / 七天均值 ' + rowAvg[r] + '%'));
+  });
+
+  matrix.appendChild(mk('mlab', '星期均值', null));
+  colAvg.forEach(function(v, j){
+    matrix.appendChild(mk('mavg', v + '<i>%</i>',
+      DAYS[j] + ' / 八个时段均值 ' + v + '%'));
+  });
+  matrix.appendChild(mk('mavg', total + '<i>%</i>', '全周总均值 ' + total + '%'));
+})();
+</script>
+</body>
+</html>

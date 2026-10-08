@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Intelligence 销售智能 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划: bg #F8FAFC / fg #0F172A / primary #3325eb / secondary #eaad0c / accent #047857(文字安全绿) / radius 10px / 字体 Fira Code + Fira Sans */
+:root{
+  --bg:#F8FAFC; --fg:#0F172A; --primary:#3325eb; --secondary:#eaad0c;
+  --won:#047857; --lost:#BE123C; --gold-t:#7A5E06;
+  --line:#E2E8F0; --line2:#EEF2F7; --muted:#505F73; --card:#FFFFFF;
+  --radius:10px;
+  --fh:'Fira Code',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --fb:'Fira Sans','Segoe UI','Microsoft YaHei',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--fb);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:22px clamp(14px,3vw,28px) 44px}
+h1,h2,h3{margin:0}
+p{margin:0}
+a{color:var(--primary)}
+.num{font-family:var(--fh);font-variant-numeric:tabular-nums}
+button{font-family:var(--fb)}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:4px}
+
+/* 顶栏 */
+.topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:38px;height:38px;border-radius:var(--radius);background:var(--primary);display:grid;place-items:center;flex:none}
+.bt h1{font-family:var(--fh);font-size:18px;font-weight:700;letter-spacing:.2px}
+.bt p{font-size:12px;color:var(--muted);margin-top:2px}
+.side{text-align:right}
+.sync{font-size:12px;color:var(--muted);margin-bottom:8px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.seg{display:flex;background:#E9EEF6;border-radius:8px;padding:3px}
+.seg button{border:0;background:transparent;padding:5px 12px;border-radius:6px;font-size:13px;color:var(--muted);cursor:pointer}
+.seg button.is-on{background:#fff;color:var(--fg);font-weight:600;box-shadow:0 1px 2px rgba(15,23,42,.2)}
+.btn{height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--fg);font-size:13px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:#B9C6DB;background:#F6F9FE}
+.btn.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.pri:hover{background:#2819d6}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.kpi h3{font-size:13px;font-weight:500;color:var(--muted)}
+.kv{font-family:var(--fh);font-size:29px;font-weight:600;letter-spacing:-.5px;margin-top:6px}
+.ku{font-size:13px;font-weight:400;color:var(--muted);margin-left:3px}
+.kd{font-size:12px;color:var(--muted);margin-top:4px}
+.kv small{font-size:15px}
+.spark{display:block;width:100%;height:26px;margin-top:10px}
+.delta{font-family:var(--fh);font-weight:600;margin-right:6px;white-space:nowrap}
+.delta.up{color:var(--won)}
+.delta.down{color:var(--lost)}
+.delta.good{color:var(--won)}
+.delta.up::before,.delta.down::before{content:"";display:inline-block;width:0;height:0;margin-right:4px;vertical-align:1px}
+.delta.up::before{border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:6px solid currentColor}
+.delta.down::before{border-top:6px solid currentColor;border-left:4px solid transparent;border-right:4px solid transparent}
+
+/* 主行 */
+.duo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;margin-top:16px;align-items:stretch}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.ph h2{font-size:16px;font-weight:700}
+.psub{font-size:12px;color:var(--muted);margin-top:3px}
+.ptag{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--primary);background:#EEF0FE;border-radius:6px;padding:4px 8px;white-space:nowrap;flex:none}
+svg{display:block;max-width:100%}
+
+/* 漏斗 */
+.fsvg{width:100%;height:auto}
+.fname{font-size:13px;font-weight:600;fill:var(--fg);font-family:var(--fb)}
+.fsub{font-size:10.5px;fill:var(--muted);font-family:var(--fh)}
+.fcv{font-size:14px;font-weight:600;fill:var(--primary);font-family:var(--fh)}
+.fcvd{font-size:9.5px;fill:var(--muted);font-family:var(--fh)}
+.fl{stroke:none}
+.fsum{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);display:flex;gap:8px 22px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.fsum b{font-family:var(--fh);color:var(--fg);font-weight:600}
+
+/* 地图 */
+.msvg{width:100%;height:auto}
+.prov rect{stroke-width:1}
+.pn{font-size:11px;fill:var(--fg);font-family:var(--fb)}
+.pv{font-size:11px;font-weight:600;font-family:var(--fh)}
+.t-strong rect{fill:#059669;fill-opacity:.16;stroke:#047857}
+.t-strong .pv{fill:#047857}
+.t-mid rect{fill:#3325eb;fill-opacity:.12;stroke:#3325eb}
+.t-mid .pv{fill:#3325eb}
+.t-watch rect{fill:#eaad0c;fill-opacity:.22;stroke:#B8900A}
+.t-watch .pv{fill:var(--gold-t)}
+.t-lag rect{fill:#64748B;fill-opacity:.14;stroke:#A5B2C4}
+.t-lag .pv{fill:#475569}
+.t-empty rect{fill:none;stroke:#C4CEDC;stroke-dasharray:4 3}
+.t-empty .pn{fill:var(--muted)}
+.mleg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--muted)}
+.chip{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.mnote{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px;color:var(--muted)}
+.mnote b{font-family:var(--fh);color:var(--fg);font-weight:600}
+
+/* 排行榜 */
+.lb{width:100%}
+.lb-head,.lb-row{display:grid;grid-template-columns:34px 42px minmax(84px,1.1fr) 58px 84px minmax(110px,1.3fr) 58px 76px;gap:8px;align-items:center}
+.lb-head{font-size:12px;color:var(--muted);padding:0 10px 9px;border-bottom:1px solid var(--line)}
+.lb-row{padding:9px 10px;border-bottom:1px solid var(--line2);font-size:13px}
+.lb-row:last-child{border-bottom:none}
+.c-rk{display:grid;place-items:center}
+.rk{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font-family:var(--fh);font-size:12px;font-weight:600;font-style:normal}
+.rk1{background:#FBEFD3;color:var(--gold-t)}
+.rk2,.rk3{background:#E8EDF5;color:#33475F}
+.rk9{color:var(--muted);font-weight:600}
+.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600}
+.av1{background:#E2F4EB;color:#047857}
+.av2{background:#EEF0FE;color:#3325eb}
+.av3{background:#FBEFD3;color:var(--gold-t)}
+.av4{background:#E8EDF5;color:#33475F}
+.c-nm b{font-weight:600}
+.c-reg{color:var(--muted);font-size:12.5px}
+.c-amt,.c-win{ text-align:right;font-weight:600}
+.lb-head .c-amt,.lb-head .c-win,.lb-head .c-tr{text-align:right}
+.qcell{display:flex;align-items:center;gap:8px}
+.qbar{flex:1;height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
+.qbar i{display:block;height:100%;border-radius:3px;background:var(--primary)}
+.qv{font-size:12px;font-weight:600;flex:none}
+.qv.ok{color:var(--won)}
+.c-tr{text-align:right;font-size:12px}
+.lb-note{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px;color:var(--muted)}
+
+/* 赢率与周期 */
+.win{gap:0}
+.wrow{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.gsvg{flex:none}
+.gcap{font-size:11px;fill:var(--muted);font-family:var(--fb)}
+.gnum{font-size:26px;font-weight:600;fill:var(--fg);font-family:var(--fh)}
+.gtick{font-size:10px;fill:var(--muted);font-family:var(--fh)}
+.glist{flex:1;min-width:150px}
+.gli{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--muted);margin-bottom:9px}
+.gli b{font-family:var(--fh);color:var(--fg);font-weight:600}
+.mini{font-size:12.5px;font-weight:600;color:var(--fg);margin:14px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+.cyc{display:grid;grid-template-columns:64px 1fr 52px;gap:10px;align-items:center;font-size:12.5px;color:var(--muted);margin-bottom:9px}
+.cyc-bar{height:8px;background:var(--line2);border-radius:4px;overflow:hidden}
+.cyc-bar i{display:block;height:100%;border-radius:4px;background:var(--primary)}
+.cyc-v{font-family:var(--fh);font-weight:600;color:var(--fg);text-align:right;font-size:12px}
+.quota{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.qtop{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--muted)}
+.qtop b{font-family:var(--fh);font-size:15px;color:var(--fg);font-weight:600}
+.qtrack{height:8px;background:var(--line2);border-radius:4px;overflow:hidden;margin-top:8px}
+.qtrack i{display:block;height:100%;width:90.9%;border-radius:4px;background:var(--secondary)}
+.qnote{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* 商机卡片与时间线 */
+.deals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.deal{border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:7px}
+.deal h3{font-size:14px;font-weight:700}
+.dmeta{font-size:12px;color:var(--muted)}
+.dmeta b{font-family:var(--fh);color:var(--fg);font-weight:600}
+.st{align-self:flex-start;font-size:11.5px;font-weight:600;border-radius:5px;padding:2px 8px}
+.st-run{background:#EEF0FE;color:var(--primary)}
+.st-won{background:#E2F4EB;color:var(--won)}
+.st-risk{background:#FBEFD3;color:var(--gold-t)}
+.deal.warn{border-left-color:#C2600A}
+.deal.ok{border-left-color:var(--won)}
+.tl{margin-top:2px}
+.tli{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line2);font-size:12.5px}
+.tli:last-child{border-bottom:none}
+.tld{font-family:var(--fh);color:var(--muted);font-weight:600}
+.tli p b{font-weight:600}
+.tli p{color:var(--muted)}
+.tli p .who{color:var(--fg);font-weight:600}
+
+/* 页脚 */
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:26px;padding-top:16px;font-size:13px;color:var(--muted)}
+.foot a{font-weight:600;text-decoration:none}
+.foot a:hover{text-decoration:underline}
+
+/* 一次亮相动效: 漏斗逐级填充(仅在允许动效时) */
+@media (prefers-reduced-motion:no-preference){
+  .fl{transform-box:fill-box;transform-origin:50% 0;animation:lvfill .55s cubic-bezier(.2,.7,.25,1) both}
+  .f1{animation-delay:.05s}.f2{animation-delay:.27s}.f3{animation-delay:.49s}.f4{animation-delay:.71s}.f5{animation-delay:.93s}
+  .cv{opacity:0;animation:cvshow .4s ease both}
+  .cv1{animation-delay:.34s}.cv2{animation-delay:.56s}.cv3{animation-delay:.78s}.cv4{animation-delay:1s}
+}
+@keyframes lvfill{from{transform:scaleY(.05);opacity:0}to{transform:scaleY(1);opacity:1}}
+@keyframes cvshow{to{opacity:1}}
+
+/* 响应式 */
+@media (max-width:1020px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .duo{grid-template-columns:1fr}
+  .side{text-align:left}
+  .ctrl{justify-content:flex-start}
+}
+@media (max-width:760px){
+  .c-reg{display:none}
+  .lb-head,.lb-row{grid-template-columns:30px 40px minmax(84px,1.2fr) 82px minmax(96px,1fr) 54px 72px}
+  .wrow{gap:14px}
+  .deals{grid-template-columns:1fr}
+}
+@media (max-width:460px){
+  .kpis{grid-template-columns:1fr}
+  .kv{font-size:25px}
+  .c-win,.c-tr,.c-qu{display:none}
+  .lb-head,.lb-row{grid-template-columns:26px 38px minmax(70px,1fr) 78px}
+  .topbar{align-items:flex-start;flex-direction:column}
+  .ph{flex-direction:column;gap:6px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="topbar">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 36 36" role="img" aria-label="漏斗标识">
+        <path d="M5 7 H31 L25 15 H11 Z" fill="#fff" opacity=".96"/>
+        <path d="M13 19 H23 L20 25 H16 Z" fill="#fff" opacity=".8"/>
+        <rect x="16.4" y="28" width="3.2" height="3.2" rx="1" fill="var(--secondary)"/>
+      </svg>
+    </span>
+    <div class="bt">
+      <h1>销售智能作战室</h1>
+      <p>Sales Intelligence / 工业洁净设备事业部 / 第三季度经营复盘</p>
+    </div>
+  </div>
+  <div class="side">
+    <p class="sync">数据截至 2026-09-30 / CRM 每日 06:00 同步</p>
+    <div class="ctrl">
+      <div class="seg" role="group" aria-label="时间范围">
+        <button type="button" class="is-on">本季</button>
+        <button type="button">上季</button>
+        <button type="button">近一年</button>
+      </div>
+      <button type="button" class="btn">导出周报</button>
+      <button type="button" class="btn pri">登记新线索</button>
+    </div>
+  </div>
+</header>
+
+<section class="kpis" aria-label="核心指标">
+  <article class="kpi">
+    <h3>第三季度签约金额</h3>
+    <p class="kv">¥3,819<span class="ku">万</span></p>
+    <p class="kd"><span class="delta up">+18.4%</span>同比 / 季度目标 4,200 万</p>
+    <svg class="spark" viewBox="0 0 90 26" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="2,20 14,18 26,21 38,15 50,16 62,11 74,12 88,6" fill="none" stroke="#3325eb" stroke-width="2"/>
+    </svg>
+  </article>
+  <article class="kpi">
+    <h3>在途管道商机</h3>
+    <p class="kv">¥9,076<span class="ku">万</span></p>
+    <p class="kd">管道覆盖倍数 2.4x / 健康阈值 2.0x</p>
+    <svg class="spark" viewBox="0 0 90 26" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="2,16 14,11 26,17 38,10 50,14 62,8 74,13 88,7" fill="none" stroke="#B8900A" stroke-width="2"/>
+    </svg>
+  </article>
+  <article class="kpi">
+    <h3>综合赢单率</h3>
+    <p class="kv">28.0<span class="ku">%</span></p>
+    <p class="kd"><span class="delta up">+2.4pt</span>同比 / 行业基准 24.1%</p>
+    <svg class="spark" viewBox="0 0 90 26" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="2,19 14,17 26,18 38,14 50,15 62,12 74,10 88,9" fill="none" stroke="#3325eb" stroke-width="2"/>
+    </svg>
+  </article>
+  <article class="kpi">
+    <h3>平均成交周期</h3>
+    <p class="kv">47<span class="ku">天</span></p>
+    <p class="kd"><span class="delta down good">-6 天</span>同比 / 线索到签约全流程</p>
+    <svg class="spark" viewBox="0 0 90 26" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="2,8 14,10 26,9 38,13 50,12 62,16 74,15 88,18" fill="none" stroke="#047857" stroke-width="2"/>
+    </svg>
+  </article>
+</section>
+
+<section class="duo">
+  <article class="panel">
+    <header class="ph">
+      <div>
+        <h2>销售漏斗 / 线索到赢单</h2>
+        <p class="psub">全渠道线索含展会与老客转介绍 / 金额为管道估值</p>
+      </div>
+      <span class="ptag">整体转化 3.7%</span>
+    </header>
+    <svg class="fsvg" viewBox="0 0 740 380" role="img" aria-label="五级销售漏斗: 线索 5842 条, 有效商机 1973 条, 方案演示 846 条, 商务谈判 392 条, 赢单 217 单">
+      <path class="fl f1" d="M230 18 H650 L524 76 H356 Z" fill="#3325eb"/>
+      <path class="fl f2" d="M356 90 H524 L488 148 H392 Z" fill="#4A3CEE"/>
+      <path class="fl f3" d="M392 162 H488 L473 220 H407 Z" fill="#6A59F2"/>
+      <path class="fl f4" d="M407 234 H473 L465 292 H415 Z" fill="#8D7FF6"/>
+      <path class="fl f5" d="M415 306 H465 L460 364 H420 Z" fill="#047857"/>
+      <g>
+        <text class="fname" x="205" y="48" text-anchor="end">线索获取</text>
+        <text class="fsub" x="205" y="66" text-anchor="end">5,842 条 / ¥2,921 万</text>
+        <text class="fname" x="205" y="120" text-anchor="end">有效商机</text>
+        <text class="fsub" x="205" y="138" text-anchor="end">1,973 条 / ¥9,076 万</text>
+        <text class="fname" x="205" y="192" text-anchor="end">方案演示</text>
+        <text class="fsub" x="205" y="210" text-anchor="end">846 条 / ¥6,091 万</text>
+        <text class="fname" x="205" y="264" text-anchor="end">商务谈判</text>
+        <text class="fsub" x="205" y="282" text-anchor="end">392 条 / ¥4,861 万</text>
+        <text class="fname" x="205" y="336" text-anchor="end">赢单签约</text>
+        <text class="fsub" x="205" y="354" text-anchor="end">217 单 / ¥3,819 万</text>
+      </g>
+      <g class="cv cv1">
+        <path d="M530 83 H660" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="3 3"/>
+        <text class="fcv" x="668" y="80">33.8%</text>
+        <text class="fcvd" x="668" y="94">环比 +1.2pt</text>
+      </g>
+      <g class="cv cv2">
+        <path d="M494 155 H660" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="3 3"/>
+        <text class="fcv" x="668" y="152">42.9%</text>
+        <text class="fcvd" x="668" y="166">环比 -0.6pt</text>
+      </g>
+      <g class="cv cv3">
+        <path d="M479 227 H660" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="3 3"/>
+        <text class="fcv" x="668" y="224">46.3%</text>
+        <text class="fcvd" x="668" y="238">环比 +1.5pt</text>
+      </g>
+      <g class="cv cv4">
+        <path d="M471 299 H660" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="3 3"/>
+        <text class="fcv" x="668" y="296">55.4%</text>
+        <text class="fcvd" x="668" y="310">环比 +2.4pt</text>
+      </g>
+    </svg>
+    <p class="fsum">
+      <span>整体转化 <b>3.7%</b></span>
+      <span>平均单产 <b>17.6 万</b></span>
+      <span>最大流失环节 <b>线索孵化 / 流失 66.2%</b></span>
+    </p>
+  </article>
+
+  <article class="panel">
+    <header class="ph">
+      <div>
+        <h2>区域业绩地图</h2>
+        <p class="psub">省份网格按地理示意排布 / 数值为签约金额 / 万元</p>
+      </div>
+      <span class="ptag">全国 ¥3,819 万</span>
+    </header>
+    <svg class="msvg" viewBox="0 0 584 232" role="img" aria-label="31 个省份签约金额网格, 颜色越深达成越高">
+      <g class="prov t-lag"><rect x="0" y="0" width="66" height="52" rx="8"/><text class="pn" x="33" y="22" text-anchor="middle">黑龙江</text><text class="pv" x="33" y="40" text-anchor="middle">40</text></g>
+      <g class="prov t-lag"><rect x="74" y="0" width="66" height="52" rx="8"/><text class="pn" x="107" y="22" text-anchor="middle">吉林</text><text class="pv" x="107" y="40" text-anchor="middle">45</text></g>
+      <g class="prov t-watch"><rect x="148" y="0" width="66" height="52" rx="8"/><text class="pn" x="181" y="22" text-anchor="middle">辽宁</text><text class="pv" x="181" y="40" text-anchor="middle">73</text></g>
+      <g class="prov t-lag"><rect x="222" y="0" width="66" height="52" rx="8"/><text class="pn" x="255" y="22" text-anchor="middle">内蒙古</text><text class="pv" x="255" y="40" text-anchor="middle">70</text></g>
+      <g class="prov t-mid"><rect x="296" y="0" width="66" height="52" rx="8"/><text class="pn" x="329" y="22" text-anchor="middle">北京</text><text class="pv" x="329" y="40" text-anchor="middle">205</text></g>
+      <g class="prov t-watch"><rect x="370" y="0" width="66" height="52" rx="8"/><text class="pn" x="403" y="22" text-anchor="middle">天津</text><text class="pv" x="403" y="40" text-anchor="middle">77</text></g>
+      <g class="prov t-watch"><rect x="444" y="0" width="66" height="52" rx="8"/><text class="pn" x="477" y="22" text-anchor="middle">河北</text><text class="pv" x="477" y="40" text-anchor="middle">104</text></g>
+      <g class="prov t-lag"><rect x="518" y="0" width="66" height="52" rx="8"/><text class="pn" x="551" y="22" text-anchor="middle">山西</text><text class="pv" x="551" y="40" text-anchor="middle">49</text></g>
+      <g class="prov t-strong"><rect x="0" y="60" width="66" height="52" rx="8"/><text class="pn" x="33" y="82" text-anchor="middle">山东</text><text class="pv" x="33" y="100" text-anchor="middle">330</text></g>
+      <g class="prov t-strong"><rect x="74" y="60" width="66" height="52" rx="8"/><text class="pn" x="107" y="82" text-anchor="middle">江苏</text><text class="pv" x="107" y="100" text-anchor="middle">448</text></g>
+      <g class="prov t-mid"><rect x="148" y="60" width="66" height="52" rx="8"/><text class="pn" x="181" y="82" text-anchor="middle">安徽</text><text class="pv" x="181" y="100" text-anchor="middle">138</text></g>
+      <g class="prov t-strong"><rect x="222" y="60" width="66" height="52" rx="8"/><text class="pn" x="255" y="82" text-anchor="middle">上海</text><text class="pv" x="255" y="100" text-anchor="middle">298</text></g>
+      <g class="prov t-strong"><rect x="296" y="60" width="66" height="52" rx="8"/><text class="pn" x="329" y="82" text-anchor="middle">浙江</text><text class="pv" x="329" y="100" text-anchor="middle">352</text></g>
+      <g class="prov t-mid"><rect x="370" y="60" width="66" height="52" rx="8"/><text class="pn" x="403" y="82" text-anchor="middle">福建</text><text class="pv" x="403" y="100" text-anchor="middle">161</text></g>
+      <g class="prov t-lag"><rect x="444" y="60" width="66" height="52" rx="8"/><text class="pn" x="477" y="82" text-anchor="middle">江西</text><text class="pv" x="477" y="100" text-anchor="middle">53</text></g>
+      <g class="prov t-mid"><rect x="518" y="60" width="66" height="52" rx="8"/><text class="pn" x="551" y="82" text-anchor="middle">河南</text><text class="pv" x="551" y="100" text-anchor="middle">131</text></g>
+      <g class="prov t-mid"><rect x="0" y="120" width="66" height="52" rx="8"/><text class="pn" x="33" y="142" text-anchor="middle">湖北</text><text class="pv" x="33" y="160" text-anchor="middle">152</text></g>
+      <g class="prov t-watch"><rect x="74" y="120" width="66" height="52" rx="8"/><text class="pn" x="107" y="142" text-anchor="middle">湖南</text><text class="pv" x="107" y="160" text-anchor="middle">98</text></g>
+      <g class="prov t-strong"><rect x="148" y="120" width="66" height="52" rx="8"/><text class="pn" x="181" y="142" text-anchor="middle">广东</text><text class="pv" x="181" y="160" text-anchor="middle">416</text></g>
+      <g class="prov t-lag"><rect x="222" y="120" width="66" height="52" rx="8"/><text class="pn" x="255" y="142" text-anchor="middle">广西</text><text class="pv" x="255" y="160" text-anchor="middle">47</text></g>
+      <g class="prov t-lag"><rect x="296" y="120" width="66" height="52" rx="8"/><text class="pn" x="329" y="142" text-anchor="middle">海南</text><text class="pv" x="329" y="160" text-anchor="middle">13</text></g>
+      <g class="prov t-watch"><rect x="370" y="120" width="66" height="52" rx="8"/><text class="pn" x="403" y="142" text-anchor="middle">陕西</text><text class="pv" x="403" y="160" text-anchor="middle">89</text></g>
+      <g class="prov t-lag"><rect x="444" y="120" width="66" height="52" rx="8"/><text class="pn" x="477" y="142" text-anchor="middle">宁夏</text><text class="pv" x="477" y="160" text-anchor="middle">17</text></g>
+      <g class="prov t-lag"><rect x="518" y="120" width="66" height="52" rx="8"/><text class="pn" x="551" y="142" text-anchor="middle">甘肃</text><text class="pv" x="551" y="160" text-anchor="middle">26</text></g>
+      <g class="prov t-watch"><rect x="0" y="180" width="66" height="52" rx="8"/><text class="pn" x="33" y="202" text-anchor="middle">重庆</text><text class="pv" x="33" y="220" text-anchor="middle">84</text></g>
+      <g class="prov t-mid"><rect x="74" y="180" width="66" height="52" rx="8"/><text class="pn" x="107" y="202" text-anchor="middle">四川</text><text class="pv" x="107" y="220" text-anchor="middle">178</text></g>
+      <g class="prov t-lag"><rect x="148" y="180" width="66" height="52" rx="8"/><text class="pn" x="181" y="202" text-anchor="middle">贵州</text><text class="pv" x="181" y="220" text-anchor="middle">38</text></g>
+      <g class="prov t-lag"><rect x="222" y="180" width="66" height="52" rx="8"/><text class="pn" x="255" y="202" text-anchor="middle">云南</text><text class="pv" x="255" y="220" text-anchor="middle">43</text></g>
+      <g class="prov t-lag"><rect x="296" y="180" width="66" height="52" rx="8"/><text class="pn" x="329" y="202" text-anchor="middle">西藏</text><text class="pv" x="329" y="220" text-anchor="middle">6</text></g>
+      <g class="prov t-lag"><rect x="370" y="180" width="66" height="52" rx="8"/><text class="pn" x="403" y="202" text-anchor="middle">青海</text><text class="pv" x="403" y="220" text-anchor="middle">14</text></g>
+      <g class="prov t-lag"><rect x="444" y="180" width="66" height="52" rx="8"/><text class="pn" x="477" y="202" text-anchor="middle">新疆</text><text class="pv" x="477" y="220" text-anchor="middle">24</text></g>
+      <g class="prov t-empty"><rect x="518" y="180" width="66" height="52" rx="8"/><text class="pn" x="551" y="212" text-anchor="middle">待开拓</text></g>
+    </svg>
+    <div class="mleg">
+      <span><i class="chip" style="background:#059669;opacity:.85"></i>达成 110% 以上</span>
+      <span><i class="chip" style="background:#3325eb;opacity:.75"></i>90% 至 110%</span>
+      <span><i class="chip" style="background:#eaad0c;opacity:.9"></i>70% 至 90%</span>
+      <span><i class="chip" style="background:#94A3B8"></i>70% 以下</span>
+    </div>
+    <p class="mnote">华东七省市贡献 <b>46.6%</b> / 五省超额达成 / 东北合计 <b>¥158 万</b> 待提升</p>
+  </article>
+</section>
+
+<section class="duo">
+  <article class="panel">
+    <header class="ph">
+      <div>
+        <h2>销售代表排行榜</h2>
+        <p class="psub">按签约金额排序 / 46 名在职代表取前 8 / 配额条按 140% 封顶刻度</p>
+      </div>
+      <span class="ptag">人均 ¥83.0 万</span>
+    </header>
+    <div class="lb" role="region" aria-label="销售代表排行">
+      <div class="lb-head">
+        <span class="c-rk">排名</span>
+        <span class="c-av"></span>
+        <span class="c-nm">代表</span>
+        <span class="c-reg">区域</span>
+        <span class="c-amt">签约额 / 万</span>
+        <span class="c-qu">配额达成</span>
+        <span class="c-win">赢单率</span>
+        <span class="c-tr">环比</span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk1">1</i></span>
+        <span class="c-av"><span class="avatar av1">沈</span></span>
+        <span class="c-nm"><b>沈佳琳</b></span>
+        <span class="c-reg">华东</span>
+        <span class="c-amt num">486.2</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:98.6%"></i></span><span class="qv num ok">138%</span></span></span>
+        <span class="c-win num">34%</span>
+        <span class="c-tr"><span class="delta up">+5.2pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk2">2</i></span>
+        <span class="c-av"><span class="avatar av2">顾</span></span>
+        <span class="c-nm"><b>顾远帆</b></span>
+        <span class="c-reg">华南</span>
+        <span class="c-amt num">452.7</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:92.1%"></i></span><span class="qv num ok">129%</span></span></span>
+        <span class="c-win num">31%</span>
+        <span class="c-tr"><span class="delta up">+3.8pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk3">3</i></span>
+        <span class="c-av"><span class="avatar av3">陆</span></span>
+        <span class="c-nm"><b>陆明轩</b></span>
+        <span class="c-reg">华东</span>
+        <span class="c-amt num">421.5</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:86.4%"></i></span><span class="qv num ok">121%</span></span></span>
+        <span class="c-win num">33%</span>
+        <span class="c-tr"><span class="delta up">+1.6pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk9">4</i></span>
+        <span class="c-av"><span class="avatar av4">苏</span></span>
+        <span class="c-nm"><b>苏婉清</b></span>
+        <span class="c-reg">华北</span>
+        <span class="c-amt num">388.0</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:80%"></i></span><span class="qv num ok">112%</span></span></span>
+        <span class="c-win num">29%</span>
+        <span class="c-tr"><span class="delta up">+2.4pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk9">5</i></span>
+        <span class="c-av"><span class="avatar av1">何</span></span>
+        <span class="c-nm"><b>何启航</b></span>
+        <span class="c-reg">西南</span>
+        <span class="c-amt num">342.6</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:74.3%"></i></span><span class="qv num ok">104%</span></span></span>
+        <span class="c-win num">27%</span>
+        <span class="c-tr"><span class="delta down">-1.2pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk9">6</i></span>
+        <span class="c-av"><span class="avatar av2">郑</span></span>
+        <span class="c-nm"><b>郑可昕</b></span>
+        <span class="c-reg">华中</span>
+        <span class="c-amt num">317.4</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:70%"></i></span><span class="qv num">98%</span></span></span>
+        <span class="c-win num">26%</span>
+        <span class="c-tr"><span class="delta up">+0.8pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk9">7</i></span>
+        <span class="c-av"><span class="avatar av3">罗</span></span>
+        <span class="c-nm"><b>罗志诚</b></span>
+        <span class="c-reg">西北</span>
+        <span class="c-amt num">264.9</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:62.1%"></i></span><span class="qv num">87%</span></span></span>
+        <span class="c-win num">22%</span>
+        <span class="c-tr"><span class="delta down">-2.6pt</span></span>
+      </div>
+      <div class="lb-row">
+        <span class="c-rk"><i class="rk rk9">8</i></span>
+        <span class="c-av"><span class="avatar av4">谭</span></span>
+        <span class="c-nm"><b>谭静怡</b></span>
+        <span class="c-reg">东北</span>
+        <span class="c-amt num">231.8</span>
+        <span class="c-qu"><span class="qcell"><span class="qbar"><i style="width:57.9%"></i></span><span class="qv num">81%</span></span></span>
+        <span class="c-win num">21%</span>
+        <span class="c-tr"><span class="delta up">+1.1pt</span></span>
+      </div>
+    </div>
+    <p class="lb-note">金额为含税签约口径 / 环比为赢单率变动 / 数据来源 CRM 商机模块</p>
+  </article>
+
+  <article class="panel win">
+    <header class="ph">
+      <div>
+        <h2>赢率与周期</h2>
+        <p class="psub">赢单率按关闭商机口径 / 输单含丢单与无效关闭</p>
+      </div>
+      <span class="ptag">环比 +2.4pt</span>
+    </header>
+    <div class="wrow">
+      <svg class="gsvg" width="196" height="118" viewBox="0 0 220 132" role="img" aria-label="综合赢单率仪表 28%">
+        <path d="M26 112 A84 84 0 0 1 194 112" fill="none" stroke="#E2E8F0" stroke-width="14" stroke-linecap="round"/>
+        <path d="M26 112 A84 84 0 0 1 194 112" fill="none" stroke="#047857" stroke-width="14" stroke-linecap="round" stroke-dasharray="123 264"/>
+        <text class="gnum" x="110" y="96" text-anchor="middle">28.0%</text>
+        <text class="gcap" x="110" y="118" text-anchor="middle">综合赢单率</text>
+        <text class="gtick" x="24" y="130">0</text>
+        <text class="gtick" x="196" y="130" text-anchor="end">60%</text>
+      </svg>
+      <div class="glist">
+        <p class="gli"><span>赢单 / 输单</span><b>217 / 559</b></p>
+        <p class="gli"><span>50 万以上大单占比</span><b>31%</b></p>
+        <p class="gli"><span>老客复购贡献</span><b>41%</b></p>
+        <p class="gli"><span>方案演示到场率</span><b>72%</b></p>
+      </div>
+    </div>
+    <h3 class="mini">阶段平均停留 / 天</h3>
+    <div class="cyc"><span>线索孵化</span><span class="cyc-bar"><i style="width:50%"></i></span><span class="cyc-v">9 天</span></div>
+    <div class="cyc"><span>需求确认</span><span class="cyc-bar"><i style="width:44%"></i></span><span class="cyc-v">8 天</span></div>
+    <div class="cyc"><span>方案演示</span><span class="cyc-bar"><i style="width:67%"></i></span><span class="cyc-v">12 天</span></div>
+    <div class="cyc"><span>商务谈判</span><span class="cyc-bar"><i style="width:100%"></i></span><span class="cyc-v">18 天</span></div>
+    <div class="quota">
+      <p class="qtop"><span>季度配额 ¥4,200 万</span><b>90.9%</b></p>
+      <div class="qtrack"><i></i></div>
+      <p class="qnote">已签约 ¥3,819 万 / 缺口 ¥381 万 / 已进入第四季度冲刺</p>
+    </div>
+  </article>
+</section>
+
+<section class="duo">
+  <article class="panel">
+    <header class="ph">
+      <div>
+        <h2>重点商机看板</h2>
+        <p class="psub">金额 100 万以上在途单 / 按进入阶段时间排序</p>
+      </div>
+      <span class="ptag">合计 ¥673 万</span>
+    </header>
+    <div class="deals">
+      <div class="deal">
+        <span class="st st-run">谈判中</span>
+        <h3>苏州晶合半导体 / 二期扩产</h3>
+        <p class="dmeta">金额 <b>¥340 万</b> / 负责人 沈佳琳</p>
+        <p class="dmeta">下一步 法务审核合同条款 / 预计 10-18 签约</p>
+      </div>
+      <div class="deal ok">
+        <span class="st st-won">演示通过</span>
+        <h3>深圳汇芯微电子 / 无尘车间改造</h3>
+        <p class="dmeta">金额 <b>¥205 万</b> / 负责人 顾远帆</p>
+        <p class="dmeta">下一步 安排产线现场验证 / 预计 11-02 决标</p>
+      </div>
+      <div class="deal warn">
+        <span class="st st-risk">竞标风险</span>
+        <h3>北京中科联净 / 整线采购</h3>
+        <p class="dmeta">金额 <b>¥128 万</b> / 负责人 苏婉清</p>
+        <p class="dmeta">下一步 定价复议与增值服务包 / 10-25 开标</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header class="ph">
+      <div>
+        <h2>近期推进时间线</h2>
+        <p class="psub">团队关键动作 / 数据截至 09-30 当周</p>
+      </div>
+      <span class="ptag">9 月 39 条动作</span>
+    </header>
+    <div class="tl">
+      <div class="tli">
+        <span class="tld">09-30</span>
+        <p><span class="who">沈佳琳</span> / 苏州晶合 ¥340 万合同提交法务审核</p>
+      </div>
+      <div class="tli">
+        <span class="tld">09-29</span>
+        <p><span class="who">顾远帆</span> / 深圳汇芯方案演示通过技术评估</p>
+      </div>
+      <div class="tli">
+        <span class="tld">09-28</span>
+        <p><span class="who">陆明轩</span> / 宁波昊鑫二期扩产询价转为有效商机</p>
+      </div>
+      <div class="tli">
+        <span class="tld">09-27</span>
+        <p><span class="who">苏婉清</span> / 北京中科联竞标对手降价 / 发起定价复议</p>
+      </div>
+      <div class="tli">
+        <span class="tld">09-26</span>
+        <p><span class="who">何启航</span> / 成都天府面板输单复盘归档 / 转介线索 2 条</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<footer class="foot">
+  <p>UI 设计提示词库 / Sales Intelligence 销售智能</p>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+</div>
+</body>
+</html>

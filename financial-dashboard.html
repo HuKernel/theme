@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Financial Dashboard 金融仪表盘 / UI 设计提示词库</title>
+<!-- token: bg#0D0F16 panel#151A24 line#232B3A fg#EEF1F7 muted#9AA3B5 profit#22C55E/#4ADE80 loss#EF4444/#F87171 trust深蓝#2C4E80(合计) / r:10px / Fira Code tabular-nums + Fira Sans / 12列 gap8 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0F16; --panel:#151A24; --panel2:#1A2130; --line:#232B3A;
+  --fg:#EEF1F7; --muted:#9AA3B5;
+  --green:#4ADE80; --green-fill:#22C55E;
+  --red:#F87171; --red-fill:#EF4444;
+  --navy:#2C4E80; --blue:#7FB0FF; --amber:#FBBF24;
+  --r:10px; --gap:8px;
+  --mono:"Fira Code",monospace; --sans:"Fira Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:13px;line-height:1.45}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+svg{display:block}
+.wrap{max-width:1440px;margin:0 auto;padding:8px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.up{color:var(--green)} .down{color:var(--red)}
+.arrow{width:9px;height:9px;flex:none}
+
+/* ---------- 顶栏 ---------- */
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;background:rgba(13,15,22,.92);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:var(--r);padding:8px 12px;margin-bottom:var(--gap)}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px}
+.brand .logo{width:20px;height:20px;color:var(--green)}
+.crumb{color:var(--muted);font-size:12px;border-left:1px solid var(--line);padding-left:12px}
+.asof{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.btn{font-family:var(--sans);font-size:12px;font-weight:500;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,color .15s}
+.btn:hover{color:var(--fg);border-color:#33405C}
+.btn svg{width:12px;height:12px}
+.btn:disabled{opacity:.6;cursor:default}
+.cur-group{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.cur-btn{font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--panel);border:none;padding:5px 10px;cursor:pointer;transition:background .15s,color .15s}
+.cur-btn+.cur-btn{border-left:1px solid var(--line)}
+.cur-btn:hover{color:var(--fg)}
+.cur-btn[aria-pressed="true"]{background:#223451;color:var(--fg)}
+
+/* ---------- 12 列网格 ---------- */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.card-h{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.card-h h2{font-size:13px;font-weight:600}
+.card-h .sub{font-size:11px;color:var(--muted)}
+.card-h .right{margin-left:auto;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.dotg,.dotr{width:8px;height:8px;border-radius:2px;flex:none}
+.dotg{background:var(--green-fill)} .dotr{background:var(--red-fill)}
+
+/* ---------- KPI 概览卡 ---------- */
+.kpi{grid-column:span 3;position:relative}
+.kpi .lab{color:var(--muted);font-size:12px;margin-bottom:6px}
+.kpi .val{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:23px;font-weight:600;letter-spacing:-.5px;line-height:1.15}
+.kpi .delta{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:3px}
+.kpi .note{font-size:11px;color:var(--muted);margin-top:6px}
+.kpi .spark{margin-top:8px}
+
+/* ---------- 瀑布图 / 条形图通用 ---------- */
+.chart{width:100%;height:auto}
+.chart text{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tick{fill:var(--muted);font-size:10px}
+.axis{stroke:var(--line);stroke-width:1}
+.gline{stroke:var(--line);stroke-width:1;stroke-dasharray:1 4}
+.xlab{fill:var(--muted);font-size:10.5px}
+.wlab{font-size:10px;font-weight:500}
+.pos{fill:var(--green)} .neg{fill:var(--red)} .tot{fill:var(--fg)}
+.bar-g{fill:var(--green-fill)} .bar-r{fill:var(--red-fill)} .bar-t{fill:var(--navy)}
+.wlink{stroke:#5468A0;stroke-width:1.5;stroke-dasharray:3 3;opacity:.7}
+.final-stroke{stroke:var(--green);stroke-width:1}
+.legend{display:flex;gap:12px;align-items:center}
+.legend span{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+
+/* ---------- 账户全景列表 ---------- */
+.accts{grid-column:span 5;display:flex;flex-direction:column}
+.act-grid{display:grid;grid-template-columns:minmax(0,1.6fr) 62px minmax(0,1.3fr) 66px 84px;gap:0 10px;align-items:center;padding:7px 8px;border-radius:6px;border-bottom:1px solid #1B2230}
+.act-grid:last-child{border-bottom:none}
+.act-grid:hover{background:var(--panel2)}
+.act-head{color:var(--muted);font-size:11px;font-weight:500;padding:5px 8px;border-bottom:1px solid var(--line)}
+.act-head:hover{background:transparent}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-size:12.5px}
+.a-name{display:flex;align-items:center;gap:8px;min-width:0}
+.a-name .ic{width:26px;height:26px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;color:var(--blue)}
+.a-name .ic svg{width:13px;height:13px}
+.a-name b{font-weight:600;font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a-name small{color:var(--muted);font-size:10.5px;display:block}
+.a-type{font-size:10.5px;padding:2px 7px;border-radius:99px;border:1px solid var(--line);color:var(--muted);justify-self:start}
+.a-type.liab{color:var(--red);border-color:#4A2A33}
+.a-cur{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.a-bal small{display:block;font-size:10px;color:var(--muted);margin-top:1px}
+.a-delta{display:flex;align-items:center;justify-content:flex-end;gap:3px;font-family:var(--mono);font-size:11px}
+.negv{color:var(--red)}
+.a-foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.a-foot .t{color:var(--muted);font-size:11px}
+.a-foot .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:16px;font-weight:600}
+
+/* ---------- 预算执行 ---------- */
+.budget{grid-column:span 5}
+.brow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:8px 0;border-bottom:1px solid #1B2230}
+.brow:last-child{border-bottom:none}
+.bname{font-size:12px}
+.bnum{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:11.5px;color:var(--muted)}
+.bnum b{color:var(--fg);font-weight:500}
+.btrack{grid-column:1 / -1;position:relative;height:8px;border-radius:4px;background:#101623;border:1px solid var(--line);overflow:visible}
+.bfill{position:absolute;left:0;top:0;bottom:0;border-radius:4px 0 0 4px;background:var(--green-fill)}
+.bfill.over{background:var(--red-fill)}
+.bmark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--muted);border-radius:1px}
+.bpct{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:11.5px;justify-self:end;align-self:center;grid-row:1}
+
+/* ---------- 收支明细（审计流水） ---------- */
+.trail{grid-column:span 12}
+.trail-grid{display:grid;grid-template-columns:96px minmax(0,2.2fr) minmax(0,1.2fr) 88px 130px 70px;gap:0 12px;align-items:center;padding:7px 8px;border-bottom:1px solid #1B2230}
+.trail-grid:last-child{border-bottom:none}
+.trail-head{color:var(--muted);font-size:11px;font-weight:500;border-bottom:1px solid var(--line)}
+.trail-head:hover{background:transparent}
+.t-date,.t-time{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:11.5px;color:var(--muted)}
+.t-desc{font-size:12px}
+.t-desc small{display:block;color:var(--muted);font-size:10.5px}
+.t-acct{color:var(--muted);font-size:11.5px}
+.t-amt{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-size:12.5px;font-weight:500}
+.t-tag{font-size:10.5px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);justify-self:start;color:var(--muted)}
+.t-tag.in{color:var(--green);border-color:#2A4A38}
+.t-tag.out{color:var(--red);border-color:#4A2A33}
+
+/* ---------- footer ---------- */
+footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;margin-top:var(--gap);color:var(--muted);font-size:12px}
+
+/* ---------- 一次亮相动效 ---------- */
+@keyframes rise{from{transform:scaleY(0)}}
+@keyframes fadein{from{opacity:0}}
+@keyframes draw{to{stroke-dashoffset:0}}
+.rise{transform-box:fill-box;transform-origin:50% 100%;animation:rise .55s cubic-bezier(.22,.75,.3,1) both}
+.wlink{animation:fadein .35s ease both}
+.wlab-anim{animation:fadein .35s ease both}
+.sparkline{stroke-dasharray:220;stroke-dashoffset:220;animation:draw .9s ease-out .35s forwards}
+@media (prefers-reduced-motion:reduce){
+  .rise,.wlink,.wlab-anim,.sparkline{animation:none}
+  .sparkline{stroke-dashoffset:0}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1100px){
+  .kpi{grid-column:span 6}
+  .waterfall,.accts,.monthly,.budget{grid-column:span 12}
+  .trail-grid{grid-template-columns:90px minmax(0,2fr) minmax(0,1.2fr) 80px 120px}
+  .t-time{display:none}
+}
+@media (max-width:760px){
+  .asof{display:none}
+  .crumb{display:none}
+  .act-grid{grid-template-columns:minmax(0,1.5fr) 56px minmax(0,1.1fr) 62px}
+  .a-type{display:none}
+  .trail-grid{grid-template-columns:86px minmax(0,2fr) 110px}
+  .t-acct,.t-tag,.t-time{display:none}
+  .trail-head .h-acct,.trail-head .h-tag,.trail-head .h-time{display:none}
+}
+@media (max-width:430px){
+  .kpi{grid-column:span 12}
+  .kpi .val{font-size:20px}
+  .act-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 58px}
+  .a-cur{display:none}
+  .act-head .h-cur{display:none}
+  .btn span{display:none}
+  .btn{padding:5px 8px}
+  .trail-grid{grid-template-columns:minmax(0,2fr) 104px}
+  .t-date{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 顶栏 -->
+  <div class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 3 6-8"/><path d="M17 6h4v4"/><path d="M3 21h18"/></svg>
+      家庭账簿
+    </div>
+    <div class="crumb">账户全景 / 2026 年 9 月</div>
+    <div class="asof">数据截至 2026-09-30 23:59 / 已对账</div>
+    <div class="cur-group" role="group" aria-label="显示币种切换">
+      <button class="cur-btn" data-cur="CNY" aria-pressed="true">CNY</button>
+      <button class="cur-btn" data-cur="USD" aria-pressed="false">USD</button>
+      <button class="cur-btn" data-cur="SGD" aria-pressed="false">SGD</button>
+    </div>
+    <button class="btn" id="exportBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+      <span>导出 Excel</span>
+    </button>
+  </div>
+
+  <!-- 资产负债总览 KPI -->
+  <div class="grid" style="margin-bottom:8px">
+    <div class="card kpi">
+      <div class="lab">总资产</div>
+      <div class="delta up" title="含 6 个资产账户 / CNY 与 USD 与 SGD">
+        <svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+1.2%
+      </div>
+      <div class="val kpi-val" data-cny="2056201.40">¥2,056,201.40</div>
+      <div class="note">6 个资产账户 / 3 种币种</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><polyline class="sparkline" points="0,24 11,22 22,23 33,19 44,20 55,16 66,17 77,13 88,14 99,10 110,8 120,6" fill="none" stroke="#4ADE80" stroke-width="1.5"/></svg>
+    </div>
+    <div class="card kpi">
+      <div class="lab">总负债</div>
+      <div class="delta up" title="负债较上月减少 0.6%（按约定还本，视为利好，绿色表示）">
+        <svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 9L1 4h8z" fill="currentColor"/></svg>-0.6%
+      </div>
+      <div class="val kpi-val" data-cny="878730.65">¥878,730.65</div>
+      <div class="note">房贷余额 / 信用卡应付款</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><polyline class="sparkline" points="0,8 11,9 22,8 33,10 44,11 55,12 66,12 77,13 88,14 99,15 110,16 120,16" fill="none" stroke="#4ADE80" stroke-width="1.5"/></svg>
+    </div>
+    <div class="card kpi">
+      <div class="lab">净资产</div>
+      <div class="delta up" title="总资产减总负债">
+        <svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+2.6%
+      </div>
+      <div class="val kpi-val" data-cny="1177470.75">¥1,177,470.75</div>
+      <div class="note">较上月增加 29,686</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><polyline class="sparkline" points="0,26 11,24 22,25 33,21 44,22 55,17 66,18 77,14 88,13 99,11 110,9 120,7" fill="none" stroke="#4ADE80" stroke-width="1.5"/></svg>
+    </div>
+    <div class="card kpi">
+      <div class="lab">9 月净储蓄</div>
+      <div class="delta down" title="上月净储蓄 12,800 / 本月 12,600">
+        <svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 9L1 4h8z" fill="currentColor"/></svg>-1.6%
+      </div>
+      <div class="val kpi-val" data-cny="12600.00">¥12,600.00</div>
+      <div class="note">储蓄率 27.4% / 环比 -0.9 个百分点</div>
+      <svg class="spark" width="100%" height="30" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><polyline class="sparkline" points="0,14 11,10 22,16 33,12 44,18 55,11 66,15 77,9 88,13 99,17 110,10 120,12" fill="none" stroke="#F87171" stroke-width="1.5"/></svg>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 现金流瀑布（主图） -->
+    <div class="card waterfall" style="grid-column:span 7">
+      <div class="card-h">
+        <h2>9 月现金流瀑布</h2>
+        <span class="sub">收入构成 / 支出扣除 / 落至净储蓄</span>
+        <div class="right">
+          <div class="legend"><span><i class="dotg"></i>收入流入</span><span><i class="dotr"></i>支出流出</span><span><i class="dotg" style="background:#2C4E80"></i>合计</span></div>
+        </div>
+      </div>
+      <svg class="chart" viewBox="0 0 640 336" role="img" aria-label="9 月现金流水瀑图：总收入 46,000，总支出 33,400，净储蓄 12,600">
+        <!-- 网格与刻度：单位 万元（按当前显示币种） -->
+        <line class="gline" x1="40" y1="80"  x2="624" y2="80"/>
+        <line class="gline" x1="40" y1="135" x2="624" y2="135"/>
+        <line class="gline" x1="40" y1="190" x2="624" y2="190"/>
+        <line class="gline" x1="40" y1="245" x2="624" y2="245"/>
+        <line class="axis"  x1="40" y1="300" x2="624" y2="300"/>
+        <text class="tick" x="36" y="303" text-anchor="end">0</text>
+        <text class="tick" x="36" y="248" text-anchor="end">1</text>
+        <text class="tick" x="36" y="193" text-anchor="end">2</text>
+        <text class="tick" x="36" y="138" text-anchor="end">3</text>
+        <text class="tick" x="36" y="83"  text-anchor="end">4</text>
+        <!-- 收入（自 0 起） -->
+        <rect class="bar-g rise" x="46"  y="69"   width="44" height="231"  rx="2" style="animation-delay:.05s"/>
+        <rect class="bar-g rise" x="112" y="51.4" width="44" height="17.6" rx="2" style="animation-delay:.13s"/>
+        <rect class="bar-g rise" x="178" y="47"   width="44" height="4.4"  rx="2" style="animation-delay:.21s"/>
+        <!-- 收入合计 -->
+        <rect class="bar-t rise" x="244" y="47" width="44" height="253" rx="2" style="animation-delay:.29s"/>
+        <!-- 支出（悬浮下扣） -->
+        <rect class="bar-r rise" x="310" y="47"    width="44" height="70.4" rx="2" style="animation-delay:.37s"/>
+        <rect class="bar-r rise" x="376" y="117.4" width="44" height="35.8" rx="2" style="animation-delay:.45s"/>
+        <rect class="bar-r rise" x="442" y="153.2" width="44" height="66"   rx="2" style="animation-delay:.53s"/>
+        <rect class="bar-r rise" x="508" y="219.2" width="44" height="11.6" rx="2" style="animation-delay:.61s"/>
+        <!-- 净储蓄合计（描边收束） -->
+        <rect class="bar-t rise final-stroke" x="574" y="230.7" width="44" height="69.3" rx="2" style="animation-delay:.69s"/>
+        <!-- 悬浮连接线 -->
+        <line class="wlink" x1="90"  y1="69"    x2="112" y2="69"    style="animation-delay:.14s"/>
+        <line class="wlink" x1="156" y1="51.4"  x2="178" y2="51.4"  style="animation-delay:.22s"/>
+        <line class="wlink" x1="222" y1="47"    x2="244" y2="47"    style="animation-delay:.30s"/>
+        <line class="wlink" x1="288" y1="47"    x2="310" y2="47"    style="animation-delay:.38s"/>
+        <line class="wlink" x1="354" y1="117.4" x2="376" y2="117.4" style="animation-delay:.46s"/>
+        <line class="wlink" x1="420" y1="153.2" x2="442" y2="153.2" style="animation-delay:.54s"/>
+        <line class="wlink" x1="486" y1="219.2" x2="508" y2="219.2" style="animation-delay:.62s"/>
+        <line class="wlink" x1="552" y1="230.7" x2="574" y2="230.7" style="animation-delay:.70s"/>
+        <!-- 数值标注 -->
+        <text class="wlab wlab-anim pos" x="68"  y="62"    text-anchor="middle" style="animation-delay:.2s">+<tspan data-cny="42000">42,000</tspan></text>
+        <text class="wlab wlab-anim pos" x="134" y="44.4"  text-anchor="middle" style="animation-delay:.28s">+<tspan data-cny="3200">3,200</tspan></text>
+        <text class="wlab wlab-anim pos" x="200" y="40"    text-anchor="middle" style="animation-delay:.36s">+<tspan data-cny="800">800</tspan></text>
+        <text class="wlab wlab-anim tot" x="266" y="40"    text-anchor="middle" style="animation-delay:.44s"><tspan data-cny="46000">46,000</tspan></text>
+        <text class="wlab wlab-anim neg" x="332" y="40"    text-anchor="middle" style="animation-delay:.52s">-<tspan data-cny="12800">12,800</tspan></text>
+        <text class="wlab wlab-anim neg" x="398" y="110.4" text-anchor="middle" style="animation-delay:.60s">-<tspan data-cny="6500">6,500</tspan></text>
+        <text class="wlab wlab-anim neg" x="464" y="146.2" text-anchor="middle" style="animation-delay:.68s">-<tspan data-cny="12000">12,000</tspan></text>
+        <text class="wlab wlab-anim neg" x="530" y="212.2" text-anchor="middle" style="animation-delay:.76s">-<tspan data-cny="2100">2,100</tspan></text>
+        <text class="wlab wlab-anim tot" x="596" y="222.7" text-anchor="middle" style="animation-delay:.84s"><tspan data-cny="12600">12,600</tspan></text>
+        <!-- 类目轴 -->
+        <text class="xlab" x="68"  y="318" text-anchor="middle">工资收入</text>
+        <text class="xlab" x="134" y="318" text-anchor="middle">投资分红</text>
+        <text class="xlab" x="200" y="318" text-anchor="middle">杂项收入</text>
+        <text class="xlab" x="266" y="318" text-anchor="middle">总收入</text>
+        <text class="xlab" x="332" y="318" text-anchor="middle">房贷还款</text>
+        <text class="xlab" x="398" y="318" text-anchor="middle">子女教育</text>
+        <text class="xlab" x="464" y="318" text-anchor="middle">生活娱乐</text>
+        <text class="xlab" x="530" y="318" text-anchor="middle">保险医疗</text>
+        <text class="xlab" x="596" y="318" text-anchor="middle">当月储蓄</text>
+        <text class="tick" x="40" y="332">纵轴单位：万元（按当前显示币种折算）</text>
+      </svg>
+    </div>
+
+    <!-- 账户全景 -->
+    <div class="card accts">
+      <div class="card-h">
+        <h2>账户全景</h2>
+        <span class="sub">原生币种余额 / 折算栏随显示币种切换</span>
+        <div class="right"><span id="acctHint">折算基准 CNY</span></div>
+      </div>
+      <div class="act-grid act-head">
+        <span>账户 / 机构</span><span class="h-cur">类型</span><span class="num" style="text-align:left">币种</span><span class="num">余额（原生）</span><span class="num">环比</span>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg></span><span><b>工资储蓄卡</b><small>工商银行 / 尾号 6217</small></span></div>
+        <span class="a-type">现金</span><span class="a-cur">CNY</span>
+        <div class="num a-bal">¥86,420.55<small>≈ <span data-cny="86420.55">86,420.55</span></small></div>
+        <div class="a-delta up" title="9 月工资入账"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+2.3%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20h16"/><path d="M6 20V10"/><path d="M12 20V4"/><path d="M18 20v-8"/></svg></span><span><b>定期存款（12 个月）</b><small>中国银行 / 年利率 1.35%</small></span></div>
+        <span class="a-type">现金</span><span class="a-cur">CNY</span>
+        <div class="num a-bal">¥500,000.00<small>≈ <span data-cny="500000">500,000.00</span></small></div>
+        <div class="a-delta up" title="季度结息入账"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+0.9%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg></span><span><b>沪深300指数基金</b><small>华泰柏瑞 / 定投第 38 期</small></span></div>
+        <span class="a-type">投资</span><span class="a-cur">CNY</span>
+        <div class="num a-bal">¥612,380.27<small>≈ <span data-cny="612380.27">612,380.27</span></small></div>
+        <div class="a-delta up" title="净值回升 1.8%"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+1.8%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg></span><span><b>海外证券账户</b><small>盈透证券 / VT 全市场 ETF</small></span></div>
+        <span class="a-type">投资</span><span class="a-cur">USD</span>
+        <div class="num a-bal">$48,210.40<small>≈ <span data-cny="349043.30">349,043.30</span></small></div>
+        <div class="a-delta down" title="美股本月回调"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 9L1 4h8z" fill="currentColor"/></svg>-2.1%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20"/><path d="M17 7H10a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6H6"/></svg></span><span><b>多币种储蓄</b><small>华侨银行 OCBC / 新加坡</small></span></div>
+        <span class="a-type">现金</span><span class="a-cur">SGD</span>
+        <div class="num a-bal">S$32,650.00<small>≈ <span data-cny="175657">175,657.00</span></small></div>
+        <div class="a-delta up" title="薪金入账 + 汇率小幅波动"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+0.4%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 21C7 17 3 13.5 3 9.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9 3.5c0 4-4 7.5-9 11.5z"/></svg></span><span><b>中央公积金 OA</b><small>CPF Board / 保健储蓄另计</small></span></div>
+        <span class="a-type">养老</span><span class="a-cur">SGD</span>
+        <div class="num a-bal">S$61,840.20<small>≈ <span data-cny="332700.28">332,700.28</span></small></div>
+        <div class="a-delta up" title="雇主与雇员双缴"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+0.7%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span><span><b>信用卡应付款</b><small>招商银行 / 账单日 10 日</small></span></div>
+        <span class="a-type liab">负债</span><span class="a-cur">CNY</span>
+        <div class="num a-bal negv">-¥18,730.65<small>≈ -<span data-cny="18730.65">18,730.65</span></small></div>
+        <div class="a-delta down" title="待还款增加，负债上升记为不利（红）"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 1l4 5H1z" fill="currentColor"/></svg>+5.2%</div>
+      </div>
+      <div class="act-grid">
+        <div class="a-name"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 10.5L12 4l9 6.5"/><path d="M5 9v11h14V9"/><path d="M10 20v-6h4v6"/></svg></span><span><b>房贷余额</b><small>工商银行 / 剩余 141 期</small></span></div>
+        <span class="a-type liab">负债</span><span class="a-cur">CNY</span>
+        <div class="num a-bal negv">-¥860,000.00<small>≈ -<span data-cny="860000">860,000.00</span></small></div>
+        <div class="a-delta up" title="按月还本，余额下降记为有利（绿）"><svg class="arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 9L1 4h8z" fill="currentColor"/></svg>-0.6%</div>
+      </div>
+      <div class="a-foot">
+        <span class="t">净资产（资产减负债）</span>
+        <span class="v kpi-val" data-cny="1177470.75">¥1,177,470.75</span>
+      </div>
+    </div>
+
+    <!-- 月度收支对比 -->
+    <div class="card monthly" style="grid-column:span 7">
+      <div class="card-h">
+        <h2>月度收支对比</h2>
+        <span class="sub">2025 年 10 月 至 2026 年 9 月</span>
+        <div class="right">
+          <div class="legend"><span><i class="dotg"></i>收入</span><span><i class="dotr"></i>支出</span></div>
+          <span class="mono" style="font-size:11px">9 月收入 <b class="up">+1.5%</b> / 支出 <b class="down">+2.8%</b></span>
+        </div>
+      </div>
+      <svg class="chart" viewBox="0 0 640 280" role="img" aria-label="近 12 个月收入与支出分组柱状图，收入均高于支出">
+        <line class="gline" x1="36" y1="30"    x2="628" y2="30"/>
+        <line class="gline" x1="36" y1="103.3" x2="628" y2="103.3"/>
+        <line class="gline" x1="36" y1="176.7" x2="628" y2="176.7"/>
+        <line class="axis"  x1="36" y1="250"   x2="628" y2="250"/>
+        <text class="tick" x="32" y="253"  text-anchor="end">0</text>
+        <text class="tick" x="32" y="180"  text-anchor="end">2</text>
+        <text class="tick" x="32" y="106.6" text-anchor="end">4</text>
+        <text class="tick" x="32" y="33"   text-anchor="end">6</text>
+        <!-- 12 月发薪标注 -->
+        <line x1="150" y1="52" x2="258" y2="52" stroke="#5468A0" stroke-width="1" stroke-dasharray="3 3"/>
+        <text class="tick" x="204" y="46" text-anchor="middle">12 月双薪与年终奖</text>
+        <!-- 9 月当月高亮 -->
+        <rect x="568" y="26" width="48" height="224" rx="4" fill="rgba(34,197,94,.07)"/>
+        <!-- 收入柱 -->
+        <rect class="bar-g rise" x="44"  y="102.6" width="14" height="147.4" rx="2" style="animation-delay:.05s"/>
+        <rect class="bar-g rise" x="92"  y="97.8"  width="14" height="152.2" rx="2" style="animation-delay:.08s"/>
+        <rect class="bar-g rise" x="140" y="56.4"  width="14" height="193.6" rx="2" style="animation-delay:.11s"/>
+        <rect class="bar-g rise" x="188" y="104.8" width="14" height="145.2" rx="2" style="animation-delay:.14s"/>
+        <rect class="bar-g rise" x="236" y="110.3" width="14" height="139.7" rx="2" style="animation-delay:.17s"/>
+        <rect class="bar-g rise" x="284" y="94.9"  width="14" height="155.1" rx="2" style="animation-delay:.20s"/>
+        <rect class="bar-g rise" x="332" y="96.7"  width="14" height="153.3" rx="2" style="animation-delay:.23s"/>
+        <rect class="bar-g rise" x="380" y="92.3"  width="14" height="157.7" rx="2" style="animation-delay:.26s"/>
+        <rect class="bar-g rise" x="428" y="93.8"  width="14" height="156.2" rx="2" style="animation-delay:.29s"/>
+        <rect class="bar-g rise" x="476" y="88.3"  width="14" height="161.7" rx="2" style="animation-delay:.32s"/>
+        <rect class="bar-g rise" x="524" y="83.9"  width="14" height="166.1" rx="2" style="animation-delay:.35s"/>
+        <rect class="bar-g rise" x="572" y="81.3"  width="14" height="168.7" rx="2" style="animation-delay:.38s"/>
+        <!-- 支出柱 -->
+        <rect class="bar-r rise" x="62"  y="145.1" width="14" height="104.9" rx="2" style="animation-delay:.09s"/>
+        <rect class="bar-r rise" x="110" y="135.6" width="14" height="114.4" rx="2" style="animation-delay:.12s"/>
+        <rect class="bar-r rise" x="158" y="114.7" width="14" height="135.3" rx="2" style="animation-delay:.15s"/>
+        <rect class="bar-r rise" x="206" y="127.5" width="14" height="122.5" rx="2" style="animation-delay:.18s"/>
+        <rect class="bar-r rise" x="254" y="148.0" width="14" height="102.0" rx="2" style="animation-delay:.21s"/>
+        <rect class="bar-r rise" x="302" y="141.8" width="14" height="108.2" rx="2" style="animation-delay:.24s"/>
+        <rect class="bar-r rise" x="350" y="139.6" width="14" height="110.4" rx="2" style="animation-delay:.27s"/>
+        <rect class="bar-r rise" x="398" y="133.4" width="14" height="116.6" rx="2" style="animation-delay:.30s"/>
+        <rect class="bar-r rise" x="446" y="124.6" width="14" height="125.4" rx="2" style="animation-delay:.33s"/>
+        <rect class="bar-r rise" x="494" y="137.4" width="14" height="112.6" rx="2" style="animation-delay:.36s"/>
+        <rect class="bar-r rise" x="542" y="130.8" width="14" height="119.2" rx="2" style="animation-delay:.39s"/>
+        <rect class="bar-r rise" x="590" y="127.5" width="14" height="122.5" rx="2" style="animation-delay:.42s"/>
+        <!-- 月份轴 -->
+        <text class="xlab" x="60"  y="266" text-anchor="middle">10月</text>
+        <text class="xlab" x="108" y="266" text-anchor="middle">11月</text>
+        <text class="xlab" x="156" y="266" text-anchor="middle">12月</text>
+        <text class="xlab" x="204" y="266" text-anchor="middle">1月</text>
+        <text class="xlab" x="252" y="266" text-anchor="middle">2月</text>
+        <text class="xlab" x="300" y="266" text-anchor="middle">3月</text>
+        <text class="xlab" x="348" y="266" text-anchor="middle">4月</text>
+        <text class="xlab" x="396" y="266" text-anchor="middle">5月</text>
+        <text class="xlab" x="444" y="266" text-anchor="middle">6月</text>
+        <text class="xlab" x="492" y="266" text-anchor="middle">7月</text>
+        <text class="xlab" x="540" y="266" text-anchor="middle">8月</text>
+        <text class="xlab" x="596" y="266" text-anchor="middle" fill="#4ADE80" font-weight="600">9月</text>
+        <text class="tick" x="36" y="278">纵轴单位：万元（按当前显示币种折算）</text>
+      </svg>
+    </div>
+
+    <!-- 预算执行 -->
+    <div class="card budget">
+      <div class="card-h">
+        <h2>9 月预算执行</h2>
+        <span class="sub">实际 / 预算</span>
+        <div class="right"><span class="mono" style="font-size:11px">整体超支 <b class="down">+4.4%</b></span></div>
+      </div>
+      <div class="brow">
+        <span class="bname">房贷还款</span>
+        <span class="bnum"><b data-cny="12800">12,800</b> / <span data-cny="13000">13,000</span></span>
+        <div class="btrack"><div class="bfill" style="width:98.5%"></div><div class="bmark" style="left:100%"></div></div>
+        <span class="bpct up">98.5%</span>
+      </div>
+      <div class="brow">
+        <span class="bname">子女教育</span>
+        <span class="bnum"><b data-cny="6500">6,500</b> / <span data-cny="6000">6,000</span></span>
+        <div class="btrack"><div class="bfill over" style="width:100%"></div><div class="bmark" style="left:100%"></div></div>
+        <span class="bpct down">108.3%</span>
+      </div>
+      <div class="brow">
+        <span class="bname">生活娱乐</span>
+        <span class="bnum"><b data-cny="12000">12,000</b> / <span data-cny="11000">11,000</span></span>
+        <div class="btrack"><div class="bfill over" style="width:100%"></div><div class="bmark" style="left:100%"></div></div>
+        <span class="bpct down">109.1%</span>
+      </div>
+      <div class="brow">
+        <span class="bname">保险医疗</span>
+        <span class="bnum"><b data-cny="2100">2,100</b> / <span data-cny="2000">2,000</span></span>
+        <div class="btrack"><div class="bfill over" style="width:100%"></div><div class="bmark" style="left:100%"></div></div>
+        <span class="bpct down">105.0%</span>
+      </div>
+      <div class="brow">
+        <span class="bname">定投与储蓄</span>
+        <span class="bnum"><b data-cny="12600">12,600</b> / <span data-cny="12000">12,000</span></span>
+        <div class="btrack"><div class="bfill" style="width:100%"></div><div class="bmark" style="left:95.2%"></div></div>
+        <span class="bpct up">105.0%</span>
+      </div>
+      <div class="card-h" style="margin:8px 0 0">
+        <span class="sub">注：轨道满宽为预算值，超出预算以红色显示。参考汇率 1 美元 = 7.24 / 1 新元 = 5.38</span>
+      </div>
+    </div>
+
+    <!-- 收支明细（审计流水） -->
+    <div class="card trail">
+      <div class="card-h">
+        <h2>收支明细</h2>
+        <span class="sub">9 月已对账流水 / 共 214 笔，展示大额 5 笔</span>
+        <div class="right"><span>对账状态：与银行回单一致</span></div>
+      </div>
+      <div class="trail-grid trail-head">
+        <span class="t-date">日期</span><span>摘要</span><span class="h-acct t-acct">账户</span><span class="h-tag">类别</span><span class="num" style="text-align:right">金额</span><span class="h-time" style="text-align:right">入账时间</span>
+      </div>
+      <div class="trail-grid">
+        <span class="t-date">09-30</span>
+        <span class="t-desc">9 月工资入账<small>代发 / 含交通补贴 1,200</small></span>
+        <span class="t-acct">工商银行 6217</span>
+        <span class="t-tag in">收入</span>
+        <span class="t-amt up">+<span data-cny="42000">42,000.00</span></span>
+        <span class="t-time" style="text-align:right">09:12</span>
+      </div>
+      <div class="trail-grid">
+        <span class="t-date">09-30</span>
+        <span class="t-desc">房贷月供自动扣款<small>本金 4,950 / 利息 7,850</small></span>
+        <span class="t-acct">工商银行贷款户</span>
+        <span class="t-tag out">支出</span>
+        <span class="t-amt down">-<span data-cny="12800">12,800.00</span></span>
+        <span class="t-time" style="text-align:right">06:00</span>
+      </div>
+      <div class="trail-grid">
+        <span class="t-date">09-28</span>
+        <span class="t-desc">沪深300 ETF 基金分红<small>现金分红 / 税后</small></span>
+        <span class="t-acct">华泰证券</span>
+        <span class="t-tag in">投资收益</span>
+        <span class="t-amt up">+<span data-cny="3200">3,200.00</span></span>
+        <span class="t-time" style="text-align:right">15:32</span>
+      </div>
+      <div class="trail-grid">
+        <span class="t-date">09-26</span>
+        <span class="t-desc">子女学校学费（秋季学期）<small>国际部 / 分期第 1 期</small></span>
+        <span class="t-acct">招商银行信用卡</span>
+        <span class="t-tag out">支出</span>
+        <span class="t-amt down">-<span data-cny="6500">6,500.00</span></span>
+        <span class="t-time" style="text-align:right">10:05</span>
+      </div>
+      <div class="trail-grid">
+        <span class="t-date">09-24</span>
+        <span class="t-desc">购汇美元<small>留学缴费准备金 / 汷价 7.24</small></span>
+        <span class="t-acct">中国银行外汇户</span>
+        <span class="t-tag">转账</span>
+        <span class="t-amt down">-<span data-cny="36200">36,200.00</span></span>
+        <span class="t-time" style="text-align:right">14:47</span>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>UI 设计提示词库 / Financial Dashboard 金融仪表盘</span>
+    <a href="style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+<script>
+(function(){
+  var RATE={CNY:1,USD:1/7.24,SGD:1/5.38};
+  var SYM={CNY:'¥',USD:'$',SGD:'S$'};
+  var cur='CNY';
+  var stopped=false;
+  var nf=new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  function fmt(v){return SYM[cur]+nf.format(v*RATE[cur]);}
+  function applyCurrency(){
+    var els=document.querySelectorAll('[data-cny]');
+    for(var i=0;i<els.length;i++){
+      els[i].textContent=fmt(parseFloat(els[i].getAttribute('data-cny')));
+    }
+  }
+  function setCur(c){
+    cur=c;
+    stopped=true;
+    applyCurrency();
+    document.getElementById('acctHint').textContent='折算基准 '+c;
+    var btns=document.querySelectorAll('.cur-btn');
+    for(var j=0;j<btns.length;j++){
+      btns[j].setAttribute('aria-pressed',btns[j].getAttribute('data-cur')===c?'true':'false');
+    }
+  }
+  var btns=document.querySelectorAll('.cur-btn');
+  for(var j=0;j<btns.length;j++){
+    btns[j].addEventListener('click',function(){setCur(this.getAttribute('data-cur'));});
+  }
+
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced){applyCurrency();}
+  else{
+    var els=document.querySelectorAll('.kpi-val[data-cny]');
+    var arr=[];
+    for(var k=0;k<els.length;k++){arr.push([els[k],parseFloat(els[k].getAttribute('data-cny'))]);}
+    var t0=null;
+    function step(t){
+      if(stopped){return;}
+      if(t0===null){t0=t;}
+      var p=Math.min(1,(t-t0)/900);
+      var e=1-Math.pow(1-p,3);
+      for(var i=0;i<arr.length;i++){arr[i][0].textContent=fmt(arr[i][1]*e);}
+      if(p<1){requestAnimationFrame(step);}
+    }
+    requestAnimationFrame(step);
+  }
+
+  var xb=document.getElementById('exportBtn');
+  xb.addEventListener('click',function(){
+    var l=xb.querySelector('span');
+    l.textContent='已导出 Excel';
+    xb.disabled=true;
+    setTimeout(function(){l.textContent='导出 Excel';xb.disabled=false;},1600);
+  });
+})();
+</script>
+</body>
+</html>

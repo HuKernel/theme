@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparative Analysis 对比分析 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* token 计划 / primary #2563eb / secondary #ea580c / accent #059669 / bg #F8FAFC / fg #0F172A / 圆角 10px / 字体 Plus Jakarta Sans */
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Plus Jakarta Sans','PingFang SC','Microsoft YaHei',sans-serif;background:#F8FAFC;color:#0F172A;font-size:14px;line-height:1.6}
+:where(a,button):focus-visible{outline:3px solid #1d4ed8;outline-offset:2px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1160px;margin:0 auto;padding:22px 20px 40px}
+.topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:40px;height:40px;flex:none}
+h1{font-size:21px;font-weight:800;letter-spacing:.2px}
+.sub{font-size:13px;color:#475569;margin-top:2px}
+.ctrl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.seg{display:flex;border:1px solid #cbd5e1;border-radius:8px;overflow:hidden;background:#fff}
+.seg-btn{border:0;background:#fff;color:#334155;font:inherit;font-weight:600;padding:8px 16px;cursor:pointer}
+.seg-btn+.seg-btn{border-left:1px solid #cbd5e1}
+.seg-btn[aria-pressed="true"]{background:#0F172A;color:#fff}
+.btn{border:0;background:#2563eb;color:#fff;font:inherit;font-weight:700;padding:9px 18px;border-radius:8px;cursor:pointer}
+.btn:hover{background:#1d4ed8}
+.btn:active{transform:translateY(1px)}
+.status{font-size:12px;color:#047857}
+.pair{display:grid;grid-template-columns:1fr 64px 1fr;align-items:stretch;margin-bottom:18px}
+.seam{position:relative;display:grid;place-items:center}
+.seam::before{content:"";position:absolute;top:6px;bottom:6px;left:calc(50% - 1px);width:2px;background:linear-gradient(180deg,#2563eb 0%,#93c5fd 46%,#fdba74 54%,#ea580c 100%);border-radius:2px}
+.vs{position:relative;width:42px;height:42px;border-radius:50%;background:#fff;border:2px solid #e2e8f0;display:grid;place-items:center;font-size:13px;font-weight:800;color:#0F172A;box-shadow:0 1px 5px rgba(15,23,42,.1)}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+.card-hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px 18px;flex-wrap:wrap;margin-bottom:14px}
+h2{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+h2::before{content:"";width:9px;height:9px;border-radius:2px;background:linear-gradient(135deg,#2563eb 50%,#ea580c 50%);flex:none}
+.note{font-size:12.5px;color:#64748b}
+.store{border-radius:10px;border:1px solid #e2e8f0;background:#fff;padding:16px 18px}
+.store.sa{border-top:3px solid #2563eb}
+.store.sb{border-top:3px solid #ea580c}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:999px;margin-bottom:8px}
+.tag.ta{background:#dbeafe;color:#1e3a8a}
+.tag.tb{background:#ffedd5;color:#7c2d12}
+.store h3{font-size:17px;font-weight:800;margin-bottom:2px}
+.store.sa h3{color:#1e40af}
+.store.sb h3{color:#9a3412}
+.s-type{font-size:12.5px;color:#475569;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{font-size:12px;background:#f1f5f9;color:#334155;border-radius:999px;padding:3px 10px}
+.s-meta{font-size:12.5px;color:#475569;border-top:1px dashed #e2e8f0;padding-top:10px}
+.s-meta b{color:#0F172A}
+.dot-a,.dot-b{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.dot-a{background:#2563eb}
+.dot-b{background:#ea580c}
+.kpi-head,.kpi-row{display:grid;grid-template-columns:170px 1fr 128px 1fr;grid-template-areas:"name a d b";align-items:center;column-gap:6px}
+.kpi-head{font-size:12px;color:#64748b;font-weight:600;padding-bottom:8px;border-bottom:1px solid #e2e8f0}
+.c-name{grid-area:name}
+.c-a{grid-area:a}
+.c-d{grid-area:d}
+.c-b{grid-area:b}
+.kpi-head .c-a{text-align:right}
+.kpi-head .c-d{text-align:center}
+.kpi-row{border-bottom:1px solid #eef2f7}
+.kpi-row:nth-child(2n){background:#f8fafc}
+.kpi-row .c-name{font-weight:700;font-size:13.5px;padding:12px 8px 12px 2px}
+.kpi-row .c-name small{display:block;font-weight:400;font-size:11.5px;color:#64748b}
+.kpi-row .c-a,.kpi-row .c-b{display:flex;align-items:baseline;gap:7px;padding:14px 12px}
+.kpi-row .c-a{justify-content:flex-end;text-align:right}
+.kpi-row .c-b{justify-content:flex-start}
+.val{font-size:20px;font-weight:800;letter-spacing:.2px}
+.c-a .val{color:#1e40af}
+.c-b .val{color:#9a3412}
+.unit{font-style:normal;font-size:12px;color:#64748b}
+.lead{display:none;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px}
+.lead-a{background:#d1fae5;color:#064e3b}
+.lead-b{background:#ffedd5;color:#7c2d12}
+.kpi-row.wa .lead-a{display:inline-block}
+.kpi-row.wb .lead-b{display:inline-block}
+.kpi-row.wa .c-a{background:#eff6ff;box-shadow:inset 3px 0 0 #2563eb}
+.kpi-row.wb .c-b{background:#fff7ed;box-shadow:inset -3px 0 0 #ea580c}
+.c-d{position:relative;justify-self:stretch;display:grid;place-items:center;padding:6px 0}
+.c-d::before{content:"";position:absolute;left:calc(50% - 1px);top:0;bottom:0;width:2px;background:#e2e8f0}
+.badge-d{position:relative;z-index:1;display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.badge-d.up{background:#dcfce7;color:#14532d;border-color:#86efac}
+.badge-d.down{background:#fee2e2;color:#7f1d1d;border-color:#fca5a5}
+.mirror{position:relative;display:flex;flex-direction:column;gap:2px}
+.mirror::before{content:"";position:absolute;left:calc(50% - 1px);top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,rgba(37,99,235,.4),rgba(234,88,12,.4))}
+.m-row{display:grid;grid-template-columns:1fr 96px 1fr;gap:2px 12px;align-items:center;padding:7px 0}
+.m-side{display:flex;flex-direction:column;gap:5px}
+.m-num{font-size:12.5px;font-weight:700}
+.m-num.na{align-self:flex-end;color:#1e40af}
+.m-num.nb{align-self:flex-start;color:#9a3412}
+.m-track{height:14px;background:#f1f5f9;border-radius:4px;display:flex}
+.t-a{justify-content:flex-end}
+.bar{width:var(--w);min-width:6px}
+.bar.ba{background:linear-gradient(270deg,#2563eb,#60a5fa);border-radius:5px 0 0 5px}
+.bar.bb{background:linear-gradient(90deg,#ea580c,#fb923c);border-radius:0 5px 5px 0}
+.m-cat{justify-self:center;position:relative;z-index:1;background:#fff;border:1px solid #e2e8f0;border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;color:#334155;white-space:nowrap}
+.chart-scroll{overflow-x:auto}
+.chart{display:block;width:100%;min-width:640px;height:auto}
+.grid line{stroke:#e2e8f0;stroke-width:1}
+.ylab text,.xlab text{font-size:11px;fill:#64748b}
+.la{fill:none;stroke:#2563eb;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+.lb{fill:none;stroke:#ea580c;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:8 6}
+.bench{stroke:#64748b;stroke-width:1.6;stroke-dasharray:4 5}
+.bench-t{font-size:11px;fill:#475569}
+.dot{fill:#fff;stroke-width:2}
+.dot.da{stroke:#2563eb}
+.dot.db{stroke:#ea580c}
+.dot.da.last{fill:#2563eb}
+.dot.db.last{fill:#ea580c}
+.lg{display:flex;gap:6px 20px;flex-wrap:wrap;font-size:12.5px;color:#334155;margin-bottom:10px}
+.lg-i{display:inline-flex;align-items:center;gap:7px}
+.ln{display:inline-block;width:26px;border-top:3px solid #2563eb}
+.ln.lb-s{border-top:3px dashed #ea580c}
+.ln.bn-s{border-top:2px dashed #64748b}
+.trend-note{margin-top:10px;font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:0 6px 6px 0;padding:9px 12px}
+.heat-grid{display:grid;grid-template-columns:70px repeat(7,1fr);gap:4px}
+.h-hd{font-size:12px;color:#64748b;text-align:center;align-self:center;font-weight:600;padding:2px 0}
+.h-lab{font-size:12px;color:#475569;font-weight:600;text-align:right;align-self:center;padding-right:6px;white-space:nowrap}
+.h-cell{height:38px;display:grid;place-items:center;border-radius:6px;font-size:12.5px;font-weight:700}
+.a1{background:#dbeafe;color:#1e3a8a}
+.a2{background:#93c5fd;color:#172554}
+.a3{background:#2563eb;color:#fff}
+.b1{background:#ffedd5;color:#7c2d12}
+.b2{background:#fdba74;color:#7c2d12}
+.b3{background:#c2410c;color:#fff}
+.h-legend{display:flex;gap:6px 18px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:#475569;align-items:center}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.sw-a{background:#93c5fd}
+.sw-b{background:#fdba74}
+.plan{border-radius:10px;border:1px solid #e2e8f0;background:#fff;padding:16px 18px}
+.plan.pa{border-top:3px solid #2563eb}
+.plan.pb{border-top:3px solid #ea580c}
+.plan h3{font-size:16px;font-weight:800;margin:2px 0}
+.plan.pa h3{color:#1e40af}
+.plan.pb h3{color:#9a3412}
+.p-store{font-size:12.5px;color:#475569;margin-bottom:10px}
+.pl{list-style:none}
+.pl li{display:flex;justify-content:space-between;align-items:center;padding:9px 2px;border-bottom:1px dashed #e2e8f0;font-size:13px}
+.pl li:last-child{border-bottom:0}
+.pl span{color:#475569}
+.pl b{font-size:15px;font-weight:800;color:#334155}
+.pl li.win b{color:#047857}
+.pl li.win span::after{content:"领先";font-size:10.5px;font-weight:700;color:#064e3b;background:#d1fae5;border-radius:999px;padding:1px 7px;margin-left:8px;vertical-align:1px}
+.pl li.lose b{color:#64748b}
+.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:11px 16px;font-size:13px;color:#064e3b}
+.v-badge{background:#047857;color:#fff;font-weight:800;font-size:12.5px;border-radius:999px;padding:4px 12px;flex:none}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid #e2e8f0;padding-top:16px;margin-top:6px}
+.f-brand{font-size:13px;font-weight:700}
+.f-fine{font-size:12px;color:#64748b;margin-top:2px}
+.foot a{color:#1d4ed8;font-weight:600;font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
+.foot a:hover{color:#1e40af}
+@keyframes slideL{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes slideR{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes seamY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes pop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:none}}
+@keyframes grow{from{width:0}}
+@keyframes draw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.enter .side-l{animation:slideL .6s cubic-bezier(.22,.61,.36,1) both}
+.enter .side-r{animation:slideR .6s cubic-bezier(.22,.61,.36,1) both}
+.enter .seam::before,.enter .c-d::before,.enter .mirror::before{animation:seamY .55s .15s ease-out both}
+.enter .vs{animation:pop .45s .5s cubic-bezier(.34,1.56,.64,1) both}
+.enter .badge-d{animation:pop .45s .75s cubic-bezier(.34,1.56,.64,1) both}
+.enter .bar{animation:grow .95s .3s cubic-bezier(.22,.61,.36,1) both}
+.enter .chart-scroll{animation:draw 1.15s .25s ease-out both}
+@media (prefers-reduced-motion:reduce){
+.enter .side-l,.enter .side-r,.enter .seam::before,.enter .c-d::before,.enter .mirror::before,.enter .vs,.enter .badge-d,.enter .bar,.enter .chart-scroll{animation:none}
+}
+@media (max-width:960px){
+.pair{grid-template-columns:1fr}
+.seam{height:56px}
+.seam::before{left:8px;right:8px;top:calc(50% - 1px);bottom:auto;width:auto;height:2px;background:linear-gradient(90deg,#2563eb 0%,#93c5fd 46%,#fdba74 54%,#ea580c 100%)}
+.enter .seam::before{animation:none}
+}
+@media (max-width:640px){
+.wrap{padding:16px 12px 32px}
+h1{font-size:18px}
+.kpi-head{display:none}
+.kpi-head,.kpi-row{column-gap:4px}
+.kpi-row{grid-template-columns:1fr 1fr;grid-template-areas:"name name" "a b" "d d";row-gap:2px;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:8px 0;background:#fff}
+.kpi-row:nth-child(2n){background:#fff}
+.kpi-row .c-name{padding:4px 0 8px}
+.kpi-row .c-b{border-left:1px solid #eef2f7}
+.kpi-row .c-a,.kpi-row .c-b{padding:12px 10px}
+.val{font-size:18px}
+.c-d{padding:10px 0 4px}
+.c-d::before{left:10px;right:10px;top:calc(50% - 1px);bottom:auto;width:auto;height:2px}
+.m-row{grid-template-columns:1fr 76px 1fr;gap:2px 8px}
+.m-cat{font-size:11.5px;padding:4px 9px}
+.h-cell{height:34px;font-size:11.5px}
+.heat-grid{grid-template-columns:56px repeat(7,1fr);gap:3px}
+.h-lab{font-size:11px}
+.verdict{font-size:12.5px}
+}
+</style>
+</head>
+<body class="enter" data-period="q3">
+<div class="wrap">
+<header class="topbar">
+<div class="brand">
+<svg class="logo" viewBox="0 0 28 28" aria-hidden="true"><circle cx="11" cy="14" r="7.5" fill="#2563eb"/><circle cx="17" cy="14" r="7.5" fill="#ea580c" fill-opacity=".82"/></svg>
+<div>
+<h1>Comparative Analysis 对比分析</h1>
+<p class="sub">山雾咖啡 / 双门店经营对照 / 环宇中心店 vs 滨江天街店</p>
+</div>
+</div>
+<div class="ctrl">
+<div class="seg" role="group" aria-label="对照时段选择">
+<button type="button" class="seg-btn" data-p="q3" aria-pressed="true">2026 Q3</button>
+<button type="button" class="seg-btn" data-p="q2" aria-pressed="false">2026 Q2</button>
+</div>
+<button type="button" id="export" class="btn">导出对照报告</button>
+<span id="exp-status" class="status" aria-live="polite"></span>
+</div>
+</header>
+<main>
+<h2 class="sr-only">门店档案对照</h2>
+<section class="pair" aria-label="门店档案对照">
+<article class="store sa side-l">
+<span class="tag ta">门店 A</span>
+<h3>环宇中心店</h3>
+<p class="s-type">商务写字楼客群 / 工作日早高峰见长 / 复购稳定</p>
+<div class="chips">
+<span class="chip">营业面积 128㎡</span>
+<span class="chip">员工 9 人</span>
+<span class="chip">2023 年 3 月开业</span>
+<span class="chip">堂食为主</span>
+</div>
+<p class="s-meta">本季综合评分 <b>4.6</b> / 周均营业 78 小时 / 会员渗透率 <b>52%</b></p>
+</article>
+<div class="seam" aria-hidden="true"><span class="vs">VS</span></div>
+<article class="store sb side-r">
+<span class="tag tb">门店 B</span>
+<h3>滨江天街店</h3>
+<p class="s-type">购物中心家庭客群 / 晚间与周末见长 / 客单偏低</p>
+<div class="chips">
+<span class="chip">营业面积 165㎡</span>
+<span class="chip">员工 12 人</span>
+<span class="chip">2024 年 6 月开业</span>
+<span class="chip">外卖占比高</span>
+</div>
+<p class="s-meta">本季综合评分 <b>4.4</b> / 周均营业 84 小时 / 会员渗透率 <b>41%</b></p>
+</article>
+</section>
+<section class="card" aria-label="核心指标对照">
+<div class="card-hd">
+<h2>核心指标对照</h2>
+<p class="note"><span id="range">对照区间 / 2026-07-01 至 2026-09-28</span> / 差异按 A 店相对 B 店计算</p>
+</div>
+<div class="kpi-table" role="table" aria-label="门店核心指标对照表">
+<div class="kpi-head" role="row">
+<span class="c-name" role="columnheader">指标</span>
+<span class="c-a" role="columnheader"><i class="dot-a" aria-hidden="true"></i>环宇中心店</span>
+<span class="c-d" role="columnheader">差异</span>
+<span class="c-b" role="columnheader"><i class="dot-b" aria-hidden="true"></i>滨江天街店</span>
+</div>
+<div class="kpi-row wa" role="row">
+<span class="c-name" role="rowheader">季度营业额<small>含税累计</small></span>
+<span class="c-a" role="cell"><span class="lead lead-a">领先</span><b class="val va">174.8</b><i class="unit">万元</i></span>
+<span class="c-d" role="cell"><span class="badge-d up">▲ 3.3%</span></span>
+<span class="c-b" role="cell"><b class="val vb">169.2</b><i class="unit">万元</i></span>
+</div>
+<div class="kpi-row wb" role="row">
+<span class="c-name" role="rowheader">日均订单<small>POS 均值</small></span>
+<span class="c-a" role="cell"><b class="val va">812</b><i class="unit">单</i></span>
+<span class="c-d" role="cell"><span class="badge-d down">▼ 6.3%</span></span>
+<span class="c-b" role="cell"><span class="lead lead-b">领先</span><b class="val vb">867</b><i class="unit">单</i></span>
+</div>
+<div class="kpi-row wa" role="row">
+<span class="c-name" role="rowheader">客单价<small>含税口径</small></span>
+<span class="c-a" role="cell"><span class="lead lead-a">领先</span><b class="val va">43.6</b><i class="unit">元</i></span>
+<span class="c-d" role="cell"><span class="badge-d up">▲ 12.1%</span></span>
+<span class="c-b" role="cell"><b class="val vb">38.9</b><i class="unit">元</i></span>
+</div>
+<div class="kpi-row wa" role="row">
+<span class="c-name" role="rowheader">会员复购率<small>90 天内二次消费占比</small></span>
+<span class="c-a" role="cell"><span class="lead lead-a">领先</span><b class="val va">34.2%</b></span>
+<span class="c-d" role="cell"><span class="badge-d up">▲ 2.4pp</span></span>
+<span class="c-b" role="cell"><b class="val vb">31.8%</b></span>
+</div>
+<div class="kpi-row wb" role="row">
+<span class="c-name" role="rowheader">外卖占比<small>平台加自配送</small></span>
+<span class="c-a" role="cell"><b class="val va">28.4%</b></span>
+<span class="c-d" role="cell"><span class="badge-d down">▼ 8.3pp</span></span>
+<span class="c-b" role="cell"><span class="lead lead-b">领先</span><b class="val vb">36.7%</b></span>
+</div>
+</div>
+</section>
+<section class="card" aria-label="品类结构镜像对比">
+<div class="card-hd">
+<h2>品类结构镜像对比</h2>
+<p class="note">销售占比 % / 条形自中缝向外延伸 / 满格为 60%</p>
+</div>
+<div class="mirror">
+<div class="m-row">
+<div class="m-side">
+<span class="m-num na">52.0%</span>
+<div class="m-track t-a"><div class="bar ba" style="--w:86.7%"></div></div>
+</div>
+<span class="m-cat">咖啡饮品</span>
+<div class="m-side">
+<span class="m-num nb">46.0%</span>
+<div class="m-track"><div class="bar bb" style="--w:76.7%"></div></div>
+</div>
+</div>
+<div class="m-row">
+<div class="m-side">
+<span class="m-num na">21.0%</span>
+<div class="m-track t-a"><div class="bar ba" style="--w:35%"></div></div>
+</div>
+<span class="m-cat">非咖饮品</span>
+<div class="m-side">
+<span class="m-num nb">24.0%</span>
+<div class="m-track"><div class="bar bb" style="--w:40%"></div></div>
+</div>
+</div>
+<div class="m-row">
+<div class="m-side">
+<span class="m-num na">18.0%</span>
+<div class="m-track t-a"><div class="bar ba" style="--w:30%"></div></div>
+</div>
+<span class="m-cat">烘焙轻食</span>
+<div class="m-side">
+<span class="m-num nb">17.0%</span>
+<div class="m-track"><div class="bar bb" style="--w:28.3%"></div></div>
+</div>
+</div>
+<div class="m-row">
+<div class="m-side">
+<span class="m-num na">9.0%</span>
+<div class="m-track t-a"><div class="bar ba" style="--w:15%"></div></div>
+</div>
+<span class="m-cat">周边零售</span>
+<div class="m-side">
+<span class="m-num nb">13.0%</span>
+<div class="m-track"><div class="bar bb" style="--w:21.7%"></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="card" aria-label="周营收双线走势">
+<div class="card-hd">
+<h2>周营收双线走势</h2>
+<p class="note">单位 万元 / 环城两店同图对照 / 灰虚线为目标基准</p>
+</div>
+<div class="lg" aria-hidden="true">
+<span class="lg-i"><i class="ln"></i>环宇中心店 / 实线</span>
+<span class="lg-i"><i class="ln lb-s"></i>滨江天街店 / 虚线</span>
+<span class="lg-i"><i class="ln bn-s"></i>目标基准 12.5 万</span>
+</div>
+<div class="chart-scroll">
+<svg class="chart" viewBox="0 0 680 300" role="img" aria-label="周营收双折线对照图 / 实线为环宇中心店 / 虚线为滨江天街店 / 灰色水平虚线为目标基准 12.5 万元">
+<g class="grid" aria-hidden="true">
+<line x1="52" y1="30" x2="664" y2="30"/>
+<line x1="52" y1="90" x2="664" y2="90"/>
+<line x1="52" y1="150" x2="664" y2="150"/>
+<line x1="52" y1="210" x2="664" y2="210"/>
+<line x1="52" y1="270" x2="664" y2="270"/>
+</g>
+<g class="ylab" text-anchor="end" aria-hidden="true">
+<text x="42" y="274">8</text>
+<text x="42" y="214">10</text>
+<text x="42" y="154">12</text>
+<text x="42" y="94">14</text>
+<text x="42" y="34">16</text>
+</g>
+<g class="xlab" text-anchor="middle" aria-hidden="true">
+<text class="wk" x="52" y="292">W27</text>
+<text class="wk" x="103" y="292">W28</text>
+<text class="wk" x="154" y="292">W29</text>
+<text class="wk" x="205" y="292">W30</text>
+<text class="wk" x="256" y="292">W31</text>
+<text class="wk" x="307" y="292">W32</text>
+<text class="wk" x="358" y="292">W33</text>
+<text class="wk" x="409" y="292">W34</text>
+<text class="wk" x="460" y="292">W35</text>
+<text class="wk" x="511" y="292">W36</text>
+<text class="wk" x="562" y="292">W37</text>
+<text class="wk" x="613" y="292">W38</text>
+<text class="wk" x="664" y="292">W39</text>
+</g>
+<line class="bench" x1="52" y1="135" x2="664" y2="135" aria-hidden="true"/>
+<text class="bench-t" x="60" y="127">目标基准 12.5 万</text>
+<polyline id="lineB" class="lb" points="52,198 103,183 154,162 205,174 256,153 307,141 358,150 409,132 460,117 511,108 562,84 613,57 664,42"><title>滨江天街店 / 虚线</title></polyline>
+<polyline id="lineA" class="la" points="52,174 103,156 154,138 205,147 256,123 307,105 358,114 409,96 460,87 511,102 562,78 613,63 664,51"><title>环宇中心店 / 实线</title></polyline>
+<g aria-hidden="true">
+<circle class="dot db" cx="52" cy="198" r="3.4"/>
+<circle class="dot db" cx="103" cy="183" r="3.4"/>
+<circle class="dot db" cx="154" cy="162" r="3.4"/>
+<circle class="dot db" cx="205" cy="174" r="3.4"/>
+<circle class="dot db" cx="256" cy="153" r="3.4"/>
+<circle class="dot db" cx="307" cy="141" r="3.4"/>
+<circle class="dot db" cx="358" cy="150" r="3.4"/>
+<circle class="dot db" cx="409" cy="132" r="3.4"/>
+<circle class="dot db" cx="460" cy="117" r="3.4"/>
+<circle class="dot db" cx="511" cy="108" r="3.4"/>
+<circle class="dot db" cx="562" cy="84" r="3.4"/>
+<circle class="dot db" cx="613" cy="57" r="3.4"/>
+<circle class="dot db last" cx="664" cy="42" r="4.5"/>
+</g>
+<g aria-hidden="true">
+<circle class="dot da" cx="52" cy="174" r="3.4"/>
+<circle class="dot da" cx="103" cy="156" r="3.4"/>
+<circle class="dot da" cx="154" cy="138" r="3.4"/>
+<circle class="dot da" cx="205" cy="147" r="3.4"/>
+<circle class="dot da" cx="256" cy="123" r="3.4"/>
+<circle class="dot da" cx="307" cy="105" r="3.4"/>
+<circle class="dot da" cx="358" cy="114" r="3.4"/>
+<circle class="dot da" cx="409" cy="96" r="3.4"/>
+<circle class="dot da" cx="460" cy="87" r="3.4"/>
+<circle class="dot da" cx="511" cy="102" r="3.4"/>
+<circle class="dot da" cx="562" cy="78" r="3.4"/>
+<circle class="dot da" cx="613" cy="63" r="3.4"/>
+<circle class="dot da last" cx="664" cy="51" r="4.5"/>
+</g>
+</svg>
+</div>
+<p class="trend-note" id="trend-note">走势解读 / 环宇店前 10 周稳居上方 / 滨江店自 W37 连续 3 周反超 / 季末单周差距 0.3 万元</p>
+</section>
+<section class="card" aria-label="分时段客流差异热力">
+<div class="card-hd">
+<h2>分时段客流差异热力</h2>
+<p class="note">数值为 A 店客流份额减 B 店 / 单位 百分点 / 正值偏蓝 / 负值偏橙</p>
+</div>
+<div class="heat-grid" role="group" aria-label="分时段客流差异矩阵 / 行为时段 / 列为星期">
+<span class="h-hd"></span>
+<span class="h-hd">周一</span><span class="h-hd">周二</span><span class="h-hd">周三</span><span class="h-hd">周四</span>
+<span class="h-hd">周五</span><span class="h-hd">周六</span><span class="h-hd">周日</span>
+<span class="h-lab">08 - 11 时</span>
+<span class="h-cell a2">+6</span><span class="h-cell a2">+4</span><span class="h-cell a1">+3</span><span class="h-cell a1">+2</span><span class="h-cell a2">+4</span><span class="h-cell a3">+9</span><span class="h-cell a2">+7</span>
+<span class="h-lab">11 - 14 时</span>
+<span class="h-cell a1">+3</span><span class="h-cell a1">+2</span><span class="h-cell a1">+1</span><span class="h-cell b1">-1</span><span class="h-cell a1">+1</span><span class="h-cell a2">+4</span><span class="h-cell a1">+3</span>
+<span class="h-lab">14 - 17 时</span>
+<span class="h-cell b1">-2</span><span class="h-cell b1">-1</span><span class="h-cell b1">-3</span><span class="h-cell b1">-2</span><span class="h-cell b2">-4</span><span class="h-cell b1">-1</span><span class="h-cell b2">-5</span>
+<span class="h-lab">17 - 20 时</span>
+<span class="h-cell b1">-4</span><span class="h-cell b1">-3</span><span class="h-cell b2">-5</span><span class="h-cell b1">-4</span><span class="h-cell b2">-6</span><span class="h-cell b2">-7</span><span class="h-cell b3">-8</span>
+<span class="h-lab">20 - 23 时</span>
+<span class="h-cell b1">-3</span><span class="h-cell b1">-4</span><span class="h-cell b2">-6</span><span class="h-cell b1">-5</span><span class="h-cell b2">-7</span><span class="h-cell b2">-8</span><span class="h-cell b3">-9</span>
+</div>
+<div class="h-legend">
+<span><i class="sw sw-a" aria-hidden="true"></i>环宇店占优</span>
+<span><i class="sw sw-b" aria-hidden="true"></i>滨江天街店占优</span>
+<span>颜色越深差距越大</span>
+<span>样本 / POS 心跳去重客流</span>
+</div>
+</section>
+<section class="card" aria-label="促销方案 A/B 试验">
+<div class="card-hd">
+<h2>促销方案 A/B 试验</h2>
+<p class="note">2026 年 9 月 / 各店单独试点 4 周 / 指标同口径回流</p>
+</div>
+<div class="pair">
+<article class="plan pa side-l">
+<span class="tag ta">方案 A</span>
+<h3>第二杯半价</h3>
+<p class="p-store">试点门店 / 环宇中心店</p>
+<ul class="pl">
+<li class="lose"><span>活动参与率</span><b>18.6%</b></li>
+<li class="win"><span>客单价提升</span><b>+11.2%</b></li>
+<li class="win"><span>新增会员</span><b>412 人</b></li>
+<li class="win"><span>试验 ROI</span><b>3.8</b></li>
+</ul>
+</article>
+<div class="seam" aria-hidden="true"><span class="vs">VS</span></div>
+<article class="plan pb side-r">
+<span class="tag tb">方案 B</span>
+<h3>烘焙加购立减 3 元</h3>
+<p class="p-store">试点门店 / 滨江天街店</p>
+<ul class="pl">
+<li class="win"><span>活动参与率</span><b>24.3%</b></li>
+<li class="lose"><span>客单价提升</span><b>+6.8%</b></li>
+<li class="lose"><span>新增会员</span><b>386 人</b></li>
+<li class="lose"><span>试验 ROI</span><b>2.9</b></li>
+</ul>
+</article>
+</div>
+<p class="verdict"><span class="v-badge">方案 A 胜出</span>4 项核心指标中 3 项领先 / 建议 Q4 两店同步上线「第二杯半价」/ 加购立减转入货架陈列试验</p>
+</section>
+</main>
+<footer class="foot">
+<div>
+<p class="f-brand">UI 设计提示词库 / Comparative Analysis 对比分析</p>
+<p class="f-fine">演示数据为虚构 / 差异着色遵循 绿升红降 约定 / 仅供设计模式展示</p>
+</div>
+<a href="style-catalog.html">返回风格目录</a>
+</footer>
+</div>
+<script>
+(function(){
+'use strict';
+var DATA={
+q3:{
+kpis:[{a:'174.8',b:'169.2',d:'3.3%',dir:'up'},{a:'812',b:'867',d:'6.3%',dir:'down'},{a:'43.6',b:'38.9',d:'12.1%',dir:'up'},{a:'34.2%',b:'31.8%',d:'2.4pp',dir:'up'},{a:'28.4%',b:'36.7%',d:'8.3pp',dir:'down'}],
+cats:[[52,46],[21,24],[18,17],[9,13]],
+weeks:'W27 W28 W29 W30 W31 W32 W33 W34 W35 W36 W37 W38 W39'.split(' '),
+la:[11.2,11.8,12.4,12.1,12.9,13.5,13.2,13.8,14.1,13.6,14.4,14.9,15.3],
+lb:[10.4,10.9,11.6,11.2,11.9,12.3,12.0,12.6,13.1,13.4,14.2,15.1,15.6],
+range:'对照区间 / 2026-07-01 至 2026-09-28',
+tnote:'走势解读 / 环宇店前 10 周稳居上方 / 滨江店自 W37 连续 3 周反超 / 季末单周差距 0.3 万元',
+heat:'+6,a2,+4,a2,+3,a1,+2,a1,+4,a2,+9,a3,+7,a2,+3,a1,+2,a1,+1,a1,-1,b1,+1,a1,+4,a2,+3,a1,-2,b1,-1,b1,-3,b1,-2,b1,-4,b2,-1,b1,-5,b2,-4,b1,-3,b1,-5,b2,-4,b1,-6,b2,-7,b2,-8,b3,-3,b1,-4,b1,-6,b2,-5,b1,-7,b2,-8,b2,-9,b3'.split(',')
+},
+q2:{
+kpis:[{a:'152.3',b:'141.9',d:'7.3%',dir:'up'},{a:'781',b:'824',d:'5.2%',dir:'down'},{a:'39.9',b:'35.2',d:'13.3%',dir:'up'},{a:'31.5%',b:'30.2%',d:'1.3pp',dir:'up'},{a:'25.1%',b:'34.2%',d:'9.1pp',dir:'down'}],
+cats:[[55,47],[19,23],[17,18],[9,12]],
+weeks:'W14 W15 W16 W17 W18 W19 W20 W21 W22 W23 W24 W25 W26'.split(' '),
+la:[10.2,10.8,10.5,11.1,11.6,11.3,11.9,12.2,11.8,12.5,12.1,12.7,13.1],
+lb:[9.6,9.9,10.4,10.1,10.7,10.5,10.9,11.2,10.8,11.4,11.1,11.6,12.0],
+range:'对照区间 / 2026-04-01 至 2026-06-30',
+tnote:'走势解读 / 两店差距全季稳定在 0.5 至 1.2 万元 / 环宇店全程未被反超 / 滨江店季末才开始加速',
+heat:'+5,a2,+3,a1,+2,a1,+1,a1,+3,a2,+8,a3,+6,a2,+2,a1,+1,a1,+1,a1,-2,b1,-1,b1,+3,a1,+2,a1,-1,b1,-2,b1,-2,b1,-1,b1,-3,b1,-2,b1,-4,b2,-3,b1,-2,b1,-4,b1,-3,b1,-5,b2,-6,b2,-7,b2,-2,b1,-3,b1,-5,b2,-4,b1,-6,b2,-7,b2,-8,b3'.split(',')
+}};
+function $(s){return document.querySelector(s)}
+function $$(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+function X(i){return 52+i*51}
+function Y(v){return 270-(v-8)*30}
+function pts(arr){return arr.map(function(v,i){return X(i)+','+Y(v)}).join(' ')}
+var segBtns=$$('.seg-btn'),rows=$$('.kpi-row'),mrows=$$('.m-row'),
+dotsA=$$('.dot.da'),dotsB=$$('.dot.db'),wkLabels=$$('.wk'),hcells=$$('.h-cell');
+function setPeriod(p){
+var d=DATA[p];
+document.body.setAttribute('data-period',p);
+segBtns.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-p')===p))});
+rows.forEach(function(r,i){
+var k=d.kpis[i];
+r.querySelector('.va').textContent=k.a;
+r.querySelector('.vb').textContent=k.b;
+var bd=r.querySelector('.badge-d');
+bd.textContent=(k.dir==='up'?'▲ ':'▼ ')+k.d;
+bd.className='badge-d '+k.dir;
+r.classList.toggle('wa',k.dir==='up');
+r.classList.toggle('wb',k.dir==='down');
+});
+mrows.forEach(function(r,i){
+var c=d.cats[i];
+r.querySelector('.bar.ba').style.setProperty('--w',(c[0]/60*100).toFixed(1)+'%');
+r.querySelector('.bar.bb').style.setProperty('--w',(c[1]/60*100).toFixed(1)+'%');
+r.querySelector('.m-num.na').textContent=c[0]+'.0%';
+r.querySelector('.m-num.nb').textContent=c[1]+'.0%';
+});
+document.getElementById('lineA').setAttribute('points',pts(d.la));
+document.getElementById('lineB').setAttribute('points',pts(d.lb));
+dotsA.forEach(function(c,i){c.setAttribute('cx',X(i));c.setAttribute('cy',Y(d.la[i]))});
+dotsB.forEach(function(c,i){c.setAttribute('cx',X(i));c.setAttribute('cy',Y(d.lb[i]))});
+wkLabels.forEach(function(t,i){t.textContent=d.weeks[i]});
+hcells.forEach(function(cell,i){cell.textContent=d.heat[2*i];cell.className='h-cell '+d.heat[2*i+1]});
+document.getElementById('range').textContent=d.range;
+document.getElementById('trend-note').textContent=d.tnote;
+}
+segBtns.forEach(function(b){b.addEventListener('click',function(){setPeriod(b.getAttribute('data-p'))})});
+var tid=0;
+document.getElementById('export').addEventListener('click',function(){
+var st=document.getElementById('exp-status');
+st.textContent='对照报告已生成 / 演示页不提供下载';
+window.clearTimeout(tid);
+tid=window.setTimeout(function(){st.textContent=''},3000);
+});
+})();
+</script>
+</body>
+</html>

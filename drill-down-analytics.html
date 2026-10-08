@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drill-Down Analytics 下钻分析 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划: primary #5725eb / secondary #db25eb / accent #ebad25 / bg #F8FAFC / fg #0F172A / radius 10px / head Fira Code / body Fira Sans / 层级深度色 L0紫 L1洋红 L2琥珀 L3青 */
+:root{
+  --primary:#5725eb;
+  --secondary:#db25eb;
+  --accent:#ebad25;
+  --bg:#F8FAFC;
+  --fg:#0F172A;
+  --radius:10px;
+  --card:#ffffff;
+  --line:#e2e8f0;
+  --muted:#475069;
+  --pos:#047857;
+  --neg:#b91c1c;
+  --lvl:#5725eb;
+  --lvl-ink:#3b1a8f;
+  --font-head:"Fira Code",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --font-body:"Fira Sans",-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.app{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 28px 56px;
+}
+/* ---------- 亮相动效:整页一次,不逐卡 ---------- */
+@keyframes rise{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+.app > *{animation:rise .45s cubic-bezier(.22,.7,.3,1) both}
+/* 下钻/上钻时的内容过渡:150ms 淡切,不炫技 */
+.fadezone{transition:opacity .15s ease}
+.fadezone.fade{opacity:.3}
+/* ---------- header ---------- */
+header.top{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px 32px;
+  padding:44px 0 26px;
+}
+.eyebrow{
+  font-size:13px;
+  color:var(--muted);
+  letter-spacing:.04em;
+}
+.eyebrow b{color:var(--lvl-ink);font-weight:600}
+h1{
+  font-family:var(--font-head);
+  font-size:clamp(24px,3.4vw,34px);
+  font-weight:600;
+  letter-spacing:-.01em;
+  margin:8px 0 10px;
+}
+h1 em{font-style:normal;color:var(--lvl)}
+.sub{max-width:56ch;color:var(--muted);font-size:14.5px}
+.sub code{
+  font-family:var(--font-head);
+  font-size:12.5px;
+  background:#eef0f7;
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:1px 6px;
+  color:var(--lvl-ink);
+}
+/* 层级深度指示 */
+.stepper{
+  display:flex;
+  align-items:center;
+  gap:0;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px 18px;
+}
+.step{display:flex;align-items:center;gap:8px}
+.step .dot{
+  width:11px;height:11px;border-radius:50%;
+  border:2px solid #c6cddd;
+  background:var(--card);
+  flex:none;
+  transition:background .2s,border-color .2s;
+}
+.step .tx{font-size:12.5px;color:#5f6780;white-space:nowrap}
+.step .tx b{display:block;font-family:var(--font-head);font-size:11px;color:#6b7490;font-weight:500}
+.step.done .dot,.step.cur .dot{border-color:var(--lvl)}
+.step.cur .dot{background:var(--lvl);box-shadow:0 0 0 4px color-mix(in srgb,var(--lvl) 18%,transparent)}
+.step.cur .tx{color:var(--fg);font-weight:600}
+.step.cur .tx b{color:var(--lvl-ink)}
+.step.done .tx{color:var(--muted)}
+.step.done .dot{background:color-mix(in srgb,var(--lvl) 45%,var(--card))}
+.step-link{width:26px;height:2px;background:#d8deeb;margin:0 10px;flex:none}
+.step.done + .step-link{background:color-mix(in srgb,var(--lvl) 55%,#fff)}
+/* ---------- sticky 面包屑 ---------- */
+.crumbs{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:color-mix(in srgb,var(--card) 88%,transparent);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:10px 12px;
+  box-shadow:0 6px 20px rgba(15,23,42,.06);
+}
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:var(--font-body);
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--fg);
+  background:#eef0f7;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:7px 13px 7px 10px;
+  cursor:pointer;
+  flex:none;
+  transition:background .15s,border-color .15s;
+}
+.back svg{width:14px;height:14px;stroke:var(--lvl-ink)}
+.back:hover:not(:disabled){background:#e4e1f8;border-color:#cdc5f0}
+.back:disabled{opacity:.45;cursor:not-allowed}
+.crumb{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:2px 4px;
+  list-style:none;
+  min-width:0;
+}
+.crumb .sep{color:#6b7490;font-family:var(--font-head);font-size:13px;padding:0 5px}
+.seg{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:0;
+  font-family:var(--font-body);
+  font-size:13.5px;
+  font-weight:500;
+  color:var(--muted);
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:7px;
+  padding:3px 8px;
+  cursor:pointer;
+  transition:color .15s,background .15s;
+}
+.seg small{font-size:11px;color:#6b7490;font-family:var(--font-head)}
+.seg:hover{color:var(--lvl-ink);background:#f1ecfd}
+.seg.cur{
+  color:var(--fg);
+  font-weight:700;
+  background:color-mix(in srgb,var(--lvl) 10%,var(--card));
+  border-color:color-mix(in srgb,var(--lvl) 30%,var(--card));
+  cursor:default;
+}
+.seg.cur small{color:var(--lvl-ink)}
+.lvl-tag{
+  margin-left:auto;
+  flex:none;
+  font-family:var(--font-head);
+  font-size:12px;
+  color:var(--lvl-ink);
+  background:color-mix(in srgb,var(--lvl) 10%,var(--card));
+  border:1px solid color-mix(in srgb,var(--lvl) 25%,var(--card));
+  border-radius:999px;
+  padding:4px 12px;
+}
+/* ---------- KPI ---------- */
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin:22px 0;
+}
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px 18px 14px;
+  position:relative;
+  overflow:hidden;
+}
+.kpi::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:4px;
+  background:var(--lvl);
+  opacity:.85;
+}
+.kpi .lb{font-size:12.5px;color:var(--muted)}
+.kpi .vl{
+  font-family:var(--font-head);
+  font-size:clamp(20px,2.2vw,26px);
+  font-weight:600;
+  margin-top:4px;
+  letter-spacing:-.01em;
+}
+.kpi .vl small{font-size:13px;color:var(--muted);font-weight:400;margin-left:3px}
+.kpi .dl{font-size:12px;margin-top:5px;color:var(--muted)}
+.kpi .dl b{font-weight:600}
+.up{color:var(--pos)}
+.down{color:var(--neg)}
+/* ---------- 主看板 ---------- */
+.board{
+  display:grid;
+  grid-template-columns:1.85fr 1fr;
+  gap:16px;
+}
+.pane{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.pane-hd{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+  flex:none;
+}
+.pane-hd h2{font-size:15.5px;font-weight:700;letter-spacing:-.01em}
+.pane-hd .hint{font-size:12px;color:#6b7490}
+.pane-hd .hint b{color:var(--lvl-ink);font-weight:600}
+/* treemap */
+.treemap{
+  position:relative;
+  flex:1;
+  min-height:clamp(330px,44vh,460px);
+  border-radius:8px;
+  overflow:hidden;
+  background:
+    linear-gradient(color-mix(in srgb,var(--lvl) 4%,var(--card)) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--lvl) 4%,var(--card)) 1px,transparent 1px);
+  background-size:36px 36px;
+}
+.tm-cell{
+  position:absolute;
+  font-family:var(--font-body);
+  color:var(--lvl-ink);
+  background:var(--tm-bg,#e6dbfd);
+  border:1.5px solid var(--card);
+  border-radius:7px;
+  cursor:pointer;
+  text-align:left;
+  padding:10px 12px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:2px;
+  transition:filter .15s,box-shadow .15s;
+}
+.tm-cell .nm{
+  font-size:13.5px;
+  font-weight:700;
+  line-height:1.3;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+.tm-cell .vl{font-family:var(--font-head);font-size:12.5px;font-weight:500;opacity:.92;white-space:nowrap}
+.tm-cell .pc{font-size:11px;opacity:.88;white-space:nowrap}
+.tm-cell .go{
+  margin-top:auto;
+  font-size:11px;
+  font-weight:600;
+  color:var(--lvl);
+  white-space:nowrap;
+}
+.tm-cell.sm .vl,.tm-cell.sm .pc,.tm-cell.sm .go{display:none}
+.tm-cell.leaf{cursor:default}
+.tm-cell:not(.leaf):hover{filter:brightness(.94) saturate(1.15);box-shadow:inset 0 0 0 2px var(--lvl)}
+.tm-cell:not(.leaf):hover .go{text-decoration:underline}
+/* 分项条列表 */
+.rows{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  flex:1;
+  justify-content:space-between;
+}
+.row{
+  display:grid;
+  grid-template-columns:22px minmax(0,1fr) 74px 58px;
+  align-items:center;
+  gap:10px;
+  font-family:var(--font-body);
+  background:#f7f8fc;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+  cursor:pointer;
+  transition:border-color .15s,background .15s;
+  text-align:left;
+}
+.row .rk{font-family:var(--font-head);font-size:12px;color:#6b7490}
+.row .bd{min-width:0}
+.row .nm{
+  font-size:13.5px;
+  font-weight:600;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.row .track{
+  height:6px;
+  border-radius:4px;
+  background:#e6eaf3;
+  margin-top:6px;
+  overflow:hidden;
+}
+.row .fill{
+  height:100%;
+  border-radius:4px;
+  background:var(--lvl);
+  width:0;
+  transition:width .3s ease;
+}
+.row .vl{font-family:var(--font-head);font-size:12.5px;text-align:right;white-space:nowrap}
+.row .yy{font-family:var(--font-head);font-size:12px;text-align:right;white-space:nowrap}
+.row.leaf{cursor:default}
+.row:not(.leaf):hover{border-color:var(--lvl);background:#f3effe}
+/* ---------- 明细表 ---------- */
+.detail{
+  margin-top:16px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px 20px;
+}
+.tbl-wrap{overflow-x:auto}
+.tbl{min-width:720px}
+.tr{
+  display:grid;
+  grid-template-columns:minmax(0,1.7fr) 110px 88px 88px minmax(120px,1fr) 92px;
+  gap:10px;
+  align-items:center;
+  padding:9px 10px;
+  border-bottom:1px solid #eef1f7;
+}
+.tbl.tr-sku .tr{
+  grid-template-columns:minmax(0,1.7fr) 110px 78px 104px 88px minmax(120px,1fr);
+}
+.tr.hd{
+  font-size:12px;
+  color:var(--muted);
+  border-bottom:1px solid var(--line);
+  background:#f8f9fd;
+  border-radius:7px 7px 0 0;
+  position:sticky;
+  top:0;
+}
+.tr.hd > div{font-weight:600}
+.tr .c-name{font-weight:600;font-size:13.5px;min-width:0}
+.tr .c-name small{display:block;font-weight:400;font-size:11.5px;color:#6b7490;margin-top:1px}
+.tr .num-c{font-family:var(--font-head);font-size:12.5px;text-align:right}
+.tr .spark{display:flex;align-items:flex-end;gap:3px;height:26px}
+.tr .spark i{
+  flex:1;
+  min-width:4px;
+  border-radius:2px 2px 0 0;
+  background:color-mix(in srgb,var(--lvl) 34%,#dfe4f0);
+}
+.tr .spark i:last-child{background:var(--lvl)}
+.tr .act{
+  font-family:var(--font-body);
+  font-size:12px;
+  font-weight:600;
+  color:var(--lvl-ink);
+  background:color-mix(in srgb,var(--lvl) 9%,var(--card));
+  border:1px solid color-mix(in srgb,var(--lvl) 30%,var(--card));
+  border-radius:7px;
+  padding:5px 0;
+  cursor:pointer;
+  text-align:center;
+  transition:background .15s;
+}
+.tr .act:hover{background:color-mix(in srgb,var(--lvl) 18%,var(--card))}
+.tbl-note{font-size:12px;color:#6b7490;margin-top:10px}
+/* ---------- footer ---------- */
+footer{
+  margin-top:40px;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px 24px;
+  font-size:13px;
+  color:var(--muted);
+}
+footer .f-path{font-family:var(--font-head);font-size:12px;color:#6b7490}
+footer a{
+  color:var(--lvl-ink);
+  font-weight:600;
+  text-decoration:none;
+  border:1px solid color-mix(in srgb,var(--lvl) 30%,var(--card));
+  border-radius:8px;
+  padding:7px 14px;
+  transition:background .15s;
+}
+footer a:hover{background:color-mix(in srgb,var(--lvl) 10%,var(--card))}
+/* ---------- focus & 键盘可达 ---------- */
+button:focus-visible,a:focus-visible{
+  outline:2.5px solid var(--accent);
+  outline-offset:2px;
+  border-radius:6px;
+}
+/* ---------- 响应式 ---------- */
+@media (max-width:1020px){
+  .board{grid-template-columns:1.5fr 1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:768px){
+  .app{padding:0 16px 44px}
+  header.top{padding-top:30px}
+  .board{grid-template-columns:1fr}
+  .treemap{min-height:340px}
+  .rows{flex-direction:column;gap:8px}
+  .crumbs{flex-wrap:wrap}
+  .lvl-tag{margin-left:0}
+  .stepper{padding:11px 13px;overflow-x:auto}
+}
+@media (max-width:480px){
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{padding:12px 12px 11px}
+  .crumbs{gap:8px}
+  .crumb .sep{padding:0 2px}
+  .row{grid-template-columns:18px minmax(0,1fr) 64px 50px;padding:8px 10px}
+}
+/* ---------- reduced-motion 降级 ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+  .fadezone.fade{opacity:1}
+}
+</style>
+</head>
+<body data-depth="0">
+<div class="app">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">下钻分析仪表盘 / <b>层级钻取</b> / 从总到分的导航即分析</p>
+      <h1>通汇零售集团 <em>销售下钻</em></h1>
+      <p class="sub">从集团到单品的四级钻取:点击任一分项进入下一层,点击面包屑或「返回上一级」回溯。<code>面积 / 条长 = 销售额</code>,每一步下钻都会重算整个视图。</p>
+    </div>
+    <div class="stepper" id="stepper" aria-label="层级深度指示"></div>
+  </header>
+
+  <nav class="crumbs" aria-label="分析路径">
+    <button class="back" id="backBtn" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      返回上一级
+    </button>
+    <ol class="crumb" id="crumb"></ol>
+    <span class="lvl-tag" id="lvlTag">L0 / 集团总览</span>
+  </nav>
+
+  <section class="kpis fadezone" id="kpis" aria-label="当前层级关键指标"></section>
+
+  <main class="board fadezone" id="board">
+    <section class="pane" aria-label="当前层级分布图">
+      <div class="pane-hd">
+        <h2 id="mapTitle">集团 / 区域分布</h2>
+        <p class="hint">面积 = 年销售额,<b>点击分块下钻</b></p>
+      </div>
+      <div class="treemap" id="treemap" role="group" aria-label="当前层级销售额分布矩形树图"></div>
+    </section>
+    <section class="pane" aria-label="当前层级分项排行">
+      <div class="pane-hd">
+        <h2 id="listTitle">区域排行</h2>
+        <p class="hint">条长 = 销售额占比</p>
+      </div>
+      <div class="rows" id="rows" role="group" aria-label="分项排行列表"></div>
+    </section>
+  </main>
+
+  <section class="detail fadezone" id="detail">
+    <div class="pane-hd">
+      <h2 id="tblTitle">集团 / 区域明细</h2>
+      <p class="hint" id="tblHint">按销售额降序</p>
+    </div>
+    <div class="tbl-wrap">
+      <div class="tbl" id="tbl" role="table" aria-label="当前层级明细数据"></div>
+    </div>
+    <p class="tbl-note" id="tblNote"></p>
+  </section>
+
+  <footer>
+    <div>
+      <p>UI 设计提示词库 / Drill-Down Analytics 下钻分析</p>
+      <p class="f-path">L0 集团 / L1 区域 / L2 门店 / L3 品类单品</p>
+    </div>
+    <a href="style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+
+<script>
+/* ================= 数据:集团(L0) > 区域(L1) > 门店(L2) > 品类单品(L3) ================= */
+const CATS = {
+  "生鲜果蔬": { yoy:+6.2,  skus:[["有机生菜","300g",9.9,.29],["阳光玫瑰葡萄","500g",29.9,.24],["山东红富士苹果","1kg",15.8,.21],["冷鲜五花肉","400g",26.5,.15],["厄瓜多尔白虾","250g",49.9,.11]] },
+  "乳品烘焙": { yoy:+9.4,  skus:[["鲜牛奶","950ml",15.9,.31],["希腊式酸奶","100g × 4",22.8,.24],["全麦吐司","400g",13.5,.17],["黄油可颂","80g",8.5,.15],["老式鸡蛋糕","300g",19.9,.13]] },
+  "休闲零食": { yoy:+12.8, skus:[["每日坚果","25g × 30",89.0,.26],["海盐苏打饼干","168g",12.9,.22],["黑巧克力 72%","100g",25.0,.19],["手工厚切薯片","104g",15.8,.18],["蜜汁猪肉脯","100g",28.0,.15]] },
+  "饮料冲调": { yoy:+15.3, skus:[["冷萃咖啡液","260ml",39.9,.27],["茉莉花茶","500ml × 12",45.0,.23],["气泡水","330ml × 6",29.9,.19],["挂耳咖啡","10g × 10",49.0,.17],["阿萨姆奶茶","250ml × 24",59.0,.14]] },
+  "日用百货": { yoy:+2.1,  skus:[["原木抽纸","3层 100抽 × 24",42.9,.30],["洗衣凝珠","48颗",36.9,.24],["厨房纸巾","2卷 × 4",21.9,.18],["食品保鲜袋","50只 × 3",12.9,.15],["衣物柔顺剂","2kg",32.9,.13]] },
+  "个护美妆": { yoy:+18.6, skus:[["烟酰胺身体乳","250ml",59.9,.28],["氨基酸洁面","120g",49.9,.23],["防晒霜 SPF50+","50ml",89.0,.18],["洗发水","500ml",54.0,.17],["多效牙膏","120g × 3",29.9,.14]] }
+};
+const CAT_BASE = {"生鲜果蔬":.26,"乳品烘焙":.17,"休闲零食":.15,"饮料冲调":.12,"日用百货":.17,"个护美妆":.13};
+const REGIONS = [
+  { name:"华东区域", yoy:+12.4, stores:[
+    { name:"上海中山公园店", sales:11.2, orders:486, yoy:+14.2 },
+    { name:"杭州西湖银泰店", sales:8.9, orders:391, yoy:+11.6 },
+    { name:"南京新街口店", sales:7.1, orders:322, yoy:+9.8 },
+    { name:"苏州工业园店", sales:4.6, orders:205, yoy:+13.0 }]},
+  { name:"华南区域", yoy:+8.7, stores:[
+    { name:"广州天河城店", sales:10.3, orders:468, yoy:+7.9 },
+    { name:"深圳南山海岸城店", sales:8.5, orders:377, yoy:+10.4 },
+    { name:"佛山岭南天地店", sales:5.3, orders:246, yoy:+6.1 }]},
+  { name:"华北区域", yoy:+3.2, stores:[
+    { name:"北京朝阳大悦城店", sales:8.8, orders:402, yoy:+4.6 },
+    { name:"天津和平店", sales:5.6, orders:259, yoy:+1.8 },
+    { name:"石家庄中山路店", sales:4.5, orders:214, yoy:-1.2 }]},
+  { name:"西南区域", yoy:+15.9, stores:[
+    { name:"成都春熙路店", sales:5.2, orders:245, yoy:+18.4 },
+    { name:"重庆解放碑店", sales:3.4, orders:158, yoy:+14.7 },
+    { name:"昆明顺城店", sales:2.0, orders:96, yoy:+11.0 }]}
+];
+const DEPTH_META = [
+  { tag:"L0", label:"集团", lvl:"#5725eb", ink:"#3b1a8f", tm:["#ece6fd","#d5c6fa"] },
+  { tag:"L1", label:"区域", lvl:"#c016cf", ink:"#7d0d86", tm:["#fce8fd","#f5cdf8"] },
+  { tag:"L2", label:"门店", lvl:"#a4760e", ink:"#6d4c09", tm:["#fdf4d9","#f8e3a2"] },
+  { tag:"L3", label:"品类", lvl:"#0d7a6f", ink:"#0b5a51", tm:["#dcf3ef","#b4e4dc"] }
+];
+
+/* ================= 工具:确定性扰动 / 格式化 ================= */
+const hash = s => { let x=2166136261; for (const c of s) { x ^= c.charCodeAt(0); x = Math.imul(x,16777619); } return ((x>>>0)%1000)/1000; };
+const fmtY = v => v >= 1 ? v.toFixed(1) : (v*1e4).toFixed(0);
+const yoyCls = v => v >= 0 ? "up" : "down";
+const yoyTxt = v => (v>=0?"+":"") + v.toFixed(1) + "%";
+const pct = (v,t) => (v/t*100).toFixed(1) + "%";
+
+/* 门店品类结构(权重 × 确定性扰动后归一) */
+function storeMix(store){
+  const raw = {}, keys = Object.keys(CATS);
+  let sum = 0;
+  keys.forEach(k => { const w = CAT_BASE[k]*(0.68 + 0.64*hash(store.name+k)); raw[k]=w; sum+=w; });
+  keys.forEach(k => raw[k] = raw[k]/sum);
+  return raw;
+}
+function catSales(store,cat){ return store.sales*storeMix(store)[cat]; }
+
+/* 近八周走势(确定性) */
+function series(seed,yoy,base){
+  return Array.from({length:8},(_,i)=>base*(0.8+0.4*hash(seed+"w"+i))*(1+(i-3.5)*(yoy/100)/4));
+}
+
+/* ================= 当前层解析 ================= */
+let path = []; /* path[0]=区域下标 path[1]=门店下标 path[2]=品类下标 */
+const depth = () => path.length;
+
+function nodeOf(d){
+  if (d===0) return { name:"通汇零售集团" };
+  const r = REGIONS[path[0]];
+  if (d===1) return r;
+  const s = r.stores[path[1]];
+  if (d===2) return s;
+  return { name:Object.keys(CATS)[path[2]], store:s };
+}
+function itemsOf(d){
+  if (d===0) return REGIONS.map(r=>({ name:r.name, value:r.stores.reduce((a,s)=>a+s.sales,0), yoy:r.yoy, note:r.stores.length+" 家门店" }));
+  if (d===1) return nodeOf(1).stores.map(s=>({ name:s.name, value:s.sales, yoy:s.yoy, note:"订单 "+s.orders+" 万单" }));
+  if (d===2){
+    const s = nodeOf(2), mix = storeMix(s);
+    return Object.keys(CATS).map(k=>({ name:k, value:s.sales*mix[k], yoy:CATS[k].yoy, note:CATS[k].skus.length+" 个单品" }));
+  }
+  const cat = nodeOf(3), skus = CATS[cat.name].skus;
+  return skus.map(([n,g,p,sh])=>({ name:n, spec:g, price:p, value:catSales(cat.store,cat.name)*sh, yoy:CATS[cat.name].yoy+ (hash(n)*6-3), note:"规格 "+g }));
+}
+function crumbOf(){
+  const c = [{ name:"通汇零售集团", share:"" }];
+  const total = REGIONS.flatMap(r=>r.stores).reduce((a,s)=>a+s.sales,0);
+  if (depth()>=1){ const r=nodeOf(1); c.push({ name:r.name, share:pct(r.stores.reduce((a,s)=>a+s.sales,0),total) }); }
+  if (depth()>=2){ const s=nodeOf(2); c.push({ name:s.name, share:pct(s.sales,total) }); }
+  if (depth()>=3){ const cat=nodeOf(3); c.push({ name:cat.store.name+" / "+cat.name, share:pct(catSales(cat.store,cat.name),total) }); }
+  return c;
+}
+
+/* ================= treemap 布局(递归二分) ================= */
+function layoutTM(items){
+  const rects = [];
+  const rec = (arr,x,y,w,h)=>{
+    if (arr.length===1){ rects[arr[0].i]=[x,y,w,h]; return; }
+    let acc=0, k=1;
+    const total = arr.reduce((a,it)=>a+it.value,0);
+    for (;k<arr.length;k++){ if (acc+arr[k-1].value >= total/2) break; acc+=arr[k-1].value; }
+    const a = arr.slice(0,k), b = arr.slice(k);
+    const fa = a.reduce((x1,it)=>x1+it.value,0)/total;
+    if (w>=h){ rec(a,x,y,w*fa,h); rec(b,x+w*fa,y,w*(1-fa),h); }
+    else { rec(a,x,y,w,h*fa); rec(b,x,y+h*fa,w,h*(1-fa)); }
+  };
+  rec(items.map((it,i)=>({i,value:it.value})),0,0,100,100);
+  return rects;
+}
+
+/* ================= 渲染 ================= */
+const $ = id => document.getElementById(id);
+const root = document.documentElement, REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function setDepthTheme(){
+  const m = DEPTH_META[depth()];
+  root.style.setProperty("--lvl", m.lvl);
+  root.style.setProperty("--lvl-ink", m.ink);
+  document.body.dataset.depth = depth();
+}
+
+function renderStepper(){
+  $("stepper").innerHTML = DEPTH_META.map((m,i)=>{
+    const cls = i<depth()?"done":i===depth()?"cur":"";
+    const dot = `<span class="dot" aria-hidden="true"></span>`;
+    const tx = `<span class="tx"><b>${m.tag}</b>${m.label}${i===depth()?"(当前)":""}</span>`;
+    return (i? `<span class="step-link" aria-hidden="true"></span>`:"") + `<div class="step ${cls}" ${i===depth()?'aria-current="step"':""}>${dot}${tx}</div>`;
+  }).join("");
+}
+
+function renderCrumb(){
+  const c = crumbOf();
+  $("crumb").innerHTML = c.map((s,i)=>{
+    const cur = i===c.length-1;
+    const inner = `${s.name}${s.share?`<small>占集团 ${s.share}</small>`:""}`;
+    const seg = cur
+      ? `<span class="seg cur" aria-current="page">${inner}</span>`
+      : `<li><button class="seg" data-up="${i}" title="上钻到 ${s.name}">${inner}</button></li>`;
+    return (i? `<li class="sep" aria-hidden="true">/</li>`:"") + seg;
+  }).join("");
+  const m = DEPTH_META[depth()];
+  $("lvlTag").textContent = `${m.tag} / ${m.label}${depth()>0?" / "+nodeOf(depth()).name:"总览"}`;
+  $("backBtn").disabled = depth()===0;
+}
+
+function renderKpis(){
+  const total = REGIONS.flatMap(r=>r.stores).reduce((a,s)=>a+s.sales,0);
+  let cards;
+  if (depth()===0){
+    const orders = REGIONS.flatMap(r=>r.stores).reduce((a,s)=>a+s.orders,0);
+    const yoy = REGIONS.reduce((a,r)=>a+r.stores.reduce((x,s)=>x+s.sales,0)*r.yoy,0)/total;
+    cards = [
+      ["集团年销售额", total.toFixed(1), "亿元", "覆盖 4 大区域", ""],
+      ["在营门店", "13", "家", "全部直营", ""],
+      ["客单价", (total*1e4/orders).toFixed(0), "元", "同比 +3.6%", "up"],
+      ["销售额同比", "+"+yoy.toFixed(1), "%", "较去年 +7.6 亿", "up"]
+    ];
+  } else if (depth()===1){
+    const r = nodeOf(1), rs = r.stores.reduce((a,s)=>a+s.sales,0), od = r.stores.reduce((a,s)=>a+s.orders,0);
+    cards = [
+      ["区域年销售额", rs.toFixed(1), "亿元", "占集团 "+pct(rs,total), ""],
+      ["门店数", r.stores.length, "家", "平均单店 "+(rs/r.stores.length).toFixed(1)+" 亿", ""],
+      ["客单价", (rs*1e4/od).toFixed(0), "元", "订单 "+od+" 万单", ""],
+      ["销售额同比", yoyTxt(r.yoy), "", r.yoy>=0?"增速居集团第 "+(1+[...REGIONS].sort((a,b)=>b.yoy-a.yoy).findIndex(x=>x===r)+0)+" 位":"增速承压", yoyCls(r.yoy)]
+    ];
+  } else if (depth()===2){
+    const s = nodeOf(2);
+    cards = [
+      ["门店年销售额", s.sales.toFixed(1), "亿元", "占集团 "+pct(s.sales,total), ""],
+      ["年订单量", s.orders, "万单", "日均 "+(s.orders*1e4/365).toFixed(0)+" 单", ""],
+      ["客单价", (s.sales*1e4/s.orders).toFixed(0), "元", "六大品类在售", ""],
+      ["销售额同比", yoyTxt(s.yoy), "", s.yoy>=0?"高于集团均值":"低于集团均值", yoyCls(s.yoy)]
+    ];
+  } else {
+    const cat = nodeOf(3), v = catSales(cat.store,cat.name);
+    cards = [
+      ["品类年销售额", (v*1e4).toFixed(0), "万元", "占门店 "+pct(v,cat.store.sales), ""],
+      ["在售单品", CATS[cat.name].skus.length, "个", "货架 12 组", ""],
+      ["品类同比", yoyTxt(CATS[cat.name].yoy), "", "全门店同口径", yoyCls(CATS[cat.name].yoy)],
+      ["坪效估算", (v*1e4/86).toFixed(0), "元/㎡/年", "按 86㎡ 陈列面积", ""]
+    ];
+  }
+  $("kpis").innerHTML = cards.map(([lb,vl,unit,dl,cls])=>`<div class="kpi"><p class="lb">${lb}</p><p class="vl">${vl}<small>${unit}</small></p><p class="dl ${cls}">${dl}</p></div>`).join("");
+}
+
+function renderTreemap(){
+  const d = depth(), items = [...itemsOf(d)].sort((a,b)=>b.value-a.value), m = DEPTH_META[d];
+  const rects = layoutTM(items);
+  const max = items[0].value, total = items.reduce((a,i)=>a+i.value,0), leaf = d===3;
+  $("mapTitle").textContent = (d===0?"集团 / 区域分布" : d===1?nodeOf(1).name+" / 门店分布" : d===2?nodeOf(2).name+" / 品类分布" : nodeOf(2).name+" / "+nodeOf(3).name+" 单品分布");
+  $("treemap").innerHTML = items.map((it,i)=>{
+    const [x,y,w,h] = rects[i];
+    const bg = `color-mix(in srgb, ${m.tm[1]} ${Math.round(Math.pow(it.value/max,.75)*72)}%, ${m.tm[0]})`; /* 深浅按值 */
+    const sm = w<17 || h<15;
+    return `<button class="tm-cell ${sm?"sm":""} ${leaf?"leaf":""}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;--tm-bg:${bg}" data-drill="${it.name}" ${leaf?`tabindex="-1" aria-disabled="true"`:`title="下钻:${it.name}"`}>
+      <span class="nm">${it.name}</span>
+      <span class="vl">${d===3?(it.value*1e4).toFixed(0)+" 万元":fmtY(it.value)+" 亿"} / ${pct(it.value,total)}</span>
+      ${leaf?"":`<span class="go">点击下钻</span>`}
+    </button>`;
+  }).join("");
+}
+
+function renderRows(){
+  const d = depth(), items = [...itemsOf(d)].sort((a,b)=>b.value-a.value);
+  const max = items[0].value, leaf = d===3;
+  $("listTitle").textContent = (["区域排行","门店排行","品类排行","单品排行"])[d];
+  $("rows").innerHTML = items.map((it,i)=>`
+    <button class="row ${leaf?"leaf":""}" data-drill="${it.name}" ${leaf?'tabindex="-1" aria-disabled="true"':`title="下钻:${it.name}"`}>
+      <span class="rk">${String(i+1).padStart(2,"0")}</span>
+      <span class="bd">
+        <span class="nm">${it.name}</span>
+        <span class="track"><span class="fill" style="width:${(it.value/max*100).toFixed(1)}%"></span></span>
+      </span>
+      <span class="vl">${d===3?(it.value*1e4).toFixed(0)+"万":fmtY(it.value)+"亿"}</span>
+      <span class="yy ${yoyCls(it.yoy)}">${yoyTxt(it.yoy)}</span>
+    </button>`).join("");
+}
+
+function renderTable(){
+  const d = depth(), items = [...itemsOf(d)].sort((a,b)=>b.value-a.value);
+  const total = items.reduce((a,i)=>a+i.value,0);
+  const leaf = d===3;
+  const tbl = $("tbl");
+  tbl.classList.toggle("tr-sku", leaf);
+  $("tblTitle").textContent = (d===0?"集团 / 区域明细":d===1?nodeOf(1).name+" / 门店明细":d===2?nodeOf(2).name+" / 品类明细":nodeOf(2).name+" / "+nodeOf(3).name+" 单品明细");
+  const head = leaf
+    ? ["单品","规格","售价","年销售(万元)","占品类","近八周走势"]
+    : ["分项","年销售额(亿元)","占比","同比","近八周走势","操作"];
+  const hd = `<div class="tr hd" role="row">${head.map(h=>`<div ${h.includes("走势")?'style="text-align:center"':""}>${h}</div>`).join("")}</div>`;
+  const body = items.map((it,i)=>{
+    const sv = series(it.name, it.yoy, 1), smax = Math.max(...sv);
+    const bars = sv.map(v=>`<i style="height:${Math.max(14,v/smax*100).toFixed(0)}%"></i>`).join("");
+    const nameCell = leaf
+      ? `<div class="c-name">${it.name}<small>${CATS[nodeOf(3).name].skus.find(s=>s[0]===it.name)[1]}</small></div>`
+      : `<div class="c-name">${it.name}<small>${it.note}</small></div>`;
+    const cols = leaf
+      ? [nameCell,
+         `<div class="num-c">¥ ${it.price.toFixed(1)}</div>`,
+         `<div class="num-c">${(it.value*1e4).toFixed(0)}</div>`,
+         `<div class="num-c">${pct(it.value,total)}</div>`,
+         `<div class="spark" aria-hidden="true">${bars}</div>`]
+      : [nameCell,
+         `<div class="num-c">${fmtY(it.value)}</div>`,
+         `<div class="num-c">${pct(it.value,total)}</div>`,
+         `<div class="num-c ${yoyCls(it.yoy)}">${yoyTxt(it.yoy)}</div>`,
+         `<div class="spark" aria-hidden="true">${bars}</div>`,
+         `<div><button class="act" data-drill-src="${it.name}">下钻</button></div>`];
+    return `<div class="tr" role="row">${cols.join("")}</div>`;
+  }).join("");
+  tbl.innerHTML = hd + body;
+  $("tblNote").textContent = leaf
+    ? "已到达最深层(L3):" + nodeOf(2).name + " / " + nodeOf(3).name + " 的在售单品。点击面包屑任意层级可回溯。"
+    : "当前为 " + DEPTH_META[d].tag + " " + DEPTH_META[d].label + " 层,共 " + items.length + " 个分项,均可继续下钻。";
+}
+
+function renderAll(){
+  setDepthTheme();
+  renderStepper();
+  renderCrumb();
+  renderKpis();
+  renderTreemap();
+  renderRows();
+  renderTable();
+}
+
+/* 下钻/上钻(150ms 淡切,reduced-motion 直接切换) */
+function swap(fn){
+  if (REDUCE){ fn(); return; }
+  const z = document.querySelectorAll(".fadezone");
+  z.forEach(el=>el.classList.add("fade"));
+  setTimeout(()=>{ fn(); z.forEach(el=>el.classList.remove("fade")); }, 150);
+}
+function navTop(){ window.scrollTo({ top:0, behavior: REDUCE?"auto":"smooth" }); }
+function drill(name){
+  if (depth()>=3) return;
+  const idx = itemsOf(depth()).findIndex(it=>it.name===name);
+  if (idx<0) return;
+  path.push(idx);
+  swap(renderAll); navTop();
+}
+function upTo(d){
+  if (d===depth()) return;
+  path = path.slice(0,d);
+  swap(renderAll); navTop();
+}
+
+/* 事件委托:treemap / 排行行 / 表格下钻按钮 / 面包屑 / 返回 */
+document.addEventListener("click", e=>{
+  const cell = e.target.closest("[data-drill],[data-drill-src]");
+  if (cell && !cell.classList.contains("leaf")){ drill(cell.dataset.drill || cell.dataset.drillSrc); return; }
+  const seg = e.target.closest("[data-up]");
+  if (seg){ upTo(+seg.dataset.up); return; }
+  if (e.target.closest("#backBtn")){ upTo(depth()-1); }
+});
+
+renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Predictive Analytics 预测分析演示页：城市电网短期负荷预测，历史实线与预测虚线连续主图、置信区间渐变带、阈值预警与情景假设推演">
+<title>Predictive Analytics 预测分析 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- token 计划：bg #F8FAFC / fg #0F172A / primary 预测线 #dc9926 / secondary 周末与乐观 #a6dc26 / accent 历史线 #26dcdc / 阈值红 #b3261e / radius 10px / 标题 Fira Code / 正文 Fira Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F8FAFC; --fg:#0F172A; --card:#FFFFFF; --line:#E2E8F0;
+    --amber:#dc9926; --amber-ink:#8a5c0e;
+    --lime:#a6dc26; --lime-ink:#4d7c0f;
+    --cyan:#26dcdc; --cyan-ink:#0e7490;
+    --red:#b3261e; --red-bright:#f87171; --red-line:#ef4444;
+    --muted:#475569; --muted-on-dark:#9FB0C6; --panel:#0F172A;
+    --head:"Fira Code",ui-monospace,monospace;
+    --body:"Fira Sans","Microsoft YaHei",sans-serif;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  ::selection{background:#0F172A;color:#F8FAFC}
+  body{background:var(--bg);color:var(--fg);font:15px/1.65 var(--body)}
+  .wrap{max-width:1280px;margin:0 auto;padding:28px 24px 40px}
+
+  a:focus-visible,button:focus-visible,input:focus-visible{
+    outline:2px solid var(--fg);outline-offset:2px;border-radius:6px
+  }
+  .panel :is(a,button,input):focus-visible{outline-color:var(--cyan)}
+
+  /* 顶栏 */
+  .topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    padding-bottom:18px;border-bottom:2px solid var(--fg);margin-bottom:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand svg{flex:none}
+  .brand h1{font:600 22px/1.25 var(--head);letter-spacing:.5px}
+  .brand .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .top-meta{text-align:right;font:500 12px/1.7 var(--head);color:var(--muted)}
+  .top-meta strong{color:var(--amber-ink);font-weight:600}
+
+  /* 指标行：grid 对齐 */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+  .metric .k-label{font-size:13px;color:var(--muted)}
+  .metric .k-value{font:600 26px/1.1 var(--head);letter-spacing:-.5px}
+  .metric .k-value small{font:500 13px var(--head);color:var(--muted);margin-left:2px}
+  .metric .k-note{font:400 12px/1.5 var(--head);color:var(--muted)}
+  .metric.warn .k-value{color:var(--red)}
+
+  /* 主布局 */
+  .layout{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(300px,1fr);gap:20px;align-items:start}
+
+  /* 图表面板（深色） */
+  .panel{background:var(--panel);border-radius:var(--radius);color:#E7EDF5;
+    padding:20px 20px 16px}
+  .panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+  .panel-head h2{font:600 16px/1.3 var(--head);color:#F8FAFC}
+  .panel-head .ph-sub{font:400 12px/1.6 var(--head);color:var(--muted-on-dark);margin-top:3px}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font:400 11.5px/1.5 var(--head);color:var(--muted-on-dark)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:18px;height:0;border-top:2px solid var(--cyan)}
+  .sw.dash{border-top-style:dashed;border-top-color:var(--amber)}
+  .sw.band{height:10px;border:0;background:linear-gradient(90deg,rgba(220,153,38,.15),rgba(220,153,38,.55))}
+  .sw.thr{border-top-style:dashed;border-top-color:var(--red-bright)}
+  .sw.dot{width:8px;height:8px;border:0;border-radius:50%;background:var(--red-line)}
+  .sw.wk{height:10px;border:0;background:rgba(166,220,38,.28)}
+  .chartbox{width:100%}
+  .chartbox svg{display:block;width:100%;height:auto}
+  .panel-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    border-top:1px solid #22304a;margin-top:10px;padding-top:10px;
+    font:400 12px/1.6 var(--head);color:var(--muted-on-dark)}
+  .panel-foot b{color:#F8FAFC;font-weight:500}
+
+  /* 一次亮相动效：预测段（含置信带）从“现在”线向右描边显现 */
+  .fc-reveal{transform-box:fill-box;transform-origin:left center;
+    animation:revealX 1.6s .35s cubic-bezier(.22,.8,.24,1) both}
+  @keyframes revealX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @media (prefers-reduced-motion:reduce){
+    .fc-reveal{animation:none}
+    .prob-mark{transition:none}
+  }
+
+  /* 侧栏卡片 */
+  .side{display:grid;gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+  .card h2{font:600 15px/1.3 var(--head);margin-bottom:4px}
+  .card .c-sub{font:400 12px/1.6 var(--head);color:var(--muted);margin-bottom:12px}
+
+  /* 情景假设 */
+  .seg{display:flex;gap:4px;background:#EEF2F7;border:1px solid #CBD5E1;
+    border-radius:var(--radius);padding:4px;margin-bottom:14px}
+  .seg button{flex:1;border:0;background:transparent;padding:8px 4px;border-radius:7px;
+    font:600 13px var(--body);color:#334155;cursor:pointer}
+  .seg button:hover{color:var(--fg)}
+  .seg button span{display:block;font:400 10.5px var(--head);color:inherit;opacity:.75;margin-top:1px}
+  .seg button[aria-pressed="true"]{background:var(--fg);color:#fff}
+  .slider-row{margin-bottom:12px}
+  .slider-row:last-of-type{margin-bottom:0}
+  .slider-row .sr-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+  .slider-row label{font-size:13px;color:#1E293B}
+  .slider-row output{font:600 13px var(--head);color:var(--amber-ink)}
+  .slider-row input{width:100%;accent-color:var(--amber-ink);height:20px;cursor:pointer}
+  .assume{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
+    font:400 12px/1.7 var(--head);color:var(--muted)}
+
+  /* 模型信息 */
+  .model dl{display:grid;grid-template-columns:96px 1fr;row-gap:9px;column-gap:12px}
+  .model dt{font:500 12px/1.6 var(--head);color:var(--muted)}
+  .model dd{font-size:13px;line-height:1.6;color:#1E293B}
+  .model dd b{font:600 13px var(--head);color:var(--amber-ink)}
+
+  /* 预警与洞察 */
+  .prob-wrap{margin:6px 0 12px}
+  .prob-track{position:relative;height:10px;border-radius:5px;
+    background:linear-gradient(90deg,var(--cyan) 0%,var(--amber) 55%,var(--red-line) 100%)}
+  .prob-mark{position:absolute;top:-5px;left:16%;width:3px;height:20px;background:var(--fg);
+    border-radius:2px;transform:translateX(-50%);transition:left .25s ease}
+  .prob-scale{display:flex;justify-content:space-between;margin-top:4px;
+    font:400 11px var(--head);color:var(--muted)}
+  .insight{font-size:13.5px;line-height:1.7;min-height:92px;color:#1E293B}
+  .insight b{color:var(--red);font-weight:600}
+  .hist-warn{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);
+    font:400 12px/1.7 var(--head);color:var(--muted)}
+  .hist-warn em{font-style:normal;color:var(--red);font-weight:500}
+
+  footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font:400 13px/1.6 var(--head);color:var(--muted)}
+  footer a{color:var(--amber-ink);font-weight:500}
+
+  @media (max-width:1080px){
+    .layout{grid-template-columns:1fr}
+    .metrics{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:640px){
+    .wrap{padding:20px 14px 32px}
+    .metrics{grid-template-columns:1fr}
+    .topbar{align-items:flex-start;flex-direction:column}
+    .top-meta{text-align:left}
+    .panel{padding:14px 10px 12px}
+    .card{padding:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="brand">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="37" height="37" rx="8" fill="#0F172A"/>
+        <path d="M7 27 L14 27 L17 12 L21 33 L24 20 L27 27 L33 27" fill="none"
+              stroke="#26dcdc" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M24 20 L33 9" fill="none" stroke="#dc9926" stroke-width="2.2"
+              stroke-dasharray="3.5 2.5" stroke-linecap="round"/>
+        <circle cx="33" cy="9" r="2.4" fill="#dc9926"/>
+      </svg>
+      <div>
+        <h1>城市电网短期负荷预测</h1>
+        <p class="sub">Predictive Analytics 预测分析 / 历史实绩 + 未来 57 小时推演 / 不确定性可视化</p>
+      </div>
+    </div>
+    <div class="top-meta">
+      <p>数据源 / 市级 SCADA + 气象局接口</p>
+      <p>更新于 <strong>2026-10-08 14:00</strong> / 逐小时粒度</p>
+    </div>
+  </header>
+
+  <section class="metrics" aria-label="关键指标">
+    <article class="metric">
+      <p class="k-label">明日峰值预测（10-09）</p>
+      <p class="k-value"><span id="vPeak">1,136</span><small>MW</small></p>
+      <p class="k-note" id="vPeakTime">预计 10-09 19:00 前后</p>
+    </article>
+    <article class="metric">
+      <p class="k-label">峰值 95% 置信区间</p>
+      <p class="k-value"><small style="margin-right:2px">下限 </small><span id="vCIlo">1,073</span></p>
+      <p class="k-note">上限 <span id="vCIhi">1,200</span> MW / 分位数回归</p>
+    </article>
+    <article class="metric warn">
+      <p class="k-label">峰值时段越限概率</p>
+      <p class="k-value"><span id="vProb">34</span><small>%</small></p>
+      <p class="k-note">阈值 1,150 MW / 电网安全约束</p>
+    </article>
+    <article class="metric">
+      <p class="k-label">回测 MAPE（最近 7 天）</p>
+      <p class="k-value">2.41<small>%</small></p>
+      <p class="k-note">RMSE 18.6 MW / 80% 区间覆盖率 78.4%</p>
+    </article>
+  </section>
+
+  <div class="layout">
+
+    <section class="panel" aria-label="负荷预测主图">
+      <div class="panel-head">
+        <div>
+          <h2>电网负荷 / 实际与预测</h2>
+          <p class="ph-sub">2026-10-01 00:00 至 10-11 00:00 / 单位 MW / 含周末因子</p>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="sw"></i>历史实际</span>
+          <span><i class="sw dash"></i>预测负荷</span>
+          <span><i class="sw band"></i>置信区间 80% / 95%</span>
+          <span><i class="sw thr"></i>安全阈值</span>
+          <span><i class="sw dot"></i>历史越限点</span>
+          <span><i class="sw wk"></i>周末</span>
+        </div>
+      </div>
+      <div class="chartbox">
+        <svg id="chart" viewBox="0 0 920 560" role="img"
+             aria-label="负荷预测图：10 月 1 日至 8 日为历史实际曲线，8 日 14 时起为虚线预测曲线，随时间张开的置信带，以及 1150 兆瓦安全阈值线">
+          <desc>青色实线为历史实际负荷，橙色虚线为预测负荷，橙色渐变带为 80% 与 95% 置信区间并随预测时距张开，红色虚线为 1150 MW 安全阈值，红点标记历史越限小时。</desc>
+          <defs>
+            <linearGradient id="band80" gradientUnits="userSpaceOnUse" x1="693" y1="0" x2="896" y2="0">
+              <stop offset="0" stop-color="#dc9926" stop-opacity=".10"/>
+              <stop offset="1" stop-color="#dc9926" stop-opacity=".30"/>
+            </linearGradient>
+            <linearGradient id="band95" gradientUnits="userSpaceOnUse" x1="693" y1="0" x2="896" y2="0">
+              <stop offset="0" stop-color="#dc9926" stop-opacity=".05"/>
+              <stop offset="1" stop-color="#dc9926" stop-opacity=".17"/>
+            </linearGradient>
+            <clipPath id="fcClip">
+              <rect class="fc-reveal" x="693" y="0" width="203" height="560"/>
+            </clipPath>
+          </defs>
+
+          <!-- 周末底纹 -->
+          <rect x="224" y="24" width="168" height="476" fill="#a6dc26" opacity=".05"/>
+          <rect x="812" y="24" width="84" height="476" fill="#a6dc26" opacity=".05"/>
+
+          <!-- 网格与纵轴 -->
+          <g stroke="#22304a" stroke-width="1">
+            <line x1="56" y1="24" x2="896" y2="24"/>
+            <line x1="56" y1="114.7" x2="896" y2="114.7"/>
+            <line x1="56" y1="205.3" x2="896" y2="205.3"/>
+            <line x1="56" y1="296" x2="896" y2="296"/>
+            <line x1="56" y1="386.7" x2="896" y2="386.7"/>
+            <line x1="56" y1="477.3" x2="896" y2="477.3"/>
+          </g>
+          <g fill="#9FB0C6" font-family="Fira Code, monospace" font-size="11" text-anchor="end">
+            <text x="48" y="28">1400</text>
+            <text x="48" y="118.7">1200</text>
+            <text x="48" y="209.3">1000</text>
+            <text x="48" y="300">800</text>
+            <text x="48" y="390.7">600</text>
+            <text x="48" y="481.3">400</text>
+            <text x="48" y="14">MW</text>
+          </g>
+
+          <!-- 横轴日期 -->
+          <g stroke="#2a3a58" stroke-width="1">
+            <line x1="56" y1="500" x2="896" y2="500"/>
+            <line x1="224" y1="500" x2="224" y2="506"/>
+            <line x1="392" y1="500" x2="392" y2="506"/>
+            <line x1="560" y1="500" x2="560" y2="506"/>
+            <line x1="728" y1="500" x2="728" y2="506"/>
+            <line x1="896" y1="500" x2="896" y2="506"/>
+          </g>
+          <g font-family="Fira Code, monospace" font-size="11" text-anchor="middle">
+            <text x="56" y="524" fill="#9FB0C6">10-01 周四</text>
+            <text x="224" y="524" fill="#a6dc26">10-03 周六</text>
+            <text x="392" y="524" fill="#9FB0C6">10-05 周一</text>
+            <text x="560" y="524" fill="#9FB0C6">10-07 周三</text>
+            <text x="728" y="524" fill="#9FB0C6">10-09 周五</text>
+            <text x="896" y="524" fill="#a6dc26">10-11 周日</text>
+          </g>
+
+          <!-- 安全阈值线 -->
+          <g>
+            <title>安全阈值 1,150 MW，电网安全约束</title>
+            <line x1="56" y1="137.3" x2="896" y2="137.3" stroke="#f87171" stroke-width="1.5" stroke-dasharray="6 5"/>
+            <text x="892" y="132" fill="#f87171" font-family="Fira Code, monospace" font-size="11" text-anchor="end">安全阈值 1,150</text>
+          </g>
+
+          <!-- 历史越限点注释 -->
+          <text id="histAnno" x="468" y="100" fill="#f87171" font-family="Fira Code, monospace" font-size="11">10-05 19:00 / 1,204 MW</text>
+
+          <!-- 现在分界线 -->
+          <line x1="693" y1="24" x2="693" y2="500" stroke="#7C8EA6" stroke-width="1.2"/>
+          <text x="697" y="40" fill="#CBD5E1" font-family="Fira Code, monospace" font-size="11">现在 10-08 14:00</text>
+
+          <!-- 历史实际（JS 生成 path） -->
+          <path id="histPath" fill="none" stroke="#26dcdc" stroke-width="2" stroke-linejoin="round"/>
+          <g id="anomalies"></g>
+
+          <!-- 预测段：置信带 + 虚线（clip 内一次亮相） -->
+          <g id="fcWrap" clip-path="url(#fcClip)">
+            <title>预测负荷（虚线）与 80% / 95% 置信区间，随预测时距张开</title>
+            <path id="band95" fill="url(#band95)"/>
+            <path id="band80" fill="url(#band80)"/>
+            <path id="fcPath" fill="none" stroke="#dc9926" stroke-width="2.5" stroke-dasharray="7 5" stroke-linejoin="round"/>
+          </g>
+          <circle id="peakDot" r="4.5" fill="#dc9926" stroke="#0F172A" stroke-width="1.5"/>
+          <text id="peakLabel" x="803.5" y="162" fill="#FFE1A6" font-family="Fira Code, monospace" font-size="11">峰值 1,136</text>
+        </svg>
+      </div>
+      <noscript><p style="font:400 12px var(--head);color:#F8B4B4;margin-top:8px">脚本未启用 / 预测段以静态基准情景呈现</p></noscript>
+      <div class="panel-foot">
+        <p>预测区间 <b>T+1 至 T+57 小时</b> / 置信水平 80% 与 95%</p>
+        <p>模型版本 <b>v3.2.1</b> / 推理耗时 1.8 s</p>
+        <p id="footAno">历史越限 4 小时 / 最大 1,204 MW</p>
+      </div>
+    </section>
+
+    <aside class="side">
+
+      <section class="card" aria-label="情景假设">
+        <h2>情景假设</h2>
+        <p class="c-sub">切换预设或拖动滑杆，右侧预测曲线即时重算</p>
+        <div class="seg" role="group" aria-label="情景预设">
+          <button type="button" data-scn="opt" aria-pressed="false">乐观<span>降温 + 光伏大发</span></button>
+          <button type="button" data-scn="base" aria-pressed="true">基准<span>气象台中性预报</span></button>
+          <button type="button" data-scn="pess" aria-pressed="false">悲观<span>连续高温 + 低光伏</span></button>
+        </div>
+        <div class="slider-row">
+          <div class="sr-top">
+            <label for="sTemp">平均温度偏差</label>
+            <output id="oTemp" for="sTemp">+0.0 °C</output>
+          </div>
+          <input type="range" id="sTemp" min="-3" max="3" step="0.5" value="0">
+        </div>
+        <div class="slider-row">
+          <div class="sr-top">
+            <label for="sPv">光伏出力假设</label>
+            <output id="oPv" for="sPv">100%</output>
+          </div>
+          <input type="range" id="sPv" min="60" max="130" step="5" value="100">
+        </div>
+        <div class="slider-row">
+          <div class="sr-top">
+            <label for="sEcon">工业负荷指数</label>
+            <output id="oEcon" for="sEcon">100</output>
+          </div>
+          <input type="range" id="sEcon" min="85" max="115" step="1" value="100">
+        </div>
+        <p class="assume" id="assumeLine">当前假设 / 均温 +0.0°C / 光伏 100% / 工业 100</p>
+      </section>
+
+      <section class="card model" aria-label="模型信息">
+        <h2>模型信息</h2>
+        <p class="c-sub">LightGBM 分位数回归 / 每小时滚动重训练</p>
+        <dl>
+          <dt>方法</dt>
+          <dd>LightGBM 分位数回归（0.1 / 0.5 / 0.9），SARIMAX 季节基准融合</dd>
+          <dt>输入特征</dt>
+          <dd>温度、湿度、节假日标记、光伏出力、负荷滞后 168h</dd>
+          <dt>训练窗口</dt>
+          <dd><b>365 天</b> 滚动 / 含去年夏季相似日样本</dd>
+          <dt>最近误差</dt>
+          <dd>MAPE <b>2.41%</b> / RMSE <b>18.6 MW</b>（近 7 天回测）</dd>
+          <dt>区间校准</dt>
+          <dd>80% 区间实际覆盖率 <b>78.4%</b> / 无系统性偏窄</dd>
+        </dl>
+      </section>
+
+      <section class="card" aria-label="预警与洞察">
+        <h2>预警与洞察</h2>
+        <p class="c-sub">越限概率标尺 / 低 / 中 / 高</p>
+        <div class="prob-wrap">
+          <div class="prob-track">
+            <span class="prob-mark" id="probMark" style="left:34%"></span>
+          </div>
+          <div class="prob-scale" aria-hidden="true">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+        <p class="insight" id="insText">加载中</p>
+        <p class="hist-warn" id="histWarn">
+          历史越限 / <em>10-05 19:00 峰值 1,204 MW</em>（热浪日）/ 当晚已执行需求响应 60 MW
+        </p>
+      </section>
+
+    </aside>
+  </div>
+
+  <footer>
+    <p>UI 设计提示词库 / Predictive Analytics 预测分析</p>
+    <p><a href="style-catalog.html">返回风格目录</a></p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* 坐标系：viewBox 920x560，绘图区 x 56-896 / y 24-500，量程 350-1400 MW，横轴 240 小时 */
+  var M24=[0.58,0.55,0.53,0.52,0.54,0.62,0.74,0.86,0.92,0.94,0.96,0.98,1.00,0.99,0.98,0.97,0.98,1.02,1.08,1.12,1.10,1.02,0.86,0.68];
+  var NOW=182, HLEN=183, FCLEN=57;
+  var xs=function(i){return 56+i*3.5};
+  var ys=function(v){return 24+(1400-v)*476/1050};
+  var weekend=function(d){return d%7===2||d%7===3};
+  var $=function(id){return document.getElementById(id)};
+  var fmt=function(n){return Math.round(n).toLocaleString("zh-CN")};
+  var pad=function(n){return n<10?"0"+n:String(n)};
+
+  /* 历史实绩：日形状 x 工作日/周末因子 + 热浪事件(10-05) + 确定性噪声 */
+  function histVal(i){
+    var d=Math.floor(i/24),h=i%24,b=(weekend(d)?872:1012)*M24[h];
+    if(d===4&&h>=11&&h<=21)b+=62;
+    if(d===6&&h>=18&&h<=21)b+=38;
+    return b+13*Math.sin(i*1.7)+7*Math.sin(i*0.53+1.3)+4*Math.sin(i*2.9+0.7);
+  }
+
+  /* 预测：日形状 x 温度弹性 x 工业指数 − 光伏出力（午间钟形） */
+  function fcVal(k,st){
+    var idx=NOW+1+k,d=Math.floor(idx/24),h=idx%24;
+    var b=(weekend(d)?872:1012)*M24[h];
+    var tf=1+0.030*st.temp, ef=1+(st.econ-100)*0.0022, pv=0;
+    if(h>=8&&h<=17){pv=st.pv/100*92*Math.exp(-Math.pow(h-13,2)/7)}
+    return b*tf*ef-pv+3*Math.sin(0.7*k+1);
+  }
+  var sigma=function(k){return 16+0.58*k}; /* 不确定性随时距张开 */
+
+  /* 正态分布 CDF（Abramowitz-Stegun 近似） */
+  function phi(z){
+    var t=1/(1+0.2316419*Math.abs(z)),
+        d=0.3989423*Math.exp(-z*z/2),
+        p=d*t*(0.3193815+t*(-0.3565638+t*(1.7814779+t*(-1.821256+t*1.3302744))));
+    return z>0?1-p:p;
+  }
+
+  /* 渲染历史（一次性） */
+  var hist=[];
+  for(var i=0;i<HLEN;i++){hist.push(histVal(i))}
+  var dHist="M";
+  for(var j=0;j<HLEN;j++){dHist+=(j?"L":"")+xs(j).toFixed(1)+","+ys(hist[j]).toFixed(1)}
+  $("histPath").setAttribute("d",dHist);
+
+  var anoCount=0,maxI=0,maxV=0,svgNS="http://www.w3.org/2000/svg";
+  for(var a=0;a<HLEN;a++){
+    if(hist[a]>=1150){
+      anoCount++;
+      var c=document.createElementNS(svgNS,"circle");
+      c.setAttribute("cx",xs(a).toFixed(1));c.setAttribute("cy",ys(hist[a]).toFixed(1));
+      c.setAttribute("r","3.5");c.setAttribute("fill","#ef4444");
+      c.setAttribute("stroke","#0F172A");c.setAttribute("stroke-width","1.2");
+      var t=document.createElementNS(svgNS,"title");
+      t.textContent="越限 "+fmt(hist[a])+" MW";
+      c.appendChild(t);$("anomalies").appendChild(c);
+    }
+    if(hist[a]>maxV){maxV=hist[a];maxI=a}
+  }
+  var maxDay=1+Math.floor(maxI/24),maxH=maxI%24,
+      maxStr="10-"+pad(maxDay)+" "+pad(maxH)+":00";
+  $("histAnno").textContent=maxStr+" / "+fmt(maxV)+" MW";
+  $("footAno").textContent="历史越限 "+anoCount+" 小时 / 最大 "+fmt(maxV)+" MW";
+  $("histWarn").innerHTML="历史越限 / <em>"+maxStr+" 峰值 "+fmt(maxV)+
+    " MW</em>（热浪日）/ 当晚已执行需求响应 60 MW";
+
+  /* 情景与滑杆 */
+  var PRESETS={opt:{temp:-1,pv:118,econ:94},base:{temp:0,pv:100,econ:100},pess:{temp:2.5,pv:82,econ:108}};
+  var state={temp:0,pv:100,econ:100};
+  var sT=$("sTemp"),sP=$("sPv"),sE=$("sEcon");
+  var buttons=[].slice.call(document.querySelectorAll(".seg button"));
+
+  function bandD(pts,z){ /* z 分位数倍数：1.2816 对应 80% 置信，1.96 对应 95% */
+    var up="",dn="";
+    for(var k=0;k<pts.length;k++){
+      var s=sigma(k)*z;
+      up+=(k?"L":"M")+xs(NOW+1+k).toFixed(1)+","+(ys(pts[k]+s)).toFixed(1);
+    }
+    for(var r=pts.length-1;r>=0;r--){
+      var s2=sigma(r)*z;
+      dn+="L"+xs(NOW+1+r).toFixed(1)+","+(ys(pts[r]-s2)).toFixed(1);
+    }
+    return up+dn+"Z";
+  }
+
+  function render(){
+    var pts=[],k;
+    for(k=0;k<FCLEN;k++){pts.push(fcVal(k,state))}
+    var d="M";
+    for(k=0;k<FCLEN;k++){d+=(k?"L":"")+xs(NOW+1+k).toFixed(1)+","+ys(pts[k]).toFixed(1)}
+    $("fcPath").setAttribute("d",d);
+    $("band95").setAttribute("d",bandD(pts,1.96));
+    $("band80").setAttribute("d",bandD(pts,1.2816));
+
+    /* 明日（10-09，idx 192-215）峰值与越限概率 */
+    var pk=-1,pv=0;
+    for(k=9;k<=32;k++){if(pts[k]>pv){pv=pts[k];pk=k}}
+    var sp=sigma(pk),ci=1.96*sp,prob=phi((pv-1150)/sp),hh=pad((NOW+1+pk)%24);
+    $("vPeak").textContent=fmt(pv);
+    $("vPeakTime").textContent="预计 10-09 "+hh+":00 前后";
+    $("vCIlo").textContent=fmt(pv-ci);
+    $("vCIhi").textContent=fmt(pv+ci);
+    $("vProb").textContent=String(Math.round(prob*100));
+    $("probMark").style.left=(prob*100).toFixed(1)+"%";
+
+    var px=xs(NOW+1+pk),py=ys(pv);
+    $("peakDot").setAttribute("cx",px.toFixed(1));
+    $("peakDot").setAttribute("cy",py.toFixed(1));
+    $("peakLabel").setAttribute("x",(px+9).toFixed(1));
+    $("peakLabel").setAttribute("y",(py+18).toFixed(1));
+    $("peakLabel").textContent="峰值 "+fmt(pv);
+
+    var p=Math.round(prob*100),ins;
+    if(prob>=0.5){
+      ins="当前情景下明日 "+hh+":00 前后峰值预计达 <b>"+fmt(pv)+
+          " MW</b>，越限概率 <b>"+p+"%</b>。建议提前锁定 80 MW 需求响应容量，通知可中断用户晚高峰前预冷，并预留一台快速机组热备。";
+    }else if(prob>=0.12){
+      ins="明日峰值预计 "+fmt(pv)+" MW（"+hh+":00 前后），越限概率 "+p+
+          "%。建议关注 19:00-21:00 时段，跟踪光伏出力与温度实况，模型每小时滚动更新。";
+    }else{
+      ins="明日负荷处于安全区间，峰值预计 "+fmt(pv)+" MW（"+hh+
+          ":00 前后），距阈值仍有余量。维持常规机组组合，按基准情景安排检修窗口即可。";
+    }
+    $("insText").innerHTML=ins;
+  }
+
+  function syncOutputs(){
+    var tv=state.temp;
+    $("oTemp").textContent=(tv>0?"+":"")+tv.toFixed(1)+" °C";
+    $("oPv").textContent=state.pv+"%";
+    $("oEcon").textContent=String(state.econ);
+    $("assumeLine").textContent="当前假设 / 均温 "+(tv>0?"+":"")+tv.toFixed(1)+
+      "°C / 光伏 "+state.pv+"% / 工业 "+state.econ;
+  }
+
+  function readSliders(){
+    state.temp=parseFloat(sT.value);
+    state.pv=parseFloat(sP.value);
+    state.econ=parseFloat(sE.value);
+    syncOutputs();render();
+  }
+
+  buttons.forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var pre=PRESETS[btn.dataset.scn];
+      sT.value=pre.temp;sP.value=pre.pv;sE.value=pre.econ;
+      buttons.forEach(function(b){b.setAttribute("aria-pressed",b===btn?"true":"false")});
+      readSliders();
+    });
+  });
+  [sT,sP,sE].forEach(function(sl){
+    sl.addEventListener("input",function(){
+      buttons.forEach(function(b){b.setAttribute("aria-pressed","false")});
+      readSliders();
+    });
+  });
+
+  syncOutputs();render();
+})();
+</script>
+</body>
+</html>

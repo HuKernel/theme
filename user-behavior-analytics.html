@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="墨读阅读 App 用户旅程周报:行为流桑基图、周 cohort 留存三角表、关键事件时间线与分群卡片。">
+<title>User Behavior Analytics 行为分析 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划: bg #F8FAFC / fg #0F172A / primary #2542eb / secondary #059681 / accent #DC2626 / radius 10px / 标题数字 Fira Code / 正文 Fira Sans */
+:root{
+  --bg:#F8FAFC;
+  --card:#FFFFFF;
+  --fg:#0F172A;
+  --muted:#475569;
+  --line:#DBE3EE;
+  --primary:#2542eb;
+  --primary-ink:#1d3ac0;
+  --secondary:#059681;
+  --secondary-ink:#04685a;
+  --accent:#DC2626;
+  --radius:10px;
+  --mono:'Fira Code','Cascadia Code',Consolas,monospace;
+  --sans:'Fira Sans','Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font:400 15px/1.65 var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+a{color:var(--primary)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--primary);color:#fff;padding:8px 14px;border-radius:6px;z-index:9}
+.skip:focus-visible{left:12px;top:12px;color:#fff}
+
+/* ---------- 页头 ---------- */
+.page-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;
+  padding:44px 0 26px;border-bottom:1px solid var(--line);flex-wrap:wrap;
+}
+.eyebrow{font:500 12.5px var(--mono);color:var(--secondary-ink);letter-spacing:.04em;margin-bottom:10px}
+h1{font:600 clamp(26px,3.4vw,40px)/1.2 var(--mono);letter-spacing:-.01em}
+h1 .sep{color:var(--primary);font-weight:400;margin:0 10px}
+.lede{color:var(--muted);max-width:640px;margin-top:10px;font-size:14.5px}
+.head-side{display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+.meta{font:500 12px/1.9 var(--mono);color:var(--muted);text-align:right}
+.meta b{color:var(--fg);font-weight:600}
+.btn-row{display:flex;gap:10px}
+.btn{
+  font:600 13.5px var(--sans);border-radius:var(--radius);cursor:pointer;
+  padding:9px 18px;border:1px solid transparent;transition:background .15s,border-color .15s;
+}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-ink)}
+.btn-ghost{background:transparent;color:var(--primary);border-color:#b9c6f5}
+.btn-ghost:hover{border-color:var(--primary)}
+
+/* ---------- 区块骨架 ---------- */
+main{padding:28px 0 8px;display:flex;flex-direction:column;gap:22px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px 24px}
+.p-head{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+h2{font:600 17px var(--mono);letter-spacing:-.01em}
+h2 .idx{color:var(--primary);margin-right:10px;font-weight:500}
+.p-note{font-size:12.5px;color:var(--muted)}
+.p-note b{color:var(--secondary-ink);font-family:var(--mono);font-weight:600}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px 14px;display:flex;flex-direction:column;gap:4px}
+.kpi .k-label{font-size:13px;color:var(--muted)}
+.kpi .k-val{font:600 27px/1.15 var(--mono);letter-spacing:-.02em}
+.kpi .k-val i{font:500 13px var(--mono);color:var(--muted);font-style:normal;margin-left:4px}
+.kpi .k-delta{font:600 12px var(--mono);color:var(--secondary-ink)}
+.kpi .k-delta.neg{color:var(--accent)}
+.kpi svg{margin-top:auto;display:block}
+
+/* ---------- 桑基图 ---------- */
+.legend{display:flex;gap:16px;flex-wrap:wrap}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.lg i{width:16px;height:9px;border-radius:2px;display:inline-block}
+.sw-a{background:rgba(37,66,235,.25)}
+.sw-b{background:rgba(5,150,129,.28)}
+.sw-c{background:rgba(37,66,235,.55)}
+.sw-d{background:rgba(220,38,38,.4)}
+.flow-wrap{overflow-x:auto}
+.flow{display:block;width:100%;height:auto}
+.chead text{font:600 12.5px var(--mono);fill:#334155}
+.nlabel .nm{font:600 11.5px var(--sans);fill:var(--fg)}
+.nlabel .vl{font:500 10.5px var(--mono);fill:var(--muted)}
+.nlabel .nm.win{fill:var(--primary-ink)}
+.nlabel .nm.lose{fill:var(--accent)}
+.nodes .n1{fill:var(--primary)}
+.nodes .n2{fill:var(--secondary-ink)}
+.nodes .n3{fill:#334155}
+.nodes .n4a{fill:var(--primary)}
+.nodes .n4b{fill:var(--accent)}
+.ribbon{transition:fill-opacity .15s}
+.ribbon:hover{fill-opacity:.42}
+.foot-note{margin-top:12px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+/* 一次亮相:流量带自左向右填充 */
+@keyframes sweep{from{width:0}to{width:812px}}
+.reveal{width:0;animation:sweep 1.5s cubic-bezier(.25,.1,.25,1) .15s both}
+
+/* ---------- 双栏:cohort + 时间线 ---------- */
+.duo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:20px;align-items:stretch}
+.duo .panel{height:100%}
+.cg-scroll{overflow-x:auto}
+.cg{display:grid;grid-template-columns:112px 76px repeat(8,minmax(56px,1fr));gap:3px;min-width:660px}
+.ch{font:600 11px var(--mono);color:#334155;display:flex;align-items:center;justify-content:center;height:30px;border-bottom:1px solid var(--line)}
+.ch.ta-l{justify-content:flex-start}
+.ch.ta-r{justify-content:flex-end;padding-right:10px}
+.cl{font:600 12px var(--mono);display:flex;align-items:center;color:var(--fg);height:40px}
+.cl small{font-weight:400;color:var(--muted);margin-left:6px;font-size:10.5px}
+.cs{font:500 12px var(--mono);color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:10px;height:40px}
+.cc{display:flex;flex-direction:column;align-items:center;justify-content:center;height:40px;border-radius:6px;font:500 12px var(--mono);color:var(--fg)}
+.cc .d{font-size:9.5px;line-height:1.1;color:var(--primary-ink);font-weight:600}
+.ce{display:flex;align-items:center;justify-content:center;height:40px;border-radius:6px;background:#F1F5F9;color:#475569;font:400 11px var(--mono)}
+.cg-cap{margin-top:12px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+
+/* ---------- 事件时间线 ---------- */
+.tl-list{position:relative;display:flex;flex-direction:column;gap:18px;padding-top:4px}
+.tl-list::before{content:"";position:absolute;left:75px;top:10px;bottom:10px;width:2px;background:var(--line);border-radius:1px}
+.ev{display:grid;grid-template-columns:64px 26px minmax(0,1fr);align-items:start}
+.ev-d{font:600 12px var(--mono);color:var(--primary);padding-top:2px}
+.ev-dot{width:11px;height:11px;border-radius:50%;background:var(--card);border:3px solid var(--primary);margin-top:4px;position:relative;z-index:1}
+.ev.alt .ev-dot{border-color:var(--secondary)}
+.ev h3{font:600 14px var(--sans);margin-bottom:3px}
+.ev p{font-size:13px;color:var(--muted)}
+.ev b{font:600 12px var(--mono);color:var(--secondary-ink)}
+.tl-cap{margin-top:16px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+
+/* ---------- 分群卡片 ---------- */
+.seg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.seg{border:1px solid var(--line);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:12px;background:#FBFDFF}
+.seg header{display:flex;align-items:center;gap:9px}
+.seg .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.seg h3{font:600 15px var(--sans)}
+.seg .tag{font-size:11.5px;color:var(--muted);margin-left:auto}
+.seg-n{font:600 24px var(--mono);letter-spacing:-.01em}
+.seg-n i{font:500 12px var(--mono);color:var(--muted);font-style:normal;margin-left:8px}
+.bar{height:7px;border-radius:4px;background:#E8EEF7;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+.seg ul{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--muted)}
+.seg li{padding-left:15px;position:relative}
+.seg li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;background:#93A6C8}
+.seg li b{color:var(--fg);font-family:var(--mono);font-size:12.5px;font-weight:600}
+
+/* ---------- footer ---------- */
+.foot{
+  margin-top:30px;border-top:1px solid var(--line);padding:22px 0 34px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;
+}
+.foot p{font:500 13px var(--mono);color:var(--muted)}
+.foot a{font:600 13px var(--sans);color:var(--primary);text-decoration:none;border-bottom:1px solid #b9c6f5;padding-bottom:1px}
+.foot a:hover{border-color:var(--primary)}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1024px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .duo{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .flow-wrap{overflow-x:auto}
+  .flow-wrap .flow{min-width:780px}
+}
+@media (max-width:768px){
+  .page-head{align-items:flex-start;flex-direction:column;gap:16px;padding-top:32px}
+  .head-side{align-items:flex-start}
+  .meta{text-align:left}
+  .seg-grid{grid-template-columns:1fr}
+  .panel{padding:18px 16px 20px}
+}
+@media (max-width:420px){
+  .kpis{grid-template-columns:1fr}
+  .wrap{padding:0 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{animation:none;width:812px}
+  .ribbon{transition:none}
+  .btn{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+<div class="wrap">
+
+<header class="page-head">
+  <div>
+    <p class="eyebrow">墨读阅读 App / 用户旅程周报 / 第 37 周</p>
+    <h1>用户行为分析<span class="sep">/</span>路径与留存</h1>
+    <p class="lede">跟踪 7,200 名新用户从来源渠道到第 7 天结果的完整旅程:他们在哪里进入、做了什么、为什么留下或离开。本期重心是行为流结构与周 cohort 留存走势。</p>
+  </div>
+  <div class="head-side">
+    <p class="meta">统计周期 <b>2025-07-20 至 09-14</b><br>新用户样本 <b>7,200</b> 人 / 周活 <b>48,300</b><br>数据更新 <b>09-15 08:00</b></p>
+    <div class="btn-row">
+      <button class="btn btn-primary" type="button">导出旅程周报</button>
+      <button class="btn btn-ghost" type="button">切换留存口径</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="kpis" aria-label="核心指标">
+    <article class="kpi">
+      <p class="k-label">周活跃用户</p>
+      <p class="k-val">48,300</p>
+      <p class="k-delta">+6.2% 较上期</p>
+      <svg width="64" height="24" viewBox="0 0 64 24" aria-hidden="true"><polyline points="2,17 10,16 18,16.5 26,14 34,14.5 42,12 50,12.5 58,10 62,9" fill="none" stroke="#2542eb" stroke-width="2" stroke-linecap="round"/></svg>
+    </article>
+    <article class="kpi">
+      <p class="k-label">新装 7 日留存</p>
+      <p class="k-val">61.3<i>%</i></p>
+      <p class="k-delta">+2.4pp 较上期</p>
+      <svg width="64" height="24" viewBox="0 0 64 24" aria-hidden="true"><polyline points="2,16 10,15 18,15.5 26,13 34,13.5 42,11 50,11.5 58,9 62,8" fill="none" stroke="#059681" stroke-width="2" stroke-linecap="round"/></svg>
+    </article>
+    <article class="kpi">
+      <p class="k-label">关键行为转化(开始阅读)</p>
+      <p class="k-val">62.5<i>%</i></p>
+      <p class="k-delta">+3.8pp 较上期</p>
+      <svg width="64" height="24" viewBox="0 0 64 24" aria-hidden="true"><polyline points="2,15 10,14 18,12 26,13 34,11 42,11.5 50,9 58,9.5 62,7" fill="none" stroke="#2542eb" stroke-width="2" stroke-linecap="round"/></svg>
+    </article>
+    <article class="kpi">
+      <p class="k-label">人均日阅读时长</p>
+      <p class="k-val">23.6<i>分钟</i></p>
+      <p class="k-delta">+1.8% 较上期</p>
+      <svg width="64" height="24" viewBox="0 0 64 24" aria-hidden="true"><polyline points="2,14 10,13 18,13.5 26,12 34,12.5 42,10.5 50,11 58,9.5 62,9" fill="none" stroke="#059681" stroke-width="2" stroke-linecap="round"/></svg>
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="p-head">
+      <h2><span class="idx">01</span>用户旅程行为流</h2>
+      <div class="legend" aria-label="图例">
+        <span class="lg"><i class="sw-a"></i>渠道分发</span>
+        <span class="lg"><i class="sw-b"></i>行为推进</span>
+        <span class="lg"><i class="sw-c"></i>进入第 7 天留存</span>
+        <span class="lg"><i class="sw-d"></i>流失</span>
+      </div>
+    </div>
+    <div class="flow-wrap">
+    <svg class="flow" viewBox="0 0 970 512" role="img" aria-label="桑基图:新装、活动召回、口碑推荐三类来源经首页浏览、直接搜索、进入书架等首动作,流向开始阅读、加入书架、仅浏览离开三类关键行为,最终 4,410 人第 7 天留存、2,790 人流失">
+      <title>用户旅程行为流桑基图</title>
+      <defs>
+        <clipPath id="sweep"><rect class="reveal" x="150" y="0" width="812" height="512"/></clipPath>
+      </defs>
+
+      <g class="chead" aria-hidden="true">
+        <text x="170" y="30">来源渠道</text>
+        <text x="420" y="30">首个动作</text>
+        <text x="680" y="30">关键行为</text>
+        <text x="940" y="30" text-anchor="end">第 7 天结果</text>
+      </g>
+
+      <g clip-path="url(#sweep)">
+        <g fill="#2542eb">
+          <path class="ribbon" fill-opacity=".13" d="M184 70 C302 70,302 70,420 70 L420 213 C302 213,302 213,184 213 Z"/>
+          <path class="ribbon" fill-opacity=".11" d="M184 213 C302 213,302 302,420 302 L420 357 C302 357,302 268,184 268 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M184 268 C302 268,302 418.5,420 418.5 L420 451.5 C302 451.5,302 301,184 301 Z"/>
+          <path class="ribbon" fill-opacity=".12" d="M184 313 C302 313,302 213,420 213 L420 262.5 C302 262.5,302 362.5,184 362.5 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M184 362.5 C302 362.5,302 357,420 357 L420 379 C302 379,302 384.5,184 384.5 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M184 384.5 C302 384.5,302 451.5,420 451.5 L420 479 C302 479,302 412,184 412 Z"/>
+          <path class="ribbon" fill-opacity=".11" d="M184 424 C302 424,302 262.5,420 262.5 L420 290 C302 290,302 451.5,184 451.5 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M184 451.5 C302 451.5,302 379,420 379 L420 406.5 C302 406.5,302 479,184 479 Z"/>
+          <path class="ribbon" fill-opacity=".09" d="M184 479 C302 479,302 479,420 479 L420 490 C302 490,302 490,184 490 Z"/>
+        </g>
+        <g fill="#059681">
+          <path class="ribbon" fill-opacity=".16" d="M434 70 C557 70,557 70,680 70 L680 191 C557 191,557 191,434 191 Z"/>
+          <path class="ribbon" fill-opacity=".13" d="M434 191 C557 191,557 329.5,680 329.5 L680 395.5 C557 395.5,557 257,434 257 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M434 257 C557 257,557 440.5,680 440.5 L680 473.5 C557 473.5,557 290,434 290 Z"/>
+          <path class="ribbon" fill-opacity=".14" d="M434 302 C557 302,557 191,680 191 L680 268 C557 268,557 379,434 379 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M434 379 C557 379,557 395.5,680 395.5 L680 412 C557 412,557 395.5,434 395.5 Z"/>
+          <path class="ribbon" fill-opacity=".09" d="M434 395.5 C557 395.5,557 473.5,680 473.5 L680 484.5 C557 484.5,557 406.5,434 406.5 Z"/>
+          <path class="ribbon" fill-opacity=".13" d="M434 418.5 C557 418.5,557 268,680 268 L680 317.5 C557 317.5,557 468,434 468 Z"/>
+          <path class="ribbon" fill-opacity=".10" d="M434 468 C557 468,557 412,680 412 L680 428.5 C557 428.5,557 484.5,434 484.5 Z"/>
+          <path class="ribbon" fill-opacity=".09" d="M434 484.5 C557 484.5,557 484.5,680 484.5 L680 490 C557 490,557 490,434 490 Z"/>
+        </g>
+        <g fill="#2542eb">
+          <path class="ribbon" fill-opacity=".26" d="M694 70 C817 70,817 70,940 70 L940 243.25 C817 243.25,817 243.25,694 243.25 Z"/>
+          <path class="ribbon" fill-opacity=".20" d="M694 329.5 C817 329.5,817 243.25,940 243.25 L940 312.5 C817 312.5,817 398.8,694 398.8 Z"/>
+        </g>
+        <g fill="#DC2626">
+          <path class="ribbon" fill-opacity=".18" d="M694 243.25 C817 243.25,817 337,940 337 L940 411 C817 411,817 317.5,694 317.5 Z"/>
+          <path class="ribbon" fill-opacity=".16" d="M694 398.8 C817 398.8,817 411,940 411 L940 441 C817 441,817 428.5,694 428.5 Z"/>
+          <path class="ribbon" fill-opacity=".15" d="M694 440.5 C817 440.5,817 441,940 441 L940 490 C817 490,817 490,694 490 Z"/>
+        </g>
+      </g>
+
+      <g class="nodes" aria-hidden="true">
+        <rect class="n1" x="170" y="70" width="14" height="231" rx="3"/>
+        <rect class="n1" x="170" y="313" width="14" height="99" rx="3"/>
+        <rect class="n1" x="170" y="424" width="14" height="66" rx="3"/>
+        <rect class="n2" x="420" y="70" width="14" height="220" rx="3"/>
+        <rect class="n2" x="420" y="302" width="14" height="104.5" rx="3"/>
+        <rect class="n2" x="420" y="418.5" width="14" height="71.5" rx="3"/>
+        <rect class="n3" x="680" y="70" width="14" height="247.5" rx="3"/>
+        <rect class="n3" x="680" y="329.5" width="14" height="99" rx="3"/>
+        <rect class="n3" x="680" y="440.5" width="14" height="49.5" rx="3"/>
+        <rect class="n4a" x="940" y="70" width="14" height="242.5" rx="3"/>
+        <rect class="n4b" x="940" y="337" width="14" height="153" rx="3"/>
+      </g>
+
+      <g class="nlabel" aria-hidden="true">
+        <text x="160" text-anchor="end"><tspan class="nm" x="160" y="181">新装用户</tspan><tspan class="vl" x="160" y="195">4,200 / 58%</tspan></text>
+        <text x="160" text-anchor="end"><tspan class="nm" x="160" y="358">活动召回</tspan><tspan class="vl" x="160" y="372">1,800 / 25%</tspan></text>
+        <text x="160" text-anchor="end"><tspan class="nm" x="160" y="452">口碑推荐</tspan><tspan class="vl" x="160" y="466">1,200 / 17%</tspan></text>
+        <text x="410" text-anchor="end"><tspan class="nm" x="410" y="176">首页浏览</tspan><tspan class="vl" x="410" y="190">4,000 / 56%</tspan></text>
+        <text x="410" text-anchor="end"><tspan class="nm" x="410" y="350">直接搜索</tspan><tspan class="vl" x="410" y="364">1,900 / 26%</tspan></text>
+        <text x="410" text-anchor="end"><tspan class="nm" x="410" y="450">进入书架</tspan><tspan class="vl" x="410" y="464">1,300 / 18%</tspan></text>
+        <text x="670" text-anchor="end"><tspan class="nm" x="670" y="189">开始阅读</tspan><tspan class="vl" x="670" y="203">4,500 / 62%</tspan></text>
+        <text x="670" text-anchor="end"><tspan class="nm" x="670" y="375">加入书架</tspan><tspan class="vl" x="670" y="389">1,800 / 25%</tspan></text>
+        <text x="670" text-anchor="end"><tspan class="nm" x="670" y="461">仅浏览离开</tspan><tspan class="vl" x="670" y="475">900 / 13%</tspan></text>
+        <text x="930" text-anchor="end"><tspan class="nm win" x="930" y="186">第 7 天留存</tspan><tspan class="vl" x="930" y="200">4,410 / 61%</tspan></text>
+        <text x="930" text-anchor="end"><tspan class="nm lose" x="930" y="409">流失</tspan><tspan class="vl" x="930" y="423">2,790 / 39%</tspan></text>
+      </g>
+    </svg>
+    </div>
+    <p class="foot-note">带宽与人数等比。读法:直接搜索用户 74% 进入开始阅读,高于首页浏览的 55%;仅浏览离开的 900 人最终全部流失,是最大的单点流失漏口。</p>
+  </section>
+
+  <div class="duo">
+
+    <section class="panel">
+      <div class="p-head">
+        <h2><span class="idx">02</span>周 cohort 留存三角表</h2>
+        <p class="p-note">单位 % / W1 同比上期 <b>+1.6 至 +6.5pp</b></p>
+      </div>
+      <div class="cg-scroll">
+      <div class="cg" role="table" aria-label="周同期群留存率三角表">
+        <span class="ch ta-l" role="columnheader">同期群</span>
+        <span class="ch ta-r" role="columnheader">新装</span>
+        <span class="ch" role="columnheader">W0</span>
+        <span class="ch" role="columnheader">W1</span>
+        <span class="ch" role="columnheader">W2</span>
+        <span class="ch" role="columnheader">W3</span>
+        <span class="ch" role="columnheader">W4</span>
+        <span class="ch" role="columnheader">W5</span>
+        <span class="ch" role="columnheader">W6</span>
+        <span class="ch" role="columnheader">W7</span>
+
+        <span class="cl" role="rowheader">W30 <small>07-20</small></span>
+        <span class="cs">5,120</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.41)">46.2</span>
+        <span class="cc" style="background:rgba(37,66,235,.32)">33.5</span>
+        <span class="cc" style="background:rgba(37,66,235,.28)">27.8</span>
+        <span class="cc" style="background:rgba(37,66,235,.25)">24.1</span>
+        <span class="cc" style="background:rgba(37,66,235,.24)">21.6</span>
+        <span class="cc" style="background:rgba(37,66,235,.22)">19.8</span>
+        <span class="cc" style="background:rgba(37,66,235,.21)">18.2</span>
+
+        <span class="cl" role="rowheader">W31 <small>07-27</small></span>
+        <span class="cs">5,540</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.42)">47.8<span class="d">+1.6</span></span>
+        <span class="cc" style="background:rgba(37,66,235,.33)">34.9</span>
+        <span class="cc" style="background:rgba(37,66,235,.29)">29.0</span>
+        <span class="cc" style="background:rgba(37,66,235,.26)">25.4</span>
+        <span class="cc" style="background:rgba(37,66,235,.24)">22.9</span>
+        <span class="cc" style="background:rgba(37,66,235,.23)">20.7</span>
+        <span class="ce">—</span>
+
+        <span class="cl" role="rowheader">W32 <small>08-03</small></span>
+        <span class="cs">5,980</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.43)">48.6<span class="d">+2.4</span></span>
+        <span class="cc" style="background:rgba(37,66,235,.34)">36.1</span>
+        <span class="cc" style="background:rgba(37,66,235,.30)">30.2</span>
+        <span class="cc" style="background:rgba(37,66,235,.27)">26.8</span>
+        <span class="cc" style="background:rgba(37,66,235,.26)">24.3</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+
+        <span class="cl" role="rowheader">W33 <small>08-10</small></span>
+        <span class="cs">6,240</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.44)">49.5<span class="d">+3.3</span></span>
+        <span class="cc" style="background:rgba(37,66,235,.35)">37.4</span>
+        <span class="cc" style="background:rgba(37,66,235,.31)">31.6</span>
+        <span class="cc" style="background:rgba(37,66,235,.28)">28.2</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+
+        <span class="cl" role="rowheader">W34 <small>08-17</small></span>
+        <span class="cs">6,610</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.45)">50.8<span class="d">+4.6</span></span>
+        <span class="cc" style="background:rgba(37,66,235,.36)">38.9</span>
+        <span class="cc" style="background:rgba(37,66,235,.32)">33.1</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+
+        <span class="cl" role="rowheader">W35 <small>08-24</small></span>
+        <span class="cs">6,890</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.45)">51.6<span class="d">+5.4</span></span>
+        <span class="cc" style="background:rgba(37,66,235,.37)">40.2</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+
+        <span class="cl" role="rowheader">W36 <small>08-31</small></span>
+        <span class="cs">7,150</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="cc" style="background:rgba(37,66,235,.46)">52.7<span class="d">+6.5</span></span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+
+        <span class="cl" role="rowheader">W37 <small>09-07</small></span>
+        <span class="cs">7,420</span>
+        <span class="cc" style="background:rgba(37,66,235,.80)">100</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+        <span class="ce">—</span>
+      </div>
+      </div>
+      <p class="cg-cap">口径:第 n 周内至少活跃 1 天的用户占比,W0 为注册当周。W1 留存连续 7 个同期群抬升,与 07-28 签到、08-26 阅读提醒两次改版节奏吻合。</p>
+    </section>
+
+    <section class="panel">
+      <div class="p-head">
+        <h2><span class="idx">03</span>旅程关键事件时间线</h2>
+        <p class="p-note">留存拐点归因</p>
+      </div>
+      <div class="tl-list">
+        <article class="ev">
+          <time class="ev-d" datetime="2025-07-28">07-28</time>
+          <span class="ev-dot" aria-hidden="true"></span>
+          <div>
+            <h3>每日签到上线</h3>
+            <p>次日回访 <b>+9.4%</b> / 签到渗透 38% / W31 起 W1 留存开始抬升</p>
+          </div>
+        </article>
+        <article class="ev alt">
+          <time class="ev-d" datetime="2025-08-12">08-12</time>
+          <span class="ev-dot" aria-hidden="true"></span>
+          <div>
+            <h3>推送文案改版(A/B 各 50%)</h3>
+            <p>推送点击率自 6.1% 升至 <b>8.9%</b> / 活动召回回流贡献 +21%</p>
+          </div>
+        </article>
+        <article class="ev">
+          <time class="ev-d" datetime="2025-08-19">08-19</time>
+          <span class="ev-dot" aria-hidden="true"></span>
+          <div>
+            <h3>首页「继续阅读」卡片置顶</h3>
+            <p>首动作至开始阅读转化 <b>+6.4pp</b> / 仅浏览离开占比下降 2.1pp</p>
+          </div>
+        </article>
+        <article class="ev alt">
+          <time class="ev-d" datetime="2025-08-26">08-26</time>
+          <span class="ev-dot" aria-hidden="true"></span>
+          <div>
+            <h3>第 3 天阅读进度提醒</h3>
+            <p>W1 留存 <b>+3.1pp</b> / 提醒关闭率仅 11%,干扰感可控</p>
+          </div>
+        </article>
+        <article class="ev">
+          <time class="ev-d" datetime="2025-09-02">09-02</time>
+          <span class="ev-dot" aria-hidden="true"></span>
+          <div>
+            <h3>书架分享与组队读书</h3>
+            <p>回流用户 <b>+12.0%</b> / 分享带来新装 640 人,口碑渠道放量</p>
+          </div>
+        </article>
+      </div>
+      <p class="tl-cap">五个事件全部指向同一条路径:把用户更快送进「开始阅读」,留存随之抬升。</p>
+    </section>
+
+  </div>
+
+  <section class="panel">
+    <div class="p-head">
+      <h2><span class="idx">04</span>行为分群</h2>
+      <p class="p-note">按旅程状态划分 / 其余 59.4% 为稳定活跃</p>
+    </div>
+    <div class="seg-grid">
+      <article class="seg">
+        <header>
+          <span class="dot" style="background:var(--primary)"></span>
+          <h3>新客</h3>
+          <span class="tag">近 7 天首次打开</span>
+        </header>
+        <p class="seg-n">7,420<i>人 / 占周活 15.4%</i></p>
+        <div class="bar"><i style="width:15.4%;background:var(--primary)"></i></div>
+        <ul>
+          <li>深夜 <b>22-24 点</b>首开占 41%,冷启动即读场景明确</li>
+          <li>首日人均读完 <b>1.6 章</b>,首动作完成率 88%</li>
+          <li>次日回访 <b>52.7%</b>,高于全站新装均值</li>
+        </ul>
+      </article>
+      <article class="seg">
+        <header>
+          <span class="dot" style="background:var(--secondary)"></span>
+          <h3>回流</h3>
+          <span class="tag">沉寂 14 天后回归</span>
+        </header>
+        <p class="seg-n">2,310<i>人 / 占周活 4.8%</i></p>
+        <div class="bar"><i style="width:4.8%;background:var(--secondary)"></i></div>
+        <ul>
+          <li>召回通道:推送 <b>46%</b> / 分享链接 <b>31%</b> / 其余自然回流</li>
+          <li>回归后 W1 留存 <b>44.2%</b>,介于新客与老客之间</li>
+          <li>回归首日人均读 <b>2.1 章</b>,目标感强于新客</li>
+        </ul>
+      </article>
+      <article class="seg">
+        <header>
+          <span class="dot" style="background:var(--accent)"></span>
+          <h3>沉睡</h3>
+          <span class="tag">连续 21 天未打开</span>
+        </header>
+        <p class="seg-n">9,860<i>人 / 占周活 20.4%</i></p>
+        <div class="bar"><i style="width:20.4%;background:var(--accent)"></i></div>
+        <ul>
+          <li>离开前最后一次行为仅浏览占 <b>63%</b>,从未进入阅读</li>
+          <li>流失高发于注册后 <b>第 2 周</b>,与 W1-W2 留存陡降一致</li>
+          <li>召回推送响应率仅 <b>8.3%</b>,需要新的唤起内容</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>UI 设计提示词库 / User Behavior Analytics 行为分析</p>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+</div>
+</body>
+</html>
