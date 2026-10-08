@@ -288,18 +288,18 @@ def _timeline(v):
     return f'''<div class="hx" style="--a:{v['accent']};--l:{v['line']}">
   <div class="lens"><div><b>38</b><span>本年读完</span></div><div><b>11</b><span>最长连胜（天）</span></div><div><b>4.2</b><span>平均评分</span></div></div>
   <div class="tl tl-grow">
-    <div class="tl-node"><i></i><div class="tl-card"><b>3 月 · 峰值月</b><span>读完 6 本，最长连胜 11 天</span></div></div>
-    <div class="tl-node"><i></i><div class="tl-card"><b>7 月 · 沉寂期</b><span>只补完了 1 本随笔</span></div></div>
-    <div class="tl-node"><i></i><div class="tl-card"><b>11 月 · 回归</b><span>科幻月：4 本长篇连读</span></div></div>
+    <div class="tl-node"><i></i><div class="tl-card"><b>3 月 / 峰值月</b><span>读完 6 本，最长连胜 11 天</span></div></div>
+    <div class="tl-node"><i></i><div class="tl-card"><b>7 月 / 沉寂期</b><span>只补完了 1 本随笔</span></div></div>
+    <div class="tl-node"><i></i><div class="tl-card"><b>11 月 / 回归</b><span>科幻月：4 本长篇连读</span></div></div>
   </div>
   <div class="rhythm">{''.join('<i style="height:%d%%"></i>' % (30 + (i * 37) % 65) for i in range(12))}</div>
 </div>'''
 
 def _teaching(v):
     return f'''<div class="hx grid3" style="--l:{v['line']}">
-  <div class="p mini"><b>课程栏</b><span>目标 · 模式</span><span>对象 01/02/03</span></div>
+  <div class="p mini"><b>课程栏</b><span>目标 / 模式</span><span>对象 01/02/03</span></div>
   <div class="p stage"><b>模型舞台</b><svg viewBox="0 0 120 60" aria-hidden="true"><circle cx="60" cy="30" r="22" fill="none" stroke="{v['accent']}" stroke-width="3"/><circle cx="60" cy="30" r="4" fill="{v['accent']}"/></svg></div>
-  <div class="p mini"><b>检查器</b><span>事实 · 为什么重要</span></div>
+  <div class="p mini"><b>检查器</b><span>事实 / 为什么重要</span></div>
 </div>'''
 
 def _essay(v):
@@ -310,7 +310,7 @@ def _essay(v):
 
 def _dashboard(v):
     return f'''<div class="hx" style="--a:{v['accent']};--l:{v['line']}">
-  <div class="kpis"><div class="kpi"><b>128</b><span>本年读完 · +12%</span></div><div class="kpi"><b>42</b><span>高亮条数</span></div><div class="kpi"><b>11</b><span>最长连胜（天）</span></div></div>
+  <div class="kpis"><div class="kpi"><b>128</b><span>本年读完 / +12%</span></div><div class="kpi"><b>42</b><span>高亮条数</span></div><div class="kpi"><b>11</b><span>最长连胜（天）</span></div></div>
   <div class="bars"><i style="height:40%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:95%"></i><i style="height:60%"></i><i style="height:80%"></i></div>
   <div class="flags"><span class="fl"><i class="fdot"></i>2 本中途弃读</span><span class="fl"><i class="fdot warn"></i>11 月加书架未读 5 本</span><span class="fl"><i class="fdot ok"></i>导出可用</span></div>
 </div>'''
@@ -336,7 +336,7 @@ def _atlas(v):
     <circle cx="20" cy="90" r="6" fill="{v['accent']}"/><circle cx="300" cy="30" r="6" fill="{v['accent']}"/>
     <circle cx="120" cy="58" r="3" fill="{v['accent']}" opacity=".45"/><circle cx="220" cy="70" r="3" fill="{v['accent']}" opacity=".45"/>
   </svg>
-  <div class="drawer">京都 → 里斯本 · 停留 9 天 · 3 次回访</div>
+  <div class="drawer">京都 → 里斯本 / 停留 9 天 / 3 次回访</div>
 </div>'''
 
 def _travel(v):
@@ -355,14 +355,14 @@ def _network(v):
 
 def _document(v):
     return f'''<div class="hx doch" style="--a:{v['accent']};--l:{v['line']}">
-  <div class="mast"><b>2026 阅读档案 · 审阅版</b><span>范围：全年 · 来源：Kindle 导出</span></div>
+  <div class="mast"><b>2026 阅读档案 / 审阅版</b><span>范围：全年 / 来源：Kindle 导出</span></div>
   <div class="rail">速览 | 大纲 | 证据</div>
   <p>主张：长篇胜过碎片——证据见第 3 节。</p>
 </div>'''
 
 def _kami(v):
     return f'''<div class="hx kamih" style="--a:{v['accent']}">
-  <small>READINGS · 2026</small>
+  <small>READINGS / 2026</small>
   <b>一年，三十八本书</b>
   <i class="inkline"></i>
   <span>目录：春读三卷 / 夏夜长谈 / 秋收与冬藏</span>
@@ -371,12 +371,12 @@ def _kami(v):
 def _spread(v):
     return f'''<div class="hx spreadh">
   <div class="bay" style="background:{v['bg']}"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="30" fill="none" stroke="{v['accent']}" stroke-width="3"/><circle cx="40" cy="40" r="8" fill="{v['accent']}"/></svg></div>
-  <div class="panel" style="background:{v['panel']}"><small>第二章 · 秩序</small><b>阅读的<br>建筑学</b><span>Next Chapter ( + )</span></div>
+  <div class="panel" style="background:{v['panel']}"><small>第二章 / 秩序</small><b>阅读的<br>建筑学</b><span>Next Chapter ( + )</span></div>
 </div>'''
 
 def _eguide(v):
     return f'''<div class="hx eguideh" style="--a:{v['accent']}">
-  <div class="pg cover"><small>READING GUIDE</small><b>怎样读完<br>一本书</b><span>3 格统计 · 目录 · 作者</span></div>
+  <div class="pg cover"><small>Reading Guide</small><b>怎样读完<br>一本书</b><span>3 格统计 / 目录 / 作者</span></div>
   <div class="pg"><small>第 1 章</small><span>步骤列表 / 引文 / 练习条</span></div>
 </div>'''
 
@@ -404,7 +404,7 @@ def _workbench(v):
 def _brief(v):
     return f'''<div class="hx briefh" style="--a:{v['accent']};--l:{v['line']}">
   <div class="chips"><i>科幻占 38%</i><i>平均 4.2★</i><i>深夜读最多</i></div>
-  <div class="p main"><b>主洞察：主题集中在 9-11 月</b><span>一张主图 · 对比 · 时间线</span></div>
+  <div class="p main"><b>主洞察：主题集中在 9-11 月</b><span>一张主图 / 对比 / 时间线</span></div>
 </div>'''
 
 def _keepsake(v):
@@ -563,8 +563,8 @@ def content_page(s):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>%s · 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 · 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>%s / 内容排版风格 — UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
 <style>
 @import url('https://fonts.googleapis.com/css2?%s&display=swap');
 
@@ -599,10 +599,10 @@ h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
 <body>
 <div class="wrap">
   <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 · %s</p>
+  <p class="kicker">内容排版风格 / %s</p>
   <h1>%s</h1>
   <p class="sub">%s。%s。</p>
-  <p class="meta">本页 token：<code>底 %s</code> <code>面板 %s</code> <code>主字 %s</code> <code>强调 %s</code> <code>圆角 %s</code> · 标题 <code>%s</code> / 正文 <code>%s</code> · 动效：%s</p>
+  <p class="meta">本页 token：<code>底 %s</code> <code>面板 %s</code> <code>主字 %s</code> <code>强调 %s</code> <code>圆角 %s</code> / 标题 <code>%s</code> / 正文 <code>%s</code> / 动效：%s</p>
 
   <h2>结构示意</h2>
   %s
@@ -613,7 +613,7 @@ h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
   <h2>组件词汇</h2>
   <p class="vocab">%s</p>
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 · 主题由使用者确定，本页演示内容仅为排版示意。</p>
+  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
 </div>
 </body>
 </html>''' % (s['zh'], fams, t['bg'], t['panel'], t['ink'], t['muted'], t['accent'], t['line'], t['radius'],
