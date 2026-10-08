@@ -581,6 +581,7 @@ def base_css(s, font_head, font_body, fonts_q, title, css):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <title>__TITLE__</title>
+<meta name="description" content="UI 设计提示词库 · 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
 <style>
 @import url('https://fonts.googleapis.com/css2?__FONTS__&display=swap');
 :root {
@@ -2411,6 +2412,7 @@ def build_catalog(manifest, entries, lentries=None):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>UI 设计提示词库</title>
+<meta name="description" content="113 个 UI 设计风格与落地页结构模板：官方提示词、色板、一键复制样张，看中哪个风格就复制提示词交给 AI 复刻网页。">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Rubik:wght@400;500;600;700&display=swap');
 
