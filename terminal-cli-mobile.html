@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Terminal CLI Mobile / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / Terminal CLI Mobile 风格样张：手机 SSH 应急运维场景，等宽深色终端区与辅助键排设计。">
+<style>
+/* token 计划: bg #050505 / 面板 #0A0F0A / fg #33FF00 / 柔和输出 #8FE39A / 亮文本 #DFFFE2 / dim #5FA85F / accent #D24DFF / err #FF6E6E / warn #FFC16B / JetBrains Mono 12-14-16px / 圆角 0 / 边框 1px 矩阵绿@30-35% */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #060806;
+  --panel: #0A0F0A;
+  --ink: #050505;
+  --t-fg: #33FF00;
+  --t-out: #8FE39A;
+  --t-w: #DFFFE2;
+  --dim: #5FA85F;
+  --dim2: #7CBF7C;
+  --accent: #D24DFF;
+  --err: #FF6E6E;
+  --warn: #FFC16B;
+  --line: rgba(51, 255, 0, .32);
+  --line2: rgba(51, 255, 0, .18);
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--mono);
+  background: var(--bg);
+  color: var(--t-w);
+  line-height: 1.5;
+  min-height: 100vh;
+  background-image: repeating-linear-gradient(0deg, rgba(51,255,0,.025) 0 1px, transparent 1px 4px);
+}
+
+::selection { background: var(--t-fg); color: #031003; }
+
+a { color: var(--t-fg); }
+a:hover { text-decoration: underline; }
+
+button { font-family: var(--mono); }
+
+:focus-visible { outline: 2px solid var(--t-fg); outline-offset: 2px; }
+
+/* ── 顶栏 ─────────────────────────────── */
+
+.topbar { border-bottom: 1px solid var(--line2); background: #070A07; }
+.topbar-in { max-width: 1280px; margin: 0 auto; padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--t-w);
+  font-size: 14px; font-weight: 700; text-decoration: none; }
+.brand:hover { text-decoration: none; color: var(--t-fg); }
+.bmark { color: var(--t-fg); border: 1px solid var(--line); padding: 3px 7px;
+  font-size: 12px; font-weight: 500; background: rgba(51,255,0,.06); }
+.tnav a { font-size: 12px; color: var(--dim2); text-decoration: none; padding: 8px 2px; }
+.tnav a:hover, .tnav a:focus-visible { color: var(--t-fg); }
+
+/* ── 舞台 ─────────────────────────────── */
+
+.stage { padding: 36px 16px 28px; }
+.stage-grid { max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; justify-items: center; gap: 28px; }
+
+.phone-wrap { position: relative; padding: 16px; }
+.corner { position: absolute; width: 18px; height: 18px; border: 0 solid var(--t-fg); opacity: .7; }
+.corner.tl { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.corner.tr { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.corner.bl { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.corner.br { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* ── 侧栏说明板（≥1200px 显示） ───────── */
+
+.panel { display: none; }
+
+/* ── 手机 ─────────────────────────────── */
+
+.phone {
+  width: 390px; max-width: 100%;
+  height: 760px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.9), 0 0 46px rgba(51,255,0,.07), 0 30px 60px rgba(0,0,0,.6);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+.bezel { flex: none; height: 22px; display: flex; align-items: center; justify-content: center;
+  background: #030403; border-bottom: 1px solid #101710; }
+.cam { width: 44px; height: 6px; background: #101410; border: 1px solid #1A241A; }
+
+.pstatus { flex: none; display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 14px 4px; font-size: 12px; color: var(--dim2); }
+
+/* 连接状态栏 */
+
+.conn { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 9px 12px; background: #071007; border-top: 1px solid var(--line2); border-bottom: 1px solid var(--line); }
+.conn-l { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.dot { flex: none; width: 8px; height: 8px; background: var(--t-fg); }
+.dot.wait { background: var(--warn); }
+.dot.off { background: var(--err); }
+.conn-l b { display: block; font-size: 14px; font-weight: 700; color: var(--t-fg);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conn-l small { display: block; font-size: 12px; color: var(--dim); white-space: nowrap; }
+.conn-r { display: flex; align-items: center; gap: 10px; flex: none; }
+.latency { font-size: 12px; color: var(--dim2); }
+.brkbtn { min-height: 44px; padding: 0 10px; font-size: 12px; font-weight: 700;
+  color: #FFB3B3; background: rgba(255,110,110,.05); border: 1px solid rgba(255,110,110,.55); cursor: pointer; }
+.brkbtn:active { background: var(--err); color: #160404; }
+
+/* 终端区 */
+
+.term { flex: 1; min-height: 0; position: relative; background: var(--ink); overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: rgba(51,255,0,.35) #071007; }
+.term::-webkit-scrollbar { width: 6px; }
+.term::-webkit-scrollbar-thumb { background: rgba(51,255,0,.3); }
+.scanlines { position: sticky; top: 0; height: 0; overflow: visible; z-index: 2; pointer-events: none; }
+.scanlines::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 100vh;
+  background: repeating-linear-gradient(0deg, rgba(51,255,0,.05) 0 1px, transparent 1px 3px); }
+.term-body { padding: 10px 12px 12px; font-size: 12px; line-height: 1.42; }
+.ln { white-space: pre-wrap; word-break: break-all; color: var(--t-out); }
+.ln.dim { color: var(--dim); }
+.ln.w { color: var(--t-w); }
+.ln.err { color: var(--err); }
+.ln.warn { color: var(--warn); }
+.p1 { color: var(--t-fg); font-weight: 700; }
+.p2 { color: var(--dim); }
+.c { color: var(--t-w); }
+
+/* 输入行 */
+
+.inputbar { flex: none; display: flex; align-items: center; gap: 0;
+  padding: 11px 12px; background: #071007; border-top: 1px solid var(--line);
+  font-size: 12px; line-height: 1.3; overflow: hidden; }
+.ps1 { color: var(--t-fg); font-weight: 700; white-space: pre; }
+.inwrap { flex: 1; min-width: 0; white-space: pre; overflow: hidden; }
+.inbefore, .inafter { color: var(--t-w); }
+.cursor { display: inline-block; width: .62em; height: 1.15em; background: var(--t-fg);
+  vertical-align: text-bottom; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.modtag { flex: none; margin-left: 8px; padding: 2px 6px; font-size: 12px; font-weight: 700;
+  color: #031003; background: var(--t-fg); }
+
+/* 命令历史 / 快捷命令 chips */
+
+.chips { flex: none; display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; overflow-x: auto; border-top: 1px solid var(--line2);
+  scrollbar-width: thin; scrollbar-color: rgba(210,77,255,.4) transparent; }
+.chips::-webkit-scrollbar { height: 4px; }
+.chips::-webkit-scrollbar-thumb { background: rgba(210,77,255,.4); }
+.chiplab { flex: none; font-size: 12px; color: var(--dim); }
+.chip { flex: none; min-height: 34px; padding: 0 12px; font-size: 12px; font-weight: 500;
+  color: #E9D4FF; background: rgba(210,77,255,.08); border: 1px solid rgba(210,77,255,.55); cursor: pointer; }
+.chip:active { background: var(--accent); color: #160016; border-color: var(--accent); }
+.chip.danger { color: #FFB3B3; background: rgba(255,110,110,.06); border-color: rgba(255,110,110,.55); }
+.chip.danger:active { background: var(--err); color: #160404; border-color: var(--err); }
+
+/* 辅助键排：移动终端的灵魂 */
+
+.keys { flex: none; background: #0A0F0A; border-top: 1px solid var(--line); padding: 9px 10px 11px; }
+.krow { display: grid; gap: 6px; margin-bottom: 6px; }
+.krow:last-child { margin-bottom: 0; }
+.k5 { grid-template-columns: repeat(5, 1fr); }
+.k8 { grid-template-columns: repeat(8, 1fr); }
+.k6 { grid-template-columns: repeat(6, 1fr); }
+.key { min-height: 44px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 500; color: var(--t-fg);
+  background: rgba(51,255,0,.06); border: 1px solid rgba(51,255,0,.35);
+  cursor: pointer; user-select: none; -webkit-user-select: none; }
+.key:active, .key.on { background: var(--t-fg); color: #031003; border-color: var(--t-fg); }
+.key svg { display: block; }
+
+/* 会话页脚状态栏 */
+
+.sess { flex: none; display: flex; justify-content: space-between; gap: 10px;
+  padding: 8px 12px; background: #071007; border-top: 1px solid var(--line2);
+  font-size: 12px; color: var(--dim); }
+.sess .ok { color: var(--dim2); }
+
+/* 舞台注释与页脚 */
+
+.stage-note { text-align: center; font-size: 12px; color: var(--dim2); }
+.pagefoot { border-top: 1px solid var(--line2); background: #070A07; }
+.pagefoot p { max-width: 1280px; margin: 0 auto; padding: 16px 20px;
+  font-size: 12px; color: var(--dim); }
+.pagefoot a { color: var(--t-fg); }
+
+/* ── 响应式 ───────────────────────────── */
+
+/* 768px：平板，放宽舞台留白 */
+@media (min-width: 768px) {
+  .stage { padding: 44px 24px 32px; }
+  .topbar-in, .pagefoot p { padding-left: 24px; padding-right: 24px; }
+}
+
+/* 1200px+（覆盖 1440 桌面）：两侧说明板就位，手机居中 */
+@media (min-width: 1200px) {
+  .stage-grid { grid-template-columns: minmax(230px, 300px) auto minmax(230px, 300px);
+    align-items: center; gap: 44px; }
+  .panel { display: block; background: var(--panel); border: 1px solid var(--line);
+    padding: 20px 18px; width: 100%; }
+  .panel h2 { font-size: 14px; font-weight: 700; color: var(--t-fg); margin-bottom: 14px; }
+  .panel h2::before { content: "> "; color: var(--dim); }
+  .feat { list-style: none; }
+  .feat li { padding: 10px 0; border-top: 1px dashed rgba(51,255,0,.2); }
+  .feat li:first-child { border-top: 0; padding-top: 0; }
+  .feat b { display: block; font-size: 14px; color: var(--t-w); margin-bottom: 3px; }
+  .feat span { display: block; font-size: 12px; color: var(--dim2); line-height: 1.6; }
+  .tok { display: grid; gap: 0; }
+  .tok > div { display: flex; justify-content: space-between; gap: 12px;
+    padding: 8px 0; border-top: 1px dashed rgba(51,255,0,.2); font-size: 12px; }
+  .tok > div:first-child { border-top: 0; padding-top: 0; }
+  .tok dt { color: var(--dim); }
+  .tok dd { color: var(--t-w); text-align: right; }
+}
+
+/* ── 降级 ─────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="brand"><span class="bmark">&gt;_</span>Terminal CLI Mobile</span>
+    <nav class="tnav"><a href="style-catalog.html">返回风格目录</a></nav>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="stage-grid">
+
+    <aside class="panel">
+      <h2>风格特征</h2>
+      <ul class="feat">
+        <li><b>等宽深色终端区</b><span>JetBrains Mono / OLED 黑底 / 矩阵绿回显 / 0.05 扫描线纹理</span></li>
+        <li><b>辅助键排</b><span>Esc / Tab / Ctrl / Alt / Enter / 方向键 / 符号排 / 44dp 触达 / 点按即反色</span></li>
+        <li><b>命令 chips</b><span>历史与快捷命令一键注入 / 上方向键翻历史 / Ctrl 粘滞注入控制符</span></li>
+        <li><b>连接状态栏</b><span>主机 / 加密方式 / 延迟 / 会话时长 / 断开与自动重连状态切换</span></li>
+      </ul>
+    </aside>
+
+    <div class="phone-wrap">
+      <span class="corner tl" aria-hidden="true"></span>
+      <span class="corner tr" aria-hidden="true"></span>
+      <span class="corner bl" aria-hidden="true"></span>
+      <span class="corner br" aria-hidden="true"></span>
+
+      <div class="phone">
+        <div class="bezel"><span class="cam" aria-hidden="true"></span></div>
+
+        <div class="pstatus">
+          <span>21:47</span>
+          <span>LTE / 82%</span>
+        </div>
+
+        <header class="conn">
+          <div class="conn-l">
+            <span class="dot" id="connDot" aria-hidden="true"></span>
+            <div>
+              <b>ssh pi@192.168.4.12</b>
+              <small>树莓派 irrigation / Chacha20-poly1305</small>
+            </div>
+          </div>
+          <div class="conn-r">
+            <span class="latency" id="connLat">38ms</span>
+            <button class="brkbtn" type="button" id="connBtn">[断开]</button>
+          </div>
+        </header>
+
+        <main class="term" id="termView" tabindex="0" aria-label="远程终端输出">
+          <div class="scanlines" aria-hidden="true"></div>
+          <div class="term-body" id="termBody" role="log" aria-live="polite">
+            <div class="ln dim">pi@192.168.4.12's password: ********</div>
+            <div class="ln dim">Welcome to Raspberry Pi OS 12 (bookworm)</div>
+            <div class="ln dim">Last login: Wed Oct  8 20:12:44 2026 from 192.168.4.2</div>
+            <div class="ln">&nbsp;</div>
+            <div class="ln"><span class="p1">pi@irrigate</span><span class="p2">:~$ </span><span class="c">uptime</span></div>
+            <div class="ln out"> 21:47:03 up 6 days,  3:12,  1 user,  load average: 1.42, 1.18, 0.96</div>
+            <div class="ln">&nbsp;</div>
+            <div class="ln"><span class="p1">pi@irrigate</span><span class="p2">:~$ </span><span class="c">ip -br a</span></div>
+            <div class="ln out"> lo        UNKNOWN        127.0.0.1/8</div>
+            <div class="ln out"> wlan0     UP             192.168.4.12/24</div>
+            <div class="ln out"> docker0   DOWN</div>
+            <div class="ln">&nbsp;</div>
+            <div class="ln"><span class="p1">pi@irrigate</span><span class="p2">:~$ </span><span class="c">df -h /</span></div>
+            <div class="ln dim"> Filesystem      Size  Used Avail Use% Mounted on</div>
+            <div class="ln out"> /dev/mmcblk0p2   29G   11G   18G  38% /</div>
+            <div class="ln">&nbsp;</div>
+            <div class="ln"><span class="p1">pi@irrigate</span><span class="p2">:~$ </span><span class="c">vcgencmd measure_temp</span></div>
+            <div class="ln out">temp=54.3'C</div>
+            <div class="ln">&nbsp;</div>
+          </div>
+        </main>
+
+        <div class="inputbar">
+          <span class="ps1">pi@irrigate:~$&nbsp;</span>
+          <span class="inwrap"><span class="inbefore" id="inBefore"></span><span class="cursor" aria-hidden="true">&nbsp;</span><span class="inafter" id="inAfter"></span></span>
+          <span class="modtag" id="modtag" hidden>Ctrl</span>
+        </div>
+
+        <div class="chips" role="toolbar" aria-label="命令历史与快捷命令" id="chips">
+          <span class="chiplab">历史</span>
+          <button class="chip" type="button" data-cmd="!!">!!</button>
+          <button class="chip" type="button" data-cmd="journalctl -u irrigate -n 3 --no-pager">journalctl -u irrigate -n 3</button>
+          <button class="chip" type="button" data-cmd="free -h">free -h</button>
+          <button class="chip" type="button" data-cmd="ping -c 3 8.8.8.8">ping -c 3 8.8.8.8</button>
+          <button class="chip" type="button" data-cmd="ip -br a">ip -br a</button>
+          <button class="chip danger" type="button" data-cmd="sudo reboot">sudo reboot</button>
+        </div>
+
+        <div class="keys" id="keys" aria-label="辅助键排">
+          <div class="krow k5">
+            <button class="key" type="button" data-k="esc">Esc</button>
+            <button class="key" type="button" data-k="tab">Tab</button>
+            <button class="key" type="button" data-k="ctrl" aria-pressed="false">Ctrl</button>
+            <button class="key" type="button" data-k="alt" aria-pressed="false">Alt</button>
+            <button class="key" type="button" data-k="enter">Enter</button>
+          </div>
+          <div class="krow k8">
+            <button class="key" type="button" data-ch="|">|</button>
+            <button class="key" type="button" data-ch="~">~</button>
+            <button class="key" type="button" data-ch="-">-</button>
+            <button class="key" type="button" data-ch="/">/</button>
+            <button class="key" type="button" data-ch="\">\</button>
+            <button class="key" type="button" data-ch='"'>"</button>
+            <button class="key" type="button" data-ch="'">'</button>
+            <button class="key" type="button" data-ch="`">`</button>
+          </div>
+          <div class="krow k6">
+            <button class="key" type="button" data-k="home">Home</button>
+            <button class="key" type="button" data-k="left" aria-label="左方向键"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <button class="key" type="button" data-k="up" aria-label="上方向键，翻历史"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
+            <button class="key" type="button" data-k="down" aria-label="下方向键，翻历史"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
+            <button class="key" type="button" data-k="right" aria-label="右方向键"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+            <button class="key" type="button" data-k="end">End</button>
+          </div>
+        </div>
+
+        <footer class="sess">
+          <span>会话 00:47:12 / pts/0 / UTF-8</span>
+          <span class="ok" id="sessR">ssh pid 2143 / 延迟 38ms</span>
+        </footer>
+      </div>
+    </div>
+
+    <aside class="panel">
+      <h2>token 计划</h2>
+      <dl class="tok">
+        <div><dt>bg</dt><dd>#050505</dd></div>
+        <div><dt>fg</dt><dd>#33FF00</dd></div>
+        <div><dt>输出 / 亮文本</dt><dd>#8FE39A / #DFFFE2</dd></div>
+        <div><dt>accent / err / warn</dt><dd>#D24DFF / #FF6E6E / #FFC16B</dd></div>
+        <div><dt>边框 / 圆角</dt><dd>1px 矩阵绿 / 0px</dd></div>
+        <div><dt>字号 / 行高</dt><dd>12 / 14 / 16 / 1.4</dd></div>
+      </dl>
+    </aside>
+
+  </div>
+
+  <p class="stage-note">手机 SSH 应急运维 / 树莓派灌溉控制器现场抢修 / 辅助键排与命令 chips 均可直接点按</p>
+</main>
+
+<footer class="pagefoot">
+  <p>UI 设计提示词库 / Terminal CLI Mobile / <a href="style-catalog.html">返回风格目录</a></p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var termBody = $('termBody'), termView = $('termView'),
+      inB = $('inBefore'), inA = $('inAfter'), modtag = $('modtag'),
+      dot = $('connDot'), lat = $('connLat'), sessR = $('sessR'), connBtn = $('connBtn'),
+      ctrlBtn = document.querySelector('[data-k="ctrl"]'),
+      altBtn = document.querySelector('[data-k="alt"]');
+
+  var OUT = {
+    'systemctl status irrigate --no-pager': [
+      ['w', '\u00D7 irrigate.service \u2014 Greenhouse Irrigation Controller'],
+      ['dim', '     Loaded: loaded (/etc/systemd/system/irrigate.service; enabled)'],
+      ['err', '     Active: failed (Result: exit-code) since Wed 2026-10-08 21:31:02 CST; 16min ago'],
+      ['dim', '    Process: 1142 ExecStart=/usr/bin/python3 -m irrigate.main (code=exited, status=1/FAILURE)'],
+      ['dim', '   Main PID: 1142 (code=exited, status=1/FAILURE)'],
+      ['dim', '      Tasks: 5 (limit: 87)'],
+      ['dim', '     Memory: 12.4M'],
+      ['dim', '        CPU: 4.215s']
+    ],
+    'journalctl -u irrigate -n 3 --no-pager': [
+      ['dim', 'Oct 08 21:30:59 irrigate python3[1142]: sensor-3 read timeout after 5000ms'],
+      ['dim', 'Oct 08 21:31:01 irrigate python3[1142]: retry i2c bus 1 (2/3)'],
+      ['err', 'Oct 08 21:31:02 irrigate python3[1142]: irrigate.sensors.ReadError: i2c bus 1 not responding']
+    ],
+    'free -h': [
+      ['dim', '               total        used        free      shared  buff/cache   available'],
+      ['out', 'Mem:            908Mi       618Mi        71Mi        23Mi       219Mi       178Mi'],
+      ['out', 'Swap:            99Mi        40Mi        59Mi']
+    ],
+    'ping -c 3 8.8.8.8': [
+      ['out', 'PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.'],
+      ['out', '64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=41.3 ms'],
+      ['out', '64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=38.9 ms'],
+      ['out', '64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=40.2 ms'],
+      ['dim', ''],
+      ['dim', '--- 8.8.8.8 ping statistics ---'],
+      ['w', '3 packets transmitted, 3 received, 0% packet loss, time 2003ms']
+    ],
+    'vcgencmd measure_temp': [['out', "temp=54.3'C"]],
+    'ip -br a': [
+      ['out', ' lo        UNKNOWN        127.0.0.1/8'],
+      ['out', ' wlan0     UP             192.168.4.12/24'],
+      ['out', ' docker0   DOWN']
+    ],
+    'df -h /': [
+      ['dim', ' Filesystem      Size  Used Avail Use% Mounted on'],
+      ['out', ' /dev/mmcblk0p2   29G   11G   18G  38% /']
+    ],
+    'uptime': [['out', ' 21:52:10 up 6 days,  3:17,  1 user,  load average: 1.36, 1.21, 0.98']],
+    'sudo reboot': [
+      ['dim', '[sudo] password for pi:'],
+      ['w', 'Broadcast message from root@irrigate (pts/0) (Wed Oct  8 21:49:02 2026):'],
+      ['w', 'The system will reboot now!'],
+      ['dim', 'Connection to 192.168.4.12 closed by remote host.'],
+      ['dim', 'Connection to 192.168.4.12 closed.']
+    ]
+  };
+
+  var history = ['uptime', 'ip -br a', 'df -h /', 'vcgencmd measure_temp'];
+  var histIdx = history.length;
+  var input = '', pos = 0, ctrl = false, alt = false, busy = false, offline = false;
+
+  function line(cls, text) {
+    var d = document.createElement('div');
+    d.className = 'ln ' + (cls || 'out');
+    d.textContent = text.length ? text : '\u00A0';
+    termBody.appendChild(d);
+  }
+  function promptLine(cmd) {
+    var d = document.createElement('div');
+    d.className = 'ln';
+    var s1 = document.createElement('span'); s1.className = 'p1'; s1.textContent = 'pi@irrigate';
+    var s2 = document.createElement('span'); s2.className = 'p2'; s2.textContent = ':~$ ';
+    var s3 = document.createElement('span'); s3.className = 'c'; s3.textContent = cmd;
+    d.appendChild(s1); d.appendChild(s2); d.appendChild(s3);
+    termBody.appendChild(d);
+  }
+  function scrollEnd() { termView.scrollTop = termView.scrollHeight; }
+  function setConn(state) {
+    dot.className = 'dot' + (state === 'ok' ? '' : ' ' + state);
+    if (state === 'ok') {
+      lat.textContent = '38ms';
+      sessR.textContent = 'ssh pid 2143 / 延迟 38ms';
+      connBtn.textContent = '[断开]';
+      offline = false;
+    } else if (state === 'wait') {
+      lat.textContent = '重连中';
+      sessR.textContent = '等待主机上线 / ssh 重试中';
+    } else {
+      lat.textContent = '已断开';
+      sessR.textContent = '会话已结束 / exit 0';
+      connBtn.textContent = '[重连]';
+      offline = true;
+    }
+  }
+  function render() {
+    inB.textContent = input.slice(0, pos);
+    inA.textContent = input.slice(pos);
+    modtag.hidden = !(ctrl || alt);
+    modtag.textContent = ctrl ? 'Ctrl' : 'Alt';
+  }
+  function clearMods() {
+    ctrl = false; alt = false;
+    ctrlBtn.classList.remove('on'); ctrlBtn.setAttribute('aria-pressed', 'false');
+    altBtn.classList.remove('on'); altBtn.setAttribute('aria-pressed', 'false');
+  }
+  function insert(s) {
+    input = input.slice(0, pos) + s + input.slice(pos);
+    pos += s.length;
+  }
+
+  function exec(cmd) {
+    if (busy || offline) { if (offline) { promptLine(''); line('err', 'ssh: connect to host 192.168.4.12: No route to host'); } return; }
+    input = ''; pos = 0; render();
+    promptLine(cmd);
+    var out = OUT[cmd], i = 0;
+    var emit = function () {
+      if (out && i < out.length) {
+        line(out[i][0], out[i][1]); i++; scrollEnd();
+        setTimeout(emit, reduced ? 0 : 40);
+      } else {
+        if (!out) line('err', 'bash: ' + cmd + ': command not found');
+        if (history[history.length - 1] !== cmd) history.push(cmd);
+        histIdx = history.length;
+        scrollEnd();
+        if (cmd === 'sudo reboot') rebootFlow();
+      }
+    };
+    emit();
+  }
+
+  function rebootFlow() {
+    setConn('off');
+    setTimeout(function () {
+      setConn('wait');
+      setTimeout(function () {
+        line('dim', 'ssh pi@192.168.4.12');
+        line('dim', 'Welcome to Raspberry Pi OS 12 (bookworm)');
+        line('dim', 'Last login: Wed Oct  8 21:47:03 2026 from 192.168.4.2');
+        line('ln', '');
+        setConn('ok');
+        scrollEnd();
+      }, reduced ? 0 : 1600);
+    }, reduced ? 0 : 1200);
+  }
+
+  /* 辅助键排 */
+  $('keys').addEventListener('click', function (e) {
+    var k = e.target.closest('.key');
+    if (!k) return;
+    var act = k.dataset.k, ch = k.dataset.ch;
+    if (act === 'ctrl') {
+      ctrl = !ctrl; if (ctrl) alt = false;
+      k.classList.toggle('on', ctrl); k.setAttribute('aria-pressed', String(ctrl));
+      altBtn.classList.remove('on'); altBtn.setAttribute('aria-pressed', 'false');
+    } else if (act === 'alt') {
+      alt = !alt; if (alt) ctrl = false;
+      k.classList.toggle('on', alt); k.setAttribute('aria-pressed', String(alt));
+      ctrlBtn.classList.remove('on'); ctrlBtn.setAttribute('aria-pressed', 'false');
+    } else if (act === 'esc') {
+      input = ''; pos = 0; clearMods();
+    } else if (act === 'tab') {
+      insert('  ');
+    } else if (act === 'enter') {
+      var c = input; clearMods();
+      if (c) exec(c); else { promptLine(''); scrollEnd(); }
+    } else if (act === 'left') {
+      pos = Math.max(0, pos - 1);
+    } else if (act === 'right') {
+      pos = Math.min(input.length, pos + 1);
+    } else if (act === 'up') {
+      if (histIdx > 0) { histIdx--; input = history[histIdx] || ''; pos = input.length; }
+    } else if (act === 'down') {
+      if (histIdx < history.length) { histIdx++; input = history[histIdx] || ''; pos = input.length; }
+    } else if (act === 'home') {
+      pos = 0;
+    } else if (act === 'end') {
+      pos = input.length;
+    } else if (ch) {
+      insert(ctrl ? '^' + ch.toUpperCase() : (alt ? '\\e' + ch : ch));
+      clearMods();
+    }
+    render();
+  });
+
+  /* 命令 chips */
+  $('chips').addEventListener('click', function (e) {
+    var c = e.target.closest('.chip');
+    if (!c) return;
+    var cmd = c.dataset.cmd;
+    if (cmd === '!!') exec(history[history.length - 1] || '');
+    else exec(cmd);
+  });
+
+  /* 断开 / 重连 */
+  connBtn.addEventListener('click', function () {
+    if (offline) {
+      line('dim', 'ssh pi@192.168.4.12');
+      line('dim', 'Welcome to Raspberry Pi OS 12 (bookworm)');
+      line('dim', 'Last login: Wed Oct  8 21:49:02 2026 from 192.168.4.2');
+      line('ln', '');
+      setConn('ok');
+      scrollEnd();
+    } else {
+      promptLine('exit');
+      line('dim', 'logout');
+      line('dim', 'Connection to 192.168.4.12 closed.');
+      setConn('off');
+      scrollEnd();
+    }
+  });
+
+  /* 一次亮相：光标定位 + 首条命令逐字回显 */
+  var FIRST = 'systemctl status irrigate --no-pager';
+  if (reduced) {
+    exec(FIRST);
+  } else {
+    busy = true;
+    var i = 0;
+    (function type() {
+      if (i <= FIRST.length) {
+        input = FIRST.slice(0, i); pos = input.length; render(); scrollEnd();
+        i++;
+        setTimeout(type, 26 + Math.random() * 46);
+      } else {
+        busy = false;
+        setTimeout(function () { exec(FIRST); }, 240);
+      }
+    })();
+  }
+})();
+</script>
+
+</body>
+</html>

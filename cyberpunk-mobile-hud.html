@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Cyberpunk Mobile HUD / UI 设计提示词库</title>
+<meta name="description" content="Cyberpunk Mobile HUD 移动界面精修演示：深夜外卖骑手接单 HUD「夜行骑手」，HUD 状态栏、切角面板、拇指区大按钮与底部快捷操作栏，单次亮相动效并带 reduced-motion 降级。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/* Token 计划 | hex：Void #0A0A0F / Card #12121A / 霓虹绿 #00FF88 / 品红 #FF00FF / 青 #00D4FF / 警示红 #FF3366 / 边线 #2A2A3A（CSV 原始令牌）| 字体：Orbitron 拉丁展示 / JetBrains Mono 数值与终端行 / Noto Sans SC 中文正文 | 形状：全站零圆角，面板一律 45° 切角 clip-path，HUD 角括号与贴边刻度尺 | 动效：开机单次 clip 亮相 + 标题单次 glitch，倒计时条按订单时长驱动，reduced-motion 全部禁用 */
+:root {
+  --void: #0A0A0F;
+  --card: #12121A;
+  --card-2: #171722;
+  --green: #00FF88;
+  --magenta: #FF00FF;
+  --cyan: #00D4FF;
+  --red: #FF3366;
+  --line: #2A2A3A;
+  --fg: #E8ECF4;
+  --muted: #9AA6BC;
+  --dim: #7E8AA0;
+  --head: 'Orbitron', 'Noto Sans SC', sans-serif;
+  --mono: 'JetBrains Mono', 'Noto Sans SC', monospace;
+  --body: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  --cut: 14px;
+  --oct: polygon(var(--c) 0, calc(100% - var(--c)) 0, 100% var(--c), 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, var(--c) 100%, 0 calc(100% - var(--c)), 0 var(--c));
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--body);
+  background: var(--void);
+  color: var(--fg);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+/* 框外背景克制：仅一层极淡的网格坐标 */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+::selection { background: var(--cyan); color: #051018; }
+
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.page { max-width: 1220px; margin: 0 auto; padding: 0 22px; }
+
+/* ============ 顶栏 ============ */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(10, 10, 15, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px; gap: 16px;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--fg); font-family: var(--head); font-size: 15px; letter-spacing: 0.5px;
+}
+.brand:hover { color: var(--cyan); text-decoration: none; }
+.brand-mark {
+  width: 22px; height: 22px; flex: none;
+  background: linear-gradient(135deg, var(--green) 45%, var(--magenta) 55%);
+  clip-path: polygon(0 0, 100% 0, 100% 64%, 64% 100%, 0 100%);
+}
+.top-tag {
+  font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+  border: 1px solid var(--line); padding: 4px 10px;
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+  white-space: nowrap;
+}
+
+/* ============ 首屏 ============ */
+.hero { padding: 64px 0 44px; border-bottom: 1px solid var(--line); }
+.hero-tag {
+  font-family: var(--mono); font-size: 13px; color: var(--green);
+  letter-spacing: 1px; margin-bottom: 14px;
+}
+.hero h1 {
+  font-family: var(--head);
+  font-size: clamp(34px, 6vw, 58px);
+  line-height: 1.12; letter-spacing: 1px;
+  position: relative; display: inline-block;
+}
+/* 标题 glitch：仅开机一次 */
+.hero h1::before, .hero h1::after {
+  content: attr(data-text);
+  position: absolute; inset: 0;
+  opacity: 0; pointer-events: none;
+}
+.hero h1::before { color: var(--magenta); animation: glitchA 0.5s steps(2) 0.25s 1; }
+.hero h1::after { color: var(--cyan); animation: glitchB 0.5s steps(2) 0.25s 1; }
+@keyframes glitchA { 0% { opacity: 0.8; transform: translateX(-2px); } 40% { opacity: 0.5; transform: translateX(2px); } 100% { opacity: 0; } }
+@keyframes glitchB { 0% { opacity: 0.7; transform: translateX(2px); } 40% { opacity: 0.4; transform: translateX(-2px); } 100% { opacity: 0; } }
+.hero-sub {
+  color: var(--muted); max-width: 760px;
+  margin: 18px 0 26px; font-size: 15.5px;
+}
+.hero-sub strong { color: var(--fg); font-weight: 500; }
+.hero-stats {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  border: 1px solid var(--line);
+  background: var(--card);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.hero-stats div { padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.hero-stats div:nth-child(odd) { border-right: 1px solid var(--line); }
+.hero-stats div:nth-last-child(-n+2) { border-bottom: none; }
+.hero-stats .k {
+  font-family: var(--mono); font-size: 22px; color: var(--green);
+  line-height: 1.3;
+}
+.hero-stats .v { font-size: 13px; color: var(--muted); }
+
+/* ============ 演示台 ============ */
+.stage { padding: 56px 0 30px; }
+.section-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.section-head h2 {
+  font-family: var(--head); font-size: 24px; letter-spacing: 1px;
+}
+.section-head .no { font-family: var(--mono); color: var(--magenta); font-size: 14px; }
+.section-lead { color: var(--muted); max-width: 780px; margin: 10px 0 34px; font-size: 15px; }
+
+.stage-grid { display: grid; grid-template-columns: 1fr; gap: 26px; justify-items: center; }
+
+/* 框外标注 */
+.note { max-width: 460px; border-left: 2px solid var(--green); padding: 4px 0 4px 14px; }
+.note.c { border-left-color: var(--cyan); }
+.note.m { border-left-color: var(--magenta); }
+.note .aim { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-bottom: 4px; }
+.note p { font-size: 13.5px; color: var(--muted); line-height: 1.75; }
+.note p strong { color: var(--fg); font-weight: 500; }
+.notes { display: grid; gap: 34px; width: 100%; max-width: 460px; }
+
+/* ============ 手机框：整机零圆角，八边切角 ============ */
+.phone-wrap {
+  --c: 26px;
+  width: min(414px, 100%);
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(0, 255, 136, 0.5), rgba(42, 42, 58, 0.9) 34%, rgba(42, 42, 58, 0.9) 66%, rgba(255, 0, 255, 0.5));
+  clip-path: var(--oct);
+  filter: drop-shadow(0 0 26px rgba(0, 255, 136, 0.12));
+}
+.phone {
+  --c: 25px;
+  background: #050508;
+  padding: 11px;
+  clip-path: var(--oct);
+}
+.screen {
+  --c: 16px;
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--void);
+  clip-path: var(--oct);
+  overflow: hidden;
+  min-height: 700px;
+}
+/* 扫描线覆层：静态，不拦截触摸 */
+.screen::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 30; pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(2, 4, 8, 0.28) 0 1px, transparent 1px 3px),
+    radial-gradient(120% 90% at 50% 0%, transparent 55%, rgba(0, 0, 0, 0.5));
+}
+/* 开机单次亮相：整屏一次 clip 擦除，非逐卡入场 */
+.screen > * { animation: boot 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both; }
+@keyframes boot { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(6px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
+
+/* ---- HUD 状态栏（安全区）---- */
+.statusbar {
+  flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px 8px;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+}
+.statusbar .tm { color: var(--fg); font-size: 14px; font-weight: 700; }
+.statusbar .rt { display: flex; align-items: center; gap: 8px; }
+.bat { display: inline-flex; align-items: center; gap: 4px; color: var(--green); }
+/* 贴边刻度尺：今日流水进度 */
+.ticker { flex: none; display: flex; align-items: center; gap: 10px; padding: 0 16px 8px; font-family: var(--mono); font-size: 11px; color: var(--dim); }
+.ticks { display: flex; gap: 3px; flex: 1; }
+.ticks i {
+  width: 6px; height: 10px; flex: none;
+  background: #20202e;
+  transform: skewX(-18deg);
+}
+.ticks i.on { background: var(--green); box-shadow: 0 0 6px rgba(0, 255, 136, 0.5); }
+.ticker .pct { color: var(--green); }
+
+/* ---- 骑手信息头 ---- */
+.rider-head {
+  flex: none;
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 14px 12px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(0, 212, 255, 0.05), transparent);
+}
+.avatar {
+  width: 40px; height: 40px; flex: none;
+  display: grid; place-items: center;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.45);
+  color: var(--green); font-weight: 700; font-size: 17px;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+.rider-id { flex: 1; min-width: 0; }
+.rider-id .nm { font-size: 15px; font-weight: 700; color: var(--fg); line-height: 1.4; }
+.rider-id .nm span { font-family: var(--mono); font-weight: 400; font-size: 12px; color: var(--dim); }
+.rider-id .zone { font-size: 12px; color: var(--muted); }
+.online-btn {
+  flex: none;
+  min-height: 40px; padding: 0 14px;
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--void); background: var(--green);
+  border: none; cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.35);
+}
+.online-btn[aria-pressed="false"] {
+  color: var(--muted); background: transparent;
+  border: 1px solid var(--line); box-shadow: none;
+}
+
+/* ---- 滚动主体 ---- */
+.hud-body {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
+  padding: 12px 14px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.readout {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--line);
+  background: var(--card);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  margin-bottom: 12px;
+}
+.readout > div { padding: 10px 10px 9px; border-right: 1px solid var(--line); }
+.readout > div:last-child { border-right: none; }
+.readout .k {
+  font-family: var(--mono); font-size: 19px; font-weight: 700;
+  color: var(--fg); line-height: 1.35;
+}
+.readout .k em { font-style: normal; font-size: 11px; color: var(--dim); font-weight: 400; }
+.readout .lab { font-size: 11.5px; color: var(--muted); }
+.readout .warn .k { color: var(--red); }
+
+/* ---- 新订单切角面板 ---- */
+.order-card {
+  position: relative;
+  background: var(--card-2);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  padding: 14px 14px 12px;
+  margin-bottom: 12px;
+}
+/* HUD 角括号 */
+.bk { position: absolute; width: 12px; height: 12px; pointer-events: none; }
+.bk.tl { top: 4px; left: 4px; border-top: 2px solid var(--green); border-left: 2px solid var(--green); }
+.bk.tr { top: 4px; right: 4px; border-top: 2px solid var(--green); border-right: 2px solid var(--green); }
+.bk.bl { bottom: 4px; left: 4px; border-bottom: 2px solid var(--green); border-left: 2px solid var(--green); }
+.bk.br { bottom: 4px; right: 4px; border-bottom: 2px solid var(--green); border-right: 2px solid var(--green); }
+.order-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+  margin-bottom: 10px;
+}
+.order-head .t { font-size: 15px; font-weight: 700; color: var(--green); }
+.order-head .cd { font-family: var(--mono); font-size: 13px; color: var(--fg); }
+.order-head .cd b { font-size: 16px; color: var(--magenta); }
+.cd-bar {
+  height: 4px; background: #22222f;
+  margin-bottom: 12px;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+}
+.cd-fill {
+  display: block; height: 100%; width: 100%;
+  background: var(--magenta);
+  box-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+}
+.cd-fill.run { animation: deplete linear forwards; }
+@keyframes deplete { from { width: 100%; } to { width: 0%; } }.stop { display: flex; gap: 10px; margin-bottom: 12px; }
+.stop .pin {
+  flex: none; width: 20px; height: 20px; margin-top: 2px;
+  display: grid; place-items: center;
+  color: var(--cyan);
+}
+.stop .txt { flex: 1; min-width: 0; }
+.stop .a { font-size: 14px; font-weight: 500; color: var(--fg); line-height: 1.5; }
+.stop .b { font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+.order-meta {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  margin-top: 2px;
+}
+.order-meta div { padding: 8px 6px 6px; border-right: 1px solid var(--line); }
+.order-meta div:last-child { border-right: none; }
+.order-meta .k {
+  font-family: var(--mono); font-size: 17px; font-weight: 700; color: var(--cyan);
+}
+.order-meta .lab { font-size: 11px; color: var(--muted); }
+.order-note {
+  font-family: var(--mono); font-size: 11.5px; color: var(--dim);
+  border-top: 1px dashed var(--line);
+  margin-top: 2px; padding-top: 8px;
+}
+.order-note strong { color: var(--green); font-weight: 500; }
+
+/* ---- 今日订单列表：统一行网格 ---- */
+.list-head { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 2px 8px; }
+.list-head h3 { font-size: 13.5px; font-weight: 700; color: var(--fg); }
+.list-head span { font-family: var(--mono); font-size: 11.5px; color: var(--dim); }
+.tx-list { list-style: none; }
+.tx-list li {
+  display: grid;
+  grid-template-columns: 44px 1fr 60px 52px;
+  align-items: center; gap: 8px;
+  padding: 9px 8px;
+  border: 1px solid var(--line);
+  border-top: none;
+  background: var(--card);
+  font-size: 12.5px;
+}
+.tx-list li:first-child { border-top: 1px solid var(--line); }
+.tx-list .tm { font-family: var(--mono); color: var(--dim); font-size: 11.5px; }
+.tx-list .rt { min-width: 0; }
+.tx-list .rt .a {
+  display: block; color: var(--fg);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tx-list .rt .b {
+  display: block; color: var(--dim); font-size: 11px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tx-list .fee {
+  font-family: var(--mono); font-weight: 700; color: var(--green); text-align: right;
+}
+.tx-list .st { font-size: 11px; text-align: center; color: var(--muted); }
+.tx-list .st.bad { color: var(--red); }
+
+/* ---- 拇指区：固定在下半屏 ---- */
+.thumb-zone {
+  flex: none;
+  display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px;
+  padding: 10px 14px 8px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(0deg, rgba(0, 255, 136, 0.05), transparent);
+}
+.btn-accept, .btn-skip {
+  min-height: 56px;
+  font-family: var(--head); font-size: 16px; font-weight: 700; letter-spacing: 1px;
+  cursor: pointer;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: filter 0.15s;
+}
+.btn-accept {
+  color: #04120a; background: var(--green);
+  border: none;
+  box-shadow: 0 0 18px rgba(0, 255, 136, 0.35), inset 0 0 14px rgba(255, 255, 255, 0.15);
+}
+.btn-accept:not(:disabled):hover { filter: brightness(1.12); }
+.btn-accept:not(:disabled):active { transform: translateY(1px); }
+.btn-skip {
+  color: #FF7A9E; background: rgba(255, 51, 102, 0.08);
+  border: 1px solid rgba(255, 51, 102, 0.55);
+}
+.btn-skip:not(:disabled):hover { background: rgba(255, 51, 102, 0.16); }
+.btn-accept:disabled, .btn-skip:disabled { opacity: 0.45; cursor: not-allowed; }
+.thumb-hint {
+  grid-column: 1 / -1;
+  font-family: var(--mono); font-size: 10.5px; color: var(--dim);
+  text-align: center; margin-top: -2px;
+}
+
+/* ---- 底部快捷操作栏 ---- */
+.quickbar {
+  flex: none;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  padding: 6px 14px 10px;
+}
+.qbtn {
+  min-height: 48px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  background: var(--card); border: 1px solid var(--line);
+  color: var(--muted); font-family: var(--mono); font-size: 11.5px;
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: border-color 0.15s, color 0.15s;
+}
+.qbtn:hover { border-color: var(--cyan); color: var(--cyan); }
+.qbtn svg { width: 18px; height: 18px; }
+.qbtn.dg:hover { border-color: var(--red); color: var(--red); }
+.home-ind {
+  flex: none; width: 120px; height: 4px; margin: 2px auto 10px;
+  background: #2c2c3c;
+  clip-path: polygon(2px 0, 100% 0, calc(100% - 2px) 100%, 2px 100%);
+}
+
+/* ---- 离线状态 ---- */
+.screen.offline .order-card, .screen.offline .thumb-zone { opacity: 0.4; }
+.screen.offline .readout { opacity: 0.7; }
+
+/* ============ 令牌与要点 ============ */
+.tokens { padding: 60px 0 24px; }
+.tok-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+  margin: 26px 0 34px;
+}
+.tok {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--card); border: 1px solid var(--line);
+  padding: 14px 16px;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.tok .sw {
+  flex: none; width: 40px; height: 40px;
+  border: 1px solid var(--line);
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+}
+.tok .hex { font-family: var(--mono); font-size: 13px; color: var(--fg); }
+.tok .use { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.feat-grid {
+  display: grid; grid-template-columns: 1fr; gap: 0;
+  border: 1px solid var(--line);
+  background: var(--card);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.feat-grid article {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.feat-grid article:last-child { border-bottom: none; }
+.feat-grid h3 {
+  font-size: 15px; color: var(--fg); font-weight: 700; margin-bottom: 6px;
+}
+.feat-grid h3 code {
+  font-family: var(--mono); font-size: 12px; color: var(--green);
+  font-weight: 400; margin-right: 8px;
+}
+.feat-grid p { font-size: 13.5px; color: var(--muted); }
+.diff-note {
+  margin-top: 26px; padding: 16px 20px;
+  border-left: 2px solid var(--magenta);
+  background: rgba(255, 0, 255, 0.04);
+  font-size: 13.5px; color: var(--muted);
+}
+.diff-note strong { color: var(--fg); font-weight: 500; }
+
+/* ============ Footer ============ */
+footer {
+  margin-top: 60px;
+  border-top: 1px solid var(--line);
+  padding: 28px 0 40px;
+  text-align: center;
+  font-size: 13px; color: var(--muted);
+}
+footer .f-title { font-family: var(--head); color: var(--fg); letter-spacing: 1px; margin-bottom: 6px; }
+
+/* ============ 响应式 ============ */
+@media (min-width: 768px) {
+  .hero { padding: 88px 0 56px; }
+  .hero-stats { grid-template-columns: repeat(4, 1fr); }
+  .hero-stats div { border-right: 1px solid var(--line); border-bottom: none; }
+  .hero-stats div:last-child { border-right: none; }
+  .tok-grid { grid-template-columns: repeat(3, 1fr); }
+  .feat-grid { grid-template-columns: 1fr 1fr; }
+  .feat-grid article:nth-last-child(2) { border-bottom: none; }
+}
+@media (min-width: 1100px) {
+  .stage-grid {
+    grid-template-columns: minmax(230px, 300px) minmax(390px, 414px) minmax(230px, 300px);
+    align-items: start; gap: 34px;
+  }
+  .notes { width: auto; max-width: none; }
+  .notes.left { padding-top: 72px; }
+  .notes.right { padding-top: 300px; }
+  .screen { height: 844px; min-height: 0; }
+  .stage { padding: 64px 0 40px; }
+}
+@media (min-width: 1440px) {
+  .page { max-width: 1320px; }
+  .hero { padding: 104px 0 64px; }
+  .notes.left { padding-top: 88px; }
+  .notes.right { padding-top: 330px; }
+}
+
+/* reduced-motion：全部动效禁用，倒计时由数字接管 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .screen > * { opacity: 1; clip-path: none; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="page topbar-inner">
+    <a class="brand" href="index.html"><i class="brand-mark" aria-hidden="true"></i>UI 设计提示词库</a>
+    <span class="top-tag">Batch 8 supplemental / Mobile / status: supplemental</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="hero">
+    <p class="hero-tag">Mobile HUD / 竖屏手持界面 / 390 × 844</p>
+    <h1 data-text="Cyberpunk Mobile HUD">Cyberpunk Mobile HUD</h1>
+    <p class="hero-sub">这一页把赛博 HUD 收进一只手掌：演示主题选定为<strong>深夜外卖骑手接单端「夜行骑手 3.2」</strong>。状态栏本身就是 HUD 读出（通讯链路 / 电量 / 流水刻度），新订单走 45° 切角面板，接单与转单按钮固定在拇指热区，底部是三条快捷操作。与桌面版赛博页（旧港区义体诊所）不同，这里的一切排版都围绕单手竖屏与 48px 触达展开。</p>
+    <div class="hero-stats" role="list" aria-label="本页硬性指标">
+      <div role="listitem"><p class="k">390 × 844</p><p class="v">画布尺寸，桌面端居中手机框展示</p></div>
+      <div role="listitem"><p class="k">≥ 48px</p><p class="v">全部可点目标，接单主按钮 56px</p></div>
+      <div role="listitem"><p class="k">≥ 4.5:1</p><p class="v">正文与数值对比度下限</p></div>
+      <div role="listitem"><p class="k">1 次动效</p><p class="v">开机亮相 + 标题 glitch 各一次，可降级</p></div>
+    </div>
+  </section>
+
+  <section class="stage" aria-label="夜行骑手接单 HUD 演示">
+    <div class="section-head">
+      <span class="no">01</span>
+      <h2>场景 / 夜行骑手接单端</h2>
+    </div>
+    <p class="section-lead">雨夜 22:41，骑手阿魁在旧港区等单。下面是一只 390×844 的完整界面：顶部安全区即 HUD 读出，中部是可滚动订单流，底部拇指区与快捷栏固定。接单 / 转单按钮可以直接点按，右上角可切换接单与休息状态。</p>
+
+    <div class="stage-grid">
+      <div class="notes left">
+        <div class="note">
+          <p class="aim">标注对象 / 顶部安全区</p>
+          <p><strong>状态栏即 HUD。</strong>时间、4G 链路、电量与「今日流水刻度尺」合并进同一条安全区，不再另设第二条状态条；刻度 10/12 格对应 ¥246.5 / 目标 ¥300，全部数值有真实语义。</p>
+        </div>
+        <div class="note c">
+          <p class="aim">标注对象 / 切角面板</p>
+          <p><strong>窄屏切角排布。</strong>390px 宽度下面板一律 45° 切角、零圆角，横向不占半径预算；三列数据网格（里程 / 时限 / 收入）与订单列表共用同一套列宽，滚动时数字纵向对齐。</p>
+        </div>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="screen" id="screen">
+
+            <div class="statusbar">
+              <span class="tm">22:41</span>
+              <span class="rt">
+                <span>雨 18°C</span>
+                <span>4G</span>
+                <span class="bat" aria-label="骑手终端电量 82%">
+                  <svg width="18" height="11" viewBox="0 0 18 11" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="14" height="10" stroke="currentColor" opacity="0.6"/><rect x="2" y="2" width="9.6" height="7" fill="currentColor"/><path d="M16 3.5v4a2 2 0 0 0 0-4Z" fill="currentColor" opacity="0.6"/></svg>
+                  82%
+                </span>
+              </span>
+            </div>
+
+            <div class="ticker" aria-label="今日流水进度，246.5 元，目标 300 元，完成 82%">
+              <span>今日 ¥246.5 / 目标 ¥300</span>
+              <span class="ticks" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+              <span class="pct">82%</span>
+            </div>
+
+            <div class="rider-head">
+              <div class="avatar" aria-hidden="true">魁</div>
+              <div class="rider-id">
+                <p class="nm">骑手 阿魁 <span>NC-0417</span></p>
+                <p class="zone">旧港区 / 电动车电量 76% / 续航约 58km</p>
+              </div>
+              <button class="online-btn" id="onlineBtn" aria-pressed="true">接单中</button>
+            </div>
+
+            <div class="hud-body">
+              <div class="readout" aria-label="接单环境读出">
+                <div>
+                  <p class="k">14<em> 单</em></p>
+                  <p class="lab">今日完成 12 单准时</p>
+                </div>
+                <div>
+                  <p class="k">4.7<em> 分</em></p>
+                  <p class="lab">近 30 单评分</p>
+                </div>
+                <div class="warn">
+                  <p class="k">高</p>
+                  <p class="lab">路面湿滑 / 限速提醒</p>
+                </div>
+              </div>
+
+              <div class="order-card" id="orderCard" aria-live="polite">
+                <i class="bk tl" aria-hidden="true"></i><i class="bk tr" aria-hidden="true"></i><i class="bk bl" aria-hidden="true"></i><i class="bk br" aria-hidden="true"></i>
+                <div class="order-head">
+                  <p class="t">新订单</p>
+                  <p class="cd">倒计时 <b id="cdNum">23</b> 秒</p>
+                </div>
+                <div class="cd-bar" aria-hidden="true"><span class="cd-fill" id="cdFill"></span></div>
+                <div class="stop">
+                  <span class="pin" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+                  </span>
+                  <span class="txt">
+                    <span class="a" id="pickA">肥记煲仔饭 / 九龙夜市 C-17 档口</span>
+                    <span class="b" id="pickB">出餐约 4 分钟 / 已备餐 2 份</span>
+                  </span>
+                </div>
+                <div class="stop">
+                  <span class="pin" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>
+                  </span>
+                  <span class="txt">
+                    <span class="a" id="dropA">塘口巷 14 号 2 座 / 3B 公寓</span>
+                    <span class="b" id="dropB">备注 / 放门口电表箱下，送达后打电话</span>
+                  </span>
+                </div>
+                <div class="order-meta" aria-label="订单数据">
+                  <div><p class="k">3.8<span style="font-size:11px"> km</span></p><p class="lab">取送里程</p></div>
+                  <div><p class="k">16<span style="font-size:11px"> min</span></p><p class="lab">系统时限</p></div>
+                  <div><p class="k" style="color:var(--green)">¥9.6</p><p class="lab">含雨夜补贴 ¥4</p></div>
+                </div>
+                <p class="order-note" id="orderNote">接单后 8 分钟内到店取餐 / 雨夜单价上浮已计入</p>
+              </div>
+
+              <div class="list-head">
+                <h3>今日订单</h3>
+                <span>14 单 / 超时 1 单</span>
+              </div>
+              <ul class="tx-list">
+                <li>
+                  <span class="tm">22:03</span>
+                  <span class="rt"><span class="a">肥记煲仔饭 至 塘口巷公寓</span><span class="b">3.8km / 电动车 / 备餐顺利</span></span>
+                  <span class="fee">¥9.6</span>
+                  <span class="st">已送达</span>
+                </li>
+                <li>
+                  <span class="tm">21:47</span>
+                  <span class="rt"><span class="a">秀兰烧烤 至 滨江社区北门</span><span class="b">5.1km / 顾客改址一次</span></span>
+                  <span class="fee">¥11.2</span>
+                  <span class="st">已送达</span>
+                </li>
+                <li>
+                  <span class="tm">21:15</span>
+                  <span class="rt"><span class="a">一碗粥铺 至 秋水路短租屋</span><span class="b">2.2km / 电梯检修绕行</span></span>
+                  <span class="fee">¥8.4</span>
+                  <span class="st bad">超时预警</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="thumb-zone">
+              <button class="btn-accept" id="acceptBtn">接 单</button>
+              <button class="btn-skip" id="skipBtn">转 单</button>
+              <p class="thumb-hint">拇指热区固定 / 两键中心距屏幕底缘不超过 168px</p>
+            </div>
+
+            <nav class="quickbar" aria-label="快捷操作">
+              <button class="qbtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="3 11 12 2 21 11 21 22 14 22 14 16 10 16 10 22 3 22"/><path d="M12 2v0"/></svg>
+                回首页
+              </button>
+              <button class="qbtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 1.9Z"/></svg>
+                联系顾客
+              </button>
+              <button class="qbtn dg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                上报异常
+              </button>
+            </nav>
+            <div class="home-ind" aria-hidden="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="notes right">
+        <div class="note m">
+          <p class="aim">标注对象 / 拇指热区</p>
+          <p><strong>盲按级按钮。</strong>接单 56px 高、转单 56px 高，固定在滚动容器之外，单手握持时落在拇指自然弧线内；雨天戴手套骑行途中也不需要精确瞄准。</p>
+        </div>
+        <div class="note c">
+          <p class="aim">标注对象 / 动效与可达性</p>
+          <p><strong>一次亮相。</strong>整机只在开机时做一次 clip 擦除入场，标题 glitch 同样只闪一次；系统开启减少动态后全部动画禁用，倒计时改由数字每秒跳变接管，扫描线始终静态且不拦截触摸。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tokens" aria-label="令牌与要点">
+    <div class="section-head">
+      <span class="no">02</span>
+      <h2>令牌与实现要点</h2>
+    </div>
+
+    <div class="tok-grid">
+      <div class="tok"><span class="sw" style="background:#0A0A0F"></span><div><p class="hex">Void #0A0A0F</p><p class="use">全站底色与手机屏幕底，深空黑里透一层青色网格坐标。</p></div></div>
+      <div class="tok"><span class="sw" style="background:#12121A"></span><div><p class="hex">Card #12121A</p><p class="use">读出条、订单行与快捷栏的卡片底，只比底色亮一档。</p></div></div>
+      <div class="tok"><span class="sw" style="background:#00FF88"></span><div><p class="hex">霓虹绿 #00FF88</p><p class="use">主强调 / 接单按钮、流水刻度、角括号，投影同色发光。</p></div></div>
+      <div class="tok"><span class="sw" style="background:#FF00FF"></span><div><p class="hex">品红 #FF00FF</p><p class="use">倒计时数字与进度条，只用于「会消失的紧迫感」。</p></div></div>
+      <div class="tok"><span class="sw" style="background:#00D4FF"></span><div><p class="hex">青 #00D4FF</p><p class="use">次级信息 / 里程时限数值、取送地标与聚焦描边。</p></div></div>
+      <div class="tok"><span class="sw" style="background:#FF3366"></span><div><p class="hex">警示红 #FF3366</p><p class="use">超时预警与转单按钮描边， destructive 语义专用。</p></div></div>
+    </div>
+
+    <div class="feat-grid">
+      <article>
+        <h3><code>clip-path</code>切角面板</h3>
+        <p>整机与面板全部零圆角，用八边形 polygon 一次变量 --c 控制切角深度，外层再包一层 1px 渐变描边框补上被裁掉的边框。</p>
+      </article>
+      <article>
+        <h3><code>HUD</code>角括号与贴边刻度</h3>
+        <p>订单面板四角 12px 角括号用四个绝对定位元素绘制；状态栏下的斜切刻度尺是真实流水进度，不是装饰纹理。</p>
+      </article>
+      <article>
+        <h3><code>scanline</code>扫描线覆层</h3>
+        <p>屏幕内一层 repeating-linear-gradient 静态扫描线加暗角，pointer-events none，不影响滚动与点按，也不参与动效。</p>
+      </article>
+      <article>
+        <h3><code>JetBrains Mono</code>数值字</h3>
+        <p>所有里程 / 金额 / 秒数走等宽字，配合三列等分网格，跨行数字位位对齐；中文正文交给 Noto Sans SC。</p>
+      </article>
+      <article>
+        <h3><code>glow</code>霓虹按钮</h3>
+        <p>接单主按钮同色外发光加内侧高光，hover 只提亮度不做位移动效，戴手套触控时误触率更低。</p>
+      </article>
+      <article>
+        <h3><code>reduced-motion</code>降级</h3>
+        <p>媒体查询一次性关闭动画与过渡，开机亮相直接呈现终态，倒计时进度条停满格、由数字每秒跳变传达紧迫感。</p>
+      </article>
+    </div>
+
+    <p class="diff-note">与桌面版的分工 / 桌面 Cyberpunk UI 页（旧港区义体诊所）解决宽屏信息分区与价目表排版；本页专注竖屏手持：安全区 HUD 化、拇指热区、切角面板在 390px 宽度下的排布，两页共用同一套霓虹语言但组件不重复。</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="page">
+    <p class="f-title">UI 设计提示词库 / Cyberpunk Mobile HUD</p>
+    <p><a href="style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var screen = document.getElementById('screen');
+  var onlineBtn = document.getElementById('onlineBtn');
+  var acceptBtn = document.getElementById('acceptBtn');
+  var skipBtn = document.getElementById('skipBtn');
+  var cdNum = document.getElementById('cdNum');
+  var cdFill = document.getElementById('cdFill');
+  var els = {
+    pickA: document.getElementById('pickA'), pickB: document.getElementById('pickB'),
+    dropA: document.getElementById('dropA'), dropB: document.getElementById('dropB'),
+    note: document.getElementById('orderNote')
+  };
+  var meta = document.querySelectorAll('.order-meta .k');
+  var orders = [
+    { pickA: '肥记煲仔饭 / 九龙夜市 C-17 档口', pickB: '出餐约 4 分钟 / 已备餐 2 份',
+      dropA: '塘口巷 14 号 2 座 / 3B 公寓', dropB: '备注 / 放门口电表箱下，送达后打电话',
+      dist: '3.8', eta: '16', fee: '¥9.6', feeSub: '含雨夜补贴 ¥4', sec: 23,
+      note: '接单后 8 分钟内到店取餐 / 雨夜单价上浮已计入' },
+    { pickA: '豆笑甜品 / 道森街 12 号铺', pickB: '出餐约 6 分钟 / 冷饮优先配送',
+      dropA: '沿江东路 88 号光明大厦 / 7F', dropB: '备注 / 前台代收，电话不通放前台',
+      dist: '5.2', eta: '19', fee: '¥12.8', feeSub: '含雨夜补贴 ¥6', sec: 31,
+      note: '跨江桥面风力 5 级 / 系统已多给 3 分钟时限' },
+    { pickA: '德记深夜大排档 / 总店', pickB: '现炒约 8 分钟 / 建议到店再等',
+      dropA: '侨鑫新村 9 栋 / 302', dropB: '备注 / 敲门轻声，家里有孩子',
+      dist: '2.4', eta: '11', fee: '¥7.2', feeSub: '含雨夜补贴 ¥3', sec: 18,
+      note: '近单短时限 / 超时将影响今日准时率' }
+  ];
+  var idx = 0, left = 0, timer = null, online = true, accepted = false;
+
+  function stopTick() { if (timer) { clearInterval(timer); timer = null; } }
+
+  function render(i) {
+    var o = orders[i];
+    els.pickA.textContent = o.pickA; els.pickB.textContent = o.pickB;
+    els.dropA.textContent = o.dropA; els.dropB.textContent = o.dropB;
+    els.note.textContent = o.note;
+    meta[0].innerHTML = o.dist + '<span style="font-size:11px"> km</span>';
+    meta[1].innerHTML = o.eta + '<span style="font-size:11px"> min</span>';
+    meta[2].textContent = o.fee;
+    meta[2].parentNode.querySelector('.lab').textContent = o.feeSub;
+    left = o.sec; cdNum.textContent = left;
+    cdFill.classList.remove('run');
+    void cdFill.offsetWidth;
+    cdFill.style.animationDuration = o.sec + 's';
+    cdFill.classList.add('run');
+    stopTick();
+    timer = setInterval(function () {
+      left--; if (left <= 0) { left = 0; stopTick(); next(); return; }
+      cdNum.textContent = left;
+    }, 1000);
+  }
+
+  function next() { if (!online || accepted) return; idx = (idx + 1) % orders.length; render(idx); }
+
+  acceptBtn.addEventListener('click', function () {
+    if (!online || accepted) return;
+    accepted = true; stopTick();
+    cdFill.classList.remove('run');
+    cdNum.textContent = '0';
+    acceptBtn.disabled = true; skipBtn.disabled = true;
+    acceptBtn.textContent = '已接单 / 去取餐';
+    els.note.textContent = '已接单 / 8 分钟内到店 / 取餐后记得核对 2 份餐盒';
+  });
+
+  skipBtn.addEventListener('click', next);
+
+  onlineBtn.addEventListener('click', function () {
+    online = !online;
+    onlineBtn.setAttribute('aria-pressed', online ? 'true' : 'false');
+    onlineBtn.textContent = online ? '接单中' : '休息中';
+    screen.classList.toggle('offline', !online);
+    acceptBtn.disabled = !online || accepted;
+    skipBtn.disabled = !online || accepted;
+    if (!online) { stopTick(); cdFill.classList.remove('run'); }
+    else if (!accepted) { render(idx); }
+  });
+
+  render(0);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Neo Brutalism Mobile / UI 设计提示词库</title>
+<style>
+/* token 计划: 底 #FFFDF5 奶油 / 撞色 #FF6B6B 红 #FFD93D 黄 #B8A7FF 紫 / 墨 #111 + 4px 粗边 / 硬阴影 4-8px 无模糊 / 圆角 0(徽章 999) / 字重 700/900 / 按钮高 52-64px */
+:root {
+  --cream: #FFFDF5;
+  --red: #FF6B6B;
+  --yellow: #FFD93D;
+  --violet: #B8A7FF;
+  --ink: #111111;
+  --ink-soft: #3d3a33;
+  --paper: #ffffff;
+  --border-w: 4px;
+  --border-w2: 2px;
+  --shadow-s: 4px 4px 0 var(--ink);
+  --shadow-m: 6px 6px 0 var(--ink);
+  --shadow-l: 8px 8px 0 var(--ink);
+  --font: "Space Grotesk", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--cream);
+  color: var(--ink);
+  font-weight: 700;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* ========== 桌面外壳 ========== */
+.page-top {
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px 24px 28px;
+  text-align: center;
+}
+.page-top h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  display: inline-block;
+  background: var(--yellow);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-m);
+  padding: 10px 26px;
+  transform: rotate(-1deg);
+}
+.page-top p {
+  margin-top: 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.page-top p span {
+  background: var(--violet);
+  border: var(--border-w2) solid var(--ink);
+  padding: 2px 10px;
+  display: inline-block;
+  transform: rotate(1deg);
+}
+.stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24px 16px 48px;
+}
+/* 无文字几何贴纸装饰（桌面限定，小屏隐藏避免拥挤） */
+.deco { position: absolute; z-index: 0; pointer-events: none; }
+.deco-circle {
+  width: 120px; height: 120px;
+  background: var(--yellow);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 50%;
+  left: 8%; top: 12%;
+  animation: float-sway 5s ease-in-out infinite alternate;
+}
+.deco-square {
+  width: 96px; height: 96px;
+  background: var(--violet);
+  border: var(--border-w) solid var(--ink);
+  right: 9%; top: 22%;
+  transform: rotate(12deg);
+  animation: float-sway 6s ease-in-out infinite alternate-reverse;
+}
+.deco-star {
+  width: 110px; height: 110px;
+  background: var(--red);
+  border: none;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  left: 12%; bottom: 14%;
+  animation: float-sway 7s ease-in-out infinite alternate;
+}
+.deco-tri {
+  width: 0; height: 0;
+  border-left: 52px solid transparent;
+  border-right: 52px solid transparent;
+  border-bottom: 90px solid var(--red);
+  right: 12%; bottom: 18%;
+  animation: float-sway 5.5s ease-in-out infinite alternate-reverse;
+}
+@keyframes float-sway {
+  from { translate: 0 0; }
+  to { translate: 0 -14px; }
+}
+/* ========== 手机框 ========== */
+.phone {
+  position: relative;
+  z-index: 1;
+  width: min(392px, 100%);
+  background: var(--ink);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 36px;
+  padding: 10px;
+  box-shadow: 12px 12px 0 var(--ink), 12px 12px 0 2px var(--cream), 12px 12px 0 6px var(--ink);
+}
+.screen {
+  background: var(--cream);
+  border: var(--border-w2) solid var(--ink);
+  border-radius: 24px;
+  height: min(776px, calc(100vh - 200px));
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+/* 状态栏 */
+.statusbar {
+  flex: none;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-bottom: var(--border-w2) solid var(--ink);
+  background: var(--yellow);
+  font-size: 13px;
+  font-weight: 900;
+}
+.sig { display: flex; align-items: flex-end; gap: 3px; }
+.sig i { width: 4px; background: var(--ink); display: block; }
+.sig i:nth-child(1) { height: 5px; }
+.sig i:nth-child(2) { height: 8px; }
+.sig i:nth-child(3) { height: 11px; }
+.sig i:nth-child(4) { height: 14px; }
+.batt { width: 24px; height: 12px; border: 2px solid var(--ink); position: relative; }
+.batt::after { content: ""; position: absolute; inset: 2px 8px 2px 2px; background: var(--ink); }
+.batt::before { content: ""; position: absolute; right: -5px; top: 3px; width: 3px; height: 6px; background: var(--ink); }
+/* 顶栏 */
+.apphead {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: var(--border-w) solid var(--ink);
+  background: var(--cream);
+}
+.apphead .who { min-width: 0; }
+.apphead .who strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+.apphead .who small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+/* 盖章贴纸：一次亮相动画 */
+.stamp {
+  flex: none;
+  background: var(--red);
+  color: var(--ink);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-s);
+  font-size: 14px;
+  font-weight: 900;
+  padding: 10px 14px;
+  transform: rotate(-4deg);
+  position: relative;
+}
+.stamp::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1.5px dashed var(--ink);
+  pointer-events: none;
+}
+.stamp-wrap { animation: stamp-in 0.55s cubic-bezier(0.2, 1.4, 0.36, 1) both; animation-delay: 0.25s; }
+@keyframes stamp-in {
+  0%   { transform: scale(2.4) rotate(10deg); opacity: 0; }
+  55%  { transform: scale(0.9) rotate(-6deg); opacity: 1; }
+  75%  { transform: scale(1.08) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+/* ========== 贴纸 tab ========== */
+.tab-radio { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.tabs {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--violet);
+  border-bottom: var(--border-w) solid var(--ink);
+}
+.tab-sticker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px 6px;
+  background: var(--paper);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-s);
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  user-select: none;
+  transform: rotate(-1.2deg);
+  transition: transform 0.12s linear, box-shadow 0.12s linear, background-color 0.12s linear;
+}
+.tabs label:nth-child(odd) { transform: rotate(-1.2deg); }
+.tabs label:nth-child(even) { transform: rotate(1.2deg); }
+.tab-sticker:active { transform: translate(4px, 4px) rotate(0deg); box-shadow: 0 0 0 var(--ink); }
+#tab-a:checked ~ .tabs label[for="tab-a"],
+#tab-b:checked ~ .tabs label[for="tab-b"],
+#tab-c:checked ~ .tabs label[for="tab-c"] {
+  background: var(--yellow);
+  transform: rotate(0deg);
+  box-shadow: var(--shadow-s);
+}
+#tab-a:focus-visible ~ .tabs label[for="tab-a"],
+#tab-b:focus-visible ~ .tabs label[for="tab-b"],
+#tab-c:focus-visible ~ .tabs label[for="tab-c"] {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+/* ========== 面板区 ========== */
+.panels { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+.panel { display: none; padding: 20px; }
+#tab-a:checked ~ .panels .panel-a { display: block; }
+#tab-b:checked ~ .panels .panel-b { display: block; }
+#tab-c:checked ~ .panels .panel-c { display: block; }
+.panel-title {
+  font-size: 13px;
+  font-weight: 900;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+/* 摊位大卡 */
+.stall-card {
+  background: var(--yellow);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-m);
+  padding: 18px;
+  transform: rotate(-1deg);
+  position: relative;
+}
+.stall-card h2 {
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1.3;
+  padding-right: 70px;
+}
+.stall-badge {
+  position: absolute;
+  top: -12px;
+  right: -8px;
+  background: var(--violet);
+  border: var(--border-w) solid var(--ink);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 6px 12px;
+  transform: rotate(6deg);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.stall-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 16px;
+  border: var(--border-w2) solid var(--ink);
+  background: var(--paper);
+}
+.stall-meta div {
+  padding: 10px 8px;
+  text-align: center;
+  border-right: var(--border-w2) solid var(--ink);
+}
+.stall-meta div:last-child { border-right: none; }
+.stall-meta b { display: block; font-size: 16px; font-weight: 900; }
+.stall-meta span { display: block; margin-top: 3px; font-size: 11.5px; font-weight: 700; color: var(--ink-soft); }
+/* 拇指大按钮 */
+.btn-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-top: 20px; }
+.btn {
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 900;
+  min-height: 60px;
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-m);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.1s linear, box-shadow 0.1s linear;
+}
+.btn-primary { background: var(--red); color: var(--ink); }
+.btn-ghost { background: var(--paper); color: var(--ink); }
+.btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--ink); }
+.btn:focus-visible, .tab-sticker:focus-visible, .tabbar a:focus-visible, .page-foot a:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+/* 待办清单 */
+.todo { margin-top: 22px; }
+.todo-list { border: var(--border-w) solid var(--ink); background: var(--paper); box-shadow: var(--shadow-s); }
+.todo-item {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: var(--border-w2) solid var(--ink);
+  font-size: 14.5px;
+}
+.todo-item:last-child { border-bottom: none; }
+.todo-item .box {
+  width: 20px; height: 20px;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.todo-item.done .box { background: var(--red); }
+.todo-item.done .box::after {
+  content: "";
+  width: 10px; height: 5px;
+  border-left: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  transform: rotate(-45deg) translateY(-2px);
+}
+.todo-item.done .txt { text-decoration: line-through; text-decoration-thickness: 3px; color: var(--ink-soft); }
+.todo-item .tag {
+  font-size: 11.5px;
+  font-weight: 900;
+  border: var(--border-w2) solid var(--ink);
+  padding: 3px 8px;
+  background: var(--cream);
+}
+/* 账本：列表行 grid 对齐 */
+.ledger { border: var(--border-w) solid var(--ink); background: var(--paper); box-shadow: var(--shadow-s); }
+.ledger-head, .ledger-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px 76px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+}
+.ledger-head {
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 12px;
+  font-weight: 900;
+}
+.ledger-row { border-top: var(--border-w2) solid var(--ink); font-size: 14.5px; }
+.ledger-row .item b { display: block; font-weight: 900; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ledger-row .item small { display: block; font-size: 11.5px; font-weight: 700; color: var(--ink-soft); margin-top: 2px; }
+.ledger-row .price { text-align: right; font-size: 15px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.pay {
+  justify-self: end;
+  font-size: 11.5px;
+  font-weight: 900;
+  border: var(--border-w2) solid var(--ink);
+  padding: 4px 8px;
+}
+.pay.ok { background: var(--yellow); }
+.pay.wait { background: var(--paper); }
+/* 收入汇总撞色条 */
+.sum-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.sum-grid .cell {
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-s);
+  padding: 12px 10px;
+  text-align: center;
+}
+.sum-grid .cell b { display: block; font-size: 18px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.sum-grid .cell span { display: block; margin-top: 4px; font-size: 11.5px; font-weight: 700; }
+.cell-red { background: var(--red); }
+.cell-yellow { background: var(--yellow); }
+.cell-violet { background: var(--violet); }
+.panel .btn-row.solo { grid-template-columns: 1fr; margin-top: 20px; }
+/* 摊友圈 */
+.feed-item {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 14px;
+  padding: 16px 14px;
+  background: var(--paper);
+  border: var(--border-w) solid var(--ink);
+  box-shadow: var(--shadow-s);
+  margin-bottom: 16px;
+}
+.feed-item:nth-child(odd) { transform: rotate(-0.6deg); }
+.feed-item:nth-child(even) { transform: rotate(0.6deg); }
+.avatar {
+  width: 52px; height: 52px;
+  border: var(--border-w) solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+}
+.av-red { background: var(--red); }
+.av-yellow { background: var(--yellow); }
+.av-violet { background: var(--violet); }
+.feed-item .msg b { display: block; font-size: 14.5px; font-weight: 900; margin-bottom: 5px; }
+.feed-item .msg p { font-size: 13.5px; font-weight: 700; line-height: 1.55; color: var(--ink-soft); }
+.feed-item .msg .time { display: inline-block; margin-top: 8px; font-size: 11.5px; font-weight: 700; border: var(--border-w2) solid var(--ink); background: var(--cream); padding: 2px 8px; }
+/* ========== 底部拇指 tabbar ========== */
+.tabbar {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: var(--border-w) solid var(--ink);
+  background: var(--cream);
+}
+.tabbar a {
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 900;
+  border-right: var(--border-w2) solid var(--ink);
+}
+.tabbar a:last-child { border-right: none; }
+.tabbar a:active { background: var(--yellow); }
+.tabbar a svg { width: 24px; height: 24px; }
+.tabbar a[aria-current="page"] { background: var(--red); }
+/* ========== 页脚 ========== */
+.page-foot {
+  width: 100%;
+  border-top: var(--border-w) solid var(--ink);
+  background: var(--yellow);
+  padding: 16px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 18px;
+  font-size: 14px;
+  font-weight: 900;
+}
+.page-foot a {
+  color: var(--ink);
+  background: var(--paper);
+  border: var(--border-w2) solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  text-decoration: none;
+  padding: 8px 16px;
+  font-weight: 900;
+}
+.page-foot a:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+/* ========== 降级与响应式 ========== */
+@media (prefers-reduced-motion: reduce) {
+  .stamp-wrap { animation: none; }
+  .deco { animation: none !important; }
+  .btn, .tab-sticker { transition: none; }
+}
+@media (max-width: 767px) {
+  .deco { display: none; }
+  .page-top { padding: 24px 16px 16px; }
+  .stage { padding: 10px 8px 28px; }
+  .phone { border-radius: 20px; box-shadow: var(--shadow-m); }
+  .screen { height: min(760px, calc(100dvh - 210px)); min-height: 560px; }
+}
+@media (min-width: 768px) and (max-width: 1439px) {
+  .page-top { padding-top: 32px; }
+}
+@media (min-width: 1440px) {
+  .page-top h1 { font-size: 48px; }
+  .deco-circle { width: 150px; height: 150px; left: 11%; }
+  .deco-square { width: 116px; height: 116px; right: 12%; }
+}
+</style>
+</head>
+<body>
+  <div class="page-top">
+    <h1>跳蚤摊儿</h1>
+    <p>Neo Brutalism Mobile / 旧货市集摆摊工具 / 拇指友好的粗野控件演示</p>
+    <p><span>粗黑边 / 硬阴影 / 机械按压 / 贴纸标签 / 撞色大色块</span></p>
+  </div>
+  <div class="stage">
+    <i class="deco deco-circle" aria-hidden="true"></i>
+    <i class="deco deco-square" aria-hidden="true"></i>
+    <i class="deco deco-star" aria-hidden="true"></i>
+    <i class="deco deco-tri" aria-hidden="true"></i>
+    <div class="phone">
+      <div class="screen">
+        <div class="statusbar" aria-hidden="true">
+          <span>9:41</span>
+          <span class="sig"><i></i><i></i><i></i><i></i></span>
+          <span class="batt"></span>
+        </div>
+        <header class="apphead">
+          <div class="who">
+            <strong>跳蚤摊儿</strong>
+            <small>摊主阿珍 / 铁西区集贤街</small>
+          </div>
+          <div class="stamp-wrap">
+            <span class="stamp">出摊中</span>
+          </div>
+        </header>
+        <input type="radio" name="tab" id="tab-a" class="tab-radio" checked>
+        <input type="radio" name="tab" id="tab-b" class="tab-radio">
+        <input type="radio" name="tab" id="tab-c" class="tab-radio">
+        <nav class="tabs" aria-label="摊位分区">
+          <label for="tab-a" class="tab-sticker">今日摊位</label>
+          <label for="tab-b" class="tab-sticker">卖货账本</label>
+          <label for="tab-c" class="tab-sticker">摊友圈</label>
+        </nav>
+        <div class="panels">
+          <section class="panel panel-a">
+            <h3 class="panel-title">摊位快报</h3>
+            <div class="stall-card">
+              <span class="stall-badge">首月免摊位费</span>
+              <h2>铁西区周末旧货市集</h2>
+              <div class="stall-meta">
+                <div><b>B-27</b><span>摊位号</span></div>
+                <div><b>10:00</b><span>开摆时间</span></div>
+                <div><b>晴 12 度</b><span>今日天气</span></div>
+              </div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn btn-primary">扫码收钱</button>
+              <button type="button" class="btn btn-ghost">记一笔</button>
+            </div>
+            <div class="todo">
+              <h3 class="panel-title">摆摊清单</h3>
+              <div class="todo-list">
+                <div class="todo-item done">
+                  <span class="box" aria-hidden="true"></span>
+                  <span class="txt">给海鸥相机装上新电池并试拍一张</span>
+                  <span class="tag">摆前</span>
+                </div>
+                <div class="todo-item">
+                  <span class="box" aria-hidden="true"></span>
+                  <span class="txt">把蓝染围裙挂上新买的铁艺挂架</span>
+                  <span class="tag">摆中</span>
+                </div>
+                <div class="todo-item done">
+                  <span class="box" aria-hidden="true"></span>
+                  <span class="txt">收摊前清点现金并在群里拍照留底</span>
+                  <span class="tag">收摊</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="panel panel-b">
+            <h3 class="panel-title">今日卖货四笔</h3>
+            <div class="ledger">
+              <div class="ledger-head">
+                <span>货品</span>
+                <span style="text-align:right;">单价</span>
+                <span style="text-align:right;">状态</span>
+              </div>
+              <div class="ledger-row">
+                <div class="item"><b>海鸥牌胶片相机</b><small>附皮质背带 / 成色九成新</small></div>
+                <span class="price">¥260</span>
+                <span class="pay ok">已收款</span>
+              </div>
+              <div class="ledger-row">
+                <div class="item"><b>手摇磨豆机</b><small>铸铁件 / 下午两点出手</small></div>
+                <span class="price">¥120</span>
+                <span class="pay ok">已收款</span>
+              </div>
+              <div class="ledger-row">
+                <div class="item"><b>蓝染帆布围裙</b><small>两条打包 / 摊友老周预订</small></div>
+                <span class="price">¥90</span>
+                <span class="pay wait">待收款</span>
+              </div>
+              <div class="ledger-row">
+                <div class="item"><b>苏联产机械闹钟</b><small>走时精准 / 开摆半小时售出</small></div>
+                <span class="price">¥45</span>
+                <span class="pay ok">已收款</span>
+              </div>
+            </div>
+            <div class="sum-grid">
+              <div class="cell cell-red"><b>¥515</b><span>今日流水</span></div>
+              <div class="cell cell-yellow"><b>¥1,892</b><span>本周累计</span></div>
+              <div class="cell cell-violet"><b>¥180</b><span>摊位费已回本</span></div>
+            </div>
+            <div class="btn-row solo">
+              <button type="button" class="btn btn-primary">加一笔新买卖</button>
+            </div>
+          </section>
+          <section class="panel panel-c">
+            <h3 class="panel-title">市集新鲜事</h3>
+            <div class="feed-item">
+              <span class="avatar av-red" aria-hidden="true">周</span>
+              <div class="msg">
+                <b>老周古玩摊</b>
+                <p>刚出掉一台八毫米放映机，隔壁摊主用三张黑胶唱片换走了，下午放给大家看一场。</p>
+                <span class="time">26 分钟前</span>
+              </div>
+            </div>
+            <div class="feed-item">
+              <span class="avatar av-yellow" aria-hidden="true">珍</span>
+              <div class="msg">
+                <b>阿珍的蓝染铺</b>
+                <p>新到一批草木染围裙，摆在 B 区入口左手第一家，先到先挑，深的浅的都有。</p>
+                <span class="time">1 小时前</span>
+              </div>
+            </div>
+            <div class="feed-item">
+              <span class="avatar av-violet" aria-hidden="true">马</span>
+              <div class="msg">
+                <b>二手书店小马</b>
+                <p>下午转阵雨，书摊整体挪到操场棚内 12 号位，别跑空，旧杂志两元一本照旧。</p>
+                <span class="time">2 小时前</span>
+              </div>
+            </div>
+            <div class="btn-row solo">
+              <button type="button" class="btn btn-primary">去 B 区串摊</button>
+            </div>
+          </section>
+        </div>
+        <nav class="tabbar" aria-label="主导航">
+          <a href="#" aria-current="page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 10 L12 4 L20 10 V20 H4 Z"/><path d="M9 20 V14 H15 V20"/>
+            </svg>
+            <span>摊位</span>
+          </a>
+          <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 4 H19 V20 H5 Z"/><path d="M9 8 H15"/><path d="M9 12 H15"/>
+            </svg>
+            <span>账本</span>
+          </a>
+          <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="9" cy="8" r="3.2"/><path d="M3 19 C3 15 6 13.5 9 13.5 C12 13.5 15 15 15 19"/><path d="M15.5 8.5 A3 3 0 1 1 16.2 14"/><path d="M17 19 C17 16.2 19 14.6 21 14.4"/>
+            </svg>
+            <span>摊友</span>
+          </a>
+          <a href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.6"/><path d="M4.5 20 C4.5 16 8 14.2 12 14.2 C16 14.2 19.5 16 19.5 20"/>
+            </svg>
+            <span>我的</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <footer class="page-foot">
+    <span>UI 设计提示词库 / Neo Brutalism Mobile</span>
+    <a href="style-catalog.html">返回风格目录</a>
+  </footer>
+</body>
+</html>

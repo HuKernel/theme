@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Academia Scholarly Mobile / UI 设计提示词库</title>
+<meta name="description" content="Academia (Scholarly Mobile) 风格演示页：期刊论文阅读器，红木与羊皮纸配色、衬线正文、首字下沉、引文上标脚注浮层、章节抽屉与深浅阅读模式。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #14100D;
+  --bg: #1C1714;
+  --oak: #251E19;
+  --oak-2: #2E251E;
+  --edge: #4A3F35;
+  --brass: #C9A962;
+  --brass-deep: #7A5F2A;
+  --crimson: #8B2635;
+  --crimson-2: #A8455A;
+  --parchment: #FAF7F0;
+  --phone-w: 392px;
+  --screen-h: 772px;
+  --radius: 4px;
+  --arch: 132px;
+  --head: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  --body: 'Crimson Pro', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--bg-deep);
+  color: #E8DFD4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 120% 90% at 50% 42%, rgba(20, 16, 13, 0) 52%, rgba(10, 8, 6, 0.55) 100%);
+  z-index: 40;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.reveal-d2 { animation-delay: 0.18s; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .reveal-d2 { animation: none; opacity: 1; transform: none; }
+  .drawer, .drawer-mask, .foot-sheet, .foot-mask, .progress-fill, .seal::after { transition: none !important; animation: none !important; }
+}
+.page-head {
+  width: min(1180px, 100% - 48px);
+  padding: 34px 0 22px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.page-head h1 {
+  font-family: var(--head);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  color: #E8DFD4;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.page-head h1 em { font-style: italic; color: var(--brass); }
+.page-head p { font-size: 15px; color: #B7A897; letter-spacing: 0.02em; }
+.stage {
+  width: min(1180px, 100% - 48px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 44px;
+  padding-bottom: 40px;
+}
+.note { width: 218px; margin-top: 46px; font-size: 13.5px; line-height: 1.75; color: #A6947F; }
+.note h2 {
+  font-family: var(--head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--brass);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--edge);
+}
+.note dl { margin-bottom: 18px; }
+.note dt { font-weight: 600; color: #CBBBA4; margin-top: 10px; }
+.note dd { margin-top: 2px; }
+.note .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+.note .sw { height: 26px; border-radius: 3px; border: 1px solid rgba(201, 169, 98, 0.28); }
+.phone-wrap { flex: 0 0 auto; }
+.phone {
+  width: var(--phone-w);
+  border-radius: 52px;
+  padding: 13px;
+  background:
+    linear-gradient(160deg, #3A2E25 0%, #241C16 34%, #17110D 72%, #2C231B 100%);
+  box-shadow:
+    0 44px 90px rgba(0, 0, 0, 0.62),
+    0 12px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1.5px rgba(201, 169, 98, 0.22);
+  position: relative;
+}
+.phone::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 46px;
+  border: 1px solid rgba(201, 169, 98, 0.16);
+  pointer-events: none;
+}
+.screen {
+  height: var(--screen-h);
+  border-radius: 40px;
+  overflow: hidden;
+  background: var(--parchment);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+.screen {
+  --paper: #FAF7F0;
+  --paper-2: #F2ECDF;
+  --card: #EFE7D6;
+  --ink: #2B2118;
+  --ink-soft: #5C4E3F;
+  --muted: #6B5D4F;
+  --line: #D8CDB8;
+  --link: #8B2635;
+  --link-soft: #A03A4B;
+  --cite-bg: rgba(139, 38, 53, 0.08);
+  --status: #4A3A2C;
+}
+.screen[data-mode="night"] {
+  --paper: #251E19;
+  --paper-2: #1C1714;
+  --card: #2E251E;
+  --ink: #E8DFD4;
+  --ink-soft: #D4C5B0;
+  --muted: #B7A897;
+  --line: #4A3F35;
+  --link: #D9A05B;
+  --link-soft: #C9A962;
+  --cite-bg: rgba(201, 169, 98, 0.14);
+  --status: #D4C5B0;
+}
+.statusbar {
+  height: 34px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 26px 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--status);
+}
+.status-icons { display: flex; align-items: center; gap: 5px; }
+.sig { display: inline-flex; align-items: flex-end; gap: 1.5px; height: 9px; }
+.sig i { width: 2.5px; background: currentColor; border-radius: 1px; display: block; }
+.bat { width: 20px; height: 10px; border: 1.2px solid currentColor; border-radius: 3px; position: relative; display: inline-block; }
+.bat::before { content: ""; position: absolute; inset: 1.5px 6px 1.5px 1.5px; background: currentColor; border-radius: 1px; }
+.bat::after {
+  content: "";
+  position: absolute;
+  right: -3.5px;
+  top: 2.8px;
+  width: 2px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 0 1px 1px 0;
+}
+.topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 10px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--link);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.icon-btn:hover { border-color: var(--link-soft); }
+.icon-btn svg { width: 18px; height: 18px; display: block; }
+.topbar .title { flex: 1; min-width: 0; text-align: center; line-height: 1.25; }
+.topbar .title strong {
+  display: block;
+  font-family: var(--head);
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topbar .title span { font-size: 12.5px; color: var(--muted); font-style: italic; }
+.progress { height: 3px; background: var(--line); flex: 0 0 auto; }
+.progress-fill { height: 100%; width: 18%; background: linear-gradient(90deg, #8B2635, #C9A962); transition: width 0.15s linear; }
+.reader {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--paper);
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+  overscroll-behavior: contain;
+}
+.reader::-webkit-scrollbar { width: 4px; }
+.reader::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+.hero {
+  margin: 16px 18px 0;
+  border-radius: var(--arch) var(--arch) 6px 6px;
+  position: relative;
+  overflow: hidden;
+  height: 196px;
+  background:
+    radial-gradient(ellipse 90% 62% at 50% 100%, rgba(250, 247, 240, 0.2), transparent 60%),
+    linear-gradient(178deg, #4A3220 0%, #5D3F27 42%, #3B2818 100%);
+  box-shadow: inset 0 0 0 1px rgba(201, 169, 98, 0.3), inset 0 -30px 44px rgba(20, 16, 13, 0.55);
+}
+.hero svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero .hero-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  text-align: center;
+  font-family: var(--head);
+  font-style: italic;
+  font-size: 14px;
+  color: #E8D9BE;
+  letter-spacing: 0.16em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.seal {
+  position: absolute;
+  right: 14px;
+  bottom: -20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #B04A5A 0%, #8B2635 52%, #661B27 100%);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 220, 210, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.seal::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1px solid rgba(250, 240, 228, 0.42); }
+.seal span {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 17px;
+  color: #F3E3D3;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.paper { padding: 20px 24px 30px; }
+.kicker { font-family: var(--head); font-size: 13.5px; font-weight: 600; color: var(--link); letter-spacing: 0.05em; margin-bottom: 10px; }
+.paper h2.paper-title {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 1.32;
+  color: var(--ink);
+  margin-bottom: 12px;
+  text-shadow: 0 1px 2px rgba(28, 23, 20, 0.08);
+}
+.byline { font-size: 14.5px; color: var(--ink-soft); line-height: 1.7; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.byline strong { color: var(--ink); font-weight: 600; }
+.abstract { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--brass); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 22px; }
+.abstract h3 { font-family: var(--head); font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.abstract p { font-size: 15px; line-height: 1.8; color: var(--ink-soft); text-align: justify; }
+.abstract .kw { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+.abstract .kw b { color: var(--link); font-weight: 600; }
+.ch-head { display: flex; align-items: baseline; gap: 10px; margin: 26px 0 10px; scroll-margin-top: 8px; }
+.ch-head .num { font-family: var(--head); font-size: 15px; font-weight: 700; color: var(--brass); letter-spacing: 0.1em; }
+.screen[data-mode="sepia"] .ch-head .num,
+.screen:not([data-mode="night"]) .ch-head .num { color: var(--brass-deep); }
+.ch-head h3 {
+  font-family: var(--head);
+  font-size: 19.5px;
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 5px;
+}
+.body-p { font-size: 16.5px; line-height: 1.85; color: var(--ink); text-align: justify; margin-bottom: 13px; }
+.body-p .small { font-size: 15px; color: var(--ink-soft); }
+.dropcap {
+  float: left;
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 58px;
+  line-height: 0.82;
+  color: var(--brass-deep);
+  padding: 6px 8px 0 0;
+}
+.screen[data-mode="night"] .dropcap { color: var(--brass); }
+blockquote.motto {
+  margin: 18px 14px 18px 6px;
+  padding: 4px 0 4px 16px;
+  border-left: 3px solid var(--crimson-2);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.cite {
+  font-family: var(--head);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--link);
+  background: var(--cite-bg);
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin: 0 1px;
+  cursor: pointer;
+  vertical-align: super;
+  line-height: 1;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.cite:hover { border-color: var(--link-soft); }
+.refs { list-style: none; margin-top: 4px; }
+.refs li { display: grid; grid-template-columns: 34px 1fr; gap: 0 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
+.refs li:last-child { border-bottom: none; }
+.refs .idx { font-family: var(--head); font-weight: 700; font-size: 13.5px; color: var(--link); text-align: right; }
+.refs .txt { font-size: 14px; line-height: 1.75; color: var(--ink-soft); }
+.refs .txt i { font-style: italic; }
+.finis {
+  text-align: center;
+  font-family: var(--head);
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 26px;
+  letter-spacing: 0.18em;
+  padding-left: 0.18em;
+}
+.readbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 18px 12px;
+  background: var(--paper-2);
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.readbar .rb-l { font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.readbar .rb-r { white-space: nowrap; }
+.readbar b { color: var(--link); font-weight: 600; }
+.home-ind { width: 108px; height: 4px; border-radius: 2px; background: var(--muted); opacity: 0.55; margin: 0 auto 6px; }
+.drawer-mask, .foot-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 13, 10, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+}
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 79%;
+  max-width: 300px;
+  background: var(--oak);
+  border-right: 1px solid var(--edge);
+  z-index: 21;
+  transform: translateX(-102%);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 8px 0 26px rgba(0, 0, 0, 0.4);
+}
+.drawer.open { transform: translateX(0); }
+.mask-on { opacity: 1 !important; pointer-events: auto !important; }
+.drawer-head { padding: 20px 18px 14px; border-bottom: 1px solid var(--edge); }
+.drawer-head p { font-family: var(--head); font-style: italic; font-size: 13px; color: #A6947F; margin-bottom: 4px; }
+.drawer-head h4 { font-family: var(--head); font-size: 20px; font-weight: 700; color: #E8DFD4; }
+.drawer-head .vol { font-size: 13px; color: var(--brass); margin-top: 4px; }
+.toc { list-style: none; padding: 10px 0; overflow-y: auto; flex: 1; }
+.toc li a {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: baseline;
+  gap: 0 8px;
+  padding: 12px 18px;
+  color: #CBBBA4;
+  text-decoration: none;
+  font-size: 15px;
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.toc li a .rn { font-family: var(--head); font-weight: 700; color: var(--brass); font-size: 13.5px; letter-spacing: 0.08em; }
+.toc li a:hover, .toc li a[aria-current="true"] { background: rgba(201, 169, 98, 0.1); border-left-color: var(--brass); color: #E8DFD4; }
+.toc-foot { padding: 14px 18px 18px; border-top: 1px solid var(--edge); font-size: 12.5px; color: #A6947F; line-height: 1.7; }
+.foot-sheet {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 20px;
+  background: var(--paper);
+  border: 1px solid var(--brass);
+  border-radius: 6px;
+  box-shadow: 0 18px 44px rgba(10, 8, 6, 0.55);
+  z-index: 22;
+  padding: 14px 16px 12px;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.foot-sheet.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.foot-sheet h5 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--head);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.foot-sheet h5 .fn-no { color: var(--link); }
+.foot-close {
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.foot-close:hover { color: var(--link); background: var(--cite-bg); }
+.foot-close svg { width: 14px; height: 14px; display: block; }
+.foot-sheet p { font-size: 14.5px; line-height: 1.8; color: var(--ink-soft); }
+.foot-sheet .src { margin-top: 8px; font-size: 12.5px; color: var(--muted); font-style: italic; border-top: 1px dashed var(--line); padding-top: 7px; }
+a:focus-visible, button:focus-visible, .icon-btn:focus-visible, .cite:focus-visible, .foot-close:focus-visible, .toc a:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; border-radius: 3px; }
+.page-foot {
+  width: min(1180px, 100% - 48px);
+  border-top: 1px solid var(--edge);
+  padding: 18px 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: #A6947F;
+  position: relative;
+  z-index: 41;
+}
+.page-foot a { color: var(--brass); text-decoration: none; border-bottom: 1px solid rgba(201, 169, 98, 0.45); padding-bottom: 1px; }
+.page-foot a:hover { border-bottom-color: var(--brass); }
+@media (min-width: 1024px) {
+  .note { display: block; }
+}
+@media (max-width: 1023px) {
+  .note { display: none; }
+  .stage { justify-content: center; }
+}
+@media (max-width: 768px) {
+  .page-head, .stage, .page-foot { width: min(680px, 100% - 32px); }
+  .page-head h1 { font-size: 22px; }
+}
+@media (max-width: 460px) {
+  :root { --phone-w: calc(100vw - 28px); --screen-h: 700px; }
+  .phone { border-radius: 44px; padding: 10px; }
+  .screen { border-radius: 35px; }
+  .paper { padding: 18px 18px 26px; }
+  .paper h2.paper-title { font-size: 24px; }
+  .hero { height: 176px; --arch: 110px; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-head reveal">
+  <h1>Academia <em>Scholarly Mobile</em></h1>
+  <p>期刊论文阅读器 / mahogany 与 parchment / 衬线优先的深阅读界面</p>
+</header>
+
+<div class="stage">
+
+  <aside class="note reveal" aria-label="设计注记 左">
+    <h2>风格注记</h2>
+    <dl>
+      <dt>纸与墨</dt>
+      <dd>羊皮纸 #FAF7F0 对深墨 #2B2118，正文 Crimson Pro 与思源宋体，行距 1.85。</dd>
+      <dt>红木与橡木</dt>
+      <dd>夜间模式以 #1C1714 / #251E19 为纸面，暖光下如台灯照旧书。</dd>
+      <dt>黄铜触点</dt>
+      <dd>所有可点元素（引文上标 / 图标钮 / 抽屉条目）统一黄铜与绯红两色系。</dd>
+    </dl>
+    <h2>调色板</h2>
+    <div class="swatches" aria-hidden="true">
+      <div class="sw" style="background:#1C1714" title="Mahogany"></div>
+      <div class="sw" style="background:#251E19" title="Oak"></div>
+      <div class="sw" style="background:#C9A962" title="Brass"></div>
+      <div class="sw" style="background:#8B2635" title="Crimson"></div>
+    </div>
+    <p>演示功能：点击正文中的引文序号可唤出脚注浮层；顶栏目录钮开启章节抽屉；月相钮切换深浅阅读模式。</p>
+  </aside>
+
+  <div class="phone-wrap reveal reveal-d2">
+    <div class="phone">
+      <div class="screen" id="screen" data-mode="sepia">
+
+        <!-- 状态栏 -->
+        <div class="statusbar" aria-hidden="true">
+          <span>9:41</span>
+          <span class="status-icons">
+            <span class="sig"><i style="height:3px"></i><i style="height:5px"></i><i style="height:7px"></i><i style="height:9px"></i></span>
+            <span class="bat"></span>
+          </span>
+        </div>
+
+        <!-- 顶栏 -->
+        <div class="topbar">
+          <button class="icon-btn" type="button" aria-label="返回文献库">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <div class="title">
+            <strong>书籍与流通研究</strong>
+            <span>Vol. XII / No. 2 / 2024 秋</span>
+          </div>
+          <button class="icon-btn" type="button" id="tocBtn" aria-label="打开章节目录" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="14" y2="18"></line></svg>
+          </button>
+          <button class="icon-btn" type="button" id="modeBtn" aria-label="切换深浅阅读模式">
+            <svg id="modeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          </button>
+        </div>
+
+        <!-- 阅读进度条 -->
+        <div class="progress" role="progressbar" aria-label="阅读进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="18">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- 阅读区 -->
+        <main class="reader" id="reader">
+
+          <figure class="hero" aria-label="江南藏书楼木刻书架 拱顶插图">
+            <svg viewBox="0 0 360 196" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs>
+                <linearGradient id="shelfg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#6B4A2E"/>
+                  <stop offset="1" stop-color="#4A3220"/>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="360" height="196" fill="url(#shelfg)"/>
+              <path d="M180 30 a88 88 0 0 1 88 88 v78 h-176 v-78 a88 88 0 0 1 88 -88 z" fill="#2E2013" opacity="0.85"/>
+              <g fill="#8A6238" opacity="0.9">
+                <rect x="104" y="96" width="152" height="7" rx="1"/>
+              <rect x="104" y="146" width="152" height="7" rx="1"/>
+              </g>
+              <g>
+                <rect x="112" y="64" width="9" height="32" fill="#B08D5B" transform="rotate(-4 116 80)"/>
+              <rect x="124" y="62" width="10" height="34" fill="#C9A962" opacity="0.85"/> <rect x="138" y="66" width="8" height="30" fill="#9A7448" transform="rotate(3 142 81)"/>
+              <rect x="150" y="63" width="11" height="33" fill="#A5433A" opacity="0.9"/> <rect x="200" y="65" width="9" height="31" fill="#9A7448" transform="rotate(-3 204 80)"/>
+              <rect x="213" y="62" width="10" height="34" fill="#C9A962" opacity="0.7"/> <rect x="227" y="66" width="9" height="30" fill="#B08D5B" transform="rotate(4 231 81)"/>
+              <rect x="240" y="64" width="8" height="32" fill="#8B2635" opacity="0.85"/>
+              </g>
+              <g>
+                <rect x="116" y="112" width="8" height="34" fill="#C9A962" opacity="0.75" transform="rotate(3 120 129)"/>
+              <rect x="128" y="115" width="9" height="31" fill="#A5433A" opacity="0.8"/> <rect x="141" y="113" width="8" height="33" fill="#B08D5B"/>
+              <rect x="210" y="114" width="9" height="32" fill="#9A7448" transform="rotate(-4 214 130)"/> <rect x="224" y="112" width="8" height="34" fill="#C9A962" opacity="0.6"/>
+              <rect x="236" y="116" width="9" height="30" fill="#A5433A" opacity="0.7"/>
+              </g>
+            </svg>
+            <figcaption class="hero-cap">西溪藏书楼 / 万历刻本架</figcaption>
+            <div class="seal" aria-hidden="true"><span>审<br>阅</span></div>
+          </figure>
+
+          <article class="paper">
+            <p class="kicker">文献学 / 明清书籍史</p>
+            <h2 class="paper-title">页边与心间：明万历间江南读者批注圈层的考察</h2>
+            <p class="byline">
+              <strong>沈慕蘅</strong> 撰 / 西泠大学中文系<br>
+              收稿 2024-03-12 / 修回 2024-06-03 / 拟刊 2024 年第 2 期
+            </p>
+
+            <section class="abstract" aria-label="摘要">
+              <h3>摘要</h3>
+              <p>本文以万历元年至四十八年间江南地区流通的 137 部明刻本为依托，统计其页边批注、圈点与过录题跋的分布，重建了以苏州、南京、杭州为节点的读者批注圈层。研究发现：批注的密度与书坊所在坊市半径呈显著相关，而批注语体的转换（由评点式转向考据式）早于学界通认的年份约二十年<a class="cite" data-note="本文所谓批注圈层，指以同一部实物书为媒介、先后介入文本的读者序列，而非同时代的书信往来网络。" data-src="钱穆. 中国文化史导论[M]. 2版. 北京: 商务印书馆, 2001: 156.">1</a>。这一圈层为理解晚明知识流通的层级结构提供了实物证据。</p>
+              <p class="kw"><b>关键词</b> / 明刻本 / 批注 / 圈层 / 书籍流通</p>
+            </section>
+
+            <div class="ch-head" id="ch1">
+              <span class="num">I</span>
+              <h3>引言：从一部残书说起</h3>
+            </div>
+            <p class="body-p"><span class="dropcap">隆</span>庆六年冬，杭州书商项笃寿寓所散出残书一部，为万历元年重刻《文心雕龙》十卷本。此本天头地脚密注几满，先后七手，笔迹各异。学界以往多据藏书志著录推断批注者身份<a class="cite" data-note="藏书志著录往往仅录首位题跋者，后手过录者常被省作「又跋」二字，导致圈层链条断裂。" data-src="张秀民. 中国印刷史[M]. 上海: 上海人民出版社, 1989: 512.">2</a>，而实物的层累性质提示我们：一部书的页边，本身就是一部阅读史。</p>
+            <p class="body-p">本文的讨论由此展开。第一节交代材料与方法，第二节分析批注的形态分层，第三节重建读者圈层的地理与时间结构，第四节给出结论与余论。</p>
+
+            <div class="ch-head" id="ch2">
+              <span class="num">II</span>
+              <h3>批注的形态分层</h3>
+            </div>
+            <p class="body-p">就书写位置而言，批注可分为天头批、地脚批、眉批、夹批与行间圈点五类。统计显示，天头批占全部批注条目的百分之四十六，且集中出现于卷首三页——这一位置恰是翻检频率最高者<a class="cite" data-note="「卷首三页」指各卷第一至第三叶，不含序目。翻检磨损痕迹与之分布一致。" data-src="傅增湘. 藏园群书经眼录[M]. 北京: 中华书局, 1983: 211.">3</a>。</p>
+            <blockquote class="motto">「书之为物，聚于架上，散于案头，而活于页边。」——过录者第五手题记，万历三十九年</blockquote>
+            <p class="body-p"><span class="small">语体的转换同样值得注意。万历二十年前后的批注多为评点式短句，三十年后考据式长注的比例显著上升，间引《汉书》及《文选》旧注以勘正文。此一转换与金陵书坊版式改易几乎同步<a class="cite" data-note="金陵书坊约在万历二十八年前后将版心由白口改为黑口，行款加密，天头随之收窄，批注被迫上移过录。" data-src="Brokaw, Cynthia J. Commerce in Culture. Cambridge: Harvard University Press, 2007: 89-104.">4</a>，或非巧合。</span></p>
+
+            <div class="ch-head" id="ch3">
+              <span class="num">III</span>
+              <h3>读者圈层的重建</h3>
+            </div>
+            <p class="body-p">综合墨色层位、避讳缺笔与过录题记所系年月，137 部样本中可复原完整圈层者二十九部。以苏州为中心的三级圈层最为清晰：核心为文震孟一系的家人批本，中层为书船贩售途中经眼诸家，外层则为购藏者的续跋<a class="cite" data-note="书船即湖州书贩以舟载书往来苏州、杭州的水路书市，参见注2所引书第512页以下。" data-src="张秀民. 中国印刷史[M]. 上海: 上海人民出版社, 1989: 517-519.">5</a>。</p>
+            <p class="body-p">圈层的更替周期约为十一年至十四年。值得注意的是，外层读者的批注并不因远离核心而稀薄，反因书价上扬而愈发郑重——批注本身已成为价值的一部分。</p>
+
+            <div class="ch-head" id="ch4">
+              <span class="num">IV</span>
+              <h3>结论与余论</h3>
+            </div>
+            <p class="body-p">批注圈层的存在表明：晚明的知识流通并非作者与读者的两点直线，而是以实物书为节点的多手接力。页边的层累，正是这一接力的地质剖面。至于圈层与书坊营销策略之间的因果细节，尚待徽州文书与坊刻广告的进一步互证<a class="cite" data-note="徽州文书中的书簿类文书约存三百余件，散见各馆藏，系统整理尚在进行。" data-src="何予明. 家园与天下：明代教化论述中的书籍出版[J]. 中华文史论丛, 2011(2): 245-246.">6</a>。</p>
+
+            <div class="ch-head" id="refs">
+              <span class="num">V</span>
+              <h3>参考文献</h3>
+            </div>
+            <ol class="refs">
+              <li><span class="idx">[1]</span><span class="txt">钱穆. 中国文化史导论[M]. 2版. 北京: 商务印书馆, 2001: 152-158.</span></li>
+              <li><span class="idx">[2]</span><span class="txt">张秀民. 中国印刷史[M]. 上海: 上海人民出版社, 1989: 508-519.</span></li>
+              <li><span class="idx">[3]</span><span class="txt">傅增湘. 藏园群书经眼录[M]. 北京: 中华书局, 1983: 209-213.</span></li>
+              <li><span class="idx">[4]</span><span class="txt">Brokaw, Cynthia J. <i>Commerce in Culture: The Sibao Book Trade in the Qing and Republican Periods</i>. Cambridge: Harvard University Press, 2007: 89-104.</span></li>
+              <li><span class="idx">[5]</span><span class="txt">何予明. 家园与天下：明代教化论述中的书籍出版[J]. 中华文史论丛, 2011(2): 233-248.</span></li>
+              <li><span class="idx">[6]</span><span class="txt">缪咏禾. 明代出版史稿[M]. 南京: 江苏人民出版社, 2000: 301.</span></li>
+            </ol>
+
+            <p class="finis" aria-hidden="true">— 卷 终 —</p>
+          </article>
+        </main>
+
+        <!-- 底部阅读条 -->
+        <div class="readbar">
+          <span class="rb-l" id="rbChapter">I / 引言：从一部残书说起</span>
+          <span class="rb-r">第 34-52 页 / 已读 <b id="rbPercent">18%</b></span>
+        </div>
+        <div class="home-ind" aria-hidden="true"></div>
+
+        <!-- 章节抽屉 -->
+        <div class="drawer-mask" id="drawerMask"></div>
+        <nav class="drawer" id="drawer" aria-label="章节目录" aria-hidden="true">
+          <div class="drawer-head">
+            <p>书籍与流通研究 / Vol. XII</p>
+            <h4>本章目录</h4>
+            <p class="vol">页边与心间 / 沈慕蘅 撰</p>
+          </div>
+          <ul class="toc" id="tocList">
+            <li><a href="#ch1" data-cap="I / 引言：从一部残书说起"><span class="rn">I</span><span>引言：从一部残书说起</span></a></li>
+            <li><a href="#ch2" data-cap="II / 批注的形态分层"><span class="rn">II</span><span>批注的形态分层</span></a></li>
+            <li><a href="#ch3" data-cap="III / 读者圈层的重建"><span class="rn">III</span><span>读者圈层的重建</span></a></li>
+            <li><a href="#ch4" data-cap="IV / 结论与余论"><span class="rn">IV</span><span>结论与余论</span></a></li>
+            <li><a href="#refs" data-cap="V / 参考文献"><span class="rn">V</span><span>参考文献</span></a></li>
+          </ul>
+          <div class="toc-foot">本卷共收文九篇 / 拱顶书架插图依万历刻本架复原绘制</div>
+        </nav>
+
+        <!-- 脚注浮层 -->
+        <div class="foot-mask" id="footMask"></div>
+        <aside class="foot-sheet" id="footSheet" role="dialog" aria-label="脚注" aria-hidden="true">
+          <h5><span>脚注 <span class="fn-no" id="fnNo">[1]</span></span>
+            <button class="foot-close" type="button" id="footClose" aria-label="关闭脚注">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+            </button>
+          </h5>
+          <p id="fnText">脚注内容</p>
+          <p class="src" id="fnSrc">出处</p>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <aside class="note reveal" aria-label="设计注记 右">
+    <h2>交互清单</h2>
+    <dl>
+      <dt>引文上标</dt>
+      <dd>正文中的衬线序号即脚注入口，点击在页脚上方浮出注释卡，含完整出处。</dd>
+      <dt>章节抽屉</dt>
+      <dd>顶栏目录钮自左唤出橡木色抽屉，Roman numeral 编号，跳转即更新底部阅读条。</dd>
+      <dt>深浅模式</dt>
+      <dd>月相钮在 parchment 与 mahogany 两套纸墨间切换，进度条配色随之联动。</dd>
+      <dt>阅读进度</dt>
+      <dd>顶栏下缘的绯红渐入黄铜进度条实时反映滚动位置。</dd>
+    </dl>
+    <h2>工程约束</h2>
+    <p>正文衬线行距 1.85，对比度两种模式下均不低于 4.5:1；焦点态以黄铜描边呈现；动效仅在首次亮相时发生一次。</p>
+  </aside>
+
+</div>
+
+<footer class="page-foot">
+  <span>UI 设计提示词库 / Academia Scholarly Mobile</span>
+  <a href="style-catalog.html">返回风格目录</a>
+</footer>
+
+<script>
+(function () {
+  var screen = document.getElementById('screen');
+  var reader = document.getElementById('reader');
+  var fill = document.getElementById('progressFill');
+  var bar = document.querySelector('.progress');
+  var rbPercent = document.getElementById('rbPercent');
+  var rbChapter = document.getElementById('rbChapter');
+
+  /* 阅读进度 */
+  function onScroll() {
+    var max = reader.scrollHeight - reader.clientHeight;
+    var p = max > 0 ? Math.min(100, Math.max(2, Math.round(reader.scrollTop / max * 100))) : 100;
+    fill.style.width = p + '%';
+    bar.setAttribute('aria-valuenow', p);
+    rbPercent.textContent = p + '%';
+  }
+  reader.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* 章节抽屉 */
+  var drawer = document.getElementById('drawer');
+  var drawerMask = document.getElementById('drawerMask');
+  var tocBtn = document.getElementById('tocBtn');
+  function setDrawer(open) {
+    drawer.classList.toggle('open', open);
+    drawerMask.classList.toggle('mask-on', open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    tocBtn.setAttribute('aria-expanded', String(open));
+  }
+  tocBtn.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
+  drawerMask.addEventListener('click', function () { setDrawer(false); });
+
+  /* 抽屉跳转：更新底部章节名 */
+  var links = document.querySelectorAll('#tocList a');
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) reader.scrollTo({ top: t.offsetTop - 8, behavior: 'smooth' });
+      rbChapter.textContent = a.getAttribute('data-cap');
+      links.forEach(function (x) { x.removeAttribute('aria-current'); });
+      a.setAttribute('aria-current', 'true');
+      setDrawer(false);
+    });
+  });
+
+  /* 引文上标唤出脚注浮层 */
+  var sheet = document.getElementById('footSheet');
+  var footMask = document.getElementById('footMask');
+  document.querySelectorAll('.cite').forEach(function (c, i) {
+    c.setAttribute('role', 'button');
+    c.setAttribute('tabindex', '0');
+    function open() {
+      document.getElementById('fnNo').textContent = '[' + (i + 1) + ']';
+      document.getElementById('fnText').textContent = c.getAttribute('data-note');
+      document.getElementById('fnSrc').textContent = '出处：' + c.getAttribute('data-src');
+      sheet.classList.add('open');
+      footMask.classList.add('mask-on');
+      sheet.setAttribute('aria-hidden', 'false');
+    }
+    c.addEventListener('click', open);
+    c.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+  });
+  function closeFoot() {
+    sheet.classList.remove('open');
+    footMask.classList.remove('mask-on');
+    sheet.setAttribute('aria-hidden', 'true');
+  }
+  document.getElementById('footClose').addEventListener('click', closeFoot);
+  footMask.addEventListener('click', closeFoot);
+
+  /* 深浅阅读模式 */
+  var modeBtn = document.getElementById('modeBtn');
+  var modeIcon = document.getElementById('modeIcon');
+  var sunPath = '<circle cx="12" cy="12" r="4.2"></circle><line x1="12" y1="2.5" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="21.5"></line><line x1="2.5" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="21.5" y2="12"></line><line x1="5.2" y1="5.2" x2="7" y2="7"></line><line x1="17" y1="17" x2="18.8" y2="18.8"></line><line x1="5.2" y1="18.8" x2="7" y2="17"></line><line x1="17" y1="7" x2="18.8" y2="5.2"></line>';
+  var moonPath = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>';
+  modeBtn.addEventListener('click', function () {
+    var night = screen.getAttribute('data-mode') !== 'night';
+    screen.setAttribute('data-mode', night ? 'night' : 'sepia');
+    modeIcon.innerHTML = night ? sunPath : moonPath;
+    modeBtn.setAttribute('aria-label', night ? '切换为浅色阅读模式' : '切换为深色阅读模式');
+  });
+
+  /* 退出键统一关闭浮层 */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeFoot(); setDrawer(false); }
+  });
+})();
+</script>
+</body>
+</html>

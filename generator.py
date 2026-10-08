@@ -2789,6 +2789,14 @@ def main():
             'Predictive Analytics': 'predictive-analytics.html',
             'Heat Map & Heatmap Style': 'heat-map-heatmap-style.html',
             'User Behavior Analytics': 'user-behavior-analytics.html',
+            'Cyberpunk Mobile HUD': 'cyberpunk-mobile-hud.html',
+            'Neumorphism (Mobile)': 'neumorphism-mobile.html',
+            'Neo Brutalism (Mobile)': 'neo-brutalism-mobile.html',
+            'Claymorphism (Mobile)': 'claymorphism-mobile.html',
+            'Terminal CLI (Mobile)': 'terminal-cli-mobile.html',
+            'Academia (Scholarly Mobile)': 'academia-scholarly-mobile.html',
+            'Bitcoin DeFi (Mobile)': 'bitcoin-defi-mobile.html',
+            'Modern Dark (Cinema Mobile)': 'modern-dark-cinema-mobile.html',
         }
         if r['Style Category'] in _handmade:
             file = _handmade[r['Style Category']]  # 唯一样张 = 精修版，不再生成自动版
