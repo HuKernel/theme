@@ -2733,6 +2733,11 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 
 
+/* 分区切换过渡：内容从左滑入（转场反馈，非亮相装饰） */
+@keyframes layer-in { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
+.grid.layer-anim { animation: layer-in 320ms cubic-bezier(.22,.61,.21,1) both; }
+@media (prefers-reduced-motion: reduce) { .grid.layer-anim { animation: none; } }
+
 /* 懒渲染占位 */
 .m-card.pending { content-visibility: auto; contain-intrinsic-size: auto 366px; }
 @media (max-width: 640px) { .deco { display: none; } }
@@ -2785,6 +2790,7 @@ __CARDS__
   btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 // 懒渲染：卡片带 content-visibility，浏览器自动跳过屏外渲染（.pending 类在 apply() 里统一加）
+var gridEl = document.getElementById('grid');
 var cards = Array.prototype.slice.call(document.querySelectorAll('.m-card'));
 var heads = Array.prototype.slice.call(document.querySelectorAll('.layer-head'));
 var searchEl = document.getElementById('search');
@@ -2862,6 +2868,9 @@ Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(t) {
     curSub = 'all';
     renderSubs();
     apply();
+    gridEl.classList.remove('layer-anim');
+    void gridEl.offsetWidth;
+    gridEl.classList.add('layer-anim');
     window.scrollTo({ top: gridEl.getBoundingClientRect().top + window.scrollY - 140, behavior: 'auto' });
   });
 });
@@ -2888,7 +2897,6 @@ Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(bt
 });
 
 // 热度排序：按全站复制次数降序，再点一次恢复默认顺序
-var gridEl = document.getElementById('grid');
 var origOrder = Array.prototype.slice.call(gridEl.querySelectorAll('.m-card'));
 var hotOn = false;
 var hotBtn = document.getElementById('sort-hot');
