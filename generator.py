@@ -2424,10 +2424,13 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <div class="swatch">%s</div>
   <p class="best">%s</p>
   <div class="links">%s</div>
-  <details class="prompt-box"><summary>查看提示词</summary>
-     <pre class="prompt">%s</pre>
+  <div class="prompt-bar">
     <button class="copy-btn" type="button">复制提示词</button>
-  </details>
+    <details>
+      <summary>查看提示词</summary>
+      <pre class="prompt">%s</pre>
+    </details>
+  </div>
   </details>
 </article>''' % ('abcd'[idx % 4], html.escape(r['Type']), status, search,
                   html.escape(zh), html.escape(en),
@@ -2452,10 +2455,13 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <div class="swatch">%s</div>
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="product-demos/%s">查看样张</a></div>
-  <details class="prompt-box"><summary>查看提示词</summary>
-     <pre class="prompt">%s</pre>
+  <div class="prompt-bar">
     <button class="copy-btn" type="button">复制提示词</button>
-  </details>
+    <details>
+      <summary>查看提示词</summary>
+      <pre class="prompt">%s</pre>
+    </details>
+  </div>
   </details>
 </article>''' % ('abcd'[int(p['No']) % 4],
                   html.escape((p['Product Type'] + ' ' + p['Keywords'] + ' ' + p['Primary Style Recommendation'] + ' ' + LAYOUT_ZH[layout]).lower()),
@@ -2479,10 +2485,13 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   </div>
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="pattern-demos/%s">查看样张</a></div>
-  <details class="prompt-box"><summary>查看提示词</summary>
-     <pre class="prompt">%s</pre>
+  <div class="prompt-bar">
     <button class="copy-btn" type="button">复制提示词</button>
-  </details>
+    <details>
+      <summary>查看提示词</summary>
+      <pre class="prompt">%s</pre>
+    </details>
+  </div>
   </details>
 </article>''' % ('abcd'[int(l['No']) % 4],
                   html.escape((l['Pattern Name'] + ' ' + l['Keywords'] + ' 落地页 结构 landing').lower()),
@@ -2503,10 +2512,13 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   </div>
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="content-demos/%s.html">查看样张</a></div>
-  <details class="prompt-box"><summary>查看提示词</summary>
-     <pre class="prompt">%s</pre>
+  <div class="prompt-bar">
     <button class="copy-btn" type="button">复制提示词</button>
-  </details>
+    <details>
+      <summary>查看提示词</summary>
+      <pre class="prompt">%s</pre>
+    </details>
+  </div>
   </details>
 </article>''' % ('abcd'[ci % 4],
                   html.escape((cs['zh'] + ' ' + cs['en'] + ' ' + cs['use'] + ' 内容 排版 content').lower()),
@@ -2523,9 +2535,11 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
           '<div class="swatch">%s</div>'
           '<p class="best">%s</p>'
           '<div class="links"><a class="demo-link" href="product-demos/%s">查看样张</a></div>'
-          '<details class="prompt-box"><summary>查看提示词</summary>'
-          '  <pre class="prompt">%s</pre>'
-          '  <button class="copy-btn" type="button">复制提示词</button></details></article>' % (
+          '<div class="prompt-bar">'
+          '  <button class="copy-btn" type="button">复制提示词</button>'
+          '  <details><summary>查看提示词</summary>'
+          '    <pre class="prompt">%s</pre>'
+          '  </details></div></article>' % (
           'abcd'[pi % 4],
           html.escape((p['name'] + ' ' + p['keywords'] + ' ' + p['primary_style'] + ' 产品 product').lower()),
           html.escape(p['name']), html.escape(p['primary_style'].split('+')[0].strip()[:22]),
@@ -2540,9 +2554,11 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
           '<div class="badges"><span class="badge b-pat">图表</span></div></div>'
           '<p class="best">%s</p>'
           '<div class="links"><a class="demo-link" href="chart-demos/%s">查看样张</a></div>'
-          '<details class="prompt-box"><summary>查看提示词</summary>'
-          '  <pre class="prompt">%s</pre>'
-          '  <button class="copy-btn" type="button">复制提示词</button></details></article>' % (
+          '<div class="prompt-bar">'
+          '  <button class="copy-btn" type="button">复制提示词</button>'
+          '  <details><summary>查看提示词</summary>'
+          '    <pre class="prompt">%s</pre>'
+          '  </details></div></article>' % (
           'abcd'[ci % 4],
           html.escape((c['Data Type'] + ' ' + c['Keywords'] + ' ' + c['Best Chart Type'] + ' 图表 chart').lower()),
           html.escape(c['Data Type']), html.escape(c['Best Chart Type'][:24]),
@@ -2703,12 +2719,13 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 .layer-head span { font-size: 13px; color: #6E6E78; font-weight: 500; }
 
 /* 提示词折叠盒 */
-.prompt-box { border: 2.5px dashed var(--ink); border-radius: 12px; padding: 10px 14px; margin: 12px 0; }
-.prompt-box summary { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13.5px;
-  cursor: pointer; color: var(--ink); user-select: none; }
-.prompt-box summary:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
-.prompt-box[open] summary { border-bottom: 2px dashed rgba(22,22,29,.25); padding-bottom: 8px; margin-bottom: 10px; }
-.prompt-box .prompt { max-height: 300px; }
+.prompt-bar { border-top: 3px dotted var(--ink); padding-top: 14px; margin-top: 12px; }
+.prompt-bar .copy-btn { margin-bottom: 10px; }
+.prompt-bar details summary { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13.5px;
+  cursor: pointer; color: var(--ink); user-select: none; width: fit-content;
+  border-bottom: 2px dashed var(--memphis-purple); padding-bottom: 2px; }
+.prompt-bar details summary:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.prompt-bar .prompt { max-height: 300px; margin-top: 10px; }
 
 /* 返回顶部 */
 #to-top { position: fixed; right: 22px; bottom: 26px; z-index: 60;
