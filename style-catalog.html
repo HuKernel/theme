@@ -6342,7 +6342,27 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 ▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
 ▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
-<article class="m-card sd" data-type="chart" data-status="chart" data-search="root cause analysis root cause, decomposition, tree, hierarchy, drill-down, ai-split, attribution, accessible chart, keyboard accessible chart decomposition tree 图表 chart"><div class="m-head"><div><h2>Root Cause Analysis</h2><span class="en">图表图鉴 / Decomposition Tree</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Decomposition Tree</p><div class="links"><a class="demo-link" href="chart-demos/root-cause-analysis.html">查看样张</a></div><pre class="prompt">请按「Root Cause Analysis」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+<article class="m-card sd" data-type="chart" data-status="chart" data-search="hierarchical proportional sunburst, hierarchy, nested, proportion, radial, circle, accessible chart, keyboard accessible chart sunburst chart 图表 chart"><div class="m-head"><div><h2>Hierarchical Proportional</h2><span class="en">图表图鉴 / Sunburst Chart</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Sunburst Chart</p><div class="links"><a class="demo-link" href="chart-demos/hierarchical-proportional.html">查看样张</a></div><pre class="prompt">请按「Hierarchical Proportional」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Sunburst Chart
+- Secondary Options: Treemap, Icicle, Circle Packing
+- When to Use: Exploring nested proportions where both hierarchy and relative size matter (e.g., org spend breakdown)
+- When NOT to Use: More than 3 hierarchy levels (outer rings become unreadable); precision matters over overview; mobile
+- Data Volume Threshold: &lt;100 nodes: SVG; 100–500: Canvas; &gt;500: filter to top N before rendering
+- Color Guidance: Center to outer: darker to lighter hue. Each level 15–20% lighter. Contrasting border between sectors
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:high
+- Accessibility Notes: Label hierarchy levels and segments and use boundaries/patterns as well as hue; the indented list is primary. Do not rely on color alone.
+- A11y Fallback: Collapsible indented list/table plus hierarchy summary and breadcrumbs. Keyboard: Enter/Space drills or expands; Back button returns; focus reveals hover detail.
+- Library Recommendation: D3.js (d3-hierarchy), Recharts, ApexCharts
+- Interactive Level: Drilldown + Hover
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sa" data-type="chart" data-status="chart" data-search="root cause analysis root cause, decomposition, tree, hierarchy, drill-down, ai-split, attribution, accessible chart, keyboard accessible chart decomposition tree 图表 chart"><div class="m-head"><div><h2>Root Cause Analysis</h2><span class="en">图表图鉴 / Decomposition Tree</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Decomposition Tree</p><div class="links"><a class="demo-link" href="chart-demos/root-cause-analysis.html">查看样张</a></div><pre class="prompt">请按「Root Cause Analysis」图表选型实现数据展示：〔在这里写下你的数据与场景〕
 
 ▍官方选型（charts.csv 原文，零改写）：
 - Best Chart Type: Decomposition Tree
@@ -6362,7 +6382,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 ▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
 ▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
-<article class="m-card sa" data-type="chart" data-status="chart" data-search="3d spatial data 3d, spatial, immersive, terrain, molecular, volumetric, point-cloud, accessible chart, keyboard accessible chart 3d scatter / surface plot 图表 chart"><div class="m-head"><div><h2>3D Spatial Data</h2><span class="en">图表图鉴 / 3D Scatter / Surface Plo</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：3D Scatter / Surface Plot</p><div class="links"><a class="demo-link" href="chart-demos/3d-spatial-data.html">查看样张</a></div><pre class="prompt">请按「3D Spatial Data」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+<article class="m-card sb" data-type="chart" data-status="chart" data-search="3d spatial data 3d, spatial, immersive, terrain, molecular, volumetric, point-cloud, accessible chart, keyboard accessible chart 3d scatter / surface plot 图表 chart"><div class="m-head"><div><h2>3D Spatial Data</h2><span class="en">图表图鉴 / 3D Scatter / Surface Plo</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：3D Scatter / Surface Plot</p><div class="links"><a class="demo-link" href="chart-demos/3d-spatial-data.html">查看样张</a></div><pre class="prompt">请按「3D Spatial Data」图表选型实现数据展示：〔在这里写下你的数据与场景〕
 
 ▍官方选型（charts.csv 原文，零改写）：
 - Best Chart Type: 3D Scatter / Surface Plot
@@ -6382,7 +6402,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 ▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
 ▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
-<article class="m-card sb" data-type="chart" data-status="chart" data-search="real-time streaming streaming, real-time, ticker, live, velocity, pulse, monitoring, accessible chart, keyboard accessible chart streaming area chart 图表 chart"><div class="m-head"><div><h2>Real-Time Streaming</h2><span class="en">图表图鉴 / Streaming Area Chart</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Streaming Area Chart</p><div class="links"><a class="demo-link" href="chart-demos/real-time-streaming.html">查看样张</a></div><pre class="prompt">请按「Real-Time Streaming」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+<article class="m-card sc" data-type="chart" data-status="chart" data-search="real-time streaming streaming, real-time, ticker, live, velocity, pulse, monitoring, accessible chart, keyboard accessible chart streaming area chart 图表 chart"><div class="m-head"><div><h2>Real-Time Streaming</h2><span class="en">图表图鉴 / Streaming Area Chart</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Streaming Area Chart</p><div class="links"><a class="demo-link" href="chart-demos/real-time-streaming.html">查看样张</a></div><pre class="prompt">请按「Real-Time Streaming」图表选型实现数据展示：〔在这里写下你的数据与场景〕
 
 ▍官方选型（charts.csv 原文，零改写）：
 - Best Chart Type: Streaming Area Chart
@@ -6402,7 +6422,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 ▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
 ▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
-<article class="m-card sc" data-type="chart" data-status="chart" data-search="sentiment / emotion sentiment, emotion, nlp, opinion, feeling, text-analysis, accessible chart, keyboard accessible chart word cloud with sentiment 图表 chart"><div class="m-head"><div><h2>Sentiment / Emotion</h2><span class="en">图表图鉴 / Word Cloud with Sentimen</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Word Cloud with Sentiment</p><div class="links"><a class="demo-link" href="chart-demos/sentiment-emotion.html">查看样张</a></div><pre class="prompt">请按「Sentiment / Emotion」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+<article class="m-card sd" data-type="chart" data-status="chart" data-search="sentiment / emotion sentiment, emotion, nlp, opinion, feeling, text-analysis, accessible chart, keyboard accessible chart word cloud with sentiment 图表 chart"><div class="m-head"><div><h2>Sentiment / Emotion</h2><span class="en">图表图鉴 / Word Cloud with Sentimen</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Word Cloud with Sentiment</p><div class="links"><a class="demo-link" href="chart-demos/sentiment-emotion.html">查看样张</a></div><pre class="prompt">请按「Sentiment / Emotion」图表选型实现数据展示：〔在这里写下你的数据与场景〕
 
 ▍官方选型（charts.csv 原文，零改写）：
 - Best Chart Type: Word Cloud with Sentiment
@@ -6422,7 +6442,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 ▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
 ▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
-<article class="m-card sd" data-type="chart" data-status="chart" data-search="process mining process, mining, variants, path, bottleneck, log, event, accessible chart, keyboard accessible chart process map / graph 图表 chart"><div class="m-head"><div><h2>Process Mining</h2><span class="en">图表图鉴 / Process Map / Graph</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Process Map / Graph</p><div class="links"><a class="demo-link" href="chart-demos/process-mining.html">查看样张</a></div><pre class="prompt">请按「Process Mining」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+<article class="m-card sa" data-type="chart" data-status="chart" data-search="process mining process, mining, variants, path, bottleneck, log, event, accessible chart, keyboard accessible chart process map / graph 图表 chart"><div class="m-head"><div><h2>Process Mining</h2><span class="en">图表图鉴 / Process Map / Graph</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Process Map / Graph</p><div class="links"><a class="demo-link" href="chart-demos/process-mining.html">查看样张</a></div><pre class="prompt">请按「Process Mining」图表选型实现数据展示：〔在这里写下你的数据与场景〕
 
 ▍官方选型（charts.csv 原文，零改写）：
 - Best Chart Type: Process Map / Graph
