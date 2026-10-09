@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="产品模板：独立音乐人优先的流媒体「声浪 Waveform」，Dark Mode OLED + Vibrant Block-based 风格，Feature-Rich Showcase 布局，分成透明 / 歌单策展 / 音乐人主页">
+<title>产品模板 / Music Streaming / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #1E1B4B / OnPrimary #FFF / Secondary #4338CA / Accent #22C55E(配深字 #0F0F23 得 8.3:1) / BG #0F0F23 / FG #F8FAFC / Card #1B1B30 / Border #312E81 / Muted #27273B / Ring #FFF / 次级文字 #C7C9E8(卡上 10.4:1) / 弱化文字 #9295BB(卡上 5.8:1) / 封面为专辑色块 + 底部压暗保证白字 ≥4.5:1 */
+:root{--primary:#1E1B4B;--on-primary:#FFFFFF;--secondary:#4338CA;--accent:#22C55E;--on-accent:#0F0F23;--bg:#0F0F23;--fg:#F8FAFC;--card:#1B1B30;--border:#312E81;--muted:#27273B;--ring:#FFFFFF;--ink-soft:#C7C9E8;--ink-dim:#9295BB;--line:rgba(49,46,129,.55)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.7;font-size:16px}
+a{color:var(--fg);text-decoration:none}
+a:hover{color:var(--accent)}
+img,svg{display:block}
+[hidden]{display:none!important}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:var(--on-accent);padding:10px 16px;font-weight:700;z-index:99}
+.skip:focus-visible{left:12px;top:12px}
+
+/* 头部 */
+header{position:sticky;top:0;z-index:50;background:rgba(15,15,35,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--muted)}
+.navbar{display:flex;align-items:center;gap:26px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:1px}
+.brand:hover{color:var(--fg)}
+.brand svg{width:30px;height:30px}
+.brand small{font-weight:500;font-size:12px;color:var(--ink-dim);letter-spacing:2px}
+.nav-links{display:flex;gap:22px;list-style:none;margin-left:6px}
+.nav-links a{font-size:15px;color:var(--ink-soft);padding:4px 2px;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--fg);border-bottom-color:var(--accent)}
+.nav-side{margin-left:auto;display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:15px;padding:10px 20px;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{background:#4ADE80;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-outline{background:transparent;color:var(--fg);border-color:var(--border)}
+.btn-outline:hover{background:var(--muted);border-color:var(--accent);color:var(--fg)}
+.btn-dark{background:var(--secondary);color:var(--on-primary)}
+.btn-dark:hover{background:#4F46E5}
+.btn-sm{padding:8px 14px;font-size:14px}
+.menu-btn{display:none;background:transparent;border:1px solid var(--border);cursor:pointer;padding:8px}
+.menu-btn svg{width:20px;height:20px;stroke:var(--fg)}
+
+/* 首屏（Aurora 光晕 + 双栏） */
+.hero{border-bottom:1px solid var(--muted);background:radial-gradient(720px 420px at 88% 10%,rgba(67,56,202,.26),transparent 70%),radial-gradient(560px 320px at 4% 96%,rgba(34,197,94,.10),transparent 70%)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center;padding-top:72px;padding-bottom:72px}
+.hero-copy{animation:fadeUp .6s ease both}
+.kicker{display:inline-block;font-size:14px;font-weight:600;color:var(--ink-soft);border:1px solid var(--border);padding:4px 12px;margin-bottom:20px}
+.hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.24;font-weight:800;letter-spacing:1px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-desc{margin-top:18px;font-size:17px;color:var(--ink-soft);max-width:32em}
+.hero-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+.stat{border-top:2px solid var(--border);padding-top:10px}
+.stat b{display:block;font-size:24px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-dim)}
+
+/* 签名组件：声浪仪（正在播放面板） */
+.panel{background:var(--card);border:1px solid var(--line);padding:22px}
+.panel-head{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-dim)}
+.live{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.panel-head b{color:var(--fg);font-weight:700}
+.panel-ctx{margin-top:14px;font-size:13px;color:var(--ink-dim)}
+.panel-track{font-size:24px;font-weight:800;line-height:1.35;margin-top:2px}
+.panel-artist{font-size:14px;color:var(--ink-soft);margin-top:4px}
+.wave{display:flex;align-items:flex-end;gap:3px;height:88px;margin-top:18px}
+.wave i{flex:1;background:var(--border);border-radius:1px;transform-origin:bottom;animation:grow .8s cubic-bezier(.22,.9,.28,1) both;animation-delay:var(--d,0s);transition:background .25s ease}
+.playing .wave i{background:var(--accent)}
+.prog{height:4px;background:var(--muted);margin-top:6px}
+.prog i{display:block;height:100%;width:46%;background:var(--accent)}
+.panel-time{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-dim);margin-top:8px;font-variant-numeric:tabular-nums}
+.panel-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.panel-mode{font-size:13px;color:var(--ink-dim)}
+
+/* 区块通用 */
+section{padding:72px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.sec-idx{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:2px;font-variant-numeric:tabular-nums}
+.sec-head h2{font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.3;margin-top:6px}
+.sec-head p{color:var(--ink-dim);margin-top:10px;max-width:34em}
+.sec-more{font-weight:600;white-space:nowrap;border-bottom:2px solid var(--border);padding-bottom:2px}
+.sec-more:hover{border-bottom-color:var(--accent)}
+
+/* 01 策展歌单（Vibrant 色块封面） */
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.chip{border:1px solid var(--muted);background:transparent;color:var(--ink-soft);font-size:14px;padding:7px 16px;cursor:pointer;transition:border-color .15s ease,color .15s ease}
+.chip:hover{border-color:var(--border);color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--secondary);border-color:var(--secondary);color:var(--on-primary)}
+.pl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pl-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);transition:transform .15s ease,border-color .15s ease}
+.pl-card:hover{transform:translateY(-3px);border-color:var(--border)}
+.pl-cover{position:relative;aspect-ratio:16/9;display:flex;align-items:flex-end;padding:16px;overflow:hidden;background:linear-gradient(180deg,rgba(15,15,35,.06) 30%,rgba(15,15,35,.86)),linear-gradient(150deg,var(--cvA),var(--cvB))}
+.pl-cover h3{font-size:21px;font-weight:800;line-height:1.3;position:relative;z-index:1}
+.pl-cover svg{position:absolute;right:12px;bottom:12px;width:46%;height:30px;z-index:1}
+.cv1{--cvA:#4338CA;--cvB:#1E1B4B}
+.cv2{--cvA:#22C55E;--cvB:#14532D}
+.cv3{--cvA:#8B5CF6;--cvB:#312E81}
+.cv4{--cvA:#FBBF24;--cvB:#B45309}
+.cv5{--cvA:#FB7185;--cvB:#9F1239}
+.cv6{--cvA:#22D3EE;--cvB:#155E75}
+.pl-body{padding:16px;display:flex;flex-direction:column;flex:1}
+.pl-desc{font-size:14px;color:var(--ink-soft);flex:1}
+.pl-curator{font-size:13px;color:var(--ink-dim);margin-top:10px}
+.pl-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:14px;border-top:1px solid var(--muted);border-bottom:1px solid var(--muted)}
+.pl-meta div{padding:8px 4px 6px;text-align:left}
+.pl-meta div + div{border-left:1px solid var(--muted)}
+.pl-meta b{display:block;font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.pl-meta span{font-size:12px;color:var(--ink-dim)}
+.pl-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.pl-tag{font-size:13px;font-weight:600;color:var(--ink-soft);border:1px solid var(--border);padding:3px 10px}
+
+/* 02 本周新声（曲目行 grid） */
+.tracks{border:1px solid var(--line)}
+.tr-row{display:grid;grid-template-columns:48px 44px 1fr 110px 64px;gap:14px;align-items:center;padding:14px 20px}
+.tr-row + .tr-row{border-top:1px solid var(--muted)}
+.tr-row:hover{background:var(--card)}
+.tr-art{width:44px;height:44px;background:linear-gradient(150deg,var(--cvA),var(--cvB))}
+.tr-main h3{font-size:16px;font-weight:700;line-height:1.5}
+.tr-main .tr-meta{font-size:13px;color:var(--ink-dim);margin-top:2px}
+.tr-row.now{background:var(--card)}
+.tr-row.now h3{color:var(--accent)}
+.tr-plays,.tr-dur{font-size:13px;color:var(--ink-dim);text-align:right;font-variant-numeric:tabular-nums}
+.pbtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.pbtn:hover{background:var(--muted);border-color:var(--accent)}
+.pbtn svg{width:18px;height:18px;fill:currentColor}
+.pbtn .ic-pause{display:none}
+.pbtn[aria-pressed="true"] .ic-play{display:none}
+.pbtn[aria-pressed="true"] .ic-pause{display:block}
+
+/* 03 音乐人分成（Primary 色带 + 分成账单卡） */
+.split{background:var(--primary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.split .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-top:72px;padding-bottom:72px}
+.split .sec-idx{color:var(--accent)}
+.split h2{font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.3;margin-top:6px}
+.split-copy > p{color:var(--ink-soft);margin-top:14px;max-width:30em}
+.steps{list-style:none;margin-top:26px}
+.steps li{display:flex;gap:16px;padding:14px 0;border-top:1px solid rgba(199,201,232,.22)}
+.steps b{font-size:20px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.5}
+.steps strong{display:block;font-size:15px;font-weight:700}
+.steps span{font-size:13px;color:var(--ink-soft)}
+.perks{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.perk{font-size:13px;font-weight:600;border:1px solid rgba(199,201,232,.4);color:var(--ink-soft);padding:5px 12px}
+.ledger{background:var(--card);border:1px solid var(--line);padding:24px}
+.ledger-head{display:flex;align-items:center;gap:14px}
+.avatar{width:52px;height:52px;flex-shrink:0;background:linear-gradient(150deg,#4338CA,#1E1B4B);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800}
+.ledger-head b{display:block;font-size:18px;font-weight:800;line-height:1.4}
+.ledger-head span{font-size:13px;color:var(--ink-dim)}
+.ledger-sum{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:18px}
+.ledger-sum span{font-size:13px;color:var(--ink-dim)}
+.ledger-sum strong{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums}
+.ledger-sum em{font-style:normal;font-size:13px;font-weight:700;color:var(--accent)}
+.mix{display:flex;height:10px;margin-top:16px;background:var(--muted)}
+.mix i{display:block;height:100%}
+.mix .m1{background:var(--accent)}
+.mix .m2{background:#818CF8}
+.mix .m3{background:#9295BB}
+.mix-legend{font-size:12px;color:var(--ink-dim);margin-top:8px}
+.lrows{margin-top:18px;border-top:1px solid var(--muted)}
+.lrow{display:grid;grid-template-columns:1fr 96px 100px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--muted)}
+.lrow span,.lrow b{font-size:14px}
+.lrow b{font-weight:600}
+.lrow .num{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.lrow .money{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--fg)}
+.lrow-head span{font-size:12px;color:var(--ink-dim)}
+.ledger-foot{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+.ledger-ok{font-size:13px;color:var(--accent);font-weight:600}
+.ledger-note{font-size:12px;color:var(--ink-dim)}
+
+/* 04 订阅方案 */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.tier{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);padding:24px}
+.tier.rec{border:2px solid var(--accent);position:relative}
+.tier-badge{position:absolute;top:-13px;left:20px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;padding:2px 12px}
+.tier h3{font-size:18px;font-weight:800}
+.tier .tier-for{font-size:13px;color:var(--ink-dim);margin-top:4px;min-height:22px}
+.tier-price{margin-top:14px;display:flex;align-items:baseline;gap:6px}
+.tier-price b{font-size:34px;font-weight:800;font-variant-numeric:tabular-nums}
+.tier-price span{font-size:13px;color:var(--ink-dim)}
+.tier ul{list-style:none;margin-top:16px;flex:1}
+.tier li{display:flex;gap:10px;align-items:baseline;font-size:14px;color:var(--ink-soft);padding:7px 0;border-top:1px solid var(--muted)}
+.tier li::before{content:"";width:7px;height:7px;background:var(--secondary);flex-shrink:0;transform:translateY(-1px)}
+.tier.rec li::before{background:var(--accent)}
+.tier .btn{margin-top:18px}
+
+/* 页脚 */
+footer{border-top:1px solid var(--muted);padding-top:52px;padding-bottom:28px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot-brand p{font-size:14px;color:var(--ink-dim);margin-top:12px;max-width:22em}
+.foot-grid h4{font-size:14px;font-weight:700;color:var(--fg);margin-bottom:10px}
+.foot-grid ul{list-style:none}
+.foot-grid li{margin-bottom:8px}
+.foot-grid ul a{font-size:14px;color:var(--ink-dim)}
+.foot-grid ul a:hover{color:var(--accent)}
+.foot-note{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--muted);margin-top:40px;padding-top:18px;font-size:13px;color:var(--ink-dim)}
+.foot-note a{color:var(--ink-soft);border-bottom:1px solid var(--border);padding-bottom:1px}
+.foot-note a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* 亮相动效：首屏一次升起（reduced-motion 降级） */
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wave i,.hero-copy{animation:none}.btn,.pl-card{transition:none}}
+
+/* 响应式 768 / 375 */
+@media (max-width:1023px){
+.hero .wrap{grid-template-columns:1fr;gap:36px;padding-top:56px;padding-bottom:56px}
+.panel{max-width:560px}
+.pl-grid{grid-template-columns:repeat(2,1fr)}
+.split .wrap{grid-template-columns:1fr;gap:36px}
+.foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:767px){
+.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);flex-direction:column;gap:0;padding:8px 24px 16px}
+.nav-links.open{display:flex}
+.nav-links a{display:block;padding:10px 0;border-bottom:none}
+.menu-btn{display:block}
+.nav-side .btn-outline{display:none}
+section{padding:56px 0}
+.stats{grid-template-columns:repeat(2,1fr);gap:16px}
+.pl-grid{grid-template-columns:1fr}
+.tr-row{grid-template-columns:48px 44px 1fr 56px;row-gap:4px}
+.tr-plays{display:none}
+.tr-dur{grid-row:span 2;align-self:center}
+.lrow{grid-template-columns:1fr 76px 88px;gap:8px}
+.tiers{grid-template-columns:1fr}
+.foot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header>
+  <div class="wrap navbar">
+    <a class="brand" href="#main">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="4" fill="#22C55E"/><path d="M8 20V12M13 24V8M18 21V11M23 26V6" stroke="#0F0F23" stroke-width="3" stroke-linecap="round"/></svg>
+      声浪<small>独立音乐流媒体</small>
+    </a>
+    <nav aria-label="主导航">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#playlists">策展歌单</a></li>
+        <li><a href="#newtracks">本周新声</a></li>
+        <li><a href="#splits">音乐人分成</a></li>
+        <li><a href="#pricing">订阅方案</a></li>
+      </ul>
+    </nav>
+    <div class="nav-side">
+      <a class="btn btn-outline btn-sm" href="#splits">音乐人入驻</a>
+      <a class="btn btn-sm" href="#pricing">免费收听</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-label="打开菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 首屏：平台叙事 + 声浪仪 -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="kicker">独立音乐流媒体 / 上线五年 / 分成全透明</span>
+        <h1>每一次播放，<br>都算得<em>清清楚楚</em></h1>
+        <p class="hero-desc">声浪是独立音乐人优先的流媒体：每 1 元播放收入，0.82 元直达音乐人账户；歌单由真人策展并署名，音乐人主页公开每一笔分成，结算单随时可查。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#newtracks">开始收听</a>
+          <a class="btn btn-outline" href="#splits">看看分成账单</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>12,400+</b><span>签约独立音乐人</span></div>
+          <div class="stat"><b>38万+</b><span>曲库曲目</span></div>
+          <div class="stat"><b>82%</b><span>收入直达音乐人</span></div>
+          <div class="stat"><b>每月 5 日</b><span>结算出账</span></div>
+        </div>
+      </div>
+      <aside class="panel playing" id="nowPanel" aria-label="正在播放">
+        <div class="panel-head"><span class="live" aria-hidden="true"></span><b>正在播放</b><span>城市骑行频率</span></div>
+        <p class="panel-ctx">来自策展歌单 / 策展人 阿鱼</p>
+        <p class="panel-track" id="npTitle">夜航西飞</p>
+        <p class="panel-artist" id="npArtist">陆屿 / 电子民谣</p>
+        <div class="wave" id="heroWave" aria-hidden="true"></div>
+        <div class="prog" aria-hidden="true"><i id="npProg"></i></div>
+        <div class="panel-time"><span>1:48</span><span id="npTotal">3:56</span></div>
+        <div class="panel-foot">
+          <span class="panel-mode">高解析音质 / 离线可用</span>
+          <button class="btn btn-dark btn-sm" id="heroPlay" data-play aria-pressed="true">暂停播放</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 01 策展歌单 -->
+  <section id="playlists">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-idx">01 / 策展歌单</span>
+          <h2>真人挑歌，不靠算法</h2>
+          <p>每张歌单都署名策展人，每周五更新。可以写信争论选曲，也可以投稿自荐，机器不参与最后一步。</p>
+        </div>
+      </div>
+      <div class="chips" role="group" aria-label="歌单场景筛选">
+        <button class="chip" data-mood="all" aria-pressed="true">全部</button>
+        <button class="chip" data-mood="focus" aria-pressed="false">专注</button>
+        <button class="chip" data-mood="commute" aria-pressed="false">通勤</button>
+        <button class="chip" data-mood="rain" aria-pressed="false">雨天</button>
+        <button class="chip" data-mood="night" aria-pressed="false">夜行</button>
+        <button class="chip" data-mood="outdoor" aria-pressed="false">户外</button>
+      </div>
+      <div class="pl-grid" id="plGrid">
+        <article class="pl-card" data-mood="focus">
+          <div class="pl-cover cv1">
+            <h3>深夜自习室</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,16 6,6 12,20 18,3 24,17 30,8 36,21 42,5 48,15 54,2 60,18 66,7 72,19 78,4 84,14 90,9 96,20 100,12" fill="none" stroke="#F8FAFC" stroke-width="2" opacity=".85"/></svg>
+          </div>
+          <div class="pl-body">
+            <p class="pl-desc">只放无人声的后摇与钢琴，献给连翻书声都嫌吵的自习室。音量已替你调好。</p>
+            <p class="pl-curator">策展 木辛</p>
+            <div class="pl-meta">
+              <div><b>64</b><span>首曲目</span></div>
+              <div><b>4.2</b><span>小时</span></div>
+              <div><b>周五</b><span>更新</span></div>
+            </div>
+            <div class="pl-foot">
+              <span class="pl-tag">专注</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放歌单 深夜自习室">播放歌单</button>
+            </div>
+          </div>
+        </article>
+        <article class="pl-card" data-mood="commute">
+          <div class="pl-cover cv2">
+            <h3>城市骑行频率</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,12 8,4 16,19 24,9 32,21 40,6 48,16 56,3 64,18 72,10 80,22 88,7 96,14 100,12" fill="none" stroke="#F8FAFC" stroke-width="2" opacity=".9"/></svg>
+          </div>
+          <div class="pl-body">
+            <p class="pl-desc">跟着踏频走的鼓点，红灯前正好停在一首歌的呼吸口。戴好头盔再按下播放。</p>
+            <p class="pl-curator">策展 阿鱼</p>
+            <div class="pl-meta">
+              <div><b>42</b><span>首曲目</span></div>
+              <div><b>2.6</b><span>小时</span></div>
+              <div><b>周五</b><span>更新</span></div>
+            </div>
+            <div class="pl-foot">
+              <span class="pl-tag">通勤</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放歌单 城市骑行频率">播放歌单</button>
+            </div>
+          </div>
+        </article>
+        <article class="pl-card" data-mood="rain">
+          <div class="pl-cover cv3">
+            <h3>雨天爵士与冰美式</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,14 7,3 14,17 21,8 28,20 35,5 42,13 49,2 56,19 63,9 70,21 77,6 84,16 91,4 100,12" fill="none" stroke="#F8FAFC" stroke-width="2" opacity=".9"/></svg>
+          </div>
+          <div class="pl-body">
+            <p class="pl-desc">雨刮器的节奏入歌，适合窗边发呆和第三杯咖啡。爵士为主，偶尔混进一点灵魂乐。</p>
+            <p class="pl-curator">策展 三白</p>
+            <div class="pl-meta">
+              <div><b>58</b><span>首曲目</span></div>
+              <div><b>3.8</b><span>小时</span></div>
+              <div><b>周五</b><span>更新</span></div>
+            </div>
+            <div class="pl-foot">
+              <span class="pl-tag">雨天</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放歌单 雨天爵士与冰美式">播放歌单</button>
+            </div>
+          </div>
+        </article>
+        <article class="pl-card" data-mood="night">
+          <div class="pl-cover cv4">
+            <h3>凌晨四点的便利店</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,10 6,22 12,5 18,15 24,2 30,19 36,8 42,21 48,4 54,17 60,7 66,20 72,3 78,14 84,9 92,18 100,12" fill="none" stroke="#0F0F23" stroke-width="2" opacity=".8"/></svg>
+          </div>
+          <div class="pl-body">
+            <p class="pl-desc">荧光灯下的合成器，给睡不着的收银员和赶稿人。关门铃声已做进第一轨。</p>
+            <p class="pl-curator">策展 木辛</p>
+            <div class="pl-meta">
+              <div><b>37</b><span>首曲目</span></div>
+              <div><b>2.4</b><span>小时</span></div>
+              <div><b>双周</b><span>更新</span></div>
+            </div>
+            <div class="pl-foot">
+              <span class="pl-tag">夜行</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放歌单 凌晨四点的便利店">播放歌单</button>
+            </div>
+          </div>
+        </article>
+        <article class="pl-card" data-mood="outdoor">
+          <div class="pl-cover cv5">
+            <h3>国摇新声 2026</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,18 9,6 18,21 27,11 36,3 45,17 54,8 63,20 72,5 81,15 90,7 100,13" fill="none" stroke="#F8FAFC" stroke-width="2" opacity=".85"/></svg>
+          </div>
+          <div class="pl-body">
+            <p class="pl-desc">今年值得大声放的新乐队，天台和后备箱专用。上榜歌曲全部可直接买数字单曲。</p>
+            <p class="pl-curator">策展 阿鱼</p>
+            <div class="pl-meta">
+              <div><b>31</b><span>首曲目</span></div>
+              <div><b>2.1</b><span>小时</span></div>
+              <div><b>每月</b><span>更新</span></div>
+            </div>
+            <div class="pl-foot">
+              <span class="pl-tag">户外</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放歌单 国摇新声 2026">播放歌单</button>
+            </div>
+          </div>
+        </article>
+        <article class="pl-card" data-mood="night">
+          <div class="pl-cover cv6">
+            <h3>隧道与高架</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,12 8,20 16,4 24,13 32,21 40,6 48,17 56,9 64,2 72,16 80,8 88,19 96,5 100,12" fill="none" stroke="#0F0F23" stroke-width="2" opacity=".8"/></svg>
+          </div>
+          <div class="pl-body">
+            <p class="pl-desc">后视镜里的城市灯光秀，贝斯给得多一点。副驾睡着之前，别切歌。</p>
+            <p class="pl-curator">策展 三白</p>
+            <div class="pl-meta">
+              <div><b>45</b><span>首曲目</span></div>
+              <div><b>3.0</b><span>小时</span></div>
+              <div><b>周五</b><span>更新</span></div>
+            </div>
+            <div class="pl-foot">
+              <span class="pl-tag">夜行</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放歌单 隧道与高架">播放歌单</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 本周新声 -->
+  <section id="newtracks">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-idx">02 / 本周新声</span>
+          <h2>本周上架的独立发行</h2>
+          <p>每周三上午更新，编辑先完整听一遍再上架。播放量与分成数据对音乐人实时可见。</p>
+        </div>
+        <a class="sec-more" href="#splits">看看音乐人怎么挣钱</a>
+      </div>
+      <div class="tracks">
+        <div class="tr-row">
+          <button class="pbtn" data-play data-track="晚风保险" data-artist="空气银行 / 梦泡流行" data-prog="0" data-time="0:00 / 3:41" aria-pressed="false" aria-label="播放 晚风保险">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="tr-art cv3" aria-hidden="true"></span>
+          <div class="tr-main">
+            <h3>晚风保险</h3>
+            <p class="tr-meta">空气银行 / 梦泡流行 / 今天 09:00 上架</p>
+          </div>
+          <span class="tr-plays">播放 12.4万</span>
+          <span class="tr-dur">3:41</span>
+        </div>
+        <div class="tr-row">
+          <button class="pbtn" data-play data-track="慢速下坠" data-artist="蜜胺 / 数学摇滚" data-prog="0" data-time="0:00 / 4:26" aria-pressed="false" aria-label="播放 慢速下坠">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="tr-art cv6" aria-hidden="true"></span>
+          <div class="tr-main">
+            <h3>慢速下坠</h3>
+            <p class="tr-meta">蜜胺 / 数学摇滚 / 今天 09:00 上架</p>
+          </div>
+          <span class="tr-plays">播放 8.7万</span>
+          <span class="tr-dur">4:26</span>
+        </div>
+        <div class="tr-row">
+          <button class="pbtn" data-play data-track="七点十二分的月台" data-artist="老城墙 / 城市民谣" data-prog="0" data-time="0:00 / 5:02" aria-pressed="false" aria-label="播放 七点十二分的月台">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="tr-art cv1" aria-hidden="true"></span>
+          <div class="tr-main">
+            <h3>七点十二分的月台</h3>
+            <p class="tr-meta">老城墙 / 城市民谣 / 上周三上架</p>
+          </div>
+          <span class="tr-plays">播放 6.2万</span>
+          <span class="tr-dur">5:02</span>
+        </div>
+        <div class="tr-row">
+          <button class="pbtn" data-play data-track="给消防栓降温" data-artist="海雾俱乐部 / 独立流行" data-prog="0" data-time="0:00 / 3:18" aria-pressed="false" aria-label="播放 给消防栓降温">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="tr-art cv2" aria-hidden="true"></span>
+          <div class="tr-main">
+            <h3>给消防栓降温</h3>
+            <p class="tr-meta">海雾俱乐部 / 独立流行 / 上周三上架</p>
+          </div>
+          <span class="tr-plays">播放 5.8万</span>
+          <span class="tr-dur">3:18</span>
+        </div>
+        <div class="tr-row">
+          <button class="pbtn" data-play data-track="隧道尽头的便利店" data-artist="平交道 / 后摇" data-prog="0" data-time="0:00 / 6:47" aria-pressed="false" aria-label="播放 隧道尽头的便利店">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="tr-art cv5" aria-hidden="true"></span>
+          <div class="tr-main">
+            <h3>隧道尽头的便利店</h3>
+            <p class="tr-meta">平交道 / 后摇 / 十日前上架</p>
+          </div>
+          <span class="tr-plays">播放 4.9万</span>
+          <span class="tr-dur">6:47</span>
+        </div>
+        <div class="tr-row now">
+          <button class="pbtn" data-play data-track="夜航西飞" data-artist="陆屿 / 电子民谣" data-prog="46" data-time="1:48 / 3:56" aria-pressed="true" aria-label="暂停 夜航西飞">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="tr-art cv4" aria-hidden="true"></span>
+          <div class="tr-main">
+            <h3>夜航西飞</h3>
+            <p class="tr-meta">陆屿 / 电子民谣 / 收听到 46%</p>
+          </div>
+          <span class="tr-plays">播放 18.4万</span>
+          <span class="tr-dur">3:56</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 音乐人分成 -->
+  <section class="split" id="splits">
+    <div class="wrap">
+      <div class="split-copy">
+        <span class="sec-idx">03 / 音乐人分成</span>
+        <h2>每一分钱去哪，账单说了算</h2>
+        <p>声浪把订阅与广告收入汇入当月透明池，按真实播放秒数分配，每月 5 日出账。任何音乐人都能在主页下载带流水的结算单，也可以选择向歌迷公开。</p>
+        <ol class="steps">
+          <li><b>01</b><div><strong>透明池归集</strong><span>订阅与广告收入进入当月透明池，池子总额对全站可见</span></div></li>
+          <li><b>02</b><div><strong>按播放秒数分配</strong><span>权重只看真实播放时长，刷量播放一律不计入</span></div></li>
+          <li><b>03</b><div><strong>月度结算与提现</strong><span>每月 5 日自动出账，满 50 元可提现，零手续费</span></div></li>
+        </ol>
+        <div class="perks">
+          <span class="perk">分成比例 82%</span>
+          <span class="perk">零手续费提现</span>
+          <span class="perk">结算单可下载</span>
+          <span class="perk">主页数据可公开</span>
+        </div>
+      </div>
+      <aside class="ledger" aria-label="音乐人主页与分成明细示例">
+        <div class="ledger-head">
+          <span class="avatar" aria-hidden="true">陆</span>
+          <div>
+            <b>陆屿</b>
+            <span>已认证音乐人 / 本月截至 10 月 8 日</span>
+          </div>
+        </div>
+        <div class="ledger-sum">
+          <span>本月应得</span>
+          <strong>¥4,386.50</strong>
+          <em>较上月 +12.6%</em>
+        </div>
+        <div class="mix" aria-hidden="true"><i class="m1" style="width:78%"></i><i class="m2" style="width:14%"></i><i class="m3" style="width:8%"></i></div>
+        <p class="mix-legend">播放分成 78% / 会员加权 14% / 数字售卖 8%</p>
+        <div class="lrows">
+          <div class="lrow lrow-head">
+            <span>曲目</span>
+            <span class="num">本月播放</span>
+            <span class="money">分成金额</span>
+          </div>
+          <div class="lrow">
+            <b>夜航西飞</b>
+            <span class="num">184,206</span>
+            <span class="money">¥1,982.40</span>
+          </div>
+          <div class="lrow">
+            <b>早班机</b>
+            <span class="num">102,377</span>
+            <span class="money">¥1,102.75</span>
+          </div>
+          <div class="lrow">
+            <b>港区散步</b>
+            <span class="num">78,590</span>
+            <span class="money">¥846.20</span>
+          </div>
+          <div class="lrow">
+            <b>盐与铁</b>
+            <span class="num">42,233</span>
+            <span class="money">¥455.15</span>
+          </div>
+        </div>
+        <div class="ledger-foot">
+          <button class="btn btn-sm" id="dlBtn" type="button">下载十月结算单</button>
+          <span class="ledger-ok" id="dlOk" hidden>已生成 PDF 文件（演示）</span>
+          <span class="ledger-note">每月 5 日自动出账</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 04 订阅方案 -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-idx">04 / 订阅方案</span>
+          <h2>听歌的，做歌的，都有位置</h2>
+          <p>会员费的 82% 进入当月透明池。音乐人计划的服务收入全额用于音乐人服务，不参与抽成。</p>
+        </div>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <h3>自由听</h3>
+          <p class="tier-for">先来随便听听的人</p>
+          <div class="tier-price"><b>0</b><span>元 / 永久</span></div>
+          <ul>
+            <li>38 万曲库随机探索</li>
+            <li>策展歌单每周五回听</li>
+            <li>标准音质 / 每月 20 小时</li>
+            <li>每月分成报告摘要</li>
+          </ul>
+          <a class="btn btn-outline" href="#newtracks">免费开始</a>
+        </div>
+        <div class="tier rec">
+          <span class="tier-badge">最受欢迎</span>
+          <h3>声浪会员</h3>
+          <p class="tier-for">每天耳机不离身的人</p>
+          <div class="tier-price"><b>15</b><span>元 / 月</span></div>
+          <ul>
+            <li>无限畅听与离线下载</li>
+            <li>高解析音质全曲库</li>
+            <li>新发行提前 48 小时</li>
+            <li>策展歌单完整回听</li>
+            <li>音乐人主页数据完整版</li>
+          </ul>
+          <a class="btn" href="#pricing">成为会员</a>
+        </div>
+        <div class="tier">
+          <h3>音乐人计划</h3>
+          <p class="tier-for">想把作品搬上声浪的人</p>
+          <div class="tier-price"><b>29</b><span>元 / 月</span></div>
+          <ul>
+            <li>曲目上架不限数量</li>
+            <li>主页与结算单自定义</li>
+            <li>歌迷订阅收入零抽成</li>
+            <li>巡演与唱片售卖板块</li>
+          </ul>
+          <a class="btn btn-outline" href="#splits">入驻声浪</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#main">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="4" fill="#22C55E"/><path d="M8 20V12M13 24V8M18 21V11M23 26V6" stroke="#0F0F23" stroke-width="3" stroke-linecap="round"/></svg>
+          声浪<small>独立音乐流媒体</small>
+        </a>
+        <p>独立音乐人优先的流媒体。先把分成算清楚，再谈别的。</p>
+      </div>
+      <div>
+        <h4>收听</h4>
+        <ul>
+          <li><a href="#playlists">策展歌单</a></li>
+          <li><a href="#newtracks">本周新声</a></li>
+          <li><a href="#pricing">订阅方案</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>音乐人</h4>
+        <ul>
+          <li><a href="#splits">入驻指南</a></li>
+          <li><a href="#splits">分成规则</a></li>
+          <li><a href="#splits">结算日历</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#main">声浪平台</a></li>
+          <li><a href="#splits">帮助中心</a></li>
+          <li><a href="#splits">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>UI 设计提示词库 / 产品模板 / Music Streaming</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
+  });
+  navLinks.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+  var heights=[.28,.52,.36,.68,.22,.58,.42,.76,.3,.62,.18,.48,.7,.34,.56,.24,.66,.4,.74,.28,.5,.36,.6,.2,.64,.44,.32,.72,.26,.54,.38,.78,.22,.48,.58,.3,.66,.36,.5,.24,.62,.42];
+  var wave=document.getElementById('heroWave');
+  heights.forEach(function(h,i){
+    var bar=document.createElement('i');
+    bar.style.height=(h*100)+'%';
+    bar.style.setProperty('--d',(i*16)+'ms');
+    wave.appendChild(bar);
+  });
+  var panel=document.getElementById('nowPanel');
+  var heroPlay=document.getElementById('heroPlay');
+  var npTitle=document.getElementById('npTitle');
+  var npArtist=document.getElementById('npArtist');
+  var npProg=document.getElementById('npProg');
+  var npTotal=document.getElementById('npTotal');
+  document.querySelectorAll('[data-play]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')==='true';
+      b.setAttribute('aria-pressed',on?'false':'true');
+      var lbl=b.getAttribute('aria-label');
+      if(lbl){b.setAttribute('aria-label',on?lbl.replace('暂停','播放'):lbl.replace('播放','暂停'));}
+      if(b.dataset.track){
+        npTitle.textContent=b.dataset.track;
+        npArtist.textContent=b.dataset.artist;
+        npProg.style.width=b.dataset.prog+'%';
+        npTotal.textContent=b.dataset.time.split(' / ')[1];
+        panel.classList.add('playing');
+        heroPlay.setAttribute('aria-pressed','true');
+        heroPlay.textContent='暂停播放';
+      }else if(b===heroPlay){
+        b.textContent=on?'继续播放':'暂停播放';
+        panel.classList.toggle('playing',!on);
+      }
+    });
+  });
+  var cards=[].slice.call(document.querySelectorAll('.pl-card'));
+  document.querySelectorAll('.chip').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.chip').forEach(function(o){o.setAttribute('aria-pressed',o===t?'true':'false');});
+      var mood=t.getAttribute('data-mood');
+      cards.forEach(function(c){c.hidden=!(mood==='all'||c.getAttribute('data-mood')===mood);});
+    });
+  });
+  document.getElementById('dlBtn').addEventListener('click',function(){
+    document.getElementById('dlOk').hidden=false;
+  });
+})();
+</script>
+</body>
+</html>

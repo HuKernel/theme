@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="产品模板:纪录片流媒体「地平线档案」桌面官网,Dark Mode OLED + Motion-Driven 风格,Hero-Centric + Feature-Rich 布局">
+<title>产品模板 / Video Streaming/OTT / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划: BG #000 / Card #0C0C0D / Muted #181818 / Primary #0F0F23 / Secondary #1E1B4B / Border #312E81 / FG #F8FAFC / Accent #E11D48(按钮底) + #F43F5E(文字态 5.7:1) / Ring #FFF / 次级文字 #C3C8D6 / 弱化文字 #A1A1AA(黑底 8.2:1) */
+:root{
+--bg:#000000;
+--fg:#F8FAFC;
+--card:#0C0C0D;
+--muted:#181818;
+--primary:#0F0F23;
+--secondary:#1E1B4B;
+--border:#312E81;
+--border-soft:rgba(49,54,129,.55);
+--accent:#E11D48;
+--accent-hi:#F43F5E;
+--ink-soft:#C3C8D6;
+--ink-dim:#A1A1AA;
+--ring:#FFFFFF;
+--serif:"Songti SC","STSong","SimSun",Georgia,"Times New Roman",serif;
+--sans:"PingFang SC","Microsoft YaHei","Noto Sans SC","Source Han Sans SC",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--ring);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;background:#fff;color:#000;padding:10px 18px;border-radius:0 0 10px 0;z-index:99;font-weight:600;text-decoration:none}
+.skip:focus-visible{left:0}
+.container{width:min(1200px,92%);margin:0 auto}
+/* 顶栏,玻璃拟态悬浮 */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(0,0,0,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--fg)}
+.brand-name{font-size:18px;font-weight:700;letter-spacing:2px}
+.nav-links{display:flex;gap:30px}
+.nav-links a{color:var(--ink-soft);text-decoration:none;font-size:15px;transition:color .25s}
+.nav-links a:hover{color:#fff}
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;border-radius:10px;padding:12px 26px;border:1px solid transparent;text-decoration:none;transition:transform .25s ease,background .25s ease,border-color .25s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-white{background:#fff;color:#000}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:#C9184A}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--fg);border-color:#6E76D6}
+.btn-ghost:hover{background:rgba(255,255,255,.11);border-color:#8B93E8}
+.btn-sm{padding:9px 20px;font-size:14px}
+/* 主视觉,Hero-Centric */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border-soft);background:radial-gradient(1100px 540px at 82% 14%,rgba(30,27,75,.9),transparent 62%),radial-gradient(900px 480px at 10% 92%,rgba(225,29,72,.15),transparent 55%),linear-gradient(180deg,#07070f 0%,#000 100%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center;padding:86px 0 94px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#FB7189;background:rgba(225,29,72,.14);border:1px solid rgba(244,63,94,.38);padding:6px 15px;border-radius:999px}
+.hero h1{font-family:var(--serif);font-size:clamp(2.4rem,4.6vw,3.9rem);line-height:1.14;font-weight:700;letter-spacing:2px;margin:20px 0 14px}
+.hero-meta{color:var(--ink-dim);font-size:15px}
+.hero-desc{color:var(--ink-soft);max-width:56ch;font-size:16.5px;margin:16px 0 30px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-note{margin-top:14px;font-size:13px;color:var(--ink-dim)}
+/* 海报占位:渐变 + 片名排版 */
+.poster{position:relative;aspect-ratio:2/3;border-radius:14px;border:1px solid rgba(49,54,129,.6);display:flex;flex-direction:column;justify-content:flex-end;padding:18px;overflow:hidden;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+.poster::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 30%,rgba(0,0,0,.8) 100%);pointer-events:none}
+.poster>*{position:relative;z-index:1}
+.p-tag{position:absolute;top:14px;left:14px;font-size:12px;color:#fff;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.28);padding:3px 11px;border-radius:999px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.p-title{font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:1.5px;color:#fff;line-height:1.3}
+.p-sub{font-size:12.5px;color:rgba(255,255,255,.85);margin-top:5px}
+.pp1{background:radial-gradient(120% 90% at 70% 12%,rgba(120,170,255,.35),transparent 55%),linear-gradient(168deg,#274690 0%,#0d1b3d 55%,#05060d 100%)}
+.pp2{background:radial-gradient(120% 90% at 30% 10%,rgba(34,211,238,.28),transparent 55%),linear-gradient(172deg,#0f3b52 0%,#071726 55%,#03060b 100%)}
+.pp3{background:radial-gradient(130% 90% at 65% 8%,rgba(251,146,60,.4),transparent 55%),linear-gradient(165deg,#9a4a1e 0%,#4a2410 55%,#180d06 100%)}
+.pp4{background:radial-gradient(120% 90% at 40% 10%,rgba(134,239,172,.24),transparent 55%),linear-gradient(168deg,#2f6b4f 0%,#12332a 55%,#060d0a 100%)}
+.pp5{background:radial-gradient(130% 90% at 70% 10%,rgba(191,219,254,.34),transparent 55%),linear-gradient(170deg,#4b6b8a 0%,#16283b 55%,#05080d 100%)}
+.pp6{background:radial-gradient(120% 90% at 50% 15%,rgba(253,186,116,.32),transparent 55%),linear-gradient(165deg,#7c2d12 0%,#2a0f08 55%,#0d0402 100%)}
+.pp7{background:radial-gradient(120% 90% at 35% 12%,rgba(214,158,86,.3),transparent 55%),linear-gradient(165deg,#6b4423 0%,#2c1a0d 55%,#0f0803 100%)}
+.pp8{background:radial-gradient(130% 90% at 60% 8%,rgba(250,204,21,.3),transparent 55%),linear-gradient(168deg,#8a6210 0%,#3a2c08 55%,#141005 100%)}
+.pp9{background:radial-gradient(120% 90% at 70% 12%,rgba(129,140,248,.38),transparent 55%),linear-gradient(168deg,#312e81 0%,#12102e 55%,#050410 100%)}
+.pp10{background:radial-gradient(120% 90% at 30% 10%,rgba(225,29,72,.3),transparent 55%),linear-gradient(172deg,#37474f 0%,#141c22 55%,#06080a 100%)}
+.pp11{background:radial-gradient(120% 90% at 55% 12%,rgba(234,179,8,.26),transparent 55%),linear-gradient(165deg,#8a5a2b 0%,#33200d 55%,#100a04 100%)}
+.pp12{background:radial-gradient(120% 90% at 65% 10%,rgba(45,212,191,.3),transparent 55%),linear-gradient(170deg,#0f4c5c 0%,#0a2530 55%,#040c10 100%)}
+.hero-poster{width:min(420px,100%);justify-self:end;box-shadow:0 30px 80px rgba(0,0,0,.65)}
+.hero-poster .p-title{font-size:34px;letter-spacing:3px}
+/* 数据条 */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border-soft)}
+.stat{padding:26px 12px}
+.stat+.stat{border-left:1px solid var(--border-soft)}
+.stat-v{font-size:28px;font-weight:700;letter-spacing:.5px}
+.stat-v span{font-size:14px;font-weight:400;color:var(--ink-soft);margin-left:2px}
+.stat-l{font-size:13.5px;color:var(--ink-dim);margin-top:2px}
+/* 区块通用 */
+.section{padding:84px 0}
+.sec-kicker{color:var(--accent-hi);font-size:14px;font-weight:600;letter-spacing:1px;margin-bottom:10px}
+.section h2{font-size:clamp(1.7rem,2.6vw,2.3rem);font-weight:700;letter-spacing:1px}
+.sec-desc{color:var(--ink-dim);max-width:56ch;margin-top:10px;font-size:15.5px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px}
+/* 片库筛选 */
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font:inherit;font-size:14px;padding:8px 18px;border-radius:999px;cursor:pointer;background:rgba(255,255,255,.04);color:var(--ink-soft);border:1px solid rgba(255,255,255,.18);transition:background .25s,color .25s,border-color .25s}
+.chip:hover{border-color:#6E76D6;color:#fff}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+/* 片库网格 */
+.films{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.film{display:flex;flex-direction:column}
+.film:hover .poster{transform:translateY(-6px);box-shadow:0 18px 42px rgba(0,0,0,.6);border-color:rgba(244,63,94,.5)}
+.film-body{flex:1;display:flex;flex-direction:column;gap:5px;padding:12px 2px 0}
+.film-body h3{font-size:15.5px;font-weight:600;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.film-meta{font-size:13px;color:var(--ink-dim)}
+.film-desc{font-size:13px;color:var(--ink-dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* 策展专题 */
+.collections{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.col-card{background:var(--card);border:1px solid var(--border-soft);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s ease,border-color .3s ease}
+.col-card:hover{transform:translateY(-4px);border-color:rgba(244,63,94,.45)}
+.col-banner{aspect-ratio:21/9;position:relative;display:flex;align-items:flex-end;padding:20px 22px}
+.col-banner::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 20%,rgba(0,0,0,.75) 100%);pointer-events:none}
+.cb-name{position:relative;font-family:var(--serif);font-size:25px;font-weight:700;letter-spacing:2px;color:#fff}
+.cb-count{position:absolute;top:14px;right:14px;font-size:12px;color:#fff;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.28);padding:3px 11px;border-radius:999px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.cb1{background:radial-gradient(110% 120% at 75% 10%,rgba(120,170,255,.35),transparent 55%),linear-gradient(140deg,#1e3a6e 0%,#0a1430 100%)}
+.cb2{background:radial-gradient(110% 120% at 30% 10%,rgba(253,186,116,.32),transparent 55%),linear-gradient(140deg,#5e3a1a 0%,#241305 100%)}
+.cb3{background:radial-gradient(110% 120% at 70% 12%,rgba(225,29,72,.3),transparent 55%),linear-gradient(140deg,#233043 0%,#0a0f18 100%)}
+.col-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.col-body p{color:var(--ink-soft);font-size:14.5px}
+.col-meta{font-size:13px;color:var(--ink-dim)}
+.text-link{color:var(--accent-hi);text-decoration:none;font-size:14.5px;font-weight:600;border-bottom:1px solid rgba(244,63,94,.4);padding-bottom:2px;align-self:flex-start;transition:border-color .25s}
+.text-link:hover{border-color:var(--accent-hi)}
+/* 创作者计划 */
+.creator{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:stretch}
+.creator-copy{display:flex;flex-direction:column;justify-content:center;gap:26px}
+.ben{display:flex;gap:16px}
+.ben-ico{flex:none;width:44px;height:44px;border-radius:11px;background:rgba(49,54,129,.28);border:1px solid var(--border-soft);display:grid;place-items:center;color:#A5B4FC}
+.ben h3{font-size:16.5px;font-weight:700}
+.ben p{color:var(--ink-dim);font-size:14px;margin-top:3px}
+.creator-cta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:6px}
+.steps-card{background:linear-gradient(180deg,var(--secondary) 0%,var(--primary) 100%);border:1px solid var(--border-soft);border-radius:18px;padding:32px;display:flex;flex-direction:column;gap:24px;height:100%}
+.steps-title{font-size:15px;font-weight:700;color:var(--ink-soft);letter-spacing:2px}
+.step{display:flex;gap:18px}
+.step-num{flex:none;font-family:var(--serif);font-size:24px;font-weight:700;color:var(--accent-hi);line-height:1.3}
+.step h3{font-size:16px;font-weight:700}
+.step p{color:var(--ink-dim);font-size:14px;margin-top:3px}
+.steps-note{margin-top:auto;border-top:1px dashed var(--border-soft);padding-top:18px;color:var(--ink-dim);font-size:13.5px}
+/* 订阅 */
+.plan-toggle{display:flex;align-items:center;gap:14px}
+.cycle{display:inline-flex;background:var(--muted);border:1px solid var(--border-soft);border-radius:999px;padding:4px;gap:4px}
+.cyc-btn{font:inherit;font-size:14px;border:none;background:transparent;color:var(--ink-dim);padding:8px 20px;border-radius:999px;cursor:pointer;transition:background .25s,color .25s}
+.cyc-btn[aria-pressed="true"]{background:#fff;color:#000;font-weight:600}
+.cycle-note{font-size:13px;color:var(--ink-dim)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.plan{position:relative;background:var(--card);border:1px solid var(--border-soft);border-radius:18px;padding:30px;display:flex;flex-direction:column}
+.plan.hot{border-color:rgba(244,63,94,.55);background:linear-gradient(180deg,rgba(225,29,72,.07) 0%,var(--card) 45%)}
+.plan-badge{position:absolute;top:-13px;left:26px;background:var(--accent);color:#fff;font-size:12.5px;font-weight:600;padding:5px 15px;border-radius:999px}
+.plan-name{font-size:17px;font-weight:700}
+.plan-tag{font-size:13px;color:var(--ink-dim);margin-top:2px}
+.price-line{display:flex;align-items:baseline;gap:6px;margin:16px 0 4px}
+.price-cur{font-size:19px;color:var(--ink-soft)}
+.price-num{font-size:44px;font-weight:700;line-height:1;letter-spacing:.5px}
+.price-unit{font-size:14px;color:var(--ink-dim)}
+.plan-note{font-size:12.5px;color:var(--ink-dim)}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin:20px 0 26px;flex:1}
+.plan li{display:flex;gap:10px;font-size:14.5px;color:var(--ink-soft)}
+.plan li::before{content:"";flex:none;width:7px;height:12px;margin-top:5px;border:solid var(--accent-hi);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.btn-plan{width:100%}
+.plans-foot{text-align:center;color:var(--ink-dim);font-size:13.5px;margin-top:26px}
+/* 尾部转化带 */
+.cta-band{background:radial-gradient(700px 320px at 18% 0%,rgba(225,29,72,.22),transparent 60%),linear-gradient(135deg,var(--secondary) 0%,var(--primary) 100%);border:1px solid var(--border-soft);border-radius:22px;padding:54px 48px;display:grid;grid-template-columns:1.25fr auto;gap:32px;align-items:center}
+.cta-band h2{font-family:var(--serif);font-size:clamp(1.6rem,2.4vw,2.1rem);letter-spacing:2px}
+.cta-band p{color:var(--ink-soft);margin-top:8px}
+.cta-actions{display:flex;gap:14px;flex-wrap:wrap}
+/* 页脚 */
+footer{border-top:1px solid var(--border-soft);background:#050507;padding:58px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:36px}
+.foot-brand p{color:var(--ink-dim);font-size:13.5px;max-width:34ch;margin-top:14px}
+.foot-col h3{font-size:14px;margin-bottom:14px;letter-spacing:1px}
+.foot-col a{display:block;color:var(--ink-dim);text-decoration:none;font-size:14px;padding:5px 0;transition:color .25s}
+.foot-col a:hover{color:#fff}
+.foot-bottom{margin-top:46px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;color:var(--ink-dim);font-size:13px}
+.foot-bottom a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid rgba(195,200,214,.4);padding-bottom:2px;transition:color .25s}
+.foot-bottom a:hover{color:#fff}
+/* 一次亮相动效:仅主视觉入场,卡片不逐个浮现 */
+@keyframes riseIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.rv{animation:riseIn .8s cubic-bezier(.16,.84,.3,1) both}
+.rv2{animation-delay:.12s}
+.rv3{animation-delay:.24s}
+.rv4{animation-delay:.36s}
+@media (prefers-reduced-motion:reduce){
+*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+html{scroll-behavior:auto}
+}
+/* 响应式:1440 / 768 / 375 */
+@media (max-width:1024px){
+.hero-grid{grid-template-columns:1fr;gap:42px;padding:64px 0 72px}
+.hero-poster{justify-self:center}
+.creator{grid-template-columns:1fr;gap:36px}
+.films{grid-template-columns:repeat(4,1fr)}
+.nav-links{display:none}
+}
+@media (max-width:820px){
+.collections{grid-template-columns:1fr;max-width:640px;margin:0 auto}
+.plans{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+.plan ul{margin-bottom:22px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.stat:nth-child(odd){border-left:none}
+.cta-band{grid-template-columns:1fr;padding:40px 30px}
+.section{padding:64px 0}
+.section-head{flex-direction:column;align-items:flex-start;gap:16px}
+.foot-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+.films{grid-template-columns:repeat(2,1fr);gap:14px}
+.film-body h3{font-size:14.5px}
+.topbar-inner{height:60px}
+.hero h1{letter-spacing:1px}
+.stat-v{font-size:24px}
+.cta-actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#main" aria-label="地平线档案 首页">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="14" r="8" fill="none" stroke="#E11D48" stroke-width="2"/><line x1="3" y1="23" x2="29" y2="23" stroke="#F8FAFC" stroke-width="2"/><line x1="8" y1="27" x2="24" y2="27" stroke="#312E81" stroke-width="2"/></svg>
+      <span class="brand-name">地平线档案</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#library">片库</a>
+      <a href="#collections">策展专题</a>
+      <a href="#creators">创作者计划</a>
+      <a href="#plans">订阅</a>
+    </nav>
+    <a class="btn btn-accent btn-sm" href="#plans">免费试看 7 天</a>
+  </div>
+</header>
+<main id="main">
+  <!-- 主视觉 -->
+  <section class="hero" aria-label="本周首推">
+    <div class="container hero-grid">
+      <div>
+        <p class="hero-badge rv">本周独家首播</p>
+        <h1 class="rv rv2">极昼之下</h1>
+        <p class="hero-meta rv rv2">2025 / 96 分钟 / 极地科考 / 评分 8.9</p>
+        <p class="hero-desc rv rv3">摄制组随三支科考队在斯瓦尔巴群岛越冬,穿过九十天极夜与零下四十一度的风暴,记录当太阳不再升起时,人与冰原之间沉默而漫长的对峙。历时四年拍摄,首度呈现北极冬季海洋的完整声景。</p>
+        <div class="hero-actions rv rv4">
+          <button class="btn btn-white" type="button">
+            <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>
+            立即播放
+          </button>
+          <button class="btn btn-ghost" type="button">加入片单</button>
+        </div>
+        <p class="hero-note rv rv4">前两集免费试看 / 订阅后观看全部 6 集</p>
+      </div>
+      <div class="poster pp1 hero-poster rv rv3" role="img" aria-label="纪录片《极昼之下》海报">
+        <span class="p-tag">独家</span>
+        <p class="p-title">极昼之下</p>
+        <p class="p-sub">2025 / 纪录长片 / 北极冬季</p>
+      </div>
+    </div>
+  </section>
+  <!-- 数据条 -->
+  <div class="container">
+    <div class="stats">
+      <div class="stat">
+        <p class="stat-v">1,280<span>部</span></p>
+        <p class="stat-l">馆藏纪录片总量</p>
+      </div>
+      <div class="stat">
+        <p class="stat-v">46<span>部</span></p>
+        <p class="stat-l">原创系列已上线</p>
+      </div>
+      <div class="stat">
+        <p class="stat-v">210<span>位</span></p>
+        <p class="stat-l">签约导演与摄影师</p>
+      </div>
+      <div class="stat">
+        <p class="stat-v">6<span>部</span></p>
+        <p class="stat-l">每周固定上新</p>
+      </div>
+    </div>
+  </div>
+  <!-- 片库 -->
+  <section class="section" id="library">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="sec-kicker">01 / 片库</p>
+          <h2>为好奇心而建的影像档案</h2>
+          <p class="sec-desc">从深海到轨道,从手艺到城市,每一部都经过策展团队逐帧校订,并配有精译中文字幕。</p>
+        </div>
+        <div class="chips" role="group" aria-label="片库分类筛选">
+          <button class="chip" type="button" data-cat="all" aria-pressed="true">全部</button>
+          <button class="chip" type="button" data-cat="nature" aria-pressed="false">自然</button>
+          <button class="chip" type="button" data-cat="science" aria-pressed="false">科学</button>
+          <button class="chip" type="button" data-cat="humanity" aria-pressed="false">人文</button>
+          <button class="chip" type="button" data-cat="history" aria-pressed="false">历史</button>
+          <button class="chip" type="button" data-cat="city" aria-pressed="false">城市</button>
+        </div>
+      </div>
+      <div class="films">
+        <article class="film" data-cat="nature">
+          <div class="poster pp1" role="img" aria-label="海报:极昼之下">
+            <span class="p-tag">自然</span>
+            <p class="p-title">极昼之下</p>
+            <p class="p-sub">2025 / 8.9</p>
+          </div>
+          <div class="film-body">
+            <h3>极昼之下</h3>
+            <p class="film-meta">96 分钟 / 北极</p>
+            <p class="film-desc">极夜九十天,冰原上生命与黑暗的刻度。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="science">
+          <div class="poster pp2" role="img" aria-label="海报:深海回声">
+            <span class="p-tag">科学</span>
+            <p class="p-title">深海回声</p>
+            <p class="p-sub">2023 / 8.6</p>
+          </div>
+          <div class="film-body">
+            <h3>深海回声</h3>
+            <p class="film-meta">88 分钟 / 马里亚纳</p>
+            <p class="film-desc">随深潜器下潜万米,倾听深渊从未被记录的声音。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="nature">
+          <div class="poster pp3" role="img" aria-label="海报:候鸟纪元">
+            <span class="p-tag">自然</span>
+            <p class="p-title">候鸟纪元</p>
+            <p class="p-sub">2019 / 8.7</p>
+          </div>
+          <div class="film-body">
+            <h3>候鸟纪元</h3>
+            <p class="film-meta">104 分钟 / 湿地</p>
+            <p class="film-desc">跟随斑尾塍鹬,完成一次纵贯半球的迁徙。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="nature">
+          <div class="poster pp4" role="img" aria-label="海报:山脊线">
+            <span class="p-tag">自然</span>
+            <p class="p-title">山脊线</p>
+            <p class="p-sub">2021 / 8.2</p>
+          </div>
+          <div class="film-body">
+            <h3>山脊线</h3>
+            <p class="film-meta">78 分钟 / 横断山脉</p>
+            <p class="film-desc">七支队伍,在横断山脉的七个日夜。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="science">
+          <div class="poster pp5" role="img" aria-label="海报:沉默的冰川">
+            <span class="p-tag">科学</span>
+            <p class="p-title">沉默的冰川</p>
+            <p class="p-sub">2022 / 8.8</p>
+          </div>
+          <div class="film-body">
+            <h3>沉默的冰川</h3>
+            <p class="film-meta">92 分钟 / 第三极</p>
+            <p class="film-desc">十年定点观测,冰川退却的最后一程。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="humanity">
+          <div class="poster pp6" role="img" aria-label="海报:最后的放映员">
+            <span class="p-tag">人文</span>
+            <p class="p-title">最后的放映员</p>
+            <p class="p-sub">2020 / 9.0</p>
+          </div>
+          <div class="film-body">
+            <h3>最后的放映员</h3>
+            <p class="film-meta">85 分钟 / 县城影院</p>
+            <p class="film-desc">胶片时代的最后一位守灯人。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="history">
+          <div class="poster pp7" role="img" aria-label="海报:茶马旧道">
+            <span class="p-tag">历史</span>
+            <p class="p-title">茶马旧道</p>
+            <p class="p-sub">2018 / 8.5</p>
+          </div>
+          <div class="film-body">
+            <h3>茶马旧道</h3>
+            <p class="film-meta">112 分钟 / 滇藏线</p>
+            <p class="film-desc">四条古道,三代赶马人的背影。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="city">
+          <div class="poster pp8" role="img" aria-label="海报:城市蜂群">
+            <span class="p-tag">城市</span>
+            <p class="p-title">城市蜂群</p>
+            <p class="p-sub">2024 / 8.1</p>
+          </div>
+          <div class="film-body">
+            <h3>城市蜂群</h3>
+            <p class="film-meta">76 分钟 / 屋顶农场</p>
+            <p class="film-desc">写字楼天台上的十万只蜜蜂。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="science">
+          <div class="poster pp9" role="img" aria-label="海报:轨道六年">
+            <span class="p-tag">科学</span>
+            <p class="p-title">轨道六年</p>
+            <p class="p-sub">2023 / 8.9</p>
+          </div>
+          <div class="film-body">
+            <h3>轨道六年</h3>
+            <p class="film-meta">120 分钟 / 空间站</p>
+            <p class="film-desc">一位宇航员在空间站的完整任期。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="city">
+          <div class="poster pp10" role="img" aria-label="海报:夜行列车">
+            <span class="p-tag">城市</span>
+            <p class="p-title">夜行列车</p>
+            <p class="p-sub">2021 / 8.3</p>
+          </div>
+          <div class="film-body">
+            <h3>夜行列车</h3>
+            <p class="film-meta">81 分钟 / 京广线</p>
+            <p class="film-desc">京广线上,一夜一千公里的众生相。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="humanity">
+          <div class="poster pp11" role="img" aria-label="海报:修庙的人">
+            <span class="p-tag">人文</span>
+            <p class="p-title">修庙的人</p>
+            <p class="p-sub">2022 / 8.8</p>
+          </div>
+          <div class="film-body">
+            <h3>修庙的人</h3>
+            <p class="film-meta">90 分钟 / 古建修缮</p>
+            <p class="film-desc">古建修缮队的一千个工作日。</p>
+          </div>
+        </article>
+        <article class="film" data-cat="history">
+          <div class="poster pp12" role="img" aria-label="海报:灯塔志">
+            <span class="p-tag">历史</span>
+            <p class="p-title">灯塔志</p>
+            <p class="p-sub">2017 / 8.4</p>
+          </div>
+          <div class="film-body">
+            <h3>灯塔志</h3>
+            <p class="film-meta">74 分钟 / 东海列岛</p>
+            <p class="film-desc">百年灯塔日志里的风暴与守望。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- 策展专题 -->
+  <section class="section" id="collections" style="padding-top:0">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="sec-kicker">02 / 策展专题</p>
+          <h2>由策展人领衔的专题档案</h2>
+          <p class="sec-desc">每月更新一个专题,围绕一个追问展开:关于边界、手艺与夜晚。</p>
+        </div>
+      </div>
+      <div class="collections">
+        <article class="col-card">
+          <div class="col-banner cb1">
+            <span class="cb-count">7 部 / 11 小时</span>
+            <h3 class="cb-name">极境档案</h3>
+          </div>
+          <div class="col-body">
+            <p>从极夜的冰原到万米深渊,七部关于地球边界的影像,按抵达难度排序。</p>
+            <p class="col-meta">策展人 / 顾湘 / 更新于 2026 年 9 月</p>
+            <a class="text-link" href="#library">进入专题</a>
+          </div>
+        </article>
+        <article class="col-card">
+          <div class="col-banner cb2">
+            <span class="cb-count">9 部 / 13 小时</span>
+            <h3 class="cb-name">手艺与记忆</h3>
+          </div>
+          <div class="col-body">
+            <p>消失中的行业,与仍在坚持的手。九部影片,九种被时间打磨的专注。</p>
+            <p class="col-meta">策展人 / 郑北河 / 更新于 2026 年 8 月</p>
+            <a class="text-link" href="#library">进入专题</a>
+          </div>
+        </article>
+        <article class="col-card">
+          <div class="col-banner cb3">
+            <span class="cb-count">6 部 / 8 小时</span>
+            <h3 class="cb-name">夜色中国</h3>
+          </div>
+          <div class="col-body">
+            <p>午夜后的城市、铁路与海岸,六部只属于夜晚的观察。</p>
+            <p class="col-meta">策展人 / 林晚 / 更新于 2026 年 9 月</p>
+            <a class="text-link" href="#library">进入专题</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- 创作者计划 -->
+  <section class="section" id="creators">
+    <div class="container">
+      <div class="creator">
+        <div class="creator-copy">
+          <div>
+            <p class="sec-kicker">03 / 创作者计划</p>
+            <h2>把你的纪录片,放进地平线</h2>
+            <p class="sec-desc">我们每年拿出专项基金与完整后期流水线,支持独立纪录片作者完成第一部或第十部长片。题材不限,地域不限,唯一的门槛是诚实。</p>
+          </div>
+          <div class="ben">
+            <div class="ben-ico" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20"><rect x="3" y="12" width="4" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="4" height="9" rx="1" fill="currentColor"/><rect x="13" y="4" width="4" height="13" rx="1" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <h3>2,000 万元年度创作基金</h3>
+              <p>从开发到成片,分三个阶段无息拨付。</p>
+            </div>
+          </div>
+          <div class="ben">
+            <div class="ben-ico" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20"><rect x="2.5" y="4.5" width="15" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 7.5v5l4.5-2.5z" fill="currentColor"/></svg>
+            </div>
+            <div>
+              <h3>超高清后期流水线</h3>
+              <p>调色、混音与档案级修复,向入选项目全程开放。</p>
+            </div>
+          </div>
+          <div class="ben">
+            <div class="ben-ico" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 16.5h14"/><path d="M4.5 12.5l4-4.5 3 3 4.5-5.5"/></svg>
+            </div>
+            <div>
+              <h3>按观看时长透明分成</h3>
+              <p>季度结算,完整报表对创作者公开。</p>
+            </div>
+          </div>
+          <div class="creator-cta">
+            <a class="btn btn-accent" href="#plans">提交创作提案</a>
+            <a class="text-link" href="#library">查看往届入选作品</a>
+          </div>
+        </div>
+        <div class="steps-card">
+          <p class="steps-title">申请流程</p>
+          <div class="step">
+            <span class="step-num">01</span>
+            <div>
+              <h3>提交提案</h3>
+              <p>十页以内,中文或英文均可,题材与体量不限。</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">02</span>
+            <div>
+              <h3>联合制片</h3>
+              <p>通过评审后进入开发阶段,为你配备一位资深监制。</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <div>
+              <h3>全球发行</h3>
+              <p>成片上线 190 个国家和地区,并进入院线点映计划。</p>
+            </div>
+          </div>
+          <p class="steps-note">本季提案截止 2026 年 12 月 31 日 / 评审结果将于 2027 年 3 月公布</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- 订阅 -->
+  <section class="section" id="plans" style="padding-top:0">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="sec-kicker">04 / 订阅</p>
+          <h2>选择你的观看方式</h2>
+          <p class="sec-desc">所有方案均含 7 天免费试看,随时取消,不含隐藏费用。</p>
+        </div>
+        <div class="plan-toggle">
+          <div class="cycle" role="group" aria-label="计费周期切换">
+            <button class="cyc-btn" type="button" data-cycle="m" aria-pressed="true">月付</button>
+            <button class="cyc-btn" type="button" data-cycle="y" aria-pressed="false">年付</button>
+          </div>
+          <span class="cycle-note">年付立省约 18%</span>
+        </div>
+      </div>
+      <div class="plans">
+        <article class="plan">
+          <h3 class="plan-name">标准</h3>
+          <p class="plan-tag">适合轻度观看的个人用户</p>
+          <p class="price-line"><span class="price-cur">¥</span><span class="price-num" data-m="28" data-y="228">28</span><span class="price-unit"> / 月</span></p>
+          <p class="plan-note">年付折合每月 19 元</p>
+          <ul>
+            <li>1080p 全高清画质</li>
+            <li>单设备同时观看</li>
+            <li>离线下载 20 部</li>
+            <li>全片中文字幕与配音</li>
+          </ul>
+          <button class="btn btn-ghost btn-plan" type="button">选择标准版</button>
+        </article>
+        <article class="plan hot">
+          <span class="plan-badge">最受欢迎</span>
+          <h3 class="plan-name">高级</h3>
+          <p class="plan-tag">影迷与深度纪录片观众之选</p>
+          <p class="price-line"><span class="price-cur">¥</span><span class="price-num" data-m="45" data-y="368">45</span><span class="price-unit"> / 月</span></p>
+          <p class="plan-note">年付折合每月约 31 元</p>
+          <ul>
+            <li>超高清画质与杜比音效</li>
+            <li>2 设备同时观看</li>
+            <li>无限离线下载</li>
+            <li>主创解说音轨</li>
+            <li>新片优先点映</li>
+          </ul>
+          <button class="btn btn-accent btn-plan" type="button">选择高级版</button>
+        </article>
+        <article class="plan">
+          <h3 class="plan-name">家庭</h3>
+          <p class="plan-tag">与家人共享同一份档案</p>
+          <p class="price-line"><span class="price-cur">¥</span><span class="price-num" data-m="65" data-y="528">65</span><span class="price-unit"> / 月</span></p>
+          <p class="plan-note">年付折合每月 44 元</p>
+          <ul>
+            <li>含高级版全部权益</li>
+            <li>4 设备同时观看</li>
+            <li>5 个独立观看档案</li>
+            <li>亲子自然片单</li>
+            <li>家长控制与观影报告</li>
+          </ul>
+          <button class="btn btn-ghost btn-plan" type="button">选择家庭版</button>
+        </article>
+      </div>
+      <p class="plans-foot">支持支付宝 / 微信支付与主流银行卡 / 学生凭证件享 7 折</p>
+    </div>
+  </section>
+  <!-- 尾部转化带 -->
+  <section class="section" style="padding-top:0;padding-bottom:72px" aria-label="开始使用">
+    <div class="container">
+      <div class="cta-band">
+        <div>
+          <h2>从今晚开始,建立你的地平线</h2>
+          <p>7 天免费试看,1,280 部纪录片,随时取消。</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-white" href="#plans">免费试看 7 天</a>
+          <a class="btn btn-ghost" href="#library">浏览完整片库</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#main" aria-label="地平线档案 首页">
+          <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="14" r="8" fill="none" stroke="#E11D48" stroke-width="2"/><line x1="3" y1="23" x2="29" y2="23" stroke="#F8FAFC" stroke-width="2"/><line x1="8" y1="27" x2="24" y2="27" stroke="#312E81" stroke-width="2"/></svg>
+          <span class="brand-name">地平线档案</span>
+        </a>
+        <p>以纪录片丈量世界的边际,把每一次抵达都存进档案。</p>
+      </div>
+      <div class="foot-col">
+        <h3>产品</h3>
+        <a href="#library">片库</a>
+        <a href="#collections">策展专题</a>
+        <a href="#creators">创作者计划</a>
+        <a href="#plans">订阅方案</a>
+      </div>
+      <div class="foot-col">
+        <h3>支持</h3>
+        <a href="#main">帮助中心</a>
+        <a href="#main">设备与投屏</a>
+        <a href="#main">字幕与无障碍</a>
+        <a href="#main">联系我们</a>
+      </div>
+      <div class="foot-col">
+        <h3>关于</h3>
+        <a href="#main">品牌故事</a>
+        <a href="#main">新闻资料</a>
+        <a href="#main">招贤纳士</a>
+        <a href="#main">媒体合作</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>UI 设计提示词库 / 产品模板 / Video Streaming/OTT</p>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  /* 片库分类筛选 */
+  var films=[].slice.call(document.querySelectorAll('.film'));
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click',function(){
+      document.querySelectorAll('.chip').forEach(function(o){o.setAttribute('aria-pressed',o===c?'true':'false');});
+      var cat=c.getAttribute('data-cat');
+      films.forEach(function(f){f.hidden=!(cat==='all'||f.getAttribute('data-cat')===cat);});
+    });
+  });
+  /* 订阅计费周期切换 */
+  var nums=document.querySelectorAll('.price-num');
+  var units=document.querySelectorAll('.price-unit');
+  document.querySelectorAll('.cyc-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.getAttribute('aria-pressed')==='true'){return;}
+      document.querySelectorAll('.cyc-btn').forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});
+      var m=b.getAttribute('data-cycle')==='m';
+      nums.forEach(function(n){n.textContent=n.getAttribute(m?'data-m':'data-y');});
+      units.forEach(function(u){u.textContent=m?' / 月':' / 年';});
+    });
+  });
+})();
+</script>
+</body>
+</html>

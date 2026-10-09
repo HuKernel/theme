@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品模板 / Marketplace (P2P) / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #7C3AED / OnPrimary #FFF / Secondary #A78BFA / Accent #16A34A / BG #FAF5FF / FG #4C1D95 / Card #FFF / Border #DDD6FE / Muted #ECEEF9 / Ring #7C3AED / 软字 #6B21A8(白上7.5:1) / 深绿字 #166534(白上7.4:1) / 亮绿 #16A34A 仅限大号数字与色块 */
+:root{
+--primary:#7C3AED;--on-primary:#FFFFFF;--secondary:#A78BFA;--accent:#16A34A;
+--bg:#FAF5FF;--fg:#4C1D95;--card:#FFFFFF;--line:#DDD6FE;--muted:#ECEEF9;--ring:#7C3AED;
+--ink:#4C1D95;--ink-soft:#6B21A8;--green-ink:#166534;--green-bright:#16A34A;
+--shadow:8px 8px 0 rgba(76,29,149,.16);--shadow-sm:4px 4px 0 rgba(76,29,149,.16);
+--c-ceramic:#7C3AED;--c-wood:#B45309;--c-textile:#0E7490;--c-metal:#BE185D;--c-lacquer:#166534;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+a{color:var(--fg);text-decoration:none}
+a:hover{text-decoration:underline}
+img,svg{display:block}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* 顶部通告 */
+.ticker{background:var(--fg);color:var(--line);font-size:14px}
+.ticker .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;flex-wrap:wrap}
+.ticker strong{color:#FFFFFF;font-weight:600}
+
+/* 头部 */
+header{background:var(--card);border-bottom:3px solid var(--fg);position:sticky;top:0;z-index:20}
+.navbar{display:flex;align-items:center;gap:28px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--fg);white-space:nowrap}
+.brand svg{width:34px;height:34px}
+.nav-links{display:flex;gap:22px;list-style:none}
+.nav-links a{color:var(--ink);font-weight:500;padding:4px 2px}
+.nav-links a:hover{color:var(--primary);text-decoration:none;border-bottom:3px solid var(--primary)}
+.search{margin-left:auto;display:flex;border:2px solid var(--fg);background:var(--card)}
+.search input{border:0;background:transparent;padding:8px 12px;font-size:14px;width:190px;color:var(--ink);font-family:inherit}
+.search input::placeholder{color:var(--ink-soft)}
+.search button{border:0;border-left:2px solid var(--fg);background:var(--muted);padding:8px 12px;cursor:pointer}
+.search button svg{width:16px;height:16px;stroke:var(--fg)}
+.menu-btn{display:none;border:2px solid var(--fg);background:var(--card);cursor:pointer;padding:7px 9px}
+.menu-btn svg{width:22px;height:22px;stroke:var(--fg)}
+
+/* 通用按钮（扁平色块 + 位移微交互，无尾箭头） */
+.btn{display:inline-block;border:2px solid var(--fg);background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;padding:10px 20px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease;font-family:inherit}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(76,29,149,.16);text-decoration:none}
+.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 rgba(0,0,0,0)}
+.btn-accent{background:var(--green-ink);color:#FFFFFF}
+.btn-outline{background:var(--card);color:var(--fg)}
+.btn-sm{font-size:13px;padding:6px 12px;box-shadow:3px 3px 0 rgba(76,29,149,.16)}
+.btn-dark{background:var(--fg);color:#FFFFFF}
+
+/* 首屏 */
+.hero{border-bottom:3px solid var(--fg);background:radial-gradient(620px 340px at 88% 12%,rgba(167,139,250,.4),transparent 70%),var(--primary)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;padding-top:56px;padding-bottom:56px}
+.hero-kicker{font-size:15px;font-weight:600;color:var(--fg);background:var(--card);display:inline-block;padding:4px 12px;border:2px solid var(--fg);margin-bottom:18px}
+.hero h1{font-size:clamp(32px,4.2vw,52px);line-height:1.22;color:#FFFFFF;font-weight:800;letter-spacing:1px}
+.hero h1 em{font-style:normal;color:var(--fg);background:#FFFFFF;padding:0 10px}
+.hero-desc{margin-top:18px;font-size:17px;color:#FFFFFF;max-width:36em}
+.hero-desc strong{background:var(--fg);padding:0 6px}
+.hero-actions{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+.stat{background:var(--card);border:2px solid var(--fg);box-shadow:var(--shadow-sm);padding:14px 16px}
+.stat b{display:block;font-size:26px;color:var(--primary);font-weight:800;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-soft)}
+
+/* 签名组件：担保交易快照卡 */
+.snapshot{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow);padding:22px}
+.snapshot-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid var(--line);padding-bottom:12px}
+.snapshot-head h2{font-size:17px;color:var(--fg)}
+.badge-escrow{font-size:13px;font-weight:700;color:#FFFFFF;background:var(--green-ink);padding:3px 10px;border:2px solid var(--fg)}
+.snapshot dt{font-size:13px;color:var(--ink-soft);margin-top:12px}
+.snapshot dd{font-size:15px;color:var(--ink);font-weight:600}
+.snapshot .amount{font-size:28px;font-weight:800;color:var(--green-ink);font-variant-numeric:tabular-nums}
+.mini-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:16px}
+.mini-step{font-size:12px;text-align:center;color:var(--ink-soft);background:var(--muted);border:2px solid var(--line);padding:6px 2px}
+.mini-step.done{color:#FFFFFF;background:var(--green-ink);border-color:var(--fg)}
+.mini-step.now{color:#FFFFFF;background:var(--primary);border-color:var(--fg)}
+.progress{height:14px;border:2px solid var(--fg);background:var(--muted);margin-top:14px}
+.progress i{display:block;height:100%;width:64%;background:repeating-linear-gradient(45deg,var(--green-bright),var(--green-bright) 8px,var(--green-ink) 8px,var(--green-ink) 16px)}
+.snapshot-note{font-size:13px;color:var(--ink-soft);margin-top:12px}
+
+/* 分区标题 */
+section{padding-top:56px;padding-bottom:8px}
+.sec-head{max-width:46em;margin-bottom:28px}
+.sec-head h2{font-size:clamp(24px,2.6vw,32px);color:var(--fg);font-weight:800;line-height:1.3}
+.sec-head p{margin-top:10px;color:var(--ink-soft);font-size:15px}
+
+/* 担保交易流程 */
+.escrow{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow);padding:30px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;list-style:none;counter-reset:step}
+.steps li{position:relative;padding:0 18px;text-align:center}
+.steps li + li::before{content:"";position:absolute;left:0;top:26px;width:2px;height:44px;background:var(--line)}
+.step-no{width:52px;height:52px;margin:0 auto;border:3px solid var(--fg);background:var(--muted);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--fg);font-variant-numeric:tabular-nums}
+.steps li:last-child .step-no{background:var(--green-bright);color:#FFFFFF}
+.steps h3{font-size:16px;margin-top:14px;color:var(--fg)}
+.steps p{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.escrow-promise{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.promise{font-size:13px;font-weight:600;color:var(--green-ink);border:2px solid var(--green-ink);background:#F0FDF4;padding:5px 12px}
+
+/* 器物分类与筛选 */
+.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--fg);background:var(--card);color:var(--fg);font-size:14px;font-weight:600;padding:7px 14px;cursor:pointer;transition:transform .15s ease;font-family:inherit}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--fg);color:#FFFFFF}
+.dot{width:10px;height:10px;border:1px solid rgba(76,29,149,.55);display:inline-block;flex:none}
+.chip[aria-pressed="true"] .dot{border-color:rgba(255,255,255,.7)}
+.count{font-size:13px;color:var(--ink-soft);margin-left:auto}
+.catalog{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow);overflow:hidden}
+.row{display:grid;grid-template-columns:14px 1.7fr 100px 120px 84px auto;gap:14px;align-items:center;padding:14px 18px;border-bottom:2px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--muted)}
+.swatch{width:14px;height:14px;border:2px solid var(--fg)}
+.row-name b{display:block;font-size:15px;color:var(--ink)}
+.row-name span{font-size:13px;color:var(--ink-soft)}
+.cat-tag{font-size:12px;font-weight:600;color:var(--fg);background:var(--muted);border:1px solid var(--line);padding:2px 8px;text-align:center}
+.price{font-size:16px;font-weight:800;color:var(--fg);font-variant-numeric:tabular-nums}
+.status{font-size:12px;font-weight:700;text-align:center;padding:3px 0;border:2px solid var(--fg)}
+.status.ok{color:var(--green-ink);background:#F0FDF4}
+.status.hold{color:#FFFFFF;background:var(--ink-soft)}
+.row .btn{justify-self:end}
+.empty{padding:28px 18px;text-align:center;color:var(--ink-soft);font-size:14px}
+.empty[hidden]{display:none}
+
+/* 匠人店铺墙 */
+.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.shop{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .15s ease,box-shadow .15s ease}
+.shop:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 rgba(76,29,149,.16)}
+.shop-media{aspect-ratio:16/9;border-bottom:3px solid var(--fg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.shop-media svg{width:96px;height:96px}
+.m-ceramic{background:linear-gradient(150deg,#EDE9FE,#C4B5FD)}
+.m-wood{background:linear-gradient(150deg,#FEF3C7,#FCD34D)}
+.m-textile{background:linear-gradient(150deg,#CFFAFE,#A5F3FC)}
+.m-metal{background:linear-gradient(150deg,#FCE7F3,#F9A8D4)}
+.m-lacquer{background:linear-gradient(150deg,#DCFCE7,#86EFAC)}
+.shop-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.shop-body h3{font-size:18px;color:var(--fg)}
+.shop-meta{font-size:13px;color:var(--ink-soft)}
+.shop-meta b{color:var(--primary);font-variant-numeric:tabular-nums}
+.shop-desc{font-size:14px;color:var(--ink);flex:1}
+.shop-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px}
+.cats{display:flex;gap:6px}
+
+/* 市集日历（Bento） */
+.bento{display:grid;grid-template-columns:1.55fr 1fr;grid-template-areas:"cal side" "cal side2";gap:22px}
+.cell{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow-sm);padding:22px}
+.cal{grid-area:cal}
+.side{grid-area:side}
+.side2{grid-area:side2}
+.cell h3{font-size:18px;color:var(--fg);margin-bottom:14px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-grid span{text-align:center;font-size:13px;font-weight:600;color:var(--ink-soft);padding:4px 0}
+.day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;color:var(--ink);background:var(--muted);border:2px solid var(--line);font-variant-numeric:tabular-nums}
+.day i{width:6px;height:6px;margin-top:3px;background:var(--primary);border:1px solid var(--fg)}
+.day.maket{background:#EDE9FE;border-color:var(--fg);font-weight:700;color:var(--fg)}
+.day.special{background:var(--green-bright);border-color:var(--fg);font-weight:700;color:#FFFFFF}
+.day.special i{background:#FFFFFF}
+.cal-note{display:flex;gap:18px;margin-top:14px;font-size:13px;color:var(--ink-soft);flex-wrap:wrap}
+.cal-note i{display:inline-block;width:10px;height:10px;border:1px solid var(--fg);vertical-align:-1px;margin-right:6px}
+.event{display:grid;grid-template-columns:74px 1fr;gap:12px;padding:12px 0;border-bottom:2px solid var(--line);align-items:center}
+.event:last-of-type{border-bottom:0}
+.event time{font-size:14px;font-weight:800;color:#FFFFFF;background:var(--fg);text-align:center;padding:8px 4px;font-variant-numeric:tabular-nums}
+.event.green time{background:var(--green-ink)}
+.event b{display:block;font-size:15px;color:var(--fg)}
+.event span{font-size:13px;color:var(--ink-soft)}
+.side2 p{font-size:14px;color:var(--ink-soft);margin-bottom:14px}
+
+/* 社会证明 */
+.proof{background:var(--fg);border:3px solid var(--fg);box-shadow:var(--shadow);padding:34px;color:#FFFFFF}
+.proof .sec-head h2{color:#FFFFFF}
+.proof .sec-head p{color:var(--line)}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.review{background:var(--card);border:2px solid var(--fg);padding:18px;color:var(--ink);display:flex;flex-direction:column;gap:10px}
+.review-stars{color:var(--primary);font-size:14px;letter-spacing:2px}
+.review p{font-size:14px;flex:1}
+.review footer{font-size:13px;color:var(--ink-soft);border-top:2px solid var(--line);padding-top:10px}
+.trust-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.trust{font-size:13px;font-weight:600;color:#FFFFFF;border:2px solid var(--secondary);padding:5px 12px}
+.trust svg{display:inline-block;width:13px;height:13px;stroke:#FFFFFF;vertical-align:-2px;margin-right:6px}
+
+/* 结尾双入口 */
+.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:8px}
+.cta{border:3px solid var(--fg);box-shadow:var(--shadow-sm);padding:28px;background:var(--card)}
+.cta.buyer{background:var(--muted)}
+.cta h3{font-size:20px;color:var(--fg)}
+.cta p{font-size:14px;color:var(--ink-soft);margin:8px 0 16px}
+
+/* 页脚 */
+footer.foot{margin-top:64px;background:var(--fg);color:var(--line);padding:28px 0;border-top:3px solid var(--fg)}
+footer.foot .wrap{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+footer.foot a{color:#FFFFFF;text-decoration:underline;text-underline-offset:4px}
+footer.foot a:focus-visible{outline-color:#FFFFFF}
+
+/* 一次亮相动效（reduced-motion 降级） */
+@media (prefers-reduced-motion: no-preference){
+.hero .wrap > *{animation:rise .7s ease-out both}
+.hero .wrap > *:nth-child(2){animation-delay:.12s}
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){
+*,*::before,*::after{animation:none!important;transition:none!important}
+html{scroll-behavior:auto}
+}
+
+/* 响应式 768 */
+@media (max-width:900px){
+.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);border-bottom:3px solid var(--fg);flex-direction:column;gap:0;padding:8px 24px 16px}
+.nav-links.open{display:flex}
+.nav-links a{display:block;padding:10px 0;border-bottom:0}
+.menu-btn{display:block}
+.search{display:none}
+.hero .wrap{grid-template-columns:1fr;gap:30px}
+.steps{grid-template-columns:repeat(2,1fr);gap:20px}
+.steps li + li::before{display:none}
+.shop-grid{grid-template-columns:repeat(2,1fr)}
+.bento{grid-template-columns:1fr;grid-template-areas:"cal" "side" "side2"}
+.proof-grid{grid-template-columns:1fr}
+.cta-grid{grid-template-columns:1fr}
+.row{grid-template-columns:14px 1fr auto;grid-template-areas:"s n p" "s c b";row-gap:8px}
+.swatch{grid-area:s}
+.row-name{grid-area:n}
+.cat-tag{grid-area:c;justify-self:start}
+.price{grid-area:p;justify-self:end}
+.status{display:none}
+.row .btn{grid-area:b;justify-self:end}
+}
+/* 响应式 375 */
+@media (max-width:480px){
+.wrap{padding:0 16px}
+.stats{grid-template-columns:1fr 1fr}
+.stats .stat:last-child{grid-template-columns:span 2}
+.shop-grid{grid-template-columns:1fr}
+.steps{grid-template-columns:1fr}
+.toolbar .count{margin-left:0;width:100%}
+.snapshot{padding:16px}
+.escrow{padding:20px 16px}
+}
+/* 响应式 1440 */
+@media (min-width:1440px){
+.wrap{max-width:1320px}
+body{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部通告 -->
+<div class="ticker" role="status">
+  <div class="wrap">
+    <p>本周新上器物 <strong>128 件</strong> / 年末大集摊位申请已开放</p>
+    <p>平台托管成交 <strong>21,468 件</strong> / 零纠纷率 <strong>99.2%</strong></p>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header>
+  <div class="wrap">
+    <nav class="navbar" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="拙物 市集首页">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" fill="#4C1D95"/><rect x="6" y="6" width="28" height="28" fill="none" stroke="#FFFFFF" stroke-width="2"/><text x="20" y="27" text-anchor="middle" font-size="17" font-weight="700" fill="#FFFFFF" font-family="inherit">拙</text></svg>
+        拙物市集
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#escrow">担保交易</a></li>
+        <li><a href="#catalog">器物分类</a></li>
+        <li><a href="#shops">匠人店铺</a></li>
+        <li><a href="#calendar">市集日历</a></li>
+      </ul>
+      <form class="search" role="search" onsubmit="return false">
+        <label class="sr-only" for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">搜索器物或匠人</label>
+        <input id="q" type="search" placeholder="搜索器物 / 匠人">
+        <button type="submit" aria-label="搜索">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+        </button>
+      </form>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="打开菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 首屏：平台定位 + 担保快照 -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap">
+      <div>
+        <p class="hero-kicker">手作器物 P2P 市集</p>
+        <h1 id="heroTitle">每一件器物<em>先担保</em>，再成交</h1>
+        <p class="hero-desc">「拙物」连接独立匠人与爱器之人。买家的货款由<strong>平台托管</strong>，收到器物、验货确认后才放款给匠人 / 运输破损由平台先行赔付 / 双方沟通全程留痕。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#catalog">逛逛本周新器</a>
+          <a class="btn btn-outline" href="#join">我是匠人，申请入驻</a>
+        </div>
+        <div class="stats" aria-label="平台数据">
+          <div class="stat"><b>21,468</b><span>累计托管成交 / 件</span></div>
+          <div class="stat"><b>386</b><span>实名入驻匠人 / 位</span></div>
+          <div class="stat"><b>47</b><span>开设线下摊位城市 / 座</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="snapshot" aria-label="一笔正在担保中的订单">
+          <div class="snapshot-head">
+            <h2>担保交易快照</h2>
+            <span class="badge-escrow">托管中</span>
+          </div>
+          <dl>
+            <dt>订单编号</dt>
+            <dd>ZW-2026-1104-0926</dd>
+            <dt>器物</dt>
+            <dd>雨过天青茶盏 / 南山半窑（景德镇）</dd>
+            <dt>托管金额</dt>
+            <dd class="amount">¥ 328.00</dd>
+            <dt>当前进度</dt>
+            <dd>匠人已发货 / 等待买家验货（72 小时内确认）</dd>
+          </dl>
+          <div class="mini-steps" aria-hidden="true">
+            <span class="mini-step done">下单托管</span>
+            <span class="mini-step done">匠人发货</span>
+            <span class="mini-step now">收器验货</span>
+            <span class="mini-step">平台放款</span>
+          </div>
+          <div class="progress" role="img" aria-label="订单进度约百分之六十四"><i></i></div>
+          <p class="snapshot-note">验货确认后，托管资金将于 2 小时内划转至匠人账户。若需退换，在平台内发起仲裁即可。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 担保交易流程 -->
+  <section id="escrow" aria-labelledby="escrowTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="escrowTitle">担保交易四步走，钱货两清不扯皮</h2>
+        <p>P2P 市集里买家怕付了钱收不到器，匠人怕发了货收不到款。拙物用托管流程把两头都保住。</p>
+      </div>
+      <div class="escrow">
+        <ol class="steps">
+          <li>
+            <div class="step-no">1</div>
+            <h3>下单托管</h3>
+            <p>买家拍下器物，货款存入平台托管账户，匠人立即可见。</p>
+          </li>
+          <li>
+            <div class="step-no">2</div>
+            <h3>匠人发货</h3>
+            <p>定制类器物按约定工期制作，发货时上传包装与手作过程留档。</p>
+          </li>
+          <li>
+            <div class="step-no">3</div>
+            <h3>收器验货</h3>
+            <p>买家 72 小时内开箱验器，与留档记录比对，可申请部分退款。</p>
+          </li>
+          <li>
+            <div class="step-no">4</div>
+            <h3>平台放款</h3>
+            <p>确认无误后资金划转匠人，破损纠纷由平台先行赔付再定责。</p>
+          </li>
+        </ol>
+        <div class="escrow-promise" aria-label="担保条款">
+          <span class="promise">全程资金托管</span>
+          <span class="promise">72 小时无理由验货</span>
+          <span class="promise">破损先行赔付</span>
+          <span class="promise">站内沟通留痕可仲裁</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 器物分类与筛选 -->
+  <section id="catalog" aria-labelledby="catalogTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="catalogTitle">器物分类</h2>
+        <p>每件器物均为匠人手作，一件一拍。按分类挑，或在市集日里去线下摸一摸再下单。</p>
+      </div>
+      <div class="toolbar" role="group" aria-label="分类筛选">
+        <div class="chips" id="chips">
+          <button class="chip" type="button" data-cat="全部" aria-pressed="true"><span class="dot" style="background:#4C1D95"></span>全部</button>
+          <button class="chip" type="button" data-cat="陶瓷" aria-pressed="false"><span class="dot" style="background:#7C3AED"></span>陶瓷</button>
+          <button class="chip" type="button" data-cat="木作" aria-pressed="false"><span class="dot" style="background:#B45309"></span>木作</button>
+          <button class="chip" type="button" data-cat="织物" aria-pressed="false"><span class="dot" style="background:#0E7490"></span>织物</button>
+          <button class="chip" type="button" data-cat="金工" aria-pressed="false"><span class="dot" style="background:#BE185D"></span>金工</button>
+          <button class="chip" type="button" data-cat="漆器" aria-pressed="false"><span class="dot" style="background:#166534"></span>漆器</button>
+        </div>
+        <p class="count" id="count" aria-live="polite">当前显示 9 件在架与可预订器物</p>
+      </div>
+      <div class="catalog" id="list">
+        <div class="row" data-cat="陶瓷">
+          <span class="swatch" style="background:#7C3AED" aria-hidden="true"></span>
+          <div class="row-name"><b>雨过天青茶盏（对盏）</b><span>南山半窑 / 景德镇</span></div>
+          <span class="cat-tag">陶瓷</span>
+          <span class="price">¥ 328</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <div class="row" data-cat="陶瓷">
+          <span class="swatch" style="background:#7C3AED" aria-hidden="true"></span>
+          <div class="row-name"><b>手拉坯瓜棱壶 180ml</b><span>雨田陶社 / 宜兴</span></div>
+          <span class="cat-tag">陶瓷</span>
+          <span class="price">¥ 560</span>
+          <span class="status hold">制作中</span>
+          <button class="btn btn-sm" type="button">预订托管</button>
+        </div>
+        <div class="row" data-cat="木作">
+          <span class="swatch" style="background:#B45309" aria-hidden="true"></span>
+          <div class="row-name"><b>黑胡桃木茶则套装</b><span>拾木堂 / 苏州</span></div>
+          <span class="cat-tag">木作</span>
+          <span class="price">¥ 242</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <div class="row" data-cat="木作">
+          <span class="swatch" style="background:#B45309" aria-hidden="true"></span>
+          <div class="row-name"><b>榫卯小方凳（白蜡木）</b><span>青崖木器 / 丽水</span></div>
+          <span class="cat-tag">木作</span>
+          <span class="price">¥ 680</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <div class="row" data-cat="织物">
+          <span class="swatch" style="background:#0E7490" aria-hidden="true"></span>
+          <div class="row-name"><b>手织苎麻茶巾（两条装）</b><span>素线织造 / 大理</span></div>
+          <span class="cat-tag">织物</span>
+          <span class="price">¥ 96</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <div class="row" data-cat="织物">
+          <span class="swatch" style="background:#0E7490" aria-hidden="true"></span>
+          <div class="row-name"><b>草木染围巾（柿染）</b><span>一梭一线 / 南通</span></div>
+          <span class="cat-tag">织物</span>
+          <span class="price">¥ 188</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <div class="row" data-cat="金工">
+          <span class="swatch" style="background:#BE185D" aria-hidden="true"></span>
+          <div class="row-name"><b>锻打铁锅 26cm</b><span>铁笔金工 / 佛山</span></div>
+          <span class="cat-tag">金工</span>
+          <span class="price">¥ 420</span>
+          <span class="status hold">已订</span>
+          <button class="btn btn-sm" type="button">预订托管</button>
+        </div>
+        <div class="row" data-cat="金工">
+          <span class="swatch" style="background:#BE185D" aria-hidden="true"></span>
+          <div class="row-name"><b>纯铜茶则（锤目纹）</b><span>铁笔金工 / 佛山</span></div>
+          <span class="cat-tag">金工</span>
+          <span class="price">¥ 158</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <div class="row" data-cat="漆器">
+          <span class="swatch" style="background:#166534" aria-hidden="true"></span>
+          <div class="row-name"><b>犀皮漆小盘（径 15cm）</b><span>大漆研究所 / 福州</span></div>
+          <span class="cat-tag">漆器</span>
+          <span class="price">¥ 730</span>
+          <span class="status ok">在架</span>
+          <button class="btn btn-sm" type="button">托管下单</button>
+        </div>
+        <p class="empty" id="empty" hidden>该分类暂时没有在架器物，去看看别的分类，或关注下个市集日的新摊位。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 匠人店铺墙 -->
+  <section id="shops" aria-labelledby="shopsTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="shopsTitle">匠人店铺墙</h2>
+        <p>每一位匠人都是实名入驻、手作过程留档的独立卖家。挑店铺，也是挑一种手艺的脾气。</p>
+      </div>
+      <div class="shop-grid">
+        <article class="shop">
+          <div class="shop-media m-ceramic" aria-hidden="true">
+            <svg viewBox="0 0 96 96" fill="none" stroke="#4C1D95" stroke-width="4"><path d="M30 18h36c0 0 12 14 12 34 0 16-13 26-30 26S18 68 18 52C18 32 30 18 30 18Z"/><ellipse cx="48" cy="18" rx="18" ry="6"/></svg>
+          </div>
+          <div class="shop-body">
+            <h3>南山半窑</h3>
+            <p class="shop-meta">景德镇 / 陶瓷 / 评分 <b>4.9</b> / 托管成交 <b>1,204</b> 件</p>
+            <p class="shop-desc">柴窑两口轮烧，雨过天青釉是当家本事。每只盏底部刻窑记，可凭记查当窑烧制记录。</p>
+            <div class="shop-foot">
+              <span class="cats"><span class="dot" style="background:#7C3AED"></span><span class="dot" style="background:#B45309"></span></span>
+              <a class="btn btn-outline btn-sm" href="#catalog">进店看看</a>
+            </div>
+          </div>
+        </article>
+        <article class="shop">
+          <div class="shop-media m-wood" aria-hidden="true">
+            <svg viewBox="0 0 96 96" fill="none" stroke="#78350F" stroke-width="4"><path d="M20 76V34l28-16 28 16v42"/><path d="M20 46h56M38 34v42M58 34v42"/></svg>
+          </div>
+          <div class="shop-body">
+            <h3>拾木堂</h3>
+            <p class="shop-meta">苏州 / 木作 / 评分 <b>4.8</b> / 托管成交 <b>862</b> 件</p>
+            <p class="shop-desc">只做不用一根钉子的榫卯小件。木料自然阴干两年以上才开料，图纸与开料视频随单附上。</p>
+            <div class="shop-foot">
+              <span class="cats"><span class="dot" style="background:#B45309"></span></span>
+              <a class="btn btn-outline btn-sm" href="#catalog">进店看看</a>
+            </div>
+          </div>
+        </article>
+        <article class="shop">
+          <div class="shop-media m-textile" aria-hidden="true">
+            <svg viewBox="0 0 96 96" fill="none" stroke="#155E75" stroke-width="4"><path d="M16 20h64v56H16z"/><path d="M28 20v56M40 20v56M52 20v56M64 20v56M76 20v56"/></svg>
+          </div>
+          <div class="shop-body">
+            <h3>素线织造</h3>
+            <p class="shop-meta">大理 / 织物 / 评分 <b>4.9</b> / 托管成交 <b>1,530</b> 件</p>
+            <p class="shop-desc">木梭织机两台，苎麻与棉麻为主。草木染批次有色差，页面上会标注每一批的染色日期。</p>
+            <div class="shop-foot">
+              <span class="cats"><span class="dot" style="background:#0E7490"></span></span>
+              <a class="btn btn-outline btn-sm" href="#catalog">进店看看</a>
+            </div>
+          </div>
+        </article>
+        <article class="shop">
+          <div class="shop-media m-metal" aria-hidden="true">
+            <svg viewBox="0 0 96 96" fill="none" stroke="#9D174D" stroke-width="4"><path d="M34 14h28v10l8 24v34H26V48l8-24Z"/><path d="M38 52h20"/></svg>
+          </div>
+          <div class="shop-body">
+            <h3>铁笔金工</h3>
+            <p class="shop-meta">佛山 / 金工 / 评分 <b>4.7</b> / 托管成交 <b>596</b> 件</p>
+            <p class="shop-desc">三代打铁的人家，一口锅要过万次锤。锅体编号可在平台查到锻打视频与退火记录。</p>
+            <div class="shop-foot">
+              <span class="cats"><span class="dot" style="background:#BE185D"></span></span>
+              <a class="btn btn-outline btn-sm" href="#catalog">进店看看</a>
+            </div>
+          </div>
+        </article>
+        <article class="shop">
+          <div class="shop-media m-lacquer" aria-hidden="true">
+            <svg viewBox="0 0 96 96" fill="none" stroke="#14532D" stroke-width="4"><ellipse cx="48" cy="56" rx="30" ry="12"/><path d="M18 56v8c0 7 13 12 30 12s30-5 30-12v-8"/><path d="M34 44c4-8 24-8 28 0"/></svg>
+          </div>
+          <div class="shop-body">
+            <h3>大漆研究所</h3>
+            <p class="shop-meta">福州 / 漆器 / 评分 <b>5.0</b> / 托管成交 <b>388</b> 件</p>
+            <p class="shop-desc">犀皮漆与莳绘小件为主，阴干房湿度全程记录。每件漆器附保养卡，支持一年内免费返修。</p>
+            <div class="shop-foot">
+              <span class="cats"><span class="dot" style="background:#166534"></span></span>
+              <a class="btn btn-outline btn-sm" href="#catalog">进店看看</a>
+            </div>
+          </div>
+        </article>
+        <article class="shop">
+          <div class="shop-media m-wood" aria-hidden="true">
+            <svg viewBox="0 0 96 96" fill="none" stroke="#78350F" stroke-width="4"><path d="M44 16h8v24l24 32v8H20v-8l24-32Z"/><path d="M32 72h32"/></svg>
+          </div>
+          <div class="shop-body">
+            <h3>青崖木器</h3>
+            <p class="shop-meta">丽水 / 木作 / 评分 <b>4.8</b> / 托管成交 <b>741</b> 件</p>
+            <p class="shop-desc">山里的工作室，白蜡木与榉木家具为主。大件走专车物流，运费与保价在托管单里一次说清。</p>
+            <div class="shop-foot">
+              <span class="cats"><span class="dot" style="background:#B45309"></span></span>
+              <a class="btn btn-outline btn-sm" href="#catalog">进店看看</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 市集日历（Bento） -->
+  <section id="calendar" aria-labelledby="calTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="calTitle">市集日历</h2>
+        <p>线上随时逛，线下摸得到。周末常设市集与主题专场都在这里，线下看中的器物同样走平台托管下单。</p>
+      </div>
+      <div class="bento">
+        <div class="cell cal">
+          <h3>2026 年 11 月</h3>
+          <div class="cal-grid" aria-hidden="true">
+            <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            <div class="day maket">1<i></i></div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day maket">7<i></i></div>
+            <div class="day maket">8<i></i></div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day maket">14<i></i></div>
+            <div class="day maket">15<i></i></div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day maket">21<i></i></div>
+            <div class="day maket">22<i></i></div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day special">28<i></i></div>
+            <div class="day special">29<i></i></div><div class="day">30</div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div>
+          </div>
+          <p class="cal-note"><span><i style="background:#EDE9FE"></i>周末常设市集</span><span><i style="background:#16A34A"></i>主题专场大集</span><span>摊位每日 10:00 至 18:00</span></p>
+        </div>
+        <div class="cell side">
+          <h3>近期市集日程</h3>
+          <div class="event">
+            <time datetime="2026-11-14">11/14<br>15</time>
+            <div><b>周末常设市集</b><span>杭州天目里 / 40 位匠人摊位 / 免票入场</span></div>
+          </div>
+          <div class="event green">
+            <time datetime="2026-11-21">11/21<br>22</time>
+            <div><b>大漆专场</b><span>福州朱紫坊 / 犀皮漆与莳绘现场开炉 / 平台验货台入驻</span></div>
+          </div>
+          <div class="event green">
+            <time datetime="2026-11-28">11/28<br>29</time>
+            <div><b>年末大集</b><span>全分类 120 摊位 / 场内下单同样托管 / 押金可退</span></div>
+          </div>
+        </div>
+        <div class="cell side2">
+          <h3>想去摆摊</h3>
+          <p>实名匠人均可申请摊位，审核通过后平台代收摊位押金并出示凭证，闭市后按原路退回。</p>
+          <a class="btn btn-accent" href="#join">申请年末大集摊位</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 社会证明 -->
+  <section aria-labelledby="proofTitle">
+    <div class="wrap">
+      <div class="proof">
+        <div class="sec-head">
+          <h2 id="proofTitle">买家收到的，不只是器物</h2>
+          <p>每条评价都来自一笔完成放款的托管订单，匿名刷评在拙物做不成生意。</p>
+        </div>
+        <div class="proof-grid">
+          <article class="review">
+            <p class="review-stars" aria-label="评分五分">★★★★★</p>
+            <p>等了三周的手拉坯壶今天到，箱子里有匠人手写的养护便签。托管确认后钱才划给对方，第一次在个人卖家手里买东西这么踏实。</p>
+            <footer>林青 / 杭州 / 购自雨田陶社</footer>
+          </article>
+          <article class="review">
+            <p class="review-stars" aria-label="评分五分">★★★★★</p>
+            <p>铁锅用满一个月才来评。中途物流磕瘪了一角，平台两天先行赔付，补发的新锅我自己验满意了才确认放款，全程没扯一句皮。</p>
+            <footer>老周 / 成都 / 购自铁笔金工</footer>
+          </article>
+          <article class="review">
+            <p class="review-stars" aria-label="评分四点五分">★★★★☆</p>
+            <p>给工作室订了十二条柿染围巾，色号在站内和匠人一条条对，沟通记录都在订单里。扣半星纯粹因为等得心痒，东西没得挑。</p>
+            <footer>阿禾 / 厦门 / 购自一梭一线</footer>
+          </article>
+        </div>
+        <div class="trust-row" aria-label="平台验真">
+          <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7Z"/></svg>匠人实名</span>
+          <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="1"/><path d="M16 10l5-2v8l-5-2"/></svg>手作过程留档</span>
+          <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M4 7l2-3h12l2 3M10 12h4"/></svg>开箱验货</span>
+          <span class="trust"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M12 2v20M2 12h20"/></svg>破损先行赔付</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 结尾双入口 -->
+  <section id="join" aria-labelledby="joinTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="joinTitle">两头入场，都从担保开始</h2>
+      </div>
+      <div class="cta-grid">
+        <div class="cta buyer">
+          <h3>买家：慢慢挑，不着急</h3>
+          <p>注册后先逛店铺墙与市集日历，看中器物再下单托管。首单平台补贴运费，收器不满意 72 小时内可退。</p>
+          <a class="btn" href="#catalog">开始逛器物</a>
+        </div>
+        <div class="cta">
+          <h3>匠人：把手艺交给担保</h3>
+          <p>提交实名与手作留档，三个工作日内完成审核。平台按成交额收取 5% 服务费，未成交不收钱，货款托管不占用。</p>
+          <a class="btn btn-accent" href="#top">申请入驻</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="foot">
+  <div class="wrap">
+    <p>UI 设计提示词库 / 产品模板 / Marketplace (P2P)</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p>手作器物市集「拙物」概念稿 / 店铺 / 器物与评价均为演示虚构</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
+  });
+  navLinks.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  var rows=[].slice.call(document.querySelectorAll('#list .row'));
+  var empty=document.getElementById('empty');
+  var count=document.getElementById('count');
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      chips.forEach(function(c){c.setAttribute('aria-pressed',c===chip?'true':'false')});
+      var cat=chip.getAttribute('data-cat');
+      var shown=0;
+      rows.forEach(function(row){
+        var hit=cat==='全部'||row.getAttribute('data-cat')===cat;
+        row.hidden=!hit;
+        if(hit)shown++;
+      });
+      empty.hidden=shown>0;
+      count.textContent='当前显示 '+shown+' 件「'+cat+'」器物';
+    });
+  });
+})();
+</script>
+</body>
+</html>

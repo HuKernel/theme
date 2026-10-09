@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Insurance Platform / UI 设计提示词库</title>
+<meta name="description" content="Insurance Platform 产品模板演示页：宠物保险平台「毛孩保」官网，信任蓝加安全绿保险色板、条款透明的保障方案对照、四步理赔流程、联动保费测算器与常见疑问解答。">
+<style>
+/* token 计划: Primary #0369A1 / On-Primary #FFFFFF / Secondary #0EA5E9(仅装饰填充，文字一律 #0369A1) / Accent #16A34A(文字用 #166534 保证 4.5:1) / BG #F0F9FF / FG #0C4A6E / Card #FFFFFF / Border #BAE6FD / Muted #E7EFF5 / Ring #0369A1，辅助墨色 #476C80、成功底 #DCFCE7、深主色 #075985、页脚浅字 #D3E8F4 */
+:root {
+  --primary: #0369A1;
+  --on-primary: #FFFFFF;
+  --secondary: #0EA5E9;
+  --accent: #16A34A;
+  --accent-deep: #166534;
+  --bg: #F0F9FF;
+  --fg: #0C4A6E;
+  --card: #FFFFFF;
+  --border: #BAE6FD;
+  --muted: #E7EFF5;
+  --ring: #0369A1;
+  --primary-deep: #075985;
+  --ink-soft: #476C80;
+  --ok-bg: #DCFCE7;
+  --ok-fg: #166534;
+  --ok-line: #BBF7D0;
+  --foot-ink: #D3E8F4;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 17px;
+  line-height: 1.65;
+}
+.wrap { width: min(1180px, 100% - 40px); margin-inline: auto; }
+a { color: var(--primary); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--primary-deep); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 6px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+.num, .plan-price, .price-big, .stat strong { font-variant-numeric: tabular-nums; }
+
+/* 按钮 */
+.btn { display: inline-block; border: 2px solid transparent; border-radius: 6px; padding: 12px 24px; font-size: 16px; font-weight: 700; line-height: 1.4; cursor: pointer; text-decoration: none; text-align: center; }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: var(--primary-deep); color: var(--on-primary); }
+.btn-ghost { background: transparent; color: var(--primary); border-color: var(--primary); }
+.btn-ghost:hover { background: var(--muted); color: var(--primary-deep); }
+.btn-white { background: #FFFFFF; color: var(--primary); }
+.btn-white:hover { background: var(--muted); color: var(--primary-deep); }
+.btn-line-white { background: transparent; color: #FFFFFF; border-color: #FFFFFF; }
+.btn-line-white:hover { background: rgba(255, 255, 255, 0.12); color: #FFFFFF; }
+
+/* 顶部辅助条与主导航 */
+.topbar { background: var(--fg); color: var(--foot-ink); font-size: 13.5px; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
+.topbar a { color: #E0F2FE; }
+.topbar a:hover { color: #FFFFFF; }
+.topbar nav { display: flex; gap: 20px; }
+.mast { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+.mast .wrap { display: flex; align-items: center; gap: 26px; min-height: 72px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { width: 40px; height: 40px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; }
+.brand-name { font-size: 19px; font-weight: 800; line-height: 1.2; color: var(--fg); }
+.brand-sub { font-size: 12.5px; color: var(--ink-soft); line-height: 1.4; }
+.mainnav { margin-left: auto; display: none; gap: 24px; font-size: 15.5px; }
+.mainnav a { color: var(--fg); font-weight: 600; text-decoration: none; }
+.mainnav a:hover { color: var(--primary); text-decoration: underline; }
+.mast-cta { display: none; }
+.mast .btn { padding: 9px 18px; font-size: 15px; }
+
+/* 英雄区 */
+.hero { background: var(--card); border-bottom: 1px solid var(--border); }
+.hero .wrap { display: grid; gap: 40px; padding: 66px 0 60px; }
+.hero h1 { font-size: clamp(31px, 4.5vw, 47px); line-height: 1.22; font-weight: 800; letter-spacing: -0.01em; max-width: 15em; }
+.hero .lead { margin-top: 18px; font-size: 18.5px; color: var(--ink-soft); max-width: 34em; }
+.hero-ctas { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 14px; }
+.hero-facts { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px 26px; font-size: 14.5px; font-weight: 600; }
+.fact { display: flex; align-items: center; gap: 8px; }
+.fact svg { flex: none; }
+.hero-panel { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 28px 26px; }
+.panel-kicker { font-size: 13.5px; font-weight: 700; color: var(--primary); }
+.panel-title { font-size: 21px; font-weight: 800; margin-top: 4px; }
+.panel-list { list-style: none; margin-top: 18px; display: grid; }
+.panel-list li { padding: 14px 0; border-top: 1px solid var(--border); display: grid; gap: 4px; }
+.panel-list strong { font-size: 16px; }
+.panel-list span { font-size: 14.5px; color: var(--ink-soft); }
+.panel-foot { margin-top: 6px; font-size: 13px; color: var(--ink-soft); border-top: 1px solid var(--border); padding-top: 14px; }
+
+/* 数据条 */
+.stats { background: var(--fg); color: #FFFFFF; }
+.stats .wrap { display: grid; }
+.stat { padding: 26px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.22); }
+.stat strong { display: block; font-size: 32px; font-weight: 800; color: #7DD3FC; line-height: 1.2; }
+.stat span { font-size: 14.5px; color: var(--foot-ink); }
+
+/* 通用小节 */
+.sec { padding: 68px 0 76px; border-top: 1px solid var(--border); }
+.sec-head { max-width: 700px; margin-bottom: 34px; display: grid; gap: 8px; }
+.sec-no { font-size: 14px; font-weight: 700; color: var(--primary); }
+.sec-no span { color: var(--ink-soft); font-weight: 600; margin-left: 10px; }
+.sec h2 { font-size: clamp(24px, 3vw, 31px); line-height: 1.3; font-weight: 800; }
+.sec-lead { font-size: 16.5px; color: var(--ink-soft); }
+
+/* 承保与资金 */
+.trust-grid { display: grid; gap: 20px; }
+.trust-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px 22px; display: grid; gap: 10px; align-content: start; }
+.trust-ico { width: 42px; height: 42px; border-radius: 8px; background: var(--ok-bg); border: 1px solid var(--ok-line); display: flex; align-items: center; justify-content: center; }
+.trust-card h3 { font-size: 17.5px; font-weight: 700; }
+.trust-card p { font-size: 15px; color: var(--ink-soft); }
+.trust-card .reg { margin-top: 4px; font-size: 13.5px; color: var(--accent-deep); background: var(--ok-bg); border: 1px solid var(--ok-line); border-radius: 6px; padding: 7px 10px; align-self: start; }
+
+/* 保障方案卡：三卡共用一套行网格，CTA 行跨卡对齐 */
+.plan-grid { display: grid; gap: 20px; }
+.plan { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 26px 24px 24px; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 13px; }
+.plan.reco { border: 2px solid var(--primary); }
+.plan-badge { justify-self: start; background: var(--primary); color: var(--on-primary); font-size: 12.5px; font-weight: 700; border-radius: 5px; padding: 3px 10px; }
+.plan-name { font-size: 20px; font-weight: 800; line-height: 1.3; }
+.plan-tag { font-size: 14px; color: var(--ink-soft); margin-top: 2px; }
+.plan-price { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--border); }
+.pp { display: flex; align-items: baseline; gap: 8px; font-size: 15px; }
+.pp b { font-size: 27px; font-weight: 800; }
+.pp i { font-style: normal; color: var(--ink-soft); font-size: 13.5px; }
+.pp .pp-per { color: var(--ink-soft); font-size: 13.5px; }
+.feats { list-style: none; display: grid; gap: 9px; font-size: 14.5px; align-content: start; }
+.feats li { display: flex; gap: 9px; }
+.feats li::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); margin-top: 8px; flex: none; }
+.feats li.no { color: var(--ink-soft); }
+.feats li.no::before { background: var(--border); }
+.plan-cta { margin-top: 6px; }
+.plan .btn { width: 100%; }
+
+/* 保障对照表 */
+.tbl-scroll { margin-top: 26px; overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; background: var(--card); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 640px; }
+caption { text-align: left; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); text-align: center; }
+thead th { background: var(--muted); font-size: 14px; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+th:first-child, td:first-child { text-align: left; font-weight: 600; }
+td:first-child { color: var(--ink-soft); font-weight: 400; }
+.col-hl { background: #E0F2FE; }
+.tbl-note { margin-top: 12px; font-size: 13.5px; color: var(--ink-soft); }
+
+/* 保费测算器 */
+.calc-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: grid; gap: 30px; padding: 30px 26px; }
+.calc-form { display: grid; gap: 20px; }
+.fgroup { display: grid; gap: 7px; }
+.fgroup > label { font-size: 14px; font-weight: 700; }
+select, input[type="checkbox"] { font: inherit; }
+select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; background: #FFFFFF; color: var(--fg); }
+.check-row { display: flex; align-items: center; gap: 10px; font-size: 15px; min-height: 43px; padding: 0 4px; }
+.check-row input { width: 18px; height: 18px; accent-color: var(--primary); }
+.seg { display: flex; flex-wrap: wrap; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg label { padding: 10px 26px; border: 1px solid var(--border); background: #FFFFFF; font-size: 15px; font-weight: 600; cursor: pointer; }
+.seg label:first-of-type { border-radius: 6px 0 0 6px; }
+.seg label:last-of-type { border-radius: 0 6px 6px 0; border-left: 0; }
+.seg input:checked + label { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.seg input:focus-visible + label { outline: 3px solid var(--ring); outline-offset: 2px; }
+.calc-note { font-size: 13.5px; color: var(--ink-soft); border-top: 1px solid var(--border); padding-top: 16px; }
+.calc-result { background: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 26px 24px; display: grid; gap: 16px; align-content: start; }
+.r-kicker { font-size: 13.5px; font-weight: 700; color: var(--primary); }
+.r-main { font-size: 46px; font-weight: 800; line-height: 1.15; }
+.r-main .unit { font-size: 17px; font-weight: 600; color: var(--ink-soft); margin-left: 4px; }
+.r-daily { font-size: 14.5px; color: var(--ink-soft); margin-top: -8px; }
+.r-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.r-chip { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; }
+.r-chip span { font-size: 12.5px; color: var(--ink-soft); }
+.r-chip strong { font-size: 16.5px; }
+.r-hint { font-size: 14px; color: var(--accent-deep); background: var(--ok-bg); border: 1px solid var(--ok-line); border-radius: 6px; padding: 9px 12px; }
+.r-ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 4px; }
+
+/* 理赔流程：表头与每行共用同一列网格模板 */
+.step-head, .step { display: grid; grid-template-columns: 1fr; gap: 4px 18px; }
+.step-head { display: none; font-size: 13.5px; font-weight: 700; color: var(--ink-soft); }
+.claims-list { list-style: none; display: grid; }
+.step { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; align-items: center; }
+.step + .step { margin-top: 12px; }
+.step-no { font-size: 26px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+.step b { font-size: 16.5px; }
+.step p { font-size: 14.5px; color: var(--ink-soft); }
+.step .sla { font-size: 14px; font-weight: 700; color: var(--accent-deep); background: var(--ok-bg); border: 1px solid var(--ok-line); border-radius: 6px; padding: 6px 10px; justify-self: start; }
+.claims-note { margin-top: 18px; font-size: 14px; color: var(--ink-soft); background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; }
+
+/* 常见疑问 */
+.faq-list { display: grid; border-top: 1px solid var(--border); }
+details { background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+details + details { margin-top: 12px; }
+summary { list-style: none; cursor: pointer; padding: 17px 20px; font-size: 16.5px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-size: 22px; font-weight: 400; color: var(--primary); flex: none; }
+details[open] summary::after { content: "-"; }
+details p { padding: 0 20px 18px; font-size: 15.5px; color: var(--ink-soft); max-width: 62em; }
+
+/* 行动带与页脚 */
+.cta-band { background: var(--primary); color: var(--on-primary); padding: 66px 0; }
+.cta-band .wrap { display: grid; gap: 12px; justify-items: start; }
+.cta-band h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.3; }
+.cta-band p { font-size: 16.5px; color: #E0F2FE; }
+.cta-band .r-ctas { margin-top: 14px; }
+.foot { background: var(--fg); color: var(--foot-ink); padding: 44px 0 40px; font-size: 14.5px; }
+.foot .wrap { display: grid; gap: 10px; }
+.foot-crumb { font-size: 15px; font-weight: 600; color: #FFFFFF; }
+.foot a { color: #E0F2FE; }
+.foot a:hover { color: #FFFFFF; }
+.foot-note { color: #9FC3D8; font-size: 13.5px; max-width: 62em; }
+
+/* 亮相动效：仅英雄区一次，无逐卡动画 */
+.reveal { animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+.reveal.delay { animation-delay: 0.09s; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { animation: none; }
+}
+
+/* 响应式 768 起 */
+@media (min-width: 768px) {
+  .mainnav { display: flex; }
+  .mast-cta { display: inline-block; }
+  .stats .wrap { grid-template-columns: repeat(4, 1fr); }
+  .stat { border-bottom: 0; border-right: 1px solid rgba(255, 255, 255, 0.22); }
+  .stat:last-child { border-right: 0; }
+  .trust-grid { grid-template-columns: repeat(3, 1fr); }
+  .plan-grid { grid-template-columns: repeat(3, 1fr); }
+  .step-head { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.3fr) 170px; padding: 0 20px; background: transparent; }
+  .step-head span:nth-child(3), .step-head span:nth-child(4) { text-align: left; }
+  .step { grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.3fr) 170px; }
+  .step p { font-size: 15px; }
+}
+/* 768 以下流程行降级为卡片，行内显示字段名 */
+@media (max-width: 767px) {
+  .step .cell::before { content: attr(data-k); display: block; font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 2px; }
+  .step .step-no { font-size: 22px; margin-bottom: 6px; }
+}
+/* 桌面 1080 起 */
+@media (min-width: 1080px) {
+  .hero .wrap { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: center; gap: 56px; }
+  .calc-card { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); padding: 34px 32px; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <p>产品模板 / Insurance Platform</p>
+    <nav aria-label="辅助导航">
+      <a href="#trust">承保信息</a>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </nav>
+  </div>
+</header>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>
+      </div>
+      <div>
+        <p class="brand-name">毛孩保</p>
+        <p class="brand-sub">宠物医疗保险平台</p>
+      </div>
+    </div>
+    <nav class="mainnav" aria-label="主导航">
+      <a href="#plans">保障方案</a>
+      <a href="#calc">保费测算</a>
+      <a href="#claims">理赔流程</a>
+      <a href="#faq">常见疑问</a>
+    </nav>
+    <a class="btn btn-primary mast-cta" href="#calc">测算保费</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-copy reveal">
+        <h1 id="hero-title">把条款读薄，把保障加厚</h1>
+        <p class="lead">毛孩保与安和财产保险合作，为猫犬提供意外与疾病医疗保障。免赔额、赔付比例、除外责任全部写在条款首页，理赔每一步可查，让每一次看病都有底气。</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#calc">测算我的保费</a>
+          <a class="btn btn-ghost" href="#plans">对比保障方案</a>
+        </div>
+        <div class="hero-facts">
+          <p class="fact"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>条款全文公开可下载</p>
+          <p class="fact"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>保费直达保险公司存管账户</p>
+          <p class="fact"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>获赔率 99.2%</p>
+        </div>
+      </div>
+      <aside class="hero-panel reveal delay" aria-label="条款透明承诺">
+        <p class="panel-kicker">投保前必须知道</p>
+        <p class="panel-title">条款透明三承诺</p>
+        <ol class="panel-list">
+          <li>
+            <strong>免赔额写进首页</strong>
+            <span>免赔额、赔付比例与年度限额全部列在条款首页，不在附则里另设门槛。</span>
+          </li>
+          <li>
+            <strong>除外责任逐条列明</strong>
+            <span>11 条除外责任全文公开，投保页可展开逐条阅读后再付款。</span>
+          </li>
+          <li>
+            <strong>理赔超时有补偿</strong>
+            <span>资料齐全后 2 个工作日未出具结论，按应付赔款的 0.05% 每日支付延误补偿。</span>
+          </li>
+        </ol>
+        <p class="panel-foot">条款样本编号 MHK-T-2025-03，投保前可全文下载比对</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="平台理赔数据">
+    <div class="wrap">
+      <div class="stat">
+        <strong class="num">42 万+</strong>
+        <span>当前在保宠物数量</span>
+      </div>
+      <div class="stat">
+        <strong class="num">2.8 亿元</strong>
+        <span>2025 年赔付支出</span>
+      </div>
+      <div class="stat">
+        <strong class="num">1.8 天</strong>
+        <span>平均结案时效</span>
+      </div>
+      <div class="stat">
+        <strong class="num">99.2%</strong>
+        <span>理赔申请获赔率</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="trust" aria-labelledby="trust-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-no">00<span>承保与资金</span></p>
+        <h2 id="trust-title">钱交给谁，条款由谁定</h2>
+        <p class="sec-lead">毛孩保是投保与理赔服务平台，风险承保与资金存管均由持牌保险机构完成。</p>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="trust-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg>
+          </div>
+          <h3>持牌机构承保</h3>
+          <p>本页面所涉产品由安和财产保险有限公司承保（虚构演示主体），平台不自行承担保险责任。</p>
+          <p class="reg">互联网保险备案编号：安和备〔2025〕第 018 号</p>
+        </div>
+        <div class="trust-card">
+          <div class="trust-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V6a4 4 0 018 0v2"/><path d="M12 13v3"/></svg>
+          </div>
+          <h3>保费全程存管</h3>
+          <p>保费支付后直达保险公司存管账户，平台不设资金池，退保退款原路返回支付账户。</p>
+          <p class="reg">退保金 3 个工作日内到账，犹豫期 15 天</p>
+        </div>
+        <div class="trust-card">
+          <div class="trust-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4"/><path d="M9 12h7M9 16h7"/></svg>
+          </div>
+          <h3>费率公开可查</h3>
+          <p>三档方案的费率表、条款全文与理赔服务标准在投保页置顶展示，先阅读后投保。</p>
+          <p class="reg">2025 年费率表版本 MHK-R-2025-02</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="plans" aria-labelledby="plans-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-no">01<span>保障方案</span></p>
+        <h2 id="plans-title">三个方案，一张表看懂</h2>
+        <p class="sec-lead">按猫犬分别定价，均为 1 岁未绝育宠物的年缴基准价，实际保费以测算器为准。</p>
+      </div>
+      <div class="plan-grid">
+        <article class="plan">
+          <div>
+            <p class="plan-badge">入门首选</p>
+            <h3 class="plan-name">安心基础</h3>
+            <p class="plan-tag">覆盖日常意外场景</p>
+          </div>
+          <div class="plan-price">
+            <p class="pp"><i>猫</i><b class="num">¥599</b><span class="pp-per">/年起</span></p>
+            <p class="pp"><i>犬</i><b class="num">¥699</b><span class="pp-per">/年起</span></p>
+          </div>
+          <ul class="feats">
+            <li>意外医疗额度 ¥8,000/年</li>
+            <li>赔付比例 60%，单次免赔 ¥200</li>
+            <li>住院津贴 ¥30/天，最长 30 天</li>
+            <li class="no">不含疾病医疗</li>
+            <li class="no">不含第三者责任</li>
+          </ul>
+          <p class="plan-cta"><a class="btn btn-ghost" href="#calc">选基础版测算</a></p>
+        </article>
+        <article class="plan reco">
+          <div>
+            <p class="plan-badge">投保人 68% 的选择</p>
+            <h3 class="plan-name">全能守护</h3>
+            <p class="plan-tag">意外与疾病医疗都保</p>
+          </div>
+          <div class="plan-price">
+            <p class="pp"><i>猫</i><b class="num">¥1,299</b><span class="pp-per">/年起</span></p>
+            <p class="pp"><i>犬</i><b class="num">¥1,499</b><span class="pp-per">/年起</span></p>
+          </div>
+          <ul class="feats">
+            <li>意外加疾病医疗额度 ¥30,000/年</li>
+            <li>赔付比例 70%，单次免赔 ¥100</li>
+            <li>住院津贴 ¥60/天，第三者责任 ¥5,000</li>
+            <li>含 1 次年度基础体检</li>
+            <li>门诊手术与拆线复诊可报</li>
+          </ul>
+          <p class="plan-cta"><a class="btn btn-primary" href="#calc">选全能版测算</a></p>
+        </article>
+        <article class="plan">
+          <div>
+            <p class="plan-badge">高龄高需求</p>
+            <h3 class="plan-name">尊享无忧</h3>
+            <p class="plan-tag">0 免赔加牙科与遗传病</p>
+          </div>
+          <div class="plan-price">
+            <p class="pp"><i>猫</i><b class="num">¥1,999</b><span class="pp-per">/年起</span></p>
+            <p class="pp"><i>犬</i><b class="num">¥2,299</b><span class="pp-per">/年起</span></p>
+          </div>
+          <ul class="feats">
+            <li>医疗额度 ¥60,000/年，含遗传病</li>
+            <li>赔付比例 80%，0 免赔</li>
+            <li>牙科治疗 ¥2,000/年，住院津贴 ¥100/天</li>
+            <li>第三者责任 ¥10,000</li>
+            <li>年度体检加疫苗 2 针</li>
+          </ul>
+          <p class="plan-cta"><a class="btn btn-ghost" href="#calc">选尊享版测算</a></p>
+        </article>
+      </div>
+      <div class="tbl-scroll" tabindex="0" role="region" aria-label="三档方案保障项目对照表">
+        <table>
+          <caption class="sr-only">安心基础、全能守护、尊享无忧三档方案保障项目对照</caption>
+          <thead>
+            <tr>
+              <th scope="col">保障项目</th>
+              <th scope="col">安心基础</th>
+              <th scope="col" class="col-hl">全能守护</th>
+              <th scope="col">尊享无忧</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">意外医疗额度</th>
+              <td class="num">¥8,000/年</td>
+              <td class="num col-hl">¥30,000/年</td>
+              <td class="num">¥60,000/年</td>
+            </tr>
+            <tr>
+              <th scope="row">疾病医疗额度</th>
+              <td>不含</td>
+              <td class="num col-hl">¥30,000/年</td>
+              <td class="num">¥60,000/年</td>
+            </tr>
+            <tr>
+              <th scope="row">单次免赔额</th>
+              <td class="num">¥200</td>
+              <td class="num col-hl">¥100</td>
+              <td class="num">¥0</td>
+            </tr>
+            <tr>
+              <th scope="row">赔付比例</th>
+              <td class="num">60%</td>
+              <td class="num col-hl">70%</td>
+              <td class="num">80%</td>
+            </tr>
+            <tr>
+              <th scope="row">住院津贴</th>
+              <td class="num">¥30/天</td>
+              <td class="num col-hl">¥60/天</td>
+              <td class="num">¥100/天</td>
+            </tr>
+            <tr>
+              <th scope="row">第三者责任</th>
+              <td>不含</td>
+              <td class="num col-hl">¥5,000</td>
+              <td class="num">¥10,000</td>
+            </tr>
+            <tr>
+              <th scope="row">牙科与遗传病</th>
+              <td>不含</td>
+              <td class="col-hl">不含</td>
+              <td class="num">¥2,000/年</td>
+            </tr>
+            <tr>
+              <th scope="row">体检与疫苗</th>
+              <td>不含</td>
+              <td class="col-hl">基础体检 1 次</td>
+              <td>体检加疫苗 2 针</td>
+            </tr>
+            <tr>
+              <th scope="row">年缴基准价（猫/犬）</th>
+              <td class="num">¥599 / ¥699</td>
+              <td class="num col-hl">¥1,299 / ¥1,499</td>
+              <td class="num">¥1,999 / ¥2,299</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-note">注：基础版仅承保意外医疗；全能与尊享版的意外、疾病医疗共享同一年度额度；津贴与限额均按每个保险年度计算。</p>
+    </div>
+  </section>
+
+  <section class="sec" id="calc" aria-labelledby="calc-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-no">02<span>保费测算</span></p>
+        <h2 id="calc-title">四个问题，算出你家保费</h2>
+        <p class="sec-lead">价格随年龄档位与绝育状态联动，切换选项即时更新，不需要填写手机号。</p>
+      </div>
+      <div class="calc-card">
+        <form class="calc-form" id="calc-form" aria-describedby="calc-note">
+          <div class="fgroup">
+            <label for="pet-type">宠物类型</label>
+            <select id="pet-type">
+              <option value="cat" selected>猫</option>
+              <option value="dog">犬</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label for="pet-age">年龄段</label>
+            <select id="pet-age">
+              <option value="1" selected>2 岁以下</option>
+              <option value="1.1">2 至 4 岁</option>
+              <option value="1.28">5 至 7 岁</option>
+              <option value="1.5">8 岁及以上</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label for="pet-plan">保障方案</label>
+            <select id="pet-plan">
+              <option value="basic">安心基础</option>
+              <option value="full" selected>全能守护</option>
+              <option value="prime">尊享无忧</option>
+            </select>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="pet-neutered">
+            <label for="pet-neutered">已绝育（提供证明享年保费 92 折）</label>
+          </div>
+          <fieldset class="fgroup" style="border:0">
+            <legend style="font-size:14px;font-weight:700;padding:0">缴费方式</legend>
+            <div class="seg">
+              <input type="radio" id="b-year" name="billing" value="year" checked>
+              <label for="b-year">年缴</label>
+              <input type="radio" id="b-month" name="billing" value="month">
+              <label for="b-month">月缴</label>
+            </div>
+          </fieldset>
+          <p class="calc-note" id="calc-note">测算基于 2025 年费率表 MHK-R-2025-02，为单只宠物价格；同一投保人第二只起每只 9 折，下单时自动核算。月缴将年保费均分为 12 期并加收 5% 分期手续费。</p>
+        </form>
+        <div class="calc-result" aria-live="polite">
+          <p class="r-kicker" id="r-plan-name">全能守护 / 年缴</p>
+          <p class="r-main num"><span id="r-amt">¥1,299</span><span class="unit" id="r-unit">/年</span></p>
+          <p class="r-daily" id="r-daily">折合每天约 ¥3.6</p>
+          <div class="r-chips">
+            <div class="r-chip">
+              <span>医疗额度</span>
+              <strong class="num" id="r-limit">¥30,000</strong>
+            </div>
+            <div class="r-chip">
+              <span>赔付比例</span>
+              <strong class="num" id="r-ratio">70%</strong>
+            </div>
+            <div class="r-chip">
+              <span>单次免赔</span>
+              <strong class="num" id="r-deduct">¥100</strong>
+            </div>
+          </div>
+          <p class="r-hint" id="r-hint" hidden>8 岁及以上宠物暂不支持投保尊享版，已为你切换为全能守护。</p>
+          <div class="r-ctas">
+            <button class="btn btn-primary" type="button">按此价格投保</button>
+            <a href="#trust">先看承保信息</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="claims" aria-labelledby="claims-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-no">03<span>理赔流程</span></p>
+        <h2 id="claims-title">四步理赔，全程留痕</h2>
+        <p class="sec-lead">不用邮寄纸质材料，不用跑柜台，每一步的时效承诺都写进服务协议。</p>
+      </div>
+      <div class="step-head" aria-hidden="true">
+        <span>步骤</span>
+        <span>你要做的</span>
+        <span>平台做的</span>
+        <span>时效承诺</span>
+      </div>
+      <ol class="claims-list">
+        <li class="step">
+          <span class="step-no num" aria-hidden="true">01</span>
+          <div class="cell" data-k="你要做的">
+            <b>拍照报案</b>
+            <p>在小程序上传病历与发票照片，5 分钟完成提交</p>
+          </div>
+          <div class="cell" data-k="平台做的">
+            <b>即时立案</b>
+            <p>生成报案号并自动关联保单与就诊记录</p>
+          </div>
+          <span class="sla cell" data-k="时效承诺">就诊后 24 小时内</span>
+        </li>
+        <li class="step">
+          <span class="step-no num" aria-hidden="true">02</span>
+          <div class="cell" data-k="你要做的">
+            <b>按清单补件</b>
+            <p>如缺检查报告等材料，按一次性告知的清单补齐</p>
+          </div>
+          <div class="cell" data-k="平台做的">
+            <b>智能加人工双审</b>
+            <p>AI 预审金额与免责项，人工复核后出具结论</p>
+          </div>
+          <span class="sla cell" data-k="时效承诺">资料齐全后平均 8 小时</span>
+        </li>
+        <li class="step">
+          <span class="step-no num" aria-hidden="true">03</span>
+          <div class="cell" data-k="你要做的">
+            <b>坐等到账</b>
+            <p>无需任何操作，赔款直达投保时绑定的银行卡</p>
+          </div>
+          <div class="cell" data-k="平台做的">
+            <b>赔付打款</b>
+            <p>打款结果短信与小程序同步通知，凭证可下载</p>
+          </div>
+          <span class="sla cell" data-k="时效承诺">审核通过后 1 个工作日</span>
+        </li>
+        <li class="step">
+          <span class="step-no num" aria-hidden="true">04</span>
+          <div class="cell" data-k="你要做的">
+            <b>随时回看</b>
+            <p>每个节点的处理人与时间戳在小程序永久留痕</p>
+          </div>
+          <div class="cell" data-k="平台做的">
+            <b>超时自动补偿</b>
+            <p>超出时效未结案，系统自动触发延误补偿流程</p>
+          </div>
+          <span class="sla cell" data-k="时效承诺">全程实时可查</span>
+        </li>
+      </ol>
+      <p class="claims-note">2025 年上半年，¥3,000 以下小额案件平均 26 小时结案；对结论有异议可申请复核，复核由与理赔团队独立的申诉组处理。</p>
+    </div>
+  </section>
+
+  <section class="sec" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-no">04<span>常见疑问</span></p>
+        <h2 id="faq-title">投保前，把话说明白</h2>
+        <p class="sec-lead">以下回答与条款正文具有同等口径，若有出入以条款为准，条款永远可以先行下载。</p>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>投保后多久生效，有等待期吗？</summary>
+          <p>意外伤害保障自投保成功次日零时生效，无等待期；疾病医疗有 30 天等待期，等待期内确诊的疾病不在保障范围。投保前已确诊的既往症属于除外责任，建议投保前对照条款第 7 条逐条确认。</p>
+        </details>
+        <details>
+          <summary>去任何宠物医院看病都能赔吗？</summary>
+          <p>在大陆地区具备执业兽医资质的合法动物诊疗机构就诊均可申请理赔，包括连锁宠物医院与个体诊所，无需提前绑定或转诊，异地就诊同样适用。</p>
+        </details>
+        <details>
+          <summary>理赔需要准备哪些材料？</summary>
+          <p>就诊发票原件、门诊或住院病历、检查报告与费用明细清单，全部拍照上传即可。单张发票金额不限，年度累计以保障额度为上限。</p>
+        </details>
+        <details>
+          <summary>续保时会因为理赔过而涨价或拒保吗？</summary>
+          <p>不会。续保价格只随年龄档位调整，不对单一保单因理赔记录单独上浮，也不因理赔历史拒绝续保。但产品整体费率调整会提前 30 天公示。</p>
+        </details>
+        <details>
+          <summary>多只宠物一起投保有优惠吗？</summary>
+          <p>有。同一投保人名下第二只起，每只均可享受年保费 9 折，可与绝育折扣叠加，下单时系统自动按最优组合核算，无需使用优惠码。</p>
+        </details>
+        <details>
+          <summary>保费怎么算，为什么年龄影响这么大？</summary>
+          <p>保费由物种基准价乘以年龄系数得出，8 岁以下系数 1.0 至 1.28，8 岁及以上为 1.5。已绝育宠物凭证明享 92 折。你可以在本页测算器里随意切换选项试算，不需要留下任何个人信息。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="cta-title">
+    <div class="wrap">
+      <h2 id="cta-title">3 分钟完成投保，条款透明看得懂</h2>
+      <p>先测算、再读条款、最后付款，每一步都可以随时退出，没有弹窗挽留。</p>
+      <div class="r-ctas">
+        <a class="btn btn-white" href="#calc">测算保费</a>
+        <a class="btn btn-line-white" href="#claims">看理赔流程</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-crumb">UI 设计提示词库 / 产品模板 / Insurance Platform</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p class="foot-note">毛孩保为虚构演示品牌，页面所涉保险公司、备案编号、费率表、保费与理赔数据均为设计样例，不构成投保建议；样式遵循 Minimalism 与 Swiss Style 加 Flat Design 官方推荐，色板取自 Insurance Platform 条目。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var BASE = {
+    cat: { basic: 599, full: 1299, prime: 1999 },
+    dog: { basic: 699, full: 1499, prime: 2299 }
+  };
+  var PLAN = {
+    basic: { name: "安心基础", limit: "¥8,000", ratio: "60%", deduct: "¥200" },
+    full: { name: "全能守护", limit: "¥30,000", ratio: "70%", deduct: "¥100" },
+    prime: { name: "尊享无忧", limit: "¥60,000", ratio: "80%", deduct: "¥0" }
+  };
+  var elType = document.getElementById("pet-type");
+  var elAge = document.getElementById("pet-age");
+  var elPlan = document.getElementById("pet-plan");
+  var elNeu = document.getElementById("pet-neutered");
+  var elPrime = elPlan.options[2];
+  var rName = document.getElementById("r-plan-name");
+  var rAmt = document.getElementById("r-amt");
+  var rUnit = document.getElementById("r-unit");
+  var rDaily = document.getElementById("r-daily");
+  var rLimit = document.getElementById("r-limit");
+  var rRatio = document.getElementById("r-ratio");
+  var rDeduct = document.getElementById("r-deduct");
+  var rHint = document.getElementById("r-hint");
+
+  function billing() {
+    var m = document.querySelector('input[name="billing"]:checked');
+    return m ? m.value : "year";
+  }
+  function fmt(n) { return "¥" + n.toLocaleString("zh-CN"); }
+
+  function calc() {
+    var base = BASE[elType.value][elPlan.value];
+    var annual = Math.round(base * parseFloat(elAge.value) * (elNeu.checked ? 0.92 : 1));
+    var monthly = Math.ceil(annual * 1.05 / 12);
+    var p = PLAN[elPlan.value];
+    var isMonth = billing() === "month";
+    var paidYear = isMonth ? monthly * 12 : annual;
+    rName.textContent = p.name + " / " + (isMonth ? "月缴" : "年缴");
+    rAmt.textContent = isMonth ? fmt(monthly) : fmt(annual);
+    rUnit.textContent = isMonth ? "/月" : "/年";
+    rDaily.textContent = "折合每天约 ¥" + (paidYear / 365).toFixed(1) + "，全年合计 " + fmt(paidYear);
+    rLimit.textContent = p.limit;
+    rRatio.textContent = p.ratio;
+    rDeduct.textContent = p.deduct;
+  }
+  function guardAge() {
+    var old = elAge.value === "1.5";
+    elPrime.disabled = old;
+    if (old && elPlan.value === "prime") {
+      elPlan.value = "full";
+      rHint.hidden = false;
+    } else {
+      rHint.hidden = true;
+    }
+  }
+  [elType, elAge, elPlan, elNeu].forEach(function (el) {
+    el.addEventListener("input", function () { guardAge(); calc(); });
+  });
+  document.querySelectorAll('input[name="billing"]').forEach(function (el) {
+    el.addEventListener("change", calc);
+  });
+  guardAge();
+  calc();
+})();
+</script>
+</body>
+</html>

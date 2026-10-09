@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Non-profit/Charity / UI 设计提示词库</title>
+<meta name="description" content="Non-profit/Charity 产品模板演示页：城市河流保护基金清流计划，含使命叙事、可交互项目地图、收支平衡的资金透明披露与志愿者报名，全部采用可验证数字。">
+<style>
+/* token 计划: Primary #0891B2(On-Primary #001318, 5.3:1) / Secondary #22D3EE(仅深底或装饰) / Accent #EA580C(正文文字改 #9A3412, 7.3:1) / BG #ECFEFF / FG #164E63(8.7:1) / Card #FFFFFF / Border #A5F3FC / Muted #E8F1F6 / Ring #0891B2 / 深色幕 #083344(其上白字 13.4:1) / 暖底 #FFF7ED / 次级文字 #155E75(7.3:1) */
+:root { --primary: #0891B2; --on-primary: #001318; --primary-deep: #0E7490; --secondary: #22D3EE; --accent: #EA580C; --accent-deep: #9A3412; --bg: #ECFEFF; --fg: #164E63; --ink-dim: #155E75; --card: #FFFFFF; --border: #A5F3FC; --muted: #E8F1F6; --ring: #0891B2; --deep: #083344; --deep-ink: #CFFAFE; --warm-bg: #FFF7ED; --warm-line: #FED7AA; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; }
+.wrap { width: min(1180px, 100% - 40px); margin-inline: auto; }
+a { color: var(--primary-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--deep); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, .dot:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 6px; }
+.skip { position: absolute; left: -9999px; top: 12px; z-index: 100; background: var(--card); color: var(--fg); border: 2px solid var(--deep); border-radius: 8px; padding: 10px 16px; font-size: 16px; }
+.skip:focus-visible { left: 12px; }
+/* 顶部 */
+.site-head { position: sticky; top: 0; z-index: 50; background: rgba(236, 254, 255, 0.94); border-bottom: 1px solid var(--border); backdrop-filter: blur(6px); }
+.head-in { display: flex; align-items: center; gap: 26px; padding: 14px 0; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; color: var(--deep); text-decoration: none; letter-spacing: 0.5px; }
+.brand svg { width: 34px; height: 34px; flex: none; }
+.brand small { font-size: 12.5px; font-weight: 600; color: var(--ink-dim); }
+.nav-links { display: flex; gap: 24px; margin-left: auto; }
+.nav-links a { font-size: 15.5px; font-weight: 600; color: var(--fg); text-decoration: none; }
+.nav-links a:hover { color: var(--primary-deep); text-decoration: underline; }
+/* 按钮 */
+.btn { display: inline-block; border: 2px solid transparent; border-radius: 999px; padding: 11px 26px; font-size: 16px; font-weight: 700; text-decoration: none; cursor: pointer; text-align: center; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: #0BA0C4; color: var(--on-primary); }
+.btn-ghost { border-color: var(--secondary); color: #ECFEFF; }
+.btn-ghost:hover { background: rgba(34, 211, 238, 0.16); color: #FFFFFF; }
+.btn-ghost-light { border-color: var(--primary); color: var(--primary-deep); background: transparent; }
+.btn-ghost-light:hover { background: rgba(8, 145, 178, 0.10); }
+.btn-accent { background: var(--accent); color: #1F0A02; }
+.btn-accent:hover { background: #F2691C; color: #1F0A02; }
+.btn-sm { padding: 8px 18px; font-size: 15px; }
+/* 首屏 */
+.hero { background: var(--deep); color: #ECFEFF; padding: 76px 0 84px; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
+.kicker-light { font-size: 15px; font-weight: 700; color: var(--secondary); margin-bottom: 18px; }
+.hero h1 { font-size: clamp(32px, 4.6vw, 54px); line-height: 1.22; font-weight: 800; letter-spacing: 0.5px; }
+.lede { margin-top: 22px; font-size: 18px; line-height: 1.8; color: var(--deep-ink); max-width: 34em; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.hero-note { margin-top: 26px; font-size: 14px; color: var(--deep-ink); border-left: 3px solid var(--secondary); padding-left: 12px; }
+.river-art { width: 100%; height: auto; display: block; }
+.r-blob { fill: rgba(34, 211, 238, 0.07); }
+.r-line { fill: none; stroke-linecap: round; }
+.r-l1 { stroke: #22D3EE; stroke-width: 5; opacity: 0.75; }
+.r-l2 { stroke: #0891B2; stroke-width: 11; }
+.r-l3 { stroke: #A5F3FC; stroke-width: 5; opacity: 0.55; }
+.r-dot { stroke: var(--deep); stroke-width: 2; }
+.d-a { fill: #22D3EE; }
+.d-b { fill: #FFFFFF; }
+.d-c { fill: #EA580C; }
+/* 亮相动效：首屏河流主线仅绘制一次（降级见 prefers-reduced-motion） */
+.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: river-draw 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
+@keyframes river-draw { to { stroke-dashoffset: 0; } }
+/* 数字带 */
+.stats { background: var(--card); border-bottom: 1px solid var(--border); }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 30px 26px; border-left: 1px solid var(--muted); }
+.stat:first-child { border-left: none; }
+.stat .num { display: block; font-size: 38px; font-weight: 800; color: var(--primary-deep); line-height: 1.1; }
+.stat .lab { display: block; font-size: 15.5px; font-weight: 700; margin-top: 6px; }
+.stat .sub { display: block; font-size: 13.5px; color: var(--ink-dim); margin-top: 3px; }
+/* 章节骨架 */
+.sec { padding: 78px 0; }
+.sec-alt { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sec-head { max-width: 46em; }
+.kicker { display: inline-block; font-size: 14.5px; font-weight: 800; color: var(--accent-deep); border: 1.5px solid var(--warm-line); background: var(--warm-bg); border-radius: 999px; padding: 4px 14px; margin-bottom: 16px; }
+.sec h2 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.3; font-weight: 800; }
+.sec-sub { margin-top: 14px; font-size: 16.5px; color: var(--ink-dim); }
+/* 使命 */
+.mission-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 52px; margin-top: 42px; align-items: stretch; }
+.mission-story p { margin-bottom: 18px; }
+.pull { font-size: 21px; font-weight: 800; color: var(--deep); line-height: 1.5; border-left: 4px solid var(--primary); padding: 4px 0 4px 18px; margin: 26px 0; }
+.timeline { list-style: none; margin-top: 28px; border-left: 2px solid var(--border); }
+.timeline li { position: relative; padding: 0 0 20px 22px; font-size: 15.5px; color: var(--ink-dim); }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before { content: ""; position: absolute; left: -7px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); border: 2.5px solid var(--bg); }
+.timeline strong { color: var(--fg); margin-right: 6px; }
+.mission-data { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 30px 28px; align-self: stretch; }
+.mission-data h3 { font-size: 18px; font-weight: 800; }
+.mbar { display: grid; grid-template-columns: 5ch 1fr 5ch; gap: 12px; align-items: center; margin-top: 20px; }
+.mbar .yr { font-size: 16px; font-weight: 800; }
+.mbar .track { height: 16px; background: var(--muted); border-radius: 999px; overflow: hidden; }
+.mbar .track i { display: block; height: 100%; border-radius: 999px; background: var(--primary); }
+.mbar .pc { font-size: 16px; font-weight: 800; color: var(--primary-deep); text-align: right; }
+.mission-note { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--border); font-size: 13.5px; color: var(--ink-dim); }
+.mission-dl { display: grid; grid-template-columns: 1fr auto; gap: 8px 14px; margin-top: 18px; font-size: 15px; }
+.mission-dl dt { color: var(--ink-dim); }
+.mission-dl dd { font-weight: 700; text-align: right; }
+/* 项目地图 */
+.map-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 32px; margin-top: 42px; align-items: stretch; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; }
+.map-card { padding: 18px; }
+#river-map { width: 100%; height: auto; display: block; }
+.rv { fill: none; stroke: var(--primary); stroke-width: 11; stroke-linecap: round; }
+.rv-trib { stroke-width: 7; stroke: var(--primary-deep); stroke-dasharray: 1 16; }
+.wetland { fill: var(--border); opacity: 0.85; }
+.blocks rect { fill: var(--muted); stroke: var(--border); }
+.mlab text { font-size: 15px; font-weight: 700; fill: var(--ink-dim); }
+.dot { cursor: pointer; }
+.dot .hit { fill: rgba(8, 145, 178, 0.16); stroke: transparent; stroke-width: 2; }
+.dot .core { stroke: #FFFFFF; stroke-width: 2.5; }
+.dot .q2 { fill: #0891B2; }
+.dot .q3 { fill: #22D3EE; }
+.dot .q4 { fill: #EA580C; }
+.dot:hover .hit { fill: rgba(8, 145, 178, 0.30); }
+.dot.on .hit { stroke: var(--deep); stroke-width: 2.5; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin-top: 10px; font-size: 13.5px; color: var(--ink-dim); }
+.lg { display: inline-flex; align-items: center; gap: 7px; }
+.sw { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #FFFFFF; box-shadow: 0 0 0 1px var(--border); }
+.sw-2 { background: #0891B2; }
+.sw-3 { background: #22D3EE; }
+.sw-4 { background: #EA580C; }
+.map-panel { padding: 30px 28px; display: flex; flex-direction: column; }
+.panel-tag { font-size: 13.5px; font-weight: 800; color: var(--accent-deep); }
+.map-panel h3 { font-size: 23px; font-weight: 800; margin-top: 8px; }
+.chip { display: inline-block; margin-top: 12px; align-self: flex-start; font-size: 14.5px; font-weight: 800; border-radius: 999px; padding: 4px 14px; }
+.chip-2 { background: var(--border); color: var(--fg); }
+.chip-3 { background: var(--border); color: var(--fg); }
+.chip-4 { background: var(--warm-line); color: #7C2D12; }
+.panel-dl { display: grid; grid-template-columns: auto 1fr; gap: 12px 18px; margin-top: 22px; font-size: 15.5px; }
+.panel-dl dt { color: var(--ink-dim); font-weight: 600; white-space: nowrap; }
+.panel-dl dd { font-weight: 700; }
+.panel-foot { margin-top: auto; padding-top: 20px; font-size: 13.5px; color: var(--ink-dim); border-top: 1px dashed var(--border); }
+/* 项目卡 */
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-top: 46px; }
+.pcard { padding: 24px 22px; display: flex; flex-direction: column; }
+.pcard .ptag { font-size: 13.5px; font-weight: 700; color: var(--ink-dim); }
+.pcard h3 { font-size: 18.5px; font-weight: 800; margin-top: 6px; }
+.pcard p { font-size: 14.5px; color: var(--ink-dim); margin-top: 10px; }
+.pcard .pdl { display: grid; grid-template-columns: 1fr auto; gap: 7px 12px; margin-top: 16px; font-size: 14.5px; }
+.pcard .pdl dt { color: var(--ink-dim); }
+.pcard .pdl dd { font-weight: 800; text-align: right; }
+.pcard .pfoot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--muted); font-size: 14px; font-weight: 700; color: var(--accent-deep); }
+/* 资金透明 */
+.fin-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 42px; }
+.fin-sum div { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
+.fin-sum .k { font-size: 14px; font-weight: 700; color: var(--ink-dim); }
+.fin-sum .v { display: block; font-size: 26px; font-weight: 800; color: var(--deep); margin-top: 4px; }
+.fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 26px; align-items: stretch; }
+.fin-panel { padding: 28px 28px 24px; }
+.fin-panel h3 { font-size: 18px; font-weight: 800; }
+.fin-panel .fp-sub { font-size: 13.5px; color: var(--ink-dim); margin-top: 4px; margin-bottom: 18px; }
+.fin-row { display: grid; grid-template-columns: 10.5em 1fr 4.5em 5em; gap: 14px; align-items: center; padding: 11px 0; border-top: 1px solid var(--muted); font-size: 15px; }
+.fin-row .fname { font-weight: 700; }
+.fin-row .fbar { height: 12px; background: var(--muted); border-radius: 999px; overflow: hidden; }
+.fin-row .fbar i { display: block; height: 100%; border-radius: 999px; background: var(--primary); }
+.fin-row .fbar i.overhead { background: var(--accent); }
+.fin-row .famt { font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
+.fin-row .fpct { color: var(--ink-dim); text-align: right; font-variant-numeric: tabular-nums; }
+.fin-total { border-top: 2px solid var(--fg); font-weight: 800; }
+.fin-total .fname { font-size: 15.5px; }
+.fin-total .famt { color: var(--deep); }
+.fin-note { margin-top: 22px; font-size: 13.5px; color: var(--ink-dim); line-height: 1.8; }
+/* 志愿者 */
+.join-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; margin-top: 42px; align-items: stretch; }
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.role { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; }
+.role svg { width: 30px; height: 30px; }
+.role h3 { font-size: 17.5px; font-weight: 800; margin-top: 12px; }
+.role .meta { font-size: 13.5px; color: var(--ink-dim); margin-top: 4px; }
+.role p { font-size: 14.5px; color: var(--ink-dim); margin-top: 10px; }
+.join-form { padding: 32px 30px; }
+.join-form h3 { font-size: 20px; font-weight: 800; }
+.join-form .fsub { font-size: 14px; color: var(--ink-dim); margin-top: 6px; margin-bottom: 22px; }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 15px; font-weight: 700; margin-bottom: 7px; }
+.field input, .field select { width: 100%; padding: 11px 14px; font-size: 16px; font-family: inherit; color: var(--fg); background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; }
+.field input:focus-visible, .field select:focus-visible { outline-offset: 0; }
+.err { display: block; font-size: 13.5px; color: #9A3412; margin-top: 6px; font-weight: 600; }
+.form-note { font-size: 13px; color: var(--ink-dim); margin-top: 14px; }
+.ok { margin-top: 18px; background: #D1FAE5; color: #064E3B; border-radius: 10px; padding: 14px 16px; font-size: 15px; font-weight: 600; }
+.join-foot { margin-top: 30px; font-size: 14px; color: var(--ink-dim); }
+/* 捐款带 */
+.donate-band { background: var(--warm-bg); border-top: 1px solid var(--warm-line); border-bottom: 1px solid var(--warm-line); padding: 74px 0; }
+.donate-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+.donate-band h2 { font-size: clamp(24px, 3vw, 33px); line-height: 1.35; font-weight: 800; color: #7C2D12; }
+.donate-band .dsub { margin-top: 14px; color: #7C2D12; font-size: 16.5px; max-width: 32em; }
+.donate-avg { margin-top: 18px; font-size: 14.5px; font-weight: 700; color: var(--accent-deep); }
+.donate-box { padding: 30px 28px; }
+.amt-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.amt { padding: 10px 6px; font-size: 15px; font-weight: 700; font-family: inherit; background: var(--warm-bg); color: #7C2D12; border: 1.5px solid var(--warm-line); border-radius: 10px; cursor: pointer; transition: background-color 0.15s ease, border-color 0.15s ease; }
+.amt:hover { border-color: var(--accent); }
+.amt.on { background: var(--accent); color: #1F0A02; border-color: var(--accent); }
+.amt-desc { margin-top: 16px; font-size: 15.5px; font-weight: 600; color: var(--fg); min-height: 3em; }
+.donate-box .btn { width: 100%; margin-top: 6px; }
+.donate-note { margin-top: 12px; font-size: 13.5px; color: var(--accent-deep); min-height: 1.4em; }
+/* 页脚 */
+.site-foot { background: var(--deep); color: var(--deep-ink); padding: 56px 0 26px; }
+.site-foot .brand { color: #FFFFFF; }
+.site-foot .brand small { color: var(--deep-ink); }
+.foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 36px; }
+.foot-brand p { font-size: 14px; margin-top: 14px; max-width: 26em; }
+.foot-grid h4 { font-size: 15px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px; }
+.foot-grid ul { list-style: none; }
+.foot-grid li { margin-bottom: 9px; }
+.foot-grid ul a { font-size: 14.5px; color: var(--deep-ink); }
+.foot-grid ul a:hover { color: #FFFFFF; }
+.foot-disclaim { font-size: 13px; color: var(--deep-ink); border-top: 1px solid rgba(165, 243, 252, 0.25); margin-top: 42px; padding-top: 18px; }
+.foot-note { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--deep-ink); }
+.foot-note a { color: #FFFFFF; border-bottom: 1px solid var(--secondary); padding-bottom: 1px; }
+.foot-note a:hover { color: var(--secondary); }
+/* 动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .draw { animation: none; stroke-dashoffset: 0; }
+  .btn, .amt { transition: none; }
+}
+/* 响应式 */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .river-art { max-width: 420px; margin-inline: auto; }
+  .mission-grid, .map-grid, .fin-grid, .join-grid, .donate-grid { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 768px) {
+  .site-head { position: static; }
+  .head-in { flex-wrap: wrap; gap: 10px 18px; padding: 12px 0; }
+  .nav-links { order: 3; width: 100%; margin-left: 0; overflow-x: auto; padding-bottom: 4px; }
+  .head-in .btn { margin-left: auto; }
+  .hero { padding: 54px 0 60px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat { border-left: none; border-top: 1px solid var(--muted); }
+  .stat:nth-child(-n+2) { border-top: none; }
+  .stat:nth-child(even) { border-left: 1px solid var(--muted); }
+  .fin-sum { grid-template-columns: 1fr 1fr; }
+  .fin-row { grid-template-columns: 1fr auto auto; row-gap: 8px; padding: 12px 0; }
+  .fin-row .fname { grid-column: 1; }
+  .fin-row .fbar { grid-column: 1 / -1; grid-row: 2; }
+  .sec { padding: 58px 0; }
+}
+@media (max-width: 480px) {
+  .cards, .roles { grid-template-columns: 1fr; }
+  .hero-cta .btn { width: 100%; }
+  .amt-row { grid-template-columns: repeat(2, 1fr); }
+  .foot-grid { grid-template-columns: 1fr; gap: 26px; }
+  .map-card { padding: 10px; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#main">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#0891B2"/><path d="M6 12c3-3.2 6 3.2 9 0s6 3.2 9 0" stroke="#ECFEFF" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M6 20c3-3.2 6 3.2 9 0s6 3.2 9 0" stroke="#22D3EE" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      清流计划<small>城市河流保护基金</small>
+    </a>
+    <nav class="nav-links" aria-label="页面导航">
+      <a href="#mission">使命</a>
+      <a href="#map">项目地图</a>
+      <a href="#finance">资金透明</a>
+      <a href="#join">加入我们</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#donate">月捐支持</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 首屏 -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker-light">非营利 / 河流保护 / 数据公开</p>
+        <h1 id="hero-h">让城市河流的清与浊，都有据可查</h1>
+        <p class="lede">清流计划是一家专注城市河流保护的非营利基金。自 2016 年起，我们在澜江干流与支流设立 48 个采样点，每月同步采样、公开数据，并用每一笔捐款修复湿地、守望排污口、带孩子回到河边。</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#donate">成为月捐人</a>
+          <a class="btn btn-ghost" href="#finance">查看年度报告</a>
+        </div>
+        <p class="hero-note">2025 年度财务经中衡诚会计师事务所审计 / 无保留意见 / 报告编号 ZHC-2026-0217</p>
+      </div>
+      <svg class="river-art" viewBox="0 0 560 480" aria-hidden="true" focusable="false">
+        <path class="r-blob" d="M70 44 C190 -18 430 12 505 122 C572 224 540 378 420 438 C298 498 118 468 52 348 C-8 242 4 108 70 44 Z"/>
+        <path class="r-line r-l1" d="M62 152 C192 100 332 192 500 130"/>
+        <path class="r-line r-l2 draw" pathLength="1" d="M40 252 C180 192 340 302 520 232"/>
+        <path class="r-line r-l3" d="M72 362 C202 302 342 402 502 342"/>
+        <circle class="r-dot d-a" cx="150" cy="226" r="7"/>
+        <circle class="r-dot d-b" cx="290" cy="258" r="7"/>
+        <circle class="r-dot d-c" cx="392" cy="266" r="7"/>
+        <circle class="r-dot d-b" cx="452" cy="252" r="7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 关键数字 -->
+  <section class="stats" aria-label="2025 年度关键数字">
+    <div class="wrap stats-grid">
+      <div class="stat">
+        <span class="num">48</span>
+        <span class="lab">个河流采样点</span>
+        <span class="sub">干流 41 个 / 支流 7 个</span>
+      </div>
+      <div class="stat">
+        <span class="num">1,240</span>
+        <span class="lab">次年度水质检测</span>
+        <span class="sub">月报每月 5 日公开</span>
+      </div>
+      <div class="stat">
+        <span class="num">83%</span>
+        <span class="lab">干流优 III 类断面占比</span>
+        <span class="sub">较 2020 年提升 29 个百分点</span>
+      </div>
+      <div class="stat">
+        <span class="num">2,913</span>
+        <span class="lab">名注册志愿者</span>
+        <span class="sub">2025 年贡献服务 41,200 小时</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使命 -->
+  <section id="mission" class="sec" aria-labelledby="m-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">使命</p>
+        <h2 id="m-h">一条河的变化，可以从八个人的周末开始</h2>
+      </div>
+      <div class="mission-grid">
+        <div class="mission-story">
+          <p>2016 年 1 月，八名市民带着两台便携水质检测仪来到澜江老城段，完成了第一次采样：氨氮、总磷、透明度，三个手写数字贴在社区公告栏上。十年过去，这套动作每年重复 1,240 次，三个数字变成了 48 个采样点、每月一份向所有人公开的水质月报。</p>
+          <p class="pull">情感留给河流，证据留给公众。</p>
+          <p>我们相信公益的底气不来自口号，而来自可核对的数字：每一次检测有原始记录，每一笔捐款有项目去向，每一段水质变化有连续曲线。数据不好看的时候，我们照常发布。</p>
+          <ul class="timeline">
+            <li><strong>2016</strong>8 名发起人在老城段完成第一次采样</li>
+            <li><strong>2018</strong>采样网络扩至 12 个点，发布首份水质月报</li>
+            <li><strong>2020</strong>完成 317 个排污口建档，启动志愿者每周巡河</li>
+            <li><strong>2023</strong>澜江湾 12 公顷滩涂湿地修复工程开工</li>
+            <li><strong>2025</strong>干流优 III 类断面占比 83%，较 2020 年提升 29 个百分点</li>
+          </ul>
+        </div>
+        <aside class="mission-data" aria-label="水质与工作数据">
+          <h3>干流优 III 类断面占比</h3>
+          <div class="mbar">
+            <span class="yr">2020</span>
+            <span class="track"><i style="width:54%"></i></span>
+            <span class="pc">54%</span>
+          </div>
+          <div class="mbar">
+            <span class="yr">2025</span>
+            <span class="track"><i style="width:83%"></i></span>
+            <span class="pc">83%</span>
+          </div>
+          <dl class="mission-dl">
+            <dt>首次采样</dt><dd>2016 年 1 月</dd>
+            <dt>累计发布月报</dt><dd>119 期</dd>
+            <dt>建档排污口</dt><dd>317 个</dd>
+            <dt>恢复水生植物</dt><dd>34 种</dd>
+          </dl>
+          <p class="mission-note">指标依据《地表水环境质量标准》GB 3838-2002 / 支流柳溪当前仍为 IV 类，农业面源治理进行中，我们会在月报中持续披露</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目地图 -->
+  <section id="map" class="sec sec-alt" aria-labelledby="map-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">项目地图</p>
+        <h2 id="map-h">48 个采样点，每月第一周同步采样</h2>
+        <p class="sec-sub">点击或用键盘选中河段标记，查看水质类别与关键指标。地图为示意图，非等比例绘制。</p>
+      </div>
+      <div class="map-grid">
+        <figure class="map-card card">
+          <svg id="river-map" viewBox="0 0 760 470" role="img" aria-label="澜江流域采样河段示意图：干流自上游饮用水源保护区经澜江湾湿地、老城段、工业园段至入江口，柳溪为支流">
+            <path class="rv" d="M28 64 C120 56 176 96 252 104 C330 112 372 116 424 122 C494 130 528 152 560 206 C590 258 612 322 642 408"/>
+            <path class="rv rv-trib" d="M736 92 C700 128 664 160 574 196"/>
+            <path class="wetland" d="M226 128 C250 118 286 122 298 140 C308 158 290 174 262 174 C232 174 212 158 226 128 Z"/>
+            <g class="blocks">
+              <rect x="380" y="150" width="26" height="18" rx="3"/>
+              <rect x="414" y="150" width="26" height="18" rx="3"/>
+              <rect x="380" y="176" width="26" height="18" rx="3"/>
+              <rect x="414" y="176" width="26" height="18" rx="3"/>
+              <rect x="448" y="163" width="22" height="31" rx="3"/>
+            </g>
+            <g class="blocks">
+              <rect x="560" y="228" width="24" height="16" rx="3"/>
+              <rect x="590" y="228" width="24" height="16" rx="3"/>
+              <rect x="560" y="250" width="24" height="16" rx="3"/>
+            </g>
+            <g class="mlab">
+              <text x="44" y="38">上游饮用水源保护区</text>
+              <text x="180" y="94">澜江湾湿地</text>
+              <text x="356" y="102">老城段</text>
+              <text x="516" y="146">工业园段</text>
+              <text x="628" y="84">柳溪（支流）</text>
+              <text x="560" y="436">入江口</text>
+            </g>
+            <g class="dot" data-id="source" role="button" tabindex="0" aria-label="上游饮用水源保护区，II 类，6 个采样点，查看详情">
+              <circle class="hit" cx="72" cy="60" r="16"/><circle class="core q2" cx="72" cy="60" r="9"/>
+            </g>
+            <g class="dot" data-id="wetland" role="button" tabindex="0" aria-label="澜江湾湿地，II 类，12 个采样点，查看详情">
+              <circle class="hit" cx="262" cy="152" r="16"/><circle class="core q2" cx="262" cy="152" r="9"/>
+            </g>
+            <g class="dot" data-id="oldtown" role="button" tabindex="0" aria-label="老城段，III 类，9 个采样点，查看详情">
+              <circle class="hit" cx="424" cy="124" r="16"/><circle class="core q3" cx="424" cy="124" r="9"/>
+            </g>
+            <g class="dot" data-id="industry" role="button" tabindex="0" aria-label="工业园段，III 类，8 个采样点，查看详情">
+              <circle class="hit" cx="556" cy="202" r="16"/><circle class="core q3" cx="556" cy="202" r="9"/>
+            </g>
+            <g class="dot" data-id="liuxi" role="button" tabindex="0" aria-label="柳溪支流，IV 类，7 个采样点，查看详情">
+              <circle class="hit" cx="662" cy="152" r="16"/><circle class="core q4" cx="662" cy="152" r="9"/>
+            </g>
+            <g class="dot" data-id="estuary" role="button" tabindex="0" aria-label="入江口，III 类，6 个采样点，查看详情">
+              <circle class="hit" cx="638" cy="398" r="16"/><circle class="core q3" cx="638" cy="398" r="9"/>
+            </g>
+          </svg>
+          <figcaption class="legend">
+            <span class="lg"><i class="sw sw-2"></i>II 类</span>
+            <span class="lg"><i class="sw sw-3"></i>III 类</span>
+            <span class="lg"><i class="sw sw-4"></i>IV 类</span>
+            <span>水质类别依据 GB 3838-2002 / 2026 年 9 月月报数据</span>
+          </figcaption>
+        </figure>
+        <aside class="map-panel card" aria-live="polite">
+          <p class="panel-tag">河段详情</p>
+          <h3 id="mp-name">上游饮用水源保护区</h3>
+          <p class="chip chip-2" id="mp-chip">II 类</p>
+          <dl class="panel-dl">
+            <dt>采样点</dt><dd id="mp-pts">6 个</dd>
+            <dt>关键指标</dt><dd id="mp-metric">总氮 0.42 mg/L</dd>
+            <dt>近一年变化</dt><dd id="mp-trend">连续 24 个月稳定</dd>
+            <dt>保护动作</dt><dd id="mp-note">每月加密采样一次，护栏与警示标识全覆盖</dd>
+          </dl>
+          <p class="panel-foot">单次快检 8 项指标 / 全项检测按季度送第三方实验室复核</p>
+        </aside>
+      </div>
+      <div class="cards">
+        <article class="pcard card">
+          <p class="ptag">生态修复 / 澜江湾</p>
+          <h3>湿地修复工程</h3>
+          <p>2023 年开工，修复 12 公顷滩涂湿地，34 种水生植物回归，2026 年进入养护期。</p>
+          <dl class="pdl">
+            <dt>工期</dt><dd>2023 至 2026</dd>
+            <dt>技术支持</dt><dd>省环科院</dd>
+          </dl>
+          <p class="pfoot">2025 年支出 215.6 万 / 占年度 44.0%</p>
+        </article>
+        <article class="pcard card">
+          <p class="ptag">污染监督 / 全流域</p>
+          <h3>排污口守望行动</h3>
+          <p>317 个排口全部建档编号，志愿者每周巡查，快检异常 48 小时内复测并上报。</p>
+          <dl class="pdl">
+            <dt>建档排口</dt><dd>317 个</dd>
+            <dt>周巡河段</dt><dd>26 段</dd>
+          </dl>
+          <p class="pfoot">2025 年支出 98.0 万 / 占年度 20.0%</p>
+        </article>
+        <article class="pcard card">
+          <p class="ptag">数据基线 / 干支流</p>
+          <h3>采样检测网络</h3>
+          <p>48 个采样点每月第一周同步采样，全年 1,240 次检测，原始记录随月报公开。</p>
+          <dl class="pdl">
+            <dt>采样点</dt><dd>48 个</dd>
+            <dt>公开月报</dt><dd>119 期</dd>
+          </dl>
+          <p class="pfoot">2025 年支出 73.5 万 / 占年度 15.0%</p>
+        </article>
+        <article class="pcard card">
+          <p class="ptag">公众教育 / 市区</p>
+          <h3>河流自然学校</h3>
+          <p>与 26 所中小学合作，把课堂搬到河边，2025 年 2,100 名学生完成 96 课时。</p>
+          <dl class="pdl">
+            <dt>合作学校</dt><dd>26 所</dd>
+            <dt>年度课时</dt><dd>96 课时</dd>
+          </dl>
+          <p class="pfoot">2025 年支出 63.7 万 / 占年度 13.0%</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 资金透明 -->
+  <section id="finance" class="sec" aria-labelledby="fin-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">资金透明</p>
+        <h2 id="fin-h">2025 年度：收入 490.0 万元，支出 490.0 万元</h2>
+        <p class="sec-sub">按项目披露每一笔支出，年度收支平衡、无跨年度结转缺口。完整报告与审计意见可在年报附件下载。</p>
+      </div>
+      <div class="fin-sum">
+        <div><span class="k">年度总收入</span><span class="v">490.0 万元</span></div>
+        <div><span class="k">年度总支出</span><span class="v">490.0 万元</span></div>
+        <div><span class="k">项目支出占比</span><span class="v">92.0%</span></div>
+        <div><span class="k">审计意见</span><span class="v">无保留意见</span></div>
+      </div>
+      <div class="fin-grid">
+        <section class="fin-panel card" aria-label="收入构成">
+          <h3>收入构成 / 万元</h3>
+          <p class="fp-sub">公众个人捐赠是最大的收入来源，不依赖单一出资方</p>
+          <div class="fin-row">
+            <span class="fname">个人月捐</span>
+            <span class="fbar"><i style="width:45%"></i></span>
+            <span class="famt">220.5</span><span class="fpct">45.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">企业与基金会资助</span>
+            <span class="fbar"><i style="width:36%"></i></span>
+            <span class="famt">176.4</span><span class="fpct">36.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">政府购买服务</span>
+            <span class="fbar"><i style="width:14%"></i></span>
+            <span class="famt">68.6</span><span class="fpct">14.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">理事会会费</span>
+            <span class="fbar"><i style="width:5%"></i></span>
+            <span class="famt">24.5</span><span class="fpct">5.0%</span>
+          </div>
+          <div class="fin-row fin-total">
+            <span class="fname">收入合计</span>
+            <span class="fbar"></span>
+            <span class="famt">490.0</span><span class="fpct">100.0%</span>
+          </div>
+          <p class="fin-note">个人月捐共 8,203 人，人均每月 22.4 元 / 全部收入进入公募专户，季度披露使用明细</p>
+        </section>
+        <section class="fin-panel card" aria-label="支出构成">
+          <h3>支出构成 / 万元</h3>
+          <p class="fp-sub">行政与筹资费用单列，接受公众质询</p>
+          <div class="fin-row">
+            <span class="fname">湿地修复工程</span>
+            <span class="fbar"><i style="width:44%"></i></span>
+            <span class="famt">215.6</span><span class="fpct">44.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">排污口守望行动</span>
+            <span class="fbar"><i style="width:20%"></i></span>
+            <span class="famt">98.0</span><span class="fpct">20.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">采样检测网络</span>
+            <span class="fbar"><i style="width:15%"></i></span>
+            <span class="famt">73.5</span><span class="fpct">15.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">河流自然学校</span>
+            <span class="fbar"><i style="width:13%"></i></span>
+            <span class="famt">63.7</span><span class="fpct">13.0%</span>
+          </div>
+          <div class="fin-row">
+            <span class="fname">行政与筹资</span>
+            <span class="fbar"><i class="overhead" style="width:8%"></i></span>
+            <span class="famt">39.2</span><span class="fpct">8.0%</span>
+          </div>
+          <div class="fin-row fin-total">
+            <span class="fname">支出合计</span>
+            <span class="fbar"></span>
+            <span class="famt">490.0</span><span class="fpct">100.0%</span>
+          </div>
+        </section>
+      </div>
+      <p class="fin-note">统计口径：2025 年 1 月 1 日至 12 月 31 日 / 金额单位为万元 / 占比四舍五入至一位小数 / 审计机构：中衡诚会计师事务所，报告编号 ZHC-2026-0217 / 三个项目支出合计 450.8 万元，占年度总支出的 92.0%</p>
+    </div>
+  </section>
+
+  <!-- 志愿者加入 -->
+  <section id="join" class="sec sec-alt" aria-labelledby="join-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">志愿者加入</p>
+        <h2 id="join-h">2,913 名志愿者，每周都在河边</h2>
+      </div>
+      <div class="join-grid">
+        <div class="roles">
+          <div class="role">
+            <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 3 C15 3 6 13 6 19 a9 9 0 0 0 18 0 C24 13 15 3 15 3 Z" fill="#0891B2"/><path d="M10 20 a5 5 0 0 0 5 5" stroke="#ECFEFF" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <h3>采样助手</h3>
+            <p class="meta">每月第一个周六上午 / 48 个采样点就近分配</p>
+            <p>完成 4 学时培训后持证上岗，两人一组按标准规程取样与快检。</p>
+          </div>
+          <div class="role">
+            <svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="11" fill="none" stroke="#0891B2" stroke-width="3"/><path d="M8 18 C11 14 13 20 16 16 s5 -3 7 -1" stroke="#0E7490" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+            <h3>巡河队长</h3>
+            <p class="meta">每周 1 次责任河段 / 全年不少于 40 次</p>
+            <p>沿河步行巡查排口与垃圾带，用小程序打卡上报，累计里程全库第一的是位 63 岁的退休教师。</p>
+          </div>
+          <div class="role">
+            <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M4 22 L15 5 L26 22 Z" fill="none" stroke="#0891B2" stroke-width="3" stroke-linejoin="round"/><circle cx="15" cy="17" r="2.6" fill="#EA580C"/></svg>
+            <h3>自然课堂讲师</h3>
+            <p class="meta">学期内每周 1 课时 / 26 所合作学校</p>
+            <p>带领中小学生做底栖生物观察，教案由教研组统一提供，助教可先随堂两次再上岗。</p>
+          </div>
+          <div class="role">
+            <svg viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="4" width="22" height="22" rx="4" fill="none" stroke="#0891B2" stroke-width="3"/><path d="M9 11 h12 M9 16 h12 M9 21 h7" stroke="#0E7490" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <h3>数据整理志愿者</h3>
+            <p class="meta">远程参与 / 每周约 2 小时</p>
+            <p>把纸质采样单录入月报数据库，双人交叉校对，适合行动不便但想出力的伙伴。</p>
+          </div>
+        </div>
+        <form class="join-form card" id="vol-form" novalidate>
+          <h3>志愿者报名</h3>
+          <p class="fsub">提交后 3 个工作日内有工作人员与你短信联系</p>
+          <div class="field">
+            <label for="v-name">姓名</label>
+            <input id="v-name" name="name" type="text" autocomplete="name" required>
+            <span class="err" id="e-name" hidden>请填写至少 2 个字符的姓名</span>
+          </div>
+          <div class="field">
+            <label for="v-phone">手机号</label>
+            <input id="v-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" required>
+            <span class="err" id="e-phone" hidden>请填写 11 位大陆手机号</span>
+          </div>
+          <div class="field">
+            <label for="v-role">意向岗位</label>
+            <select id="v-role" name="role">
+              <option value="sampling">采样助手</option>
+              <option value="patrol">巡河队长</option>
+              <option value="teacher">自然课堂讲师</option>
+              <option value="data">数据整理志愿者（远程）</option>
+              <option value="later">待定，先参加开放日了解</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit">提交报名</button>
+          <p class="form-note">我们仅在报名与培训联络中使用你的信息，不做他用，可随时申请删除。</p>
+          <p class="ok" id="v-ok" hidden>报名已登记，3 个工作日内我们将以短信与你确认培训安排。欢迎来到河边。</p>
+        </form>
+      </div>
+      <p class="join-foot">巡河队长们十年累计步行 18,600 公里 / 相当于沿 78 公里干流往返约 119 次</p>
+    </div>
+  </section>
+
+  <!-- 捐款 -->
+  <section id="donate" class="donate-band" aria-labelledby="don-h">
+    <div class="wrap donate-grid">
+      <div>
+        <h2 id="don-h">每一笔捐款，都对应一次具体动作</h2>
+        <p class="dsub">选择档位，看它能支撑什么。所有捐款进入公募专户，可开具公益事业捐赠票据，使用情况按季度披露，年度数据经第三方审计。</p>
+        <p class="donate-avg">现有 8,203 位月捐人 / 人均每月 22.4 元 / 随时可以中止</p>
+      </div>
+      <div class="donate-box card">
+        <div class="amt-row" role="group" aria-label="选择月捐档位">
+          <button type="button" class="amt" data-amt="30" aria-pressed="false">30 元</button>
+          <button type="button" class="amt on" data-amt="120" aria-pressed="true">120 元</button>
+          <button type="button" class="amt" data-amt="400" aria-pressed="false">400 元</button>
+          <button type="button" class="amt" data-amt="custom" aria-pressed="false">自定义</button>
+        </div>
+        <p class="amt-desc" id="amt-desc">支撑 1 个采样点完成当月的快速检测</p>
+        <button class="btn btn-accent" type="button" id="donate-cta">月捐 120 元</button>
+        <p class="donate-note" id="donate-note" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#main">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#0891B2"/><path d="M6 12c3-3.2 6 3.2 9 0s6 3.2 9 0" stroke="#ECFEFF" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M6 20c3-3.2 6 3.2 9 0s6 3.2 9 0" stroke="#22D3EE" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+          清流计划<small>城市河流保护基金</small>
+        </a>
+        <p>成立于 2016 年 / 澜江市滨河路 17 号 / 志愿者邮箱 volunteer@qingliu.org.cn / 工作日 9 至 18 点</p>
+      </div>
+      <nav aria-label="参与">
+        <h4>参与</h4>
+        <ul>
+          <li><a href="#join">志愿者报名</a></li>
+          <li><a href="#donate">月捐支持</a></li>
+          <li><a href="#map">水质月报</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="公开信息">
+        <h4>公开信息</h4>
+        <ul>
+          <li><a href="#finance">年度报告</a></li>
+          <li><a href="#finance">审计信息</a></li>
+          <li><a href="#mission">机构介绍</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="foot-disclaim">本页面为 UI 设计样板 / 清流计划为虚构组织，页面内数据均为演示内容</p>
+    <div class="foot-note">
+      <span>UI 设计提示词库 / 产品模板 / Non-profit/Charity</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* 河段数据 */
+  var SEGS = {
+    source:   { name: "上游饮用水源保护区", cls: "II 类", chip: "chip-2", pts: "6 个",  metric: "总氮 0.42 mg/L",       trend: "连续 24 个月稳定",           note: "每月加密采样一次，护栏与警示标识全覆盖" },
+    wetland:  { name: "澜江湾湿地",         cls: "II 类", chip: "chip-2", pts: "12 个", metric: "总磷 0.086 mg/L",      trend: "较 2023 年提升一个类别",     note: "12 公顷滩涂修复，34 种水生植物回归" },
+    oldtown:  { name: "老城段",             cls: "III 类", chip: "chip-3", pts: "9 个", metric: "氨氮 0.71 mg/L",       trend: "稳中向好",                   note: "317 个排污口建档完成，志愿者每周巡查" },
+    industry: { name: "工业园段",           cls: "III 类", chip: "chip-3", pts: "8 个", metric: "化学需氧量 18 mg/L",   trend: "由 IV 类转为 III 类",        note: "与 12 家企业建立雨污分流整改台账" },
+    liuxi:    { name: "柳溪（支流）",        cls: "IV 类", chip: "chip-4", pts: "7 个", metric: "总磷 0.22 mg/L",       trend: "治理中，目标 2027 年达 III 类", note: "农业面源治理试点 200 公顷" },
+    estuary:  { name: "入江口",             cls: "III 类", chip: "chip-3", pts: "6 个", metric: "总磷 0.14 mg/L",       trend: "与 2024 年持平",             note: "建有总磷自动监测站 1 座" }
+  };
+  var dots = document.querySelectorAll(".dot");
+  var panel = {
+    name: document.getElementById("mp-name"),
+    chip: document.getElementById("mp-chip"),
+    pts: document.getElementById("mp-pts"),
+    metric: document.getElementById("mp-metric"),
+    trend: document.getElementById("mp-trend"),
+    note: document.getElementById("mp-note")
+  };
+
+  function selectSeg(id) {
+    var d = SEGS[id];
+    if (!d) { return; }
+    panel.name.textContent = d.name;
+    panel.chip.textContent = d.cls;
+    panel.chip.className = "chip " + d.chip;
+    panel.pts.textContent = d.pts;
+    panel.metric.textContent = d.metric;
+    panel.trend.textContent = d.trend;
+    panel.note.textContent = d.note;
+    dots.forEach(function (g) {
+      var on = g.getAttribute("data-id") === id;
+      g.classList.toggle("on", on);
+      g.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
+  dots.forEach(function (g) {
+    g.addEventListener("click", function () { selectSeg(g.getAttribute("data-id")); });
+    g.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        selectSeg(g.getAttribute("data-id"));
+      }
+    });
+  });
+  selectSeg("source");
+
+  /* 捐款档位 */
+  var AMTS = {
+    "30": "支撑 1 份采样试剂包与耗材寄递",
+    "120": "支撑 1 个采样点完成当月的快速检测",
+    "400": "支撑 1 节河流自然课堂的教具与材料",
+    "custom": "定期月捐可随时中止 / 金额自定 / 用途同样按季披露"
+  };
+  var amtBtns = document.querySelectorAll(".amt");
+  var amtDesc = document.getElementById("amt-desc");
+  var cta = document.getElementById("donate-cta");
+  var donateNote = document.getElementById("donate-note");
+
+  amtBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = b.getAttribute("data-amt");
+      amtBtns.forEach(function (o) {
+        o.classList.toggle("on", o === b);
+        o.setAttribute("aria-pressed", o === b ? "true" : "false");
+      });
+      amtDesc.textContent = AMTS[v];
+      cta.textContent = v === "custom" ? "设置自定义月捐" : "月捐 " + v + " 元";
+      donateNote.textContent = "";
+    });
+  });
+  cta.addEventListener("click", function () {
+    donateNote.textContent = "已记录你的选择（样板演示，未发生真实扣款）";
+  });
+
+  /* 志愿者报名 */
+  var form = document.getElementById("vol-form");
+  var eName = document.getElementById("e-name");
+  var ePhone = document.getElementById("e-phone");
+  var vOk = document.getElementById("v-ok");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("v-name").value.trim();
+    var phone = document.getElementById("v-phone").value.trim();
+    var ok = true;
+    eName.hidden = name.length >= 2;
+    ePhone.hidden = /^1[3-9]\d{9}$/.test(phone);
+    if (name.length < 2) { ok = false; }
+    if (!/^1[3-9]\d{9}$/.test(phone)) { ok = false; }
+    vOk.hidden = !ok;
+    if (ok) { form.querySelector("button[type=submit]").hidden = true; }
+  });
+})();
+</script>
+</body>
+</html>

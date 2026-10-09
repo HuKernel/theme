@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Logistics/Delivery / UI 设计提示词库</title>
+<meta name="description" content="Logistics/Delivery 产品模板演示页：生鲜冷链物流「鲜链」，全温层运输、全程温度曲线可视化、时效承诺与客户案例。">
+<style>
+/* token 计划: Primary #2563EB / On-Primary #FFFFFF / Secondary #3B82F6 / Accent #EA580C(文本用 #C2410C) / BG #EFF6FF / FG #1E40AF / Card #FFFFFF / Border #BFDBFE / Muted #E9EFF8 / Ring #2563EB, 辅助绿 #059669(文本 #047857), 深色转化带 #060D1F 复用蓝系文本 #DBEAFE 保证对比度不低于 4.5:1 */
+:root {
+  --primary: #2563EB;
+  --on-primary: #FFFFFF;
+  --secondary: #3B82F6;
+  --accent: #EA580C;
+  --accent-ink: #C2410C;
+  --bg: #EFF6FF;
+  --fg: #1E40AF;
+  --fg-soft: #3B5A86;
+  --card: #FFFFFF;
+  --border: #BFDBFE;
+  --muted: #E9EFF8;
+  --ring: #2563EB;
+  --ok: #059669;
+  --ok-ink: #047857;
+  --ok-bg: #E5F6EF;
+  --dark: #060D1F;
+  --dark-line: rgba(96, 165, 250, 0.38);
+  --dark-text: #DBEAFE;
+  --dark-soft: #93C5FD;
+  --r-lg: 14px;
+  --r-md: 10px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; }
+.wrap { width: min(1180px, 100% - 44px); margin-inline: auto; }
+a { color: var(--fg); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--primary); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 6px; }
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 8px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+.num { font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* 顶部导航 */
+.topbar { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 50; }
+.topbar .wrap { display: flex; align-items: center; gap: 18px 28px; padding: 13px 0; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: 0.02em; }
+.brand-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-size: 17px; font-weight: 800; }
+.brand-sub { font-size: 13.5px; font-weight: 500; color: var(--fg-soft); }
+.topnav { display: flex; gap: 22px; font-size: 16px; flex-wrap: wrap; margin-left: auto; }
+.topnav a { text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+
+/* 按钮 */
+.btn { display: inline-block; border: none; cursor: pointer; font: inherit; font-weight: 700; border-radius: var(--r-md); padding: 12px 26px; font-size: 16px; text-decoration: none; transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: #1D4ED8; color: var(--on-primary); }
+.btn-ghost { background: var(--card); color: var(--fg); border: 2px solid var(--border); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+.btn-light { background: var(--card); color: var(--fg); }
+.btn-light:hover { background: var(--muted); color: var(--fg); }
+.btn-outline-dark { background: transparent; color: var(--dark-text); border: 2px solid var(--dark-line); }
+.btn-outline-dark:hover { border-color: var(--dark-soft); color: #FFFFFF; }
+
+/* 首屏 */
+.hero { padding: 68px 0 58px; }
+.hero-grid { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 44px; align-items: stretch; }
+.hero-copy { display: flex; flex-direction: column; justify-content: center; }
+.kicker { font-size: 15.5px; font-weight: 700; color: var(--primary); margin-bottom: 14px; }
+.hero h1 { font-size: clamp(38px, 5vw, 58px); line-height: 1.1; letter-spacing: -0.01em; max-width: 620px; }
+.hero h1 em { font-style: normal; color: var(--primary); }
+.hero-sub { margin-top: 18px; font-size: 18px; color: var(--fg-soft); max-width: 560px; }
+.hero-actions { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+.hero-stats { list-style: none; display: grid; grid-template-columns: repeat(4, auto); gap: 12px 34px; margin-top: 36px; }
+.hero-stats strong { display: block; font-size: 26px; font-weight: 800; }
+.hero-stats span { font-size: 14px; color: var(--fg-soft); }
+
+/* 实时温控面板 */
+.live { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.live-head { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+.live-head time { margin-left: auto; font-weight: 500; font-size: 13.5px; color: var(--fg-soft); }
+.dot-live { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); flex: none; animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.live-main { display: flex; align-items: baseline; gap: 14px; padding: 4px 0 10px; border-bottom: 1px solid var(--border); }
+.live-main b { font-size: 40px; font-weight: 800; line-height: 1; }
+.live-main span { font-size: 14px; color: var(--fg-soft); }
+.live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.live-cell { background: var(--muted); border-radius: var(--r-md); padding: 12px 14px; }
+.live-cell strong { display: block; font-size: 22px; font-weight: 800; }
+.live-cell span { font-size: 13.5px; color: var(--fg-soft); }
+.veh-list { list-style: none; display: flex; flex-direction: column; }
+.veh { display: grid; grid-template-columns: 74px 1fr auto auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--border); font-size: 15px; }
+.veh b { font-weight: 700; }
+.veh .vt { color: var(--fg-soft); font-size: 14px; }
+.veh .tt { font-weight: 800; font-size: 17px; }
+.veh .st { font-size: 13px; font-weight: 700; color: var(--ok-ink); background: var(--ok-bg); border-radius: 999px; padding: 3px 10px; }
+.live-note { margin-top: auto; font-size: 13px; color: var(--fg-soft); }
+
+/* 通用区块 */
+.section { padding: 62px 0; scroll-margin-top: 72px; }
+.sec-head { margin-bottom: 26px; }
+.sec-index { font-size: 15px; font-weight: 700; color: var(--primary); }
+.sec-title { font-size: clamp(26px, 3vw, 34px); line-height: 1.2; margin-top: 6px; }
+.sec-desc { margin-top: 10px; color: var(--fg-soft); max-width: 640px; }
+
+/* 能力条 */
+.strip { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--card); overflow: hidden; margin-bottom: 26px; }
+.strip > div { padding: 18px 22px; border-left: 1px solid var(--border); }
+.strip > div:first-child { border-left: none; }
+.strip strong { display: block; font-size: 27px; font-weight: 800; }
+.strip span { font-size: 14px; color: var(--fg-soft); }
+
+/* 温层表 / 时效表 */
+.tcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.t-head, .t-row { display: grid; grid-template-columns: 120px 168px 1.15fr 1.2fr 140px; gap: 8px 16px; align-items: center; }
+.t-head { padding: 12px 20px; background: var(--muted); font-size: 14px; font-weight: 700; color: var(--fg-soft); }
+.t-row { padding: 15px 20px; border-top: 1px solid var(--border); font-size: 15.5px; }
+.t-sla .t-head, .t-sla .t-row { grid-template-columns: 1.35fr 110px 150px 130px 120px; }
+.tier { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; font-size: 14.5px; }
+.tier i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.c-deep i { background: #1E40AF; } .c-frozen i { background: var(--primary); }
+.c-chill i { background: var(--ok); } .c-eco i { background: var(--accent); }
+.t-sub { display: block; font-size: 13px; color: var(--fg-soft); font-weight: 500; }
+.t-num { font-weight: 800; }
+.t-ok { color: var(--ok-ink); font-weight: 700; }
+
+/* 特性卡 */
+.feat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.feat { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px 22px; }
+.feat svg { width: 30px; height: 30px; stroke: var(--primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.feat h3 { font-size: 17px; margin-top: 12px; }
+.feat p { font-size: 14.5px; color: var(--fg-soft); margin-top: 6px; }
+
+/* 温度曲线（签名组件） */
+.chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 24px 18px; }
+.chart-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.chart-top h3 { font-size: 20px; }
+#routeNote { font-size: 14px; color: var(--fg-soft); margin-top: 4px; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chip { border: 2px solid var(--border); background: var(--card); color: var(--fg); font: inherit; font-size: 15px; font-weight: 600; border-radius: 999px; padding: 7px 18px; cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s ease; }
+.chip:hover { border-color: var(--primary); }
+.chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.chart-scroll { overflow-x: auto; }
+#tempChart { width: 100%; min-width: 760px; height: auto; display: block; }
+#tempChart text.tick { font-size: 13px; fill: var(--fg-soft); }
+#tempChart text.stage { font-size: 13px; fill: var(--fg-soft); }
+#tempChart text.axis { font-size: 13px; font-weight: 700; fill: var(--fg); }
+#tempChart text.note { font-size: 13px; font-weight: 700; fill: var(--fg); }
+#tempChart text.bl-u { font-size: 12.5px; font-weight: 700; fill: var(--accent-ink); }
+#tempChart text.bl-l { font-size: 12.5px; fill: var(--fg-soft); }
+.readout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+.readout > div { background: var(--muted); border-radius: var(--r-md); padding: 12px 16px; }
+.readout strong { display: block; font-size: 21px; font-weight: 800; }
+.readout span { font-size: 13px; color: var(--fg-soft); }
+
+/* 时效承诺 */
+.sla-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 22px; align-items: stretch; }
+.sla-aside { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.sla-aside h3 { font-size: 19px; }
+.sla-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.sla-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; }
+.sla-list svg { width: 22px; height: 22px; stroke: var(--ok); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; margin-top: 3px; }
+.sla-list b { display: block; font-size: 15.5px; }
+.sla-list p { font-size: 14px; color: var(--fg-soft); }
+.sla-kpi { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--muted); border-radius: var(--r-md); padding: 14px 16px; }
+.sla-kpi strong { display: block; font-size: 22px; font-weight: 800; }
+.sla-kpi span { font-size: 13px; color: var(--fg-soft); }
+
+/* 客户案例 */
+.case-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+.case { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.case-tag { align-self: flex-start; font-size: 13px; font-weight: 700; color: var(--primary); background: var(--muted); border-radius: 999px; padding: 4px 12px; }
+.case h3 { font-size: 19px; }
+.case blockquote { border-left: 3px solid var(--border); padding-left: 14px; font-size: 15px; color: var(--fg-soft); }
+.case-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: auto; }
+.case-metrics div { background: var(--muted); border-radius: var(--r-md); padding: 10px 12px; }
+.case-metrics strong { display: block; font-size: 18.5px; font-weight: 800; }
+.case-metrics span { font-size: 12.5px; color: var(--fg-soft); }
+.case-foot { font-size: 13px; color: var(--fg-soft); }
+
+/* 转化带（深色） */
+.cta { background: var(--dark); border-top: 1px solid var(--dark-line); border-bottom: 1px solid var(--dark-line); color: var(--dark-text); padding: 64px 0; }
+.cta-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+.cta h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.18; color: #FFFFFF; }
+.cta p { margin-top: 14px; color: var(--dark-soft); max-width: 560px; }
+.cta-actions { display: flex; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
+.gtee { list-style: none; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--dark-line); border-radius: var(--r-lg); overflow: hidden; }
+.gtee li { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-top: 1px solid var(--dark-line); font-size: 15px; }
+.gtee li:first-child { border-top: none; }
+.gtee b { display: block; color: #FFFFFF; font-size: 16px; }
+.gtee span { color: var(--dark-soft); font-size: 14px; }
+.gtee svg { width: 24px; height: 24px; stroke: #60A5FA; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; margin-top: 2px; }
+
+/* 页脚 */
+.site-foot { padding: 26px 0 34px; }
+.foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 22px; font-size: 14.5px; color: var(--fg-soft); }
+.site-foot a { font-weight: 600; }
+
+/* 响应式 */
+@media (max-width: 1023px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+  .hero-stats { grid-template-columns: repeat(2, auto); }
+  .sla-grid { grid-template-columns: 1fr; }
+  .cta-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 900px) {
+  .t-head { display: none; }
+  .t-row { grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 16px 18px; }
+  .t-row .cell::before { content: attr(data-l); display: block; font-size: 12.5px; font-weight: 600; color: var(--fg-soft); }
+}
+@media (max-width: 767px) {
+  .section { padding: 48px 0; }
+  .hero { padding: 48px 0 44px; }
+  .strip, .feat-row, .case-row { grid-template-columns: 1fr 1fr; }
+  .readout { grid-template-columns: 1fr 1fr; }
+  .veh { grid-template-columns: 64px 1fr auto; }
+  .veh .st { display: none; }
+}
+@media (max-width: 520px) {
+  .strip, .feat-row, .case-row { grid-template-columns: 1fr; }
+  .strip > div { border-left: none; border-top: 1px solid var(--border); }
+  .strip > div:first-child { border-top: none; }
+  .hero-stats { grid-template-columns: auto auto; gap: 10px 26px; }
+  .live-grid, .sla-kpi, .case-metrics { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot-live { animation: none; }
+  .btn, .chip { transition: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">鲜</span>
+      <span>鲜链冷链</span>
+      <span class="brand-sub">生鲜温层运输网络</span>
+    </div>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#tiers">温层网络</a>
+      <a href="#curve">温度曲线</a>
+      <a href="#sla">时效承诺</a>
+      <a href="#cases">客户案例</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">生鲜冷链物流 / 全程温控可视 / 温度即承诺</p>
+        <h1 id="heroTitle">把每一段温度<em>都变成可交付的承诺</em></h1>
+        <p class="hero-sub">鲜链运营 -30°C 至 15°C 全温层冷链网络，2,600 余台温控车与 6 座自有冷库，让每一票生鲜货都附带可回溯的全程温度档案。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#cta">接入鲜链运力</a>
+          <a class="btn btn-ghost" href="#curve">查看温度样例曲线</a>
+        </div>
+        <ul class="hero-stats num">
+          <li><strong>214 条</strong><span>冷链干线</span></li>
+          <li><strong>38 城</strong><span>全网覆盖</span></li>
+          <li><strong>99.2%</strong><span>干线准时率</span></li>
+          <li><strong>0 起</strong><span>上月温度越限</span></li>
+        </ul>
+      </div>
+      <div class="live num" aria-label="实时温控网络面板">
+        <div class="live-head">
+          <span class="dot-live" aria-hidden="true"></span>
+          实时温控网络
+          <time id="liveTime">--:--:--</time>
+        </div>
+        <div class="live-main">
+          <b id="liveAvg">-18.6°C</b>
+          <span>在途车厢平均温度<br>全部温层加权</span>
+        </div>
+        <div class="live-grid">
+          <div class="live-cell"><strong id="fleetNum">328</strong><span>在途温控车</span></div>
+          <div class="live-cell"><strong id="alarmNum">0</strong><span>温度越限报警</span></div>
+        </div>
+        <ul class="veh-list">
+          <li class="veh"><b>R-2087</b><span class="vt">冷藏城配 / 苏州</span><span class="tt" id="v0">2.4°C</span><span class="st">带内</span></li>
+          <li class="veh"><b>H-1024</b><span class="vt">冷冻干线 / 京沪线</span><span class="tt" id="v1">-21.3°C</span><span class="st">带内</span></li>
+          <li class="veh"><b>V-3312</b><span class="vt">恒温果蔬 / 杭州绕城</span><span class="tt" id="v2">12.1°C</span><span class="st">带内</span></li>
+        </ul>
+        <p class="live-note">驾驶室与冷机双通道上传，每 4 秒刷新一次，演示环境为模拟数据。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tiers" aria-labelledby="tiersTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-index">01 / 温层网络</p>
+        <h2 class="sec-title" id="tiersTitle">四个温层，一张网承诺到底</h2>
+        <p class="sec-desc">从深冷金枪鱼到恒温精品果蔬，每个温层的区间、车型与越限率都在合同里写明，交付后按单导出温度报告。</p>
+      </div>
+      <div class="strip num">
+        <div><strong>6 座</strong><span>自有冷库 / -30°C 至 15°C</span></div>
+        <div><strong>2,600+</strong><span>温控车厢 / 含双温机组</span></div>
+        <div><strong>214 条</strong><span>冷链干线 / 每日发车</span></div>
+        <div><strong>180 天</strong><span>温度数据留存</span></div>
+      </div>
+      <div class="tcard">
+        <div class="t-head" role="row">
+          <span class="cell">温层</span><span class="cell">承诺区间</span><span class="cell">典型货类</span><span class="cell">车型与温控</span><span class="cell">上月越限率</span>
+        </div>
+        <div class="t-row num" role="row">
+          <span class="cell"><span class="tier c-deep"><i aria-hidden="true"></i>深冷</span></span>
+          <span class="cell" data-l="承诺区间">-30°C ~ -25°C</span>
+          <span class="cell" data-l="典型货类">蓝鳍金枪鱼、高端冰淇淋<span class="t-sub">全程深冷不断链</span></span>
+          <span class="cell" data-l="车型与温控">深冷机组半挂车<span class="t-sub">双机组互备 / 温度双通道</span></span>
+          <span class="cell t-ok" data-l="上月越限率">0.00%</span>
+        </div>
+        <div class="t-row num" role="row">
+          <span class="cell"><span class="tier c-frozen"><i aria-hidden="true"></i>冷冻</span></span>
+          <span class="cell" data-l="承诺区间">-22°C ~ -18°C</span>
+          <span class="cell" data-l="典型货类">速冻面点、冻肉、水产<span class="t-sub">干线 + 城配同温衔接</span></span>
+          <span class="cell" data-l="车型与温控">冷冻干线半挂 / 多温城配车<span class="t-sub">装卸口风幕隔离</span></span>
+          <span class="cell t-ok" data-l="上月越限率">0.02%</span>
+        </div>
+        <div class="t-row num" role="row">
+          <span class="cell"><span class="tier c-chill"><i aria-hidden="true"></i>冷藏</span></span>
+          <span class="cell" data-l="承诺区间">0°C ~ 4°C</span>
+          <span class="cell" data-l="典型货类">乳制品、鲜肉、预制菜<span class="t-sub">出库前 30 分钟预冷</span></span>
+          <span class="cell" data-l="车型与温控">多温层城配车<span class="t-sub">分区独立机组</span></span>
+          <span class="cell t-ok" data-l="上月越限率">0.05%</span>
+        </div>
+        <div class="t-row num" role="row">
+          <span class="cell"><span class="tier c-eco"><i aria-hidden="true"></i>恒温</span></span>
+          <span class="cell" data-l="承诺区间">8°C ~ 15°C</span>
+          <span class="cell" data-l="典型货类">精品果蔬、巧克力<span class="t-sub">防冻伤与催熟管理</span></span>
+          <span class="cell" data-l="车型与温控">恒温厢式车<span class="t-sub">湿度联动控制</span></span>
+          <span class="cell t-ok" data-l="上月越限率">0.03%</span>
+        </div>
+      </div>
+      <div class="feat-row">
+        <div class="feat">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg>
+          <h3>一车双温，同车共配</h3>
+          <p>冷冻与冷藏分区独立机组，门店合单配送，装载率提升三成。</p>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17v-5a6 6 0 0 1 12 0v5"/><path d="M4.5 17h15l-1 3h-13z"/><path d="M12 3v2"/></svg>
+          <h3>温度与门磁双报警</h3>
+          <p>车厢温度接近区间边界或异常开门，调度台 30 秒内收到推送。</p>
+        </div>
+        <div class="feat">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h5"/></svg>
+          <h3>按单导出温度报告</h3>
+          <p>每票货一份全程温度档案，验货与理赔都以同一份数据为准。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="curve" aria-labelledby="curveTitle" style="background: var(--muted);">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-index">02 / 温度曲线</p>
+        <h2 class="sec-title" id="curveTitle">全程温度曲线，交付前先看一遍</h2>
+        <p class="sec-desc">从揽收到签收，车厢温度每 2 分钟记录一次。蓝色承诺区间之外就是报警线，以下为两张真实运单的脱敏样例。</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top">
+          <div>
+            <h3>全程温度记录</h3>
+            <p id="routeNote" class="num">样本运单加载中</p>
+          </div>
+          <div class="chips" role="group" aria-label="切换样例运单">
+            <button class="chip" type="button" id="chipFrozen" aria-pressed="true">冷冻干线运单</button>
+            <button class="chip" type="button" id="chipChilled" aria-pressed="false">冷藏城配运单</button>
+          </div>
+        </div>
+        <div class="chart-scroll">
+          <svg id="tempChart" viewBox="0 0 920 420" role="img" aria-label="全程温度曲线图"></svg>
+        </div>
+        <div class="readout num" aria-label="运单温度统计">
+          <div><strong id="roBand">--</strong><span>承诺区间</span></div>
+          <div><strong id="roMean">--</strong><span>全程均值</span></div>
+          <div><strong id="roSwing">--</strong><span>带内波动</span></div>
+          <div><strong id="roBreach">0 次</strong><span>全程越限</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sla" aria-labelledby="slaTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-index">03 / 时效承诺</p>
+        <h2 class="sec-title" id="slaTitle">时效写进合同，超时按小时赔付</h2>
+        <p class="sec-desc">主要干线逐条公示承诺时效与上月准时率，超时未达按阶梯退费，温度越限整单免运。</p>
+      </div>
+      <div class="sla-grid">
+        <div class="tcard t-sla">
+          <div class="t-head" role="row">
+            <span class="cell">线路</span><span class="cell">温层</span><span class="cell">承诺时效</span><span class="cell">发车频次</span><span class="cell">准时率</span>
+          </div>
+          <div class="t-row num" role="row">
+            <span class="cell" data-l="线路">上海至北京</span>
+            <span class="cell" data-l="温层"><span class="tier c-frozen"><i aria-hidden="true"></i>冷冻</span></span>
+            <span class="cell t-num" data-l="承诺时效">≤ 18 小时</span>
+            <span class="cell" data-l="发车频次">每日 3 班</span>
+            <span class="cell t-ok" data-l="准时率">99.2%</span>
+          </div>
+          <div class="t-row num" role="row">
+            <span class="cell" data-l="线路">广州至长沙</span>
+            <span class="cell" data-l="温层"><span class="tier c-chill"><i aria-hidden="true"></i>冷藏</span></span>
+            <span class="cell t-num" data-l="承诺时效">≤ 8 小时</span>
+            <span class="cell" data-l="发车频次">每日 4 班</span>
+            <span class="cell t-ok" data-l="准时率">99.6%</span>
+          </div>
+          <div class="t-row num" role="row">
+            <span class="cell" data-l="线路">杭州至南京</span>
+            <span class="cell" data-l="温层"><span class="tier c-chill"><i aria-hidden="true"></i>冷藏</span></span>
+            <span class="cell t-num" data-l="承诺时效">≤ 6 小时</span>
+            <span class="cell" data-l="发车频次">每日 5 班</span>
+            <span class="cell t-ok" data-l="准时率">99.4%</span>
+          </div>
+          <div class="t-row num" role="row">
+            <span class="cell" data-l="线路">成都至西安</span>
+            <span class="cell" data-l="温层"><span class="tier c-eco"><i aria-hidden="true"></i>恒温</span></span>
+            <span class="cell t-num" data-l="承诺时效">≤ 14 小时</span>
+            <span class="cell" data-l="发车频次">每日 2 班</span>
+            <span class="cell t-ok" data-l="准时率">98.9%</span>
+          </div>
+          <div class="t-row num" role="row">
+            <span class="cell" data-l="线路">武汉至郑州</span>
+            <span class="cell" data-l="温层"><span class="tier c-frozen"><i aria-hidden="true"></i>冷冻</span></span>
+            <span class="cell t-num" data-l="承诺时效">≤ 12 小时</span>
+            <span class="cell" data-l="发车频次">每日 3 班</span>
+            <span class="cell t-ok" data-l="准时率">99.1%</span>
+          </div>
+        </div>
+        <aside class="sla-aside">
+          <h3>赔付与承诺条款</h3>
+          <ul class="sla-list">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+              <div><b>温度越限，整单免运</b><p>并按货损保价金额赔付，温度报告作为唯一判定依据。</p></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              <div><b>超时按小时阶梯退费</b><p>每超 1 小时退还该单运费 5%，单笔上限 50%。</p></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/></svg>
+              <div><b>温度数据留存 180 天</b><p>支持按运单随时导出，对接企业质检与溯源系统。</p></div>
+            </li>
+          </ul>
+          <div class="sla-kpi num">
+            <div><strong>37.6 万</strong><span>上月承运票数</span></div>
+            <div><strong>0.04%</strong><span>上月总体越限率</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cases" aria-labelledby="casesTitle" style="background: var(--muted);">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-index">04 / 客户案例</p>
+        <h2 class="sec-title" id="casesTitle">他们把温度交给了鲜链</h2>
+        <p class="sec-desc">乳品、连锁餐饮与生鲜电商的温层履约数据，均为客户公示口径。</p>
+      </div>
+      <div class="case-row">
+        <article class="case">
+          <span class="case-tag">乳品制造</span>
+          <h3>晨牧乳业</h3>
+          <blockquote>华东 214 家商超的冷藏配送全部交给鲜链后，温度达标率从 96.1% 提到 99.7%，商超验货一次通过。</blockquote>
+          <div class="case-metrics num">
+            <div><strong>99.7%</strong><span>温度达标率</span></div>
+            <div><strong>-41%</strong><span>退货率变化</span></div>
+            <div><strong>214 家</strong><span>覆盖商超</span></div>
+          </div>
+          <p class="case-foot">合作 26 个月 / 冷藏温层 0°C 至 4°C</p>
+        </article>
+        <article class="case">
+          <span class="case-tag">连锁餐饮</span>
+          <h3>南灶餐饮</h3>
+          <blockquote>冻品到店温度稳定在 -20°C 上下，门店报损直接砍掉三成半，采购计划也敢往前排了。</blockquote>
+          <div class="case-metrics num">
+            <div><strong>99.3%</strong><span>交付准时率</span></div>
+            <div><strong>-35%</strong><span>门店报损变化</span></div>
+            <div><strong>62 家</strong><span>配送门店</span></div>
+          </div>
+          <p class="case-foot">合作 14 个月 / 冷冻温层 -22°C 至 -18°C</p>
+        </article>
+        <article class="case">
+          <span class="case-tag">生鲜电商</span>
+          <h3>菜场到家</h3>
+          <blockquote>全温层一件代发接进我们的仓配系统只用了一周，晚间订单的当日达履约现在稳在 98% 以上。</blockquote>
+          <div class="case-metrics num">
+            <div><strong>98.8%</strong><span>当日达履约率</span></div>
+            <div><strong>-52%</strong><span>客诉率变化</span></div>
+            <div><strong>7 天</strong><span>系统接入周期</span></div>
+          </div>
+          <p class="case-foot">合作 9 个月 / 全温层一件代发</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="cta" aria-labelledby="ctaTitle">
+    <div class="wrap cta-grid">
+      <div>
+        <h2 id="ctaTitle">让每一票货，都带着完整的温度档案到达</h2>
+        <p>开通企业账户后，客户经理将按货类温层定制线路与发车计划，首单支持免费温度审计。</p>
+        <div class="cta-actions">
+          <a class="btn btn-light" href="#main">开通企业账户</a>
+          <a class="btn btn-outline-dark" href="#tiers">预约冷库参观</a>
+        </div>
+      </div>
+      <ul class="gtee">
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v13"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+          <div><b>全程温度回溯</b><span>每 2 分钟一条记录，180 天随时导出。</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          <div><b>时效与温度双赔付</b><span>超时阶梯退费，越限整单免运。</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/></svg>
+          <div><b>一件代发全温层</b><span>深冷到恒温四层运力，一单到底。</span></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>UI 设计提示词库 / 产品模板 / Logistics/Delivery</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('tempChart');
+  var W = 920, H = 420, L = 70, R = 26, T = 30, B = 58;
+  var plotW = W - L - R, plotH = H - T - B;
+
+  var DATA = {
+    frozen: {
+      label: '冷冻干线运单 / 上海至北京',
+      note: '样本运单 SF-88210 / 上海至北京 / 冷冻干线 1,214 km / 18.0 小时',
+      band: [-24, -18],
+      ticks: [-25, -23, -21, -19, -17],
+      color: '#2563EB',
+      bandFill: 'rgba(37, 99, 235, 0.08)',
+      stages: ['揽收', '冷库预冷', '干线前段', '干线后段', '分拨中转', '城配装车', '末端在途', '签收交付'],
+      points: [-19.2, -21.8, -20.6, -22.3, -21.1, -20.2, -20.9, -19.4]
+    },
+    chilled: {
+      label: '冷藏城配运单 / 杭州至南京',
+      note: '样本运单 SC-30517 / 杭州至南京 / 冷藏城配 312 km / 6.5 小时',
+      band: [0, 4],
+      ticks: [-1, 1, 3, 5],
+      color: '#059669',
+      bandFill: 'rgba(5, 150, 105, 0.08)',
+      stages: ['揽收', '出库预冷', '城配装车', '在途 1/3', '在途 2/3', '交接卸货', '末端配送', '签收交付'],
+      points: [1.8, 2.4, 3.1, 2.7, 2.2, 3.4, 2.6, 3.0]
+    }
+  };
+
+  function el(name, attrs, text) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) { e.setAttribute(k, attrs[k]); }
+    if (text) { e.textContent = text; }
+    return e;
+  }
+
+  function buildChart(key, animate) {
+    var d = DATA[key];
+    var lo = d.band[0] - 1.5, hi = d.band[1] + 1.5;
+    var n = d.points.length;
+    function y(t) { return T + (hi - t) / (hi - lo) * plotH; }
+    function x(i) { return L + i * (plotW / (n - 1)); }
+
+    svg.innerHTML = '';
+
+    var gGrid = el('g', {});
+    d.ticks.forEach(function (t) {
+      gGrid.appendChild(el('line', { x1: L, x2: L + plotW, y1: y(t), y2: y(t), stroke: '#DCE6F5', 'stroke-width': 1 }));
+      gGrid.appendChild(el('text', { x: L - 10, y: y(t) + 4.5, 'text-anchor': 'end', 'class': 'tick num' }, t + '°'));
+    });
+    gGrid.appendChild(el('text', { x: L - 10, y: T - 10, 'text-anchor': 'end', 'class': 'axis' }, '温度'));
+    svg.appendChild(gGrid);
+
+    svg.appendChild(el('rect', { x: L, y: y(d.band[1]), width: plotW, height: y(d.band[0]) - y(d.band[1]), fill: d.bandFill }));
+    [d.band[1], d.band[0]].forEach(function (t) {
+      svg.appendChild(el('line', { x1: L, x2: L + plotW, y1: y(t), y2: y(t), stroke: d.color, 'stroke-width': 1.5, 'stroke-dasharray': '7 6', opacity: 0.75 }));
+    });
+    svg.appendChild(el('text', { x: L + plotW - 6, y: y(d.band[1]) - 7, 'text-anchor': 'end', 'class': 'bl-u' }, '承诺上限 ' + d.band[1] + '°C'));
+    svg.appendChild(el('text', { x: L + plotW - 6, y: y(d.band[0]) + 16, 'text-anchor': 'end', 'class': 'bl-l' }, '承诺下限 ' + d.band[0] + '°C'));
+
+    var path = el('path', { fill: 'none', stroke: d.color, 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+    var dd = '';
+    for (var i = 0; i < n; i++) { dd += (i === 0 ? 'M' : ' L') + x(i).toFixed(1) + ' ' + y(d.points[i]).toFixed(1); }
+    path.setAttribute('d', dd);
+    svg.appendChild(path);
+
+    var gDots = el('g', {});
+    for (var j = 0; j < n; j++) {
+      gDots.appendChild(el('circle', { cx: x(j), cy: y(d.points[j]), r: 4.5, fill: '#FFFFFF', stroke: d.color, 'stroke-width': 2.5 }));
+    }
+    svg.appendChild(gDots);
+
+    var maxI = 0, minI = 0;
+    for (var m = 1; m < n; m++) {
+      if (d.points[m] > d.points[maxI]) { maxI = m; }
+      if (d.points[m] < d.points[minI]) { minI = m; }
+    }
+    var gNotes = el('g', {});
+    [[maxI, '全程最高 ' + d.points[maxI].toFixed(1) + '°C', y(d.points[maxI]) - 16],
+     [minI, '全程最低 ' + d.points[minI].toFixed(1) + '°C', y(d.points[minI]) + 27]].forEach(function (a) {
+      var nx = Math.min(Math.max(x(a[0]), L + 62), L + plotW - 62);
+      gNotes.appendChild(el('text', { x: nx, y: a[2], 'text-anchor': 'middle', 'class': 'note num' }, a[1]));
+    });
+    svg.appendChild(gNotes);
+
+    var gSt = el('g', {});
+    for (var s = 0; s < n; s++) {
+      gSt.appendChild(el('line', { x1: x(s), x2: x(s), y1: T + plotH, y2: T + plotH + 6, stroke: '#DCE6F5', 'stroke-width': 1 }));
+      gSt.appendChild(el('text', { x: x(s), y: H - 14, 'text-anchor': 'middle', 'class': 'stage' }, d.stages[s]));
+    }
+    svg.appendChild(gSt);
+
+    svg.setAttribute('aria-label', d.label + ' 温度曲线，承诺区间 ' + d.band[0] + '°C 至 ' + d.band[1] + '°C，全程越限 0 次');
+
+    var sum = 0;
+    d.points.forEach(function (p) { sum += p; });
+    document.getElementById('roBand').textContent = d.band[0] + ' ~ ' + d.band[1] + '°C';
+    document.getElementById('roMean').textContent = (sum / n).toFixed(1) + '°C';
+    document.getElementById('roSwing').textContent = (d.points[maxI] - d.points[minI]).toFixed(1) + '°C';
+    document.getElementById('routeNote').textContent = d.note;
+
+    if (animate && !reduced) {
+      var len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+      requestAnimationFrame(function () {
+        path.style.transition = 'stroke-dashoffset 2.2s ease-out';
+        path.style.strokeDashoffset = '0';
+      });
+    }
+  }
+
+  var chipF = document.getElementById('chipFrozen');
+  var chipC = document.getElementById('chipChilled');
+  chipF.addEventListener('click', function () {
+    chipF.setAttribute('aria-pressed', 'true');
+    chipC.setAttribute('aria-pressed', 'false');
+    buildChart('frozen', false);
+  });
+  chipC.addEventListener('click', function () {
+    chipC.setAttribute('aria-pressed', 'true');
+    chipF.setAttribute('aria-pressed', 'false');
+    buildChart('chilled', false);
+  });
+  buildChart('frozen', true);
+})();
+
+(function () {
+  'use strict';
+  var timeEl = document.getElementById('liveTime');
+  var avgEl = document.getElementById('liveAvg');
+  var fleetEl = document.getElementById('fleetNum');
+  var vehicles = [
+    { el: document.getElementById('v0'), t: 2.4, min: 0.2, max: 3.8 },
+    { el: document.getElementById('v1'), t: -21.3, min: -23.5, max: -18.5 },
+    { el: document.getElementById('v2'), t: 12.1, min: 9.0, max: 14.5 }
+  ];
+  var avg = -18.6, fleet = 328;
+  function fmt(v) { return (v > 0 ? v.toFixed(1) : v.toFixed(1)) + '°C'; }
+  function tick() {
+    var now = new Date();
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    timeEl.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+    avg = Math.min(-18.0, Math.max(-19.2, avg + (Math.random() - 0.5) * 0.3));
+    fleet = Math.min(333, Math.max(324, fleet + (Math.random() < 0.5 ? -1 : 1)));
+    avgEl.textContent = avg.toFixed(1) + '°C';
+    fleetEl.textContent = fleet;
+    vehicles.forEach(function (v) {
+      v.t = Math.min(v.max, Math.max(v.min, v.t + (Math.random() - 0.5) * 0.24));
+      v.el.textContent = fmt(v.t);
+    });
+  }
+  tick();
+  setInterval(tick, 4000);
+})();
+</script>
+</body>
+</html>
