@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="相关散点与气泡图图鉴: 咖啡庄园海拔 / 杯测分 / 年产量真实感样本, 含趋势线 / 气泡第三维 / 过密对策 / 无障碍后备表。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 相关散点 / UI 设计提示词库</title>
+<style>
+/* token 计划: 纸面 #f7f2e9 / 卡面 #fffdf8 / 墨 #2b2620 / 弱文 #5f5342 / 焙茶 #7a3d1f / 数据蓝 #2f5d8a / 警示红 #b3402e / 描线 #ddd2bd / 斑马 #f3ecdd */
+:root{
+  --paper:#f7f2e9; --card:#fffdf8; --ink:#2b2620; --mut:#5f5342;
+  --acc:#7a3d1f; --blue:#2f5d8a; --red:#b3402e; --line:#ddd2bd; --zebra:#f3ecdd;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font:16px/1.75 "Source Han Serif SC","Noto Serif SC",Georgia,"Songti SC","SimSun",serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+a{color:var(--acc)}
+a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+svg{max-width:100%;height:auto;display:block}
+circle:focus-visible{outline:none;stroke:var(--blue);stroke-width:3}
+#pts .pt,#bubs circle{cursor:pointer}
+
+/* 页眉 */
+.mast{padding:44px 0 26px;border-bottom:3px double var(--ink)}
+.crumb{font-size:14px;color:var(--mut);letter-spacing:.05em}
+.crumb a{color:var(--mut)}
+.mast h1{font-size:clamp(30px,4.2vw,52px);line-height:1.18;letter-spacing:.02em;margin:10px 0 12px}
+.mast h1 em{font-style:normal;color:var(--acc)}
+.lede{max-width:62ch;color:var(--mut);font-size:16.5px}
+.mast .meta{margin-top:14px;font-size:14px;color:var(--mut)}
+
+/* 区块骨架 */
+section{padding:40px 0 6px}
+.kicker{font-size:14px;color:var(--acc);letter-spacing:.14em}
+h2{font-size:clamp(21px,2.4vw,28px);margin:4px 0 14px;letter-spacing:.02em}
+h3{font-size:17px;margin-bottom:8px}
+p.note{color:var(--mut);font-size:15px;max-width:70ch}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 0 rgba(43,38,32,.05)}
+
+/* 主图两栏 */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:26px;align-items:stretch}
+.figure-hero{display:flex;flex-direction:column;gap:14px}
+.figure-hero svg{align-self:center}
+.figfoot{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:14px;color:var(--mut)}
+.chip{display:inline-block;background:var(--zebra);border:1px solid var(--line);border-radius:8px;padding:2px 10px;font-size:13.5px;color:var(--ink)}
+
+/* 规格卡 */
+.spec{display:flex;flex-direction:column}
+.spec dl{display:grid;grid-template-columns:96px 1fr;gap:0;border-top:1px solid var(--line)}
+.spec dt{padding:11px 4px 11px 0;font-size:14px;color:var(--acc);border-bottom:1px solid var(--line)}
+.spec dd{padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.65}
+.spec .tail{margin-top:auto;padding-top:16px;font-size:13.5px;color:var(--mut)}
+
+/* 点动画: 一次弹入 */
+.pt{
+  fill:#7a3d1f;fill-opacity:.72;stroke:#fffdf8;stroke-width:1.4;
+  transform-box:fill-box;transform-origin:center;
+  animation:pop .55s cubic-bezier(.2,.85,.3,1.25) backwards;
+}
+@keyframes pop{from{transform:scale(0);opacity:0}}
+.pt.dim{opacity:.12}
+#pts.settled .pt{animation:none}
+@media (prefers-reduced-motion:reduce){.pt{animation:none}}
+
+/* 提示框 (跟随视口定位, 供大图与气泡图共用) */
+.tip{
+  position:fixed;z-index:9;pointer-events:none;transform:translate(-50%,-100%);
+  background:var(--ink);color:var(--paper);font-size:13.5px;line-height:1.5;
+  padding:7px 12px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 14px rgba(43,38,32,.28);
+}
+.tip[hidden]{display:none}
+
+/* 双联演示 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch}
+.duo figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.duo svg{order:2;margin:0 auto}
+.duo figcaption{order:3;font-size:14px;color:var(--mut)}
+.duo .cap{order:1}
+.mini-h{font-size:13.5px;color:var(--mut)}
+.gradlg{height:10px;border-radius:5px;background:linear-gradient(90deg,#2f5d8a,#b3402e);border:1px solid var(--line)}
+
+/* 数据表 */
+.tscroll{overflow-x:auto}
+.atable{min-width:620px;font-size:14.5px}
+.atable [role="row"]{display:grid;grid-template-columns:2.2fr 1.1fr .9fr .9fr 1fr;align-items:center;padding:8px 12px}
+.atable [role="row"]:nth-child(odd):not(:first-child){background:var(--zebra)}
+.atable [role="columnheader"]{font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink)}
+.atable [role="row"][hidden]{display:none}
+.atable .num{text-align:right;font-variant-numeric:tabular-nums}
+.brush{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:end;margin:14px 0 18px}
+.brush label{font-size:13.5px;color:var(--mut);display:flex;flex-direction:column;gap:4px}
+.brush input{width:120px;padding:7px 10px;border:1px solid #b9a98d;border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:15px}
+.brush output{font-size:14px;color:var(--acc);align-self:center}
+.btn{padding:8px 18px;border:1px solid var(--acc);border-radius:999px;background:var(--acc);color:var(--paper);font:inherit;font-size:14px;cursor:pointer}
+.btn:hover{background:#633017;border-color:#633017}
+.statline{display:flex;flex-wrap:wrap;gap:10px 26px;margin:16px 0 6px;font-size:14.5px}
+.statline b{color:var(--acc)}
+
+/* 无障碍要点 */
+.a11y-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:26px;align-items:stretch}
+.shapedemo{margin:0}
+.shapedemo svg{margin:0 auto}
+.checks{list-style:none;display:flex;flex-direction:column}
+.checks li{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:13px 4px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.65}
+.checks li:last-child{border-bottom:none}
+.checks .no{width:22px;height:22px;margin-top:5px;border-radius:50%;background:var(--acc);color:var(--card);font-size:12.5px;display:flex;align-items:center;justify-content:center}
+.checks b{color:var(--acc)}
+
+/* 数据量分档 */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch;margin-top:16px}
+.tier svg{margin:2px auto 10px}
+.tier h3{font-size:16px}
+.tier .thr{font-size:13px;color:var(--acc);letter-spacing:.06em}
+.tier p{font-size:14px;color:var(--mut);line-height:1.7}
+
+/* 页脚 */
+.foot{margin-top:56px;background:var(--ink);color:var(--paper);padding:34px 0}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+.foot span,.foot a{font-size:14.5px}
+.foot a{color:#e8c9a8}
+.foot a:hover{color:#fff}
+
+::selection{background:#e8c9a8;color:#2b2620}
+.tscroll{scrollbar-width:thin;scrollbar-color:#c9b896 transparent}
+.tscroll::-webkit-scrollbar{height:10px}
+.tscroll::-webkit-scrollbar-thumb{background:#c9b896;border-radius:5px}
+
+@media (max-width:960px){
+  .hero-grid,.duo,.a11y-grid,.tiers{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .panel{padding:16px}
+  section{padding:30px 0 4px}
+  .brush{gap:10px}
+  .brush input{width:104px}
+  .checks li{font-size:14px}
+}
+@media print{
+  body{background:#fff}
+  .brush,.btn,.tip{display:none}
+  .panel{box-shadow:none;break-inside:avoid}
+  section{padding:18px 0 2px}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="crumb"><a href="../style-catalog.html">图表图鉴</a> / 相关与分布 / 第 04 号标本</p>
+    <h1>相关散点与<em>气泡图</em></h1>
+    <p class="lede">用于探索两个连续变量之间的关系, 并识别数据中的簇与离群点。本页以 28 个真实感咖啡庄园样本演示完整用法: 横轴为种植海拔, 纵轴为杯测分, 点径编码年产量。</p>
+    <p class="meta">标本来源: 图表选型数据 No.04 / 数据类型: Correlation / Distribution / 最佳图型: Scatter Plot or Bubble Chart</p>
+  </div>
+</header>
+
+<section id="hero">
+  <div class="wrap">
+    <p class="kicker">01 / 标本大图</p>
+    <h2>海拔越高, 杯测分越高吗</h2>
+    <p class="note">先看图, 再看数: 主体样本呈强正相关, 但河谷合作社与山脊试验田两处离群把全样相关系数从 0.94 拖到 0.65 — 这正是散点图要先读形再读数的原因。</p>
+    <div class="hero-grid">
+      <figure class="panel figure-hero figwrap" aria-labelledby="heroh">
+        <svg id="herosvg" viewBox="0 0 880 560" role="group" aria-label="散点图: 28 个庄园的种植海拔与杯测分关系, 虚线为线性趋势, 点径表示年产量, 支持键盘逐一聚焦查看数值">
+          <title>28 个咖啡庄园的海拔与杯测分散点图, 附线性趋势线</title>
+          <rect id="band" x="92" y="48" width="752" height="420" fill="#2f5d8a" fill-opacity=".07" stroke="#2f5d8a" stroke-dasharray="4 4" style="display:none"/>
+          <g aria-hidden="true">      <line x1="92" y1="384.0" x2="844" y2="384.0" stroke="#e9dfcc" stroke-width="1"/>
+      <line x1="92" y1="300.0" x2="844" y2="300.0" stroke="#e9dfcc" stroke-width="1"/>
+      <line x1="92" y1="216.0" x2="844" y2="216.0" stroke="#e9dfcc" stroke-width="1"/>
+      <line x1="92" y1="132.0" x2="844" y2="132.0" stroke="#e9dfcc" stroke-width="1"/>
+      <line x1="92" y1="48.0" x2="844" y2="48.0" stroke="#e9dfcc" stroke-width="1"/>
+</g>
+          <line x1="92" y1="468" x2="844" y2="468" stroke="#8d7c62" stroke-width="1.5" aria-hidden="true"/>
+          <line x1="92" y1="48" x2="92" y2="468" stroke="#8d7c62" stroke-width="1.5" aria-hidden="true"/>
+          <g aria-hidden="true" font-family="inherit">      <line x1="167.2" y1="468" x2="167.2" y2="474" stroke="#8d7c62"/>
+      <text x="167.2" y="492" text-anchor="middle" font-size="13" fill="#5f5342">1200</text>
+      <line x1="317.6" y1="468" x2="317.6" y2="474" stroke="#8d7c62"/>
+      <text x="317.6" y="492" text-anchor="middle" font-size="13" fill="#5f5342">1400</text>
+      <line x1="468.0" y1="468" x2="468.0" y2="474" stroke="#8d7c62"/>
+      <text x="468.0" y="492" text-anchor="middle" font-size="13" fill="#5f5342">1600</text>
+      <line x1="618.4" y1="468" x2="618.4" y2="474" stroke="#8d7c62"/>
+      <text x="618.4" y="492" text-anchor="middle" font-size="13" fill="#5f5342">1800</text>
+      <line x1="768.8" y1="468" x2="768.8" y2="474" stroke="#8d7c62"/>
+      <text x="768.8" y="492" text-anchor="middle" font-size="13" fill="#5f5342">2000</text>
+      <line x1="86" y1="384.0" x2="92" y2="384.0" stroke="#8d7c62"/>
+      <text x="80" y="388.5" text-anchor="end" font-size="13" fill="#5f5342">80</text>
+      <line x1="86" y1="300.0" x2="92" y2="300.0" stroke="#8d7c62"/>
+      <text x="80" y="304.5" text-anchor="end" font-size="13" fill="#5f5342">82</text>
+      <line x1="86" y1="216.0" x2="92" y2="216.0" stroke="#8d7c62"/>
+      <text x="80" y="220.5" text-anchor="end" font-size="13" fill="#5f5342">84</text>
+      <line x1="86" y1="132.0" x2="92" y2="132.0" stroke="#8d7c62"/>
+      <text x="80" y="136.5" text-anchor="end" font-size="13" fill="#5f5342">86</text>
+      <line x1="86" y1="48.0" x2="92" y2="48.0" stroke="#8d7c62"/>
+      <text x="80" y="52.5" text-anchor="end" font-size="13" fill="#5f5342">88</text>
+</g>
+          <text x="468" y="530" text-anchor="middle" font-size="15" fill="#2b2620">种植海拔 (米)</text>
+          <text x="28" y="258" font-size="15" fill="#2b2620" transform="rotate(-90 28 258)" text-anchor="middle">杯测分 (SCA, 100 分制)</text>
+          <line x1="92.0" y1="325.4" x2="844.0" y2="154.5" stroke="#2f5d8a" stroke-width="2.5" stroke-dasharray="7 5" aria-hidden="true"/>
+          <g id="pts">
+      <circle class="pt" data-alt="2050" data-info="云雾庄园 / 海拔 2050 米 / 杯测分 87.4 / 年产量 42 吨" tabindex="0" role="img" aria-label="云雾庄园 / 海拔 2050 米 / 杯测分 87.4 / 年产量 42 吨" cx="806.4" cy="73.2" r="10.1" style="animation-delay:0.0s"><title>云雾庄园 / 海拔 2050 米 / 杯测分 87.4 / 年产量 42 吨</title></circle>
+      <circle class="pt" data-alt="1980" data-info="澜沧高地 / 海拔 1980 米 / 杯测分 86.8 / 年产量 55 吨" tabindex="0" role="img" aria-label="澜沧高地 / 海拔 1980 米 / 杯测分 86.8 / 年产量 55 吨" cx="753.8" cy="98.4" r="12.9" style="animation-delay:0.028s"><title>澜沧高地 / 海拔 1980 米 / 杯测分 86.8 / 年产量 55 吨</title></circle>
+      <circle class="pt" data-alt="1890" data-info="哀牢七号 / 海拔 1890 米 / 杯测分 84.7 / 年产量 48 吨" tabindex="0" role="img" aria-label="哀牢七号 / 海拔 1890 米 / 杯测分 84.7 / 年产量 48 吨" cx="686.1" cy="186.6" r="11.4" style="animation-delay:0.056s"><title>哀牢七号 / 海拔 1890 米 / 杯测分 84.7 / 年产量 48 吨</title></circle>
+      <circle class="pt" data-alt="1920" data-info="山脊试验田 / 海拔 1920 米 / 杯测分 80.8 / 年产量 18 吨" tabindex="0" role="img" aria-label="山脊试验田 / 海拔 1920 米 / 杯测分 80.8 / 年产量 18 吨" cx="708.6" cy="350.4" r="5.0" style="animation-delay:0.084s"><title>山脊试验田 / 海拔 1920 米 / 杯测分 80.8 / 年产量 18 吨</title></circle>
+      <circle class="pt" data-alt="1840" data-info="高黎贡西坡 / 海拔 1840 米 / 杯测分 84.5 / 年产量 36 吨" tabindex="0" role="img" aria-label="高黎贡西坡 / 海拔 1840 米 / 杯测分 84.5 / 年产量 36 吨" cx="648.5" cy="195.0" r="8.8" style="animation-delay:0.112s"><title>高黎贡西坡 / 海拔 1840 米 / 杯测分 84.5 / 年产量 36 吨</title></circle>
+      <circle class="pt" data-alt="1760" data-info="木康老寨 / 海拔 1760 米 / 杯测分 84.0 / 年产量 52 吨" tabindex="0" role="img" aria-label="木康老寨 / 海拔 1760 米 / 杯测分 84.0 / 年产量 52 吨" cx="588.3" cy="216.0" r="12.2" style="animation-delay:0.14s"><title>木康老寨 / 海拔 1760 米 / 杯测分 84.0 / 年产量 52 吨</title></circle>
+      <circle class="pt" data-alt="1810" data-info="勐库东半山 / 海拔 1810 米 / 杯测分 84.4 / 年产量 61 吨" tabindex="0" role="img" aria-label="勐库东半山 / 海拔 1810 米 / 杯测分 84.4 / 年产量 61 吨" cx="625.9" cy="199.2" r="14.1" style="animation-delay:0.168s"><title>勐库东半山 / 海拔 1810 米 / 杯测分 84.4 / 年产量 61 吨</title></circle>
+      <circle class="pt" data-alt="1780" data-info="勐库西半山 / 海拔 1780 米 / 杯测分 84.2 / 年产量 44 吨" tabindex="0" role="img" aria-label="勐库西半山 / 海拔 1780 米 / 杯测分 84.2 / 年产量 44 吨" cx="603.4" cy="207.6" r="10.5" style="animation-delay:0.196s"><title>勐库西半山 / 海拔 1780 米 / 杯测分 84.2 / 年产量 44 吨</title></circle>
+      <circle class="pt" data-alt="1180" data-info="河谷合作社 / 海拔 1180 米 / 杯测分 84.2 / 年产量 65 吨" tabindex="0" role="img" aria-label="河谷合作社 / 海拔 1180 米 / 杯测分 84.2 / 年产量 65 吨" cx="152.2" cy="207.6" r="15.0" style="animation-delay:0.224s"><title>河谷合作社 / 海拔 1180 米 / 杯测分 84.2 / 年产量 65 吨</title></circle>
+      <circle class="pt" data-alt="1680" data-info="晨雾农场 / 海拔 1680 米 / 杯测分 83.8 / 年产量 58 吨" tabindex="0" role="img" aria-label="晨雾农场 / 海拔 1680 米 / 杯测分 83.8 / 年产量 58 吨" cx="528.2" cy="224.4" r="13.5" style="animation-delay:0.252s"><title>晨雾农场 / 海拔 1680 米 / 杯测分 83.8 / 年产量 58 吨</title></circle>
+      <circle class="pt" data-alt="1720" data-info="赤水岭屯 / 海拔 1720 米 / 杯测分 84.0 / 年产量 27 吨" tabindex="0" role="img" aria-label="赤水岭屯 / 海拔 1720 米 / 杯测分 84.0 / 年产量 27 吨" cx="558.2" cy="216.0" r="6.9" style="animation-delay:0.28s"><title>赤水岭屯 / 海拔 1720 米 / 杯测分 84.0 / 年产量 27 吨</title></circle>
+      <circle class="pt" data-alt="1150" data-info="低地实验站 / 海拔 1150 米 / 杯测分 81.3 / 年产量 22 吨" tabindex="0" role="img" aria-label="低地实验站 / 海拔 1150 米 / 杯测分 81.3 / 年产量 22 吨" cx="129.6" cy="329.4" r="5.9" style="animation-delay:0.308s"><title>低地实验站 / 海拔 1150 米 / 杯测分 81.3 / 年产量 22 吨</title></circle>
+      <circle class="pt" data-alt="1560" data-info="怒江峡谷甲 / 海拔 1560 米 / 杯测分 82.8 / 年产量 39 吨" tabindex="0" role="img" aria-label="怒江峡谷甲 / 海拔 1560 米 / 杯测分 82.8 / 年产量 39 吨" cx="437.9" cy="266.4" r="9.5" style="animation-delay:0.336s"><title>怒江峡谷甲 / 海拔 1560 米 / 杯测分 82.8 / 年产量 39 吨</title></circle>
+      <circle class="pt" data-alt="1600" data-info="怒江峡谷乙 / 海拔 1600 米 / 杯测分 83.3 / 年产量 47 吨" tabindex="0" role="img" aria-label="怒江峡谷乙 / 海拔 1600 米 / 杯测分 83.3 / 年产量 47 吨" cx="468.0" cy="245.4" r="11.2" style="animation-delay:0.364s"><title>怒江峡谷乙 / 海拔 1600 米 / 杯测分 83.3 / 年产量 47 吨</title></circle>
+      <circle class="pt" data-alt="1750" data-info="无量山北 / 海拔 1750 米 / 杯测分 84.1 / 年产量 29 吨" tabindex="0" role="img" aria-label="无量山北 / 海拔 1750 米 / 杯测分 84.1 / 年产量 29 吨" cx="580.8" cy="211.8" r="7.3" style="animation-delay:0.392s"><title>无量山北 / 海拔 1750 米 / 杯测分 84.1 / 年产量 29 吨</title></circle>
+      <circle class="pt" data-alt="1700" data-info="无量山南 / 海拔 1700 米 / 杯测分 83.7 / 年产量 51 吨" tabindex="0" role="img" aria-label="无量山南 / 海拔 1700 米 / 杯测分 83.7 / 年产量 51 吨" cx="543.2" cy="228.6" r="12.0" style="animation-delay:0.42s"><title>无量山南 / 海拔 1700 米 / 杯测分 83.7 / 年产量 51 吨</title></circle>
+      <circle class="pt" data-alt="1650" data-info="邦马雪山脚 / 海拔 1650 米 / 杯测分 83.7 / 年产量 63 吨" tabindex="0" role="img" aria-label="邦马雪山脚 / 海拔 1650 米 / 杯测分 83.7 / 年产量 63 吨" cx="505.6" cy="228.6" r="14.6" style="animation-delay:0.448s"><title>邦马雪山脚 / 海拔 1650 米 / 杯测分 83.7 / 年产量 63 吨</title></circle>
+      <circle class="pt" data-alt="1580" data-info="铜壁关外 / 海拔 1580 米 / 杯测分 83.4 / 年产量 56 吨" tabindex="0" role="img" aria-label="铜壁关外 / 海拔 1580 米 / 杯测分 83.4 / 年产量 56 吨" cx="453.0" cy="241.2" r="13.1" style="animation-delay:0.476s"><title>铜壁关外 / 海拔 1580 米 / 杯测分 83.4 / 年产量 56 吨</title></circle>
+      <circle class="pt" data-alt="1620" data-info="铜壁关内 / 海拔 1620 米 / 杯测分 83.5 / 年产量 31 吨" tabindex="0" role="img" aria-label="铜壁关内 / 海拔 1620 米 / 杯测分 83.5 / 年产量 31 吨" cx="483.0" cy="237.0" r="7.8" style="animation-delay:0.504s"><title>铜壁关内 / 海拔 1620 米 / 杯测分 83.5 / 年产量 31 吨</title></circle>
+      <circle class="pt" data-alt="1870" data-info="千家寨林场 / 海拔 1870 米 / 杯测分 84.7 / 年产量 24 吨" tabindex="0" role="img" aria-label="千家寨林场 / 海拔 1870 米 / 杯测分 84.7 / 年产量 24 吨" cx="671.0" cy="186.6" r="6.3" style="animation-delay:0.532s"><title>千家寨林场 / 海拔 1870 米 / 杯测分 84.7 / 年产量 24 吨</title></circle>
+      <circle class="pt" data-alt="1850" data-info="哀牢十三号 / 海拔 1850 米 / 杯测分 84.5 / 年产量 40 吨" tabindex="0" role="img" aria-label="哀牢十三号 / 海拔 1850 米 / 杯测分 84.5 / 年产量 40 吨" cx="656.0" cy="195.0" r="9.7" style="animation-delay:0.56s"><title>哀牢十三号 / 海拔 1850 米 / 杯测分 84.5 / 年产量 40 吨</title></circle>
+      <circle class="pt" data-alt="1450" data-info="大围山湿地东 / 海拔 1450 米 / 杯测分 82.6 / 年产量 35 吨" tabindex="0" role="img" aria-label="大围山湿地东 / 海拔 1450 米 / 杯测分 82.6 / 年产量 35 吨" cx="355.2" cy="274.8" r="8.6" style="animation-delay:0.588s"><title>大围山湿地东 / 海拔 1450 米 / 杯测分 82.6 / 年产量 35 吨</title></circle>
+      <circle class="pt" data-alt="1490" data-info="大围山湿地西 / 海拔 1490 米 / 杯测分 82.2 / 年产量 28 吨" tabindex="0" role="img" aria-label="大围山湿地西 / 海拔 1490 米 / 杯测分 82.2 / 年产量 28 吨" cx="385.3" cy="291.6" r="7.1" style="animation-delay:0.616s"><title>大围山湿地西 / 海拔 1490 米 / 杯测分 82.2 / 年产量 28 吨</title></circle>
+      <circle class="pt" data-alt="1320" data-info="金沙江干热谷 / 海拔 1320 米 / 杯测分 82.0 / 年产量 45 吨" tabindex="0" role="img" aria-label="金沙江干热谷 / 海拔 1320 米 / 杯测分 82.0 / 年产量 45 吨" cx="257.4" cy="300.0" r="10.7" style="animation-delay:0.644s"><title>金沙江干热谷 / 海拔 1320 米 / 杯测分 82.0 / 年产量 45 吨</title></circle>
+      <circle class="pt" data-alt="1380" data-info="金沙江上架桥村 / 海拔 1380 米 / 杯测分 81.8 / 年产量 37 吨" tabindex="0" role="img" aria-label="金沙江上架桥村 / 海拔 1380 米 / 杯测分 81.8 / 年产量 37 吨" cx="302.6" cy="308.4" r="9.0" style="animation-delay:0.672s"><title>金沙江上架桥村 / 海拔 1380 米 / 杯测分 81.8 / 年产量 37 吨</title></circle>
+      <circle class="pt" data-alt="1520" data-info="澜沧江渡口 / 海拔 1520 米 / 杯测分 83.1 / 年产量 49 吨" tabindex="0" role="img" aria-label="澜沧江渡口 / 海拔 1520 米 / 杯测分 83.1 / 年产量 49 吨" cx="407.8" cy="253.8" r="11.6" style="animation-delay:0.7s"><title>澜沧江渡口 / 海拔 1520 米 / 杯测分 83.1 / 年产量 49 吨</title></circle>
+      <circle class="pt" data-alt="1660" data-info="帕亮新寨 / 海拔 1660 米 / 杯测分 83.6 / 年产量 53 吨" tabindex="0" role="img" aria-label="帕亮新寨 / 海拔 1660 米 / 杯测分 83.6 / 年产量 53 吨" cx="513.1" cy="232.8" r="12.4" style="animation-delay:0.728s"><title>帕亮新寨 / 海拔 1660 米 / 杯测分 83.6 / 年产量 53 吨</title></circle>
+      <circle class="pt" data-alt="1630" data-info="雾露河畔 / 海拔 1630 米 / 杯测分 83.4 / 年产量 34 吨" tabindex="0" role="img" aria-label="雾露河畔 / 海拔 1630 米 / 杯测分 83.4 / 年产量 34 吨" cx="490.6" cy="241.2" r="8.4" style="animation-delay:0.756s"><title>雾露河畔 / 海拔 1630 米 / 杯测分 83.4 / 年产量 34 吨</title></circle>
+          </g>
+          <g aria-hidden="true" font-size="13.5" fill="#2b2620" font-weight="700">
+            <line x1="768" y1="76" x2="740" y2="60" stroke="#5f5342" stroke-width="1"/>
+            <text x="736" y="58" text-anchor="end">云雾庄园 / 最高分 87.4</text>
+            <line x1="626" y1="185" x2="608" y2="170" stroke="#5f5342" stroke-width="1"/>
+            <text x="604" y="164" text-anchor="end">勐库东半山 / 年产 61 吨</text>
+            <line x1="152" y1="226" x2="168" y2="254" stroke="#5f5342" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="96" y="272" text-anchor="start">河谷合作社 / 离群: 低海拔高分</text>
+            <line x1="709" y1="358" x2="709" y2="378" stroke="#5f5342" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="709" y="396" text-anchor="middle">山脊试验田 / 离群: 高海拔低分</text>
+          </g>
+        </svg>
+        <div class="tip" id="tip" hidden></div>
+        <figcaption class="figfoot" id="heroh">
+          <svg width="150" height="44" viewBox="0 0 150 44" aria-label="点径图例: 年产量 20 吨 / 45 吨 / 65 吨" role="img">
+            <circle cx="20" cy="30" r="5.4" fill="#7a3d1f" fill-opacity=".72"/><text x="20" y="12" text-anchor="middle" font-size="11" fill="#5f5342">20 t</text>
+            <circle cx="66" cy="33" r="10.7" fill="#7a3d1f" fill-opacity=".72"/><text x="66" y="12" text-anchor="middle" font-size="11" fill="#5f5342">45 t</text>
+            <circle cx="118" cy="35" r="15" fill="#7a3d1f" fill-opacity=".72"/><text x="118" y="12" text-anchor="middle" font-size="11" fill="#5f5342">65 t</text>
+          </svg>
+          <span>点径 = 年产量 / 不透明度 0.72 / 虚线 = 线性趋势 (含离群点)</span>
+          <span class="chip">r = 0.65 / 含离群点</span><span class="chip">剔除 2 处离群后 r = 0.94</span><span class="chip">n = 28</span>
+          <span class="chip">杯测分 ≈ 0.0041 × 海拔 + 76.9</span>
+          <span>Tab / 点击可聚焦任一点查看数值</span>
+        </figcaption>
+      </figure>
+      <aside class="panel spec" aria-label="选型规格">
+        <h2 style="font-size:19px">选型规格</h2>
+        <dl>
+          <dt>最佳图型</dt><dd>散点图或气泡图</dd>
+          <dt>次选方案</dt><dd>热力图 / 矩阵</dd>
+          <dt>何时使用</dt><dd>探索两个连续变量之间的关系; 识别数据集中的簇或离群点</dd>
+          <dt>何时不用</dt><dd>变量为类别型 (改用分组柱状图); 少于 20 个点 (模式无意义); 移动端优先场景</dd>
+          <dt>数据量阈值</dt><dd>少于 500 点用 SVG; 500 至 5000 点用 Canvas 并将不透明度降至 0.6 至 0.8; 超过 5000 点先做六边形分箱或聚合</dd>
+          <dt>交互级别</dt><dd>悬停 + 刷选; 键盘用带标签的起止区间输入替代拖拽刷选</dd>
+          <dt>推荐库</dt><dd>D3.js / Plotly / Recharts</dd>
+          <dt>无障碍</dt><dd>风险等级: 有条件。标记形状须与直接文字标注并用, 颜色可以强化但不能成为唯一区分</dd>
+        </dl>
+        <p class="tail">数据为演示用真实感样本, 非真实庄园。</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="bubble">
+  <div class="wrap">
+    <p class="kicker">02 / 气泡变体</p>
+    <h2>第三维: 点径编码复购率</h2>
+    <p class="note">当两个连续变量之外还存在第三个量纲时, 气泡图用面积 (而非半径) 编码它。下图横轴为门店日均出杯量, 纵轴为坪效, 点径对应月复购率。</p>
+    <div class="panel" style="margin-top:16px">
+      <svg viewBox="0 0 420 300" role="group" aria-label="气泡图: 12 家咖啡门店的日均出杯量与坪效关系, 点径表示月复购率, 可聚焦查看数值">
+        <g aria-hidden="true">
+          <line x1="46" y1="256" x2="392" y2="256" stroke="#8d7c62" stroke-width="1.5"/>
+          <line x1="46" y1="60" x2="46" y2="256" stroke="#8d7c62" stroke-width="1.5"/>
+          <line x1="95" y1="60" x2="95" y2="256" stroke="#e9dfcc"/><line x1="177" y1="60" x2="177" y2="256" stroke="#e9dfcc"/>
+          <line x1="259" y1="60" x2="259" y2="256" stroke="#e9dfcc"/><line x1="341" y1="60" x2="341" y2="256" stroke="#e9dfcc"/>
+          <line x1="46" y1="249" x2="392" y2="249" stroke="#e9dfcc"/><line x1="46" y1="184" x2="392" y2="184" stroke="#e9dfcc"/>
+          <line x1="46" y1="119" x2="392" y2="119" stroke="#e9dfcc"/>
+          <text x="95" y="272" text-anchor="middle" font-size="11.5" fill="#5f5342">200</text>
+          <text x="177" y="272" text-anchor="middle" font-size="11.5" fill="#5f5342">300</text>
+          <text x="259" y="272" text-anchor="middle" font-size="11.5" fill="#5f5342">400</text>
+          <text x="341" y="272" text-anchor="middle" font-size="11.5" fill="#5f5342">500</text>
+          <text x="40" y="253" text-anchor="end" font-size="11.5" fill="#5f5342">400</text>
+          <text x="40" y="188" text-anchor="end" font-size="11.5" fill="#5f5342">600</text>
+          <text x="40" y="123" text-anchor="end" font-size="11.5" fill="#5f5342">800</text>
+          <text x="219" y="292" text-anchor="middle" font-size="12.5" fill="#2b2620">日均出杯量 (杯)</text>
+          <text x="16" y="158" font-size="12.5" fill="#2b2620" transform="rotate(-90 16 158)" text-anchor="middle">坪效 (元 / 平米 / 月)</text>
+        </g>
+        <g id="bubs" fill="#7a3d1f" fill-opacity=".62" stroke="#fffdf8" stroke-width="1.3">
+      <circle data-info="中央车站店 / 日均 528 杯 / 坪效 960 元 / 复购率 44%" tabindex="0" role="img" aria-label="中央车站店 / 日均 528 杯 / 坪效 960 元 / 复购率 44%" cx="364.2" cy="66.5" r="17.3"><title>中央车站店 / 日均 528 杯 / 坪效 960 元 / 复购率 44%</title></circle>
+      <circle data-info="湖滨九号 / 日均 468 杯 / 坪效 880 元 / 复购率 38%" tabindex="0" role="img" aria-label="湖滨九号 / 日均 468 杯 / 坪效 880 元 / 复购率 38%" cx="315.0" cy="92.7" r="15.1"><title>湖滨九号 / 日均 468 杯 / 坪效 880 元 / 复购率 38%</title></circle>
+      <circle data-info="会展中心店 / 日均 445 杯 / 坪效 610 元 / 复购率 30%" tabindex="0" role="img" aria-label="会展中心店 / 日均 445 杯 / 坪效 610 元 / 复购率 30%" cx="296.1" cy="180.9" r="12.1"><title>会展中心店 / 日均 445 杯 / 坪效 610 元 / 复购率 30%</title></circle>
+      <circle data-info="大学南门店 / 日均 386 杯 / 坪效 560 元 / 复购率 33%" tabindex="0" role="img" aria-label="大学南门店 / 日均 386 杯 / 坪效 560 元 / 复购率 33%" cx="247.7" cy="197.2" r="13.2"><title>大学南门店 / 日均 386 杯 / 坪效 560 元 / 复购率 33%</title></circle>
+      <circle data-info="梧桐里店 / 日均 312 杯 / 坪效 640 元 / 复购率 27%" tabindex="0" role="img" aria-label="梧桐里店 / 日均 312 杯 / 坪效 640 元 / 复购率 27%" cx="187.0" cy="171.1" r="11.0"><title>梧桐里店 / 日均 312 杯 / 坪效 640 元 / 复购率 27%</title></circle>
+      <circle data-info="滨江咖啡 / 日均 262 杯 / 坪效 720 元 / 复购率 22%" tabindex="0" role="img" aria-label="滨江咖啡 / 日均 262 杯 / 坪效 720 元 / 复购率 22%" cx="146.0" cy="144.9" r="9.2"><title>滨江咖啡 / 日均 262 杯 / 坪效 720 元 / 复购率 22%</title></circle>
+      <circle data-info="剧院旁 / 日均 296 杯 / 坪效 655 元 / 复购率 24%" tabindex="0" role="img" aria-label="剧院旁 / 日均 296 杯 / 坪效 655 元 / 复购率 24%" cx="173.9" cy="166.2" r="9.9"><title>剧院旁 / 日均 296 杯 / 坪效 655 元 / 复购率 24%</title></circle>
+      <circle data-info="园区 A 座 / 日均 358 杯 / 坪效 505 元 / 复购率 26%" tabindex="0" role="img" aria-label="园区 A 座 / 日均 358 杯 / 坪效 505 元 / 复购率 26%" cx="224.8" cy="215.2" r="10.7"><title>园区 A 座 / 日均 358 杯 / 坪效 505 元 / 复购率 26%</title></circle>
+      <circle data-info="怒江小馆 / 日均 322 杯 / 坪效 470 元 / 复购率 28%" tabindex="0" role="img" aria-label="怒江小馆 / 日均 322 杯 / 坪效 470 元 / 复购率 28%" cx="195.2" cy="226.6" r="11.4"><title>怒江小馆 / 日均 322 杯 / 坪效 470 元 / 复购率 28%</title></circle>
+      <circle data-info="巷口小铺 / 日均 205 杯 / 坪效 430 元 / 复购率 19%" tabindex="0" role="img" aria-label="巷口小铺 / 日均 205 杯 / 坪效 430 元 / 复购率 19%" cx="99.3" cy="239.7" r="8.1"><title>巷口小铺 / 日均 205 杯 / 坪效 430 元 / 复购率 19%</title></circle>
+      <circle data-info="山脚营地 / 日均 150 杯 / 坪效 780 元 / 复购率 46%" tabindex="0" role="img" aria-label="山脚营地 / 日均 150 杯 / 坪效 780 元 / 复购率 46%" cx="54.2" cy="125.3" r="18.0"><title>山脚营地 / 日均 150 杯 / 坪效 780 元 / 复购率 46%</title></circle>
+      <circle data-info="老城书屋 / 日均 178 杯 / 坪效 395 元 / 复购率 17%" tabindex="0" role="img" aria-label="老城书屋 / 日均 178 杯 / 坪效 395 元 / 复购率 17%" cx="77.2" cy="251.1" r="7.4"><title>老城书屋 / 日均 178 杯 / 坪效 395 元 / 复购率 17%</title></circle>
+        </g>
+        <g aria-hidden="true" font-size="12" fill="#2b2620" font-weight="700">
+          <text x="352" y="52" text-anchor="end">中央车站店 / 高杯量高坪效</text>
+          <text x="64" y="106">山脚营地 / 目的地离群</text>
+          <text x="12" y="278">老城书屋 / 低杯量</text>
+        </g>
+        <g aria-label="点径图例: 复购率 20% / 33% / 46%" role="img">
+          <circle cx="300" cy="228" r="8.5" fill="none" stroke="#5f5342"/>
+          <text x="316" y="232" font-size="11" fill="#5f5342">20%</text>
+          <circle cx="300" cy="243" r="13.2" fill="none" stroke="#5f5342"/>
+          <text x="321" y="247" font-size="11" fill="#5f5342">33%</text>
+          <circle cx="300" cy="262" r="18" fill="none" stroke="#5f5342"/>
+          <text x="326" y="266" font-size="11" fill="#5f5342">46%</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="density">
+  <div class="wrap">
+    <p class="kicker">03 / 过密对策</p>
+    <h2>点太密时: 降透明度或改热区</h2>
+    <p class="note">同一份 48 点数据: 左图全不透明, 重叠区糊成墨团, 无法判断浓度; 右图将不透明度降至 0.65, 叠加处自然显影, 再以蓝到红梯度色轴的热区标出两处高密度核心。</p>
+    <div class="duo" style="margin-top:16px">
+      <figure class="panel">
+        <h3 class="cap">全不透明 / 重叠成团</h3>
+        <svg viewBox="0 0 360 232" role="img" aria-label="示意: 全不透明散点重叠成墨团">
+          <rect x="18" y="24" width="324" height="186" fill="none" stroke="#ddd2bd"/>
+      <circle cx="113" cy="105" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="113" cy="91" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="99" cy="92" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="140" cy="103" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="139" cy="100" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="126" cy="99" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="85" cy="111" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="128" cy="104" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="84" cy="66" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="100" cy="88" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="124" cy="95" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="128" cy="85" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="124" cy="103" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="105" cy="125" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="129" cy="116" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="106" cy="83" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="111" cy="94" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="131" cy="100" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="109" cy="80" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="108" cy="117" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="239" cy="155" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="259" cy="131" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="253" cy="170" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="220" cy="147" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="250" cy="141" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="260" cy="151" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="229" cy="164" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="263" cy="165" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="275" cy="157" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="254" cy="134" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="262" cy="143" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="245" cy="134" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="237" cy="145" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="273" cy="124" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="229" cy="155" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="275" cy="160" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="208" cy="130" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="224" cy="80" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="185" cy="107" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="152" cy="92" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="165" cy="68" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="155" cy="114" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="162" cy="77" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="185" cy="121" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="157" cy="91" r="4.6" fill="#2b2620" opacity="1"/>
+      <circle cx="199" cy="122" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="224" cy="120" r="4.6" fill="#2b2620" opacity="1"/> <circle cx="175" cy="89" r="4.6" fill="#2b2620" opacity="1"/>
+        </svg>
+        <figcaption>opacity = 1 / 48 点 / 密度信息丢失</figcaption>
+      </figure>
+      <figure class="panel">
+        <h3 class="cap">透明度 0.65 + 密度热区</h3>
+        <svg viewBox="0 0 360 232" role="img" aria-label="示意: 半透明散点并叠加蓝红梯度热区标示密度">
+          <defs>
+            <radialGradient id="gL"><stop offset="0" stop-color="#2f5d8a" stop-opacity=".5"/><stop offset="1" stop-color="#2f5d8a" stop-opacity="0"/></radialGradient>
+            <radialGradient id="gH"><stop offset="0" stop-color="#b3402e" stop-opacity=".55"/><stop offset="1" stop-color="#b3402e" stop-opacity="0"/></radialGradient>
+            <linearGradient id="gBar"><stop offset="0" stop-color="#2f5d8a"/><stop offset="1" stop-color="#b3402e"/></linearGradient>
+          </defs>
+          <rect x="18" y="24" width="324" height="186" fill="none" stroke="#ddd2bd"/>
+          <ellipse cx="118" cy="96" rx="52" ry="42" fill="url(#gL)"/>
+          <ellipse cx="118" cy="96" rx="26" ry="21" fill="url(#gH)"/>
+          <ellipse cx="252" cy="152" rx="44" ry="36" fill="url(#gL)"/>
+          <ellipse cx="252" cy="152" rx="22" ry="18" fill="url(#gH)"/>
+      <circle cx="113" cy="105" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="113" cy="91" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="99" cy="92" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="140" cy="103" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="139" cy="100" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="126" cy="99" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="85" cy="111" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="128" cy="104" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="84" cy="66" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="100" cy="88" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="124" cy="95" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="128" cy="85" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="124" cy="103" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="105" cy="125" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="129" cy="116" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="106" cy="83" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="111" cy="94" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="131" cy="100" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="109" cy="80" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="108" cy="117" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="239" cy="155" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="259" cy="131" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="253" cy="170" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="220" cy="147" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="250" cy="141" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="260" cy="151" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="229" cy="164" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="263" cy="165" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="275" cy="157" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="254" cy="134" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="262" cy="143" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="245" cy="134" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="237" cy="145" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="273" cy="124" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="229" cy="155" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="275" cy="160" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="208" cy="130" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="224" cy="80" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="185" cy="107" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="152" cy="92" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="165" cy="68" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="155" cy="114" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="162" cy="77" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="185" cy="121" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="157" cy="91" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+      <circle cx="199" cy="122" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="224" cy="120" r="4.6" fill="#7a3d1f" opacity="0.65"/> <circle cx="175" cy="89" r="4.6" fill="#7a3d1f" opacity="0.65"/>
+          <g aria-hidden="true">
+            <rect x="150" y="196" width="80" height="9" rx="4.5" fill="url(#gBar)" stroke="#ddd2bd"/>
+          </g>
+        </svg>
+        <figcaption>
+          <span class="mini-h">色轴</span>
+          <span class="gradlg" style="display:inline-block;width:80px;vertical-align:middle"></span>
+          <span class="mini-h">低密度 到 高密度</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="a11y">
+  <div class="wrap">
+    <p class="kicker">04 / 无障碍要点</p>
+    <h2>颜色可以强化, 但不能是唯一区分</h2>
+    <p class="note">本图型官方风险等级为「有条件」。核心做法: 标记形状与直接文字标注并用; 下图用圆 / 方 / 三角区分三个处理法簇, 簇旁直接写名, 即使全部去色也可读。</p>
+    <div class="a11y-grid" style="margin-top:16px">
+      <figure class="panel shapedemo">
+        <svg viewBox="0 0 360 214" role="img" aria-label="形状双编码示意: 水洗处理用圆点, 蜜处理用方块, 日晒处理用三角, 每簇旁有直接文字标注">
+          <rect x="14" y="20" width="332" height="176" fill="none" stroke="#ddd2bd"/>
+          <g fill="#7a3d1f" fill-opacity=".72">
+            <circle cx="92" cy="78" r="6"/><circle cx="118" cy="92" r="6"/><circle cx="102" cy="106" r="6"/>
+            <circle cx="128" cy="70" r="6"/><circle cx="136" cy="100" r="6"/><circle cx="112" cy="122" r="6"/>
+            <rect x="162" y="142" width="12" height="12"/><rect x="184" y="154" width="12" height="12"/><rect x="200" y="136" width="12" height="12"/>
+            <rect x="174" y="166" width="12" height="12"/><rect x="208" y="160" width="12" height="12"/><rect x="190" y="180" width="12" height="12"/>
+            <path d="M 238 45 L 244.5 57 L 231.5 57 Z"/><path d="M 262 59 L 268.5 71 L 255.5 71 Z"/><path d="M 250 77 L 256.5 89 L 243.5 89 Z"/>
+            <path d="M 282 51 L 288.5 63 L 275.5 63 Z"/><path d="M 274 73 L 280.5 85 L 267.5 85 Z"/><path d="M 296 63 L 302.5 75 L 289.5 75 Z"/>
+          </g>
+          <g font-size="13" fill="#2b2620" font-weight="700">
+            <text x="70" y="150">水洗处理 / 圆</text>
+            <text x="158" y="206">蜜处理 / 方</text>
+            <text x="236" y="104">日晒处理 / 三角</text>
+          </g>
+          <g font-size="11.5" fill="#5f5342">
+            <text x="14" y="212">横轴: 发酵时长 / 纵轴: 甜度评分 (示意)</text>
+          </g>
+        </svg>
+      </figure>
+      <div class="panel">
+        <h3>本页的五项落实</h3>
+        <ul class="checks">
+          <li><span class="no" aria-hidden="true">1</span><span><b>键盘逐点读值</b> / 大图中每个点可 Tab 聚焦, 聚焦即显示庄园 / 海拔 / 杯测分 / 年产量。</span></li>
+          <li><span class="no" aria-hidden="true">2</span><span><b>刷选的键盘替代</b> / 拖拽刷选改为带标签的海拔起止区间输入 (见 05 节), 结果变化以 aria-live 播报。</span></li>
+          <li><span class="no" aria-hidden="true">3</span><span><b>形状与直接标注并用</b> / 见左图: 三种标记形状对应三个处理法, 簇旁直接写名。</span></li>
+          <li><span class="no" aria-hidden="true">4</span><span><b>颜色不作唯一区分</b> / 全页单色系也能读; 蓝 / 红梯度仅用于密度色轴, 且配有文字刻度。</span></li>
+          <li><span class="no" aria-hidden="true">5</span><span><b>可见数据表后备</b> / 28 行样本全量落表, 附相关系数与趋势摘要 (见 05 节)。</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="table">
+  <div class="wrap">
+    <p class="kicker">05 / 数据表后备</p>
+    <h2>看得见的表, 才是无障碍的图</h2>
+    <p class="note">散点图的无障碍后备方案: 提供可见数据表与相关性摘要; 刷选交互改用下方带标签的起止区间输入, 调整后表格与大图同步筛选, 区间外的点自动变淡。</p>
+    <div class="panel tscroll" style="margin-top:16px">
+      <div class="brush">
+        <label for="amin">海拔下限 (米)<input id="amin" type="number" min="1100" max="2100" step="10" value="1100"></label>
+        <label for="amax">海拔上限 (米)<input id="amax" type="number" min="1100" max="2100" step="10" value="2100"></label>
+        <button class="btn" type="button" id="rst">重置区间</button>
+        <output id="cnt" aria-live="polite">区间内 28 / 28 个庄园</output>
+      </div>
+      <div class="statline">
+        <span>Pearson 相关系数 <b>r = 0.65</b> (含离群点)</span>
+        <span>剔除两处离群后 <b>r = 0.94</b></span>
+        <span>样本量 <b>n = 28</b></span>
+        <span>趋势 <b>正向 / 海拔每升高 100 米杯测分约 +0.4 分</b></span>
+      </div>
+      <div class="atable" role="table" aria-label="庄园样本数据表: 庄园 / 产区 / 海拔 / 杯测分 / 年产量" aria-rowcount="28">
+        <div role="row">
+          <span role="columnheader">庄园</span><span role="columnheader">产区</span>
+          <span role="columnheader" class="num">海拔 (米)</span><span role="columnheader" class="num">杯测分</span><span role="columnheader" class="num">年产量 (吨)</span>
+        </div>
+      <div role="row" data-alt="2050"><span role="cell">云雾庄园</span><span role="cell">云南普洱</span><span role="cell">2050</span><span role="cell">87.4</span><span role="cell">42</span></div>
+      <div role="row" data-alt="1980"><span role="cell">澜沧高地</span><span role="cell">云南澜沧</span><span role="cell">1980</span><span role="cell">86.8</span><span role="cell">55</span></div>
+      <div role="row" data-alt="1890"><span role="cell">哀牢七号</span><span role="cell">云南玉溪</span><span role="cell">1890</span><span role="cell">84.7</span><span role="cell">48</span></div>
+      <div role="row" data-alt="1920"><span role="cell">山脊试验田</span><span role="cell">云南保山</span><span role="cell">1920</span><span role="cell">80.8</span><span role="cell">18</span></div>
+      <div role="row" data-alt="1840"><span role="cell">高黎贡西坡</span><span role="cell">云南腾冲</span><span role="cell">1840</span><span role="cell">84.5</span><span role="cell">36</span></div>
+      <div role="row" data-alt="1760"><span role="cell">木康老寨</span><span role="cell">云南德宏</span><span role="cell">1760</span><span role="cell">84.0</span><span role="cell">52</span></div>
+      <div role="row" data-alt="1810"><span role="cell">勐库东半山</span><span role="cell">云南临沧</span><span role="cell">1810</span><span role="cell">84.4</span><span role="cell">61</span></div>
+      <div role="row" data-alt="1780"><span role="cell">勐库西半山</span><span role="cell">云南临沧</span><span role="cell">1780</span><span role="cell">84.2</span><span role="cell">44</span></div>
+      <div role="row" data-alt="1180"><span role="cell">河谷合作社</span><span role="cell">云南保山</span><span role="cell">1180</span><span role="cell">84.2</span><span role="cell">65</span></div>
+      <div role="row" data-alt="1680"><span role="cell">晨雾农场</span><span role="cell">云南普洱</span><span role="cell">1680</span><span role="cell">83.8</span><span role="cell">58</span></div>
+      <div role="row" data-alt="1720"><span role="cell">赤水岭屯</span><span role="cell">贵州赤水</span><span role="cell">1720</span><span role="cell">84.0</span><span role="cell">27</span></div>
+      <div role="row" data-alt="1150"><span role="cell">低地实验站</span><span role="cell">云南河口</span><span role="cell">1150</span><span role="cell">81.3</span><span role="cell">22</span></div>
+      <div role="row" data-alt="1560"><span role="cell">怒江峡谷甲</span><span role="cell">云南怒江</span><span role="cell">1560</span><span role="cell">82.8</span><span role="cell">39</span></div>
+      <div role="row" data-alt="1600"><span role="cell">怒江峡谷乙</span><span role="cell">云南怒江</span><span role="cell">1600</span><span role="cell">83.3</span><span role="cell">47</span></div>
+      <div role="row" data-alt="1750"><span role="cell">无量山北</span><span role="cell">云南景东</span><span role="cell">1750</span><span role="cell">84.1</span><span role="cell">29</span></div>
+      <div role="row" data-alt="1700"><span role="cell">无量山南</span><span role="cell">云南景谷</span><span role="cell">1700</span><span role="cell">83.7</span><span role="cell">51</span></div>
+      <div role="row" data-alt="1650"><span role="cell">邦马雪山脚</span><span role="cell">云南耿马</span><span role="cell">1650</span><span role="cell">83.7</span><span role="cell">63</span></div>
+      <div role="row" data-alt="1580"><span role="cell">铜壁关外</span><span role="cell">云南盈江</span><span role="cell">1580</span><span role="cell">83.4</span><span role="cell">56</span></div>
+      <div role="row" data-alt="1620"><span role="cell">铜壁关内</span><span role="cell">云南盈江</span><span role="cell">1620</span><span role="cell">83.5</span><span role="cell">31</span></div>
+      <div role="row" data-alt="1870"><span role="cell">千家寨林场</span><span role="cell">云南镇沅</span><span role="cell">1870</span><span role="cell">84.7</span><span role="cell">24</span></div>
+      <div role="row" data-alt="1850"><span role="cell">哀牢十三号</span><span role="cell">云南玉溪</span><span role="cell">1850</span><span role="cell">84.5</span><span role="cell">40</span></div>
+      <div role="row" data-alt="1450"><span role="cell">大围山湿地东</span><span role="cell">云南屏边</span><span role="cell">1450</span><span role="cell">82.6</span><span role="cell">35</span></div>
+      <div role="row" data-alt="1490"><span role="cell">大围山湿地西</span><span role="cell">云南屏边</span><span role="cell">1490</span><span role="cell">82.2</span><span role="cell">28</span></div>
+      <div role="row" data-alt="1320"><span role="cell">金沙江干热谷</span><span role="cell">云南元谋</span><span role="cell">1320</span><span role="cell">82.0</span><span role="cell">45</span></div>
+      <div role="row" data-alt="1380"><span role="cell">金沙江上架桥村</span><span role="cell">云南宾川</span><span role="cell">1380</span><span role="cell">81.8</span><span role="cell">37</span></div>
+      <div role="row" data-alt="1520"><span role="cell">澜沧江渡口</span><span role="cell">云南昌宁</span><span role="cell">1520</span><span role="cell">83.1</span><span role="cell">49</span></div>
+      <div role="row" data-alt="1660"><span role="cell">帕亮新寨</span><span role="cell">云南孟连</span><span role="cell">1660</span><span role="cell">83.6</span><span role="cell">53</span></div>
+      <div role="row" data-alt="1630"><span role="cell">雾露河畔</span><span role="cell">云南昌宁</span><span role="cell">1630</span><span role="cell">83.4</span><span role="cell">34</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tiers">
+  <div class="wrap">
+    <p class="kicker">06 / 数据量分档</p>
+    <h2>点数决定渲染策略</h2>
+    <p class="note">同一图型, 三种量级三套做法; 跨档硬画会卡顿或糊团, 降档则浪费保真度。三档阈值摘自选型数据 No.04 的 Data Volume Threshold 字段。</p>
+    <div class="tiers">
+      <div class="panel tier">
+        <svg width="150" height="44" viewBox="0 0 150 44" role="img" aria-label="示意: 少量清晰可分的点">
+          <circle cx="30" cy="22" r="5" fill="#7a3d1f" fill-opacity=".72"/><circle cx="62" cy="14" r="5" fill="#7a3d1f" fill-opacity=".72"/>
+          <circle cx="94" cy="30" r="5" fill="#7a3d1f" fill-opacity=".72"/><circle cx="124" cy="18" r="5" fill="#7a3d1f" fill-opacity=".72"/>
+        </svg>
+        <p class="thr">少于 500 点</p>
+        <h3>SVG 逐点渲染</h3>
+        <p>本页 28 点即此档: 每点可键盘聚焦 / 可直接标注, 保真度与无障碍上限最高。</p>
+      </div>
+      <div class="panel tier">
+        <svg width="150" height="44" viewBox="0 0 150 44" role="img" aria-label="示意: 半透明密集点重叠显影">
+          <g fill="#7a3d1f" opacity=".6">
+            <circle cx="24" cy="18" r="4.6"/><circle cx="38" cy="26" r="4.6"/><circle cx="52" cy="14" r="4.6"/><circle cx="66" cy="24" r="4.6"/>
+            <circle cx="80" cy="16" r="4.6"/><circle cx="94" cy="28" r="4.6"/><circle cx="108" cy="18" r="4.6"/><circle cx="122" cy="26" r="4.6"/>
+            <circle cx="31" cy="30" r="4.6"/><circle cx="59" cy="30" r="4.6"/><circle cx="87" cy="30" r="4.6"/><circle cx="115" cy="30" r="4.6"/>
+          </g>
+        </svg>
+        <p class="thr">500 至 5000 点</p>
+        <h3>Canvas 加不透明度 0.6 至 0.8</h3>
+        <p>换画布保性能, 降透明度让重叠处自然显影为密度, 见 03 节右图。</p>
+      </div>
+      <div class="panel tier">
+        <svg width="150" height="44" viewBox="0 0 150 44" role="img" aria-label="示意: 六边形分箱色块">
+          <g stroke="#fffdf8" stroke-width="1.5">
+            <path d="M 30 12 L 39 17 L 39 27 L 30 32 L 21 27 L 21 17 Z" fill="#2f5d8a" fill-opacity=".55"/>
+            <path d="M 48 22 L 57 27 L 57 37 L 48 42 L 39 37 L 39 27 Z" fill="#7a3d1f" fill-opacity=".55"/>
+            <path d="M 66 12 L 75 17 L 75 27 L 66 32 L 57 27 L 57 17 Z" fill="#b3402e" fill-opacity=".6"/>
+            <path d="M 84 22 L 93 27 L 93 37 L 84 42 L 75 37 L 75 27 Z" fill="#2f5d8a" fill-opacity=".7"/>
+            <path d="M 102 12 L 111 17 L 111 27 L 102 32 L 93 27 L 93 17 Z" fill="#b3402e" fill-opacity=".45"/>
+            <path d="M 120 22 L 129 27 L 129 37 L 120 42 L 111 37 L 111 27 Z" fill="#2f5d8a" fill-opacity=".4"/>
+          </g>
+        </svg>
+        <p class="thr">5000 点以上</p>
+        <h3>六边形分箱或先聚合</h3>
+        <p>不再逐点: 改热区或分箱统计, 蓝 / 红梯度色轴编码箱内计数。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>UI 设计提示词库 / 图表图鉴 / 相关散点</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var X0=92,W=752,LO=1100,HI=2100;
+  var amin=document.getElementById('amin'),amax=document.getElementById('amax'),
+      rst=document.getElementById('rst'),cnt=document.getElementById('cnt'),
+      band=document.getElementById('band'),
+      pts=[].slice.call(document.querySelectorAll('#pts .pt')),
+      rows=[].slice.call(document.querySelectorAll('.atable [role="row"]:not(:first-child)'));
+  function apply(){
+    var a=Math.max(LO,Math.min(HI,+amin.value||LO)),b=Math.max(LO,Math.min(HI,+amax.value||HI));
+    if(a>b){var t=a;a=b;b=t;}
+    var x=X0+(a-LO)/(HI-LO)*W,w=(b-a)/(HI-LO)*W;
+    band.setAttribute('x',x.toFixed(1));band.setAttribute('width',Math.max(w,1).toFixed(1));
+    band.style.display='block';
+    var n=0;
+    pts.forEach(function(p){var v=+p.dataset.alt;var out=v<a||v>b;p.classList.toggle('dim',out);});
+    rows.forEach(function(r){var v=+r.dataset.alt;var out=v<a||v>b;r.hidden=out;if(!out)n++;});
+    cnt.textContent='区间内 '+n+' / 28 个庄园';
+  }
+  amin.addEventListener('input',apply);amax.addEventListener('input',apply);
+  rst.addEventListener('click',function(){amin.value=LO;amax.value=HI;band.style.display='none';apply();});
+
+  /* 入场弹入只播一次, 落定后禁用重放 */
+  setTimeout(function(){document.getElementById('pts').classList.add('settled');},1200);
+
+  var tip=document.getElementById('tip');
+  function show(c){
+    var cr=c.getBoundingClientRect();
+    tip.textContent=c.dataset.info;
+    var tx=Math.max(130,Math.min(window.innerWidth-130,cr.left+cr.width/2));
+    tip.style.left=tx+'px';
+    tip.style.top=(cr.top-8)+'px';
+    tip.hidden=false;
+  }
+  function hide(){tip.hidden=true;}
+  [].forEach.call(document.querySelectorAll('#pts .pt, #bubs circle'),function(c){
+    c.addEventListener('mouseenter',function(){show(c);});
+    c.addEventListener('mouseleave',hide);
+    c.addEventListener('focus',function(){show(c);});
+    c.addEventListener('blur',hide);
+  });
+})();
+</script>
+
+</body>
+</html>

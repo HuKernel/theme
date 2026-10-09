@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 占比环形 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴 No.3 / Part-to-Whole：以图书馆年度经费环形图为主标本，覆盖饼与环的取舍、分片超限的 100% 堆叠条形替代与数据表后备。">
+<style>
+/* token 计划: 纸底 #F7F6F1 / 卡白 #FFFFFF / 墨 #22292D / 弱化 #515C63 / 分片五色 绿#0F7A55 橙#AE4A06 靛#3F4FB6 梅#A03060 蓝灰#5A6B7D / 条形扩展 #2F7E4F #6B4FA0 #6E7683 / 风险红 #7A2410 / 圆角 14-10 / 间距 4 倍数 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+:root {
+  --paper: #F7F6F1;
+  --card: #FFFFFF;
+  --ink: #22292D;
+  --muted: #515C63;
+  --line: #E2E0D6;
+  --line-strong: #C7C5BA;
+  --s1: #0F7A55;
+  --s2: #AE4A06;
+  --s3: #3F4FB6;
+  --s4: #A03060;
+  --s5: #5A6B7D;
+  --s6: #2F7E4F;
+  --s7: #6B4FA0;
+  --s8: #6E7683;
+  --risk: #7A2410;
+  --risk-soft: #F9EBE4;
+  --ok-soft: #E9F2ED;
+  --ok-line: #BFD8CA;
+  --r: 14px;
+  --r-s: 10px;
+  --shadow: 0 10px 30px rgba(30, 38, 34, .08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.65;
+}
+h1, h2, h3, .serif { font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif; }
+a { color: #2E4A3D; }
+img, svg { display: block; }
+ul { list-style: none; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+:focus-visible { outline: 3px solid #2E4A3D; outline-offset: 2px; border-radius: 4px; }
+
+/* 顶栏 */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(247, 246, 241, .94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.topbar-in {
+  max-width: 1160px; margin: 0 auto; padding: 12px 24px;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+}
+.topbar .brand { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 17px; }
+.topbar .brand span { color: var(--muted); font-weight: 600; }
+.topbar a.back { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+.topbar a.back:hover { border-bottom-color: #2E4A3D; }
+
+/* 首屏 */
+.hero { padding: 52px 0 40px; border-bottom: 1px solid var(--line); }
+.kicker { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .02em; margin-bottom: 10px; }
+.hero h1 { font-size: clamp(30px, 4.4vw, 46px); font-weight: 900; line-height: 1.2; }
+.hero h1 em { font-style: normal; color: var(--s1); }
+.hero .lede { max-width: 720px; margin-top: 14px; font-size: 16.5px; color: var(--muted); }
+.meta { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+.meta div {
+  font-size: 13.5px; padding: 5px 12px; border: 1px solid var(--line-strong);
+  border-radius: 999px; background: var(--card); color: #3E474E;
+}
+.meta div b { font-weight: 700; color: var(--ink); }
+.meta .risk-chip { border-color: #D8B4A5; background: var(--risk-soft); color: var(--risk); font-weight: 700; }
+
+/* 区块标题 */
+section { padding: 46px 0 8px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+.sec-no { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 15px; color: var(--s1); }
+h2 { font-size: 25px; font-weight: 700; }
+.sec-sub { color: var(--muted); font-size: 15px; margin-bottom: 22px; max-width: 760px; }
+
+/* 主标本 */
+.spec-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 26px; align-items: start; }
+.donut-fig {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  box-shadow: var(--shadow); padding: 22px 18px 14px;
+}
+.donut-scroll { overflow-x: auto; }
+.donut-scroll svg { width: 100%; min-width: 600px; height: auto; }
+.donut-fig figcaption {
+  margin-top: 6px; padding-top: 12px; border-top: 1px dashed var(--line-strong);
+  font-size: 13.5px; color: var(--muted); text-align: center;
+}
+.slice {
+  fill: none; stroke-width: 64; cursor: pointer;
+  stroke-dasharray: var(--len) 100;
+  animation: sweep var(--dur) linear var(--del) both;
+  transition: opacity .18s ease, stroke-width .18s ease;
+}
+@keyframes sweep { from { stroke-dasharray: 0 100; } }
+.donut.focus-mode .slice:not(.hot) { opacity: .35; }
+.donut .slice.hot { stroke-width: 72; }
+.leader { stroke: #9AA29B; stroke-width: 1.5; fill: none; }
+.sl-name { font-size: 17px; font-weight: 600; fill: var(--ink); font-family: 'Noto Sans SC', sans-serif; }
+.sl-name .pct { font-weight: 700; }
+.c-val { font-size: 40px; font-weight: 900; fill: var(--ink); font-family: 'Noto Serif SC', serif; }
+.c-name { font-size: 16px; font-weight: 700; fill: #37424A; }
+.c-sub { font-size: 13px; fill: var(--muted); }
+.spec-side { display: grid; gap: 18px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 20px 22px;
+}
+.card h3 { font-size: 17.5px; margin-bottom: 10px; }
+.card li { position: relative; padding-left: 16px; margin: 7px 0; font-size: 14.5px; color: #39434A; }
+.card li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 7px; height: 7px; border-radius: 2px; background: var(--s1);
+}
+.card li b { color: var(--ink); }
+.kb-card { border-left: 4px solid var(--s3); }
+.kb-card li::before { background: var(--s3); }
+.kb-card kbd {
+  font-family: Consolas, monospace; font-size: 12.5px; border: 1px solid var(--line-strong);
+  border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; background: #F2F1EA;
+}
+
+/* 饼与环的取舍 */
+.trade-grid { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 20px; align-items: stretch; }
+.mini-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 18px; text-align: center;
+}
+.mini-card svg { margin: 6px auto 10px; }
+.mini-card h3 { font-size: 16.5px; }
+.mini-card p { font-size: 13.5px; color: var(--muted); margin-top: 6px; text-align: left; }
+.mini-slice { fill: none; stroke-width: 26; }
+.mini-pie { fill: none; stroke-width: 128; }
+.why-card { border-left: 4px solid var(--s1); }
+.why-card li::before { background: var(--s1); }
+.why-card li { font-size: 14.5px; }
+
+/* 堆叠条形替代 */
+.over-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 26px; align-items: start; }
+.bar-block {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  box-shadow: var(--shadow); padding: 22px;
+}
+.bar-total { font-size: 13.5px; color: var(--muted); margin-bottom: 12px; }
+.bar-total b { color: var(--ink); font-size: 15px; }
+.bar { display: flex; width: 100%; height: 58px; border-radius: var(--r-s); overflow: hidden; border: 1px solid var(--line-strong); }
+.seg { position: relative; display: flex; align-items: center; justify-content: center; }
+.seg span {
+  color: #FFFFFF; font-size: 13px; font-weight: 700; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.seg span i { font-style: normal; font-weight: 500; margin-right: 5px; }
+.bar-legend { margin-top: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 14px; }
+.bar-legend div { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #39434A; }
+.bar-legend i { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.bar-legend b { font-variant-numeric: tabular-nums; color: var(--ink); }
+.over-note li { font-size: 14.5px; }
+
+/* 无障碍 */
+.a11y-banner {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  background: var(--risk-soft); border: 1px solid #D8B4A5; border-radius: var(--r);
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.a11y-banner .tag {
+  background: var(--risk); color: #FFFFFF; font-weight: 700; font-size: 13.5px;
+  border-radius: 999px; padding: 4px 14px; flex: none;
+}
+.a11y-banner p { font-size: 14.5px; color: #5A2A18; flex: 1; min-width: 260px; }
+.a11y-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.req-card { border-left: 4px solid var(--risk); }
+.req-card li::before { background: var(--risk); }
+.fb-card { border-left: 4px solid var(--s5); }
+.fb-card li::before { background: var(--s5); }
+
+/* 数据表 */
+.tbl-sum {
+  background: #FDFEFD; border: 1px solid var(--ok-line);
+  border-radius: var(--r-s); padding: 12px 18px; font-size: 14.5px; color: #33403A;
+  margin-bottom: 18px;
+}
+.tbl-sum b { color: #17563D; }
+.dtable { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--card); }
+.trow {
+  display: grid; grid-template-columns: 2.6fr 1.2fr .9fr 1fr; align-items: center;
+  padding: 11px 20px; border-top: 1px solid var(--line); font-size: 14.5px;
+}
+.trow[role="columnheader"] {
+  border-top: none; background: #EFEDE5; font-weight: 700; font-size: 13.5px; color: var(--muted);
+}
+.trow .num { text-align: right; font-variant-numeric: tabular-nums; }
+.trow .cat { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.trow .cat i { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.trow[data-i] { cursor: default; transition: background .15s ease; }
+.trow[data-i]:hover { background: #F4F7F3; }
+.trow.foot { background: #F2F1E9; font-weight: 700; }
+.trow.foot .cat { color: var(--muted); font-weight: 700; }
+
+/* 使用边界 */
+.bound-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; padding-bottom: 46px; }
+.use-card { border-left: 4px solid var(--s1); }
+.not-card { border-left: 4px solid var(--risk); }
+.not-card li::before { background: var(--risk); }
+.threshold {
+  margin-top: 12px; font-size: 13.5px; color: var(--muted);
+  border-top: 1px dashed var(--line-strong); padding-top: 10px;
+}
+.threshold b { color: var(--ink); }
+
+/* 页脚 */
+footer { border-top: 1px solid var(--line); background: #F1F0E9; }
+.foot-in {
+  max-width: 1160px; margin: 0 auto; padding: 22px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  font-size: 14px; color: var(--muted);
+}
+.foot-in a { color: #2E4A3D; }
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .spec-grid, .over-grid, .a11y-grid, .bound-grid { grid-template-columns: 1fr; }
+  .trade-grid { grid-template-columns: 1fr 1fr; }
+  .why-card { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .hero { padding: 38px 0 30px; }
+  section { padding: 36px 0 6px; }
+  .trade-grid { grid-template-columns: 1fr; }
+  .bar-legend { grid-template-columns: repeat(2, 1fr); }
+  .seg span i { display: none; }
+  .trow { grid-template-columns: 2fr 1.1fr .8fr .9fr; padding: 10px 14px; font-size: 13.5px; }
+  .trow[role="columnheader"] { font-size: 12.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .slice { animation: none; }
+  .trow[data-i]:hover { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">图表图鉴 <span>/ Part-to-Whole No.3</span></div>
+    <a class="back" href="../style-catalog.html">返回风格目录</a>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <!-- 首屏 -->
+  <section class="hero">
+    <p class="kicker">图表图鉴 No.3 / 数据关系 Part-to-Whole</p>
+    <h1>占比<em>环形</em> / Pie Chart or Donut</h1>
+    <p class="lede">
+      当数据要回答「各部分占整体多少」时，环形图是最直接的答案之一。本页以一座市图书馆的真实年度经费为标本：
+      五类支出、一个主导分片、每片直接标注名称与百分比，中心保留总量。
+    </p>
+    <div class="meta">
+      <div>数据关系 <b>Part-to-Whole</b></div>
+      <div>首选 <b>饼图 / 环形</b></div>
+      <div>次选 <b>堆叠条形 / 华夫图</b></div>
+      <div>推荐库 <b>Chart.js / Recharts / D3.js</b></div>
+      <div>交互等级 <b>Hover + Drill</b></div>
+      <div class="risk-chip">无障碍风险 高</div>
+    </div>
+  </section>
+
+  <!-- 主标本 -->
+  <section aria-labelledby="t-spec">
+    <div class="sec-head"><span class="sec-no">壹</span><h2 id="t-spec">主标本 / 市图书馆 2025 年度经费构成</h2></div>
+    <p class="sec-sub">
+      五个类别、最小分片 8%，全部落在官方适用区间内；最大分片自 12 点方向起始并顺时针排列，弧长即金额。
+    </p>
+    <div class="spec-grid">
+      <figure class="donut-fig">
+        <div class="donut-scroll">
+          <svg class="donut" viewBox="0 0 800 600" role="group" aria-label="环形图：2025 年度经费构成，五类支出，各分片可聚焦读值，完整数值见下方数据表">
+            <!-- 分片：stroke 圆弧，pathLength=100，自 12 点顺时针 -->
+            <circle class="slice" cx="400" cy="300" r="190" pathLength="100" transform="rotate(-90 400 300)"
+              style="--len:42; --dur:.76s; --del:0s" stroke="#0F7A55" tabindex="0" role="img"
+              aria-label="文献资源采购，1,621.2 万元，占 42%"
+              data-n="文献资源采购" data-v="¥1,621.2 万" data-p="42"></circle>
+            <circle class="slice" cx="400" cy="300" r="190" pathLength="100" transform="rotate(61.2 400 300)"
+              style="--len:24; --dur:.43s; --del:.76s" stroke="#AE4A06" tabindex="0" role="img"
+              aria-label="人员经费，926.4 万元，占 24%"
+              data-n="人员经费" data-v="¥926.4 万" data-p="24"></circle>
+            <circle class="slice" cx="400" cy="300" r="190" pathLength="100" transform="rotate(147.6 400 300)"
+              style="--len:14; --dur:.25s; --del:1.19s" stroke="#3F4FB6" tabindex="0" role="img"
+              aria-label="场馆运维，540.4 万元，占 14%"
+              data-n="场馆运维" data-v="¥540.4 万" data-p="14"></circle>
+            <circle class="slice" cx="400" cy="300" r="190" pathLength="100" transform="rotate(198 400 300)"
+              style="--len:12; --dur:.22s; --del:1.44s" stroke="#A03060" tabindex="0" role="img"
+              aria-label="阅读推广活动，463.2 万元，占 12%"
+              data-n="阅读推广活动" data-v="¥463.2 万" data-p="12"></circle>
+            <circle class="slice" cx="400" cy="300" r="190" pathLength="100" transform="rotate(241.2 400 300)"
+              style="--len:8; --dur:.14s; --del:1.66s" stroke="#5A6B7D" tabindex="0" role="img"
+              aria-label="数字化与系统，308.8 万元，占 8%"
+              data-n="数字化与系统" data-v="¥308.8 万" data-p="8"></circle>
+            <!-- 引导线与直接标注：名称 + 百分比，不只靠颜色 -->
+            <g aria-hidden="true">
+              <path class="leader" d="M604.7 242.3 L624.1 237.3"></path>
+              <text class="sl-name" x="632" y="241" text-anchor="start">文献资源采购 <tspan class="pct">42%</tspan></text>
+              <path class="leader" d="M342.3 524.7 L337.3 544.1"></path>
+              <text class="sl-name" x="330" y="549" text-anchor="end">人员经费 <tspan class="pct">24%</tspan></text>
+              <path class="leader" d="M169.8 328.9 L150 331.4"></path>
+              <text class="sl-name" x="143" y="336" text-anchor="end">场馆运维 <tspan class="pct">14%</tspan></text>
+              <path class="leader" d="M221.2 152.1 L205.8 139.4"></path>
+              <text class="sl-name" x="199" y="136" text-anchor="end">阅读推广活动 <tspan class="pct">12%</tspan></text>
+              <path class="leader" d="M342.3 75.3 L337.3 55.9"></path>
+              <text class="sl-name" x="331" y="52" text-anchor="end">数字化与系统 <tspan class="pct">8%</tspan></text>
+            </g>
+            <!-- 中心读值区：默认总量，聚焦分片时切换 -->
+            <g class="center" role="status" aria-live="polite">
+              <text class="c-val" id="c-val" x="400" y="292" text-anchor="middle">¥3,860 万</text>
+              <text class="c-name" id="c-name" x="400" y="324" text-anchor="middle">2025 年度经费总投入</text>
+              <text class="c-sub" id="c-sub" x="400" y="348" text-anchor="middle">五大类支出 / 合计 100%</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>图 1 / 市图书馆年度经费环形图 / 最大分片自 12 点顺时针排列 / 悬停或 Tab 聚焦任一分片可在中心读值</figcaption>
+      </figure>
+      <div class="spec-side">
+        <div class="card">
+          <h3>读图笔记</h3>
+          <ul>
+            <li><b>文献资源采购 42%</b>，单一主导分片一眼可辨，其余四类合计 58%。</li>
+            <li>前两类合计 <b>66%</b>，经费高度集中在资源与人力。</li>
+            <li>最小分片 <b>8%</b>，高于 5% 可辨阈值，无难辨小片。</li>
+            <li>五类正好卡在「不超过 5 类」的适用上限，是环形图的最佳工况。</li>
+          </ul>
+        </div>
+        <div class="card kb-card">
+          <h3>读值与键盘</h3>
+          <ul>
+            <li>每片均含名称与百分比的<b>直接标注</b>，颜色只是辅助编码。</li>
+            <li>分片可 <kbd>Tab</kbd> 聚焦，中心区读出该类金额与占比。</li>
+            <li>工程实现中：<kbd>Enter</kbd> / <kbd>Space</kbd> 下钻子类，<kbd>Back</kbd> 返回上一层。</li>
+            <li>完整数值另见本页底部<b>数据表后备</b>，屏幕阅读器可线性阅读。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 饼与环的取舍 -->
+  <section aria-labelledby="t-trade">
+    <div class="sec-head"><span class="sec-no">贰</span><h2 id="t-trade">饼与环的取舍 / 图鉴为何默认用环</h2></div>
+    <p class="sec-sub">同一组数据、同一种编码，饼与环的差异集中在「中心」。图鉴页承担讲解职责，因此默认用环。</p>
+    <div class="trade-grid">
+      <div class="mini-card">
+        <h3>饼 / Pie</h3>
+        <svg width="180" height="180" viewBox="0 0 180 180" aria-hidden="true">
+          <circle class="mini-pie" cx="90" cy="90" r="64" pathLength="100" transform="rotate(-90 90 90)" stroke="#0F7A55" style="stroke-dasharray:42 100"></circle>
+          <circle class="mini-pie" cx="90" cy="90" r="64" pathLength="100" transform="rotate(61.2 90 90)" stroke="#AE4A06" style="stroke-dasharray:24 100"></circle>
+          <circle class="mini-pie" cx="90" cy="90" r="64" pathLength="100" transform="rotate(147.6 90 90)" stroke="#3F4FB6" style="stroke-dasharray:14 100"></circle>
+          <circle class="mini-pie" cx="90" cy="90" r="64" pathLength="100" transform="rotate(198 90 90)" stroke="#A03060" style="stroke-dasharray:12 100"></circle>
+          <circle class="mini-pie" cx="90" cy="90" r="64" pathLength="100" transform="rotate(241.2 90 90)" stroke="#5A6B7D" style="stroke-dasharray:8 100"></circle>
+        </svg>
+        <p>面积对比最直觉，观众天然理解「块大即占比大」；适合只有一个主导分片、且无需额外总量的场合。</p>
+      </div>
+      <div class="mini-card">
+        <h3>环 / Donut</h3>
+        <svg width="180" height="180" viewBox="0 0 180 180" aria-hidden="true">
+          <circle class="mini-slice" cx="90" cy="90" r="64" pathLength="100" transform="rotate(-90 90 90)" stroke="#0F7A55" style="stroke-dasharray:42 100"></circle>
+          <circle class="mini-slice" cx="90" cy="90" r="64" pathLength="100" transform="rotate(61.2 90 90)" stroke="#AE4A06" style="stroke-dasharray:24 100"></circle>
+          <circle class="mini-slice" cx="90" cy="90" r="64" pathLength="100" transform="rotate(147.6 90 90)" stroke="#3F4FB6" style="stroke-dasharray:14 100"></circle>
+          <circle class="mini-slice" cx="90" cy="90" r="64" pathLength="100" transform="rotate(198 90 90)" stroke="#A03060" style="stroke-dasharray:12 100"></circle>
+          <circle class="mini-slice" cx="90" cy="90" r="64" pathLength="100" transform="rotate(241.2 90 90)" stroke="#5A6B7D" style="stroke-dasharray:8 100"></circle>
+          <text x="90" y="88" text-anchor="middle" font-size="17" font-weight="700" fill="#22292D">¥3,860万</text>
+          <text x="90" y="107" text-anchor="middle" font-size="9.5" fill="#515C63">年度经费</text>
+        </svg>
+        <p>空心处即免费的叙事位：放总量、结论或时间范围；等宽弧线也让人更专注「长度」这一维编码。</p>
+      </div>
+      <div class="card why-card">
+        <h3>本页默认环的三条理由</h3>
+        <ul>
+          <li><b>中心可放总量</b>：占比只有对照总量才有意义，环把「整体」直接画在图里。</li>
+          <li><b>讲解需要落点</b>：聚焦分片时，中心读值区可以承接名称、金额与占比三项信息。</li>
+          <li><b>页面更透气</b>：环的留白与文档式图鉴页的排版节奏更协调，饼则适合独立海报场景。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分片超限的替代 -->
+  <section aria-labelledby="t-over">
+    <div class="sec-head"><span class="sec-no">叁</span><h2 id="t-over">分片超限时 / 换成 100% 堆叠条形</h2></div>
+    <p class="sec-sub">
+      同一座图书馆的馆藏构成就踩线了：八类文献、最小 4%，超出「最多 6 片」的工程阈值，环形图不再适用，
+      改用 100% 堆叠条形——它同样是 part-to-whole，却能无限细分。
+    </p>
+    <div class="over-grid">
+      <div class="bar-block">
+        <p class="bar-total">馆藏文献构成 / 总量 <b>243.2 万件</b>（册、件混合统计）/ 按体积降序、其他置末</p>
+        <div class="bar" role="img" aria-label="100% 堆叠条形：图书 38%，电子书 16%，纸本期刊 14%，数据库 10%，报纸 6%，音像资料 5%，视听课程 4%，其他 7%">
+          <div class="seg" style="width:38%; background:#0F7A55"><span><i>图书</i>38%</span></div>
+          <div class="seg" style="width:16%; background:#AE4A06"><span><i>电子书</i>16%</span></div>
+          <div class="seg" style="width:14%; background:#3F4FB6"><span><i>期刊</i>14%</span></div>
+          <div class="seg" style="width:10%; background:#A03060"><span><i>数据库</i>10%</span></div>
+          <div class="seg" style="width:6%; background:#5A6B7D"><span>6%</span></div>
+          <div class="seg" style="width:5%; background:#2F7E4F"><span>5%</span></div>
+          <div class="seg" style="width:4%; background:#6B4FA0"><span>4%</span></div>
+          <div class="seg" style="width:7%; background:#6E7683"><span>7%</span></div>
+        </div>
+        <div class="bar-legend">
+          <div><i style="background:#0F7A55"></i>图书 <b>38%</b></div>
+          <div><i style="background:#AE4A06"></i>电子书 <b>16%</b></div>
+          <div><i style="background:#3F4FB6"></i>纸本期刊 <b>14%</b></div>
+          <div><i style="background:#A03060"></i>数据库 <b>10%</b></div>
+          <div><i style="background:#5A6B7D"></i>报纸 <b>6%</b></div>
+          <div><i style="background:#2F7E4F"></i>音像资料 <b>5%</b></div>
+          <div><i style="background:#6B4FA0"></i>视听课程 <b>4%</b></div>
+          <div><i style="background:#6E7683"></i>其他 <b>7%</b></div>
+        </div>
+      </div>
+      <div class="card over-note">
+        <h3>为什么条形接得住</h3>
+        <ul>
+          <li>八段、含两个 5% 以下小类，超过环形图<b>最多 6 片</b>的阈值，也违反「小片差小于 5% 难辨」的禁忌。</li>
+          <li>堆叠条形把角度编码换成长度编码，4% 的小段依然可测、可标注。</li>
+          <li>大段内嵌「名称 + 百分比」，小段仅有百分比，全量名称与数值由下方图例兜底，不依赖颜色。</li>
+          <li>官方无障碍回退同样首选堆叠条形视图，一图两用。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 无障碍 -->
+  <section aria-labelledby="t-a11y">
+    <div class="sec-head"><span class="sec-no">肆</span><h2 id="t-a11y">无障碍重点 / 高风险图型的守规矩用法</h2></div>
+    <p class="sec-sub">官方对饼环类的风险评级为高。风险不在图形本身，而在「只靠颜色、不给文字」的画法。</p>
+    <div class="a11y-banner">
+      <span class="tag">风险 高</span>
+      <p>
+        饼图并不天然不满足 WCAG；不可访问的是<b>未标注的纯色分片</b>。直接标注、辅以纹理、并始终提供非饼回退，
+        才能把高风险图型用稳。任何时候都不要只靠颜色传达信息。
+      </p>
+    </div>
+    <div class="a11y-grid">
+      <div class="card req-card">
+        <h3>画法要求</h3>
+        <ul>
+          <li>每片直接标注<b>名称与百分比</b>，本页主标本即为标准做法。</li>
+          <li>色板最多 5 到 6 色，选对比明显的配色，相邻分片可辨。</li>
+          <li>可用<b>纹理 / 图案填充</b>作为颜色之外的第二编码，服务色弱用户。</li>
+          <li>分片可键盘聚焦，聚焦即读出数值。</li>
+        </ul>
+      </div>
+      <div class="card fb-card">
+        <h3>回退规格</h3>
+        <ul>
+          <li>提供<b>百分比数据表</b>与一句 part-to-whole 摘要，作为非图形回退。</li>
+          <li>提供<b>堆叠条形视图</b>作为非饼替代（见第叁节样例）。</li>
+          <li>键盘路径完整：<b>聚焦显示数值 / Enter Space 下钻 / Back 返回</b>。</li>
+          <li>无障碍优先的场景，直接放弃饼环，从回退方案起步。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据表后备 -->
+  <section aria-labelledby="t-table">
+    <div class="sec-head"><span class="sec-no">伍</span><h2 id="t-table">数据表后备 / 主标本完整数值</h2></div>
+    <p class="sec-sub">图形之外，同一组数据永远以表格形式存在；行与行用同一网格对齐，数字右对齐等宽。</p>
+    <p class="tbl-sum">
+      一句话摘要：文献资源采购占 <b>42%</b>，接近总经费一半；它与人员经费合计 <b>66%</b>，其余三类分享剩下的 34%。
+    </p>
+    <div class="dtable" role="table" aria-label="市图书馆 2025 年度经费构成数据表">
+      <div class="trow" role="columnheader">
+        <span class="cat">支出类别</span>
+        <span class="num">金额（万元）</span>
+        <span class="num">占比</span>
+        <span class="num">累计占比</span>
+      </div>
+      <div class="trow" role="row" data-i="0">
+        <span class="cat"><i style="background:#0F7A55"></i>文献资源采购</span>
+        <span class="num" role="cell">1,621.2</span>
+        <span class="num" role="cell">42%</span>
+        <span class="num" role="cell">42%</span>
+      </div>
+      <div class="trow" role="row" data-i="1">
+        <span class="cat"><i style="background:#AE4A06"></i>人员经费</span>
+        <span class="num" role="cell">926.4</span>
+        <span class="num" role="cell">24%</span>
+        <span class="num" role="cell">66%</span>
+      </div>
+      <div class="trow" role="row" data-i="2">
+        <span class="cat"><i style="background:#3F4FB6"></i>场馆运维</span>
+        <span class="num" role="cell">540.4</span>
+        <span class="num" role="cell">14%</span>
+        <span class="num" role="cell">80%</span>
+      </div>
+      <div class="trow" role="row" data-i="3">
+        <span class="cat"><i style="background:#A03060"></i>阅读推广活动</span>
+        <span class="num" role="cell">463.2</span>
+        <span class="num" role="cell">12%</span>
+        <span class="num" role="cell">92%</span>
+      </div>
+      <div class="trow" role="row" data-i="4">
+        <span class="cat"><i style="background:#5A6B7D"></i>数字化与系统</span>
+        <span class="num" role="cell">308.8</span>
+        <span class="num" role="cell">8%</span>
+        <span class="num" role="cell">100%</span>
+      </div>
+      <div class="trow foot" role="row">
+        <span class="cat">合计</span>
+        <span class="num" role="cell">3,860.0</span>
+        <span class="num" role="cell">100%</span>
+        <span class="num" role="cell">—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使用边界 -->
+  <section aria-labelledby="t-bound">
+    <div class="sec-head"><span class="sec-no">陆</span><h2 id="t-bound">使用边界 / 何时用与何时不用</h2></div>
+    <p class="sec-sub">官方选型口径，逐条照抄如下；两条红线都碰到时，直接进入第叁节的堆叠条形方案。</p>
+    <div class="bound-grid">
+      <div class="card use-card">
+        <h3>适用</h3>
+        <ul>
+          <li>类别不超过 5 个，视觉简单可一览。</li>
+          <li>存在一个主导分片，与其余部分形成对照。</li>
+          <li>强调视觉占比胜过精确数值，读「大概多少」即可。</li>
+        </ul>
+      </div>
+      <div class="card not-card">
+        <h3>不适用</h3>
+        <ul>
+          <li>类别超过 5 个；工程阈值最多 6 片，超出切换 100% 堆叠条形。</li>
+          <li>相邻分片差异小于 5%，肉眼无法分辨。</li>
+          <li>用户需要精确读值，改用带刻度的条形或表格。</li>
+          <li>无障碍优先的场景，从回退方案起步。</li>
+        </ul>
+        <p class="threshold">数据量阈值：<b>最多 6 片</b>；第 7 片出现时，即为切换信号。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span>UI 设计提示词库 / 图表图鉴 / 占比环形</span>
+    <span>选型依据 charts.json No.3 / Part-to-Whole</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script src="../stats.js"></script>
+<script>
+// 分片与数据表行联动：悬停或聚焦时高亮分片并在中心读值
+(function () {
+  var svg = document.querySelector('.donut');
+  var slices = Array.prototype.slice.call(document.querySelectorAll('.slice'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.trow[data-i]'));
+  var cVal = document.getElementById('c-val');
+  var cName = document.getElementById('c-name');
+  var cSub = document.getElementById('c-sub');
+  var DEF = { v: '¥3,860 万', n: '2025 年度经费总投入', s: '五大类支出 / 合计 100%' };
+
+  function render(o) {
+    cVal.textContent = o.v;
+    cName.textContent = o.n;
+    cSub.textContent = o.s;
+  }
+  function on(el) {
+    svg.classList.add('focus-mode');
+    el.classList.add('hot');
+    render({ v: el.dataset.v, n: el.dataset.n, s: '占 ' + el.dataset.p + '% / 全年 ¥3,860 万' });
+  }
+  function off(el) {
+    svg.classList.remove('focus-mode');
+    el.classList.remove('hot');
+    render(DEF);
+  }
+  slices.forEach(function (s) {
+    s.addEventListener('mouseenter', function () { on(s); });
+    s.addEventListener('mouseleave', function () { off(s); });
+    s.addEventListener('focus', function () { on(s); });
+    s.addEventListener('blur', function () { off(s); });
+  });
+  rows.forEach(function (r) {
+    var s = slices[Number(r.dataset.i)];
+    if (!s) return;
+    r.addEventListener('mouseenter', function () { on(s); });
+    r.addEventListener('mouseleave', function () { off(s); });
+  });
+})();
+</script>
+
+</body>
+</html>

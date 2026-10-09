@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图表图鉴 / 地理分级 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<!-- token 计划：纸底 #F3EEE1 / 卡面 #FBF8EE / 墨 #1F2A1E / 茶褐 #8A5A2B / 松绿 #33673B / 绿阶 #E7EEDA > #C9DCB8 > #9DC189 > #6FA25E > #3E7A46 -->
+<style>
+  :root {
+    --paper: #F3EEE1;
+    --card: #FBF8EE;
+    --line: #D9D0B8;
+    --line-soft: #E7DFCB;
+    --ink: #1F2A1E;
+    --muted: #5A5344;
+    --pine: #33673B;
+    --tea: #8A5A2B;
+    --b1: #E7EEDA;
+    --b2: #C9DCB8;
+    --b3: #9DC189;
+    --b4: #6FA25E;
+    --b5: #3E7A46;
+    --hit: #F2E7CF;
+    --serif: "Songti SC", "STSong", "SimSun", Georgia, serif;
+    --sans: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.75;
+    background-image: repeating-linear-gradient(0deg, rgba(31,42,30,0.022) 0 1px, transparent 1px 28px);
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  a { color: var(--pine); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, .stage:focus-visible, .rg:focus-visible {
+    outline: 2px solid var(--pine);
+    outline-offset: 2px;
+  }
+  button { font-family: inherit; }
+
+  /* 页眉 */
+  .masthead { border-bottom: 3px double var(--ink); }
+  .masthead .wrap {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-top: 18px; padding-bottom: 12px; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { font-family: var(--serif); font-weight: 700; letter-spacing: 0.12em; }
+  .crumb { color: var(--muted); font-size: 13px; }
+  .crumb b { color: var(--tea); font-weight: 600; }
+
+  /* 条目标题区 */
+  .spec-head { padding: 44px 0 30px; border-bottom: 1px solid var(--line); }
+  .spec-kicker { color: var(--tea); font-family: var(--serif); letter-spacing: 0.3em; font-size: 14px; }
+  h1 {
+    font-family: var(--serif); font-size: clamp(30px, 4.2vw, 46px);
+    letter-spacing: 0.04em; line-height: 1.25; margin: 10px 0 4px; font-weight: 700;
+  }
+  h1 .no {
+    color: var(--tea); font-size: 0.62em; vertical-align: 0.14em;
+    border: 1px solid var(--tea); border-radius: 6px; padding: 2px 10px; margin-right: 14px;
+    letter-spacing: 0.08em;
+  }
+  .spec-en { font-family: var(--serif); color: var(--muted); font-size: 15px; letter-spacing: 0.04em; }
+  .lead { max-width: 780px; margin: 16px 0 22px; }
+  .lead b { color: var(--pine); }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 5px 14px; font-size: 13px; color: var(--muted);
+  }
+  .chip b { color: var(--ink); font-weight: 600; margin-left: 6px; }
+  .chip.risk b { color: var(--tea); }
+
+  /* 主布局 */
+  .spec-grid {
+    display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 22px; align-items: start; padding: 30px 0 8px;
+  }
+  .side-col { display: flex; flex-direction: column; gap: 22px; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px 22px 22px; box-shadow: 0 1px 0 rgba(31,42,30,0.06);
+  }
+  .card > h2 {
+    font-family: var(--serif); font-size: 19px; letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--line-soft); padding-bottom: 10px; margin-bottom: 14px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .card > h2 .tag-no { color: var(--tea); font-size: 14px; letter-spacing: 0.2em; }
+  .card p.note { color: var(--muted); font-size: 13px; margin-top: 12px; }
+
+  /* 标本卡：大图 */
+  .toolbar {
+    display: flex; justify-content: space-between; align-items: stretch;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .readout {
+    flex: 1 1 320px; min-width: 0; display: grid;
+    grid-template-columns: 1.4fr 1.2fr 1.6fr;
+    border: 1px solid var(--line); border-radius: 8px; background: #F6F1E2; overflow: hidden;
+  }
+  .readout > div { padding: 8px 12px; border-left: 1px solid var(--line-soft); }
+  .readout > div:first-child { border-left: none; }
+  .readout .k { display: block; font-size: 11.5px; color: var(--muted); letter-spacing: 0.18em; }
+  .readout .v { display: block; font-family: var(--serif); font-weight: 700; font-size: 16px; }
+  .zoombar { display: flex; gap: 8px; align-items: stretch; }
+  .zoombar button {
+    border: 1px solid var(--ink); background: var(--card); color: var(--ink);
+    border-radius: 8px; padding: 8px 16px; font-size: 13.5px; cursor: pointer;
+  }
+  .zoombar button:hover:not(:disabled) { background: var(--ink); color: var(--card); }
+  .zoombar button:disabled { opacity: 0.4; cursor: default; }
+
+  .stage {
+    position: relative; overflow: hidden; border: 1px solid var(--line);
+    border-radius: 8px; background: #F8F4E6;
+  }
+  .stage svg { display: block; width: 100%; height: auto; }
+
+  .grat { stroke: #E5DCC4; stroke-width: 1; }
+  .deco { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+  .deco-text { font-family: var(--serif); font-size: 13px; fill: var(--ink); }
+  .ann { font-family: var(--serif); font-size: 13px; fill: var(--muted); letter-spacing: 0.06em; }
+
+  .rg { cursor: pointer; transition: filter 0.15s ease; }
+  .rg:hover { filter: saturate(1.18) brightness(1.05); }
+  .rg:focus-visible { stroke: var(--tea); stroke-width: 3; outline: none; }
+  .f1 { fill: var(--b1); } .f2 { fill: var(--b2); } .f3 { fill: var(--b3); }
+  .f4 { fill: var(--b4); } .f5 { fill: var(--b5); }
+  .rg { stroke: #F8F4E6; stroke-width: 3; stroke-linejoin: round; }
+  .lb { font-family: var(--serif); font-weight: 700; font-size: 15px; fill: var(--ink); }
+  .lb-v { font-family: var(--sans); font-size: 11.5px; fill: var(--ink); opacity: 0.82; }
+  .lb-hi { fill: #FFFFFF; } .lb-hi.lb-v { opacity: 0.95; }
+
+  /* 一次亮相：区域按填色层级依次浮现 */
+  .rg { opacity: 0; animation: rise 0.55s ease-out forwards; }
+  .rg.f1 { animation-delay: 0.05s; }
+  .rg.f2 { animation-delay: 0.22s; }
+  .rg.f3 { animation-delay: 0.39s; }
+  .rg.f4 { animation-delay: 0.56s; }
+  .rg.f5 { animation-delay: 0.73s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rg { animation: none; opacity: 1; }
+  }
+
+  /* 图例刻度 */
+  .legend { margin-top: 16px; }
+  .lg-blocks { display: flex; }
+  .lg-step { flex: 1; height: 26px; border: 1px solid rgba(31,42,30,0.4); border-left: none; }
+  .lg-step:first-child { border-left: 1px solid rgba(31,42,30,0.4); }
+  .lg-step.s1 { background: var(--b1); } .lg-step.s2 { background: var(--b2); }
+  .lg-step.s3 { background: var(--b3); } .lg-step.s4 { background: var(--b4); }
+  .lg-step.s5 { background: var(--b5); }
+  .lg-axis {
+    display: flex; justify-content: space-between;
+    font-variant-numeric: tabular-nums; font-size: 12.5px; color: var(--muted);
+    margin-top: 4px; border-bottom: 1px solid var(--line); padding-bottom: 3px;
+  }
+  .lg-cap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  .lg-cap b { color: var(--ink); font-weight: 600; }
+  .map-hint { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+  /* 编码原理 */
+  .enc-list { list-style: none; }
+  .enc-list li {
+    display: grid; grid-template-columns: 118px 22px 1fr; gap: 8px;
+    padding: 9px 0; border-bottom: 1px dashed var(--line-soft); font-size: 14px;
+  }
+  .enc-list li:last-child { border-bottom: none; }
+  .enc-list .src { font-family: var(--serif); font-weight: 700; }
+  .enc-list .map-arrow { color: var(--tea); text-align: center; }
+  .enc-list .dst b { color: var(--pine); font-weight: 600; }
+
+  /* 分箱说明（全宽对比区） */
+  .bin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 22px; }
+  .bin-block { margin-bottom: 0; }
+  .bin-block h3 { font-family: var(--serif); font-size: 15.5px; margin-bottom: 2px; }
+  .bin-block .bin-meta { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .bin-rows { display: grid; gap: 4px; }
+  .bin-row {
+    display: grid; grid-template-columns: 30px 104px 1fr; gap: 10px;
+    align-items: center; font-size: 13px; background: #F6F1E2;
+    border: 1px solid var(--line-soft); border-radius: 6px; padding: 4px 10px;
+  }
+  .bin-row .sw { width: 26px; height: 16px; border: 1px solid rgba(31,42,30,0.4); border-radius: 3px; }
+  .bin-row .rng { font-variant-numeric: tabular-nums; color: var(--muted); }
+  .bin-note { font-size: 13px; color: var(--muted); border-left: 3px solid var(--tea); padding-left: 10px; margin-top: 4px; }
+  .bin-note b { color: var(--ink); }
+
+  /* 气泡地图变体 */
+  .bubble-svg { display: block; width: 100%; height: auto; }
+  .bub-outline { fill: #F0EAD8; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .bub { fill: rgba(62,122,70,0.68); stroke: #2C5A33; stroke-width: 1.2; }
+  .bub-lb { font-family: var(--serif); font-size: 11.5px; font-weight: 700; fill: var(--ink); }
+  .bub-legend { display: flex; align-items: flex-end; gap: 26px; margin-top: 10px; padding-left: 4px; }
+  .bub-legend .cell { text-align: center; }
+  .bub-legend .circ { margin: 0 auto; border-radius: 50%; background: rgba(62,122,70,0.68); border: 1.2px solid #2C5A33; }
+  .bub-legend .num { font-size: 12px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .bub-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  /* 数据表后备 */
+  .table-card { margin-top: 22px; }
+  .tbl-summary { font-size: 14px; margin-bottom: 14px; }
+  .tbl-summary b { color: var(--pine); }
+  .tbl-scroll { overflow-x: auto; }
+  .tbl { min-width: 640px; }
+  .trow {
+    display: grid; grid-template-columns: 1.5fr 1.2fr 1fr 1.2fr 1.2fr;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .trow[role="row"] > div { padding: 9px 12px; min-width: 0; }
+  .thead .trow { border-bottom: 2px solid var(--ink); background: #F6F1E2; }
+  .thead .trow > div { font-size: 13px; letter-spacing: 0.1em; color: var(--muted); }
+  .trow .num { font-variant-numeric: tabular-nums; text-align: right; }
+  .trow .c-name { font-family: var(--serif); font-weight: 700; }
+  .trow .hit { outline: 2px solid var(--tea); outline-offset: -2px; background: var(--hit); }
+  .sort-btn {
+    all: unset; cursor: pointer; display: inline; color: var(--ink);
+    font-size: 13px; letter-spacing: 0.1em; border-bottom: 1px dashed var(--tea);
+  }
+  .sort-btn:hover { color: var(--tea); }
+  .lv-pill {
+    display: inline-block; width: 12px; height: 12px; border-radius: 3px;
+    border: 1px solid rgba(31,42,30,0.4); margin-right: 7px; vertical-align: -1px;
+  }
+  .tbl-foot { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+
+  /* 判据与工程参数 */
+  .verdict-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 22px; margin-top: 22px;
+  }
+  .verdict h3 { font-family: var(--serif); font-size: 16px; margin-bottom: 8px; }
+  .verdict ul { list-style: none; }
+  .verdict li { padding: 7px 0 7px 18px; border-bottom: 1px dashed var(--line-soft); font-size: 14px; position: relative; }
+  .verdict li::before { content: ""; position: absolute; left: 2px; top: 15px; width: 7px; height: 7px; border-radius: 50%; }
+  .verdict .yes li::before { background: var(--pine); }
+  .verdict .no li::before { background: var(--tea); }
+  .spec-dl { display: grid; grid-template-columns: 96px 1fr; gap: 6px 12px; font-size: 14px; }
+  .spec-dl dt { color: var(--muted); font-size: 13px; padding-top: 2px; }
+  .spec-dl dd b { color: var(--pine); font-weight: 600; }
+  .libs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .libs span { border: 1px solid var(--line); border-radius: 6px; padding: 3px 12px; font-size: 13px; background: #F6F1E2; }
+
+  .atlas-note {
+    margin: 26px 0 0; border: 1px dashed var(--tea); border-radius: 8px;
+    padding: 12px 18px; font-size: 13.5px; color: var(--muted); background: rgba(138,90,43,0.05);
+  }
+  .atlas-note b { color: var(--tea); }
+
+  footer { margin-top: 44px; border-top: 3px double var(--ink); background: #EFE9D8; }
+  footer .wrap {
+    padding: 26px 28px 34px; text-align: center;
+    display: grid; gap: 8px; justify-items: center;
+  }
+  .foot-brand { font-family: var(--serif); font-weight: 700; letter-spacing: 0.14em; }
+  .foot-link {
+    border: 1px solid var(--ink); border-radius: 999px; padding: 6px 22px;
+    text-decoration: none; color: var(--ink); background: var(--card);
+  }
+  .foot-link:hover { background: var(--ink); color: var(--card); }
+  .foot-note { font-size: 12.5px; color: var(--muted); max-width: 720px; }
+
+  /* 响应式 */
+  @media (max-width: 1000px) {
+    .spec-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .spec-head { padding-top: 30px; }
+    h1 .no { display: inline-block; margin: 0 0 8px; }
+    .readout { grid-template-columns: 1fr 1fr; }
+    .readout > div:nth-child(3) { grid-column: 1 / -1; border-left: none; border-top: 1px solid var(--line-soft); }
+    .lb { font-size: 18px; }
+    .lb-v { font-size: 14px; }
+    .bin-row { grid-template-columns: 26px 96px 1fr; gap: 6px; }
+    .bin-grid { grid-template-columns: 1fr; gap: 0; }
+    .bin-grid .bin-block + .bin-block { margin-top: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="brand">UI 设计提示词库</p>
+    <p class="crumb">图表图鉴 / 条目 <b>06</b> / 数据类型 地理数据</p>
+  </div>
+</header>
+
+<section class="spec-head">
+  <div class="wrap">
+    <p class="spec-kicker">图表图鉴 / 地理编码原理</p>
+    <h1><span class="no">06</span>地理分级填色与气泡地图</h1>
+    <p class="spec-en">Choropleth Map 与 Bubble Map / 区域数值的空间编码</p>
+    <p class="lead">
+      当数据自带<b>区域或位置维度</b>、且空间分布本身是核心洞察时，地理编码把统计值折算为
+      <b>填色明度阶</b>（分级填色）或<b>点位半径</b>（气泡地图）。本页标本以虚构的云澜省
+      十个市单元茶园面积为例，演示从原始数值到分箱、填色、读数、数据表后备的完整链路。
+    </p>
+    <div class="chips">
+      <span class="chip">最佳图型<b>Choropleth / Bubble Map</b></span>
+      <span class="chip">备选<b>地理热力图</b></span>
+      <span class="chip">交互<b>平移 + 缩放 + 下钻</b></span>
+      <span class="chip risk">无障碍风险<b>条件性 conditional</b></span>
+      <span class="chip">推荐库<b>D3.js / Mapbox / Leaflet</b></span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="spec-grid">
+
+    <!-- 标本：分级填色大图 -->
+    <section class="card" aria-labelledby="t-specimen">
+      <h2 id="t-specimen"><span class="tag-no">甲</span>分级填色标本 / 云澜省茶园面积</h2>
+      <div class="toolbar">
+        <div class="readout" aria-live="polite">
+          <div><span class="k">区域</span><span class="v" id="ro-n">全省合计</span></div>
+          <div><span class="k">数值 万亩</span><span class="v" id="ro-v">205.6</span></div>
+          <div><span class="k">分级与占比</span><span class="v" id="ro-b">十个市单元</span></div>
+        </div>
+        <div class="zoombar">
+          <button type="button" id="zin">放大</button>
+          <button type="button" id="zout">缩小</button>
+          <button type="button" id="zreset">复位</button>
+        </div>
+      </div>
+
+      <div class="stage" id="stage" tabindex="0"
+        aria-label="云澜省茶园面积分级填色图。聚焦后可用方向键平移画布；各区域可单独聚焦，按 Enter 在数据表中定位该区域。">
+        <svg viewBox="0 0 760 540" role="group" aria-label="云澜省茶园面积分级填色图，含十个可聚焦市单元">
+          <g id="world">
+            <g class="grat" aria-hidden="true">
+              <path d="M180,60 V500 M270,60 V500 M360,60 V500 M450,60 V500 M540,60 V500 M630,60 V500" fill="none"/>
+              <path d="M90,140 H680 M90,230 H680 M90,320 H680 M90,410 H680" fill="none"/>
+            </g>
+
+            <g aria-hidden="true">
+              <path class="f1" style="stroke:none" d="M640,502 L660,496 672,508 658,522 642,516 Z"/>
+              <path class="f2" style="stroke:none" d="M588,512 L600,508 608,516 600,526 590,522 Z"/>
+            </g>
+
+            <path class="rg f1" tabindex="0" role="button"
+              d="M298,112 L342,82 424,78 472,104 464,160 386,180 304,170 Z"
+              data-n="岚谷市" data-v="6.8" data-b="一级（0 至 9）/ 占 3.3%" data-id="r-laengu"
+              aria-label="岚谷市，茶园面积 6.8 万亩，占全省 3.3%，等距一级，按 Enter 在数据表定位"/>
+            <path class="rg f1" tabindex="0" role="button"
+              d="M114,300 L176,344 268,332 286,398 236,466 148,470 106,404 Z"
+              data-n="云和市" data-v="7.4" data-b="一级（0 至 9）/ 占 3.6%" data-id="r-yunhe"
+              aria-label="云和市，茶园面积 7.4 万亩，占全省 3.6%，等距一级，按 Enter 在数据表定位"/>
+            <path class="rg f2" tabindex="0" role="button"
+              d="M118,150 L148,96 232,84 298,112 304,170 262,212 172,218 126,192 Z"
+              data-n="苍溪市" data-v="12.6" data-b="二级（9 至 18）/ 占 6.1%" data-id="r-cangxi"
+              aria-label="苍溪市，茶园面积 12.6 万亩，占全省 6.1%，等距二级，按 Enter 在数据表定位"/>
+            <path class="rg f2" tabindex="0" role="button"
+              d="M430,224 L464,160 560,198 552,252 498,294 430,304 414,302 Z"
+              data-n="砚山市" data-v="16.5" data-b="二级（9 至 18）/ 占 8.0%" data-id="r-yanshan"
+              aria-label="砚山市，茶园面积 16.5 万亩，占全省 8.0%，等距二级，按 Enter 在数据表定位"/>
+            <path class="rg f2" tabindex="0" role="button"
+              d="M470,346 L552,330 620,342 596,452 506,488 452,430 Z"
+              data-n="丹霞市" data-v="11.3" data-b="二级（9 至 18）/ 占 5.5%" data-id="r-danxia"
+              aria-label="丹霞市，茶园面积 11.3 万亩，占全省 5.5%，等距二级，按 Enter 在数据表定位"/>
+            <path class="rg f3" tabindex="0" role="button"
+              d="M472,104 L548,84 614,108 620,172 560,198 464,160 Z"
+              data-n="雾岭市" data-v="18.4" data-b="三级（18 至 27）/ 占 8.9%" data-id="r-wuling"
+              aria-label="雾岭市，茶园面积 18.4 万亩，占全省 8.9%，等距三级，按 Enter 在数据表定位"/>
+            <path class="rg f3" tabindex="0" role="button"
+              d="M268,332 L322,334 414,302 430,304 470,346 452,430 348,472 286,398 Z"
+              data-n="屏南州" data-v="24.8" data-b="三级（18 至 27）/ 占 12.1%" data-id="r-pingnan"
+              aria-label="屏南州，茶园面积 24.8 万亩，占全省 12.1%，等距三级，按 Enter 在数据表定位"/>
+            <path class="rg f4" tabindex="0" role="button"
+              d="M126,192 L172,218 262,212 292,258 268,332 176,344 114,300 104,238 Z"
+              data-n="青峒市" data-v="27.9" data-b="四级（27 至 36）/ 占 13.6%" data-id="r-qingtong"
+              aria-label="青峒市，茶园面积 27.9 万亩，占全省 13.6%，等距四级，按 Enter 在数据表定位"/>
+            <path class="rg f5" tabindex="0" role="button"
+              d="M552,252 L560,198 618,180 648,256 620,342 552,330 528,268 Z"
+              data-n="竹海市" data-v="38.7" data-b="五级（36 至 45）/ 占 18.8%" data-id="r-zhuhai"
+              aria-label="竹海市，茶园面积 38.7 万亩，占全省 18.8%，等距五级，按 Enter 在数据表定位"/>
+            <path class="rg f5" tabindex="0" role="button"
+              d="M262,212 L304,170 386,180 430,224 414,302 322,334 292,258 Z"
+              data-n="澜城市" data-v="41.2" data-b="五级（36 至 45）/ 占 20.0%" data-id="r-lancheng"
+              aria-label="澜城市，茶园面积 41.2 万亩，占全省 20.0%，等距五级，按 Enter 在数据表定位"/>
+
+            <g aria-hidden="true" pointer-events="none">
+              <text class="lb" x="378" y="130" text-anchor="middle">岚谷</text>
+              <text class="lb-v" x="378" y="146" text-anchor="middle">6.8</text>
+              <text class="lb" x="196" y="404" text-anchor="middle">云和</text>
+              <text class="lb-v" x="196" y="420" text-anchor="middle">7.4</text>
+              <text class="lb" x="208" y="152" text-anchor="middle">苍溪</text>
+              <text class="lb-v" x="208" y="168" text-anchor="middle">12.6</text>
+              <text class="lb" x="490" y="246" text-anchor="middle">砚山</text>
+              <text class="lb-v" x="490" y="262" text-anchor="middle">16.5</text>
+              <text class="lb" x="534" y="400" text-anchor="middle">丹霞</text>
+              <text class="lb-v" x="534" y="416" text-anchor="middle">11.3</text>
+              <text class="lb" x="540" y="140" text-anchor="middle">雾岭</text>
+              <text class="lb-v" x="540" y="156" text-anchor="middle">18.4</text>
+              <text class="lb" x="364" y="390" text-anchor="middle">屏南</text>
+              <text class="lb-v" x="364" y="406" text-anchor="middle">24.8</text>
+              <text class="lb" x="186" y="272" text-anchor="middle">青峒</text>
+              <text class="lb-v" x="186" y="288" text-anchor="middle">27.9</text>
+              <text class="lb lb-hi" x="586" y="262" text-anchor="middle">竹海</text>
+              <text class="lb-v lb-hi" x="586" y="278" text-anchor="middle">38.7</text>
+              <text class="lb lb-hi" x="340" y="252" text-anchor="middle">澜城</text>
+              <text class="lb-v lb-hi" x="340" y="268" text-anchor="middle">41.2</text>
+            </g>
+
+            <g aria-hidden="true">
+              <circle class="deco" cx="706" cy="100" r="20"/>
+              <path d="M706,84 L712,104 L706,99 L700,104 Z" fill="#1F2A1E"/>
+              <text class="deco-text" x="706" y="72" text-anchor="middle">北</text>
+              <path class="deco" d="M84,514 H244 M84,510 V518 M164,510 V518 M244,510 V518" fill="none"/>
+              <text class="ann" x="84" y="532" text-anchor="middle">0</text>
+              <text class="ann" x="164" y="532" text-anchor="middle">20</text>
+              <text class="ann" x="244" y="532" text-anchor="middle">40 km</text>
+              <text class="ann" x="86" y="72">云澜省 茶园面积 / 单位 万亩 / 2025 年普查</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="legend" aria-label="分级图例与刻度">
+        <div class="lg-blocks" aria-hidden="true">
+          <span class="lg-step s1"></span><span class="lg-step s2"></span><span class="lg-step s3"></span>
+          <span class="lg-step s4"></span><span class="lg-step s5"></span>
+        </div>
+        <div class="lg-axis" aria-hidden="true">
+          <span>0</span><span>9</span><span>18</span><span>27</span><span>36</span><span>45</span>
+        </div>
+        <div class="lg-cap">
+          <span>等距断点 / 单位 万亩 / <b>淡 至 深为低 至 高</b></span>
+          <span>五级 / n = 10</span>
+        </div>
+      </div>
+
+      <p class="map-hint">
+        键盘操作：区域可 Tab 聚焦并在读数面板显示数值 / Enter 在下方数据表定位该区域 /
+        画布聚焦后方向键平移 / 放大、缩小按钮调视野 / 复位还原。注：云澜省及十市为虚构示意地理单元，数据参考产茶大省量级编制。
+      </p>
+      <p class="note">
+        编码警示：本标本以总量（万亩）填色仅为教学演示；当区域面积差异悬殊时，大区域会在视觉上被放大，
+        官方选型建议此时改用条形图或改编码亩均量与占比（比率型数据）后再填色。
+      </p>
+    </section>
+
+    <!-- 侧栏 -->
+    <div class="side-col">
+
+      <section class="card" aria-labelledby="t-enc">
+        <h2 id="t-enc"><span class="tag-no">乙</span>地理编码原理</h2>
+        <ul class="enc-list">
+          <li><span class="src">区域多边形</span><span class="map-arrow">到</span>
+            <span class="dst">空间位置，<b>恒定通道</b>，地理编码的基底，不随数值变化</span></li>
+          <li><span class="src">面积值</span><span class="map-arrow">到</span>
+            <span class="dst">填色明度阶，<b>分级填色 Choropleth</b>，先分箱后映射五档绿阶</span></li>
+          <li><span class="src">城市点位</span><span class="map-arrow">到</span>
+            <span class="dst">圆面积 ∝ 数值，<b>气泡地图 Bubble Map</b>，半径按平方根折算</span></li>
+          <li><span class="src">边界与名称</span><span class="map-arrow">到</span>
+            <span class="dst">留白缝隙 + 直接标注，<b>不以颜色为唯一载体</b>（条件性风险的核心缓解）</span></li>
+        </ul>
+        <p class="note">比率型数据（占比、亩均）适合填色；总量型数据更适合气泡或改用条形图。</p>
+      </section>
+
+      <section class="card" aria-labelledby="t-bub">
+        <h2 id="t-bub"><span class="tag-no">丙</span>气泡地图变体 / 点为城市节点</h2>
+        <svg class="bubble-svg" viewBox="0 0 300 252" role="img"
+          aria-label="气泡地图变体示意：以城市点位圆面积表示茶园面积，澜城 41.2 万亩最大，岚谷 6.8 万亩最小">
+          <path class="bub-outline" d="M58,96 Q64,60 112,48 Q166,34 206,54 Q252,42 288,66 Q294,104 276,134 Q286,182 264,208 Q224,236 156,230 Q98,224 70,186 Q50,146 58,96 Z"/>
+          <circle class="bub" cx="100" cy="74" r="6.1"/>
+          <circle class="bub" cx="167" cy="68" r="6.1"/>
+          <circle class="bub" cx="232" cy="70" r="10.1"/>
+          <circle class="bub" cx="91" cy="122" r="12.4"/>
+          <circle class="bub" cx="150" cy="120" r="15.1"/>
+          <circle class="bub" cx="213" cy="118" r="9.5"/>
+          <circle class="bub" cx="247" cy="132" r="14.6"/>
+          <circle class="bub" cx="96" cy="179" r="6.4"/>
+          <circle class="bub" cx="163" cy="179" r="11.7"/>
+          <circle class="bub" cx="230" cy="182" r="7.9"/>
+          <g aria-hidden="true">
+            <text class="bub-lb" x="150" y="152" text-anchor="middle">澜城 41.2</text>
+            <text class="bub-lb" x="247" y="158" text-anchor="middle">竹海 38.7</text>
+            <text class="bub-lb" x="91" y="146" text-anchor="middle">青峒 27.9</text>
+          </g>
+        </svg>
+        <div class="bub-legend" aria-hidden="true">
+          <div class="cell"><div class="circ" style="width:15px;height:15px"></div><p class="num">10</p></div>
+          <div class="cell"><div class="circ" style="width:24px;height:24px"></div><p class="num">25</p></div>
+          <div class="cell"><div class="circ" style="width:30px;height:30px"></div><p class="num">40</p></div>
+          <p class="num" style="align-self:center;margin:0 0 0 8px">万亩 / 半径 ∝ √数值</p>
+        </div>
+        <p class="bub-note">同幅底图换成点位编码后，总量对比不再受区域面积干扰，适合城市节点型地理数据。</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- 分箱说明（全宽对比区） -->
+  <section class="card bin-grid" aria-labelledby="t-bin">
+    <h2 id="t-bin" style="grid-column:1 / -1"><span class="tag-no">丁</span>分箱说明 / 等距与分位</h2>
+    <div class="bin-block">
+      <h3>等距分箱 / Equal Interval</h3>
+      <p class="bin-meta">断点 0、9、18、27、36、45，均分值域</p>
+      <div class="bin-rows">
+        <div class="bin-row"><span class="sw" style="background:var(--b1)"></span><span class="rng">0 至 9</span><span>岚谷、云和</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b2)"></span><span class="rng">9 至 18</span><span>苍溪、丹霞、砚山</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b3)"></span><span class="rng">18 至 27</span><span>雾岭、屏南</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b4)"></span><span class="rng">27 至 36</span><span>青峒</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b5)"></span><span class="rng">36 至 45</span><span>澜城、竹海</span></div>
+      </div>
+      <p class="bin-note">断点整、跨期可比；<b>风险</b>是高值挤在顶级、中段空箱，本例四级仅落 1 地区。</p>
+    </div>
+    <div class="bin-block">
+      <h3>分位分箱 / Quantile</h3>
+      <p class="bin-meta">每箱地区数相等（n = 10，每箱 2 地区）</p>
+      <div class="bin-rows">
+        <div class="bin-row"><span class="sw" style="background:var(--b1)"></span><span class="rng">6.8 至 7.4</span><span>岚谷、云和</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b2)"></span><span class="rng">11.3 至 12.6</span><span>丹霞、苍溪</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b3)"></span><span class="rng">16.5 至 18.4</span><span>砚山、雾岭</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b4)"></span><span class="rng">24.8 至 27.9</span><span>屏南、青峒</span></div>
+        <div class="bin-row"><span class="sw" style="background:var(--b5)"></span><span class="rng">38.7 至 41.2</span><span>竹海、澜城</span></div>
+      </div>
+      <p class="bin-note">区分度最大、色阶利用充分；<b>风险</b>是断点值不整且随样本变动，跨期不可直接比较。</p>
+    </div>
+  </section>
+
+  <!-- 数据表后备 -->
+  <section class="card table-card" aria-labelledby="t-table">
+    <h2 id="t-table"><span class="tag-no">戊</span>数据表后备 / 可排序区域清单</h2>
+    <p class="tbl-summary">
+      全省茶园合计 <b>205.6 万亩</b>；最高为澜城市 41.2 万亩；前三市（澜城、竹海、青峒）合计 107.8 万亩，
+      约占全省 <b>52.4%</b>，空间上向中部与东部集聚。此表为读屏与精确取数的等效视图。
+    </p>
+    <div class="tbl-scroll">
+      <div class="tbl" role="table" aria-label="云澜省各市茶园面积数据表，含等距分级与分位分级">
+        <div class="thead" role="rowgroup">
+          <div class="trow" role="row">
+            <div role="columnheader">区域</div>
+            <div role="columnheader" class="num" id="th-val" aria-sort="descending">
+              面积 万亩 <button type="button" class="sort-btn" id="sortBtn">排序切换</button>
+            </div>
+            <div role="columnheader" class="num">占全省</div>
+            <div role="columnheader">等距分级</div>
+            <div role="columnheader">分位分级</div>
+          </div>
+        </div>
+        <div role="rowgroup" id="tbody"></div>
+      </div>
+    </div>
+    <p class="tbl-foot">占比经四舍五入，合计与 100% 可能相差 0.1 个百分点。等距分级断点 0 / 9 / 18 / 27 / 36 / 45；分位分级每箱 2 地区。</p>
+  </section>
+
+  <!-- 判据与工程参数 -->
+  <div class="verdict-grid">
+    <section class="card verdict yes" aria-labelledby="t-use">
+      <h2 id="t-use"><span class="tag-no">己</span>适用判据</h2>
+      <ul>
+        <li>数据含区域或位置维度（行政区、网格、点位）</li>
+        <li>空间分布本身是用户的核心洞察</li>
+        <li>需要结合真实地理位置做探索与下钻</li>
+      </ul>
+    </section>
+    <section class="card verdict no" aria-labelledby="t-nouse">
+      <h2 id="t-nouse"><span class="tag-no">庚</span>不适用判据</h2>
+      <ul>
+        <li>区域面积差异悬殊，视觉比较会被误导，改用条形图</li>
+        <li>移动端为主的场景（小图幅难辨区域与断点）</li>
+        <li>无空间规律可读时，地图只是装饰</li>
+      </ul>
+    </section>
+    <section class="card" aria-labelledby="t-eng">
+      <h2 id="t-eng"><span class="tag-no">辛</span>工程参数与无障碍</h2>
+      <dl class="spec-dl">
+        <dt>渲染量级</dt><dd>&lt;1000 区域用 <b>SVG</b>；≥1000 用 Canvas 或 WebGL（Deck.gl）；全球尺度走切片渲染</dd>
+        <dt>色彩规范</dt><dd>同组区域用<b>单色渐变</b>；离散类型用分类色；图例必须给出<b>明确断点</b></dd>
+        <dt>无障碍</dt><dd>直接标注区域名称，填色配边界或纹理；位置含义不得只靠颜色传达</dd>
+        <dt>后备路径</dt><dd>可排序区域表 + 地理摘要；方向键或按钮平移、加减缩放、Enter 下钻、返回复位</dd>
+      </dl>
+      <div class="libs">
+        <span>D3.js</span><span>Mapbox</span><span>Leaflet</span>
+      </div>
+    </section>
+  </div>
+
+  <p class="atlas-note">
+    与 map-atlas（地图图集书店样张）的分工：那一页示范地图主题的<b>版式与装帧</b>；
+    本页是图表图鉴条目 06，讲<b>地理编码原理</b>——数值如何经分箱折算为填色与点径，以及它的适用边界。
+  </p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="foot-brand">UI 设计提示词库 / 图表图鉴 / 地理分级</p>
+    <a class="foot-link" href="../style-catalog.html">返回风格目录</a>
+    <p class="foot-note">条目 06 依官方图表选型数据编制 / 云澜省地理与数值为虚构演示数据 / 内联 SVG 手绘简化几何，未引用外部地图库</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var g = document.getElementById("world");
+  var stage = document.getElementById("stage");
+  var zin = document.getElementById("zin");
+  var zout = document.getElementById("zout");
+  var zreset = document.getElementById("zreset");
+  var roN = document.getElementById("ro-n");
+  var roV = document.getElementById("ro-v");
+  var roB = document.getElementById("ro-b");
+  var W = 760, H = 540, S = 1, OX = 0, OY = 0;
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function apply() {
+    OX = clamp(OX, (1 - S) * W, 0);
+    OY = clamp(OY, (1 - S) * H, 0);
+    g.setAttribute("transform", "translate(" + OX.toFixed(1) + " " + OY.toFixed(1) + ") scale(" + S.toFixed(3) + ")");
+    zin.disabled = S >= 2.4;
+    zout.disabled = S <= 1;
+  }
+  function zoomTo(next) {
+    next = clamp(next, 1, 2.4);
+    var f = next / S;
+    OX = W / 2 - f * (W / 2 - OX);
+    OY = H / 2 - f * (H / 2 - OY);
+    S = next;
+    apply();
+  }
+  zin.addEventListener("click", function () { zoomTo(S + 0.2); });
+  zout.addEventListener("click", function () { zoomTo(S - 0.2); });
+  zreset.addEventListener("click", function () { S = 1; OX = 0; OY = 0; apply(); });
+  stage.addEventListener("keydown", function (e) {
+    var step = 40;
+    if (e.key === "ArrowLeft") { OX += step; }
+    else if (e.key === "ArrowRight") { OX -= step; }
+    else if (e.key === "ArrowUp") { OY += step; }
+    else if (e.key === "ArrowDown") { OY -= step; }
+    else { return; }
+    e.preventDefault();
+    apply();
+  });
+  apply();
+
+  /* 读数面板联动 */
+  var regions = document.querySelectorAll(".rg");
+  function read(el) {
+    roN.textContent = el.getAttribute("data-n");
+    roV.textContent = el.getAttribute("data-v");
+    roB.textContent = el.getAttribute("data-b");
+  }
+  Array.prototype.forEach.call(regions, function (el) {
+    el.addEventListener("mouseenter", function () { read(el); });
+    el.addEventListener("focus", function () { read(el); });
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        hitRow(el.getAttribute("data-n"));
+      }
+    });
+  });
+
+  /* 数据表后备：渲染与排序 */
+  var DATA = [
+    { n: "澜城市", v: 41.2, s: "20.0%", l: 5, q: 5 },
+    { n: "竹海市", v: 38.7, s: "18.8%", l: 5, q: 5 },
+    { n: "青峒市", v: 27.9, s: "13.6%", l: 4, q: 4 },
+    { n: "屏南州", v: 24.8, s: "12.1%", l: 3, q: 4 },
+    { n: "雾岭市", v: 18.4, s: "8.9%", l: 3, q: 3 },
+    { n: "砚山市", v: 16.5, s: "8.0%", l: 2, q: 3 },
+    { n: "苍溪市", v: 12.6, s: "6.1%", l: 2, q: 2 },
+    { n: "丹霞市", v: 11.3, s: "5.5%", l: 2, q: 2 },
+    { n: "云和市", v: 7.4, s: "3.6%", l: 1, q: 1 },
+    { n: "岚谷市", v: 6.8, s: "3.3%", l: 1, q: 1 }
+  ];
+  var CN = ["一", "二", "三", "四", "五"];
+  var BX = ["var(--b1)", "var(--b2)", "var(--b3)", "var(--b4)", "var(--b5)"];
+  var tbody = document.getElementById("tbody");
+  var thVal = document.getElementById("th-val");
+  var dir = "desc";
+
+  function pill(lv) {
+    var i = lv - 1;
+    return '<span class="lv-pill" style="background:' + BX[i] + '"></span>' + CN[i] + "级";
+  }
+  function render() {
+    tbody.innerHTML = "";
+    var rows = DATA.slice().sort(function (a, b) {
+      return dir === "desc" ? b.v - a.v : a.v - b.v;
+    });
+    rows.forEach(function (r) {
+      var d = document.createElement("div");
+      d.className = "trow";
+      d.setAttribute("role", "row");
+      d.setAttribute("data-n", r.n);
+      d.innerHTML =
+        '<div role="cell" class="c-name">' + r.n + "</div>" +
+        '<div role="cell" class="num">' + r.v.toFixed(1) + "</div>" +
+        '<div role="cell" class="num">' + r.s + "</div>" +
+        '<div role="cell">' + pill(r.l) + "</div>" +
+        '<div role="cell">' + pill(r.q) + "</div>";
+      tbody.appendChild(d);
+    });
+  }
+  document.getElementById("sortBtn").addEventListener("click", function () {
+    dir = dir === "desc" ? "asc" : "desc";
+    thVal.setAttribute("aria-sort", dir === "desc" ? "descending" : "ascending");
+    render();
+  });
+  render();
+
+  /* 下钻：Enter 在表中定位区域行 */
+  function hitRow(name) {
+    var rows = tbody.querySelectorAll(".trow");
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      if (row.getAttribute("data-n") === name) {
+        row.classList.add("hit");
+        row.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+        window.setTimeout(function () { row.classList.remove("hit"); }, 1800);
+        return;
+      }
+    }
+  }
+})();
+</script>
+</body>
+</html>

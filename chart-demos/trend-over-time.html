@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表图鉴 No.01：趋势折线图（Trend Over Time / Line Chart）选型精修样张，含 24 小时通勤客流手写 SVG 折线、备选形态小样、数据后备表与选型要点。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 趋势折线 / UI 设计提示词库</title>
+<style>
+/* token plan: 纸 #F5EFE2 #FBF7EC / 墨 #211D16 #5C5344 #6B6152 / 规线 #C9BFA9 #E4DAC6 / 制图红 #B3261E / 数据蓝 #0080FF(线) #0059B3(字) / 数据橙 #C2410C(线) #9A3412(字) */
+:root{
+  --paper:#F5EFE2;
+  --paper2:#FBF7EC;
+  --ink:#211D16;
+  --ink2:#5C5344;
+  --ink3:#6B6152;
+  --hair:#C9BFA9;
+  --grid:#E4DAC6;
+  --red:#B3261E;
+  --blue:#0080FF;
+  --blue-t:#0059B3;
+  --org:#C2410C;
+  --org-t:#9A3412;
+  --serif:"Songti SC","STSong","SimSun",Georgia,serif;
+  --sans:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(rgba(92,83,68,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92,83,68,0.05) 1px, transparent 1px);
+  background-size:28px 28px;
+  line-height:1.6;
+}
+.sheet{max-width:1180px;margin:0 auto;padding:26px clamp(16px,4vw,48px) 60px}
+a{color:var(--red)}
+a:focus-visible,button:focus-visible{outline:2.5px solid var(--red);outline-offset:2px}
+
+/* 图纸标题栏 */
+.m-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;border-bottom:2px solid var(--ink);padding-bottom:18px;position:relative}
+.m-inner::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;background:var(--ink)}
+.kicker{font-size:13px;font-weight:600;color:var(--red);letter-spacing:0.28em}
+.masthead h1{font-family:var(--serif);font-size:clamp(32px,5vw,48px);font-weight:700;letter-spacing:0.06em;margin:10px 0 4px}
+.m-sub{font-size:15px;color:var(--ink2)}
+.m-kw{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:8px}
+.titleblock{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);background:var(--paper2);min-width:280px;font-family:var(--mono)}
+.tb-cell{padding:6px 10px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.tb-cell:nth-child(2n){border-right:none}
+.tb-cell:nth-child(n+3){border-bottom:none}
+.tb-cell b{display:block;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink3)}
+.tb-cell span{font-size:13px;color:var(--ink)}
+
+/* 章节 */
+section{margin-top:46px}
+.s-kicker{font-size:12.5px;font-weight:600;color:var(--red);letter-spacing:0.24em}
+section h2{font-family:var(--serif);font-size:26px;letter-spacing:0.04em;margin:6px 0 6px}
+.s-lead{font-size:14px;color:var(--ink2);max-width:760px}
+
+/* 主图图版 */
+.plate-wrap{position:relative;padding:10px;margin-top:18px}
+.plate-wrap::before{content:"";position:absolute;top:0;left:0;width:20px;height:20px;border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.plate-wrap::after{content:"";position:absolute;bottom:0;right:0;width:20px;height:20px;border-bottom:2px solid var(--ink);border-right:2px solid var(--ink)}
+.plate{background:var(--paper2);border:1.5px solid var(--ink);box-shadow:7px 7px 0 rgba(33,29,22,0.09)}
+.plate-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding:10px 14px}
+.pt-title{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.pt-title em{font-style:normal;color:var(--red);font-weight:700}
+.pt-ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pt-hint{font-size:12px;color:var(--ink3)}
+.zb{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink);background:var(--paper2);border:1.5px solid var(--ink);padding:4px 12px;cursor:pointer}
+.zb:hover{background:var(--ink);color:var(--paper2)}
+.zlv{font-family:var(--mono);font-size:12px;color:var(--ink2);min-width:72px}
+.plate-scroll{overflow-x:auto;padding:12px 10px 4px}
+.scrollhint{display:none;font-size:11.5px;color:var(--ink3);padding:2px 14px 8px}
+.mainsvg{display:block;width:100%;min-width:760px;height:auto}
+.readout{min-height:24px;font-family:var(--mono);font-size:12.5px;color:var(--ink2);padding:9px 14px;border-top:1px solid var(--hair)}
+
+/* 图内文字与图形 */
+.tk{font-family:var(--mono);font-size:11px;fill:var(--ink3)}
+.ann{font-family:var(--sans);font-size:12.5px;font-weight:600;fill:var(--red)}
+.ann2{font-family:var(--sans);font-size:11.5px;fill:var(--ink3)}
+.sl-wd{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:var(--blue-t)}
+.sl-we{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:var(--org-t)}
+.mtk{font-family:var(--mono);font-size:9.5px;fill:var(--ink3)}
+.pt{cursor:pointer}
+.pt:hover{stroke:var(--red);stroke-width:2.4}
+.pt:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.draw{stroke-dasharray:2400;stroke-dashoffset:2400;animation:drawline 1.5s cubic-bezier(0.4,0,0.2,1) 0.15s forwards}
+@keyframes drawline{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.draw{animation:none;stroke-dashoffset:0}}
+
+/* 图注与读图要点 */
+.figcap{margin-top:16px;font-size:14px;color:var(--ink2)}
+.figcap strong{color:var(--ink)}
+.notes{margin-top:12px;padding-left:0;list-style:none;display:grid;gap:6px}
+.notes li{position:relative;padding-left:22px;font-size:13.5px;color:var(--ink2)}
+.notes li::before{content:"";position:absolute;left:2px;top:9px;width:10px;height:3px;background:var(--red)}
+.legendline{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--ink3)}
+
+/* 备选形态小样 */
+.minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:stretch;margin-top:20px}
+.mini{background:var(--paper2);border:1.5px solid var(--ink);box-shadow:6px 6px 0 rgba(33,29,22,0.08);padding:16px 18px 18px;display:flex;flex-direction:column}
+.mini .no{font-family:var(--mono);font-size:11.5px;color:var(--red);font-weight:700}
+.mini h3{font-family:var(--serif);font-size:19px;margin:4px 0 2px}
+.mini .en{font-size:12.5px;color:var(--ink3);margin-bottom:10px}
+.mini svg{width:100%;height:auto;display:block;border:1px solid var(--grid);background:#FFFEF9;margin-bottom:10px}
+.mini p{font-size:13.5px;color:var(--ink2);margin-top:auto}
+.mini p b{color:var(--ink)}
+
+/* 数据后备表 */
+.dtable{border:1.5px solid var(--ink);background:var(--paper2);margin-top:20px;overflow:hidden}
+.dtable [role="row"]{display:grid;grid-template-columns:88px 96px 1fr 1fr 1fr;align-items:center;border-bottom:1px solid var(--grid);padding:5px 16px}
+.dtable [role="row"]:last-child{border-bottom:none}
+.dtable .rhead{background:#EFE7D2;border-bottom:1.5px solid var(--ink)}
+.dtable .rhead span{font-size:12.5px;font-weight:700;color:var(--ink)}
+.c-t,.c-n{font-family:var(--mono);font-size:13px}
+.c-n{text-align:right}
+.c-m{font-size:12px;color:var(--ink3)}
+.dtable [role="row"]:nth-child(even){background:rgba(33,29,22,0.028)}
+.rpk{box-shadow:inset 4px 0 0 var(--red)}
+.rpk .c-m{color:var(--red);font-weight:700}
+.summary{border:1.5px dashed var(--hair);background:rgba(251,247,236,0.75);padding:14px 18px;margin-top:18px;font-size:13.5px;color:var(--ink2)}
+.summary strong{color:var(--red)}
+
+/* 选型要点 */
+.crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;margin-top:20px}
+.card{border:1px solid var(--hair);background:var(--paper2);padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.card .no{font-family:var(--mono);font-size:11.5px;color:var(--red);font-weight:700}
+.card h3{font-family:var(--serif);font-size:17px}
+.card p{font-size:13.5px;color:var(--ink2)}
+.card p b{color:var(--ink)}
+.sw{display:inline-block;width:38px;height:0;border-top:3px solid var(--blue);vertical-align:middle;margin:0 8px 4px 2px}
+.sw-dash{border-color:var(--org);border-top-style:dashed}
+.sw-dot{border-color:var(--ink2);border-top-style:dotted;border-top-width:4px;margin-bottom:2px}
+
+/* 页脚 */
+footer{margin-top:64px;border-top:2px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+.foot-brand{font-family:var(--serif);font-size:16px;font-weight:700}
+.foot-tag{font-size:13px;color:var(--ink2)}
+.foot-link{font-size:14px;font-weight:600;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.foot-note{font-size:12px;color:var(--ink3)}
+
+@media (max-width:1024px){
+  .crit{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+}
+@media (max-width:760px){
+  .titleblock{display:none}
+  .m-inner{align-items:flex-start;flex-direction:column;gap:10px}
+  .scrollhint{display:block}
+}
+@media (max-width:560px){
+  .dtable [role="row"]{grid-template-columns:70px 82px 1fr 1fr;padding:5px 12px}
+  .cd{display:none}
+  .pt-hint{display:none}
+  section h2{font-size:22px}
+}
+@media print{
+  body{background:none}
+  .plate-wrap{padding:0}
+  .plate-wrap::before,.plate-wrap::after{display:none}
+  .plate{box-shadow:none}
+  .pt-ctrl{display:none}
+  .plate-scroll{overflow:visible}
+  .mainsvg{min-width:0}
+  .minis,.crit{grid-template-columns:1fr 1fr}
+  a[href]::after{content:""}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header class="masthead">
+  <div class="m-inner">
+    <div>
+      <p class="kicker">图表图鉴 / 二十五图种之 01</p>
+      <h1>趋势折线图</h1>
+      <p class="m-sub">Trend Over Time / Line Chart / 观察连续时段内的升降走势与变化速率</p>
+      <p class="m-kw">关键词 trend / time-series / line / growth / timeline / progress / accessible chart</p>
+    </div>
+    <div class="titleblock" aria-label="图版信息">
+      <div class="tb-cell"><b>图号</b><span>C-01</span></div>
+      <div class="tb-cell"><b>最佳图型</b><span>Line Chart</span></div>
+      <div class="tb-cell"><b>无障碍风险</b><span>低</span></div>
+      <div class="tb-cell"><b>交互级别</b><span>Hover + Zoom</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- 主图 -->
+<section aria-labelledby="sec1">
+  <p class="s-kicker" id="sec1-k">图版正文</p>
+  <h2 id="sec1">主图 / 24 小时进站客流折线</h2>
+  <p class="s-lead">以某市轨道交通进站客流（模拟数据）为例：时间轴为 24 小时，双系列对比工作日与周末。折线是本图种主角，其余元素皆为读数与规范服务。</p>
+
+  <div class="plate-wrap">
+    <figure class="plate">
+      <div class="plate-top">
+        <p class="pt-title"><em>图 1</em> / 某市轨道 24h 进站客流（万人次 / 模拟数据）</p>
+        <div class="pt-ctrl">
+          <span class="pt-hint">悬停读数 / Tab 聚焦数据点 / 左右方向键逐点移动</span>
+          <button type="button" class="zb" id="zout">缩小</button>
+          <button type="button" class="zb" id="zin">放大</button>
+          <button type="button" class="zb" id="zreset">重置</button>
+          <span class="zlv" id="zlv" aria-live="polite">缩放 1.0x</span>
+        </div>
+      </div>
+      <div class="plate-scroll">
+        <svg id="main-svg" class="mainsvg" viewBox="0 0 920 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="折线图：工作日客流呈双峰形态，早高峰 08 时 31.5 万人次、晚高峰 18 时 30.2 万人次；周末呈单峰形态，12 时 20.4 万人次。逐时数值见下方数据表。">
+          <!-- 纵向网格（每 4 小时）与横向网格（每 5 万人次） -->
+          <g stroke="#E4DAC6" stroke-width="1">
+            <line x1="202.2" y1="30" x2="202.2" y2="400"/>
+            <line x1="334.3" y1="30" x2="334.3" y2="400"/>
+            <line x1="466.5" y1="30" x2="466.5" y2="400"/>
+            <line x1="598.7" y1="30" x2="598.7" y2="400"/>
+            <line x1="730.9" y1="30" x2="730.9" y2="400"/>
+            <line x1="70" y1="347.1" x2="830" y2="347.1"/>
+            <line x1="70" y1="294.3" x2="830" y2="294.3"/>
+            <line x1="70" y1="241.4" x2="830" y2="241.4"/>
+            <line x1="70" y1="188.6" x2="830" y2="188.6"/>
+            <line x1="70" y1="135.7" x2="830" y2="135.7"/>
+            <line x1="70" y1="82.9" x2="830" y2="82.9"/>
+            <line x1="70" y1="30" x2="830" y2="30"/>
+          </g>
+          <rect x="70" y="30" width="760" height="370" fill="none" stroke="#C9BFA9" stroke-width="1.2"/>
+          <line x1="70" y1="400" x2="830" y2="400" stroke="#C9BFA9" stroke-width="1.6"/>
+
+          <!-- 刻度与轴标 -->
+          <g class="tk">
+            <text x="58" y="404" text-anchor="end">0</text>
+            <text x="58" y="351.1" text-anchor="end">5</text>
+            <text x="58" y="298.3" text-anchor="end">10</text>
+            <text x="58" y="245.4" text-anchor="end">15</text>
+            <text x="58" y="192.6" text-anchor="end">20</text>
+            <text x="58" y="139.7" text-anchor="end">25</text>
+            <text x="58" y="86.9" text-anchor="end">30</text>
+            <text x="58" y="34" text-anchor="end">35</text>
+            <text x="70" y="422" text-anchor="middle">00:00</text>
+            <text x="202.2" y="422" text-anchor="middle">04:00</text>
+            <text x="334.3" y="422" text-anchor="middle">08:00</text>
+            <text x="466.5" y="422" text-anchor="middle">12:00</text>
+            <text x="598.7" y="422" text-anchor="middle">16:00</text>
+            <text x="730.9" y="422" text-anchor="middle">20:00</text>
+            <text x="830" y="422" text-anchor="middle">23:00</text>
+            <text x="450" y="444" text-anchor="middle">时刻（24 小时制）</text>
+            <text transform="translate(18,215) rotate(-90)" text-anchor="middle">进站客流 / 万人次每小时</text>
+          </g>
+          <g stroke="#C9BFA9" stroke-width="1.2">
+            <line x1="70" y1="400" x2="70" y2="406"/>
+            <line x1="202.2" y1="400" x2="202.2" y2="406"/>
+            <line x1="334.3" y1="400" x2="334.3" y2="406"/>
+            <line x1="466.5" y1="400" x2="466.5" y2="406"/>
+            <line x1="598.7" y1="400" x2="598.7" y2="406"/>
+            <line x1="730.9" y1="400" x2="730.9" y2="406"/>
+            <line x1="830" y1="400" x2="830" y2="406"/>
+          </g>
+          <!-- 逐小时小刻度（制图质感，非整 4 小时处） -->
+          <g stroke="#D9CFBB" stroke-width="1">
+            <line x1="103" y1="400" x2="103" y2="403.5"/>
+            <line x1="136.1" y1="400" x2="136.1" y2="403.5"/>
+            <line x1="169.1" y1="400" x2="169.1" y2="403.5"/>
+            <line x1="235.2" y1="400" x2="235.2" y2="403.5"/>
+            <line x1="268.3" y1="400" x2="268.3" y2="403.5"/>
+            <line x1="301.3" y1="400" x2="301.3" y2="403.5"/>
+            <line x1="367.4" y1="400" x2="367.4" y2="403.5"/>
+            <line x1="400.4" y1="400" x2="400.4" y2="403.5"/>
+            <line x1="433.5" y1="400" x2="433.5" y2="403.5"/>
+            <line x1="499.6" y1="400" x2="499.6" y2="403.5"/>
+            <line x1="532.6" y1="400" x2="532.6" y2="403.5"/>
+            <line x1="565.7" y1="400" x2="565.7" y2="403.5"/>
+            <line x1="631.7" y1="400" x2="631.7" y2="403.5"/>
+            <line x1="664.8" y1="400" x2="664.8" y2="403.5"/>
+            <line x1="697.8" y1="400" x2="697.8" y2="403.5"/>
+            <line x1="763.9" y1="400" x2="763.9" y2="403.5"/>
+            <line x1="797" y1="400" x2="797" y2="403.5"/>
+          </g>
+
+          <!-- 工作日系列：20% 面积填充 + 实线（主色 #0080FF） -->
+          <path d="M70,400 L70,377.8 L103,387.3 L136.1,391.5 L169.1,393.7 L202.2,388.4 L235.2,351.4 L268.3,264.7 L301.3,143.1 L334.3,67 L367.4,160 L400.4,249.9 L433.5,268.9 L466.5,254.1 L499.6,263.6 L532.6,277.4 L565.7,260.5 L598.7,205.5 L631.7,105.1 L664.8,80.7 L697.8,172.7 L730.9,243.5 L763.9,291.1 L797,332.3 L830,365.1 L830,400 Z" fill="#0080FF" fill-opacity="0.2"/>
+          <polyline class="draw" points="70,377.8 103,387.3 136.1,391.5 169.1,393.7 202.2,388.4 235.2,351.4 268.3,264.7 301.3,143.1 334.3,67 367.4,160 400.4,249.9 433.5,268.9 466.5,254.1 499.6,263.6 532.6,277.4 565.7,260.5 598.7,205.5 631.7,105.1 664.8,80.7 697.8,172.7 730.9,243.5 763.9,291.1 797,332.3 830,365.1" fill="none" stroke="#0080FF" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- 周末系列：虚线（区分色 + 区分线型） -->
+          <polyline points="70,370.4 103,376.7 136.1,383.1 169.1,387.3 202.2,390.5 235.2,385.2 268.3,366.2 301.3,328.1 334.3,289 367.4,256.2 400.4,222.4 433.5,197 466.5,184.3 499.6,200.2 532.6,213.9 565.7,229.8 598.7,211.8 631.7,192.8 664.8,207.6 697.8,246.7 730.9,281.6 763.9,311.2 797,340.8 830,359.8" fill="none" stroke="#C2410C" stroke-width="2.2" stroke-dasharray="7 5" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <!-- 系列直接标注（不依赖颜色即可区分） -->
+          <text class="sl-we" x="838" y="357">周末（虚线）</text>
+          <text class="sl-wd" x="838" y="374">工作日（实线）</text>
+
+          <!-- 关键点标注 -->
+          <g>
+            <line x1="334.3" y1="60" x2="334.3" y2="46" stroke="#B3261E" stroke-width="1.2"/>
+            <text class="ann" x="334.3" y="38" text-anchor="middle">早高峰 08:00 / 31.5 万</text>
+            <line x1="664.8" y1="73" x2="664.8" y2="60" stroke="#B3261E" stroke-width="1.2"/>
+            <text class="ann" x="664.8" y="54" text-anchor="middle">晚高峰 18:00 / 30.2 万</text>
+            <line x1="466.5" y1="176" x2="466.5" y2="165" stroke="#9A3412" stroke-width="1.2"/>
+            <text x="466.5" y="157" text-anchor="middle" font-size="12" font-weight="600" fill="#9A3412">周末峰 12:00 / 20.4 万</text>
+            <text class="ann2" x="169.1" y="371" text-anchor="middle">谷值 03:00 / 0.6 万</text>
+          </g>
+
+          <!-- 键盘可聚焦数据点：工作日 24 点 -->
+          <g id="pts-wd" fill="#0080FF" stroke="#FBF7EC" stroke-width="1">
+            <circle class="pt" tabindex="0" role="img" data-h="0" cx="70" cy="377.8" r="3.4"><title>00:00 工作日 2.1 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="1" cx="103" cy="387.3" r="3.4"><title>01:00 工作日 1.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="2" cx="136.1" cy="391.5" r="3.4"><title>02:00 工作日 0.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="3" cx="169.1" cy="393.7" r="3.4"><title>03:00 工作日 0.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="4" cx="202.2" cy="388.4" r="3.4"><title>04:00 工作日 1.1 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="5" cx="235.2" cy="351.4" r="3.4"><title>05:00 工作日 4.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="6" cx="268.3" cy="264.7" r="3.4"><title>06:00 工作日 12.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="7" cx="301.3" cy="143.1" r="3.4"><title>07:00 工作日 24.3 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="8" cx="334.3" cy="67" r="3.4"><title>08:00 工作日 31.5 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="9" cx="367.4" cy="160" r="3.4"><title>09:00 工作日 22.7 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="10" cx="400.4" cy="249.9" r="3.4"><title>10:00 工作日 14.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="11" cx="433.5" cy="268.9" r="3.4"><title>11:00 工作日 12.4 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="12" cx="466.5" cy="254.1" r="3.4"><title>12:00 工作日 13.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="13" cx="499.6" cy="263.6" r="3.4"><title>13:00 工作日 12.9 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="14" cx="532.6" cy="277.4" r="3.4"><title>14:00 工作日 11.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="15" cx="565.7" cy="260.5" r="3.4"><title>15:00 工作日 13.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="16" cx="598.7" cy="205.5" r="3.4"><title>16:00 工作日 18.4 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="17" cx="631.7" cy="105.1" r="3.4"><title>17:00 工作日 27.9 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="18" cx="664.8" cy="80.7" r="3.4"><title>18:00 工作日 30.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="19" cx="697.8" cy="172.7" r="3.4"><title>19:00 工作日 21.5 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="20" cx="730.9" cy="243.5" r="3.4"><title>20:00 工作日 14.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="21" cx="763.9" cy="291.1" r="3.4"><title>21:00 工作日 10.3 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="22" cx="797" cy="332.3" r="3.4"><title>22:00 工作日 6.4 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="23" cx="830" cy="365.1" r="3.4"><title>23:00 工作日 3.3 万人次</title></circle>
+          </g>
+          <!-- 键盘可聚焦数据点：周末 24 点 -->
+          <g id="pts-we" fill="#C2410C" stroke="#FBF7EC" stroke-width="1">
+            <circle class="pt" tabindex="0" role="img" data-h="0" cx="70" cy="370.4" r="3.1"><title>00:00 周末 2.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="1" cx="103" cy="376.7" r="3.1"><title>01:00 周末 2.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="2" cx="136.1" cy="383.1" r="3.1"><title>02:00 周末 1.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="3" cx="169.1" cy="387.3" r="3.1"><title>03:00 周末 1.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="4" cx="202.2" cy="390.5" r="3.1"><title>04:00 周末 0.9 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="5" cx="235.2" cy="385.2" r="3.1"><title>05:00 周末 1.4 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="6" cx="268.3" cy="366.2" r="3.1"><title>06:00 周末 3.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="7" cx="301.3" cy="328.1" r="3.1"><title>07:00 周末 6.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="8" cx="334.3" cy="289" r="3.1"><title>08:00 周末 10.5 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="9" cx="367.4" cy="256.2" r="3.1"><title>09:00 周末 13.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="10" cx="400.4" cy="222.4" r="3.1"><title>10:00 周末 16.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="11" cx="433.5" cy="197" r="3.1"><title>11:00 周末 19.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="12" cx="466.5" cy="184.3" r="3.1"><title>12:00 周末 20.4 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="13" cx="499.6" cy="200.2" r="3.1"><title>13:00 周末 18.9 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="14" cx="532.6" cy="213.9" r="3.1"><title>14:00 周末 17.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="15" cx="565.7" cy="229.8" r="3.1"><title>15:00 周末 16.1 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="16" cx="598.7" cy="211.8" r="3.1"><title>16:00 周末 17.8 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="17" cx="631.7" cy="192.8" r="3.1"><title>17:00 周末 19.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="18" cx="664.8" cy="207.6" r="3.1"><title>18:00 周末 18.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="19" cx="697.8" cy="246.7" r="3.1"><title>19:00 周末 14.5 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="20" cx="730.9" cy="281.6" r="3.1"><title>20:00 周末 11.2 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="21" cx="763.9" cy="311.2" r="3.1"><title>21:00 周末 8.4 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="22" cx="797" cy="340.8" r="3.1"><title>22:00 周末 5.6 万人次</title></circle>
+            <circle class="pt" tabindex="0" role="img" data-h="23" cx="830" cy="359.8" r="3.1"><title>23:00 周末 3.8 万人次</title></circle>
+          </g>
+
+          <!-- 悬停十字线（由脚本驱动） -->
+          <g id="xh" display="none" aria-hidden="true">
+            <line id="xh-line" x1="0" y1="30" x2="0" y2="400" stroke="#B3261E" stroke-width="1.2" stroke-dasharray="4 4"/>
+            <circle id="xh-wd" r="5" cx="0" cy="0" fill="none" stroke="#B3261E" stroke-width="2"/>
+            <circle id="xh-we" r="5" cx="0" cy="0" fill="none" stroke="#B3261E" stroke-width="2" stroke-dasharray="3 2"/>
+          </g>
+        </svg>
+      </div>
+      <p class="scrollhint">小屏下主图可左右滑动查看，文字与刻度保持原尺寸</p>
+      <p class="readout" id="readout" aria-live="polite">悬停图表查看逐时读数 / Tab 键聚焦数据点 / 读数与下方数据表数值一致</p>
+    </figure>
+  </div>
+
+  <p class="figcap"><strong>图 1 注</strong> / 纵轴为进站客流强度（万人次每小时），横轴为 24 小时制时刻。工作日以 20% 不透明度蓝色面积承托实线，周末以橙色虚线并列，两系列以线型加直接标注双重区分。</p>
+  <ul class="notes">
+    <li>工作日呈「双峰」通勤形态：早高峰 08:00 达 31.5 万人次，晚高峰 18:00 达 30.2 万人次，午后回落。</li>
+    <li>周末呈「单峰」生活形态：峰值 12:00 达 20.4 万人次，曲线整体平缓，深夜时段略高于工作日。</li>
+    <li>全天谷值 03:00：工作日 0.6 万人次 / 周末 1.2 万人次；两系列最大差 +21.0 万人次，出现在 08:00。</li>
+  </ul>
+  <p class="legendline">图例 / 工作日 #0080FF 实线 / 周末 #C2410C 虚线 / 面积填充 20% 不透明度 / 标注色 #B3261E</p>
+</section>
+
+<!-- 备选形态 -->
+<section aria-labelledby="sec2">
+  <p class="s-kicker" id="sec2-k">备选形态</p>
+  <h2 id="sec2">Secondary Options / 面积图与平滑面积</h2>
+  <p class="s-lead">官方备选为 Area Chart 与 Smooth Area。两者共享折线的时间轴骨架，小样使用与主图相同的口径（工作日系列，每 2 小时取样）。</p>
+  <div class="minis">
+    <div class="mini">
+      <p class="no">备选 A</p>
+      <h3>面积图</h3>
+      <p class="en">Area Chart</p>
+      <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="面积图小样：折线下方加入 20% 不透明度填充，双峰形态与主图一致，早高峰 31.5 万人次。">
+        <g stroke="#E4DAC6" stroke-width="1">
+          <line x1="30" y1="120" x2="330" y2="120"/>
+          <line x1="30" y1="80" x2="330" y2="80"/>
+          <line x1="30" y1="40" x2="330" y2="40"/>
+          <line x1="111.8" y1="20" x2="111.8" y2="160" stroke-width="0.8"/>
+          <line x1="193.6" y1="20" x2="193.6" y2="160" stroke-width="0.8"/>
+          <line x1="275.5" y1="20" x2="275.5" y2="160" stroke-width="0.8"/>
+        </g>
+        <line x1="30" y1="160" x2="330" y2="160" stroke="#C9BFA9" stroke-width="1.4"/>
+        <path d="M30,160 L30,151.6 L57.3,156.8 L84.5,155.6 L111.8,108.8 L139.1,34 L166.4,103.2 L193.6,104.8 L220.9,113.6 L248.2,86.4 L275.5,39.2 L302.7,100.8 L330,134.4 L330,160 Z" fill="#0080FF" fill-opacity="0.2"/>
+        <polyline points="30,151.6 57.3,156.8 84.5,155.6 111.8,108.8 139.1,34 166.4,103.2 193.6,104.8 220.9,113.6 248.2,86.4 275.5,39.2 302.7,100.8 330,134.4" fill="none" stroke="#0080FF" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="139.1" cy="34" r="3.4" fill="#0080FF" stroke="#FFFEF9" stroke-width="1"/>
+        <text class="mtk" x="139.1" y="26" text-anchor="middle">早高峰 31.5</text>
+        <text class="mtk" x="24" y="163" text-anchor="end">0</text>
+        <text class="mtk" x="24" y="123" text-anchor="end">10</text>
+        <text class="mtk" x="24" y="83" text-anchor="end">20</text>
+        <text class="mtk" x="24" y="43" text-anchor="end">30</text>
+        <text class="mtk" x="30" y="176" text-anchor="middle">00</text>
+        <text class="mtk" x="111.8" y="176" text-anchor="middle">06</text>
+        <text class="mtk" x="193.6" y="176" text-anchor="middle">12</text>
+        <text class="mtk" x="275.5" y="176" text-anchor="middle">18</text>
+        <text x="330" y="150" text-anchor="end" font-size="11" font-weight="600" fill="#0059B3">工作日 / 面积 20%</text>
+      </svg>
+      <p><b>何时换用</b> / 单系列且需要强调「量级水平」而非精确读数时，在折线下加入 20% 不透明度填充，视觉份量更足；多系列叠加填充会互相遮挡，仍应回到纯折线。</p>
+    </div>
+    <div class="mini">
+      <p class="no">备选 B</p>
+      <h3>平滑面积</h3>
+      <p class="en">Smooth Area</p>
+      <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="平滑面积小样：以样条曲线拟合同一工作日数据，形态柔和但轻微偏离实测锚点，早高峰仍约 31.5 万人次。">
+        <g stroke="#E4DAC6" stroke-width="1">
+          <line x1="30" y1="120" x2="330" y2="120"/>
+          <line x1="30" y1="80" x2="330" y2="80"/>
+          <line x1="30" y1="40" x2="330" y2="40"/>
+          <line x1="111.8" y1="20" x2="111.8" y2="160" stroke-width="0.8"/>
+          <line x1="193.6" y1="20" x2="193.6" y2="160" stroke-width="0.8"/>
+          <line x1="275.5" y1="20" x2="275.5" y2="160" stroke-width="0.8"/>
+        </g>
+        <line x1="30" y1="160" x2="330" y2="160" stroke="#C9BFA9" stroke-width="1.4"/>
+        <path d="M30,152 C42,156 52,157.5 62,156.5 C74,155.4 82,154 92,146 C104,136 112,120 122,92 C130,66 134,44 140,38 C147,32 152,52 158,72 C166,97 176,104 190,105 C208,106 214,112 224,114 C236,116 242,102 250,94 C258,86 264,72 272,56 C278,44 282,36 288,40 C296,46 298,72 306,92 C312,106 322,124 330,135 L330,160 L30,160 Z" fill="#0080FF" fill-opacity="0.2"/>
+        <path d="M30,152 C42,156 52,157.5 62,156.5 C74,155.4 82,154 92,146 C104,136 112,120 122,92 C130,66 134,44 140,38 C147,32 152,52 158,72 C166,97 176,104 190,105 C208,106 214,112 224,114 C236,116 242,102 250,94 C258,86 264,72 272,56 C278,44 282,36 288,40 C296,46 298,72 306,92 C312,106 322,124 330,135" fill="none" stroke="#0080FF" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="140" cy="38" r="3.4" fill="#0080FF" stroke="#FFFEF9" stroke-width="1"/>
+        <text class="mtk" x="140" y="30" text-anchor="middle">早高峰约 31.5</text>
+        <text class="mtk" x="24" y="163" text-anchor="end">0</text>
+        <text class="mtk" x="24" y="123" text-anchor="end">10</text>
+        <text class="mtk" x="24" y="83" text-anchor="end">20</text>
+        <text class="mtk" x="24" y="43" text-anchor="end">30</text>
+        <text class="mtk" x="30" y="176" text-anchor="middle">00</text>
+        <text class="mtk" x="111.8" y="176" text-anchor="middle">06</text>
+        <text class="mtk" x="193.6" y="176" text-anchor="middle">12</text>
+        <text class="mtk" x="275.5" y="176" text-anchor="middle">18</text>
+        <text x="330" y="150" text-anchor="end" font-size="11" font-weight="600" fill="#0059B3">工作日 / 样条平滑</text>
+      </svg>
+      <p><b>何时换用</b> / 面向宏观趋势叙事、用于汇报氛围图时，样条拟合让形态更柔和；平滑会轻微偏离实测锚点，精确读数场景请保持逐点折线。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 数据后备 -->
+<section aria-labelledby="sec3">
+  <p class="s-kicker" id="sec3-k">数据后备</p>
+  <h2 id="sec3">表 1 / 逐小时进站客流数据</h2>
+  <p class="s-lead">官方无障碍后备要求「可见数据表 + 简明趋势摘要」：本表与图 1 曲线完全同口径，供读屏、放大与打印场景使用，数值单位均为万人次。</p>
+
+  <div class="dtable" role="table" aria-label="表 1 某市轨道 24 小时进站客流（万人次），列为时刻、标记、工作日、周末、差值">
+    <div role="row" class="rhead">
+      <span role="columnheader" class="c-t">时刻</span>
+      <span role="columnheader" class="c-m">标记</span>
+      <span role="columnheader" class="c-n">工作日（万）</span>
+      <span role="columnheader" class="c-n">周末（万）</span>
+      <span role="columnheader" class="c-n cd">差值（万）</span>
+    </div>
+    <div role="row"><span role="cell" class="c-t">00:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">2.1</span><span role="cell" class="c-n">2.8</span><span role="cell" class="c-n cd">-0.7</span></div>
+    <div role="row"><span role="cell" class="c-t">01:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">1.2</span><span role="cell" class="c-n">2.2</span><span role="cell" class="c-n cd">-1.0</span></div>
+    <div role="row"><span role="cell" class="c-t">02:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">0.8</span><span role="cell" class="c-n">1.6</span><span role="cell" class="c-n cd">-0.8</span></div>
+    <div role="row" class="rpk"><span role="cell" class="c-t">03:00</span><span role="cell" class="c-m">谷值</span><span role="cell" class="c-n">0.6</span><span role="cell" class="c-n">1.2</span><span role="cell" class="c-n cd">-0.6</span></div>
+    <div role="row"><span role="cell" class="c-t">04:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">1.1</span><span role="cell" class="c-n">0.9</span><span role="cell" class="c-n cd">+0.2</span></div>
+    <div role="row"><span role="cell" class="c-t">05:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">4.6</span><span role="cell" class="c-n">1.4</span><span role="cell" class="c-n cd">+3.2</span></div>
+    <div role="row"><span role="cell" class="c-t">06:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">12.8</span><span role="cell" class="c-n">3.2</span><span role="cell" class="c-n cd">+9.6</span></div>
+    <div role="row"><span role="cell" class="c-t">07:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">24.3</span><span role="cell" class="c-n">6.8</span><span role="cell" class="c-n cd">+17.5</span></div>
+    <div role="row" class="rpk"><span role="cell" class="c-t">08:00</span><span role="cell" class="c-m">早高峰</span><span role="cell" class="c-n">31.5</span><span role="cell" class="c-n">10.5</span><span role="cell" class="c-n cd">+21.0</span></div>
+    <div role="row"><span role="cell" class="c-t">09:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">22.7</span><span role="cell" class="c-n">13.6</span><span role="cell" class="c-n cd">+9.1</span></div>
+    <div role="row"><span role="cell" class="c-t">10:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">14.2</span><span role="cell" class="c-n">16.8</span><span role="cell" class="c-n cd">-2.6</span></div>
+    <div role="row"><span role="cell" class="c-t">11:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">12.4</span><span role="cell" class="c-n">19.2</span><span role="cell" class="c-n cd">-6.8</span></div>
+    <div role="row" class="rpk"><span role="cell" class="c-t">12:00</span><span role="cell" class="c-m">周末峰</span><span role="cell" class="c-n">13.8</span><span role="cell" class="c-n">20.4</span><span role="cell" class="c-n cd">-6.6</span></div>
+    <div role="row"><span role="cell" class="c-t">13:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">12.9</span><span role="cell" class="c-n">18.9</span><span role="cell" class="c-n cd">-6.0</span></div>
+    <div role="row"><span role="cell" class="c-t">14:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">11.6</span><span role="cell" class="c-n">17.6</span><span role="cell" class="c-n cd">-6.0</span></div>
+    <div role="row"><span role="cell" class="c-t">15:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">13.2</span><span role="cell" class="c-n">16.1</span><span role="cell" class="c-n cd">-2.9</span></div>
+    <div role="row"><span role="cell" class="c-t">16:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">18.4</span><span role="cell" class="c-n">17.8</span><span role="cell" class="c-n cd">+0.6</span></div>
+    <div role="row"><span role="cell" class="c-t">17:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">27.9</span><span role="cell" class="c-n">19.6</span><span role="cell" class="c-n cd">+8.3</span></div>
+    <div role="row" class="rpk"><span role="cell" class="c-t">18:00</span><span role="cell" class="c-m">晚高峰</span><span role="cell" class="c-n">30.2</span><span role="cell" class="c-n">18.2</span><span role="cell" class="c-n cd">+12.0</span></div>
+    <div role="row"><span role="cell" class="c-t">19:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">21.5</span><span role="cell" class="c-n">14.5</span><span role="cell" class="c-n cd">+7.0</span></div>
+    <div role="row"><span role="cell" class="c-t">20:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">14.8</span><span role="cell" class="c-n">11.2</span><span role="cell" class="c-n cd">+3.6</span></div>
+    <div role="row"><span role="cell" class="c-t">21:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">10.3</span><span role="cell" class="c-n">8.4</span><span role="cell" class="c-n cd">+1.9</span></div>
+    <div role="row"><span role="cell" class="c-t">22:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">6.4</span><span role="cell" class="c-n">5.6</span><span role="cell" class="c-n cd">+0.8</span></div>
+    <div role="row"><span role="cell" class="c-t">23:00</span><span role="cell" class="c-m">—</span><span role="cell" class="c-n">3.3</span><span role="cell" class="c-n">3.8</span><span role="cell" class="c-n cd">-0.5</span></div>
+  </div>
+
+  <p class="summary"><strong>趋势摘要</strong> / 工作日客流为双峰通勤型（08:00 峰 31.5 万人次、18:00 峰 30.2 万人次），周末为单峰生活型（12:00 峰 20.4 万人次）；全天谷值 03:00（工作日 0.6 / 周末 1.2 万人次）；两系列最大差 +21.0 万人次出现在早高峰 08:00，深夜 00:00 至 03:00 周末反而略高。</p>
+</section>
+
+<!-- 选型要点 -->
+<section aria-labelledby="sec4">
+  <p class="s-kicker" id="sec4-k">图注规范</p>
+  <h2 id="sec4">选型要点 / 何时用与何时不用</h2>
+  <p class="s-lead">以下要点逐条对应官方选型数据（charts.json No.1），是本图版的「图注」语言：判断条件写死，不留解释空间。</p>
+  <div class="crit">
+    <div class="card">
+      <p class="no">01</p>
+      <h3>何时使用</h3>
+      <p>数据具有<b>时间轴</b>，且用户需要观察连续时段内的<b>升降走势或变化速率</b>时，折线是第一选择。本页主图即用其呈现 24 小时客流的双峰节奏。</p>
+    </div>
+    <div class="card">
+      <p class="no">02</p>
+      <h3>何时不用</h3>
+      <p>数据点<b>少于 4 个</b>：改用统计卡；系列<b>超过 6 条</b>：视觉噪声压过信号；<b>没有时间维度</b>：改用柱状比较。三者任一命中即放弃折线。</p>
+    </div>
+    <div class="card">
+      <p class="no">03</p>
+      <h3>数据量阈值</h3>
+      <p>少于 <b>1000 点</b>用 SVG（本页即手写 SVG）；达到 <b>1000 点</b>改 Canvas 并降采样；超过 <b>10000 点</b>先聚合到时间区间再绘制。</p>
+    </div>
+    <div class="card">
+      <p class="no">04</p>
+      <h3>色彩与线型</h3>
+      <p>主色 <b>#0080FF</b>；多系列用<b>区分色叠加区分线型</b>，绝不只靠色相；面积填充统一 <b>20% 不透明度</b>。<span class="sw"></span>实线 / <span class="sw sw-dash"></span>虚线 / <span class="sw sw-dot"></span>点线</p>
+    </div>
+    <div class="card">
+      <p class="no">05</p>
+      <h3>无障碍要求</h3>
+      <p>风险等级：<b>低</b>。以实线、虚线、点线加<b>直接标注</b>区分系列；后备为可见数据表（表 1）加简明趋势摘要；键盘：Tab 聚焦数据点即读出数值，加号减号按钮缩放，重置恢复全域。</p>
+    </div>
+    <div class="card">
+      <p class="no">06</p>
+      <h3>交互与实现</h3>
+      <p>交互级别：<b>Hover + Zoom</b>（本页已实现悬停十字线与放大 / 缩小 / 重置）。库推荐：<b>Chart.js / Recharts / ApexCharts</b>；本页为无依赖手写 SVG 样张。</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p class="foot-brand">UI 设计提示词库 / 图表图鉴 / 趋势折线</p>
+  <a class="foot-link" href="../style-catalog.html">返回风格目录</a>
+  <p class="foot-note">图版依据 charts.json No.01 Trend Over Time / 图中客流为演示用模拟数据 / 手写 SVG 无图表库依赖 / 仅供设计演示</p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var svg = document.getElementById('main-svg');
+  if (!svg) return;
+  var WD = [2.1, 1.2, 0.8, 0.6, 1.1, 4.6, 12.8, 24.3, 31.5, 22.7, 14.2, 12.4, 13.8, 12.9, 11.6, 13.2, 18.4, 27.9, 30.2, 21.5, 14.8, 10.3, 6.4, 3.3];
+  var WE = [2.8, 2.2, 1.6, 1.2, 0.9, 1.4, 3.2, 6.8, 10.5, 13.6, 16.8, 19.2, 20.4, 18.9, 17.6, 16.1, 17.8, 19.6, 18.2, 14.5, 11.2, 8.4, 5.6, 3.8];
+  var PEAK = { 3: '谷值', 8: '早高峰', 12: '周末峰', 18: '晚高峰' };
+  var xh = document.getElementById('xh');
+  var xl = document.getElementById('xh-line');
+  var dw = document.getElementById('xh-wd');
+  var de = document.getElementById('xh-we');
+  var ro = document.getElementById('readout');
+  var zlv = document.getElementById('zlv');
+  var X0 = 70, X1 = 830, Y0 = 30, Y1 = 400, VMAX = 35;
+  var DEFAULT = '悬停图表查看逐时读数 / Tab 键聚焦数据点 / 读数与下方数据表数值一致';
+  function hx(h) { return X0 + h * (X1 - X0) / 23; }
+  function vy(v) { return Y1 - v * (Y1 - Y0) / VMAX; }
+  function fmt(v) { return v.toFixed(1); }
+  function hh(h) { return (h < 10 ? '0' : '') + h + ':00'; }
+  function show(h) {
+    var x = hx(h);
+    xh.setAttribute('display', 'inline');
+    xl.setAttribute('x1', x); xl.setAttribute('x2', x);
+    dw.setAttribute('cx', x); dw.setAttribute('cy', vy(WD[h]));
+    de.setAttribute('cx', x); de.setAttribute('cy', vy(WE[h]));
+    var msg = hh(h) + ' / 工作日 ' + fmt(WD[h]) + ' 万人次 / 周末 ' + fmt(WE[h]) + ' 万人次';
+    if (PEAK[h]) msg += ' / ' + PEAK[h];
+    ro.textContent = msg;
+  }
+  function hide() {
+    xh.setAttribute('display', 'none');
+    ro.textContent = DEFAULT;
+  }
+  svg.addEventListener('pointermove', function (e) {
+    if (!svg.createSVGPoint || !svg.getScreenCTM) return;
+    var pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    if (p.x < X0 - 8 || p.x > X1 + 8 || p.y < Y0 - 10 || p.y > Y1 + 10) { hide(); return; }
+    var h = Math.round((p.x - X0) * 23 / (X1 - X0));
+    show(Math.max(0, Math.min(23, h)));
+  });
+  svg.addEventListener('pointerleave', hide);
+  svg.addEventListener('focusin', function (e) {
+    var t = e.target;
+    if (t && t.classList && t.classList.contains('pt') && t.getAttribute('data-h') !== null) {
+      show(parseInt(t.getAttribute('data-h'), 10));
+    }
+  });
+  svg.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var t = e.target;
+    if (!t || !t.classList || !t.classList.contains('pt')) return;
+    e.preventDefault();
+    var h = parseInt(t.getAttribute('data-h'), 10);
+    var nh = Math.max(0, Math.min(23, h + (e.key === 'ArrowRight' ? 1 : -1)));
+    var scope = t.closest && t.closest('#pts-we') ? '#pts-we ' : '#pts-wd ';
+    var next = svg.querySelector(scope + '.pt[data-h="' + nh + '"]');
+    if (next) next.focus();
+  });
+  var z = 1;
+  function applyZoom() {
+    var w = 920 / z, hgt = 460 / z;
+    svg.setAttribute('viewBox', (450 - w / 2) + ' ' + (230 - hgt / 2) + ' ' + w + ' ' + hgt);
+    zlv.textContent = '缩放 ' + z.toFixed(1) + 'x';
+  }
+  function zset(v) { z = Math.max(1, Math.min(4, v)); applyZoom(); }
+  document.getElementById('zin').addEventListener('click', function () { zset(z * 1.6); });
+  document.getElementById('zout').addEventListener('click', function () { zset(z / 1.6); });
+  document.getElementById('zreset').addEventListener('click', function () { zset(1); });
+})();
+</script>
+<script src="../stats.js"></script>
+</body>
+</html>

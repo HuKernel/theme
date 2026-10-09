@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表图鉴: 强度热力 Heatmap Intensity。地铁站点 × 时段客流强度矩阵、连续色阶图例、单向渐变与双向发散的取舍、数值直标模式与数据表后备。">
+<title>图表图鉴 / 强度热力 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划: 底 #F6F8FB / 卡 #FFFFFF / 文 #0F172A / 弱 #475569 / 线 #D9E2EE / 主 #0B5FD9 / 冷热阶 #EAF1F8-A8CDF5-4E9DF9-FFD34D-FF8A2B-E01B24 / 发散 #2166AC-67A9CF-F1F3F6-EF8A62-B2182B / 圆角 12px / mono 数字 */
+:root{
+  --bg:#F6F8FB; --card:#FFFFFF; --fg:#0F172A; --muted:#475569; --line:#D9E2EE;
+  --deep:#0B5FD9; --radius:12px;
+  --l0:#EAF1F8; --l1:#A8CDF5; --l2:#4E9DF9; --l3:#FFD34D; --l4:#FF8A2B; --l5:#E01B24;
+  --dn2:#2166AC; --dn1:#67A9CF; --dz:#F1F3F6; --dp1:#EF8A62; --dp2:#B2182B;
+  --cell:46px; --cgap:3px; --labw:88px;
+  --mono:Consolas,'JetBrains Mono','Cascadia Mono','Microsoft YaHei',monospace;
+  --sans:'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--sans);
+  font-size:14px; line-height:1.7; -webkit-text-size-adjust:100%;
+}
+.page{max-width:1180px;margin:0 auto;padding:26px 20px 46px;}
+a{color:var(--deep);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible,button:focus-visible,.hcell:focus-visible{
+  outline:3px solid var(--deep);outline-offset:2px;border-radius:6px;
+}
+h1,h2,h3{line-height:1.3;}
+
+/* 顶栏 */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+.brand{display:flex;align-items:center;gap:11px;}
+.brand-mark{width:28px;height:28px;border-radius:8px;flex:none;
+  background:linear-gradient(135deg,#4E9DF9 0%,#FFD34D 50%,#E01B24 100%);
+  box-shadow:0 2px 8px rgba(15,23,42,.16);}
+.brand-text strong{font-family:var(--mono);font-size:15px;font-weight:700;display:block;}
+.brand-text small{font-size:11px;color:var(--muted);display:block;}
+.back{font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);white-space:nowrap;}
+.back:hover{text-decoration:none;border-color:var(--deep);}
+
+/* hero */
+.hero{background:linear-gradient(180deg,#FFFFFF 0%,#F2F6FC 100%);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px 26px;}
+.kicker{font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;font-family:var(--mono);}
+.hero h1{font-family:var(--mono);font-size:33px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+.hero h1 small{font-size:16px;color:var(--muted);font-weight:400;letter-spacing:0;}
+.lede{max-width:780px;color:var(--muted);margin-bottom:22px;}
+.lede strong{color:var(--fg);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px 11px;}
+.stat-num{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1.2;display:flex;align-items:baseline;gap:3px;}
+.stat-num small{font-size:13px;color:var(--muted);font-weight:400;}
+.stat p{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* 区块通用 */
+.block{margin-top:30px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 24px 20px;}
+.block-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.block-head h2{font-family:var(--mono);font-size:19px;font-weight:700;display:flex;align-items:baseline;gap:10px;}
+.idx{font-size:14px;color:var(--deep);font-weight:700;}
+.block-head p{font-size:12px;color:var(--muted);}
+.block > p.intro{color:var(--muted);max-width:820px;margin-bottom:16px;font-size:13.5px;}
+.note{font-size:12px;color:var(--muted);margin-top:12px;}
+
+/* 工具条 */
+.toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px;}
+.toolbar button{
+  font-family:var(--sans);
+  font-size:12.5px;
+  color:var(--fg);
+  cursor:pointer;
+  padding:7px 15px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--card);
+}
+.toolbar button:hover{
+  border-color:var(--deep);
+  color:var(--deep);
+}
+.toolbar button[aria-pressed="true"]{
+  background:var(--deep);
+  border-color:var(--deep);
+  color:#FFFFFF;
+}
+.tool-note{font-size:12px;color:var(--muted);margin-left:2px;}
+
+/* 主矩阵: 每行同一套列模板, 行列严格对齐 */
+.hx-scroll{overflow-x:auto;padding-bottom:6px;}
+.hx{width:max-content;}
+.hx-row{
+  display:grid;
+  grid-template-columns:var(--labw) repeat(14,var(--cell));
+  gap:var(--cgap);
+  margin-bottom:var(--cgap);
+}
+.lab{
+  display:flex;
+  align-items:center;
+  font-size:12px;
+  color:var(--fg);
+  font-weight:600;
+  white-space:nowrap;
+}
+.corner{font-size:11px;color:var(--muted);font-weight:400;}
+.hh{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--muted);
+}
+.hcell{
+  width:var(--cell);
+  height:calc(var(--cell) * 0.6);
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.hcell:hover{
+  outline:2px solid var(--fg);
+  outline-offset:-1px;
+  z-index:2;
+}
+.l0{background:var(--l0);}
+.l1{background:var(--l1);}
+.l2{background:var(--l2);}
+.l3{background:var(--l3);}
+.l4{background:var(--l4);}
+.l5{background:var(--l5);}
+.cv{display:none;}
+.hx.show-val .cv{display:block;font-family:var(--mono);font-size:10px;line-height:1;color:var(--fg);}
+.hcell.l5 .cv{color:#FFFFFF;}
+
+/* 连续色阶图例: min/max 刻度 + 六级分箱 */
+.legend{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);}
+.grad{flex:1;min-width:240px;max-width:380px;}
+.grad-cap{font-size:12px;font-weight:700;margin-bottom:5px;}
+.grad-bar{height:12px;border-radius:6px;border:1px solid var(--line);
+  background:linear-gradient(90deg,var(--l0) 0%,var(--l1) 20%,var(--l2) 40%,var(--l3) 60%,var(--l4) 80%,var(--l5) 100%);}
+.grad-ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px;}
+.grad-end{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:2px;}
+.sw-row{display:flex;gap:10px;flex-wrap:wrap;max-width:420px;}
+.sw{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--muted);}
+.sw i{width:11px;height:11px;border-radius:3px;display:inline-block;border:1px solid rgba(15,23,42,.14);}
+.status{
+  margin-top:14px;padding:9px 13px;border-radius:8px;background:#EEF4FE;border:1px solid #C9DCF8;
+  font-family:var(--mono);font-size:12.5px;color:var(--fg);
+}
+
+/* 发散对比迷你样 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.panel{border:1px solid var(--line);border-radius:10px;background:#FBFCFE;padding:16px 16px 14px;}
+.panel h3{font-family:var(--mono);font-size:14px;margin-bottom:4px;}
+.panel .sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.mg-scroll{overflow-x:auto;padding-bottom:4px;}
+.mg{width:max-content;margin-bottom:12px;}
+.mrow{display:grid;grid-template-columns:78px repeat(8,46px);gap:3px;margin-bottom:3px;}
+.mlab{display:flex;align-items:center;font-size:11.5px;font-weight:600;white-space:nowrap;}
+.mh{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+.mc{height:23px;border-radius:3px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10.5px;color:var(--fg);}
+.mc.dn2,.mc.dp2,.mc.l5{color:#FFFFFF;}
+.mc.dz{border:1px solid var(--line);}
+.dn2{background:var(--dn2);}
+.dn1{background:var(--dn1);}
+.dz{background:var(--dz);}
+.dp1{background:var(--dp1);}
+.dp2{background:var(--dp2);}
+.mleg{font-size:11px;color:var(--muted);margin-top:2px;}
+.mleg b{color:var(--fg);font-weight:600;}
+.verdict{font-size:12px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+.verdict b{color:var(--fg);}
+.callout{border-left:4px solid var(--deep);background:#EEF4FE;border-radius:0 8px 8px 0;
+  padding:12px 15px;margin-top:16px;font-size:13px;max-width:900px;}
+.callout b{font-weight:700;}
+
+/* 无障碍防线 */
+.def{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px;}
+.def li{
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px 15px;
+  background:#FBFCFE;
+  font-size:12.5px;
+  color:var(--muted);
+}
+.def li b{display:block;font-size:13px;color:var(--fg);margin-bottom:5px;}
+.def li .tag{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--deep);
+  border:1px solid #BFD6F5;
+  border-radius:5px;
+  padding:1px 7px;
+  margin-bottom:8px;
+}
+
+/* 色盲安全替代: 单色明度阶梯 */
+.ramp-box{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#FBFCFE;
+  padding:14px 16px 13px;
+  margin-top:14px;
+}
+.ramp-box h3{font-family:var(--mono);font-size:13.5px;margin-bottom:4px;}
+.ramp-box .sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.ramp{display:flex;gap:3px;}
+.ramp i{
+  flex:1;
+  height:26px;
+  border-radius:4px;
+  border:1px solid rgba(15,23,42,.10);
+}
+.ramp-ticks{display:flex;gap:3px;margin-top:4px;}
+.ramp-ticks span{
+  flex:1;
+  text-align:center;
+  font-family:var(--mono);
+  font-size:10.5px;
+  color:var(--muted);
+}
+.ramp-note{font-size:12px;color:var(--muted);margin-top:10px;}
+
+/* 数据表后备 */
+.tb-scroll{overflow-x:auto;padding-bottom:4px;}
+table.dt{border-collapse:collapse;width:max-content;font-family:var(--mono);font-size:11px;}
+.dt caption{text-align:left;font-family:var(--sans);font-size:12px;color:var(--muted);padding-bottom:8px;}
+.dt th,.dt td{border:1px solid var(--line);padding:5px 9px;text-align:right;}
+.dt th{background:#EEF3FA;color:var(--fg);font-weight:600;}
+.dt td:first-child,.dt th:first-child{text-align:left;font-family:var(--sans);font-size:12px;white-space:nowrap;}
+.dt tbody tr:nth-child(even){background:#FAFBFD;}
+.dt tbody tr:hover{background:#EEF4FE;}
+.dt td.hot{color:#B01818;font-weight:700;}
+.dt td.calm{color:#3A5F8A;}
+
+/* 选型速查 */
+.dossier{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.kv{border:1px solid var(--line);border-radius:10px;padding:11px 14px;background:#FBFCFE;}
+.kv dt{font-family:var(--mono);font-size:12px;color:var(--deep);font-weight:700;margin-bottom:3px;}
+.kv dd{font-size:12.5px;color:var(--muted);}
+
+/* footer */
+footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);}
+
+/* 一次亮相: 格子按行晕开 */
+@keyframes rowin{from{opacity:0;transform:translateY(7px) scale(.985);}to{opacity:1;transform:none;}}
+.hx-row{animation:rowin .5s cubic-bezier(.2,.7,.3,1) both;}
+.hx-row:nth-child(2){animation-delay:.06s;}
+.hx-row:nth-child(3){animation-delay:.12s;}
+.hx-row:nth-child(4){animation-delay:.18s;}
+.hx-row:nth-child(5){animation-delay:.24s;}
+.hx-row:nth-child(6){animation-delay:.30s;}
+.hx-row:nth-child(7){animation-delay:.36s;}
+.hx-row:nth-child(8){animation-delay:.42s;}
+.hx-row:nth-child(9){animation-delay:.48s;}
+.hx-row:nth-child(10){animation-delay:.54s;}
+.hx-row:nth-child(11){animation-delay:.60s;}
+
+@media (prefers-reduced-motion: reduce){
+  .hx-row{animation:none;}
+}
+
+/* 响应式 */
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .duo,.dossier{grid-template-columns:1fr;}
+  .def{grid-template-columns:1fr;}
+  .hero{padding:24px 18px 20px;}
+  .hero h1{font-size:26px;}
+  .block{padding:18px 16px 16px;}
+}
+@media (max-width:480px){
+  .stats{grid-template-columns:1fr 1fr;gap:8px;}
+  .page{padding:18px 12px 36px;}
+  .hero h1{font-size:22px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text"><strong>图表图鉴</strong><small>UI 设计提示词库 / 收录号 05 / Heatmap Intensity</small></span>
+    </div>
+    <a class="back" href="../style-catalog.html">返回风格目录</a>
+  </header>
+
+  <section class="hero">
+    <p class="kicker">图表图鉴 / 编号 05 / 强度热力</p>
+    <h1>强度热力 <small>/ Heat Map</small></h1>
+    <p class="lede">
+      热力编码的原理只有一句话: <strong>色阶即数值</strong>。横纵两维放类别, 颜色深浅放强度,
+      一张图读完「谁在什么时候最忙」。本页用一条地铁线的 <strong>10 个站点 × 06:00-20:00 逐小时客流强度</strong> 做完整示范:
+      连续色阶怎么配刻度, 单向渐变与双向发散怎么取舍, 以及官方无障碍要求——<strong>永远不要只靠颜色</strong>。
+      与站内自习室热力风格页不同, 这里聚焦编码原理而非视觉风格。
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">140<small>格</small></div><p>本页矩阵 / 10 站 × 14 时段</p></div>
+      <div class="stat"><div class="stat-num">10,000<small>格</small></div><p>官方效率上限 / 超出先聚合</p></div>
+      <div class="stat"><div class="stat-num">6<small>级</small></div><p>冷到热色阶 / 全部带数字刻度</p></div>
+      <div class="stat"><div class="stat-num">条件性</div><p>无障碍风险 / 必须给数值后备</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">01</span>真实矩阵 / 站点 × 时段客流强度</h2>
+      <p>轨道 2 号线 / 工作日 / 万人次每小时 / 示范仿真数据</p>
+    </div>
+    <div class="toolbar">
+      <button id="valBtn" type="button" aria-pressed="false">直标数值</button>
+      <button id="zin" type="button">放大</button>
+      <button id="zout" type="button">缩小</button>
+      <button id="zreset" type="button">重置</button>
+      <span class="tool-note">直标数值 = 不只靠颜色的第一道防线 / 缩放与重置为键盘后备</span>
+    </div>
+    <div class="hx-scroll">
+      <div class="hx" id="hx">
+        <div class="hx-row">
+          <span class="lab corner">站点 / 时段</span>
+          <span class="hh">06</span><span class="hh">07</span><span class="hh">08</span><span class="hh">09</span><span class="hh">10</span><span class="hh">11</span><span class="hh">12</span>
+          <span class="hh">13</span><span class="hh">14</span><span class="hh">15</span><span class="hh">16</span><span class="hh">17</span><span class="hh">18</span><span class="hh">19</span>
+        </div>
+        <div class="hx-row">
+          <span class="lab">北苑小区</span>
+          <div class="hcell l0" tabindex="0" data-s="北苑小区" data-h="06" data-v="0.6" aria-label="北苑小区 06时 0.6 万"><span class="cv" aria-hidden="true">0.6</span></div><div class="hcell l4" tabindex="0" data-s="北苑小区" data-h="07" data-v="3.9" aria-label="北苑小区 07时 3.9 万"><span class="cv" aria-hidden="true">3.9</span></div><div class="hcell l5" tabindex="0" data-s="北苑小区" data-h="08" data-v="4.7" aria-label="北苑小区 08时 4.7 万"><span class="cv" aria-hidden="true">4.7</span></div><div class="hcell l3" tabindex="0" data-s="北苑小区" data-h="09" data-v="3.1" aria-label="北苑小区 09时 3.1 万"><span class="cv" aria-hidden="true">3.1</span></div><div class="hcell l1" tabindex="0" data-s="北苑小区" data-h="10" data-v="1.4" aria-label="北苑小区 10时 1.4 万"><span class="cv" aria-hidden="true">1.4</span></div><div class="hcell l0" tabindex="0" data-s="北苑小区" data-h="11" data-v="0.9" aria-label="北苑小区 11时 0.9 万"><span class="cv" aria-hidden="true">0.9</span></div><div class="hcell l0" tabindex="0" data-s="北苑小区" data-h="12" data-v="0.8" aria-label="北苑小区 12时 0.8 万"><span class="cv" aria-hidden="true">0.8</span></div>
+          <div class="hcell l0" tabindex="0" data-s="北苑小区" data-h="13" data-v="0.9" aria-label="北苑小区 13时 0.9 万"><span class="cv" aria-hidden="true">0.9</span></div><div class="hcell l1" tabindex="0" data-s="北苑小区" data-h="14" data-v="1.0" aria-label="北苑小区 14时 1.0 万"><span class="cv" aria-hidden="true">1.0</span></div><div class="hcell l1" tabindex="0" data-s="北苑小区" data-h="15" data-v="1.3" aria-label="北苑小区 15时 1.3 万"><span class="cv" aria-hidden="true">1.3</span></div><div class="hcell l1" tabindex="0" data-s="北苑小区" data-h="16" data-v="1.6" aria-label="北苑小区 16时 1.6 万"><span class="cv" aria-hidden="true">1.6</span></div><div class="hcell l2" tabindex="0" data-s="北苑小区" data-h="17" data-v="2.2" aria-label="北苑小区 17时 2.2 万"><span class="cv" aria-hidden="true">2.2</span></div><div class="hcell l2" tabindex="0" data-s="北苑小区" data-h="18" data-v="2.8" aria-label="北苑小区 18时 2.8 万"><span class="cv" aria-hidden="true">2.8</span></div><div class="hcell l1" tabindex="0" data-s="北苑小区" data-h="19" data-v="1.5" aria-label="北苑小区 19时 1.5 万"><span class="cv" aria-hidden="true">1.5</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">大学城</span>
+          <div class="hcell l0" tabindex="0" data-s="大学城" data-h="06" data-v="0.4" aria-label="大学城 06时 0.4 万"><span class="cv" aria-hidden="true">0.4</span></div><div class="hcell l2" tabindex="0" data-s="大学城" data-h="07" data-v="2.4" aria-label="大学城 07时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l4" tabindex="0" data-s="大学城" data-h="08" data-v="4.2" aria-label="大学城 08时 4.2 万"><span class="cv" aria-hidden="true">4.2</span></div><div class="hcell l3" tabindex="0" data-s="大学城" data-h="09" data-v="3.6" aria-label="大学城 09时 3.6 万"><span class="cv" aria-hidden="true">3.6</span></div><div class="hcell l1" tabindex="0" data-s="大学城" data-h="10" data-v="1.2" aria-label="大学城 10时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div><div class="hcell l0" tabindex="0" data-s="大学城" data-h="11" data-v="0.7" aria-label="大学城 11时 0.7 万"><span class="cv" aria-hidden="true">0.7</span></div><div class="hcell l0" tabindex="0" data-s="大学城" data-h="12" data-v="0.6" aria-label="大学城 12时 0.6 万"><span class="cv" aria-hidden="true">0.6</span></div>
+          <div class="hcell l0" tabindex="0" data-s="大学城" data-h="13" data-v="0.7" aria-label="大学城 13时 0.7 万"><span class="cv" aria-hidden="true">0.7</span></div><div class="hcell l0" tabindex="0" data-s="大学城" data-h="14" data-v="0.8" aria-label="大学城 14时 0.8 万"><span class="cv" aria-hidden="true">0.8</span></div><div class="hcell l1" tabindex="0" data-s="大学城" data-h="15" data-v="1.1" aria-label="大学城 15时 1.1 万"><span class="cv" aria-hidden="true">1.1</span></div><div class="hcell l1" tabindex="0" data-s="大学城" data-h="16" data-v="1.8" aria-label="大学城 16时 1.8 万"><span class="cv" aria-hidden="true">1.8</span></div><div class="hcell l2" tabindex="0" data-s="大学城" data-h="17" data-v="2.6" aria-label="大学城 17时 2.6 万"><span class="cv" aria-hidden="true">2.6</span></div><div class="hcell l3" tabindex="0" data-s="大学城" data-h="18" data-v="3.1" aria-label="大学城 18时 3.1 万"><span class="cv" aria-hidden="true">3.1</span></div><div class="hcell l1" tabindex="0" data-s="大学城" data-h="19" data-v="1.2" aria-label="大学城 19时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">花桥</span>
+          <div class="hcell l0" tabindex="0" data-s="花桥" data-h="06" data-v="0.3" aria-label="花桥 06时 0.3 万"><span class="cv" aria-hidden="true">0.3</span></div><div class="hcell l2" tabindex="0" data-s="花桥" data-h="07" data-v="2.8" aria-label="花桥 07时 2.8 万"><span class="cv" aria-hidden="true">2.8</span></div><div class="hcell l5" tabindex="0" data-s="花桥" data-h="08" data-v="4.5" aria-label="花桥 08时 4.5 万"><span class="cv" aria-hidden="true">4.5</span></div><div class="hcell l3" tabindex="0" data-s="花桥" data-h="09" data-v="3.3" aria-label="花桥 09时 3.3 万"><span class="cv" aria-hidden="true">3.3</span></div><div class="hcell l1" tabindex="0" data-s="花桥" data-h="10" data-v="1.1" aria-label="花桥 10时 1.1 万"><span class="cv" aria-hidden="true">1.1</span></div><div class="hcell l0" tabindex="0" data-s="花桥" data-h="11" data-v="0.7" aria-label="花桥 11时 0.7 万"><span class="cv" aria-hidden="true">0.7</span></div><div class="hcell l0" tabindex="0" data-s="花桥" data-h="12" data-v="0.6" aria-label="花桥 12时 0.6 万"><span class="cv" aria-hidden="true">0.6</span></div>
+          <div class="hcell l0" tabindex="0" data-s="花桥" data-h="13" data-v="0.7" aria-label="花桥 13时 0.7 万"><span class="cv" aria-hidden="true">0.7</span></div><div class="hcell l0" tabindex="0" data-s="花桥" data-h="14" data-v="0.9" aria-label="花桥 14时 0.9 万"><span class="cv" aria-hidden="true">0.9</span></div><div class="hcell l1" tabindex="0" data-s="花桥" data-h="15" data-v="1.2" aria-label="花桥 15时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div><div class="hcell l1" tabindex="0" data-s="花桥" data-h="16" data-v="1.5" aria-label="花桥 16时 1.5 万"><span class="cv" aria-hidden="true">1.5</span></div><div class="hcell l2" tabindex="0" data-s="花桥" data-h="17" data-v="2.1" aria-label="花桥 17时 2.1 万"><span class="cv" aria-hidden="true">2.1</span></div><div class="hcell l2" tabindex="0" data-s="花桥" data-h="18" data-v="2.6" aria-label="花桥 18时 2.6 万"><span class="cv" aria-hidden="true">2.6</span></div><div class="hcell l1" tabindex="0" data-s="花桥" data-h="19" data-v="1.1" aria-label="花桥 19时 1.1 万"><span class="cv" aria-hidden="true">1.1</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">枢纽站</span>
+          <div class="hcell l1" tabindex="0" data-s="枢纽站" data-h="06" data-v="1.2" aria-label="枢纽站 06时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="07" data-v="2.9" aria-label="枢纽站 07时 2.9 万"><span class="cv" aria-hidden="true">2.9</span></div><div class="hcell l3" tabindex="0" data-s="枢纽站" data-h="08" data-v="3.7" aria-label="枢纽站 08时 3.7 万"><span class="cv" aria-hidden="true">3.7</span></div><div class="hcell l3" tabindex="0" data-s="枢纽站" data-h="09" data-v="3.4" aria-label="枢纽站 09时 3.4 万"><span class="cv" aria-hidden="true">3.4</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="10" data-v="2.6" aria-label="枢纽站 10时 2.6 万"><span class="cv" aria-hidden="true">2.6</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="11" data-v="2.4" aria-label="枢纽站 11时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="12" data-v="2.7" aria-label="枢纽站 12时 2.7 万"><span class="cv" aria-hidden="true">2.7</span></div>
+          <div class="hcell l3" tabindex="0" data-s="枢纽站" data-h="13" data-v="3.0" aria-label="枢纽站 13时 3.0 万"><span class="cv" aria-hidden="true">3.0</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="14" data-v="2.9" aria-label="枢纽站 14时 2.9 万"><span class="cv" aria-hidden="true">2.9</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="15" data-v="2.6" aria-label="枢纽站 15时 2.6 万"><span class="cv" aria-hidden="true">2.6</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="16" data-v="2.5" aria-label="枢纽站 16时 2.5 万"><span class="cv" aria-hidden="true">2.5</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="17" data-v="2.9" aria-label="枢纽站 17时 2.9 万"><span class="cv" aria-hidden="true">2.9</span></div><div class="hcell l3" tabindex="0" data-s="枢纽站" data-h="18" data-v="3.3" aria-label="枢纽站 18时 3.3 万"><span class="cv" aria-hidden="true">3.3</span></div><div class="hcell l2" tabindex="0" data-s="枢纽站" data-h="19" data-v="2.1" aria-label="枢纽站 19时 2.1 万"><span class="cv" aria-hidden="true">2.1</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">金融港</span>
+          <div class="hcell l0" tabindex="0" data-s="金融港" data-h="06" data-v="0.5" aria-label="金融港 06时 0.5 万"><span class="cv" aria-hidden="true">0.5</span></div><div class="hcell l2" tabindex="0" data-s="金融港" data-h="07" data-v="2.6" aria-label="金融港 07时 2.6 万"><span class="cv" aria-hidden="true">2.6</span></div><div class="hcell l5" tabindex="0" data-s="金融港" data-h="08" data-v="4.6" aria-label="金融港 08时 4.6 万"><span class="cv" aria-hidden="true">4.6</span></div><div class="hcell l4" tabindex="0" data-s="金融港" data-h="09" data-v="4.1" aria-label="金融港 09时 4.1 万"><span class="cv" aria-hidden="true">4.1</span></div><div class="hcell l1" tabindex="0" data-s="金融港" data-h="10" data-v="1.6" aria-label="金融港 10时 1.6 万"><span class="cv" aria-hidden="true">1.6</span></div><div class="hcell l1" tabindex="0" data-s="金融港" data-h="11" data-v="1.0" aria-label="金融港 11时 1.0 万"><span class="cv" aria-hidden="true">1.0</span></div><div class="hcell l1" tabindex="0" data-s="金融港" data-h="12" data-v="1.2" aria-label="金融港 12时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div>
+          <div class="hcell l1" tabindex="0" data-s="金融港" data-h="13" data-v="1.6" aria-label="金融港 13时 1.6 万"><span class="cv" aria-hidden="true">1.6</span></div><div class="hcell l1" tabindex="0" data-s="金融港" data-h="14" data-v="1.8" aria-label="金融港 14时 1.8 万"><span class="cv" aria-hidden="true">1.8</span></div><div class="hcell l2" tabindex="0" data-s="金融港" data-h="15" data-v="2.0" aria-label="金融港 15时 2.0 万"><span class="cv" aria-hidden="true">2.0</span></div><div class="hcell l2" tabindex="0" data-s="金融港" data-h="16" data-v="2.7" aria-label="金融港 16时 2.7 万"><span class="cv" aria-hidden="true">2.7</span></div><div class="hcell l3" tabindex="0" data-s="金融港" data-h="17" data-v="3.6" aria-label="金融港 17时 3.6 万"><span class="cv" aria-hidden="true">3.6</span></div><div class="hcell l5" tabindex="0" data-s="金融港" data-h="18" data-v="4.4" aria-label="金融港 18时 4.4 万"><span class="cv" aria-hidden="true">4.4</span></div><div class="hcell l2" tabindex="0" data-s="金融港" data-h="19" data-v="2.3" aria-label="金融港 19时 2.3 万"><span class="cv" aria-hidden="true">2.3</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">科技园</span>
+          <div class="hcell l0" tabindex="0" data-s="科技园" data-h="06" data-v="0.4" aria-label="科技园 06时 0.4 万"><span class="cv" aria-hidden="true">0.4</span></div><div class="hcell l2" tabindex="0" data-s="科技园" data-h="07" data-v="2.2" aria-label="科技园 07时 2.2 万"><span class="cv" aria-hidden="true">2.2</span></div><div class="hcell l4" tabindex="0" data-s="科技园" data-h="08" data-v="4.0" aria-label="科技园 08时 4.0 万"><span class="cv" aria-hidden="true">4.0</span></div><div class="hcell l3" tabindex="0" data-s="科技园" data-h="09" data-v="3.7" aria-label="科技园 09时 3.7 万"><span class="cv" aria-hidden="true">3.7</span></div><div class="hcell l1" tabindex="0" data-s="科技园" data-h="10" data-v="1.5" aria-label="科技园 10时 1.5 万"><span class="cv" aria-hidden="true">1.5</span></div><div class="hcell l0" tabindex="0" data-s="科技园" data-h="11" data-v="0.9" aria-label="科技园 11时 0.9 万"><span class="cv" aria-hidden="true">0.9</span></div><div class="hcell l1" tabindex="0" data-s="科技园" data-h="12" data-v="1.1" aria-label="科技园 12时 1.1 万"><span class="cv" aria-hidden="true">1.1</span></div>
+          <div class="hcell l1" tabindex="0" data-s="科技园" data-h="13" data-v="1.4" aria-label="科技园 13时 1.4 万"><span class="cv" aria-hidden="true">1.4</span></div><div class="hcell l1" tabindex="0" data-s="科技园" data-h="14" data-v="1.6" aria-label="科技园 14时 1.6 万"><span class="cv" aria-hidden="true">1.6</span></div><div class="hcell l1" tabindex="0" data-s="科技园" data-h="15" data-v="1.8" aria-label="科技园 15时 1.8 万"><span class="cv" aria-hidden="true">1.8</span></div><div class="hcell l2" tabindex="0" data-s="科技园" data-h="16" data-v="2.4" aria-label="科技园 16时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l3" tabindex="0" data-s="科技园" data-h="17" data-v="3.2" aria-label="科技园 17时 3.2 万"><span class="cv" aria-hidden="true">3.2</span></div><div class="hcell l4" tabindex="0" data-s="科技园" data-h="18" data-v="3.9" aria-label="科技园 18时 3.9 万"><span class="cv" aria-hidden="true">3.9</span></div><div class="hcell l2" tabindex="0" data-s="科技园" data-h="19" data-v="2.0" aria-label="科技园 19时 2.0 万"><span class="cv" aria-hidden="true">2.0</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">会展中心</span>
+          <div class="hcell l0" tabindex="0" data-s="会展中心" data-h="06" data-v="0.2" aria-label="会展中心 06时 0.2 万"><span class="cv" aria-hidden="true">0.2</span></div><div class="hcell l0" tabindex="0" data-s="会展中心" data-h="07" data-v="0.8" aria-label="会展中心 07时 0.8 万"><span class="cv" aria-hidden="true">0.8</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="08" data-v="1.3" aria-label="会展中心 08时 1.3 万"><span class="cv" aria-hidden="true">1.3</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="09" data-v="1.1" aria-label="会展中心 09时 1.1 万"><span class="cv" aria-hidden="true">1.1</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="10" data-v="1.0" aria-label="会展中心 10时 1.0 万"><span class="cv" aria-hidden="true">1.0</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="11" data-v="1.2" aria-label="会展中心 11时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="12" data-v="1.8" aria-label="会展中心 12时 1.8 万"><span class="cv" aria-hidden="true">1.8</span></div>
+          <div class="hcell l2" tabindex="0" data-s="会展中心" data-h="13" data-v="2.4" aria-label="会展中心 13时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l2" tabindex="0" data-s="会展中心" data-h="14" data-v="2.7" aria-label="会展中心 14时 2.7 万"><span class="cv" aria-hidden="true">2.7</span></div><div class="hcell l2" tabindex="0" data-s="会展中心" data-h="15" data-v="2.3" aria-label="会展中心 15时 2.3 万"><span class="cv" aria-hidden="true">2.3</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="16" data-v="1.7" aria-label="会展中心 16时 1.7 万"><span class="cv" aria-hidden="true">1.7</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="17" data-v="1.3" aria-label="会展中心 17时 1.3 万"><span class="cv" aria-hidden="true">1.3</span></div><div class="hcell l1" tabindex="0" data-s="会展中心" data-h="18" data-v="1.2" aria-label="会展中心 18时 1.2 万"><span class="cv" aria-hidden="true">1.2</span></div><div class="hcell l0" tabindex="0" data-s="会展中心" data-h="19" data-v="0.8" aria-label="会展中心 19时 0.8 万"><span class="cv" aria-hidden="true">0.8</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">老城南</span>
+          <div class="hcell l0" tabindex="0" data-s="老城南" data-h="06" data-v="0.5" aria-label="老城南 06时 0.5 万"><span class="cv" aria-hidden="true">0.5</span></div><div class="hcell l1" tabindex="0" data-s="老城南" data-h="07" data-v="1.4" aria-label="老城南 07时 1.4 万"><span class="cv" aria-hidden="true">1.4</span></div><div class="hcell l2" tabindex="0" data-s="老城南" data-h="08" data-v="2.1" aria-label="老城南 08时 2.1 万"><span class="cv" aria-hidden="true">2.1</span></div><div class="hcell l1" tabindex="0" data-s="老城南" data-h="09" data-v="1.8" aria-label="老城南 09时 1.8 万"><span class="cv" aria-hidden="true">1.8</span></div><div class="hcell l1" tabindex="0" data-s="老城南" data-h="10" data-v="1.6" aria-label="老城南 10时 1.6 万"><span class="cv" aria-hidden="true">1.6</span></div><div class="hcell l1" tabindex="0" data-s="老城南" data-h="11" data-v="1.9" aria-label="老城南 11时 1.9 万"><span class="cv" aria-hidden="true">1.9</span></div><div class="hcell l2" tabindex="0" data-s="老城南" data-h="12" data-v="2.5" aria-label="老城南 12时 2.5 万"><span class="cv" aria-hidden="true">2.5</span></div>
+          <div class="hcell l2" tabindex="0" data-s="老城南" data-h="13" data-v="2.9" aria-label="老城南 13时 2.9 万"><span class="cv" aria-hidden="true">2.9</span></div><div class="hcell l3" tabindex="0" data-s="老城南" data-h="14" data-v="3.1" aria-label="老城南 14时 3.1 万"><span class="cv" aria-hidden="true">3.1</span></div><div class="hcell l2" tabindex="0" data-s="老城南" data-h="15" data-v="2.8" aria-label="老城南 15时 2.8 万"><span class="cv" aria-hidden="true">2.8</span></div><div class="hcell l2" tabindex="0" data-s="老城南" data-h="16" data-v="2.4" aria-label="老城南 16时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l2" tabindex="0" data-s="老城南" data-h="17" data-v="2.1" aria-label="老城南 17时 2.1 万"><span class="cv" aria-hidden="true">2.1</span></div><div class="hcell l1" tabindex="0" data-s="老城南" data-h="18" data-v="1.9" aria-label="老城南 18时 1.9 万"><span class="cv" aria-hidden="true">1.9</span></div><div class="hcell l1" tabindex="0" data-s="老城南" data-h="19" data-v="1.4" aria-label="老城南 19时 1.4 万"><span class="cv" aria-hidden="true">1.4</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">滨江东</span>
+          <div class="hcell l0" tabindex="0" data-s="滨江东" data-h="06" data-v="0.2" aria-label="滨江东 06时 0.2 万"><span class="cv" aria-hidden="true">0.2</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="07" data-v="0.6" aria-label="滨江东 07时 0.6 万"><span class="cv" aria-hidden="true">0.6</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="08" data-v="0.9" aria-label="滨江东 08时 0.9 万"><span class="cv" aria-hidden="true">0.9</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="09" data-v="0.7" aria-label="滨江东 09时 0.7 万"><span class="cv" aria-hidden="true">0.7</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="10" data-v="0.4" aria-label="滨江东 10时 0.4 万"><span class="cv" aria-hidden="true">0.4</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="11" data-v="0.3" aria-label="滨江东 11时 0.3 万"><span class="cv" aria-hidden="true">0.3</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="12" data-v="0.4" aria-label="滨江东 12时 0.4 万"><span class="cv" aria-hidden="true">0.4</span></div>
+          <div class="hcell l0" tabindex="0" data-s="滨江东" data-h="13" data-v="0.5" aria-label="滨江东 13时 0.5 万"><span class="cv" aria-hidden="true">0.5</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="14" data-v="0.6" aria-label="滨江东 14时 0.6 万"><span class="cv" aria-hidden="true">0.6</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="15" data-v="0.5" aria-label="滨江东 15时 0.5 万"><span class="cv" aria-hidden="true">0.5</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="16" data-v="0.5" aria-label="滨江东 16时 0.5 万"><span class="cv" aria-hidden="true">0.5</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="17" data-v="0.7" aria-label="滨江东 17时 0.7 万"><span class="cv" aria-hidden="true">0.7</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="18" data-v="0.9" aria-label="滨江东 18时 0.9 万"><span class="cv" aria-hidden="true">0.9</span></div><div class="hcell l0" tabindex="0" data-s="滨江东" data-h="19" data-v="0.5" aria-label="滨江东 19时 0.5 万"><span class="cv" aria-hidden="true">0.5</span></div>
+        </div>
+        <div class="hx-row">
+          <span class="lab">机场东</span>
+          <div class="hcell l0" tabindex="0" data-s="机场东" data-h="06" data-v="0.8" aria-label="机场东 06时 0.8 万"><span class="cv" aria-hidden="true">0.8</span></div><div class="hcell l1" tabindex="0" data-s="机场东" data-h="07" data-v="1.7" aria-label="机场东 07时 1.7 万"><span class="cv" aria-hidden="true">1.7</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="08" data-v="2.4" aria-label="机场东 08时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="09" data-v="2.2" aria-label="机场东 09时 2.2 万"><span class="cv" aria-hidden="true">2.2</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="10" data-v="2.0" aria-label="机场东 10时 2.0 万"><span class="cv" aria-hidden="true">2.0</span></div><div class="hcell l1" tabindex="0" data-s="机场东" data-h="11" data-v="1.9" aria-label="机场东 11时 1.9 万"><span class="cv" aria-hidden="true">1.9</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="12" data-v="2.1" aria-label="机场东 12时 2.1 万"><span class="cv" aria-hidden="true">2.1</span></div>
+          <div class="hcell l2" tabindex="0" data-s="机场东" data-h="13" data-v="2.3" aria-label="机场东 13时 2.3 万"><span class="cv" aria-hidden="true">2.3</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="14" data-v="2.2" aria-label="机场东 14时 2.2 万"><span class="cv" aria-hidden="true">2.2</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="15" data-v="2.1" aria-label="机场东 15时 2.1 万"><span class="cv" aria-hidden="true">2.1</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="16" data-v="2.0" aria-label="机场东 16时 2.0 万"><span class="cv" aria-hidden="true">2.0</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="17" data-v="2.2" aria-label="机场东 17时 2.2 万"><span class="cv" aria-hidden="true">2.2</span></div><div class="hcell l2" tabindex="0" data-s="机场东" data-h="18" data-v="2.4" aria-label="机场东 18时 2.4 万"><span class="cv" aria-hidden="true">2.4</span></div><div class="hcell l1" tabindex="0" data-s="机场东" data-h="19" data-v="1.8" aria-label="机场东 19时 1.8 万"><span class="cv" aria-hidden="true">1.8</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="grad">
+        <div class="grad-cap">客流强度 / 连续色阶 / 万人次每小时</div>
+        <div class="grad-bar" role="img" aria-label="连续色阶图例, 从冷到热对应 0 到 5 万人次每小时"></div>
+        <div class="grad-ticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+        <div class="grad-end"><span>min 刻度 0</span><span>max 刻度 5</span></div>
+      </div>
+      <div class="sw-row">
+        <span class="sw"><i style="background:var(--l0)"></i>低于 1</span>
+        <span class="sw"><i style="background:var(--l1)"></i>1 至 2</span>
+        <span class="sw"><i style="background:var(--l2)"></i>2 至 3</span>
+        <span class="sw"><i style="background:var(--l3)"></i>3 至 3.8</span>
+        <span class="sw"><i style="background:var(--l4)"></i>3.8 至 4.4</span>
+        <span class="sw"><i style="background:var(--l5)"></i>4.4 以上</span>
+      </div>
+    </div>
+    <p class="status" id="hxStatus" aria-live="polite">悬停或用键盘聚焦任一格子 / 此处显示精确读值</p>
+    <p class="note">
+      读图 / 早高峰 07:00-09:00 居住型站点 (北苑小区 / 花桥) 与就业型站点 (金融港 / 科技园) 双双冲顶, 08 时六站超过 3.5;
+      晚高峰 17:00-19:00 只有就业型回流; 枢纽站全天平坦, 机场东平稳, 滨江东整线偏冷。实测范围 0.2 至 4.7 万。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">02</span>色阶取舍 / 单向渐变 vs 双向发散</h2>
+      <p>同一份 ± 偏差数据 / 两种色阶 / 结果完全不同</p>
+    </div>
+    <p class="intro">
+      下面两张迷你矩阵是同一组数据: 四个站点八个两小时班次, 客流相对各自全日均值的偏差百分比。
+      区别只在色阶。官方 Color Guidance 原文: 渐变用冷 蓝 到 热 红 / 正负数据用发散刻度 / 永远附数字色阶图例。
+    </p>
+    <div class="duo">
+      <div class="panel">
+        <h3>误用 / 单向渐变画 ± 偏差</h3>
+        <p class="sub">把 蓝 到 红 从 -35 一路铺到 +55 / 中点是 +10 不是 0</p>
+        <div class="mg-scroll">
+          <div class="mg">
+            <div class="mrow">
+              <span class="mlab corner" style="font-weight:400;color:var(--muted);font-size:11px">站点 / 2h</span>
+              <span class="mh">06</span><span class="mh">08</span><span class="mh">10</span><span class="mh">12</span><span class="mh">14</span><span class="mh">16</span><span class="mh">18</span><span class="mh">20</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">金融港</span>
+              <span class="mc l0">-32</span><span class="mc l5">+46</span><span class="mc l3">+12</span><span class="mc l1">-6</span><span class="mc l1">-18</span><span class="mc l2">+8</span><span class="mc l4">+38</span><span class="mc l1">-18</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">北苑小区</span>
+              <span class="mc l5">+44</span><span class="mc l1">-14</span><span class="mc l0">-28</span><span class="mc l0">-32</span><span class="mc l0">-24</span><span class="mc l1">-10</span><span class="mc l2">+2</span><span class="mc l3">+19</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">枢纽站</span>
+              <span class="mc l1">-6</span><span class="mc l3">+18</span><span class="mc l3">+12</span><span class="mc l2">-2</span><span class="mc l1">-8</span><span class="mc l2">+6</span><span class="mc l3">+16</span><span class="mc l2">-3</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">老城南</span>
+              <span class="mc l0">-22</span><span class="mc l1">-6</span><span class="mc l3">+14</span><span class="mc l3">+22</span><span class="mc l3">+18</span><span class="mc l4">+26</span><span class="mc l4">+31</span><span class="mc l1">-12</span>
+            </div>
+          </div>
+        </div>
+        <p class="mleg">刻度 / <b>-35</b> 至 <b>+55</b> / 零点落进中蓝档</p>
+        <p class="verdict"><b>问题 /</b> 零点被染成中蓝, -28 与 +6 只差一档蓝, 方向信息丢失, 读者无法判断高于还是低于均值。</p>
+      </div>
+      <div class="panel">
+        <h3>正确 / 双向发散锚定 0</h3>
+        <p class="sub">蓝 负 / 灰白 零 / 红 正 / 中点严格对齐基准</p>
+        <div class="mg-scroll">
+          <div class="mg">
+            <div class="mrow">
+              <span class="mlab corner" style="font-weight:400;color:var(--muted);font-size:11px">站点 / 2h</span>
+              <span class="mh">06</span><span class="mh">08</span><span class="mh">10</span><span class="mh">12</span><span class="mh">14</span><span class="mh">16</span><span class="mh">18</span><span class="mh">20</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">金融港</span>
+              <span class="mc dn2">-32</span><span class="mc dp2">+46</span><span class="mc dp1">+12</span><span class="mc dz">-6</span><span class="mc dn1">-18</span><span class="mc dp1">+8</span><span class="mc dp2">+38</span><span class="mc dn1">-18</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">北苑小区</span>
+              <span class="mc dp2">+44</span><span class="mc dn1">-14</span><span class="mc dn2">-28</span><span class="mc dn2">-32</span><span class="mc dn1">-24</span><span class="mc dn1">-10</span><span class="mc dz">+2</span><span class="mc dp1">+19</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">枢纽站</span>
+              <span class="mc dz">-6</span><span class="mc dp1">+18</span><span class="mc dp1">+12</span><span class="mc dz">-2</span><span class="mc dz">-8</span><span class="mc dz">+6</span><span class="mc dp1">+16</span><span class="mc dz">-3</span>
+            </div>
+            <div class="mrow">
+              <span class="mlab">老城南</span>
+              <span class="mc dn1">-22</span><span class="mc dz">-6</span><span class="mc dp1">+14</span><span class="mc dp1">+22</span><span class="mc dp1">+18</span><span class="mc dp2">+26</span><span class="mc dp2">+31</span><span class="mc dn1">-12</span>
+            </div>
+          </div>
+        </div>
+        <p class="mleg">刻度 / <b>-45</b> 至 <b>+55</b> / 0 锚定灰白中点 / 蓝红双向对称</p>
+        <p class="verdict"><b>收益 /</b> 高于还是低于基准一眼可辨, 枢纽站贴近零区也如实呈现; 蓝灰红取自色盲安全的发散配色族。</p>
+      </div>
+    </div>
+    <p class="callout">
+      <b>取舍规则 /</b> 数据只有大小没有方向 (如客流强度本身) 用单向冷到热渐变;
+      数据围绕基准有正有负 (如相对均值的偏差 / 环比变化) 必须用双向发散, 且中点严格锚定基准值, 别让 0 漂移。
+      两者的图例都必须带数字刻度, 这是官方 Color Guidance 的硬要求。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">03</span>不只靠颜色 / 无障碍三道防线</h2>
+      <p>官方风险等级 / 条件性 / 满足后备才可用</p>
+    </div>
+    <p class="intro">
+      约百分之四的男性读者分不清部分红绿。官方 Accessibility Notes 说得直白:
+      在格子里印数值或符号, 用纹理和标签叠加色阶, 不要只靠颜色传达信息。落到本页就是三道防线。
+    </p>
+    <ul class="def">
+      <li>
+        <span class="tag">防线一</span>
+        <b>数值直标模式</b>
+        点上方「直标数值」按钮, 140 格全部印出精确读值; 色觉障碍或黑白打印时, 图仍然是完整的数据图。
+      </li>
+      <li>
+        <span class="tag">防线二</span>
+        <b>数字刻度图例</b>
+        连续色阶永远配 min 与 max 刻度, 分箱色阶永远标数值区间; 没有数字的色条只是装饰。
+      </li>
+      <li>
+        <span class="tag">防线三</span>
+        <b>数据表后备</b>
+        下方区块 04 给出完整网格数据表与强度摘要; 键盘可逐格聚焦读值, 缩放与重置均有按钮, 不依赖鼠标。
+      </li>
+    </ul>
+    <div class="ramp-box">
+      <h3>色盲安全替代 / 同一矩阵改用单色明度阶梯</h3>
+      <p class="sub">只动明度不动色相 / 六档由浅到深对应 0 到 5 / 黑白打印与色觉障碍下排序依旧成立</p>
+      <div class="ramp" role="img" aria-label="单色明度阶梯, 六档由浅到深蓝, 对应 0 到 5 万人次每小时">
+        <i style="background:#F0F5FA"></i><i style="background:#C9DDF0"></i><i style="background:#9CC1E5"></i>
+        <i style="background:#649BD6"></i><i style="background:#3B72B4"></i><i style="background:#1E4A85"></i>
+      </div>
+      <div class="ramp-ticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+      <p class="ramp-note">
+        换算规则 / 冷热阶的六档直接映射到六档明度, 矩阵结构与读数不变;
+        若必须保留色相对立, 选蓝橙对侧 (如上方发散色), 避开红绿对;
+        再叠上直标数值, 就是官方要求的多重冗余。
+      </p>
+    </div>
+    <p class="note">
+      何时别用热力 / 官方原文: 少于 20 格改用条形图 / 用户需要读取精确值时改直标或表格 / 色盲读者且没有后备方案时不要用。
+      本页冷热阶的明度从浅到深单调递增, 即使色相不可辨, 深浅仍可排序。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">04</span>数据表后备 / Grid Data Table</h2>
+      <p>官方 A11y Fallback / 网格数据表 + 强度摘要</p>
+    </div>
+    <div class="tb-scroll">
+      <table class="dt" aria-label="站点乘时段客流强度数据表, 单位万人次每小时">
+        <caption>站点 × 时段客流强度 / 万人次每小时 / 06:00-20:00</caption>
+        <thead>
+          <tr>
+            <th scope="col">站点</th>
+            <th scope="col">06</th><th scope="col">07</th><th scope="col">08</th><th scope="col">09</th><th scope="col">10</th><th scope="col">11</th><th scope="col">12</th>
+            <th scope="col">13</th><th scope="col">14</th><th scope="col">15</th><th scope="col">16</th><th scope="col">17</th><th scope="col">18</th><th scope="col">19</th>
+            <th scope="col">峰值 / 时</th><th scope="col">均值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">北苑小区</th><td>0.6</td><td>3.9</td><td class="hot">4.7</td><td>3.1</td><td>1.4</td><td>0.9</td><td>0.8</td><td>0.9</td><td>1.0</td><td>1.3</td><td>1.6</td><td>2.2</td><td>2.8</td><td>1.5</td><td>4.7 / 08</td><td>1.91</td></tr>
+          <tr><th scope="row">大学城</th><td>0.4</td><td>2.4</td><td>4.2</td><td>3.6</td><td>1.2</td><td>0.7</td><td>0.6</td><td>0.7</td><td>0.8</td><td>1.1</td><td>1.8</td><td>2.6</td><td>3.1</td><td>1.2</td><td>4.2 / 08</td><td>1.74</td></tr>
+          <tr><th scope="row">花桥</th><td>0.3</td><td>2.8</td><td>4.5</td><td>3.3</td><td>1.1</td><td>0.7</td><td>0.6</td><td>0.7</td><td>0.9</td><td>1.2</td><td>1.5</td><td>2.1</td><td>2.6</td><td>1.1</td><td>4.5 / 08</td><td>1.67</td></tr>
+          <tr><th scope="row">枢纽站</th><td>1.2</td><td>2.9</td><td>3.7</td><td>3.4</td><td>2.6</td><td>2.4</td><td>2.7</td><td>3.0</td><td>2.9</td><td>2.6</td><td>2.5</td><td>2.9</td><td>3.3</td><td>2.1</td><td>3.7 / 08</td><td>2.73</td></tr>
+          <tr><th scope="row">金融港</th><td>0.5</td><td>2.6</td><td>4.6</td><td>4.1</td><td>1.6</td><td>1.0</td><td>1.2</td><td>1.6</td><td>1.8</td><td>2.0</td><td>2.7</td><td>3.6</td><td class="hot">4.4</td><td>2.3</td><td>4.6 / 08</td><td>2.43</td></tr>
+          <tr><th scope="row">科技园</th><td>0.4</td><td>2.2</td><td>4.0</td><td>3.7</td><td>1.5</td><td>0.9</td><td>1.1</td><td>1.4</td><td>1.6</td><td>1.8</td><td>2.4</td><td>3.2</td><td>3.9</td><td>2.0</td><td>4.0 / 08</td><td>2.15</td></tr>
+          <tr><th scope="row">会展中心</th><td>0.2</td><td>0.8</td><td>1.3</td><td>1.1</td><td>1.0</td><td>1.2</td><td>1.8</td><td>2.4</td><td>2.7</td><td>2.3</td><td>1.7</td><td>1.3</td><td>1.2</td><td>0.8</td><td>2.7 / 14</td><td>1.41</td></tr>
+          <tr><th scope="row">老城南</th><td>0.5</td><td>1.4</td><td>2.1</td><td>1.8</td><td>1.6</td><td>1.9</td><td>2.5</td><td>2.9</td><td>3.1</td><td>2.8</td><td>2.4</td><td>2.1</td><td>1.9</td><td>1.4</td><td>3.1 / 14</td><td>2.03</td></tr>
+          <tr><th scope="row">滨江东</th><td class="calm">0.2</td><td>0.6</td><td>0.9</td><td>0.7</td><td>0.4</td><td class="calm">0.3</td><td>0.4</td><td>0.5</td><td>0.6</td><td>0.5</td><td>0.5</td><td>0.7</td><td>0.9</td><td>0.5</td><td>0.9 / 08</td><td>0.55</td></tr>
+          <tr><th scope="row">机场东</th><td>0.8</td><td>1.7</td><td>2.4</td><td>2.2</td><td>2.0</td><td>1.9</td><td>2.1</td><td>2.3</td><td>2.2</td><td>2.1</td><td>2.0</td><td>2.2</td><td>2.4</td><td>1.8</td><td>2.4 / 08</td><td>2.01</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      强度摘要 / 全矩阵 140 格, 合计 260.8 万人次, 均值 1.86;
+      峰值 4.7 出现在北苑小区 08:00-09:00, 谷值 0.2 出现在滨江东 06 时与会展中心 06 时;
+      早高峰 07:00-09:00 贡献全天约三成客流, 是行车调度的第一窗口。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">05</span>选型速查 / 官方数据</h2>
+      <p>来源 / charts.json 收录号 05 / Heatmap Intensity</p>
+    </div>
+    <dl class="dossier">
+      <div class="kv"><dt>数据类型</dt><dd>Heatmap / Intensity</dd></div>
+      <div class="kv"><dt>首选图型</dt><dd>Heat Map or Choropleth</dd></div>
+      <div class="kv"><dt>备选图型</dt><dd>Grid Heat Map / Bubble Heat</dd></div>
+      <div class="kv"><dt>数据量阈值</dt><dd>10,000 格内高效 / 超出先聚合 / 日历热力单幅 SVG 至多 365 格</dd></div>
+      <div class="kv"><dt>适用场景</dt><dd>二维网格上的强度与密度 / 时段 × 星期类的活动节律</dd></div>
+      <div class="kv"><dt>不适用场景</dt><dd>少于 20 格改用条形 / 需要读精确值 / 色盲读者且无后备</dd></div>
+      <div class="kv"><dt>色阶指南</dt><dd>冷 蓝 到 热 红 / 正负数据用发散刻度 / 永远附数字色阶图例</dd></div>
+      <div class="kv"><dt>无障碍</dt><dd>风险条件性 / 格内印数值或符号 / 纹理与标签叠加 / 不可只靠颜色</dd></div>
+      <div class="kv"><dt>无障碍后备</dt><dd>网格数据表 + 强度摘要 / 键盘聚焦显示格值 / 按钮缩放 / 重置复原</dd></div>
+      <div class="kv"><dt>库推荐</dt><dd>D3.js / Plotly / ApexCharts</dd></div>
+      <div class="kv"><dt>交互级别</dt><dd>Hover + Zoom</dd></div>
+      <div class="kv"><dt>关键词</dt><dd>heatmap / heat-map / intensity / density / matrix / calendar / accessible chart / keyboard accessible chart</dd></div>
+    </dl>
+  </section>
+
+  <footer>
+    <span>UI 设计提示词库 / 图表图鉴 / 强度热力</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+<noscript><p style="text-align:center;color:#475569;padding:14px;">矩阵与数据表为纯 HTML 可直接阅读 / 直标切换与缩放需启用 JavaScript</p></noscript>
+<script>
+(function(){
+  'use strict';
+  var hx = document.getElementById('hx');
+  var valBtn = document.getElementById('valBtn');
+  var status = document.getElementById('hxStatus');
+  var defaultMsg = status.textContent;
+
+  /* 直标数值模式: 切换即给全部格子印上读值 */
+  valBtn.addEventListener('click', function(){
+    var on = hx.classList.toggle('show-val');
+    valBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+
+  /* 缩放 / 重置: 官方 A11y Fallback 的 +/− 按钮与 Reset */
+  var sizes = [34, 46, 58, 70];
+  var idx = 1;
+  function apply(){
+    hx.style.setProperty('--cell', sizes[idx] + 'px');
+  }
+  document.getElementById('zin').addEventListener('click', function(){
+    if (idx < sizes.length - 1){ idx += 1; apply(); }
+  });
+  document.getElementById('zout').addEventListener('click', function(){
+    if (idx > 0){ idx -= 1; apply(); }
+  });
+  document.getElementById('zreset').addEventListener('click', function(){
+    idx = 1; apply();
+  });
+
+  /* 悬停与键盘聚焦均在状态行读值 */
+  function read(cell){
+    var h2 = String(Number(cell.dataset.h) + 1).padStart(2, '0');
+    status.textContent = cell.dataset.s + ' / ' + cell.dataset.h + ':00-' + h2 + ':00 / ' + cell.dataset.v + ' 万人次';
+  }
+  hx.addEventListener('mouseover', function(e){
+    var c = e.target.closest('.hcell');
+    if (c){ read(c); }
+  });
+  hx.addEventListener('focusin', function(e){
+    var c = e.target.closest('.hcell');
+    if (c){ read(c); }
+  });
+  hx.addEventListener('mouseleave', function(){
+    status.textContent = defaultMsg;
+  });
+})();
+</script>
+</body>
+</html>

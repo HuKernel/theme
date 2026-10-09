@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表图鉴第 08 号: Performance vs Target 的半环仪表与子弹图设计规范, 含无障碍后备数据表与使用警示。">
+<title>图表图鉴 / 目标仪表 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token: 纸面 #F4F7FB / 卡 #FFFFFF / 墨 #0F172A / 次级 #475569 / 弱 #64748B / 线 #DEE6EF / 达标 #15803D / 预警 #B45309 / 未达标 #B91C1C / 焦点 #1D4ED8 / 圆角 14 / 间距基数 8 / 字体 system-ui, PingFang SC, Microsoft YaHei */
+:root {
+  --paper: #F4F7FB;
+  --card: #FFFFFF;
+  --ink: #0F172A;
+  --sub: #475569;
+  --mute: #64748B;
+  --line: #DEE6EF;
+  --ok: #15803D;
+  --warn: #B45309;
+  --bad: #B91C1C;
+  --ok-soft: #EAF4EE;
+  --warn-soft: #FBF1E2;
+  --bad-soft: #FBEDED;
+  --focus: #1D4ED8;
+  --r: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+.skip { position: absolute; left: -9999px; top: 8px; }
+.skip:focus-visible {
+  position: fixed; left: 16px; top: 12px; z-index: 10; background: #FFFFFF;
+  padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line);
+}
+a { color: #1D4ED8; text-decoration: none; border-bottom: 1px solid rgba(29,78,216,.35); }
+a:hover { border-bottom-color: #1D4ED8; }
+a:focus-visible, button:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+button { font: inherit; cursor: pointer; }
+
+/* ---------- 页头 ---------- */
+.page-head { background: var(--card); border-bottom: 1px solid var(--line); }
+.head-in { padding: 40px 0 30px; }
+.eyebrow { color: var(--sub); font-size: 13.5px; letter-spacing: .02em; }
+.eyebrow b { color: var(--ink); font-weight: 650; }
+h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: -.01em; margin: 8px 0 12px; }
+.lede { max-width: 760px; color: var(--sub); font-size: 15.5px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.chip {
+  font-size: 13px; color: #334155; background: #EEF3F9;
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 13px;
+}
+.chip b { font-weight: 650; color: var(--ink); }
+.page-nav { display: flex; flex-wrap: wrap; gap: 4px 22px; padding: 12px 0 16px; }
+.page-nav a { font-size: 13.5px; border-bottom: none; color: var(--sub); }
+.page-nav a:hover { color: var(--focus); }
+
+/* ---------- 分节 ---------- */
+.sec { padding: 44px 0 8px; }
+.sec-head { margin-bottom: 22px; }
+.sec-no {
+  display: inline-block; font-size: 12.5px; font-weight: 700; color: var(--focus);
+  background: #EAF0FC; border-radius: 6px; padding: 2px 9px; margin-bottom: 10px;
+}
+h2 { font-size: 22px; font-weight: 750; letter-spacing: -.01em; }
+.sec-sub { color: var(--sub); max-width: 780px; margin-top: 6px; font-size: 14.5px; }
+
+/* ---------- 01 半环仪表 ---------- */
+.hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 26px; align-items: stretch; }
+.gauge-card, .kpi-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 26px 26px 20px;
+}
+.gauge-card { display: flex; flex-direction: column; }
+.gauge-card svg { width: 100%; height: auto; display: block; font-family: inherit; margin: auto 0; }
+.gauge-card figcaption { font-size: 12.5px; color: var(--mute); margin-top: 8px; line-height: 1.6; }
+.g-track { stroke: #E5EBF2; stroke-width: 20; fill: none; stroke-linecap: round; }
+.g-value { stroke: var(--warn); stroke-width: 20; fill: none; stroke-linecap: round; stroke-dasharray: 65 100; }
+.g-zone { fill: none; stroke-width: 9; transition: stroke-width .18s ease; }
+.z-red   { stroke: #DC2626; }
+.z-yellow{ stroke: #D97706; }
+.z-green { stroke: #16A34A; }
+.g-zone.hot { stroke-width: 14; }
+.g-tick { stroke: #64748B; stroke-width: 2; }
+.g-tick.minor { stroke-width: 1.4; }
+.g-tick-lb { font-size: 12px; fill: #475569; font-weight: 550; }
+.g-target { stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; transition: stroke-width .18s ease; }
+.g-target.hot { stroke-width: 6; }
+.g-target-lb { font-size: 11.5px; fill: #334155; font-weight: 650; }
+.g-num { font-size: 47px; font-weight: 800; fill: var(--ink); letter-spacing: -.02em; }
+.g-cap { font-size: 12.5px; fill: #475569; }
+.g-dot { fill: var(--warn); stroke: #fff; stroke-width: 2.5; }
+/* 动效: 全页仅一次, 仪表弧描边 + 端点浮现, reduced-motion 降级为静态成品 */
+@media (prefers-reduced-motion: no-preference) {
+  .g-value { stroke-dashoffset: 65; animation: gaugeDraw 1.15s cubic-bezier(.25,.7,.2,1) .3s forwards; }
+  .g-dot { opacity: 0; animation: dotIn .4s ease 1.4s forwards; }
+}
+@keyframes gaugeDraw { to { stroke-dashoffset: 0; } }
+@keyframes dotIn { to { opacity: 1; } }
+
+.kpi-card { display: flex; flex-direction: column; gap: 12px; }
+.kpi-label { font-size: 13px; color: var(--sub); font-weight: 600; }
+.kpi-status { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { font-size: 12.5px; font-weight: 650; border-radius: 7px; padding: 3px 10px; }
+.tag-warn { color: #92400E; background: var(--warn-soft); border: 1px solid #EAD9BC; }
+.tag-ok { color: #14532D; background: var(--ok-soft); border: 1px solid #CDE5D6; }
+.tag-info { color: #334155; background: #EEF3F9; border: 1px solid var(--line); }
+.kpi-number { font-size: 52px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.kpi-number small { font-size: 24px; font-weight: 700; color: var(--sub); margin-left: 2px; }
+.kpi-facts { border-top: 1px solid var(--line); }
+.kpi-facts > div {
+  display: grid; grid-template-columns: 96px 1fr; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+}
+.kpi-facts dt { color: var(--sub); }
+.kpi-facts dd { font-weight: 650; font-variant-numeric: tabular-nums; }
+.kpi-facts dd.na { color: var(--warn); }
+.zone-list { display: grid; gap: 8px; }
+.zone-btn {
+  display: grid; grid-template-columns: 15px 1fr auto; gap: 10px; align-items: center;
+  text-align: left; background: #F8FAFD; border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 12px; transition: border-color .15s ease, background-color .15s ease;
+}
+.zone-btn:hover { border-color: #B9C8DC; background: #F1F6FC; }
+.zone-btn .sw { width: 15px; height: 15px; border-radius: 4px; display: block; }
+.zone-btn .nm { font-size: 13.5px; font-weight: 600; }
+.zone-btn .rg { font-size: 12.5px; color: var(--sub); font-variant-numeric: tabular-nums; }
+.zone-btn .cur { font-size: 11.5px; font-weight: 650; color: #92400E; background: var(--warn-soft); border-radius: 5px; padding: 1px 7px; margin-left: 6px; }
+.zone-note { font-size: 12.5px; color: var(--mute); line-height: 1.7; }
+
+/* ---------- 02 子弹图 ---------- */
+.bullet-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 26px 26px 20px; }
+.bullet-row {
+  display: grid; grid-template-columns: 170px 1fr 86px; gap: 16px; align-items: center;
+  padding: 13px 0; border-bottom: 1px dashed var(--line);
+}
+.bullet-row:first-of-type { border-top: 1px dashed var(--line); }
+.b-name b { display: block; font-size: 14px; font-weight: 650; }
+.b-name span { display: block; font-size: 12px; color: var(--mute); }
+.b-track { position: relative; height: 30px; }
+.band-layer { position: absolute; inset: 0; border-radius: 7px; overflow: hidden; display: flex; }
+.band { height: 100%; }
+.bd1 { width: 58.333%; background: #EAF0F7; }
+.bd2 { width: 16.667%; background: #D9E4EF; }
+.bd3 { width: 25%; background: #C7D5E5; }
+.measure { position: absolute; left: 0; top: 6px; height: 18px; border-radius: 4px; }
+.m-ok { background: #2E8B57; }
+.m-warn { background: #C97A1A; }
+.m-bad { background: #C42F2F; }
+.b-target {
+  position: absolute; top: -5px; height: 40px; width: 3px; margin-left: -1.5px;
+  background: var(--ink); border-radius: 2px;
+}
+.b-val { text-align: right; }
+.b-val .num { display: block; font-size: 17px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.st { display: inline-block; font-size: 11.5px; font-weight: 650; border-radius: 5px; padding: 1px 8px; margin-top: 3px; }
+.st-ok { color: #14532D; background: var(--ok-soft); }
+.st-warn { color: #92400E; background: var(--warn-soft); }
+.st-bad { color: #7F1D1D; background: var(--bad-soft); }
+.axis-row { display: grid; grid-template-columns: 170px 1fr 86px; gap: 16px; margin-top: 10px; }
+.axis-track { position: relative; height: 18px; font-size: 12px; color: var(--sub); font-variant-numeric: tabular-nums; }
+.axis-track span { position: absolute; top: 0; transform: translateX(-50%); }
+.axis-track span:first-child { left: 0; transform: none; }
+.axis-track span:last-child { left: 100%; transform: translateX(-100%); }
+.b-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; font-size: 12.5px; color: var(--sub); }
+.b-legend i { display: inline-block; vertical-align: -1px; margin-right: 6px; border-radius: 3px; }
+.lg1 { width: 18px; height: 10px; background: #EAF0F7; border: 1px solid var(--line); }
+.lg2 { width: 18px; height: 10px; background: #C7D5E5; }
+.lg3 { width: 18px; height: 10px; background: #2E8B57; }
+.lg4 { width: 3px; height: 14px; background: var(--ink); border-radius: 2px; }
+.variant-card { margin-top: 26px; }
+.variant-card h3 { font-size: 16.5px; font-weight: 750; margin-bottom: 6px; }
+.v-sub { font-size: 13.5px; color: var(--sub); margin-bottom: 14px; max-width: 760px; }
+.v-impl { font-size: 12.5px; color: var(--mute); margin-top: 14px; }
+
+/* 官方无障碍要点条 */
+.a11y-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  margin-top: 26px;
+}
+.a11y-item {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; font-size: 12.5px; color: var(--sub); line-height: 1.6;
+}
+.a11y-item b { display: block; font-size: 13.5px; color: var(--ink); margin-bottom: 3px; }
+
+/* ---------- 03 使用警示 ---------- */
+.caution-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 26px; align-items: stretch; }
+.caution-card {
+  background: #FDF6F4; border: 1px solid #EFD9D2; border-left: 5px solid var(--bad);
+  border-radius: var(--r); padding: 26px;
+}
+.caution-card h3 { font-size: 19px; font-weight: 800; margin-bottom: 10px; }
+.caution-card p { font-size: 14px; color: #4B3A36; margin-bottom: 10px; }
+.caution-card p b { color: #7F1D1D; }
+.rule-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 26px; display: grid; gap: 18px; }
+.rule-col h4 { font-size: 14.5px; font-weight: 700; margin-bottom: 8px; }
+.rule-col.good h4 { color: var(--ok); }
+.rule-col.badcol h4 { color: var(--bad); }
+.rule-col ul { list-style: none; }
+.rule-col li { position: relative; padding-left: 20px; font-size: 13.5px; color: var(--sub); margin-bottom: 6px; }
+.rule-col.good li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: #2E8B57; }
+.rule-col.badcol li::before { content: ""; position: absolute; left: 1px; top: 8px; width: 10px; height: 3px; border-radius: 2px; background: #C42F2F; }
+
+/* ---------- 04 数据后备 ---------- */
+.table-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 24px 26px 20px; overflow-x: auto; }
+table { width: 100%; min-width: 620px; border-collapse: collapse; table-layout: fixed; font-variant-numeric: tabular-nums; }
+caption { caption-side: top; text-align: left; font-size: 13px; color: var(--sub); padding-bottom: 12px; }
+col.c-name { width: 26%; }
+col.c-num { width: 13%; }
+col.c-zone { width: 20%; }
+th, td { padding: 10px 12px; font-size: 13.5px; border-bottom: 1px solid var(--line); text-align: right; }
+th { color: var(--sub); font-weight: 650; border-bottom: 2px solid #C9D5E3; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+td:first-child b { font-weight: 650; }
+td:first-child span { display: block; font-size: 11.5px; color: var(--mute); }
+tbody tr:hover { background: #F7FAFE; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: 0; }
+.dot-ok { background: #2E8B57; }
+.dot-warn { background: #C97A1A; }
+.dot-bad { background: #C42F2F; }
+.st-cell { font-weight: 650; }
+.st-cell.ok { color: var(--ok); }
+.st-cell.warn { color: var(--warn); }
+.st-cell.bad { color: var(--bad); }
+.summary {
+  margin-top: 16px; background: #F2F7FC; border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 16px; font-size: 13.5px; color: #33415A;
+}
+.summary b { color: var(--ink); }
+.foot-note { font-size: 12px; color: var(--mute); margin-top: 10px; }
+
+/* ---------- 页脚 ---------- */
+.site-footer { border-top: 1px solid var(--line); background: var(--card); margin-top: 52px; }
+.footer-in {
+  display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between;
+  align-items: center; padding: 22px 0; font-size: 13.5px; color: var(--sub);
+}
+.footer-in a { font-weight: 600; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .hero-grid, .caution-grid { grid-template-columns: 1fr; }
+  .a11y-strip { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  .a11y-strip { grid-template-columns: 1fr; }
+  .bullet-row, .axis-row { grid-template-columns: 1fr 82px; }
+  .b-name { grid-column: 1 / -1; margin-bottom: -4px; }
+  .axis-row > :first-child { display: none; }
+  .kpi-number { font-size: 48px; }
+}
+@media (min-width: 1440px) {
+  .wrap { max-width: 1240px; }
+  body { font-size: 15.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#gauge">跳到主图鉴</a>
+
+<header class="page-head">
+  <div class="wrap head-in">
+    <p class="eyebrow">图表图鉴 <b>08</b> / Performance vs Target / 目标与阈值场景</p>
+    <h1>目标仪表: 半环仪表与子弹图</h1>
+    <p class="lede">当指标拥有明确的目标线与阈值区段, 一条半环弧能直观回答"离目标还有多远"; 一旦需要在同一屏里对比多个指标, 官方把子弹图列为更优替代: 实测值条 / 目标线 / 区间带同层呈现, 一个指标只占一行。</p>
+    <div class="meta-row">
+      <span class="chip">最佳类型 <b>半环仪表 / 子弹图</b></span>
+      <span class="chip">次选 <b>表盘 Dial / 温度计 Thermometer</b></span>
+      <span class="chip">无障碍风险 <b>低</b> (需文字与表格兜底)</span>
+      <span class="chip">交互 <b>悬停</b> / 键盘聚焦同级</span>
+    </div>
+  </div>
+  <nav class="wrap page-nav" aria-label="页内导航">
+    <a href="#gauge">01 主图鉴</a>
+    <a href="#bullet">02 子弹图替代</a>
+    <a href="#caution">03 使用警示</a>
+    <a href="#fallback">04 数据后备</a>
+  </nav>
+</header>
+
+<main>
+  <!-- 01 半环仪表主图鉴 -->
+  <section id="gauge" class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">01 / 主图鉴</span>
+        <h2>半环仪表: 单指标对目标</h2>
+        <p class="sec-sub">适用前提: 单一 KPI 对明确目标或阈值的度量, 处于仪表盘摘要位。刻度 0 至 120, 目标线落在 100, 阈值区段以红黄绿三段弧区分并配文字图例, 读数与目标文本直标在弧旁。</p>
+      </div>
+      <div class="hero-grid">
+        <figure class="gauge-card">
+          <svg viewBox="0 0 400 210" role="img" aria-labelledby="gTitle gDesc">
+            <title id="gTitle">门店能耗绿电替代达成率半环仪表</title>
+            <desc id="gDesc">半环仪表, 刻度 0 到 120。实测达成率 78, 位于预警区段(70 到 90)。目标线在 100。区段划分: 0 到 70 未达标, 70 到 90 预警, 90 到 120 达标。距目标差 6.6 个百分点。</desc>
+            <!-- 阈值区段弧(内圈细弧) -->
+            <path id="zoneRed" class="g-zone z-red" d="M 92 190 A 108 108 0 0 1 228 85.7"></path>
+            <path id="zoneYellow" class="g-zone z-yellow" d="M 228 85.7 A 108 108 0 0 1 276.4 113.6"></path>
+            <path id="zoneGreen" class="g-zone z-green" d="M 276.4 113.6 A 108 108 0 0 1 308 190"></path>
+            <!-- 主弧: 轨道与实测值 -->
+            <path class="g-track" d="M 70 190 A 130 130 0 0 1 330 190"></path>
+            <path class="g-value" d="M 70 190 A 130 130 0 0 1 330 190" pathLength="100"></path>
+            <circle class="g-dot" cx="259" cy="74.3" r="5.5"></circle>
+            <!-- 目标标记线 100 -->
+            <line id="targetMark" class="g-target" x1="286.6" y1="140" x2="340.3" y2="109"></line>
+            <text class="g-target-lb" x="336" y="102">目标 100</text>
+            <!-- 主刻度 -->
+            <line class="g-tick" x1="54" y1="190" x2="62" y2="190"></line>
+            <text class="g-tick-lb" x="34" y="194" text-anchor="middle">0</text>
+            <line class="g-tick" x1="91.1" y1="81.1" x2="96.8" y2="86.8"></line>
+            <text class="g-tick-lb" x="83" y="77" text-anchor="middle">30</text>
+            <line class="g-tick" x1="200" y1="36" x2="200" y2="44"></line>
+            <text class="g-tick-lb" x="200" y="29" text-anchor="middle">60</text>
+            <line class="g-tick" x1="308.9" y1="81.1" x2="303.2" y2="86.8"></line>
+            <text class="g-tick-lb" x="317" y="77" text-anchor="middle">90</text>
+            <line class="g-tick" x1="346" y1="190" x2="338" y2="190"></line>
+            <text class="g-tick-lb" x="366" y="194" text-anchor="middle">120</text>
+            <!-- 副刻度 -->
+            <line class="g-tick minor" x1="57.7" y1="131.1" x2="62.3" y2="133"></line>
+            <line class="g-tick minor" x1="141.1" y1="47.7" x2="143" y2="52.3"></line>
+            <line class="g-tick minor" x1="258.9" y1="47.7" x2="257" y2="52.3"></line>
+            <line class="g-tick minor" x1="342.3" y1="131.1" x2="337.7" y2="133"></line>
+            <!-- 中心读数直标 -->
+            <text class="g-num" x="200" y="150" text-anchor="middle">78%</text>
+            <text class="g-cap" x="200" y="178" text-anchor="middle">目标达成率 / 能耗绿电替代</text>
+          </svg>
+          <figcaption>图 1 / 半环仪表样例: 门店能耗绿电替代达成率 78%, 目标线 100, 阈值区段 0-70 / 70-90 / 90-120 均配文字图例与刻度。</figcaption>
+        </figure>
+        <div class="kpi-card">
+          <div class="kpi-label">读数面板 / 数值与目标直标</div>
+          <div class="kpi-status">
+            <span class="tag tag-warn">状态 预警区间</span>
+            <span class="tag tag-info">口径 月度 / 单门店</span>
+          </div>
+          <div class="kpi-number">78.0<small>%</small></div>
+          <dl class="kpi-facts">
+            <div><dt>实测值</dt><dd>23.4% 绿电占比</dd></div>
+            <div><dt>目标值</dt><dd>30.0% (年度目标)</dd></div>
+            <div><dt>达成率</dt><dd class="na">78.0% / 未达标</dd></div>
+            <div><dt>差距</dt><dd class="na">距目标 6.6 个百分点, 距达标线(90) 12.0 个百分点</dd></div>
+          </dl>
+          <div class="zone-list" aria-label="阈值区段图例, 悬停或聚焦可在仪表上高亮对应弧段">
+            <button type="button" class="zone-btn" data-zone="red">
+              <span class="sw" style="background:#DC2626"></span>
+              <span class="nm">未达标区段</span>
+              <span class="rg">0 - 70</span>
+            </button>
+            <button type="button" class="zone-btn" data-zone="yellow">
+              <span class="sw" style="background:#D97706"></span>
+              <span class="nm">预警区段<span class="cur">当前读数所在</span></span>
+              <span class="rg">70 - 90</span>
+            </button>
+            <button type="button" class="zone-btn" data-zone="green">
+              <span class="sw" style="background:#16A34A"></span>
+              <span class="nm">达标区段</span>
+              <span class="rg">90 - 120</span>
+            </button>
+            <button type="button" class="zone-btn" data-zone="target">
+              <span class="sw" style="background:#0F172A"></span>
+              <span class="nm">目标标记线</span>
+              <span class="rg">100</span>
+            </button>
+          </div>
+          <p class="zone-note">官方配色指引: 状态用红黄绿并给出目标标记线, 但红黄绿不能单独承担含义, 因此每个区段都带文字名称与数值范围, 刻度与读数直接印在图上。</p>
+        </div>
+      </div>
+      <div class="a11y-strip" aria-label="官方无障碍要点">
+        <div class="a11y-item"><b>数值直标</b><span>读数与目标文本印在弧旁, 不依赖量弧估读</span></div>
+        <div class="a11y-item"><b>区段文字化</b><span>阈值区段除颜色外必有名称与数值范围</span></div>
+        <div class="a11y-item"><b>刻度完整</b><span>主刻度 0/30/60/90/120 加副刻度, 弧义可核验</span></div>
+        <div class="a11y-item"><b>聚焦等同悬停</b><span>键盘聚焦图例时高亮同一弧段并读出同样细节</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 子弹图: 官方推荐的更优替代 -->
+  <section id="bullet" class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">02 / 官方替代</span>
+        <h2>子弹图网格: 多 KPI 并列的正解</h2>
+        <p class="sec-sub">官方数据量阈值: 单仪表只承载一个指标, 3 个及以上 KPI 并列时改用子弹图网格。每个横向子弹条在一行内同时给出灰阶区间带 / 实测值彩条 / 目标线, 四个指标的信息密度约等于一个仪表的占位。</p>
+      </div>
+      <div class="bullet-card">
+        <div class="bullet-row" aria-label="月度销售额: 实测 416.0 万元, 目标 368.0 万元, 达成率 113.0, 达标区间">
+          <div class="b-name"><b>月度销售额</b><span>全渠道含税 / 万元</span></div>
+          <div class="b-track">
+            <div class="band-layer"><div class="band bd1"></div><div class="band bd2"></div><div class="band bd3"></div></div>
+            <div class="measure m-ok" style="width: 94.167%"></div>
+            <div class="b-target" style="left: 83.333%"></div>
+          </div>
+          <div class="b-val"><span class="num">113.0</span><span class="st st-ok">达标</span></div>
+        </div>
+        <div class="bullet-row" aria-label="会员复购率: 实测 15.7%, 目标 18.0%, 达成率 87.2, 预警区间">
+          <div class="b-name"><b>会员复购率</b><span>90 日内二次下单 / 占比</span></div>
+          <div class="b-track">
+            <div class="band-layer"><div class="band bd1"></div><div class="band bd2"></div><div class="band bd3"></div></div>
+            <div class="measure m-warn" style="width: 72.667%"></div>
+            <div class="b-target" style="left: 83.333%"></div>
+          </div>
+          <div class="b-val"><span class="num">87.2</span><span class="st st-warn">预警</span></div>
+        </div>
+        <div class="bullet-row" aria-label="坪效: 实测 1.92 万元每平米, 目标 2.00 万元每平米, 达成率 96.0, 达标区间">
+          <div class="b-name"><b>坪效</b><span>月销售额每平米 / 万元</span></div>
+          <div class="b-track">
+            <div class="band-layer"><div class="band bd1"></div><div class="band bd2"></div><div class="band bd3"></div></div>
+            <div class="measure m-ok" style="width: 80%"></div>
+            <div class="b-target" style="left: 83.333%"></div>
+          </div>
+          <div class="b-val"><span class="num">96.0</span><span class="st st-ok">达标</span></div>
+        </div>
+        <div class="bullet-row" aria-label="线上订单履约: 实测 3840 单, 目标 6000 单, 达成率 64.0, 未达标区间">
+          <div class="b-name"><b>线上订单履约</b><span>当日达订单 / 单</span></div>
+          <div class="b-track">
+            <div class="band-layer"><div class="band bd1"></div><div class="band bd2"></div><div class="band bd3"></div></div>
+            <div class="measure m-bad" style="width: 53.333%"></div>
+            <div class="b-target" style="left: 83.333%"></div>
+          </div>
+          <div class="b-val"><span class="num">64.0</span><span class="st st-bad">未达标</span></div>
+        </div>
+        <div class="axis-row" aria-hidden="true">
+          <div></div>
+          <div class="axis-track">
+            <span>0</span><span style="left:25%">30</span><span style="left:50%">60</span><span style="left:75%">90</span><span>120</span>
+          </div>
+          <div></div>
+        </div>
+        <div class="b-legend">
+          <span><i class="lg1"></i>浅灰带 未达标区 0-70</span>
+          <span><i class="lg2"></i>深灰带 预警至达标区 70-120</span>
+          <span><i class="lg3"></i>彩条 实测达成(颜色随状态)</span>
+          <span><i class="lg4"></i>墨色竖线 目标 100</span>
+        </div>
+      </div>
+      <div class="bullet-card variant-card">
+        <h3>变体对照 / 同一指标降级为子弹条</h3>
+        <p class="v-sub">主图鉴的绿电替代达成率并非必须占据 C 位: 不需要氛围渲染时, 一行子弹条即可承载全部信息。半环负责摘要氛围, 子弹负责信息密度, 两者共享同一套阈值区段与目标线。</p>
+        <div class="bullet-row" aria-label="绿电替代率: 实测 23.4%, 目标 30.0%, 达成率 78.0, 预警区间">
+          <div class="b-name"><b>绿电替代率</b><span>能耗 / 门店月度</span></div>
+          <div class="b-track">
+            <div class="band-layer"><div class="band bd1"></div><div class="band bd2"></div><div class="band bd3"></div></div>
+            <div class="measure m-warn" style="width: 65%"></div>
+            <div class="b-target" style="left: 83.333%"></div>
+          </div>
+          <div class="b-val"><span class="num">78.0</span><span class="st st-warn">预警</span></div>
+        </div>
+        <div class="axis-row" aria-hidden="true">
+          <div></div>
+          <div class="axis-track">
+            <span>0</span><span style="left:25%">30</span><span style="left:50%">60</span><span style="left:75%">90</span><span>120</span>
+          </div>
+          <div></div>
+        </div>
+        <p class="v-impl">实现参考(官方库推荐): D3.js / ApexCharts / 手写 SVG, 本页图形全部手写。交互级别为悬停, 键盘聚焦须回传与悬停一致的细节。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 使用警示 -->
+  <section id="caution" class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">03 / 使用警示</span>
+        <h2>克制原则: 一个页面最多一个仪表</h2>
+        <p class="sec-sub">仪表滥用是仪表盘设计里最常见的问题: 半环用大面积只表达一个数字。官方明确给出不适用条件与数据量阈值, 以下是落地清单。</p>
+      </div>
+      <div class="caution-grid">
+        <div class="caution-card">
+          <h3>警惕仪表的驾驶舱陷阱</h3>
+          <p>仪表天然吸引视线, 但它把一整块版面换成<b>一条弧加一个读数</b>。把多个仪表并排成"驾驶舱"是最高频的滥用: 信息密度骤降, 还会诱导用户在互相独立的仪表之间做比较。</p>
+          <p>官方数据量阈值: <b>单仪表只承载一个指标</b>; 需要并列 3 个及以上 KPI 时, 改用上一节的子弹图网格。</p>
+          <p>官方不适用条件: <b>不存在目标或基准时不要用仪表</b>, 半环失去参照后只剩装饰; 多 KPI 同时对比时也不要用, 子弹图才是为此而生。</p>
+        </div>
+        <div class="rule-card">
+          <div class="rule-col good">
+            <h4>要</h4>
+            <ul>
+              <li>有明确目标或阈值的单 KPI 摘要场景</li>
+              <li>数值与目标文本直标在仪表旁, 不让读者量弧</li>
+              <li>阈值区段配文字标签, 刻度文字完整可读</li>
+              <li>页面只保留一个仪表, 其余指标交给子弹图</li>
+              <li>键盘聚焦展示与悬停完全相同的细节</li>
+            </ul>
+          </div>
+          <div class="rule-col badcol">
+            <h4>不要</h4>
+            <ul>
+              <li>没有目标值也画半环, 只为填充版面</li>
+              <li>一屏并排多个仪表组成驾驶舱</li>
+              <li>只靠红黄绿颜色传达状态</li>
+              <li>用仪表去对比多个指标的高低</li>
+              <li>省略刻度与数值, 让弧线自说自话</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 数据后备 -->
+  <section id="fallback" class="sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">04 / 数据后备</span>
+        <h2>表格兜底与状态摘要</h2>
+        <p class="sec-sub">屏幕阅读器 / 打印 / 低带宽环境下的后备视图: 表格与状态摘要承载与图形完全一致的信息, 这是官方无障碍兜底方案, 也是图鉴页自身的无障碍后备。</p>
+      </div>
+      <div class="table-card">
+        <table>
+          <caption>表 1 / 指标目标达成后备数据, 达成率 = 实测值除以目标值, 单位百分比</caption>
+          <colgroup>
+            <col class="c-name"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-zone"><col class="c-num">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">指标</th>
+              <th scope="col">实测</th>
+              <th scope="col">目标</th>
+              <th scope="col">达成率</th>
+              <th scope="col">所处区间</th>
+              <th scope="col">状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>绿电替代率</b><span>能耗 / 门店月度</span></td>
+              <td>23.4%</td><td>30.0%</td><td>78.0</td><td>预警 70-90</td>
+              <td class="st-cell warn"><i class="dot dot-warn" aria-hidden="true"></i>预警</td>
+            </tr>
+            <tr>
+              <td><b>月度销售额</b><span>全渠道含税 / 万元</span></td>
+              <td>416.0</td><td>368.0</td><td>113.0</td><td>达标 90-120</td>
+              <td class="st-cell ok"><i class="dot dot-ok" aria-hidden="true"></i>达标</td>
+            </tr>
+            <tr>
+              <td><b>会员复购率</b><span>90 日二次下单</span></td>
+              <td>15.7%</td><td>18.0%</td><td>87.2</td><td>预警 70-90</td>
+              <td class="st-cell warn"><i class="dot dot-warn" aria-hidden="true"></i>预警</td>
+            </tr>
+            <tr>
+              <td><b>坪效</b><span>每平米月销售 / 万元</span></td>
+              <td>1.92</td><td>2.00</td><td>96.0</td><td>达标 90-120</td>
+              <td class="st-cell ok"><i class="dot dot-ok" aria-hidden="true"></i>达标</td>
+            </tr>
+            <tr>
+              <td><b>线上订单履约</b><span>当日达 / 单</span></td>
+              <td>3,840</td><td>6,000</td><td>64.0</td><td>未达标 0-70</td>
+              <td class="st-cell bad"><i class="dot dot-bad" aria-hidden="true"></i>未达标</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="summary">状态摘要: 五项指标中 <b>2 项达标</b> / <b>2 项预警</b> / <b>1 项未达标</b>, 达成率中位数 87.2。主图鉴指标绿电替代率 78.0, 处于预警区间, 未达标, 距目标差 6.6 个百分点。</p>
+        <p class="foot-note">数据为演示样本; 实现库参考: D3.js / ApexCharts / 手写 SVG, 本页图形全部为手写 SVG 与 CSS。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-in">
+    <span>UI 设计提示词库 / 图表图鉴 / 目标仪表</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var map = { red: "zoneRed", yellow: "zoneYellow", green: "zoneGreen", target: "targetMark" };
+  var btns = document.querySelectorAll(".zone-btn");
+  for (var i = 0; i < btns.length; i++) {
+    (function (btn) {
+      var el = document.getElementById(map[btn.getAttribute("data-zone")]);
+      if (!el) { return; }
+      function on() { el.classList.add("hot"); }
+      function off() { el.classList.remove("hot"); }
+      btn.addEventListener("mouseenter", on);
+      btn.addEventListener("mouseleave", off);
+      btn.addEventListener("focus", on);
+      btn.addEventListener("blur", off);
+    })(btns[i]);
+  }
+})();
+</script>
+
+</body>
+</html>

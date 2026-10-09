@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 转化漏斗 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴第 07 号：Funnel / Flow 数据形态的最佳图形是 Funnel Chart or Sankey。以公开课报名到完课的五级真实感数据集演示转化漏斗、桑基分流取舍与数据表后备。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@500;700&display=swap');
+/* Design tokens: paper #FAF7F2 / card #FFFFFF / ink #22303A / slate #556570 / hairline #E3DACB / funnel ramp #0F4C61 to #A9D3DE (#0F4C61 #1A6B84 #3E8FA6 #6FB3C4 #A9D3DE) / rust #9C3F1E on #F7E7D8 / node #17475A / grey #64707A / serif Noto Serif SC + mono JetBrains Mono */
+:root {
+  --paper: #FAF7F2;
+  --card: #FFFFFF;
+  --ink: #22303A;
+  --slate: #556570;
+  --line: #E3DACB;
+  --ramp1: #0F4C61;
+  --ramp2: #1A6B84;
+  --ramp3: #3E8FA6;
+  --ramp4: #6FB3C4;
+  --ramp5: #A9D3DE;
+  --rust: #9C3F1E;
+  --rust-bg: #F7E7D8;
+  --node: #17475A;
+  --grey: #64707A;
+  --serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  background-image: radial-gradient(rgba(34,48,58,.07) 1.4px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  line-height: 1.65;
+  padding: 40px 20px 56px;
+}
+.page { max-width: 1120px; margin: 0 auto; }
+
+a { color: var(--ramp1); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--rust); }
+:focus-visible { outline: 3px solid var(--rust); outline-offset: 3px; border-radius: 2px; }
+
+/* ============ 页眉 ============ */
+.crumb {
+  display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline;
+  font-size: 13.5px; color: var(--slate);
+  border-bottom: 1.5px solid var(--line); padding-bottom: 14px; margin-bottom: 34px;
+}
+.crumb .no {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  color: var(--paper); background: var(--ramp1);
+  padding: 2px 10px; border-radius: 3px; letter-spacing: .04em;
+}
+.crumb a { color: var(--slate); }
+.crumb .sep { color: var(--line); }
+
+/* ============ 标题区 ============ */
+.hero { margin-bottom: 36px; }
+.hero .kind {
+  font-family: var(--mono); font-size: 13.5px; color: var(--ramp1);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(34px, 5.2vw, 56px); line-height: 1.15;
+  letter-spacing: .02em; margin-bottom: 14px;
+}
+h1 .alt { color: var(--ramp2); }
+.hero .latin {
+  font-family: var(--serif); font-style: italic; font-size: 17px;
+  color: var(--slate); margin-bottom: 18px;
+}
+.hero .latin b { color: var(--ink); font-style: normal; }
+.hero .lede {
+  max-width: 720px; font-size: 15.5px;
+}
+.hero .lede b { background: linear-gradient(transparent 62%, #CFE4DB 62%, #CFE4DB 94%, transparent 94%); padding: 0 2px; }
+
+/* ============ 通用卡片 ============ */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 2px 0 rgba(34,48,58,.06);
+}
+.card-head {
+  display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline;
+  padding: 18px 24px 0;
+}
+.card-head h2 {
+  font-family: var(--serif); font-weight: 900; font-size: 21px; letter-spacing: .02em;
+}
+.card-head .sub { font-size: 13px; color: var(--slate); }
+.section-label {
+  font-family: var(--mono); font-size: 13px; color: var(--slate);
+  margin: 44px 0 14px; display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ""; flex: 1; height: 1.5px; background: var(--line); }
+
+/* ============ 主图：漏斗 ============ */
+.hero-card { padding-bottom: 22px; }
+.fun-meta {
+  display: flex; flex-wrap: wrap; gap: 10px 34px;
+  padding: 14px 24px 6px; font-size: 13.5px; color: var(--slate);
+}
+.fun-meta b { font-family: var(--mono); font-size: 16px; color: var(--ink); margin-right: 4px; }
+.fun-meta .hot b { color: var(--rust); }
+.funnel-wrap { padding: 4px 18px 10px; }
+.funnel-wrap svg { width: 100%; height: auto; display: block; }
+
+.stage { cursor: pointer; }
+.stage polygon { stroke: #0B3947; stroke-width: 1.5; transform-box: fill-box; transform-origin: center; }
+.stage:focus-visible polygon { stroke: var(--rust); stroke-width: 3.5; }
+.stage text { font-family: var(--mono); }
+.lbl-name { font-family: var(--sans) !important; font-size: 16px; font-weight: 600; fill: var(--ink); }
+.lbl-count { font-size: 19px; font-weight: 700; fill: var(--ramp1); }
+.conv-pct { font-size: 17px; font-weight: 700; fill: var(--ink); }
+.conv-lost { font-size: 12.5px; fill: var(--slate); }
+.idx { font-family: var(--serif) !important; font-size: 26px; font-weight: 900; }
+.idx-lt { fill: rgba(250,247,242,.94); }
+.idx-dk { fill: rgba(16,42,52,.82); }
+.sum-line { font-size: 14px; fill: var(--slate); }
+.sum-line tspan { font-family: var(--mono); font-weight: 700; fill: var(--ink); font-size: 16px; }
+.hot-box { fill: var(--rust-bg); stroke: var(--rust); stroke-width: 1.5; stroke-dasharray: 5 4; rx: 6; }
+.hot-tag { font-family: var(--sans) !important; font-size: 12.5px; font-weight: 700; fill: var(--rust); }
+
+/* 一次亮相：漏斗逐级填充，播放一次 */
+@keyframes fillStage { from { opacity: 0; transform: scaleX(.42); } to { opacity: 1; transform: scaleX(1); } }
+@keyframes fadeNote { from { opacity: 0; } to { opacity: 1; } }
+.stage polygon, .stage .idx { opacity: 0; animation: fillStage .55s cubic-bezier(.2,.75,.3,1) forwards; }
+.stage .lbl-name, .stage .lbl-count { opacity: 0; animation: fadeNote .4s ease-out forwards; }
+.conv-g, .sum-g { opacity: 0; animation: fadeNote .45s ease-out forwards; animation-delay: 1.25s; }
+.s1 polygon { animation-delay: .1s; } .s1 .idx { animation-delay: .28s; } .s1 .lbl-name, .s1 .lbl-count { animation-delay: .3s; }
+.s2 polygon { animation-delay: .26s; } .s2 .idx { animation-delay: .44s; } .s2 .lbl-name, .s2 .lbl-count { animation-delay: .46s; }
+.s3 polygon { animation-delay: .42s; } .s3 .idx { animation-delay: .6s; } .s3 .lbl-name, .s3 .lbl-count { animation-delay: .62s; }
+.s4 polygon { animation-delay: .58s; } .s4 .idx { animation-delay: .76s; } .s4 .lbl-name, .s4 .lbl-count { animation-delay: .78s; }
+.s5 polygon { animation-delay: .74s; } .s5 .idx { animation-delay: .92s; } .s5 .lbl-name, .s5 .lbl-count { animation-delay: .94s; }
+
+/* 键盘读值详情条（A11y Fallback：focus 揭示 / Enter 下钻 / Esc 返回） */
+.detail {
+  margin: 10px 24px 18px;
+  border: 1.5px dashed var(--line); border-radius: 10px;
+  background: #FFFEFA;
+  padding: 12px 18px; font-size: 14px; min-height: 74px;
+}
+.detail .d-tag {
+  font-family: var(--mono); font-size: 12px; color: var(--rust);
+  margin-right: 8px;
+}
+.detail p { display: inline; }
+.kbd-note { font-size: 12.5px; color: var(--slate); margin: 0 24px 4px; }
+.kbd-note kbd {
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink);
+  border: 1px solid var(--line); border-bottom-width: 2.5px; border-radius: 4px;
+  padding: 0 5px; background: #fff; margin: 0 1px;
+}
+
+/* ============ 移动端 CSS 漏斗（<768 显示） ============ */
+.m-funnel { display: none; padding: 6px 20px 14px; }
+.m-conv {
+  font-family: var(--mono); font-size: 12.5px; color: var(--slate);
+  margin: 10px 2px 4px; padding-left: 6px;
+  border-left: 3px solid var(--ramp3);
+}
+.m-conv b { color: var(--ink); font-size: 14px; }
+.m-conv.hot { border-left-color: var(--rust); color: var(--rust); }
+.m-conv.hot b { color: var(--rust); }
+.m-stage {
+  display: block; width: 100%; text-align: left;
+  background: none; border: 0; font: inherit; color: inherit;
+  padding: 8px 2px 2px; cursor: pointer; border-radius: 4px;
+}
+.m-stage .m-label {
+  display: flex; justify-content: space-between; gap: 10px; align-items: baseline;
+  font-size: 14px; font-weight: 600;
+}
+.m-stage .m-label .m-name i {
+  font-style: normal; font-family: var(--mono); font-size: 12px; color: var(--slate); margin-right: 6px;
+}
+.m-stage .m-label .m-count { font-family: var(--mono); font-size: 15px; color: var(--ramp1); white-space: nowrap; }
+.m-track { display: block; height: 34px; margin-top: 5px; background: #F1EBDF; border-radius: 5px; overflow: hidden; }
+.m-bar {
+  display: block; height: 100%; border-radius: 5px 0 0 5px;
+  transform-origin: left center;
+  transform: scaleX(0); animation: fillStage .55s cubic-bezier(.2,.75,.3,1) forwards;
+}
+.mb1 { background: var(--ramp1); animation-delay: .1s; }
+.mb2 { background: var(--ramp2); animation-delay: .26s; }
+.mb3 { background: var(--ramp3); animation-delay: .42s; }
+.mb4 { background: var(--ramp4); animation-delay: .58s; }
+.mb5 { background: var(--ramp5); animation-delay: .74s; }
+.m-sum { font-family: var(--mono); font-size: 12.5px; color: var(--slate); margin: 12px 2px 0; }
+
+/* ============ 双栏：桑基迷你样 + 取舍 ============ */
+.duo {
+  display: grid; grid-template-columns: 1.05fr 1fr;
+  gap: 22px; align-items: stretch;
+}
+.duo .card { display: flex; flex-direction: column; padding-bottom: 18px; }
+.sankey-note { padding: 10px 24px 4px; font-size: 13.5px; color: var(--slate); }
+.sankey-wrap { padding: 2px 16px 8px; }
+.sankey-wrap svg { width: 100%; height: auto; display: block; }
+.sk-node-label { font-family: var(--sans); font-size: 13px; font-weight: 700; fill: #FFFFFF; }
+.sk-node-num { font-family: var(--mono); font-size: 12px; fill: rgba(255,255,255,.92); }
+.sk-flow { opacity: .45; }
+.sk-cap { font-family: var(--mono); font-size: 11.5px; fill: var(--slate); }
+
+.pick-list { list-style: none; padding: 6px 24px 8px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.pick-list li { border-left: 3px solid var(--ramp3); padding: 2px 0 2px 14px; }
+.pick-list li.sankey { border-left-color: var(--node); }
+.pick-list li.wf { border-left-color: var(--ramp4); }
+.pick-list li.no { border-left-color: var(--rust); }
+.pick-list b { display: block; font-size: 15px; margin-bottom: 2px; }
+.pick-list b .en { font-family: var(--mono); font-size: 12px; color: var(--slate); font-weight: 500; margin-left: 6px; }
+.pick-list p { font-size: 13.5px; color: var(--slate); }
+.pick-final {
+  margin: 4px 24px 0; padding: 10px 16px;
+  background: #EFF3E7; border-radius: 8px;
+  font-family: var(--serif); font-weight: 600; font-size: 14.5px;
+}
+
+/* ============ 档案速查 ============ */
+.spec-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 34px;
+  padding: 10px 24px 16px;
+}
+.spec-grid > div {
+  display: grid; grid-template-columns: 108px 1fr; gap: 12px;
+  padding: 11px 0; border-bottom: 1px dashed var(--line);
+}
+.spec-grid > div:nth-last-child(-n+2) { border-bottom: 0; }
+.spec-grid dt {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ramp1);
+  padding-top: 2px;
+}
+.spec-grid dd { font-size: 13.5px; }
+.spec-grid dd .mono { font-family: var(--mono); font-size: 12.5px; }
+.spec-grid dd .risk {
+  display: inline-block; font-family: var(--mono); font-size: 12px;
+  color: var(--paper); background: #8A6A2F; border-radius: 3px; padding: 0 8px; margin-right: 6px;
+}
+
+/* ============ 数据表后备 ============ */
+.ftable { padding: 10px 16px 20px; }
+.frow {
+  display: grid;
+  grid-template-columns: 3em 1.5fr 1fr 1fr 1fr 1.35fr;
+  gap: 8px; align-items: baseline;
+  padding: 10px 12px;
+}
+.frow + .frow { border-top: 1px solid #F0E9DC; }
+.frow.head {
+  font-size: 12.5px; color: var(--slate);
+  border-bottom: 2px solid var(--ink); padding: 8px 12px;
+}
+.frow .c-no { font-family: var(--mono); font-size: 13px; color: var(--slate); }
+.frow .c-stage { font-weight: 600; font-size: 14.5px; }
+.frow .num { font-family: var(--mono); font-size: 14px; text-align: right; }
+.frow .c-lost { font-family: var(--mono); font-size: 13.5px; color: var(--slate); text-align: right; }
+.frow.hot {
+  background: var(--rust-bg); border-radius: 6px; border-top: 0; margin-top: -1px;
+}
+.frow.hot + .frow { border-top: 0; }
+.frow.hot .c-stage, .frow.hot .num { color: var(--rust); }
+.frow .flag {
+  display: inline-block; margin-left: 8px; font-size: 11.5px; font-weight: 700;
+  color: var(--rust); border: 1px solid var(--rust); border-radius: 3px; padding: 0 5px;
+  vertical-align: 1px;
+}
+.tsum { padding: 0 24px 18px; font-size: 13.5px; color: var(--slate); }
+
+/* ============ 页脚 ============ */
+footer {
+  margin-top: 48px; padding-top: 20px;
+  border-top: 1.5px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: baseline; justify-content: space-between;
+  font-size: 13.5px; color: var(--slate);
+}
+footer .crumb-line { font-family: var(--mono); font-size: 12.5px; }
+footer a { font-weight: 600; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 900px) {
+  .duo { grid-template-columns: 1fr; }
+  .spec-grid { grid-template-columns: 1fr; }
+  .spec-grid > div:nth-last-child(-n+2) { border-bottom: 1px dashed var(--line); }
+  .spec-grid > div:last-child { border-bottom: 0; }
+}
+@media (max-width: 767px) {
+  body { padding: 28px 14px 44px; }
+  .funnel-wrap { display: none; }
+  .m-funnel { display: block; }
+  .frow { grid-template-columns: 2.2em 1.4fr 1fr 1fr; }
+  .frow .c-cum, .frow .c-lost { display: none; }
+  .frow.head .h-cum, .frow.head .h-lost { display: none; }
+  .hero .lede { font-size: 14.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .stage polygon, .stage .idx, .stage .lbl-name, .stage .lbl-count,
+  .conv-g, .sum-g, .m-bar {
+    animation: none !important; opacity: 1 !important; transform: none !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="crumb" aria-label="面包屑">
+    <span class="no">No.07</span>
+    <span>数据形态 <b>Funnel / Flow</b></span>
+    <span class="sep">/</span>
+    <span>最佳图形 <b>Funnel Chart or Sankey</b></span>
+    <span class="sep">/</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </nav>
+
+  <header class="hero">
+    <p class="kind">图表图鉴 / 流程与转化卷 / 转化漏斗</p>
+    <h1>转化漏斗<span class="alt">，一眼看清每一步掉了多少人</span></h1>
+    <p class="latin">学名：<b>Funnel Chart or Sankey</b> / 次选 Waterfall（用于流量桥接）</p>
+    <p class="lede">
+      本页标本取自一门<b>公开课报名到完课的五级链路</b>：48,200 人访问课程页，
+      最终 6,020 人完课，整体转化 12.5%。漏斗逐级人数守恒递减，级名与数值全部直标，
+      不依赖宽度与颜色单一通道；同级数据在文末提供数据表后备。
+    </p>
+  </header>
+
+  <p class="section-label">主图标本 / 五级转化漏斗 / 逐级直标人数与转化率</p>
+  <section class="card hero-card" aria-labelledby="funnelTitle">
+    <div class="card-head">
+      <h2 id="funnelTitle">公开课完课漏斗</h2>
+      <span class="sub">2026 年春季班报名周期 / 数据为逐级守恒的示意真实感数据集</span>
+    </div>
+    <div class="fun-meta">
+      <span><b>48,200</b>进入漏斗</span>
+      <span><b>6,020</b>完课</span>
+      <span><b>12.5%</b>整体转化</span>
+      <span class="hot"><b>45.6%</b>最大流失级（试听转报名）</span>
+    </div>
+
+    <div class="funnel-wrap">
+      <svg viewBox="0 0 780 620" role="group" aria-label="五级转化漏斗图：访问课程页 48,200 人，观看试听 29,890 人，转化率 62.0%；提交报名 13,640 人，转化率 45.6%，为最大流失级；完成缴费 9,470 人，转化率 69.4%；完成课程 6,020 人，转化率 63.6%。整体转化 12.5%。">
+        <!-- 级 1：访问课程页 48,200 -->
+        <g class="stage s1" tabindex="0" role="img" aria-label="第 1 级 访问课程页：48,200 人，为漏斗入口">
+          <polygon points="120,36 740,36 622.3,112 237.8,112" fill="#0F4C61"/>
+          <text class="idx idx-lt" x="430" y="86" text-anchor="middle">01</text>
+          <text class="lbl-name" x="100" y="66" text-anchor="end">访问课程页</text>
+          <text class="lbl-count" x="100" y="90" text-anchor="end">48,200 人</text>
+        </g>
+        <!-- 级 2：观看试听 29,890 -->
+        <g class="stage s2" tabindex="0" role="img" aria-label="第 2 级 观看试听：29,890 人，逐级转化率 62.0%，流失 18,310 人">
+          <polygon points="237.8,146 622.3,146 517.7,222 342.3,222" fill="#1A6B84"/>
+          <text class="idx idx-lt" x="430" y="196" text-anchor="middle">02</text>
+          <text class="lbl-name" x="217.8" y="176" text-anchor="end">观看试听</text>
+          <text class="lbl-count" x="217.8" y="200" text-anchor="end">29,890 人</text>
+        </g>
+        <!-- 级 3：提交报名 13,640（最大流失级） -->
+        <g class="stage s3" tabindex="0" role="img" aria-label="第 3 级 提交报名：13,640 人，逐级转化率 45.6%，为最大流失级，流失 16,250 人">
+          <polygon points="342.3,252 517.7,252 490.9,328 369.1,328" fill="#3E8FA6"/>
+          <text class="idx idx-dk" x="430" y="302" text-anchor="middle">03</text>
+          <text class="lbl-name" x="322.3" y="282" text-anchor="end">提交报名</text>
+          <text class="lbl-count" x="322.3" y="306" text-anchor="end">13,640 人</text>
+        </g>
+        <!-- 级 4：完成缴费 9,470 -->
+        <g class="stage s4" tabindex="0" role="img" aria-label="第 4 级 完成缴费：9,470 人，逐级转化率 69.4%，流失 4,170 人">
+          <polygon points="369.1,358 490.9,358 468.7,434 391.3,434" fill="#6FB3C4"/>
+          <text class="idx idx-dk" x="430" y="408" text-anchor="middle">04</text>
+          <text class="lbl-name" x="349.1" y="388" text-anchor="end">完成缴费</text>
+          <text class="lbl-count" x="349.1" y="412" text-anchor="end">9,470 人</text>
+        </g>
+        <!-- 级 5：完成课程 6,020 -->
+        <g class="stage s5" tabindex="0" role="img" aria-label="第 5 级 完成课程：6,020 人，逐级转化率 63.6%，流失 3,450 人">
+          <polygon points="391.3,464 468.7,464 468.7,540 391.3,540" fill="#A9D3DE"/>
+          <text class="idx idx-dk" x="430" y="514" text-anchor="middle">05</text>
+          <text class="lbl-name" x="371.3" y="494" text-anchor="end">完成课程</text>
+          <text class="lbl-count" x="371.3" y="518" text-anchor="end">6,020 人</text>
+        </g>
+        <!-- 级间转化率标注（右侧，最大流失高亮） -->
+        <g class="conv-g">
+          <text class="conv-pct" x="638" y="124">62.0%</text>
+          <text class="conv-lost" x="638" y="141">流失 18,310 人</text>
+        </g>
+        <g class="conv-g">
+          <rect class="hot-box" x="528" y="222" width="112" height="52"/>
+          <text class="conv-pct" x="540" y="244" fill="#9C3F1E">45.6%</text>
+          <text class="hot-tag" x="540" y="262">最大流失级</text>
+          <text class="conv-lost" x="648" y="244">流失 16,250 人</text>
+        </g>
+        <g class="conv-g">
+          <text class="conv-pct" x="507" y="346">69.4%</text>
+          <text class="conv-lost" x="507" y="363">流失 4,170 人</text>
+        </g>
+        <g class="conv-g">
+          <text class="conv-pct" x="485" y="458">63.6%</text>
+          <text class="conv-lost" x="485" y="475">流失 3,450 人</text>
+        </g>
+        <!-- 总注记 -->
+        <g class="sum-g">
+          <text class="sum-line" x="430" y="584" text-anchor="middle">整体转化 <tspan>12.5%</tspan>（48,200 进入 / 6,020 完课 / 累计流失 42,180 人）</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- 移动端 CSS 条形漏斗（<768 显示，同样逐级直标） -->
+    <div class="m-funnel" aria-label="移动端转化漏斗">
+      <button class="m-stage" data-stage="1" aria-label="第 1 级 访问课程页：48,200 人，漏斗入口">
+        <span class="m-label"><span class="m-name"><i>01</i>访问课程页</span><span class="m-count">48,200 人</span></span>
+        <span class="m-track"><span class="m-bar mb1" style="width:100%"></span></span>
+      </button>
+      <p class="m-conv"><b>62.0%</b> / 流失 18,310 人</p>
+      <button class="m-stage" data-stage="2" aria-label="第 2 级 观看试听：29,890 人，转化率 62.0%">
+        <span class="m-label"><span class="m-name"><i>02</i>观看试听</span><span class="m-count">29,890 人</span></span>
+        <span class="m-track"><span class="m-bar mb2" style="width:62%"></span></span>
+      </button>
+      <p class="m-conv hot"><b>45.6%</b> 最大流失级 / 流失 16,250 人</p>
+      <button class="m-stage" data-stage="3" aria-label="第 3 级 提交报名：13,640 人，转化率 45.6%，为最大流失级">
+        <span class="m-label"><span class="m-name"><i>03</i>提交报名</span><span class="m-count">13,640 人</span></span>
+        <span class="m-track"><span class="m-bar mb3" style="width:28.3%"></span></span>
+      </button>
+      <p class="m-conv"><b>69.4%</b> / 流失 4,170 人</p>
+      <button class="m-stage" data-stage="4" aria-label="第 4 级 完成缴费：9,470 人，转化率 69.4%">
+        <span class="m-label"><span class="m-name"><i>04</i>完成缴费</span><span class="m-count">9,470 人</span></span>
+        <span class="m-track"><span class="m-bar mb4" style="width:19.6%"></span></span>
+      </button>
+      <p class="m-conv"><b>63.6%</b> / 流失 3,450 人</p>
+      <button class="m-stage" data-stage="5" aria-label="第 5 级 完成课程：6,020 人，转化率 63.6%">
+        <span class="m-label"><span class="m-name"><i>05</i>完成课程</span><span class="m-count">6,020 人</span></span>
+        <span class="m-track"><span class="m-bar mb5" style="width:12.5%"></span></span>
+      </button>
+      <p class="m-sum">整体转化 12.5%（48,200 进入 / 6,020 完课）</p>
+    </div>
+
+    <p class="kbd-note">键盘读值：按 <kbd>Tab</kbd> 逐级聚焦，<kbd>Enter</kbd> 或 <kbd>空格</kbd> 下钻该级明细，<kbd>Esc</kbd> 返回总览。</p>
+    <div class="detail" role="status" aria-live="polite">
+      <span class="d-tag">总览</span><p id="detailText">48,200 人访问课程页，6,020 人完课，整体转化 12.5%。最大流失发生在试听转报名，逐级转化 45.6%。聚焦任意一级可读出该级人数与去向。</p>
+    </div>
+  </section>
+
+  <p class="section-label">变体样张 / 桑基迷你样 与 漏斗桑基取舍</p>
+  <div class="duo">
+    <section class="card" aria-labelledby="sankeyTitle">
+      <div class="card-head">
+        <h2 id="sankeyTitle">桑基迷你样：渠道分流</h2>
+      </div>
+      <p class="sankey-note">
+        同一数据集的另一面：48,200 次访问来自三个渠道，右端汇入「进入试听」与「当场流失」，
+        丝带宽度逐路守恒（试听 29,890 / 流失 18,310）。适合回答「流量从哪来、到哪去」。
+      </p>
+      <div class="sankey-wrap">
+        <svg viewBox="0 0 640 520" role="img" aria-label="桑基分流示意图：搜索引擎 21,600 人，其中 13,500 人进入试听、8,100 人流失；朋友分享 14,200 人，其中 9,290 人进入试听、4,910 人流失；公众号 12,400 人，其中 7,100 人进入试听、5,300 人流失。进入试听合计 29,890 人，当场流失合计 18,310 人，总计 48,200 人，守恒。">
+          <!-- 左列节点：渠道 -->
+          <rect x="36" y="20" width="104" height="200" rx="4" fill="#17475A"/>
+          <text class="sk-node-label" x="46" y="44">搜索引擎</text>
+          <text class="sk-node-num" x="46" y="62">21,600</text>
+          <rect x="36" y="232" width="104" height="131.4" rx="4" fill="#1A6B84"/>
+          <text class="sk-node-label" x="46" y="256">朋友分享</text>
+          <text class="sk-node-num" x="46" y="274">14,200</text>
+          <rect x="36" y="375.4" width="104" height="114.8" rx="4" fill="#3E8FA6"/>
+          <text class="sk-node-label" x="46" y="399">公众号</text>
+          <text class="sk-node-num" x="46" y="417">12,400</text>
+          <!-- 丝带：搜索 -> 试听 / 流失 -->
+          <path class="sk-flow" fill="#17475A" d="M140,20 C324,20 324,20 508,20 L508,144.9 C324,144.9 324,144.9 140,144.9 Z"/>
+          <path class="sk-flow" fill="#64707A" d="M140,144.9 C324,144.9 324,312.2 508,312.2 L508,387.2 C324,387.2 324,219.9 140,219.9 Z"/>
+          <!-- 丝带：朋友 -> 试听 / 流失 -->
+          <path class="sk-flow" fill="#1A6B84" d="M140,232 C324,232 324,124.9 508,124.9 L508,210.9 C324,210.9 324,318 140,318 Z"/>
+          <path class="sk-flow" fill="#8B975F" d="M140,318 C324,318 324,387.2 508,387.2 L508,432.6 C324,432.6 324,363.4 140,363.4 Z"/>
+          <!-- 丝带：公众号 -> 试听 / 流失 -->
+          <path class="sk-flow" fill="#3E8FA6" d="M140,375.4 C324,375.4 324,210.9 508,210.9 L508,276.6 C324,276.6 324,441.1 140,441.1 Z"/>
+          <path class="sk-flow" fill="#6FB3C4" d="M140,441.1 C324,441.1 324,432.6 508,432.6 L508,481.6 C324,481.6 324,490.2 140,490.2 Z"/>
+          <!-- 右列节点：去向 -->
+          <rect x="508" y="20" width="104" height="276.6" rx="4" fill="#0F4C61"/>
+          <text class="sk-node-label" x="518" y="44">进入试听</text>
+          <text class="sk-node-num" x="518" y="62">29,890</text>
+          <rect x="508" y="312.2" width="104" height="169.4" rx="4" fill="#64707A"/>
+          <text class="sk-node-label" x="518" y="336">当场流失</text>
+          <text class="sk-node-num" x="518" y="354">18,310</text>
+          <!-- 守恒注记 -->
+          <text class="sk-cap" x="320" y="510" text-anchor="middle">丝带宽度守恒 / 左右总量均为 48,200 / 数据与主漏斗一致</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="pickTitle">
+      <div class="card-head">
+        <h2 id="pickTitle">何时漏斗，何时桑基</h2>
+      </div>
+      <ul class="pick-list">
+        <li>
+          <b>用漏斗<span class="en">Funnel</span></b>
+          <p>单一主路径、3 至 8 个顺序阶段，核心问题是「每一步掉了多少」。它把注意力锁在逐级转化率与最大流失级上，读图成本最低。</p>
+        </li>
+        <li class="sankey">
+          <b>用桑基<span class="en">Sankey</span></b>
+          <p>出现多来源多去向的分流，需要看清每条支路的流量分配与守恒关系。代价是图形更密，移动端与读屏场景应回到数据表。</p>
+        </li>
+        <li class="wf">
+          <b>用瀑布（次选）<span class="en">Waterfall</span></b>
+          <p>关心逐级增减的绝对数量而非比例结构时，瀑布桥接每一笔增减到最终总量，更适合财务式加减账。</p>
+        </li>
+        <li class="no">
+          <b>都不用时</b>
+          <p>阶段不顺序、数值不单调递减时改用条形图；少于 3 个阶段时直接用统计卡加数字，不必画流程。</p>
+        </li>
+      </ul>
+      <p class="pick-final">判断口诀：一条路走到底用漏斗，岔路口多改桑基，只算增减账上瀑布。</p>
+    </section>
+  </div>
+
+  <p class="section-label">官方档案速查 / 选型依据 No.07</p>
+  <section class="card" aria-labelledby="specTitle">
+    <div class="card-head">
+      <h2 id="specTitle">选型档案</h2>
+      <span class="sub">依据站内图表选型数据第 07 条原文整理</span>
+    </div>
+    <dl class="spec-grid">
+      <div><dt>最佳图形</dt><dd>Funnel Chart or Sankey</dd></div>
+      <div><dt>次选图形</dt><dd>Waterfall（用于流量桥接）</dd></div>
+      <div><dt>适用场景</dt><dd>顺序多阶段流程，需要在明确定义的阶段之间呈现转化率与流失率</dd></div>
+      <div><dt>不适用</dt><dd>阶段不顺序 / 数值不单调递减（改用条形图）/ 少于 3 个阶段</dd></div>
+      <div><dt>级数阈值</dt><dd>3 至 8 级最佳；超过 8 级时把次要步骤并入 Other 组</dd></div>
+      <div><dt>颜色法则</dt><dd>级间用单色由深到浅渐变 / 逐级标注转化率 / 高亮最大流失级</dd></div>
+      <div><dt>交互层级</dt><dd>Hover + Drill</dd></div>
+      <div><dt>库推荐</dt><dd>D3.js / Recharts / Custom SVG</dd></div>
+      <div><dt>无障碍风险</dt><dd><span class="risk">risk:conditional</span>级名与数值必须直标可见，用文本与边界区分阶段，不能只靠渐变色</dd></div>
+      <div><dt>后备方案</dt><dd>线性阶段表加转化摘要；键盘聚焦逐级读值，Enter 或空格下钻，Back 返回</dd></div>
+    </dl>
+  </section>
+
+  <p class="section-label">数据表后备 / 完整五级数据与转化摘要</p>
+  <section class="card" aria-labelledby="tableTitle">
+    <div class="card-head">
+      <h2 id="tableTitle">阶段数据表</h2>
+      <span class="sub">漏斗的线性文本后备，读屏与精确读数以此为准</span>
+    </div>
+    <div class="ftable" role="table" aria-label="转化漏斗阶段数据表">
+      <div class="frow head" role="row">
+        <span role="columnheader">级</span>
+        <span role="columnheader">阶段</span>
+        <span class="num" role="columnheader">人数</span>
+        <span class="num" role="columnheader">逐级转化</span>
+        <span class="num c-cum" role="columnheader">累计转化</span>
+        <span class="num c-lost" role="columnheader">逐级流失</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-no" role="cell">01</span>
+        <span class="c-stage" role="cell">访问课程页</span>
+        <span class="num" role="cell">48,200</span>
+        <span class="num" role="cell">—</span>
+        <span class="num c-cum" role="cell">100%</span>
+        <span class="c-lost" role="cell">—</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-no" role="cell">02</span>
+        <span class="c-stage" role="cell">观看试听</span>
+        <span class="num" role="cell">29,890</span>
+        <span class="num" role="cell">62.0%</span>
+        <span class="num c-cum" role="cell">62.0%</span>
+        <span class="c-lost" role="cell">−18,310</span>
+      </div>
+      <div class="frow hot" role="row">
+        <span class="c-no" role="cell">03</span>
+        <span class="c-stage" role="cell">提交报名<span class="flag">最大流失</span></span>
+        <span class="num" role="cell">13,640</span>
+        <span class="num" role="cell">45.6%</span>
+        <span class="num c-cum" role="cell">28.3%</span>
+        <span class="c-lost" role="cell">−16,250</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-no" role="cell">04</span>
+        <span class="c-stage" role="cell">完成缴费</span>
+        <span class="num" role="cell">9,470</span>
+        <span class="num" role="cell">69.4%</span>
+        <span class="num c-cum" role="cell">19.6%</span>
+        <span class="c-lost" role="cell">−4,170</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-no" role="cell">05</span>
+        <span class="c-stage" role="cell">完成课程</span>
+        <span class="num" role="cell">6,020</span>
+        <span class="num" role="cell">63.6%</span>
+        <span class="num c-cum" role="cell">12.5%</span>
+        <span class="c-lost" role="cell">−3,450</span>
+      </div>
+    </div>
+    <p class="tsum">
+      转化摘要：整体转化 12.5%（6,020 / 48,200），累计流失 42,180 人。
+      逐级转化最低点在 02 至 03（45.6%），为优化优先级最高的一级。
+    </p>
+  </section>
+
+  <footer>
+    <span class="crumb-line">UI 设计提示词库 / 图表图鉴 / 转化漏斗</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var OV = '48,200 人访问课程页，6,020 人完课，整体转化 12.5%。最大流失发生在试听转报名，逐级转化 45.6%。聚焦任意一级可读出该级人数与去向。';
+  var D = {
+    1: { tag: '第 1 级 / 访问课程页', txt: '48,200 次课程页访问构成漏斗入口，来源为搜索引擎 21,600 / 朋友分享 14,200 / 公众号 12,400，分流结构见左侧桑基迷你样。' },
+    2: { tag: '第 2 级 / 观看试听', txt: '29,890 人完成至少 5 分钟试听，逐级转化 62.0%。未看试听即离开的 18,310 人多在首屏 15 秒内退出。' },
+    3: { tag: '第 3 级 / 提交报名（最大流失级）', txt: '13,640 人提交报名，逐级转化 45.6%，流失 16,250 人。退出问卷归因前两位：价格犹豫 41% / 开课时间冲突 27%（示意归因）。' },
+    4: { tag: '第 4 级 / 完成缴费', txt: '9,470 人完成缴费，逐级转化 69.4%。报名后 72 小时内未支付的 4,170 人视为流失，提醒邮件可挽回约一成（示意）。' },
+    5: { tag: '第 5 级 / 完成课程', txt: '6,020 人听完全部 6 节完课，逐级转化 63.6%。中途弃课 3,450 人，第 3 节为弃课峰值（示意观测）。' }
+  };
+  var el = document.getElementById('detailText');
+  var tagEl = document.querySelector('.detail .d-tag');
+  function show(id) {
+    if (id && D[id]) { tagEl.textContent = D[id].tag; el.textContent = D[id].txt; }
+    else { tagEl.textContent = '总览'; el.textContent = OV; }
+  }
+  document.querySelectorAll('.stage, .m-stage').forEach(function (n) {
+    var id = n.getAttribute('data-stage');
+    n.addEventListener('focus', function () { show(id); });
+    n.addEventListener('mouseenter', function () { show(id); });
+    n.addEventListener('click', function () { show(id); });
+    n.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(id); }
+      if (e.key === 'Escape') { show(null); }
+    });
+  });
+  document.querySelector('.detail').addEventListener('click', function () { show(null); });
+})();
+</script>
+</body>
+</html>

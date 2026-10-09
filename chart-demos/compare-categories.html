@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="图表图鉴第 02 图 / 类目条形 Bar Chart / 比较离散类目的大小与名次 / 独立书店真实感数据集示例 / UI 设计提示词库">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 类目条形 / UI 设计提示词库</title>
+<style>
+/* token 计划: 制图纸米白 #F3EEE3 + 图签纸 #FBF8F1 / 墨 #26221C 次墨 #5C554A / 朱砂 #B3402A 靛蓝 #1F4E5F / 八色哑光条形 #B3402A #B8862B #6E7F3C #2F6E63 #3D6B8E #4F5D8B #7D4E75 #82594A 均带墨线描边 / 28px 细网格底纹 + 4px 硬投影 / 衬线标题 + 等宽数字 */
+
+:root{
+  --paper:#F3EEE3;
+  --sheet:#FBF8F1;
+  --deep:#EFE8D9;
+  --ink:#26221C;
+  --soft:#5C554A;
+  --rule:#D8CFBE;
+  --red:#B3402A;
+  --blue:#1F4E5F;
+  --c1:#B3402A;
+  --c2:#B8862B;
+  --c3:#6E7F3C;
+  --c4:#2F6E63;
+  --c5:#3D6B8E;
+  --c6:#4F5D8B;
+  --c7:#7D4E75;
+  --c8:#82594A;
+  --line:1.5px;
+  --r:3px;
+  --gap:clamp(16px,2.2vw,26px);
+  --wrap:1180px;
+  --disp:Georgia,'Times New Roman','Songti SC','SimSun',serif;
+  --mono:'Cascadia Mono',Consolas,'Courier New',monospace;
+  --body:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;color-scheme:light}
+body{
+  font-family:var(--body);
+  background-color:var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(38,34,28,.05) 0 1px,transparent 1px 28px),
+    repeating-linear-gradient(90deg,rgba(38,34,28,.05) 0 1px,transparent 1px 28px);
+  color:var(--ink);
+  line-height:1.7;
+  font-size:16px;
+}
+.page{max-width:var(--wrap);margin:0 auto;padding:clamp(20px,3.5vw,48px) clamp(16px,3vw,36px) 40px}
+a{color:var(--blue);text-decoration-thickness:1.5px;text-underline-offset:3px}
+a:hover{color:var(--red)}
+svg{display:block}
+.grow{transform-box:fill-box;transform-origin:left center;animation:barGrow .7s cubic-bezier(.25,.8,.25,1) both}
+.val{opacity:0;animation:valIn .45s ease both}
+.share{opacity:0;transition:opacity .18s ease}
+.bar-row rect{transition:stroke-width .18s ease}
+.bar-row:hover rect,.bar-row:focus-visible rect{stroke-width:2.5px}
+.bar-row:hover .share,.bar-row:focus-visible .share{opacity:1}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes valIn{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .grow{animation:none;transform:none}
+  .val{animation:none;opacity:1}
+  .share{transition:none}
+  .bar-row rect{transition:none}
+}
+
+/* 页眉 */
+.masthead{padding:8px 0 22px;border-bottom:2.5px double var(--ink);margin-bottom:26px}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--soft);letter-spacing:.04em}
+.kicker b{color:var(--red);font-weight:700}
+h1{
+  font-family:var(--disp);
+  font-size:clamp(30px,5vw,46px);
+  line-height:1.25;
+  margin:10px 0 12px;
+  letter-spacing:.01em;
+}
+h1 .en{display:block;font-size:.42em;color:var(--soft);font-style:italic;font-weight:400;margin-top:6px}
+.lead{max-width:64ch;color:var(--soft);font-size:15.5px}
+.marks{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.mark-chip{
+  font-family:var(--mono);font-size:12.5px;
+  background:var(--sheet);border:var(--line) solid var(--ink);
+  padding:4px 12px;border-radius:var(--r);color:var(--ink);
+}
+.mark-chip b{color:var(--red);font-weight:700}
+
+/* 图签标题栏（签名组件） */
+.tblock{
+  display:grid;grid-template-columns:repeat(8,1fr);
+  border:2px solid var(--ink);background:var(--sheet);
+  box-shadow:4px 4px 0 rgba(38,34,28,.16);
+  margin-bottom:34px;
+}
+.tb-cell{padding:10px 12px 11px;border-right:1px solid var(--rule);min-width:0}
+.tb-cell:last-child{border-right:none}
+.tb-k{display:block;font-size:11.5px;color:var(--soft);margin-bottom:2px}
+.tb-v{display:block;font-family:var(--mono);font-size:13px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}
+
+/* 区块通用 */
+section{margin-bottom:44px}
+h2{
+  font-family:var(--disp);font-size:clamp(21px,3vw,27px);
+  display:flex;align-items:baseline;gap:12px;
+  border-bottom:2.5px double var(--ink);padding-bottom:8px;margin-bottom:18px;
+}
+h2 .no{
+  font-family:var(--mono);font-size:.72em;color:#FBF8F1;background:var(--ink);
+  padding:2px 9px;border-radius:2px;letter-spacing:.06em;flex:none;
+}
+h2 .sub{font-size:.6em;color:var(--soft);font-weight:400;font-style:italic;margin-left:auto;text-align:right}
+
+/* 图区 */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:var(--gap);align-items:stretch}
+figure{margin:0}
+.sheet-wrap{display:flex;flex-direction:column;min-width:0}
+.sheet-scroll{overflow-x:auto;border:var(--line) solid var(--ink);background:var(--sheet);box-shadow:4px 4px 0 rgba(38,34,28,.16);position:relative;flex:1}
+.sheet{padding:30px 26px 20px;min-width:750px}
+.sheet .hint{font-size:12.5px;color:var(--soft);font-family:var(--mono);margin-bottom:14px}
+.sheet .hint b{color:var(--red);font-weight:700}
+.crop{position:absolute;width:15px;height:15px;pointer-events:none}
+.crop.tl{top:-13px;left:-13px;border-left:2px solid var(--ink);border-top:2px solid var(--ink)}
+.crop.tr{top:-13px;right:-13px;border-right:2px solid var(--ink);border-top:2px solid var(--ink)}
+.crop.bl{bottom:-13px;left:-13px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.crop.br{bottom:-13px;right:-13px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+figcaption{
+  margin-top:12px;font-size:13px;color:var(--soft);line-height:1.6;
+  border-left:3px solid var(--red);padding-left:12px;
+}
+figcaption b{color:var(--ink);font-family:var(--mono);font-weight:700}
+
+/* 速查侧栏 */
+.quick{display:flex;flex-direction:column;gap:14px;min-width:0}
+.qcard{border:var(--line) solid var(--ink);background:var(--sheet);padding:16px 18px;border-radius:var(--r)}
+.qcard:last-child{flex:1}
+.qcard h3{font-family:var(--mono);font-size:13.5px;color:var(--red);margin-bottom:8px;letter-spacing:.03em}
+.qcard ul{list-style:none}
+.qcard li{font-size:14px;color:var(--ink);padding:3px 0 3px 16px;position:relative;line-height:1.55}
+.qcard li::before{content:"";position:absolute;left:0;top:.85em;width:8px;height:2px;background:var(--ink)}
+.qcard li em{font-style:normal}
+.qcard .yes{color:var(--ink)}
+.qcard .nope{color:var(--soft)}
+.qcard .nope::before{background:var(--red)}
+.qcard p{font-size:14px;color:var(--ink);line-height:1.6}
+
+/* 双卡对比区 */
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap);align-items:stretch}
+.card{border:var(--line) solid var(--ink);background:var(--sheet);border-radius:var(--r);padding:18px 20px;display:flex;flex-direction:column;box-shadow:4px 4px 0 rgba(38,34,28,.1)}
+.card h3{font-family:var(--disp);font-size:18px;margin-bottom:2px}
+.card .en{font-family:var(--mono);font-size:12px;color:var(--soft);margin-bottom:12px}
+.card .fig{border:1px solid var(--rule);background:#FDFBF5;border-radius:2px;padding:10px;margin-bottom:12px;overflow-x:auto}
+.card .fig svg{width:100%;height:auto;min-width:300px}
+.card p{font-size:14.5px;color:var(--ink)}
+.card p + p{margin-top:6px}
+.card .verdict{margin-top:auto;padding-top:12px;font-size:13px;color:var(--soft);border-top:1px dashed var(--rule)}
+.card .verdict b{color:var(--red);font-weight:700}
+.rule-note{
+  margin-top:16px;border:1px dashed var(--ink);background:var(--deep);
+  padding:12px 16px;font-size:14px;border-radius:var(--r);
+}
+.rule-note b{font-family:var(--mono);color:var(--red)}
+
+/* 摘要与统计 */
+.brief{font-size:15px;max-width:78ch;margin-bottom:16px}
+.brief b{font-family:var(--mono);color:var(--red);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.stat{border:var(--line) solid var(--ink);background:var(--sheet);padding:12px 14px;border-radius:var(--r)}
+.stat .n{display:block;font-family:var(--mono);font-size:clamp(20px,2.6vw,26px);font-weight:700;line-height:1.2}
+.stat .u{display:block;font-size:12px;color:var(--soft);margin-top:2px}
+
+/* 数据表（后备） */
+.dtable-wrap{border:2px solid var(--ink);background:var(--sheet);box-shadow:4px 4px 0 rgba(38,34,28,.16);border-radius:var(--r);overflow:hidden}
+.sort-note{
+  font-family:var(--mono);font-size:12.5px;color:var(--soft);
+  padding:9px 16px;border-bottom:1px solid var(--rule);background:var(--deep);
+}
+.sort-note b{color:var(--ink);font-weight:700}
+.dtable{display:block}
+.drow{
+  display:grid;grid-template-columns:64px minmax(0,1fr) 150px 120px;
+  align-items:center;
+}
+.drow > span{padding:10px 16px;min-width:0}
+.drow .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.drow.dhead{border-bottom:1.5px solid var(--ink);background:var(--deep)}
+.drow.dhead > span{font-size:13px;color:var(--soft);font-weight:600;padding-top:12px;padding-bottom:12px}
+.drow.dhead .num{text-align:right}
+.drow[data-sales]{border-bottom:1px solid var(--rule)}
+.drow[data-sales]:hover{background:#F4EFE2}
+.drow.dtotal{border-top:1.5px solid var(--ink);background:var(--deep)}
+.drow.dtotal > span{font-weight:700}
+.drow .cat{font-size:15px}
+.drow .rank{font-family:var(--mono);color:var(--soft)}
+.drow .sales,.drow .sharec{text-align:right}
+.sort-btn{
+  font:inherit;font-size:13px;font-weight:600;color:var(--blue);
+  background:none;border:none;cursor:pointer;
+  padding:2px 4px;border-radius:2px;text-align:left;
+}
+.sort-btn:hover{color:var(--red);text-decoration:underline;text-underline-offset:3px}
+.tbl-foot{font-size:12.5px;color:var(--soft);margin-top:10px}
+.tbl-foot code{font-family:var(--mono);color:var(--soft)}
+
+/* 官方数据 */
+.spec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap);align-items:stretch}
+.spec{border:var(--line) solid var(--ink);background:var(--sheet);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column}
+.spec h3{font-family:var(--disp);font-size:17px;margin-bottom:2px}
+.spec .en{font-family:var(--mono);font-size:11.5px;color:var(--soft);margin-bottom:10px}
+.spec blockquote{
+  font-size:13px;color:var(--soft);font-style:italic;line-height:1.65;
+  border-left:3px solid var(--rule);padding-left:12px;margin-bottom:10px;
+  overflow-wrap:anywhere;
+}
+.spec p{font-size:14px;margin-top:auto}
+.spec p b{color:var(--red);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chips .lab{font-family:var(--mono);font-size:12.5px;color:var(--soft);align-self:center;margin-right:4px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--ink);background:var(--deep);padding:3px 10px;border-radius:99px;color:var(--ink)}
+
+/* 页脚 */
+.site-foot{
+  border-top:2.5px double var(--ink);margin-top:10px;padding-top:20px;
+  display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;
+}
+.site-foot p{font-size:14px;color:var(--ink)}
+.site-foot .crumb{font-family:var(--mono);font-size:13px}
+.foot-note{font-size:12.5px;color:var(--soft);flex-basis:100%;line-height:1.6}
+
+/* 焦点可见性 */
+:where(a,button,[tabindex]):focus-visible{
+  outline:3px dashed var(--red);outline-offset:3px;border-radius:2px;
+}
+
+/* 响应式 */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr}
+  .quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .qcard:last-child{flex:none}
+}
+@media (max-width:760px){
+  .tblock{grid-template-columns:repeat(4,1fr)}
+  .tb-cell:nth-child(4n){border-right:none}
+  .tb-cell:nth-child(-n+4){border-bottom:1px solid var(--rule)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  h2{flex-wrap:wrap}
+  h2 .sub{margin-left:0;flex-basis:100%}
+}
+@media (max-width:520px){
+  .duo,.spec-grid,.quick{grid-template-columns:1fr}
+  .tblock{grid-template-columns:repeat(2,1fr)}
+  .tb-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .tb-cell:nth-child(2n){border-right:1px solid var(--rule)}
+  .tb-cell:nth-last-child(-n+2){border-bottom:none}
+  .drow{grid-template-columns:40px minmax(0,1fr) 86px 74px}
+  .drow > span{padding:9px 10px;font-size:14px}
+  .card .fig svg{min-width:320px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <p class="kicker">UI 设计提示词库 / 图表图鉴 / <b>第 02 图</b> / 数据类型 Compare Categories</p>
+    <h1>类目条形
+      <span class="en">Bar Chart (Horizontal or Vertical) / 比较离散类目的大小与名次</span>
+    </h1>
+    <p class="lead">当问题是「哪个类目多、哪个少、差多少」，条形图是最快的答案。本页以一家独立书店的月度类目销量为样本，把横向与纵向两种取向、排序取舍、以及表格后备一次讲清。</p>
+    <div class="marks">
+      <span class="mark-chip">最佳图型 / <b>Bar Chart</b></span>
+      <span class="mark-chip">无障碍风险 / <b>risk:low</b></span>
+      <span class="mark-chip">交互 / <b>Hover + Sort</b></span>
+      <span class="mark-chip">推荐库 / Chart.js / Recharts / D3.js</span>
+    </div>
+  </header>
+
+  <section aria-label="图签">
+    <div class="tblock">
+      <div class="tb-cell"><span class="tb-k">图号</span><span class="tb-v">02</span></div>
+      <div class="tb-cell"><span class="tb-k">数据类型</span><span class="tb-v">Compare Categories</span></div>
+      <div class="tb-cell"><span class="tb-k">最佳图型</span><span class="tb-v">Bar Chart</span></div>
+      <div class="tb-cell"><span class="tb-k">备选图型</span><span class="tb-v">Column Chart / Grouped Bar</span></div>
+      <div class="tb-cell"><span class="tb-k">类目阈值</span><span class="tb-v">20 至 50 类转横向</span></div>
+      <div class="tb-cell"><span class="tb-k">无障碍风险</span><span class="tb-v">risk:low</span></div>
+      <div class="tb-cell"><span class="tb-k">交互等级</span><span class="tb-v">Hover + Sort</span></div>
+      <div class="tb-cell"><span class="tb-k">推荐库</span><span class="tb-v">Chart.js / Recharts / D3.js</span></div>
+    </div>
+  </section>
+
+  <main>
+    <section aria-labelledby="sec-hero">
+      <h2 id="sec-hero"><span class="no">02 / A</span>主图 / 独立书店类目销量<span class="sub">横向条形 / 值降序 / 数值直标</span></h2>
+      <div class="hero-grid">
+        <figure class="sheet-wrap">
+          <div class="sheet-scroll">
+            <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+            <div class="sheet">
+              <p class="hint">样本 / 拾遗书屋 / 实体门店 / 2026 年 9 月 / 共 8 个类目 2421 册 / <b>悬停或用 Tab 聚焦任一条形可读取占比</b> / 小屏可左右滑动</p>
+              <svg viewBox="0 0 1012 500" role="img" aria-labelledby="bigT bigD" xmlns="http://www.w3.org/2000/svg">
+                <title id="bigT">拾遗书屋 2026 年 9 月各类目销量横向条形图</title>
+                <desc id="bigD">按销量降序排列的八个类目：文学小说 486 册居首，诗歌散文 152 册最少，完整数值见下方数据表。</desc>
+                <!-- 朱砂数值标注（最高项） -->
+                <line x1="150" y1="46" x2="898" y2="46" stroke="#B3402A" stroke-width="1.5"/>
+                <line x1="150" y1="39" x2="150" y2="53" stroke="#B3402A" stroke-width="1.5"/>
+                <line x1="898" y1="39" x2="898" y2="53" stroke="#B3402A" stroke-width="1.5"/>
+                <text x="524" y="34" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">486 册 / 全店最高</text>
+                <text x="1012" y="34" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">月销量 / 册</text>
+                <!-- 网格与刻度 -->
+                <line x1="304" y1="62" x2="304" y2="468" stroke="#D8CFBE" stroke-width="1"/>
+                <line x1="458" y1="62" x2="458" y2="468" stroke="#D8CFBE" stroke-width="1"/>
+                <line x1="612" y1="62" x2="612" y2="468" stroke="#D8CFBE" stroke-width="1"/>
+                <line x1="766" y1="62" x2="766" y2="468" stroke="#D8CFBE" stroke-width="1"/>
+                <line x1="920" y1="62" x2="920" y2="468" stroke="#D8CFBE" stroke-width="1"/>
+                <line x1="150" y1="62" x2="150" y2="468" stroke="#5C554A" stroke-width="1.5"/>
+                <text x="150" y="490" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">0</text>
+                <text x="304" y="490" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">100</text>
+                <text x="458" y="490" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">200</text>
+                <text x="612" y="490" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">300</text>
+                <text x="766" y="490" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">400</text>
+                <text x="920" y="490" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" fill="#5C554A">500</text>
+                <!-- 条形（值降序 / 悬停与聚焦读占比） -->
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="文学小说 / 486 册 / 占 20.1% / 排名 1">
+                  <rect class="grow" style="animation-delay:.05s" x="150" y="72" width="748" height="32" fill="#B3402A" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="93" text-anchor="end" font-size="15" fill="#26221C">文学小说</text>
+                  <text class="val" style="animation-delay:.5s" x="908" y="93" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">486</text>
+                  <text class="share" x="946" y="93" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 20.1%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="社科历史 / 412 册 / 占 17.0% / 排名 2">
+                  <rect class="grow" style="animation-delay:.11s" x="150" y="124" width="634" height="32" fill="#B8862B" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="145" text-anchor="end" font-size="15" fill="#26221C">社科历史</text>
+                  <text class="val" style="animation-delay:.56s" x="794" y="145" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">412</text>
+                  <text class="share" x="832" y="145" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 17.0%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="艺术设计 / 355 册 / 占 14.7% / 排名 3">
+                  <rect class="grow" style="animation-delay:.17s" x="150" y="176" width="547" height="32" fill="#6E7F3C" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="197" text-anchor="end" font-size="15" fill="#26221C">艺术设计</text>
+                  <text class="val" style="animation-delay:.62s" x="707" y="197" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">355</text>
+                  <text class="share" x="745" y="197" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 14.7%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="科幻推理 / 298 册 / 占 12.3% / 排名 4">
+                  <rect class="grow" style="animation-delay:.23s" x="150" y="228" width="459" height="32" fill="#2F6E63" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="249" text-anchor="end" font-size="15" fill="#26221C">科幻推理</text>
+                  <text class="val" style="animation-delay:.68s" x="619" y="249" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">298</text>
+                  <text class="share" x="657" y="249" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 12.3%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="少儿绘本 / 276 册 / 占 11.4% / 排名 5">
+                  <rect class="grow" style="animation-delay:.29s" x="150" y="280" width="425" height="32" fill="#3D6B8E" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="301" text-anchor="end" font-size="15" fill="#26221C">少儿绘本</text>
+                  <text class="val" style="animation-delay:.74s" x="585" y="301" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">276</text>
+                  <text class="share" x="623" y="301" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 11.4%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="心理自助 / 244 册 / 占 10.1% / 排名 6">
+                  <rect class="grow" style="animation-delay:.35s" x="150" y="332" width="376" height="32" fill="#4F5D8B" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="353" text-anchor="end" font-size="15" fill="#26221C">心理自助</text>
+                  <text class="val" style="animation-delay:.8s" x="536" y="353" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">244</text>
+                  <text class="share" x="574" y="353" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 10.1%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="生活旅行 / 198 册 / 占 8.2% / 排名 7">
+                  <rect class="grow" style="animation-delay:.41s" x="150" y="384" width="305" height="32" fill="#7D4E75" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="405" text-anchor="end" font-size="15" fill="#26221C">生活旅行</text>
+                  <text class="val" style="animation-delay:.86s" x="465" y="405" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">198</text>
+                  <text class="share" x="503" y="405" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 8.2%</text>
+                </g>
+                <g class="bar-row" tabindex="0" role="graphics-symbol" aria-label="诗歌散文 / 152 册 / 占 6.3% / 排名 8">
+                  <rect class="grow" style="animation-delay:.47s" x="150" y="436" width="234" height="32" fill="#82594A" stroke="#26221C" stroke-width="1"/>
+                  <text x="142" y="457" text-anchor="end" font-size="15" fill="#26221C">诗歌散文</text>
+                  <text class="val" style="animation-delay:.92s" x="394" y="457" font-family="Cascadia Mono,Consolas,monospace" font-size="15" font-weight="700" fill="#26221C">152</text>
+                  <text class="share" x="432" y="457" font-family="Cascadia Mono,Consolas,monospace" font-size="12.5" fill="#B3402A">占 6.3%</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <figcaption><b>图 02-A</b> / 拾遗书屋 2026 年 9 月类目销量 / 横向条形 / 按值降序 / 每条直标册数，颜色仅作辅助，类目识别一律依赖文字标签。</figcaption>
+        </figure>
+        <aside class="quick" aria-label="官方速查">
+          <div class="qcard">
+            <h3>何时使用</h3>
+            <ul>
+              <li class="yes">按大小比较离散类目</li>
+              <li class="yes">名次或排序是核心洞察</li>
+              <li class="yes">类目数不超过 15 个</li>
+            </ul>
+          </div>
+          <div class="qcard">
+            <h3>何时不用</h3>
+            <ul>
+              <li class="nope">类目超过 15 个，改用表格或搜索</li>
+              <li class="nope">数据带时间维度，改用折线</li>
+              <li class="nope">要展示占比，改用华夫图或堆叠</li>
+            </ul>
+          </div>
+          <div class="qcard">
+            <h3>数量阈值</h3>
+            <p>20 类以内可用纵向柱状 / 20 至 50 类转横向 / 超过 50 类改分页表格。</p>
+          </div>
+          <div class="qcard">
+            <h3>配色与标签</h3>
+            <p>每根条形一色，分组时用同色系；默认按值降序。数值与类目一律文字直标，禁止仅靠颜色区分类目。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="sec-orient">
+      <h2 id="sec-orient"><span class="no">02 / B</span>取向抉择 / 纵向还是横向<span class="sub">Column Chart vs Horizontal Bar</span></h2>
+      <div class="duo">
+        <div class="card">
+          <h3>纵向柱状</h3>
+          <p class="en">Column Chart / 类目沿横轴展开</p>
+          <div class="fig">
+            <svg viewBox="0 0 400 250" role="img" aria-label="纵向柱状迷你示例 / 前五类目：文学 486 / 社科 412 / 艺术 355 / 科幻 298 / 少儿 276" xmlns="http://www.w3.org/2000/svg">
+              <line x1="24" y1="210" x2="348" y2="210" stroke="#5C554A" stroke-width="1.5"/>
+              <rect x="32" y="54" width="44" height="156" fill="#B3402A" stroke="#26221C" stroke-width="1"/>
+              <rect x="98" y="78" width="44" height="132" fill="#B8862B" stroke="#26221C" stroke-width="1"/>
+              <rect x="164" y="96" width="44" height="114" fill="#6E7F3C" stroke="#26221C" stroke-width="1"/>
+              <rect x="230" y="115" width="44" height="95" fill="#2F6E63" stroke="#26221C" stroke-width="1"/>
+              <rect x="296" y="122" width="44" height="88" fill="#3D6B8E" stroke="#26221C" stroke-width="1"/>
+              <text x="54" y="46" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">486</text>
+              <text x="120" y="70" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">412</text>
+              <text x="186" y="88" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">355</text>
+              <text x="252" y="107" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">298</text>
+              <text x="318" y="114" text-anchor="middle" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">276</text>
+              <text x="54" y="230" text-anchor="middle" font-size="12" fill="#26221C">文学</text>
+              <text x="120" y="230" text-anchor="middle" font-size="12" fill="#26221C">社科</text>
+              <text x="186" y="230" text-anchor="middle" font-size="12" fill="#26221C">艺术</text>
+              <text x="252" y="230" text-anchor="middle" font-size="12" fill="#26221C">科幻</text>
+              <text x="318" y="230" text-anchor="middle" font-size="12" fill="#26221C">少儿</text>
+            </svg>
+          </div>
+          <p>柱底共用一条基线，高度对比符合「共同基线」视觉原则，人对高度差的判断最敏锐。</p>
+          <p>短板：横轴空间紧张。本例被迫把类目名缩成两字，全称「文学小说」放不下。</p>
+          <p class="verdict"><b>判定</b> / 类目名短于四字、类目数 20 以内、版面扁宽时选纵向。</p>
+        </div>
+        <div class="card">
+          <h3>横向条形</h3>
+          <p class="en">Horizontal Bar / 类目沿纵轴展开</p>
+          <div class="fig">
+            <svg viewBox="0 0 400 250" role="img" aria-label="横向条形迷你示例 / 前五类目：文学小说 486 / 社科历史 412 / 艺术设计 355 / 科幻推理 298 / 少儿绘本 276" xmlns="http://www.w3.org/2000/svg">
+              <line x1="104" y1="14" x2="104" y2="242" stroke="#5C554A" stroke-width="1.5"/>
+              <rect x="104" y="20" width="249" height="30" fill="#B3402A" stroke="#26221C" stroke-width="1"/>
+              <rect x="104" y="68" width="211" height="30" fill="#B8862B" stroke="#26221C" stroke-width="1"/>
+              <rect x="104" y="116" width="182" height="30" fill="#6E7F3C" stroke="#26221C" stroke-width="1"/>
+              <rect x="104" y="164" width="153" height="30" fill="#2F6E63" stroke="#26221C" stroke-width="1"/>
+              <rect x="104" y="212" width="141" height="30" fill="#3D6B8E" stroke="#26221C" stroke-width="1"/>
+              <text x="96" y="40" text-anchor="end" font-size="12" fill="#26221C">文学小说</text>
+              <text x="96" y="88" text-anchor="end" font-size="12" fill="#26221C">社科历史</text>
+              <text x="96" y="136" text-anchor="end" font-size="12" fill="#26221C">艺术设计</text>
+              <text x="96" y="184" text-anchor="end" font-size="12" fill="#26221C">科幻推理</text>
+              <text x="96" y="232" text-anchor="end" font-size="12" fill="#26221C">少儿绘本</text>
+              <text x="360" y="40" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">486</text>
+              <text x="322" y="88" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">412</text>
+              <text x="293" y="136" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">355</text>
+              <text x="264" y="184" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">298</text>
+              <text x="252" y="232" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="12" font-weight="700" fill="#26221C">276</text>
+            </svg>
+          </div>
+          <p>标签横排躺在条形左侧，四字全称一行放下，阅读无需歪头，纵向空间按类目数自然生长。</p>
+          <p>短板：宽度受版面限制，条形过长时数值直标容易被挤出画布，需预留数值栏。</p>
+          <p class="verdict"><b>判定</b> / 类目名长、类目数 20 至 50、版面狭高时选横向。</p>
+        </div>
+      </div>
+      <p class="rule-note">本页主图取横向：八个四字类目名 + 数值直标 + 占比读数，横向是唯一放得下的取向。两幅迷你图数值同源于主图前五名。</p>
+    </section>
+
+    <section aria-labelledby="sec-sort">
+      <h2 id="sec-sort"><span class="no">02 / C</span>排序取舍 / 值序还是自然序<span class="sub">Sorted by Value vs Natural Order</span></h2>
+      <div class="duo">
+        <div class="card">
+          <h3>按值降序</h3>
+          <p class="en">默认排序 / 官方指引 Always sort descending by value</p>
+          <div class="fig">
+            <svg viewBox="0 0 460 180" role="img" aria-label="值降序迷你示例：文学小说 486 / 社科历史 412 / 艺术设计 355 / 科幻推理 298 / 少儿绘本 276" xmlns="http://www.w3.org/2000/svg">
+              <line x1="94" y1="10" x2="94" y2="146" stroke="#5C554A" stroke-width="1.5"/>
+              <rect x="94" y="16" width="336" height="18" fill="#B3402A" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="44" width="285" height="18" fill="#B8862B" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="72" width="246" height="18" fill="#6E7F3C" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="100" width="206" height="18" fill="#2F6E63" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="128" width="191" height="18" fill="#3D6B8E" stroke="#26221C" stroke-width="1"/>
+              <text x="86" y="30" text-anchor="end" font-size="11" fill="#26221C">文学小说</text>
+              <text x="86" y="58" text-anchor="end" font-size="11" fill="#26221C">社科历史</text>
+              <text x="86" y="86" text-anchor="end" font-size="11" fill="#26221C">艺术设计</text>
+              <text x="86" y="114" text-anchor="end" font-size="11" fill="#26221C">科幻推理</text>
+              <text x="86" y="142" text-anchor="end" font-size="11" fill="#26221C">少儿绘本</text>
+              <text x="436" y="30" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">486</text>
+              <text x="385" y="58" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">412</text>
+              <text x="346" y="86" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">355</text>
+              <text x="306" y="114" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">298</text>
+              <text x="291" y="142" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">276</text>
+            </svg>
+          </div>
+          <p>名次一目了然：最长条即冠军，相邻差距沿一条扫描线读完，读者不用来回找「谁在哪儿」。</p>
+          <p class="verdict"><b>用于</b> / 排名、找最大最小、汇报结论。本图鉴主图与数据表默认此序。</p>
+        </div>
+        <div class="card">
+          <h3>自然序</h3>
+          <p class="en">仅当类目自带固有序 / 如拼音 / 时间 / 等级 / 流程</p>
+          <div class="fig">
+            <svg viewBox="0 0 460 180" role="img" aria-label="拼音自然序迷你示例：科幻推理 298 / 少儿绘本 276 / 社科历史 412 / 文学小说 486 / 艺术设计 355" xmlns="http://www.w3.org/2000/svg">
+              <line x1="94" y1="10" x2="94" y2="146" stroke="#5C554A" stroke-width="1.5"/>
+              <rect x="94" y="16" width="206" height="18" fill="#2F6E63" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="44" width="191" height="18" fill="#3D6B8E" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="72" width="285" height="18" fill="#B8862B" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="100" width="336" height="18" fill="#B3402A" stroke="#26221C" stroke-width="1"/>
+              <rect x="94" y="128" width="246" height="18" fill="#6E7F3C" stroke="#26221C" stroke-width="1"/>
+              <text x="86" y="30" text-anchor="end" font-size="11" fill="#26221C">科幻推理</text>
+              <text x="86" y="58" text-anchor="end" font-size="11" fill="#26221C">少儿绘本</text>
+              <text x="86" y="86" text-anchor="end" font-size="11" fill="#26221C">社科历史</text>
+              <text x="86" y="114" text-anchor="end" font-size="11" fill="#26221C">文学小说</text>
+              <text x="86" y="142" text-anchor="end" font-size="11" fill="#26221C">艺术设计</text>
+              <text x="306" y="30" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">298</text>
+              <text x="291" y="58" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">276</text>
+              <text x="385" y="86" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">412</text>
+              <text x="436" y="114" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">486</text>
+              <text x="346" y="142" text-anchor="end" font-family="Cascadia Mono,Consolas,monospace" font-size="10.5" font-weight="700" fill="#26221C">355</text>
+            </svg>
+          </div>
+          <p>条形参差起伏，排名变难读，但「同一类目逐期对比」时位置固定，读者按位置记忆查找。</p>
+          <p class="verdict"><b>用于</b> / 时间阶段、规模等级、拼音或字母序、流程步骤，且需在图注声明排序依据。</p>
+        </div>
+      </div>
+      <p class="rule-note"><b>取舍口诀</b> / 没有固有次序就按值降序，这是官方默认；只有当类目自带次序（时间 / 等级 / 拼音 / 流程）才保留自然序，并在图注写明。两幅图同用前五类目，仅顺序不同。</p>
+    </section>
+
+    <section aria-labelledby="sec-table">
+      <h2 id="sec-table"><span class="no">02 / D</span>数据表后备 / 可排序<span class="sub">Accessible Fallback / Hover + Sort</span></h2>
+      <p class="brief">摘要 / 拾遗书屋 2026 年 9 月共售出 <b>2421</b> 册，覆盖 8 个类目；文学小说以 <b>486</b> 册居首（占 20.1%），诗歌散文 <b>152</b> 册最少（占 6.3%），头尾相差 <b>3.2</b> 倍。表头按钮可用 Enter 或 Space 触发排序，方向由 aria-sort 播报。</p>
+      <div class="stats">
+        <div class="stat"><span class="n">2421</span><span class="u">总销量 / 册</span></div>
+        <div class="stat"><span class="n">302.6</span><span class="u">均值 / 册</span></div>
+        <div class="stat"><span class="n">260</span><span class="u">中位数 / 册</span></div>
+        <div class="stat"><span class="n">3.2 倍</span><span class="u">首尾差 / 倍</span></div>
+      </div>
+      <div class="dtable-wrap">
+        <p class="sort-note" id="sortNote" aria-live="polite">当前排序 / <b>销量 / 降序（默认）</b> / 点击表头按钮可切换</p>
+        <div class="dtable" role="table" aria-label="拾遗书屋 2026 年 9 月类目销量">
+          <div class="drow dhead" role="row">
+            <span role="columnheader">排名</span>
+            <span role="columnheader" id="h-cat" aria-sort="none"><button type="button" class="sort-btn" data-key="py">类目（拼音）</button></span>
+            <span role="columnheader" id="h-sales" class="num" aria-sort="descending"><button type="button" class="sort-btn" data-key="sales">月销量 / 册</button></span>
+            <span role="columnheader" class="num" aria-sort="none">占比</span>
+          </div>
+          <div class="drow" role="row" data-py="kehuantuili" data-sales="298">
+            <span class="rank" role="cell">4</span><span class="cat" role="rowheader">科幻推理</span><span class="num sales" role="cell">298</span><span class="num sharec" role="cell">12.3%</span>
+          </div>
+          <div class="drow" role="row" data-py="shaoerhuiben" data-sales="276">
+            <span class="rank" role="cell">5</span><span class="cat" role="rowheader">少儿绘本</span><span class="num sales" role="cell">276</span><span class="num sharec" role="cell">11.4%</span>
+          </div>
+          <div class="drow" role="row" data-py="shekelishi" data-sales="412">
+            <span class="rank" role="cell">2</span><span class="cat" role="rowheader">社科历史</span><span class="num sales" role="cell">412</span><span class="num sharec" role="cell">17.0%</span>
+          </div>
+          <div class="drow" role="row" data-py="shenghuolvxing" data-sales="198">
+            <span class="rank" role="cell">7</span><span class="cat" role="rowheader">生活旅行</span><span class="num sales" role="cell">198</span><span class="num sharec" role="cell">8.2%</span>
+          </div>
+          <div class="drow" role="row" data-py="shigesanwen" data-sales="152">
+            <span class="rank" role="cell">8</span><span class="cat" role="rowheader">诗歌散文</span><span class="num sales" role="cell">152</span><span class="num sharec" role="cell">6.3%</span>
+          </div>
+          <div class="drow" role="row" data-py="wenxuexiaoshuo" data-sales="486">
+            <span class="rank" role="cell">1</span><span class="cat" role="rowheader">文学小说</span><span class="num sales" role="cell">486</span><span class="num sharec" role="cell">20.1%</span>
+          </div>
+          <div class="drow" role="row" data-py="xinlizizhu" data-sales="244">
+            <span class="rank" role="cell">6</span><span class="cat" role="rowheader">心理自助</span><span class="num sales" role="cell">244</span><span class="num sharec" role="cell">10.1%</span>
+          </div>
+          <div class="drow" role="row" data-py="yishusheji" data-sales="355">
+            <span class="rank" role="cell">3</span><span class="cat" role="rowheader">艺术设计</span><span class="num sales" role="cell">355</span><span class="num sharec" role="cell">14.7%</span>
+          </div>
+          <div class="drow dtotal" role="row">
+            <span role="cell"></span><span class="cat" role="cell">总计（8 个类目）</span><span class="num sales" role="cell">2421</span><span class="num sharec" role="cell">100.1%</span>
+          </div>
+        </div>
+      </div>
+      <p class="tbl-foot">占比按四舍五入保留一位小数，合计 <code>100.1%</code> 属进位误差。排名列为销量名次，不随排序方式改变。数据与主图 02-A、迷你样例完全同源。</p>
+    </section>
+
+    <section aria-labelledby="sec-spec">
+      <h2 id="sec-spec"><span class="no">02 / E</span>官方选型数据<span class="sub">引自 charts.json 第 02 条</span></h2>
+      <div class="spec-grid">
+        <article class="spec">
+          <h3>何时使用</h3>
+          <p class="en">When to Use</p>
+          <blockquote lang="en">Comparing discrete categories by magnitude; ranking or ordering is the core insight; categories ≤ 15</blockquote>
+          <p>比较离散类目的大小 / 名次是核心洞察 / 类目不超过 <b>15</b> 个。本页样本 8 类，从容落在阈值内。</p>
+        </article>
+        <article class="spec">
+          <h3>何时不用</h3>
+          <p class="en">When NOT to Use</p>
+          <blockquote lang="en">Categories &gt; 15 (use table or search); data has time dimension (use line); showing proportions (use waffle/stacked)</blockquote>
+          <p>超过 15 类改表格或搜索 / 带时间维度改折线 / 展示占比改华夫图或堆叠条形。</p>
+        </article>
+        <article class="spec">
+          <h3>数据量阈值</h3>
+          <p class="en">Data Volume Threshold</p>
+          <blockquote lang="en">&lt;20 categories: vertical bar; 20–50: horizontal bar; &gt;50: paginated table</blockquote>
+          <p>20 类以内可纵向 / 20 至 50 类转横向 / 超过 <b>50</b> 类用分页表格收场。</p>
+        </article>
+        <article class="spec">
+          <h3>配色指引</h3>
+          <p class="en">Color Guidance</p>
+          <blockquote lang="en">Each bar: distinct color. Grouped: same hue family. Always sort descending by value</blockquote>
+          <p>每根条形一色 / 分组用同色系 / 默认<b>按值降序</b>。本页八色均带墨线描边并配文字直标。</p>
+        </article>
+        <article class="spec">
+          <h3>无障碍备注</h3>
+          <p class="en">Accessibility Notes / risk:low</p>
+          <blockquote lang="en">Use direct category/value labels and group outlines or patterns; never encode category solely by bar color. Do not rely on color alone.</blockquote>
+          <p>类目与数值文字直标 / 分组加轮廓或纹理 / <b>绝不</b>只靠颜色区分类目。数值栏右置保证直标不被挤掉。</p>
+        </article>
+        <article class="spec">
+          <h3>后备与键盘</h3>
+          <p class="en">A11y Fallback / Interactive Level: Hover + Sort</p>
+          <blockquote lang="en">Visible sortable data table plus concise comparison summary. Keyboard: focus reveals hover values; focusable headers with Enter/Space sort and aria-sort reports direction.</blockquote>
+          <p>可见的可排序数据表 + 一句对比摘要 / 键盘聚焦条形读出与悬停一致的数值 / 表头可聚焦，Enter 与 Space 排序，<b>aria-sort</b> 播报方向。</p>
+        </article>
+      </div>
+      <div class="chips">
+        <span class="lab">关键词</span>
+        <span class="chip">compare</span><span class="chip">categories</span><span class="chip">bar</span><span class="chip">comparison</span><span class="chip">ranking</span><span class="chip">accessible chart</span><span class="chip">keyboard accessible chart</span>
+        <span class="lab">备选</span>
+        <span class="chip">Column Chart</span><span class="chip">Grouped Bar</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p class="crumb">UI 设计提示词库 / 图表图鉴 / 类目条形</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p class="foot-note">拾遗书屋及其销量数据为教学演示虚构 / 官方字段引自 charts.json 第 02 条原文 / 制图室风格为演示用途。</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var table=document.querySelector('.dtable');
+  var totalRow=table.querySelector('.dtotal');
+  var rows=[].slice.call(table.querySelectorAll('.drow[data-sales]'));
+  var hCat=document.getElementById('h-cat');
+  var hSales=document.getElementById('h-sales');
+  var note=document.getElementById('sortNote');
+  var state={key:'sales',dir:-1};
+  var label={py:'类目（拼音）',sales:'销量'};
+  function apply(){
+    rows.sort(function(a,b){
+      var x=a.getAttribute('data-'+state.key),y=b.getAttribute('data-'+state.key);
+      if(state.key==='sales'){x=+x;y=+y;}
+      return x<y?-state.dir:x>y?state.dir:0;
+    });
+    rows.forEach(function(r){table.insertBefore(r,totalRow);});
+    hCat.setAttribute('aria-sort',state.key==='py'?(state.dir>0?'ascending':'descending'):'none');
+    hSales.setAttribute('aria-sort',state.key==='sales'?(state.dir>0?'ascending':'descending'):'none');
+    note.innerHTML='当前排序 / <b>'+label[state.key]+' / '+(state.dir>0?'升序':'降序')+'</b> / 点击表头按钮可切换';
+  }
+  [].forEach.call(table.querySelectorAll('.sort-btn'),function(btn){
+    btn.addEventListener('click',function(){
+      var k=btn.getAttribute('data-key');
+      if(state.key===k){state.dir=-state.dir;}
+      else{state.key=k;state.dir=k==='py'?1:-1;}
+      apply();
+    });
+  });
+})();
+</script>
+</body>
+</html>
