@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 累积瀑布 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴 No.13 / Cumulative Changes：以山雾咖啡十月现金瀑布为主标本，拆解增减柱的颜色语义、虚线累计传导与两端合计柱语言，附色盲替代编码、瀑布与简单条形的取舍边界与数据表后备。">
+<style>
+/* token 计划: 纸底 #F7F6F1 / 卡白 #FFFFFF / 墨 #22292D / 弱化 #515C63 / 官方柱色 增#4CAF50 减#F44336 期初#2196F3 期末#0D47A1 / 柱描边 #2E7D32 #B02A1F #1565C0 / 文本级深色 增#1B6B34 减#B3261E 期初#155FA0 / 虚线水位 #7C8690 / 圆角 14-10 / 间距 4 倍数 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+:root {
+  --paper: #F7F6F1;
+  --card: #FFFFFF;
+  --ink: #22292D;
+  --muted: #515C63;
+  --line: #E2E0D6;
+  --line-strong: #C7C5BA;
+  --inc: #4CAF50;
+  --dec: #F44336;
+  --tot0: #2196F3;
+  --tot1: #0D47A1;
+  --inc-edge: #2E7D32;
+  --dec-edge: #B02A1F;
+  --tot0-edge: #1565C0;
+  --inc-ink: #1B6B34;
+  --dec-ink: #B3261E;
+  --tot0-ink: #155FA0;
+  --dash: #7C8690;
+  --risk: #7A2410;
+  --ok-soft: #E9F2ED;
+  --ok-line: #BFD8CA;
+  --ok-ink: #17563D;
+  --r: 14px;
+  --r-s: 10px;
+  --shadow: 0 10px 30px rgba(30, 38, 34, .08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.65;
+}
+h1, h2, h3, .serif { font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif; }
+a { color: #2E4A3D; }
+svg { display: block; }
+ul { list-style: none; }
+.wrap-wide { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+:focus-visible { outline: 3px solid #2E4A3D; outline-offset: 2px; border-radius: 4px; }
+
+/* 顶栏 */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(247, 246, 241, .94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.topbar-in {
+  max-width: 1160px; margin: 0 auto; padding: 12px 24px;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+}
+.topbar .brand { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 17px; }
+.topbar .brand span { color: var(--muted); font-weight: 600; }
+.topbar a.back { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+.topbar a.back:hover { border-bottom-color: #2E4A3D; }
+
+/* 首屏 */
+.hero { padding: 52px 0 40px; border-bottom: 1px solid var(--line); }
+.kicker { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .02em; margin-bottom: 10px; }
+.hero h1 { font-size: clamp(30px, 4.4vw, 46px); font-weight: 900; line-height: 1.2; }
+.hero h1 em { font-style: normal; color: var(--tot0-ink); }
+.hero .lede { max-width: 760px; margin-top: 14px; font-size: 16.5px; color: var(--muted); }
+.hero .lede a { color: var(--tot0-ink); }
+.meta { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+.meta div {
+  font-size: 13.5px; padding: 5px 12px; border: 1px solid var(--line-strong);
+  border-radius: 999px; background: var(--card); color: #3E474E;
+}
+.meta div b { font-weight: 700; color: var(--ink); }
+.meta .risk-chip { border-color: var(--ok-line); background: var(--ok-soft); color: var(--ok-ink); font-weight: 700; }
+
+/* 区块标题 */
+section { padding: 46px 0 8px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+.sec-no { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 15px; color: var(--tot0-ink); }
+h2 { font-size: 25px; font-weight: 700; }
+.sec-sub { color: var(--muted); font-size: 15px; margin-bottom: 22px; max-width: 780px; }
+
+/* 主标本 */
+.spec-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 26px; align-items: start; }
+.wf-fig {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  box-shadow: var(--shadow); padding: 22px 18px 14px;
+}
+.wf-scroll { overflow-x: auto; position: relative; }
+.wf-scroll svg { width: 100%; min-width: 860px; height: auto; }
+.wf-fig figcaption {
+  margin-top: 6px; padding-top: 12px; border-top: 1px dashed var(--line-strong);
+  font-size: 13.5px; color: var(--muted); text-align: center;
+}
+/* 柱与水位线 */
+.wbar { cursor: default; transition: opacity .18s ease; }
+.wf.focus-mode .wbar:not(.hot) { opacity: .32; }
+.wbar:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.wbar.g-up, .wbar.g-total { transform-box: fill-box; transform-origin: 50% 100%; }
+.wbar.g-down { transform-box: fill-box; transform-origin: 50% 0%; }
+.wbar { animation: wgrow .55s cubic-bezier(.2, .7, .3, 1) var(--d) both; }
+@keyframes wgrow { from { transform: scaleY(0); } }
+.conn {
+  stroke: var(--dash); stroke-width: 1.5; stroke-dasharray: 5 4;
+  animation: fadein .35s ease var(--cd) both;
+}
+.peak-line { stroke: var(--dash); stroke-width: 1.2; stroke-dasharray: 2 5; animation: fadein .5s ease 1.6s both; }
+@keyframes fadein { from { opacity: 0; } }
+.vlab { animation: rise .4s ease calc(var(--d) + .28s) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+.grid-line { stroke: var(--line); stroke-width: 1; }
+.axis-line { stroke: #9AA29B; stroke-width: 1.5; }
+.ax-num { font-size: 12.5px; fill: var(--muted); font-family: 'Noto Sans SC', sans-serif; }
+.ax-title { font-size: 13px; font-weight: 600; fill: #3E474E; font-family: 'Noto Sans SC', sans-serif; }
+.cat-lab { font-size: 13px; font-weight: 500; fill: var(--muted); font-family: 'Noto Sans SC', sans-serif; }
+.val-lab { font-size: 13px; font-weight: 700; fill: var(--ink); font-family: 'Noto Sans SC', sans-serif; font-variant-numeric: tabular-nums; }
+.val-lab.t-up { fill: var(--inc-ink); }
+.val-lab.t-down { fill: var(--dec-ink); }
+.val-lab.t-tot0 { fill: var(--tot0-ink); }
+.val-lab.t-tot1 { fill: var(--tot1); }
+.peak-lab { font-size: 12.5px; font-weight: 600; fill: #3E474E; font-family: 'Noto Sans SC', sans-serif; }
+/* 悬浮读数 */
+.tip {
+  position: absolute; z-index: 5; pointer-events: none; opacity: 0;
+  transform: translate(-50%, -100%); transition: opacity .15s ease;
+  background: #22292D; color: #FFFFFF; border-radius: var(--r-s);
+  padding: 10px 14px; min-width: 168px; box-shadow: 0 8px 22px rgba(20, 26, 24, .3);
+}
+.tip.on { opacity: 1; }
+.tip b { display: block; font-size: 13px; font-weight: 500; color: #C9D4CE; }
+.tip .tip-v { display: block; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; margin: 2px 0; }
+.tip .tip-v.pos { color: #8FD6A4; }
+.tip .tip-v.neg { color: #F5A79B; }
+.tip .tip-s { display: block; font-size: 12px; color: #AEB9B3; font-variant-numeric: tabular-nums; }
+/* 图例 */
+.wf-legend { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center; }
+.wf-legend div { display: flex; align-items: center; gap: 7px; font-size: 13px; color: #39434A; }
+.wf-legend i { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.wf-legend .dash-key { width: 26px; height: 0; border-top: 2px dashed var(--dash); border-radius: 0; }
+/* 侧卡 */
+.spec-side { display: grid; gap: 18px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 20px 22px;
+}
+.card h3 { font-size: 17.5px; margin-bottom: 10px; }
+.card li { position: relative; padding-left: 16px; margin: 7px 0; font-size: 14.5px; color: #39434A; }
+.card li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 7px; height: 7px; border-radius: 2px; background: var(--tot0-ink);
+}
+.card li b { color: var(--ink); }
+.read-card { border-left: 4px solid var(--tot0); }
+.kb-card { border-left: 4px solid var(--inc-edge); }
+.kb-card li::before { background: var(--inc-edge); }
+.card li .up-t, .card li .dn-t { display: inline-block; width: 0; height: 0; margin: 0 3px 2px 1px; }
+.card li .up-t { border-left: 4.5px solid transparent; border-right: 4.5px solid transparent; border-bottom: 7px solid var(--inc-ink); }
+.card li .dn-t { border-left: 4.5px solid transparent; border-right: 4.5px solid transparent; border-top: 7px solid var(--dec-ink); }
+
+/* 颜色语义 */
+.sem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 18px; }
+.sw-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.sw-chip { height: 44px; border-radius: var(--r-s); border: 1px solid rgba(30, 38, 34, .12); }
+.sw-card h3 { font-size: 15.5px; margin: 0; }
+.sw-card .hex { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sw-card p { font-size: 13px; color: #39434A; line-height: 1.55; }
+.sw-card p b { color: var(--ink); }
+.sem-low { display: grid; grid-template-columns: 1.15fr 1fr; gap: 18px; align-items: start; }
+.cb-card { border-left: 4px solid var(--tot1); }
+.cb-card li::before { background: var(--tot1); }
+.demo-strip { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 4px; }
+.demo-strip span {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700;
+  font-variant-numeric: tabular-nums; border: 1px solid var(--line-strong);
+  border-radius: 999px; padding: 4px 13px; background: #FDFCFA;
+}
+.demo-strip i { width: 0; height: 0; }
+.demo-strip .d-up i { border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 8px solid var(--inc-ink); }
+.demo-strip .d-up { color: var(--inc-ink); }
+.demo-strip .d-dn i { border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 8px solid var(--dec-ink); }
+.demo-strip .d-dn { color: var(--dec-ink); }
+.con-card { border-left: 4px solid var(--dash); }
+.con-card li::before { background: var(--dash); }
+
+/* 瀑布与条形取舍 */
+.cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.mini-fig {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 18px 16px 12px;
+}
+.mini-fig h3 { font-size: 16px; margin-bottom: 2px; }
+.mini-fig .mini-sub { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.mini-fig svg { width: 100%; height: auto; }
+.mini-fig figcaption { margin-top: 8px; padding-top: 10px; border-top: 1px dashed var(--line-strong); font-size: 13px; color: var(--muted); }
+.mini-cat { font-size: 11.5px; fill: var(--muted); font-family: 'Noto Sans SC', sans-serif; }
+.bound-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; padding-bottom: 10px; }
+.use-card { border-left: 4px solid var(--inc-edge); }
+.use-card li::before { background: var(--inc-edge); }
+.not-card { border-left: 4px solid var(--risk); }
+.not-card li::before { background: var(--risk); }
+.threshold {
+  margin-top: 12px; font-size: 13.5px; color: var(--muted);
+  border-top: 1px dashed var(--line-strong); padding-top: 10px;
+}
+.threshold b { color: var(--ink); }
+
+/* 数据表后备 */
+.sum-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.sum-row div {
+  flex: 1 1 200px; background: #FDFEFD; border: 1px solid var(--ok-line);
+  border-radius: var(--r-s); padding: 10px 16px; font-size: 14px; color: #33403A;
+}
+.sum-row b { display: block; font-size: 17px; color: var(--ok-ink); font-variant-numeric: tabular-nums; }
+.dtable { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--card); }
+.trow {
+  display: grid; grid-template-columns: 2.3fr .8fr 1.1fr 1.3fr; align-items: center;
+  padding: 11px 20px; border-top: 1px solid var(--line); font-size: 14.5px;
+}
+.trow[role="columnheader"] {
+  border-top: none; background: #EFEDE5; font-weight: 700; font-size: 13.5px; color: var(--muted);
+}
+.trow .num { text-align: right; font-variant-numeric: tabular-nums; }
+.trow .cat { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.trow .cat i { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.trow .dir { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13.5px; }
+.trow .dir i { width: 0; height: 0; }
+.trow .dir.u i { border-left: 4.5px solid transparent; border-right: 4.5px solid transparent; border-bottom: 7px solid var(--inc-ink); }
+.trow .dir.d i { border-left: 4.5px solid transparent; border-right: 4.5px solid transparent; border-top: 7px solid var(--dec-ink); }
+.trow .dir.t i { width: 11px; height: 11px; border: 0; border-radius: 3px; background: var(--tot0); }
+.trow .dir.e i { width: 11px; height: 11px; border: 0; border-radius: 3px; background: var(--tot1); }
+.trow .chg.p { color: var(--inc-ink); font-weight: 700; }
+.trow .chg.n { color: var(--dec-ink); font-weight: 700; }
+.trow[data-i] { cursor: default; transition: background .15s ease; }
+.trow[data-i]:hover { background: #F4F7F3; }
+.trow.foot { background: #F2F1E9; font-weight: 700; }
+.trow.foot .cat, .trow.foot .dir { color: var(--muted); font-weight: 700; }
+.tbl-note { margin-top: 14px; font-size: 13.5px; color: var(--muted); padding-bottom: 44px; }
+.tbl-note b { color: var(--ink); }
+
+/* 页脚 */
+footer { border-top: 1px solid var(--line); background: #F1F0E9; }
+.foot-in {
+  max-width: 1160px; margin: 0 auto; padding: 22px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  font-size: 14px; color: var(--muted);
+}
+.foot-in a { color: #2E4A3D; }
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .spec-grid, .sem-low, .bound-grid { grid-template-columns: 1fr; }
+  .sem-grid { grid-template-columns: repeat(2, 1fr); }
+  .cmp-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .hero { padding: 38px 0 30px; }
+  section { padding: 36px 0 6px; }
+  .sem-grid { grid-template-columns: 1fr; }
+  .trow { grid-template-columns: 1.9fr .7fr 1.05fr 1.2fr; padding: 10px 12px; font-size: 13.5px; }
+  .trow[role="columnheader"] { font-size: 12px; }
+  .trow .dir span { display: none; }
+  .sum-row div { flex: 1 1 46%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .wbar, .conn, .peak-line, .vlab { animation: none; }
+  .tip { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">图表图鉴 <span>/ Cumulative Changes No.13</span></div>
+    <a class="back" href="../style-catalog.html">返回风格目录</a>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <!-- 首屏 -->
+  <section class="hero">
+    <p class="kicker">图表图鉴 No.13 / 数据关系 Cumulative Changes</p>
+    <h1>累积<em>瀑布</em> / Waterfall Chart</h1>
+    <p class="lede">
+      期初一笔蓝、收放之间绿升红降、期末一笔深蓝，瀑布图把「期末总数从哪来」拆成一座可加总的桥，
+      官方关键词即 waterfall / cumulative / variance / bridge。本页以山雾咖啡十月现金为标本：
+      8 项收支、10 根柱、每柱直标带正负号的数值。产品级的仪表盘整合见站内
+      <a href="../financial-dashboard.html">financial-dashboard</a>，本页只讲瀑布的编码原理。
+    </p>
+    <div class="meta">
+      <div>数据关系 <b>Cumulative Changes</b></div>
+      <div>首选 <b>瀑布图 Waterfall</b></div>
+      <div>次选 <b>堆叠条形 / 级联 Cascade</b></div>
+      <div>推荐库 <b>ApexCharts / Highcharts / Plotly</b></div>
+      <div>交互等级 <b>Hover</b></div>
+      <div class="risk-chip">无障碍风险 低</div>
+    </div>
+  </section>
+
+  <!-- 壹 主标本 -->
+  <section aria-labelledby="t-spec">
+    <div class="sec-head"><span class="sec-no">壹</span><h2 id="t-spec">主标本 / 山雾咖啡 10 月现金瀑布</h2></div>
+    <p class="sec-sub">
+      十根柱正好落在官方最优区间 4 至 12 根之内；虚线是累计水位线，月中峰值 159,000 元出现在三项收入全部到账之后。
+      悬停或用 Tab 聚焦任意柱，读数完全相同（官方无障碍回退口径）。
+    </p>
+    <div class="spec-grid">
+      <figure class="wf-fig">
+        <div class="wf-scroll">
+          <svg class="wf" viewBox="0 0 960 520" role="group" aria-label="瀑布图：山雾咖啡 10 月现金，期初 86,400 元，三项收入合计 72,600 元，五项支出合计 61,000 元，期末 98,000 元，完整数值见下方数据表">
+            <!-- 网格与坐标 -->
+            <g aria-hidden="true">
+              <line class="grid-line" x1="90" y1="360" x2="930" y2="360"></line>
+              <line class="grid-line" x1="90" y1="250" x2="930" y2="250"></line>
+              <line class="grid-line" x1="90" y1="140" x2="930" y2="140"></line>
+              <line class="grid-line" x1="90" y1="30" x2="930" y2="30"></line>
+              <line class="axis-line" x1="90" y1="30" x2="90" y2="470"></line>
+              <line class="axis-line" x1="90" y1="470" x2="930" y2="470"></line>
+              <text class="ax-num" x="82" y="474" text-anchor="end">0</text>
+              <text class="ax-num" x="82" y="364" text-anchor="end">4万</text>
+              <text class="ax-num" x="82" y="254" text-anchor="end">8万</text>
+              <text class="ax-num" x="82" y="144" text-anchor="end">12万</text>
+              <text class="ax-num" x="82" y="34" text-anchor="end">16万</text>
+              <text class="ax-title" transform="rotate(-90 30 250)" x="30" y="250" text-anchor="middle">现金结余（元）</text>
+            </g>
+            <!-- 峰值水位参考 -->
+            <g aria-hidden="true">
+              <line class="peak-line" x1="357" y1="32.75" x2="930" y2="32.75"></line>
+              <text class="peak-lab" x="928" y="24" text-anchor="end">月中峰值 159,000</text>
+            </g>
+            <!-- 虚线传导：相邻柱之间的累计水位 -->
+            <g aria-hidden="true">
+              <line class="conn" x1="159" y1="232.4" x2="189" y2="232.4" style="--cd:.41s"></line>
+              <line class="conn" x1="243" y1="126.25" x2="273" y2="126.25" style="--cd:.52s"></line>
+              <line class="conn" x1="327" y1="59.7" x2="357" y2="59.7" style="--cd:.63s"></line>
+              <line class="conn" x1="411" y1="32.75" x2="441" y2="32.75" style="--cd:.74s"></line>
+              <line class="conn" x1="495" y1="91.875" x2="525" y2="91.875" style="--cd:.85s"></line>
+              <line class="conn" x1="579" y1="124.875" x2="609" y2="124.875" style="--cd:.96s"></line>
+              <line class="conn" x1="663" y1="175.475" x2="693" y2="175.475" style="--cd:1.07s"></line>
+              <line class="conn" x1="747" y1="192.8" x2="777" y2="192.8" style="--cd:1.18s"></line>
+              <line class="conn" x1="831" y1="200.5" x2="861" y2="200.5" style="--cd:1.29s"></line>
+            </g>
+            <!-- 柱体：期初合计 -->
+            <rect class="wbar g-total" x="105" y="232.4" width="54" height="237.6" rx="3"
+              fill="#2196F3" stroke="#1565C0" stroke-width="1" tabindex="0" role="img"
+              aria-label="期初结余 86,400 元" style="--d:0s"
+              data-i="0" data-n="期初结余" data-v="86,400" data-cls="" data-s="十月开局 / 自零轴起算"></rect>
+            <!-- 增加柱 -->
+            <rect class="wbar g-up" x="189" y="126.25" width="54" height="106.15" rx="3"
+              fill="#4CAF50" stroke="#2E7D32" stroke-width="1" tabindex="0" role="img"
+              aria-label="堂食收入 增加 38,600 元，累计升至 125,000 元" style="--d:.11s"
+              data-i="1" data-n="堂食收入" data-v="+38,600" data-cls="pos" data-s="累计 86,400 至 125,000"></rect>
+            <rect class="wbar g-up" x="273" y="59.7" width="54" height="66.55" rx="3"
+              fill="#4CAF50" stroke="#2E7D32" stroke-width="1" tabindex="0" role="img"
+              aria-label="外卖团购 增加 24,200 元，累计升至 149,200 元" style="--d:.22s"
+              data-i="2" data-n="外卖团购" data-v="+24,200" data-cls="pos" data-s="累计 125,000 至 149,200"></rect>
+            <rect class="wbar g-up" x="357" y="32.75" width="54" height="26.95" rx="3"
+              fill="#4CAF50" stroke="#2E7D32" stroke-width="1" tabindex="0" role="img"
+              aria-label="咖啡豆零售 增加 9,800 元，累计升至 159,000 元，即月中峰值" style="--d:.33s"
+              data-i="3" data-n="咖啡豆零售" data-v="+9,800" data-cls="pos" data-s="累计 149,200 至 159,000"></rect>
+            <!-- 减少柱 -->
+            <rect class="wbar g-down" x="441" y="32.75" width="54" height="59.125" rx="3"
+              fill="#F44336" stroke="#B02A1F" stroke-width="1" tabindex="0" role="img"
+              aria-label="食材与包装 减少 21,500 元，累计降至 137,500 元" style="--d:.44s"
+              data-i="4" data-n="食材与包装" data-v="−21,500" data-cls="neg" data-s="累计 159,000 至 137,500"></rect>
+            <rect class="wbar g-down" x="525" y="91.875" width="54" height="33" rx="3"
+              fill="#F44336" stroke="#B02A1F" stroke-width="1" tabindex="0" role="img"
+              aria-label="门店租金 减少 12,000 元，累计降至 125,500 元" style="--d:.55s"
+              data-i="5" data-n="门店租金" data-v="−12,000" data-cls="neg" data-s="累计 137,500 至 125,500"></rect>
+            <rect class="wbar g-down" x="609" y="124.875" width="54" height="50.6" rx="3"
+              fill="#F44336" stroke="#B02A1F" stroke-width="1" tabindex="0" role="img"
+              aria-label="人员工资 减少 18,400 元，累计降至 107,100 元" style="--d:.66s"
+              data-i="6" data-n="人员工资" data-v="−18,400" data-cls="neg" data-s="累计 125,500 至 107,100"></rect>
+            <rect class="wbar g-down" x="693" y="175.475" width="54" height="17.325" rx="3"
+              fill="#F44336" stroke="#B02A1F" stroke-width="1" tabindex="0" role="img"
+              aria-label="平台佣金 减少 6,300 元，累计降至 100,800 元" style="--d:.77s"
+              data-i="7" data-n="平台佣金" data-v="−6,300" data-cls="neg" data-s="累计 107,100 至 100,800"></rect>
+            <rect class="wbar g-down" x="777" y="192.8" width="54" height="7.7" rx="3"
+              fill="#F44336" stroke="#B02A1F" stroke-width="1" tabindex="0" role="img"
+              aria-label="设备维修 减少 2,800 元，累计降至 98,000 元" style="--d:.88s"
+              data-i="8" data-n="设备维修" data-v="−2,800" data-cls="neg" data-s="累计 100,800 至 98,000"></rect>
+            <!-- 期末合计 -->
+            <rect class="wbar g-total" x="861" y="200.5" width="54" height="269.5" rx="3"
+              fill="#0D47A1" stroke="#082F6E" stroke-width="1" tabindex="0" role="img"
+              aria-label="期末结余 98,000 元" style="--d:.99s"
+              data-i="9" data-n="期末结余" data-v="98,000" data-cls="" data-s="期初 86,400 + 净变动 11,600"></rect>
+            <!-- 数值直标：带正负号与方向三角 -->
+            <g aria-hidden="true">
+              <g class="vlab" style="--d:0s">
+                <text class="val-lab t-tot0" x="132" y="226" text-anchor="middle">86,400</text>
+              </g>
+              <g class="vlab" style="--d:.11s">
+                <polygon points="172,114 179,114 175.5,107" fill="#1B6B34"></polygon>
+                <text class="val-lab t-up" x="216" y="116" text-anchor="middle">+38,600</text>
+              </g>
+              <g class="vlab" style="--d:.22s">
+                <polygon points="256,48 263,48 259.5,41" fill="#1B6B34"></polygon>
+                <text class="val-lab t-up" x="300" y="50" text-anchor="middle">+24,200</text>
+              </g>
+              <g class="vlab" style="--d:.33s">
+                <polygon points="340,21 347,21 343.5,14" fill="#1B6B34"></polygon>
+                <text class="val-lab t-up" x="384" y="23" text-anchor="middle">+9,800</text>
+              </g>
+              <g class="vlab" style="--d:.44s">
+                <polygon points="424,96 431,96 427.5,103" fill="#B3261E"></polygon>
+                <text class="val-lab t-down" x="468" y="105" text-anchor="middle">−21,500</text>
+              </g>
+              <g class="vlab" style="--d:.55s">
+                <polygon points="508,129 515,129 511.5,136" fill="#B3261E"></polygon>
+                <text class="val-lab t-down" x="552" y="138" text-anchor="middle">−12,000</text>
+              </g>
+              <g class="vlab" style="--d:.66s">
+                <polygon points="592,179 599,179 595.5,186" fill="#B3261E"></polygon>
+                <text class="val-lab t-down" x="636" y="188" text-anchor="middle">−18,400</text>
+              </g>
+              <g class="vlab" style="--d:.77s">
+                <polygon points="676,197 683,197 679.5,204" fill="#B3261E"></polygon>
+                <text class="val-lab t-down" x="720" y="206" text-anchor="middle">−6,300</text>
+              </g>
+              <g class="vlab" style="--d:.88s">
+                <polygon points="760,205 767,205 763.5,212" fill="#B3261E"></polygon>
+                <text class="val-lab t-down" x="804" y="214" text-anchor="middle">−2,800</text>
+              </g>
+              <g class="vlab" style="--d:.99s">
+                <text class="val-lab t-tot1" x="888" y="190" text-anchor="middle">98,000</text>
+              </g>
+            </g>
+            <!-- 类目轴标 -->
+            <g aria-hidden="true">
+              <text class="cat-lab" x="132" y="492" text-anchor="middle">期初结余</text>
+              <text class="cat-lab" x="216" y="492" text-anchor="middle">堂食收入</text>
+              <text class="cat-lab" x="300" y="492" text-anchor="middle">外卖团购</text>
+              <text class="cat-lab" x="384" y="492" text-anchor="middle">咖啡豆零售</text>
+              <text class="cat-lab" x="468" y="492" text-anchor="middle">食材与包装</text>
+              <text class="cat-lab" x="552" y="492" text-anchor="middle">门店租金</text>
+              <text class="cat-lab" x="636" y="492" text-anchor="middle">人员工资</text>
+              <text class="cat-lab" x="720" y="492" text-anchor="middle">平台佣金</text>
+              <text class="cat-lab" x="804" y="492" text-anchor="middle">设备维修</text>
+              <text class="cat-lab" x="888" y="492" text-anchor="middle">期末结余</text>
+            </g>
+          </svg>
+          <div class="tip" id="tip" aria-hidden="true">
+            <b id="tip-n"></b>
+            <span class="tip-v" id="tip-v"></span>
+            <span class="tip-s" id="tip-s"></span>
+          </div>
+        </div>
+        <div class="wf-legend">
+          <div><i style="background:#2196F3"></i>期初合计</div>
+          <div><i style="background:#4CAF50"></i>增加</div>
+          <div><i style="background:#F44336"></i>减少</div>
+          <div><i style="background:#0D47A1"></i>期末合计</div>
+          <div><i class="dash-key"></i>累计水位（虚线）</div>
+        </div>
+        <figcaption>
+          图 1 / 山雾咖啡 10 月现金瀑布：期初 86,400 元起桥，期末 98,000 元收桥，净变动 +11,600 元
+        </figcaption>
+      </figure>
+      <div class="spec-side">
+        <div class="card read-card">
+          <h3>三步读图</h3>
+          <ul>
+            <li><b>先读两端</b>：期初 86,400 与期末 98,000 两根合计柱定界，中间是桥墩。</li>
+            <li><b>再看方向</b>：绿柱自下而上累加<span class="up-t"></span>，红柱自上而下扣除<span class="dn-t"></span>，虚线是累计水位。</li>
+            <li><b>最后找峰值</b>：三项收入全部到账时水位 159,000 元，随后五项支出逐级泄洪至 98,000 元。</li>
+          </ul>
+        </div>
+        <div class="card kb-card">
+          <h3>键盘与悬停等价</h3>
+          <ul>
+            <li>Tab 在十根柱间依序移动，焦点读数与悬停完全一致（官方无障碍回退要求）。</li>
+            <li>每柱直标带正负号的数值，颜色只是第三重冗余，不是唯一通道。</li>
+            <li>下方数据表行与柱双向联动，悬停表格行同样点亮对应柱。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 贰 颜色语义 -->
+  <section aria-labelledby="t-sem">
+    <div class="sec-head"><span class="sec-no">贰</span><h2 id="t-sem">颜色语义 / 绿升红降的惯例与它的边界</h2></div>
+    <p class="sec-sub">
+      官方配色口径：增加 #4CAF50、减少 #F44336、期初合计 #2196F3、期末合计 #0D47A1，累计水位线一律虚线。
+      四种填充色照单全收，但它们是柱体语言，不是文字语言。
+    </p>
+    <div class="sem-grid">
+      <div class="sw-card">
+        <div class="sw-chip" style="background:#4CAF50;border-color:#2E7D32"></div>
+        <h3>增加 / 绿升</h3>
+        <span class="hex">#4CAF50（官方）</span>
+        <p>对白底仅 <b>2.78:1</b>，低于图形件 3:1 门槛，故柱体加 <b>#2E7D32 描边</b>补足，数值文字改用深绿 #1B6B34（6.5:1）。</p>
+      </div>
+      <div class="sw-card">
+        <div class="sw-chip" style="background:#F44336;border-color:#B02A1F"></div>
+        <h3>减少 / 红降</h3>
+        <span class="hex">#F44336（官方）</span>
+        <p>对白底 <b>3.68:1</b>，图形件达标；文字仍不可直接使用，正文与数值用深红 <b>#B3261E</b>（6.5:1）。</p>
+      </div>
+      <div class="sw-card">
+        <div class="sw-chip" style="background:#2196F3;border-color:#1565C0"></div>
+        <h3>期初合计</h3>
+        <span class="hex">#2196F3（官方）</span>
+        <p>对白底 <b>3.12:1</b>，贴着图形线过，同样加 <b>#1565C0 描边</b>兜底；柱顶数值用 #155FA0（6.6:1）。</p>
+      </div>
+      <div class="sw-card">
+        <div class="sw-chip" style="background:#0D47A1"></div>
+        <h3>期末合计</h3>
+        <span class="hex">#0D47A1（官方）</span>
+        <p>对白底 <b>8.6:1</b>，四色中唯一可直接承载白色文字的深蓝，收桥即收口，视觉上最重。</p>
+      </div>
+    </div>
+    <div class="sem-low">
+      <div class="card cb-card">
+        <h3>色盲替代 / 不靠红绿也能读</h3>
+        <ul>
+          <li><b>符号冗余</b>：每柱数值自带正负号，红色盲与绿色盲把两色看成相近褐色时，符号仍然分得清增减。</li>
+          <li><b>方向图标</b>：数值旁的三角指向升或降，官方无障碍说明要求的 directional icons。</li>
+          <li><b>几何冗余</b>：绿柱必自水位向上浮，红柱必自水位向下垂，柱的位置本身就是方向编码。</li>
+          <li><b>表格后备</b>：第肆节的累计水位表是完整替身，读不了图就读表。</li>
+        </ul>
+        <div class="demo-strip" aria-hidden="true">
+          <span class="d-up"><i></i>+24,200</span>
+          <span class="d-dn"><i></i>−18,400</span>
+          <span>+9,800</span>
+          <span>−2,800</span>
+        </div>
+      </div>
+      <div class="card con-card">
+        <h3>对比度台账</h3>
+        <ul>
+          <li>正文与轴标：墨 #22292D 对卡白约 13:1，弱化 #515C63 约 6.8:1，全部高于 4.5:1。</li>
+          <li>柱内不放文字：四种官方填充色撑不起 4.5:1 的文字对比，数值一律外置直标。</li>
+          <li>图形件 3:1：绿与期初蓝靠深色描边达标，红与期末蓝原生达标。</li>
+          <li>悬浮读数：深底 #22292D 配白字约 13:1，正负数值用浅绿浅红亦高于 4.5:1。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 叁 瀑布与条形的边界 -->
+  <section aria-labelledby="t-cmp">
+    <div class="sec-head"><span class="sec-no">叁</span><h2 id="t-cmp">瀑布与简单条形的边界 / 同一组数据的两种问法</h2></div>
+    <p class="sec-sub">
+      左图回答「每项有多大」，右图回答「走到这里还剩多少」。数据可加总、且要解释期末总数从哪来时，
+      才轮到瀑布出场。
+    </p>
+    <div class="cmp-grid">
+      <figure class="mini-fig">
+        <h3>简单条形 / 各项独立</h3>
+        <p class="mini-sub">公共零轴，正上负下，看不出累计水位</p>
+        <svg viewBox="0 0 360 250" role="img" aria-label="简单条形示意图：八项收支各自与零轴比较，堂食收入最长，设备维修最短">
+          <g aria-hidden="true">
+            <line class="axis-line" x1="14" y1="140" x2="346" y2="140"></line>
+            <text class="ax-num" x="10" y="144" text-anchor="end">0</text>
+            <rect x="20" y="40" width="26" height="100" rx="2" fill="#4CAF50" stroke="#2E7D32"></rect>
+            <rect x="60" y="77.3" width="26" height="62.7" rx="2" fill="#4CAF50" stroke="#2E7D32"></rect>
+            <rect x="100" y="114.6" width="26" height="25.4" rx="2" fill="#4CAF50" stroke="#2E7D32"></rect>
+            <rect x="140" y="140" width="26" height="55.7" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="180" y="140" width="26" height="31.1" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="220" y="140" width="26" height="47.7" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="260" y="140" width="26" height="16.3" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="300" y="140" width="26" height="7.3" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <text class="mini-cat" x="33" y="230" text-anchor="middle">堂食</text>
+            <text class="mini-cat" x="73" y="230" text-anchor="middle">外卖</text>
+            <text class="mini-cat" x="113" y="230" text-anchor="middle">零售</text>
+            <text class="mini-cat" x="153" y="230" text-anchor="middle">食材</text>
+            <text class="mini-cat" x="193" y="230" text-anchor="middle">租金</text>
+            <text class="mini-cat" x="233" y="230" text-anchor="middle">工资</text>
+            <text class="mini-cat" x="273" y="230" text-anchor="middle">平台</text>
+            <text class="mini-cat" x="313" y="230" text-anchor="middle">维修</text>
+          </g>
+        </svg>
+        <figcaption>适合彼此无关的对比：谁最大、谁最小，一眼排座次。</figcaption>
+      </figure>
+      <figure class="mini-fig">
+        <h3>累积瀑布 / 水位桥接</h3>
+        <p class="mini-sub">虚线传导累计水位，两端合计柱定界</p>
+        <svg viewBox="0 0 360 250" role="img" aria-label="瀑布示意图：八项收支依次桥接，累计水位自期初 86,400 升至峰值 159,000 再降至期末 98,000">
+          <g aria-hidden="true">
+            <line class="axis-line" x1="14" y1="210" x2="346" y2="210"></line>
+            <line class="conn" x1="14" y1="112.8" x2="20" y2="112.8" style="--cd:1.5s"></line>
+            <text class="mini-cat" x="16" y="107" text-anchor="middle">期初</text>
+            <rect x="20" y="69.4" width="26" height="43.4" rx="2" fill="#4CAF50" stroke="#2E7D32"></rect>
+            <rect x="60" y="42.2" width="26" height="27.2" rx="2" fill="#4CAF50" stroke="#2E7D32"></rect>
+            <rect x="100" y="31.1" width="26" height="11.1" rx="2" fill="#4CAF50" stroke="#2E7D32"></rect>
+            <rect x="140" y="31.1" width="26" height="24.2" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="180" y="55.3" width="26" height="13.5" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="220" y="68.8" width="26" height="20.7" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="260" y="89.5" width="26" height="7.1" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <rect x="300" y="96.6" width="26" height="3.2" rx="2" fill="#F44336" stroke="#B02A1F"></rect>
+            <line class="conn" x1="46" y1="69.4" x2="60" y2="69.4" style="--cd:1.5s"></line>
+            <line class="conn" x1="86" y1="42.2" x2="100" y2="42.2" style="--cd:1.5s"></line>
+            <line class="conn" x1="126" y1="31.1" x2="140" y2="31.1" style="--cd:1.5s"></line>
+            <line class="conn" x1="166" y1="55.3" x2="180" y2="55.3" style="--cd:1.5s"></line>
+            <line class="conn" x1="206" y1="68.8" x2="220" y2="68.8" style="--cd:1.5s"></line>
+            <line class="conn" x1="246" y1="89.5" x2="260" y2="89.5" style="--cd:1.5s"></line>
+            <line class="conn" x1="286" y1="96.6" x2="300" y2="96.6" style="--cd:1.5s"></line>
+            <line class="conn" x1="326" y1="99.8" x2="340" y2="99.8" style="--cd:1.5s"></line>
+            <text class="mini-cat" x="340" y="93" text-anchor="end">期末</text>
+            <text class="mini-cat" x="33" y="230" text-anchor="middle">堂食</text>
+            <text class="mini-cat" x="73" y="230" text-anchor="middle">外卖</text>
+            <text class="mini-cat" x="113" y="230" text-anchor="middle">零售</text>
+            <text class="mini-cat" x="153" y="230" text-anchor="middle">食材</text>
+            <text class="mini-cat" x="193" y="230" text-anchor="middle">租金</text>
+            <text class="mini-cat" x="233" y="230" text-anchor="middle">工资</text>
+            <text class="mini-cat" x="273" y="230" text-anchor="middle">平台</text>
+            <text class="mini-cat" x="313" y="230" text-anchor="middle">维修</text>
+          </g>
+        </svg>
+        <figcaption>适合可加总的增减流：期末从哪来、峰值在哪里，逐柱交代。</figcaption>
+      </figure>
+    </div>
+    <div class="bound-grid">
+      <div class="card use-card">
+        <h3>适用（官方口径）</h3>
+        <ul>
+          <li>各项正负可加总，需要解释期末总数从哪来，如损益表、预算 variance。</li>
+          <li>柱数在 4 至 12 根之间，水位变化逐柱可读。</li>
+          <li>观众关心过程而不只是结果，峰值与低谷本身就是信息。</li>
+        </ul>
+      </div>
+      <div class="card not-card">
+        <h3>不适用（官方口径）</h3>
+        <ul>
+          <li>变化不可加总：各项之间没有累计关系，桥接即说谎。</li>
+          <li>超过 12 根柱，可读性崩塌。</li>
+          <li>观众只想看一个总数：直接给一根合计柱或一个大数字。</li>
+        </ul>
+        <p class="threshold">数据量阈值：<b>4 至 12 根最优</b>；超过 12 根时，把次要项合并为一根「其他」柱再画。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 肆 数据表后备 -->
+  <section aria-labelledby="t-tbl">
+    <div class="sec-head"><span class="sec-no">肆</span><h2 id="t-tbl">数据表后备 / 累计水位表与方差摘要</h2></div>
+    <p class="sec-sub">
+      官方回退方案：累计水位表加方差摘要。悬停任意行，上方主图的对应柱会同步点亮。
+    </p>
+    <div class="sum-row">
+      <div>收入合计 <b>+72,600 元</b></div>
+      <div>支出合计 <b>−61,000 元</b></div>
+      <div>净变动 <b>+11,600 元</b></div>
+      <div>自洽校验 <b>86,400 + 11,600 = 98,000</b></div>
+    </div>
+    <div class="dtable" role="table" aria-label="山雾咖啡 10 月现金瀑布累计水位表">
+      <div class="trow" role="columnheader">
+        <span class="cat">项目</span>
+        <span class="dir">方向</span>
+        <span class="num">变动（元）</span>
+        <span class="num">变动后累计（元）</span>
+      </div>
+      <div class="trow" role="row" data-i="0">
+        <span class="cat"><i style="background:#2196F3"></i>期初结余</span>
+        <span class="dir t"><i></i><span>合计</span></span>
+        <span class="num chg" role="cell">—</span>
+        <span class="num" role="cell">86,400</span>
+      </div>
+      <div class="trow" role="row" data-i="1">
+        <span class="cat"><i style="background:#4CAF50"></i>堂食收入</span>
+        <span class="dir u"><i></i><span>增</span></span>
+        <span class="num chg p" role="cell">+38,600</span>
+        <span class="num" role="cell">125,000</span>
+      </div>
+      <div class="trow" role="row" data-i="2">
+        <span class="cat"><i style="background:#4CAF50"></i>外卖团购</span>
+        <span class="dir u"><i></i><span>增</span></span>
+        <span class="num chg p" role="cell">+24,200</span>
+        <span class="num" role="cell">149,200</span>
+      </div>
+      <div class="trow" role="row" data-i="3">
+        <span class="cat"><i style="background:#4CAF50"></i>咖啡豆零售</span>
+        <span class="dir u"><i></i><span>增</span></span>
+        <span class="num chg p" role="cell">+9,800</span>
+        <span class="num" role="cell">159,000</span>
+      </div>
+      <div class="trow" role="row" data-i="4">
+        <span class="cat"><i style="background:#F44336"></i>食材与包装</span>
+        <span class="dir d"><i></i><span>减</span></span>
+        <span class="num chg n" role="cell">−21,500</span>
+        <span class="num" role="cell">137,500</span>
+      </div>
+      <div class="trow" role="row" data-i="5">
+        <span class="cat"><i style="background:#F44336"></i>门店租金</span>
+        <span class="dir d"><i></i><span>减</span></span>
+        <span class="num chg n" role="cell">−12,000</span>
+        <span class="num" role="cell">125,500</span>
+      </div>
+      <div class="trow" role="row" data-i="6">
+        <span class="cat"><i style="background:#F44336"></i>人员工资</span>
+        <span class="dir d"><i></i><span>减</span></span>
+        <span class="num chg n" role="cell">−18,400</span>
+        <span class="num" role="cell">107,100</span>
+      </div>
+      <div class="trow" role="row" data-i="7">
+        <span class="cat"><i style="background:#F44336"></i>平台佣金</span>
+        <span class="dir d"><i></i><span>减</span></span>
+        <span class="num chg n" role="cell">−6,300</span>
+        <span class="num" role="cell">100,800</span>
+      </div>
+      <div class="trow" role="row" data-i="8">
+        <span class="cat"><i style="background:#F44336"></i>设备维修</span>
+        <span class="dir d"><i></i><span>减</span></span>
+        <span class="num chg n" role="cell">−2,800</span>
+        <span class="num" role="cell">98,000</span>
+      </div>
+      <div class="trow foot" role="row" data-i="9">
+        <span class="cat"><i style="background:#0D47A1"></i>期末结余</span>
+        <span class="dir e"><i></i><span>合计</span></span>
+        <span class="num chg p" role="cell">+11,600（净）</span>
+        <span class="num" role="cell">98,000</span>
+      </div>
+    </div>
+    <p class="tbl-note">
+      校验口径：期初 <b>86,400</b> 加收入 <b>72,600</b> 减支出 <b>61,000</b> 等于期末 <b>98,000</b>，
+      表内每一行「变动后累计」都与主图虚线水位一一对应。
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span>UI 设计提示词库 / 图表图鉴 / 累积瀑布</span>
+    <span>选型依据 charts.json No.13 / Cumulative Changes</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script src="../stats.js"></script>
+<script>
+// 柱、表行与悬浮读数联动：悬停与键盘聚焦显示同一份读数
+(function () {
+  var svg = document.querySelector('.wf');
+  var bars = Array.prototype.slice.call(document.querySelectorAll('.wbar'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.trow[data-i]'));
+  var scroll = document.querySelector('.wf-scroll');
+  var tip = document.getElementById('tip');
+  var tipN = document.getElementById('tip-n');
+  var tipV = document.getElementById('tip-v');
+  var tipS = document.getElementById('tip-s');
+
+  function place(bar) {
+    var box = scroll.getBoundingClientRect();
+    var r = bar.getBoundingClientRect();
+    var x = r.left - box.left + scroll.scrollLeft + r.width / 2;
+    var y = r.top - box.top + scroll.scrollTop - 12;
+    x = Math.max(130, Math.min(x, scroll.clientWidth - 130));
+    if (y < 96) { y = r.bottom - box.top + scroll.scrollTop + 14; tip.style.transform = 'translate(-50%, 0)'; }
+    else { tip.style.transform = 'translate(-50%, -100%)'; }
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  function show(bar) {
+    svg.classList.add('focus-mode');
+    bars.forEach(function (b) { b.classList.toggle('hot', b === bar); });
+    tipN.textContent = bar.dataset.n;
+    tipV.textContent = bar.dataset.v;
+    tipV.className = 'tip-v ' + bar.dataset.cls;
+    tipS.textContent = bar.dataset.s;
+    place(bar);
+    tip.classList.add('on');
+  }
+  function hide() {
+    svg.classList.remove('focus-mode');
+    bars.forEach(function (b) { b.classList.remove('hot'); });
+    tip.classList.remove('on');
+  }
+  bars.forEach(function (bar) {
+    bar.addEventListener('mouseenter', function () { show(bar); });
+    bar.addEventListener('mouseleave', hide);
+    bar.addEventListener('focus', function () { show(bar); });
+    bar.addEventListener('blur', hide);
+  });
+  rows.forEach(function (row) {
+    var bar = bars[Number(row.dataset.i)];
+    if (!bar) return;
+    row.addEventListener('mouseenter', function () { show(bar); });
+    row.addEventListener('mouseleave', hide);
+  });
+})();
+</script>
+
+</body>
+</html>

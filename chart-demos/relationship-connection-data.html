@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="关系网络图鉴: 开源依赖网络真实感样本, 手写 SVG 力导向预排布, 节点半径编码度数, 社区色相加形状双通道, 边宽编码依赖权重, 头发丝失控对比样与邻接表后备。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 关系网络 / UI 设计提示词库</title>
+<style>
+/* token 计划: 纸 #f5f1e8 / 卡 #fffdf7 / 墨 #26231d / 弱 #5a5648 / 靛 #31548c / 警 #a8402f / 描 #d9d2c0 / 斑 #f0ebdd / 社区 构建 #0F766E 校验 #BE123C 服务 #4338CA 工具 #37474F / 边 #90A4AE 60% / 高亮 #F59E0B */
+:root{
+  --paper:#f5f1e8; --card:#fffdf7; --ink:#26231d; --mut:#5a5648;
+  --acc:#31548c; --red:#a8402f; --line:#d9d2c0; --zebra:#f0ebdd;
+  --fs:"Inter","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font:16px/1.75 "Source Han Serif SC","Noto Serif SC",Georgia,"Songti SC","SimSun",serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+a{color:var(--acc)}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:4px}
+svg{max-width:100%}
+
+/* 页眉 */
+.mast{padding:44px 0 26px;border-bottom:3px double var(--ink)}
+.crumb{font-size:14px;color:var(--mut);letter-spacing:.05em}
+.crumb a{color:var(--mut)}
+.mast h1{font-size:clamp(30px,4.2vw,52px);line-height:1.18;letter-spacing:.02em;margin:10px 0 12px}
+.mast h1 em{font-style:normal;color:var(--acc)}
+.lede{max-width:64ch;color:var(--mut);font-size:16.5px}
+.mast .meta{margin-top:14px;font-size:14px;color:var(--mut)}
+
+/* 区块骨架 */
+section{padding:42px 0 6px}
+.kicker{font-size:14px;color:var(--acc);letter-spacing:.14em}
+h2{font-size:clamp(21px,2.4vw,28px);margin:4px 0 14px;letter-spacing:.02em}
+h3{font-size:17px;margin-bottom:8px}
+p.note{color:var(--mut);font-size:15px;max-width:72ch}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 0 rgba(38,35,29,.05)}
+
+/* 主图两栏 */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:26px;align-items:stretch}
+.figure-hero{display:flex;flex-direction:column;gap:12px}
+.figfoot{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;border-top:1px solid var(--line);padding-top:12px;font-size:13.5px;color:var(--mut)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--zebra);border:1px solid var(--line);border-radius:8px;padding:2px 9px;font-size:13px;color:var(--ink)}
+
+/* 网络主图 */
+#net{width:100%;height:auto;display:block}
+#net text{font-family:var(--fs)}
+.hull{fill-opacity:.06;stroke-opacity:.42;stroke-width:1.5;stroke-dasharray:7 6}
+.hull.h0{fill:#0F766E;stroke:#0F766E}
+.hull.h1{fill:#BE123C;stroke:#BE123C}
+.hull.h2{fill:#4338CA;stroke:#4338CA}
+.hull.h3{fill:#37474F;stroke:#37474F}
+.hlab{font:700 12px var(--fs);fill-opacity:.85}
+.hl0{fill:#0F766E}.hl1{fill:#BE123C}.hl2{fill:#4338CA}.hl3{fill:#37474F}
+.edge{stroke:#90A4AE;stroke-opacity:.6;fill:none;stroke-linecap:round}
+.edge.dev{stroke-dasharray:5 4}
+#net.focus .edge{stroke-opacity:.1}
+#net.focus .edge.hl{stroke:#F59E0B;stroke-opacity:1;stroke-width:4}
+.node{cursor:pointer;outline:none}
+.node text{fill:#2f353d;font:600 12px var(--fs)}
+.node .lbh{font-size:13px;font-weight:700}
+.shp{stroke:var(--card);stroke-width:1.6}
+.node.c0 .shp{fill:#0F766E}
+.node.c1 .shp{fill:#BE123C}
+.node.c2 .shp{fill:#4338CA}
+.node.c3 .shp{fill:#37474F}
+.node:focus .shp{stroke:#1d3a63;stroke-width:3.5}
+#net.focus .node:not(.on){opacity:.15}
+.pop{transform-box:fill-box;transform-origin:center;animation:pop .55s cubic-bezier(.2,.9,.3,1.28) backwards}
+@keyframes pop{from{transform:scale(0);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
+
+/* 节点读值面板 */
+.readout{
+  min-height:3.6em;font:13.5px/1.65 var(--fs);color:#4a463b;
+  background:#efe9da;border:1px dashed #c4b598;border-radius:8px;padding:10px 14px;
+}
+.readout b{color:var(--ink)}
+
+/* 图注规格卡 */
+.spec{display:flex;flex-direction:column}
+.spec dl{display:grid;grid-template-columns:104px 1fr;border-top:1px solid var(--line)}
+.spec dt{padding:10px 4px 10px 0;font-size:13.5px;color:var(--acc);border-bottom:1px solid var(--line)}
+.spec dd{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.65}
+.cent{margin-top:18px}
+.cent ul{list-style:none;margin-top:6px}
+.cent li{display:grid;grid-template-columns:104px 1fr 30px;gap:10px;align-items:center;padding:4px 0;font:600 13px var(--fs)}
+.cent .bar{height:10px;background:#eae3d2;border-radius:5px;overflow:hidden}
+.cent .bar i{display:block;height:100%;background:var(--acc)}
+.cent b{font-variant-numeric:tabular-nums;text-align:right}
+.tagb{font:700 11px var(--fs);color:var(--card);background:var(--red);border-radius:5px;padding:0 5px;margin-left:6px}
+.spec .tail{margin-top:auto;padding-top:14px;font-size:13.5px;color:var(--mut)}
+
+/* 失控对比双联 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch}
+.duo figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.duo svg{order:2;margin:0 auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.duo figcaption{order:3;font-size:14px;color:var(--mut)}
+.duo .cap{order:1}
+.bad{color:var(--red)}
+.mini-edge{stroke:#90A4AE;stroke-opacity:.55;fill:none}
+.mini-node{fill:#78909C;stroke:var(--card);stroke-width:.8}
+
+/* 边界三栏 */
+.boundgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.bcell{border-top:2px solid var(--ink);padding-top:10px}
+.bcell h3{font-size:15.5px}
+.bcell ul{list-style:none}
+.bcell li{padding:5px 0;border-bottom:1px dotted var(--line);font-size:14px;color:var(--mut)}
+.bcell li:last-child{border-bottom:none}
+.bcell b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* 邻接表 */
+.tscroll{overflow-x:auto;margin-top:14px}
+.adj{min-width:720px;font-family:var(--fs)}
+.arow{display:grid;grid-template-columns:1.45fr .95fr .5fr 2.75fr .8fr;gap:10px;align-items:center;padding:8px 12px;font-size:14px}
+.arow .num{text-align:right;font-variant-numeric:tabular-nums}
+.arow[data-pkg]:nth-child(odd){background:var(--zebra)}
+.arow.head{font-weight:700;border-bottom:2px solid var(--ink)}
+.arow .pkg{display:flex;align-items:center;gap:7px;font-weight:600}
+.arow.hit{background:#fbeecb;box-shadow:inset 3px 0 0 #a16207}
+.arow.hit2{background:#f6f1e2;box-shadow:inset 3px 0 0 #d9d2c0}
+.summary{display:flex;flex-wrap:wrap;gap:8px 26px;font-size:14.5px;color:var(--mut);margin:12px 0 4px}
+.summary b{color:var(--acc);font-variant-numeric:tabular-nums}
+.btnrow{display:flex;gap:12px;align-items:center;margin-top:16px}
+.btn{padding:8px 18px;border:1px solid var(--acc);border-radius:999px;background:var(--acc);color:var(--card);font:inherit;font-size:14px;cursor:pointer}
+.btn:hover{background:#26456f;border-color:#26456f}
+
+/* 无障碍双栏 */
+.a11y-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:26px;align-items:stretch}
+.checks{list-style:none;display:flex;flex-direction:column}
+.checks li{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.65}
+.checks li:last-child{border-bottom:none}
+.checks .no{width:22px;height:22px;margin-top:5px;border-radius:50%;background:var(--acc);color:var(--card);font:700 12.5px var(--fs);display:flex;align-items:center;justify-content:center}
+.checks b{color:var(--acc)}
+.kbdtable{width:100%;border-collapse:collapse;font-size:14.5px}
+.kbdtable th,.kbdtable td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.kbdtable th{font-size:13.5px;color:var(--acc);letter-spacing:.06em}
+.kbd{display:inline-block;border:1px solid #b9ad93;border-bottom-width:2.5px;border-radius:6px;padding:0 8px;background:var(--card);font:600 12.5px var(--fs);color:#4a463b;white-space:nowrap}
+
+/* 页脚 */
+.foot{margin-top:56px;background:var(--ink);color:var(--paper);padding:34px 0}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
+.foot span,.foot a{font-size:14.5px}
+.foot a{color:#d9c68f}
+.foot a:hover{color:#fff}
+
+::selection{background:#d9c68f;color:#26231d}
+.tscroll{scrollbar-width:thin;scrollbar-color:#c9bb98 transparent}
+.tscroll::-webkit-scrollbar{height:10px}
+.tscroll::-webkit-scrollbar-thumb{background:#c9bb98;border-radius:5px}
+
+@media (max-width:960px){
+  .hero-grid,.duo,.a11y-grid,.boundgrid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .panel{padding:16px}
+  section{padding:30px 0 4px}
+  .checks li{font-size:14px}
+  .arow{font-size:13px}
+}
+@media print{
+  body{background:#fff}
+  .btn,.readout{display:none}
+  .panel{box-shadow:none;break-inside:avoid}
+  section{padding:18px 0 2px}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="crumb"><a href="../style-catalog.html">图表图鉴</a> / 关系与连接 / 第 16 号标本</p>
+    <h1>力导向<em>网络图</em></h1>
+    <p class="lede">用于刻画实体之间的连接结构: 依赖、引用、社交或拓扑。本页以一个虚构但结构真实的前端开源依赖网络为样本, 演示力导向布局的编码原理: 节点半径编码度数, 社区以色相加形状双通道着色, 边宽编码依赖权重, 并给出布局失控的对照与邻接表后备。</p>
+    <p class="meta">标本来源: 图表选型数据 No.16 / 数据类型: Relationship / Connection / 最佳图型: Network Graph / 次选: Hierarchical Tree, Adjacency Matrix / 无障碍风险: high</p>
+  </div>
+</header>
+
+<section id="s1">
+  <div class="wrap">
+    <p class="kicker">01 / 编码原理</p>
+    <h2>度数、社区与边权: 一张静态大图怎么读</h2>
+    <div class="hero-grid">
+
+      <figure class="panel figure-hero">
+        <svg id="net" viewBox=" 固定 0 0 960 632" viewBox="0 0 960 632" role="group" aria-labelledby="nett netd">
+          <title id="nett">开源依赖网络: 24 个包 36 条依赖边, 力导向预排布</title>
+          <desc id="netd">四个社区: 构建核心为圆形, 校验与模式为菱形, 服务与路由为方形, 基础工具为三角形。节点半径随度数增大, 边越粗表示依赖调用越重, 虚线为开发期依赖。完整数值见下方邻接表。</desc>
+
+          <ellipse class="hull h0" cx="268" cy="215" rx="224" ry="162" transform="rotate(-10 268 215)"/>
+          <ellipse class="hull h1" cx="730" cy="185" rx="216" ry="148" transform="rotate(8 730 185)"/>
+          <ellipse class="hull h2" cx="758" cy="482" rx="200" ry="125" transform="rotate(-6 758 482)"/>
+          <ellipse class="hull h3" cx="450" cy="505" rx="185" ry="125" transform="rotate(4 450 505)"/>
+          <text class="hlab hl0" x="140" y="50" text-anchor="middle">构建核心</text>
+          <text class="hlab hl1" x="688" y="30" text-anchor="middle">校验与模式</text>
+          <text class="hlab hl2" x="920" y="468" text-anchor="middle">服务与路由</text>
+          <text class="hlab hl3" x="450" y="398" text-anchor="middle">基础工具</text>
+
+          <g class="edges">
+            <line class="edge" data-a="bundler-core" data-b="roll-tokens" x1="250" y1="190" x2="105" y2="105" stroke-width="2.2"/>
+            <line class="edge" data-a="bundler-core" data-b="esb-bridge" x1="250" y1="190" x2="392" y2="88" stroke-width="3.2"/>
+            <line class="edge dev" data-a="bundler-core" data-b="watch-grid" x1="250" y1="190" x2="92" y2="258" stroke-width="1.4"/>
+            <line class="edge" data-a="bundler-core" data-b="config-schema" x1="250" y1="190" x2="462" y2="148" stroke-width="2.2"/>
+            <line class="edge" data-a="bundler-core" data-b="map-sourcer" x1="250" y1="190" x2="345" y2="262" stroke-width="2.2"/>
+            <line class="edge dev" data-a="bundler-core" data-b="cache-vault" x1="250" y1="190" x2="128" y2="338" stroke-width="1.4"/>
+            <line class="edge" data-a="bundler-core" data-b="log-tap" x1="250" y1="190" x2="562" y2="318" stroke-width="3.2"/>
+            <line class="edge" data-a="esb-bridge" data-b="config-schema" x1="392" y1="88" x2="462" y2="148" stroke-width="2.2"/>
+            <line class="edge dev" data-a="watch-grid" data-b="cache-vault" x1="92" y1="258" x2="128" y2="338" stroke-width="1.4"/>
+            <path class="edge" data-a="roll-tokens" data-b="typed-fields" d="M105,105 Q340,132 575,82" stroke-width="1.4"/>
+            <line class="edge" data-a="map-sourcer" data-b="esb-bridge" x1="345" y1="262" x2="392" y2="88" stroke-width="1.4"/>
+            <path class="edge" data-a="bundler-core" data-b="utilshed" d="M250,190 Q334,352 470,478" stroke-width="3.2"/>
+            <line class="edge" data-a="schema-forge" data-b="typed-fields" x1="712" y1="178" x2="575" y2="82" stroke-width="3.2"/>
+            <line class="edge" data-a="schema-forge" data-b="coerce-cast" x1="712" y1="178" x2="858" y2="102" stroke-width="2.2"/>
+            <line class="edge" data-a="schema-forge" data-b="proto-check" x1="712" y1="178" x2="872" y2="240" stroke-width="1.4"/>
+            <line class="edge" data-a="schema-forge" data-b="config-schema" x1="712" y1="178" x2="462" y2="148" stroke-width="2.2"/>
+            <line class="edge" data-a="schema-forge" data-b="router-seven" x1="712" y1="178" x2="608" y2="398" stroke-width="3.2"/>
+            <line class="edge" data-a="schema-forge" data-b="err-codec" x1="712" y1="178" x2="742" y2="296" stroke-width="2.2"/>
+            <line class="edge" data-a="typed-fields" data-b="coerce-cast" x1="575" y1="82" x2="858" y2="102" stroke-width="2.2"/>
+            <line class="edge" data-a="err-codec" data-b="middleware-rack" x1="742" y1="296" x2="898" y2="398" stroke-width="1.4"/>
+            <path class="edge" data-a="coerce-cast" data-b="utilshed" d="M858,102 Q636,261 470,478" stroke-width="2.2"/>
+            <line class="edge" data-a="hyperlane" data-b="router-seven" x1="768" y1="462" x2="608" y2="398" stroke-width="3.2"/>
+            <line class="edge" data-a="hyperlane" data-b="middleware-rack" x1="768" y1="462" x2="898" y2="398" stroke-width="2.2"/>
+            <line class="edge dev" data-a="hyperlane" data-b="fetch-lite" x1="768" y1="462" x2="905" y2="530" stroke-width="1.4"/>
+            <line class="edge" data-a="hyperlane" data-b="serve-static" x1="768" y1="462" x2="842" y2="576" stroke-width="2.2"/>
+            <line class="edge dev" data-a="hyperlane" data-b="mock-relay" x1="768" y1="462" x2="636" y2="560" stroke-width="1.4"/>
+            <line class="edge" data-a="hyperlane" data-b="log-tap" x1="768" y1="462" x2="562" y2="318" stroke-width="2.2"/>
+            <path class="edge" data-a="hyperlane" data-b="utilshed" d="M768,462 Q617,434 470,478" stroke-width="3.2"/>
+            <line class="edge" data-a="router-seven" data-b="serve-static" x1="608" y1="398" x2="842" y2="576" stroke-width="2.2"/>
+            <path class="edge dev" data-a="mock-relay" data-b="proto-check" d="M636,560 Q725,379 872,240" stroke-width="1.4"/>
+            <line class="edge" data-a="utilshed" data-b="deep-merge" x1="470" y1="478" x2="338" y2="548" stroke-width="1.4"/>
+            <line class="edge" data-a="utilshed" data-b="path-joinery" x1="470" y1="478" x2="420" y2="592" stroke-width="2.2"/>
+            <line class="edge" data-a="utilshed" data-b="date-roll" x1="470" y1="478" x2="302" y2="452" stroke-width="1.4"/>
+            <line class="edge" data-a="utilshed" data-b="tiny-uuid" x1="470" y1="478" x2="568" y2="596" stroke-width="1.4"/>
+            <line class="edge" data-a="utilshed" data-b="log-tap" x1="470" y1="478" x2="562" y2="318" stroke-width="3.2"/>
+            <path class="edge" data-a="path-joinery" data-b="serve-static" d="M420,592 Q631,570 842,576" stroke-width="2.2"/>
+          </g>
+
+          <g class="nodes">
+            <g class="node c0" data-id="bundler-core" data-c="0" data-x="250" data-y="190" tabindex="0" role="button" aria-label="bundler-core, 构建核心社区, 圆形, 度数 8。邻居: roll-tokens、esb-bridge、watch-grid、config-schema、map-sourcer、cache-vault、log-tap、utilshed">
+              <g class="pop" style="animation-delay:0ms"><circle class="shp" r="22"/><text class="lbh" x="-30" y="6" text-anchor="end">bundler-core</text></g>
+            </g>
+            <g class="node c0" data-id="roll-tokens" data-c="0" data-x="105" data-y="105" tabindex="0" role="button" aria-label="roll-tokens, 构建核心社区, 圆形, 度数 2。邻居: bundler-core、typed-fields">
+              <g class="pop" style="animation-delay:30ms"><circle class="shp" r="12"/><text x="0" y="29" text-anchor="middle">roll-tokens</text></g>
+            </g>
+            <g class="node c0" data-id="esb-bridge" data-c="0" data-x="392" data-y="88" tabindex="0" role="button" aria-label="esb-bridge, 构建核心社区, 圆形, 度数 3。邻居: bundler-core、config-schema、map-sourcer">
+              <g class="pop" style="animation-delay:60ms"><circle class="shp" r="12"/><text x="0" y="-21" text-anchor="middle">esb-bridge</text></g>
+            </g>
+            <g class="node c0" data-id="watch-grid" data-c="0" data-x="92" data-y="258" tabindex="0" role="button" aria-label="watch-grid, 构建核心社区, 圆形, 度数 2。邻居: bundler-core、cache-vault">
+              <g class="pop" style="animation-delay:90ms"><circle class="shp" r="10"/><text x="-15" y="4" text-anchor="end">watch-grid</text></g>
+            </g>
+            <g class="node c0" data-id="cache-vault" data-c="0" data-x="128" data-y="338" tabindex="0" role="button" aria-label="cache-vault, 构建核心社区, 圆形, 度数 2。邻居: bundler-core、watch-grid">
+              <g class="pop" style="animation-delay:120ms"><circle class="shp" r="10"/><text x="0" y="27" text-anchor="middle">cache-vault</text></g>
+            </g>
+            <g class="node c0" data-id="map-sourcer" data-c="0" data-x="345" data-y="262" tabindex="0" role="button" aria-label="map-sourcer, 构建核心社区, 圆形, 度数 2。邻居: bundler-core、esb-bridge">
+              <g class="pop" style="animation-delay:150ms"><circle class="shp" r="10"/><text x="0" y="28" text-anchor="middle">map-sourcer</text></g>
+            </g>
+            <g class="node c0" data-id="config-schema" data-c="0" data-x="462" data-y="148" tabindex="0" role="button" aria-label="config-schema, 构建核心社区, 圆形, 度数 3。邻居: bundler-core、esb-bridge、schema-forge">
+              <g class="pop" style="animation-delay:180ms"><circle class="shp" r="12"/><text x="0" y="32" text-anchor="middle">config-schema</text></g>
+            </g>
+            <g class="node c1" data-id="schema-forge" data-c="1" data-x="712" data-y="178" tabindex="0" role="button" aria-label="schema-forge, 校验与模式社区, 菱形, 度数 6。邻居: typed-fields、coerce-cast、proto-check、config-schema、router-seven、err-codec">
+              <g class="pop" style="animation-delay:210ms"><path class="shp" d="M0,-18 L18,0 L0,18 L-18,0 Z"/><text class="lbh" x="24" y="4">schema-forge</text></g>
+            </g>
+            <g class="node c1" data-id="typed-fields" data-c="1" data-x="575" data-y="82" tabindex="0" role="button" aria-label="typed-fields, 校验与模式社区, 菱形, 度数 3。邻居: schema-forge、coerce-cast、roll-tokens">
+              <g class="pop" style="animation-delay:240ms"><path class="shp" d="M0,-12 L12,0 L0,12 L-12,0 Z"/><text x="0" y="-21" text-anchor="middle">typed-fields</text></g>
+            </g>
+            <g class="node c1" data-id="coerce-cast" data-c="1" data-x="858" data-y="102" tabindex="0" role="button" aria-label="coerce-cast, 校验与模式社区, 菱形, 度数 3。邻居: schema-forge、typed-fields、utilshed">
+              <g class="pop" style="animation-delay:270ms"><path class="shp" d="M0,-12 L12,0 L0,12 L-12,0 Z"/><text x="0" y="-22" text-anchor="middle">coerce-cast</text></g>
+            </g>
+            <g class="node c1" data-id="proto-check" data-c="1" data-x="872" data-y="240" tabindex="0" role="button" aria-label="proto-check, 校验与模式社区, 菱形, 度数 2。邻居: schema-forge、mock-relay">
+              <g class="pop" style="animation-delay:300ms"><path class="shp" d="M0,-10 L10,0 L0,10 L-10,0 Z"/><text x="14" y="4">proto-check</text></g>
+            </g>
+            <g class="node c1" data-id="err-codec" data-c="1" data-x="742" data-y="296" tabindex="0" role="button" aria-label="err-codec, 校验与模式社区, 菱形, 度数 2。邻居: schema-forge、middleware-rack">
+              <g class="pop" style="animation-delay:330ms"><path class="shp" d="M0,-10 L10,0 L0,10 L-10,0 Z"/><text x="-14" y="4" text-anchor="end">err-codec</text></g>
+            </g>
+            <g class="node c2" data-id="hyperlane" data-c="2" data-x="768" data-y="462" tabindex="0" role="button" aria-label="hyperlane, 服务与路由社区, 方形, 度数 7。邻居: router-seven、middleware-rack、fetch-lite、serve-static、mock-relay、log-tap、utilshed">
+              <g class="pop" style="animation-delay:360ms"><rect class="shp" x="-20" y="-20" width="40" height="40" rx="4"/><text class="lbh" x="26" y="-8">hyperlane</text></g>
+            </g>
+            <g class="node c2" data-id="router-seven" data-c="2" data-x="608" data-y="398" tabindex="0" role="button" aria-label="router-seven, 服务与路由社区, 方形, 度数 3。邻居: hyperlane、serve-static、schema-forge">
+              <g class="pop" style="animation-delay:390ms"><rect class="shp" x="-12" y="-12" width="24" height="24" rx="3"/><text x="-17" y="4" text-anchor="end">router-seven</text></g>
+            </g>
+            <g class="node c2" data-id="middleware-rack" data-c="2" data-x="898" data-y="398" tabindex="0" role="button" aria-label="middleware-rack, 服务与路由社区, 方形, 度数 2。邻居: hyperlane、err-codec">
+              <g class="pop" style="animation-delay:420ms"><rect class="shp" x="-10" y="-10" width="20" height="20" rx="3"/><text x="-15" y="0" text-anchor="end">middleware-rack</text></g>
+            </g>
+            <g class="node c2" data-id="fetch-lite" data-c="2" data-x="905" data-y="530" tabindex="0" role="button" aria-label="fetch-lite, 服务与路由社区, 方形, 度数 1。邻居: hyperlane">
+              <g class="pop" style="animation-delay:450ms"><rect class="shp" x="-8" y="-8" width="16" height="16" rx="2"/><text x="-13" y="4" text-anchor="end">fetch-lite</text></g>
+            </g>
+            <g class="node c2" data-id="serve-static" data-c="2" data-x="842" data-y="576" tabindex="0" role="button" aria-label="serve-static, 服务与路由社区, 方形, 度数 3。邻居: hyperlane、router-seven、path-joinery">
+              <g class="pop" style="animation-delay:480ms"><rect class="shp" x="-10" y="-10" width="20" height="20" rx="3"/><text x="0" y="28" text-anchor="middle">serve-static</text></g>
+            </g>
+            <g class="node c2" data-id="mock-relay" data-c="2" data-x="636" data-y="560" tabindex="0" role="button" aria-label="mock-relay, 服务与路由社区, 方形, 度数 2。邻居: hyperlane、proto-check">
+              <g class="pop" style="animation-delay:510ms"><rect class="shp" x="-10" y="-10" width="20" height="20" rx="3"/><text x="15" y="4">mock-relay</text></g>
+            </g>
+            <g class="node c3" data-id="utilshed" data-c="3" data-x="470" data-y="478" tabindex="0" role="button" aria-label="utilshed, 基础工具社区, 三角形, 度数 8。邻居: bundler-core、coerce-cast、hyperlane、deep-merge、path-joinery、date-roll、tiny-uuid、log-tap">
+              <g class="pop" style="animation-delay:540ms"><path class="shp" d="M0,-25 L22,16 L-22,16 Z"/><text class="lbh" x="-30" y="6" text-anchor="end">utilshed</text></g>
+            </g>
+            <g class="node c3" data-id="deep-merge" data-c="3" data-x="338" data-y="548" tabindex="0" role="button" aria-label="deep-merge, 基础工具社区, 三角形, 度数 1。邻居: utilshed">
+              <g class="pop" style="animation-delay:570ms"><path class="shp" d="M0,-9 L8,6 L-8,6 Z"/><text x="0" y="-16" text-anchor="middle">deep-merge</text></g>
+            </g>
+            <g class="node c3" data-id="path-joinery" data-c="3" data-x="420" data-y="592" tabindex="0" role="button" aria-label="path-joinery, 基础工具社区, 三角形, 度数 2。邻居: utilshed、serve-static">
+              <g class="pop" style="animation-delay:600ms"><path class="shp" d="M0,-11 L10,7 L-10,7 Z"/><text x="0" y="26" text-anchor="middle">path-joinery</text></g>
+            </g>
+            <g class="node c3" data-id="date-roll" data-c="3" data-x="302" data-y="452" tabindex="0" role="button" aria-label="date-roll, 基础工具社区, 三角形, 度数 1。邻居: utilshed">
+              <g class="pop" style="animation-delay:630ms"><path class="shp" d="M0,-9 L8,6 L-8,6 Z"/><text x="-13" y="4" text-anchor="end">date-roll</text></g>
+            </g>
+            <g class="node c3" data-id="tiny-uuid" data-c="3" data-x="568" data-y="596" tabindex="0" role="button" aria-label="tiny-uuid, 基础工具社区, 三角形, 度数 1。邻居: utilshed">
+              <g class="pop" style="animation-delay:660ms"><path class="shp" d="M0,-9 L8,6 L-8,6 Z"/><text x="0" y="26" text-anchor="middle">tiny-uuid</text></g>
+            </g>
+            <g class="node c3" data-id="log-tap" data-c="3" data-x="562" data-y="318" tabindex="0" role="button" aria-label="log-tap, 基础工具社区, 三角形, 度数 3, 横跨三个社区的桥节点。邻居: bundler-core、hyperlane、utilshed">
+              <g class="pop" style="animation-delay:690ms"><path class="shp" d="M0,-14 L12,9 L-12,9 Z"/><text x="17" y="4">log-tap</text></g>
+            </g>
+          </g>
+        </svg>
+
+        <p class="readout" id="readout" role="status" aria-live="polite">聚焦或悬停任一节点, 此处读出社区、度数与全部邻居。键盘: 方向键在节点间移动, Enter 下钻邻接表, Esc 清除。</p>
+
+        <figcaption class="figfoot">
+          <span class="chip"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>构建核心</span>
+          <span class="chip"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1 L11,6 L6,11 L1,6 Z" fill="#BE123C"/></svg>校验与模式</span>
+          <span class="chip"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>服务与路由</span>
+          <span class="chip"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>基础工具</span>
+          <span class="chip"><svg width="26" height="8" viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="#90A4AE" stroke-width="3.2"/></svg>重依赖</span>
+          <span class="chip"><svg width="26" height="8" viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="#90A4AE" stroke-width="2.2"/></svg>中依赖</span>
+          <span class="chip"><svg width="26" height="8" viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="#90A4AE" stroke-width="1.4"/></svg>轻依赖</span>
+          <span class="chip"><svg width="26" height="8" viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="#90A4AE" stroke-width="1.4" stroke-dasharray="4 3"/></svg>开发期依赖</span>
+          <span class="chip"><svg width="26" height="8" viewBox="0 0 26 8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="#F59E0B" stroke-width="4"/></svg>聚焦高亮</span>
+          <span class="chip">虚线椭圆为社区轮廓</span>
+        </figcaption>
+      </figure>
+
+      <aside class="panel spec" aria-labelledby="s1t">
+        <h3 id="s1t">图注: 视觉编码规格</h3>
+        <dl>
+          <div><dt>节点半径</dt><dd>编码度数: r = 6 + 2 × 度。bundler-core 与 utilshed 度数 8, 半径最大。</dd></div>
+          <div><dt>社区通道</dt><dd>色相加形状双通道: 圆构建, 菱校验, 方服务, 三角工具。Louvain 模块度聚类。</dd></div>
+          <div><dt>边宽</dt><dd>编码依赖权重: 轻 1.4 / 中 2.2 / 重 3.2 px, 以周调用量分级。</dd></div>
+          <div><dt>边型</dt><dd>实线运行时依赖, 虚线开发期依赖 (测试、mock 与构建监听)。</dd></div>
+          <div><dt>边色</dt><dd>#90A4AE, 60% 不透明度, 压在节点之下不与社区色争抢。</dd></div>
+          <div><dt>高亮路径</dt><dd>#F59E0B, 同时增粗到 4px 并压暗非邻域, 不依赖颜色单一通道。</dd></div>
+          <div><dt>交互</dt><dd>Drilldown 加 Hover: 聚焦读值, Enter 下钻邻接表对应行。</dd></div>
+          <div><dt>无障碍</dt><dd>风险 high: 网络图仅为增强层, 邻接表才是事实源。</dd></div>
+        </dl>
+        <div class="cent">
+          <h3>度数中心性排序</h3>
+          <ul>
+            <li><span>bundler-core</span><span class="bar"><i style="width:100%"></i></span><b>8</b></li>
+            <li><span>utilshed</span><span class="bar"><i style="width:100%"></i></span><b>8</b></li>
+            <li><span>hyperlane</span><span class="bar"><i style="width:87.5%"></i></span><b>7</b></li>
+            <li><span>schema-forge</span><span class="bar"><i style="width:75%"></i></span><b>6</b></li>
+            <li><span>log-tap<span class="tagb">桥</span></span><span class="bar"><i style="width:37.5%"></i></span><b>3</b></li>
+          </ul>
+        </div>
+        <p class="tail">实现库参考: D3.js (d3-force) / Vis.js / Cytoscape.js。本图为手写 SVG 预排布, 24 节点未超过 SVG 档上限。</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="s2">
+  <div class="wrap">
+    <p class="kicker">02 / 布局失控</p>
+    <h2>头发丝问题: 当力导向不再可读</h2>
+    <p class="note">力导向布局的代价随规模非线性增长: 边密度一旦超过阈值, 弹簧力把所有节点拉成一团灰雾, 社区、度数与桥全部消失, 这就是头发丝 (hairball) 问题。左右为同一规模的对照样。</p>
+    <div class="duo" style="margin-top:18px">
+      <figure class="panel">
+        <p class="cap mini-h"><b class="bad">失控样</b> / 20 节点 41 边, 未聚类直接渲染</p>
+        <svg viewBox="0 0 300 210" width="300" role="img" aria-label="失控的网络图: 20 个节点 41 条边互相穿插, 无法分辨任何社区结构">
+          <path class="mini-edge" d="M30,40L70,25M30,40L120,60M30,40L90,95M30,40L40,130M70,25L120,60M70,25L160,30M70,25L90,95M120,60L160,30M120,60L210,55M120,60L190,85M120,60L140,110M160,30L210,55M210,55L260,35M210,55L240,100M210,55L190,85M260,35L285,90M285,90L240,100M285,90L275,175M285,90L235,150M240,100L190,85M240,100L235,150M190,85L140,110M140,110L90,95M140,110L130,150M90,95L40,130M90,95L75,165M40,130L75,165M40,130L35,190M75,165L130,150M75,165L35,190M130,150L185,170M130,150L115,192M185,170L235,150M185,170L175,200M185,170L115,192M235,150L275,175M235,150L255,205M275,175L255,205M35,190L115,192M115,192L175,200M175,200L255,205"/>
+          <circle class="mini-node" cx="30" cy="40" r="3.5"/><circle class="mini-node" cx="70" cy="25" r="3"/><circle class="mini-node" cx="120" cy="60" r="4.5"/><circle class="mini-node" cx="160" cy="30" r="3"/><circle class="mini-node" cx="210" cy="55" r="4"/>
+          <circle class="mini-node" cx="260" cy="35" r="2.5"/><circle class="mini-node" cx="285" cy="90" r="3"/><circle class="mini-node" cx="240" cy="100" r="4.5"/><circle class="mini-node" cx="190" cy="85" r="3.5"/><circle class="mini-node" cx="140" cy="110" r="5"/>
+          <circle class="mini-node" cx="90" cy="95" r="4"/><circle class="mini-node" cx="40" cy="130" r="3.5"/><circle class="mini-node" cx="75" cy="165" r="3"/><circle class="mini-node" cx="130" cy="150" r="4"/><circle class="mini-node" cx="185" cy="170" r="3.5"/>
+          <circle class="mini-node" cx="235" cy="150" r="4"/><circle class="mini-node" cx="275" cy="175" r="2.5"/><circle class="mini-node" cx="35" cy="190" r="2.5"/><circle class="mini-node" cx="115" cy="192" r="3"/><circle class="mini-node" cx="175" cy="200" r="2.5"/>
+        </svg>
+        <figcaption>社区淹没在线团里, 度数差异被抹平, 桥无法辨认。继续加节点只会更糟: 力导向不会自愈。</figcaption>
+      </figure>
+      <figure class="panel">
+        <p class="cap mini-h"><b>受控样</b> / 同规模先聚类再布局, 15 节点 18 边</p>
+        <svg viewBox="0 0 300 210" width="300" role="img" aria-label="受控的网络图: 三个社区各自成块, 桥边清晰可辨">
+          <path class="mini-edge" d="M80,72L52,52M80,72L92,44M80,72L105,82M80,72L60,100M105,82L60,100"/>
+          <path class="mini-edge" d="M232,62L205,48M232,62L245,40M232,62L258,78M232,62L215,85M205,48L245,40"/>
+          <path class="mini-edge" d="M152,152L128,140M152,152L168,132M152,152L178,165M152,152L135,172M128,140L135,172"/>
+          <path class="mini-edge" d="M80,72L232,62M60,100L128,140M215,85L152,152"/>
+          <circle cx="80" cy="72" r="5" fill="#0F766E"/><circle cx="52" cy="52" r="3" fill="#0F766E"/><circle cx="92" cy="44" r="3" fill="#0F766E"/><circle cx="105" cy="82" r="3" fill="#0F766E"/><circle cx="60" cy="100" r="3" fill="#0F766E"/>
+          <rect x="-3" y="-3" width="6" height="6" fill="#4338CA" transform="translate(232,62)"/><rect x="-3" y="-3" width="6" height="6" fill="#4338CA" transform="translate(205,48)"/><rect x="-3" y="-3" width="6" height="6" fill="#4338CA" transform="translate(245,40)"/><rect x="-3" y="-3" width="6" height="6" fill="#4338CA" transform="translate(258,78)"/><rect x="-3" y="-3" width="6" height="6" fill="#4338CA" transform="translate(215,85)"/>
+          <path d="M0,-4.5 L4.5,0 L0,4.5 L-4.5,0 Z" fill="#BE123C" transform="translate(152,152)"/><path d="M0,-4.5 L4.5,0 L0,4.5 L-4.5,0 Z" fill="#BE123C" transform="translate(128,140)"/><path d="M0,-4.5 L4.5,0 L0,4.5 L-4.5,0 Z" fill="#BE123C" transform="translate(168,132)"/><path d="M0,-4.5 L4.5,0 L0,4.5 L-4.5,0 Z" fill="#BE123C" transform="translate(178,165)"/><path d="M0,-4.5 L4.5,0 L0,4.5 L-4.5,0 Z" fill="#BE123C" transform="translate(135,172)"/>
+        </svg>
+        <figcaption>先聚类 (形状与色相标社区) 再布局, 社区成块、桥边显形、度数可分辨。三条桥边是唯一允许的跨社区连线。</figcaption>
+      </figure>
+    </div>
+
+    <div class="boundgrid">
+      <div class="bcell">
+        <h3>何时不用 (官方)</h3>
+        <ul>
+          <li>节点 <b>&gt; 500</b> 且未预先聚类</li>
+          <li>用户需要精确的连接计数</li>
+          <li>移动端语境 (触点小、无悬停)</li>
+        </ul>
+      </div>
+      <div class="bcell">
+        <h3>数据量分档 (官方)</h3>
+        <ul>
+          <li><b>不超 100</b> 节点: SVG</li>
+          <li><b>101 至 500</b>: Canvas</li>
+          <li><b>超过 500</b>: 先聚类与 LOD 再渲染</li>
+        </ul>
+      </div>
+      <div class="bcell">
+        <h3>次选图型 (官方)</h3>
+        <ul>
+          <li>Hierarchical Tree: 关系呈树状从属时</li>
+          <li>Adjacency Matrix: 需要精确计数时</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="wrap">
+    <p class="kicker">03 / 邻接表后备</p>
+    <h2>邻接表: 可访问的事实源</h2>
+    <p class="note">屏幕阅读器读不了力导向布局。按官方要求, 邻接表与关系摘要承担全部数值事实, 上方的 SVG 只是视觉增强。聚焦节点后按 Enter, 对应行与邻居行会在表中标出。</p>
+    <p class="summary"><span>节点 <b>24</b></span><span>边 <b>36</b></span><span>平均度 <b>3.0</b></span><span>密度 <b>0.130</b></span><span>最大度 <b>8</b></span><span>桥节点 <b>log-tap</b> (横跨构建、服务、工具三社区)</span></p>
+    <div class="tscroll">
+      <div class="adj" id="adj" role="table" aria-label="依赖网络邻接表: 每行一个包, 列出社区、度数与全部直接邻居">
+        <div class="arow head" role="row">
+          <span role="columnheader">包</span><span role="columnheader">社区</span><span role="columnheader">度数</span><span role="columnheader">直接邻居</span><span role="columnheader">运行时/开发</span>
+        </div>
+        <div class="arow" role="row" data-pkg="bundler-core"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>bundler-core</span><span>构建核心</span><span class="num">8</span><span>roll-tokens、esb-bridge、watch-grid、config-schema、map-sourcer、cache-vault、log-tap、utilshed</span><span class="num">6/2</span></div>
+        <div class="arow" role="row" data-pkg="roll-tokens"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>roll-tokens</span><span>构建核心</span><span class="num">2</span><span>bundler-core、typed-fields</span><span class="num">2/0</span></div>
+        <div class="arow" role="row" data-pkg="esb-bridge"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>esb-bridge</span><span>构建核心</span><span class="num">3</span><span>bundler-core、config-schema、map-sourcer</span><span class="num">3/0</span></div>
+        <div class="arow" role="row" data-pkg="watch-grid"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>watch-grid</span><span>构建核心</span><span class="num">2</span><span>bundler-core、cache-vault</span><span class="num">0/2</span></div>
+        <div class="arow" role="row" data-pkg="cache-vault"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>cache-vault</span><span>构建核心</span><span class="num">2</span><span>bundler-core、watch-grid</span><span class="num">0/2</span></div>
+        <div class="arow" role="row" data-pkg="map-sourcer"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>map-sourcer</span><span>构建核心</span><span class="num">2</span><span>bundler-core、esb-bridge</span><span class="num">2/0</span></div>
+        <div class="arow" role="row" data-pkg="config-schema"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#0F766E"/></svg>config-schema</span><span>构建核心</span><span class="num">3</span><span>bundler-core、esb-bridge、schema-forge</span><span class="num">3/0</span></div>
+        <div class="arow" role="row" data-pkg="schema-forge"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1 L11,6 L6,11 L1,6 Z" fill="#BE123C"/></svg>schema-forge</span><span>校验与模式</span><span class="num">6</span><span>typed-fields、coerce-cast、proto-check、config-schema、router-seven、err-codec</span><span class="num">6/0</span></div>
+        <div class="arow" role="row" data-pkg="typed-fields"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1 L11,6 L6,11 L1,6 Z" fill="#BE123C"/></svg>typed-fields</span><span>校验与模式</span><span class="num">3</span><span>schema-forge、coerce-cast、roll-tokens</span><span class="num">3/0</span></div>
+        <div class="arow" role="row" data-pkg="coerce-cast"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1 L11,6 L6,11 L1,6 Z" fill="#BE123C"/></svg>coerce-cast</span><span>校验与模式</span><span class="num">3</span><span>schema-forge、typed-fields、utilshed</span><span class="num">3/0</span></div>
+        <div class="arow" role="row" data-pkg="proto-check"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1 L11,6 L6,11 L1,6 Z" fill="#BE123C"/></svg>proto-check</span><span>校验与模式</span><span class="num">2</span><span>schema-forge、mock-relay</span><span class="num">1/1</span></div>
+        <div class="arow" role="row" data-pkg="err-codec"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1 L11,6 L6,11 L1,6 Z" fill="#BE123C"/></svg>err-codec</span><span>校验与模式</span><span class="num">2</span><span>schema-forge、middleware-rack</span><span class="num">2/0</span></div>
+        <div class="arow" role="row" data-pkg="hyperlane"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>hyperlane</span><span>服务与路由</span><span class="num">7</span><span>router-seven、middleware-rack、fetch-lite、serve-static、mock-relay、log-tap、utilshed</span><span class="num">5/2</span></div>
+        <div class="arow" role="row" data-pkg="router-seven"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>router-seven</span><span>服务与路由</span><span class="num">3</span><span>hyperlane、serve-static、schema-forge</span><span class="num">3/0</span></div>
+        <div class="arow" role="row" data-pkg="middleware-rack"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>middleware-rack</span><span>服务与路由</span><span class="num">2</span><span>hyperlane、err-codec</span><span class="num">2/0</span></div>
+        <div class="arow" role="row" data-pkg="fetch-lite"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>fetch-lite</span><span>服务与路由</span><span class="num">1</span><span>hyperlane</span><span class="num">0/1</span></div>
+        <div class="arow" role="row" data-pkg="serve-static"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>serve-static</span><span>服务与路由</span><span class="num">3</span><span>hyperlane、router-seven、path-joinery</span><span class="num">3/0</span></div>
+        <div class="arow" role="row" data-pkg="mock-relay"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="#4338CA"/></svg>mock-relay</span><span>服务与路由</span><span class="num">2</span><span>hyperlane、proto-check</span><span class="num">0/2</span></div>
+        <div class="arow" role="row" data-pkg="utilshed"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>utilshed</span><span>基础工具</span><span class="num">8</span><span>bundler-core、coerce-cast、hyperlane、deep-merge、path-joinery、date-roll、tiny-uuid、log-tap</span><span class="num">8/0</span></div>
+        <div class="arow" role="row" data-pkg="deep-merge"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>deep-merge</span><span>基础工具</span><span class="num">1</span><span>utilshed</span><span class="num">1/0</span></div>
+        <div class="arow" role="row" data-pkg="path-joinery"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>path-joinery</span><span>基础工具</span><span class="num">2</span><span>utilshed、serve-static</span><span class="num">2/0</span></div>
+        <div class="arow" role="row" data-pkg="date-roll"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>date-roll</span><span>基础工具</span><span class="num">1</span><span>utilshed</span><span class="num">1/0</span></div>
+        <div class="arow" role="row" data-pkg="tiny-uuid"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>tiny-uuid</span><span>基础工具</span><span class="num">1</span><span>utilshed</span><span class="num">1/0</span></div>
+        <div class="arow" role="row" data-pkg="log-tap"><span class="pkg"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6,1.5 L11,10 L1,10 Z" fill="#37474F"/></svg>log-tap</span><span>基础工具</span><span class="num">3</span><span>bundler-core、hyperlane、utilshed</span><span class="num">3/0</span></div>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="btnReset" type="button">清除聚焦与标行</button>
+      <span style="font-size:13.5px;color:var(--mut)">标行规则: 橙底为本体, 浅底为邻居</span>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <div class="wrap">
+    <p class="kicker">04 / 无障碍要点</p>
+    <h2>让力导向布局可聚焦、可读值、可核对</h2>
+    <div class="a11y-grid">
+      <div class="panel">
+        <ul class="checks">
+          <li><span class="no">1</span><span><b>双通道社区编码</b>: 社区同时用形状 (圆、菱、方、三角) 与色相区分, 虚线椭圆轮廓加文字标注兜底, 不依赖色觉。</span></li>
+          <li><span class="no">2</span><span><b>节点可聚焦读值</b>: 每个节点可 Tab 聚焦, 读值面板即时报出社区、度数、运行时/开发边数与全部邻居, role 为 status 的实时区同步播报。</span></li>
+          <li><span class="no">3</span><span><b>方向键替代拖拽</b>: 按官方要求, 上/下/左/右在节点间按几何方向移动焦点, 键盘用户不需要鼠标拖拽。</span></li>
+          <li><span class="no">4</span><span><b>Enter 下钻</b>: 聚焦节点按 Enter, 邻接表中本体行与邻居行同时标出并滚动到位, 图与表可互相核对。</span></li>
+          <li><span class="no">5</span><span><b>邻接表为事实源</b>: 风险等级 high。SVG 图是增强层, 全部数值以邻接表与关系摘要为准; 高亮除变色外同时增粗线宽并压暗非邻域。</span></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>键盘操作表</h3>
+        <table class="kbdtable">
+          <thead><tr><th scope="col">按键</th><th scope="col">行为</th></tr></thead>
+          <tbody>
+            <tr><td><span class="kbd">Tab</span></td><td>逐个聚焦网络节点, 顺序与邻接表一致 (按社区分组)</td></tr>
+            <tr><td><span class="kbd">上</span> <span class="kbd">下</span> <span class="kbd">左</span> <span class="kbd">右</span></td><td>按几何方向跳到最近的节点, 替代拖拽浏览</td></tr>
+            <tr><td><span class="kbd">Enter</span> 或 <span class="kbd">Space</span></td><td>下钻: 在邻接表中标出本体行与邻居行</td></tr>
+            <tr><td><span class="kbd">Esc</span></td><td>清除当前聚焦, 读值面板回到初始提示</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:12px">动效仅在首次亮相时播放一次节点弹入; 系统开启减少动态偏好时全部降级为静态呈现。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>UI 设计提示词库 / 图表图鉴 / 关系网络</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var svg=document.getElementById('net');
+  if(!svg)return;
+  var edges=[].slice.call(svg.querySelectorAll('.edge'));
+  var nodeEls=[].slice.call(svg.querySelectorAll('.node'));
+  var readout=document.getElementById('readout');
+  var table=document.getElementById('adj');
+  var CNAME=['构建核心','校验与模式','服务与路由','基础工具'];
+  var nbrs={},pos={};
+  nodeEls.forEach(function(n){
+    nbrs[n.dataset.id]=[];
+    pos[n.dataset.id]=[+n.dataset.x,+n.dataset.y];
+  });
+  edges.forEach(function(e){
+    var a=e.getAttribute('data-a'),b=e.getAttribute('data-b');
+    if(!nbrs[a]||!nbrs[b])return;
+    nbrs[a].push(b);nbrs[b].push(a);
+  });
+  var DEF=readout.textContent,lock=null,hover=null;
+  function cur(){return lock||hover;}
+  function paint(){
+    var id=cur();
+    svg.classList.toggle('focus',!!id);
+    nodeEls.forEach(function(n){
+      n.classList.toggle('on',!!id&&(n.dataset.id===id||nbrs[id].indexOf(n.dataset.id)>-1));
+    });
+    edges.forEach(function(e){
+      e.classList.toggle('hl',!!id&&(e.getAttribute('data-a')===id||e.getAttribute('data-b')===id));
+    });
+  }
+  function devCount(id){
+    return edges.filter(function(e){
+      return (e.getAttribute('data-a')===id||e.getAttribute('data-b')===id)&&e.classList.contains('dev');
+    }).length;
+  }
+  function readoutFor(id){
+    var n=nodeEls.filter(function(x){return x.dataset.id===id;})[0];
+    var d=nbrs[id].length,dev=devCount(id);
+    return id+' / '+CNAME[+n.dataset.c]+' / 度数 '+d+' / 运行时 '+(d-dev)+' 条 + 开发 '+dev+' 条 / 邻居: '+nbrs[id].join('、');
+  }
+  function show(id,src){
+    if(src==='focus')lock=id;else hover=id;
+    paint();
+    readout.textContent=readoutFor(id)+(src==='focus'?'。Enter 下钻邻接表, Esc 清除。':'');
+  }
+  function clearIt(src){
+    if(src==='focus')lock=null;else hover=null;
+    paint();
+    if(!cur())readout.textContent=DEF;
+  }
+  function step(n,dx,dy){
+    var f=pos[n.dataset.id],best=null,bs=-1e9;
+    nodeEls.forEach(function(m){
+      var p=pos[m.dataset.id],ux=p[0]-f[0],uy=p[1]-f[1];
+      var proj=ux*dx+uy*dy,perp=Math.abs(ux*dy-uy*dx);
+      if(proj>24){
+        var s=proj-0.55*perp;
+        if(s>bs){bs=s;best=m;}
+      }
+    });
+    if(best)best.focus();
+  }
+  function drill(id){
+    var rows=[].slice.call(table.querySelectorAll('[data-pkg]'));
+    rows.forEach(function(r){
+      r.classList.toggle('hit',r.getAttribute('data-pkg')===id);
+      r.classList.toggle('hit2',r.getAttribute('data-pkg')!==id&&nbrs[id].indexOf(r.getAttribute('data-pkg'))>-1);
+    });
+    var r=rows.filter(function(x){return x.getAttribute('data-pkg')===id;})[0];
+    if(r&&r.scrollIntoView){
+      var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      r.scrollIntoView({behavior:rm?'auto':'smooth',block:'center'});
+    }
+    readout.textContent=readoutFor(id)+'。已在下方邻接表标出该行与邻居行。';
+  }
+  function clearSel(){
+    [].slice.call(table.querySelectorAll('.hit,.hit2')).forEach(function(r){
+      r.classList.remove('hit');r.classList.remove('hit2');
+    });
+  }
+  nodeEls.forEach(function(n){
+    n.addEventListener('focus',function(){show(n.dataset.id,'focus');});
+    n.addEventListener('blur',function(){clearIt('focus');});
+    n.addEventListener('mouseenter',function(){show(n.dataset.id,'hover');});
+    n.addEventListener('mouseleave',function(){clearIt('hover');});
+    n.addEventListener('keydown',function(ev){
+      if(ev.key==='ArrowUp'){ev.preventDefault();step(n,0,-1);}
+      else if(ev.key==='ArrowDown'){ev.preventDefault();step(n,0,1);}
+      else if(ev.key==='ArrowLeft'){ev.preventDefault();step(n,-1,0);}
+      else if(ev.key==='ArrowRight'){ev.preventDefault();step(n,1,0);}
+      else if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();drill(n.dataset.id);}
+      else if(ev.key==='Escape'){clearSel();clearIt('focus');}
+    });
+  });
+  document.getElementById('btnReset').addEventListener('click',function(){
+    lock=hover=null;clearSel();paint();readout.textContent=DEF;
+  });
+})();
+</script>
+</body>
+</html>

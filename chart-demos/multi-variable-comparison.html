@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 多维雷达 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴 No.14 / Multi-Variable Comparison：以两款双人露营帐篷六维对比雷达为主标本，覆盖轴数红线与降级分面条形、系列数上限、数据表后备。">
+<style>
+/* token 计划: 纸底 #F7F6F1 / 卡白 #FFFFFF / 墨 #22292D / 弱化 #515C63 / 系列A 靛蓝 #2757C8 实线圆点 / 系列B 焦橙 #A14A00 虚线方点 / 填充 30% 描边全不透明 / 网格 #CFCCC0 / 风险条件 #8A5A00 / 风险红 #7A2410 / 圆角 14-10 / 间距 4 倍数 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+:root {
+  --paper: #F7F6F1;
+  --card: #FFFFFF;
+  --ink: #22292D;
+  --muted: #515C63;
+  --line: #E2E0D6;
+  --line-strong: #C7C5BA;
+  --sa: #2757C8;
+  --sb: #A14A00;
+  --risk: #7A2410;
+  --risk-soft: #F9EBE4;
+  --cond: #8A5A00;
+  --cond-soft: #F9F3E3;
+  --cond-line: #D9C08F;
+  --ok-soft: #E9F2ED;
+  --ok-line: #BFD8CA;
+  --r: 14px;
+  --r-s: 10px;
+  --shadow: 0 10px 30px rgba(30, 38, 34, .08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.65;
+}
+h1, h2, h3, .serif { font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif; }
+a { color: #2E4A3D; }
+img, svg { display: block; }
+ul { list-style: none; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.wrap-wide { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+:focus-visible { outline: 3px solid #2E4A3D; outline-offset: 2px; border-radius: 4px; }
+
+/* 顶栏 */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(247, 246, 241, .94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.topbar-in {
+  max-width: 1160px; margin: 0 auto; padding: 12px 24px;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+}
+.topbar .brand { font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 17px; }
+.topbar .brand span { color: var(--muted); font-weight: 600; }
+.topbar a.back { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+.topbar a.back:hover { border-bottom-color: #2E4A3D; }
+
+/* 首屏 */
+.hero { padding: 52px 0 40px; border-bottom: 1px solid var(--line); }
+.kicker { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .02em; margin-bottom: 10px; }
+.hero h1 { font-size: clamp(30px, 4.4vw, 46px); font-weight: 900; line-height: 1.2; }
+.hero h1 em { font-style: normal; color: var(--sa); }
+.hero .lede { max-width: 720px; margin-top: 14px; font-size: 16.5px; color: var(--muted); }
+.meta { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+.meta div {
+  font-size: 13.5px; padding: 5px 12px; border: 1px solid var(--line-strong);
+  border-radius: 999px; background: var(--card); color: #3E474E;
+}
+.meta div b { font-weight: 700; color: var(--ink); }
+.meta .risk-chip { border-color: var(--cond-line); background: var(--cond-soft); color: var(--cond); font-weight: 700; }
+
+/* 区块标题 */
+section { padding: 46px 0 8px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+.sec-no { font-family: 'Noto Serif SC', serif; font-weight: 900; font-size: 15px; color: var(--sa); }
+h2 { font-size: 25px; font-weight: 700; }
+.sec-sub { color: var(--muted); font-size: 15px; margin-bottom: 22px; max-width: 760px; }
+
+/* 主标本 */
+.spec-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 26px; align-items: start; }
+.radar-fig {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  box-shadow: var(--shadow); padding: 20px 18px 14px;
+}
+.tg-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.tg {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink);
+  background: #F4F2EA; border: 1.5px solid var(--line-strong); border-radius: 999px;
+  padding: 7px 15px 7px 11px; cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, opacity .15s ease;
+}
+.tg:hover { background: #EFEDE3; border-color: #A8A596; }
+.tg[aria-pressed="false"] { opacity: .45; border-style: dashed; }
+.radar-scroll { overflow-x: auto; }
+.radar-scroll svg { width: 100%; min-width: 620px; height: auto; }
+.radar-fig figcaption {
+  margin-top: 8px; padding-top: 12px; border-top: 1px dashed var(--line-strong);
+  font-size: 13.5px; color: var(--muted); text-align: center;
+}
+.ring { fill: none; stroke: #D5D2C5; stroke-width: 1; }
+.ring-out { stroke: #B4B1A2; stroke-width: 1.5; }
+.spoke { stroke: #CFCCC0; stroke-width: 1; }
+.axn { font-size: 17px; font-weight: 700; fill: var(--ink); font-family: 'Noto Sans SC', sans-serif; }
+.axu { font-size: 11.5px; fill: var(--muted); font-family: 'Noto Sans SC', sans-serif; }
+.series { transition: opacity .2s ease; }
+.series:focus-visible { outline: 3px solid #22292D; outline-offset: 4px; }
+.radar.dim .series:not(.hot) { opacity: .2; }
+.radar .series.off { opacity: 0; pointer-events: none; }
+.polyA {
+  fill: var(--sa); fill-opacity: .3; stroke: var(--sa); stroke-width: 2.75; stroke-linejoin: round;
+  stroke-dasharray: 1150;
+  animation: draw 1s cubic-bezier(.45, 0, .2, 1) .15s backwards;
+}
+@keyframes draw { from { stroke-dashoffset: 1150; fill-opacity: 0; } to { stroke-dashoffset: 0; fill-opacity: .3; } }
+.gB { animation: wipe .85s ease-out .55s backwards; }
+@keyframes wipe { from { clip-path: circle(0px at 420px 330px); opacity: .3; } to { clip-path: circle(245px at 420px 330px); opacity: 1; } }
+.polyB { fill: var(--sb); fill-opacity: .3; stroke: var(--sb); stroke-width: 2.75; stroke-linejoin: round; stroke-dasharray: 8 6; fill-rule: nonzero; }
+.late { animation: pop .45s ease .95s backwards; }
+@keyframes pop { from { opacity: 0; } }
+.ptA { fill: #FFFFFF; stroke: var(--sa); stroke-width: 2.5; }
+.ptB { fill: #FFFFFF; stroke: var(--sb); stroke-width: 2.5; }
+.vA, .vB { font-size: 13.5px; font-weight: 700; font-family: 'Noto Sans SC', sans-serif; font-variant-numeric: tabular-nums; }
+.vA { fill: #1F4BB5; }
+.vB { fill: #94430A; }
+.series.hot .polyA, .series.hot .polyB { stroke-width: 4; }
+.spec-side { display: grid; gap: 18px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 20px 22px;
+}
+.card h3 { font-size: 17.5px; margin-bottom: 10px; }
+.card li { position: relative; padding-left: 16px; margin: 7px 0; font-size: 14.5px; color: #39434A; }
+.card li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 7px; height: 7px; border-radius: 2px; background: var(--sa);
+}
+.card li b { color: var(--ink); }
+.kb-card { border-left: 4px solid var(--sb); }
+.kb-card li::before { background: var(--sb); }
+.kb-card kbd {
+  font-family: Consolas, monospace; font-size: 12.5px; border: 1px solid var(--line-strong);
+  border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; background: #F2F1EA;
+}
+.ro-card { border-left: 4px solid var(--sa); }
+.ro-card li b { color: #1F4BB5; }
+.ro-card li::before { background: var(--sa); }
+
+/* 轴数红线与降级 */
+.deg-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 26px; align-items: stretch; }
+.fac-block {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  box-shadow: var(--shadow); padding: 22px;
+}
+.fac-head { font-size: 13.5px; color: var(--muted); margin-bottom: 16px; }
+.fac-head b { color: var(--ink); font-size: 15px; }
+.frow {
+  display: grid; grid-template-columns: 58px 1fr 1fr; gap: 6px 12px;
+  align-items: center; padding: 5px 0; border-top: 1px dashed var(--line);
+}
+.frow:first-of-type { border-top: none; }
+.fname { font-size: 13.5px; font-weight: 600; color: #39434A; }
+.ftrack { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.ftrack i { display: block; height: 10px; border-radius: 2px; flex: 0 1 auto; }
+.ftr-a i { background: var(--sa); }
+.ftr-b i { background: repeating-linear-gradient(45deg, var(--sb) 0 5px, #C5761F 5px 10px); }
+.ftrack b { font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); flex: none; }
+.fac-legend { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.fac-legend div { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #39434A; }
+.fac-legend .sw-a, .fac-legend .sw-b { width: 20px; height: 10px; border-radius: 2px; flex: none; }
+.fac-legend .sw-a { background: var(--sa); }
+.fac-legend .sw-b { background: repeating-linear-gradient(45deg, var(--sb) 0 5px, #C5761F 5px 10px); }
+.deg-note { display: grid; gap: 0; }
+.deg-note li { font-size: 14.5px; }
+
+/* 系列数限制 */
+.ser-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: stretch; }
+.mess-card { display: flex; flex-direction: column; }
+.mess-card svg { width: 100%; max-width: 300px; margin: 8px auto 10px; }
+.mess-card figcaption, .mess-card .cap {
+  font-size: 13px; color: var(--muted); text-align: center; margin-top: auto;
+  padding-top: 12px; border-top: 1px dashed var(--line-strong);
+}
+.m-ring { fill: none; stroke: #D5D2C5; stroke-width: 1; }
+.m-spoke { stroke: #DDDAD0; stroke-width: 1; }
+.m-p1 { fill: #8898AB; fill-opacity: .16; stroke: #74869C; stroke-width: 2; }
+.m-p2 { fill: #B08968; fill-opacity: .16; stroke: #9A7452; stroke-width: 2; stroke-dasharray: 6 4; }
+.m-p3 { fill: #7E9C8F; fill-opacity: .16; stroke: #68897B; stroke-width: 2; }
+.m-p4 { fill: #A78BBA; fill-opacity: .16; stroke: #9378A8; stroke-width: 2; stroke-dasharray: 3 3; }
+
+/* 无障碍 */
+.a11y-banner {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  background: var(--cond-soft); border: 1px solid var(--cond-line); border-radius: var(--r);
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.a11y-banner .tag {
+  background: var(--cond); color: #FFFFFF; font-weight: 700; font-size: 13.5px;
+  border-radius: 999px; padding: 4px 14px; flex: none;
+}
+.a11y-banner p { font-size: 14.5px; color: #5C4300; flex: 1; min-width: 260px; }
+.a11y-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.req-card { border-left: 4px solid var(--sa); }
+.req-card li::before { background: var(--sa); }
+.fb-card { border-left: 4px solid #5A6B7D; }
+.fb-card li::before { background: #5A6B7D; }
+
+/* 数据表 */
+.tbl-sum {
+  background: #FDFEFD; border: 1px solid var(--ok-line);
+  border-radius: var(--r-s); padding: 12px 18px; font-size: 14.5px; color: #33403A;
+  margin-bottom: 18px;
+}
+.tbl-sum b { color: #17563D; }
+.tbl-scroll { overflow-x: auto; }
+.dtable { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--card); min-width: 660px; }
+.trow {
+  display: grid; grid-template-columns: 1.3fr 1.25fr 1.15fr .5fr 1.15fr .5fr .8fr; align-items: center;
+  padding: 11px 18px; border-top: 1px solid var(--line); font-size: 14.5px;
+}
+.trow[role="columnheader"] {
+  border-top: none; background: #EFEDE5; font-weight: 700; font-size: 13px; color: var(--muted);
+}
+.trow .num { text-align: right; font-variant-numeric: tabular-nums; }
+.trow .dim { color: var(--muted); font-size: 13.5px; }
+.trow[data-i] { transition: background .15s ease; }
+.trow[data-i]:hover { background: #F4F6FA; }
+.trow.foot { background: #F2F1E9; font-weight: 700; }
+.trow.foot .dim { color: var(--muted); font-weight: 700; }
+.trow .lead-a { color: #1F4BB5; font-weight: 700; text-align: right; }
+.trow .lead-b { color: #94430A; font-weight: 700; text-align: right; }
+
+/* 使用边界 */
+.bound-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; padding-bottom: 46px; }
+.use-card { border-left: 4px solid var(--sa); }
+.not-card { border-left: 4px solid var(--risk); }
+.not-card li::before { background: var(--risk); }
+.threshold {
+  margin-top: 12px; font-size: 13.5px; color: var(--muted);
+  border-top: 1px dashed var(--line-strong); padding-top: 10px;
+}
+.threshold b { color: var(--ink); }
+
+/* 页脚 */
+footer { border-top: 1px solid var(--line); background: #F1F0E9; }
+.foot-in {
+  max-width: 1160px; margin: 0 auto; padding: 22px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  font-size: 14px; color: var(--muted);
+}
+.foot-in a { color: #2E4A3D; }
+
+/* 响应式 */
+@media (max-width: 900px) {
+  .spec-grid, .deg-grid, .ser-grid, .a11y-grid, .bound-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .hero { padding: 38px 0 30px; }
+  section { padding: 36px 0 6px; }
+  .frow { grid-template-columns: 48px 1fr 1fr; gap: 4px 8px; }
+  .fname, .ftrack b { font-size: 11.5px; }
+  .trow { padding: 10px 14px; font-size: 13.5px; }
+  .trow[role="columnheader"] { font-size: 12px; }
+  .tg { font-size: 12.5px; padding: 6px 12px 6px 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .polyA, .gB, .late { animation: none; }
+  .series, .trow[data-i], .tg { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">图表图鉴 <span>/ Multi-Variable No.14</span></div>
+    <a class="back" href="../style-catalog.html">返回风格目录</a>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <!-- 首屏 -->
+  <section class="hero">
+    <p class="kicker">图表图鉴 No.14 / 数据关系 Multi-Variable Comparison</p>
+    <h1>多维<em>雷达</em> / Radar or Spider Chart</h1>
+    <p class="lede">
+      当问题是「几个对象在同一组固定属性上谁强谁弱」时，雷达图用整体轮廓作答。本页以两款双人露营帐篷为标本：
+      六轴、两系列、顶点直标分数，轮廓交叉之处就是取舍所在。
+    </p>
+    <div class="meta">
+      <div>数据关系 <b>Multi-Variable Comparison</b></div>
+      <div>首选 <b>雷达 / Spider</b></div>
+      <div>次选 <b>平行坐标 / 分组条形</b></div>
+      <div>推荐库 <b>Chart.js / Recharts / ApexCharts</b></div>
+      <div>交互等级 <b>Hover + Toggle</b></div>
+      <div class="risk-chip">无障碍风险 条件性</div>
+    </div>
+  </section>
+
+  <!-- 主标本 -->
+  <section aria-labelledby="t-spec">
+    <div class="sec-head"><span class="sec-no">壹</span><h2 id="t-spec">主标本 / 两款双人帐篷六维对比</h2></div>
+    <p class="sec-sub">
+      远山 Pro 2P 与云脊 Lite 2P 在防水、重量、空间、搭建、价格、耐用六个固定维度上过招；六个轴落在官方
+      5 至 8 轴的适用区间，两个系列未超过每图 2 至 3 个系列的上限。
+    </p>
+    <div class="spec-grid">
+      <figure class="radar-fig">
+        <div class="tg-row" role="group" aria-label="切换帐篷系列的显示与隐藏">
+          <button class="tg" data-s="a" aria-pressed="true">
+            <svg width="26" height="10" viewBox="0 0 26 10" aria-hidden="true">
+              <line x1="1" y1="5" x2="25" y2="5" stroke="#2757C8" stroke-width="3"></line>
+              <circle cx="13" cy="5" r="3.4" fill="#FFFFFF" stroke="#2757C8" stroke-width="2"></circle>
+            </svg>
+            远山 Pro 2P / 实线圆点
+          </button>
+          <button class="tg" data-s="b" aria-pressed="true">
+            <svg width="26" height="10" viewBox="0 0 26 10" aria-hidden="true">
+              <line x1="1" y1="5" x2="25" y2="5" stroke="#A14A00" stroke-width="3" stroke-dasharray="6 4"></line>
+              <rect x="9.5" y="1.5" width="7" height="7" rx="1.5" fill="#FFFFFF" stroke="#A14A00" stroke-width="2"></rect>
+            </svg>
+            云脊 Lite 2P / 虚线方点
+          </button>
+        </div>
+        <div class="radar-scroll">
+          <svg class="radar" viewBox="0 0 840 640" role="group" aria-label="雷达图：远山 Pro 2P 与云脊 Lite 2P 六维对比，轴为防水指数、重量、内部空间、搭建速度、价格、耐用性，顶点直标得分，完整实测数值见下方数据表">
+            <!-- 网格环：自内向外 20 / 40 / 60 / 80 / 100 分 -->
+            <g aria-hidden="true">
+              <polygon class="ring" points="420,282 461.6,306 461.6,354 420,378 378.4,354 378.4,306"></polygon>
+              <polygon class="ring" points="420,234 503.1,282 503.1,378 420,426 336.9,378 336.9,282"></polygon>
+              <polygon class="ring" points="420,186 544.7,258 544.7,402 420,474 295.3,402 295.3,258"></polygon>
+              <polygon class="ring" points="420,138 586.3,234 586.3,426 420,522 253.7,426 253.7,234"></polygon>
+              <polygon class="ring ring-out" points="420,90 627.8,210 627.8,450 420,570 212.2,450 212.2,210"></polygon>
+              <line class="spoke" x1="420" y1="330" x2="420" y2="90"></line>
+              <line class="spoke" x1="420" y1="330" x2="627.8" y2="210"></line>
+              <line class="spoke" x1="420" y1="330" x2="627.8" y2="450"></line>
+              <line class="spoke" x1="420" y1="330" x2="420" y2="570"></line>
+              <line class="spoke" x1="420" y1="330" x2="212.2" y2="450"></line>
+              <line class="spoke" x1="420" y1="330" x2="212.2" y2="210"></line>
+            </g>
+            <!-- 轴标签：名称 + 单位与计分方向 -->
+            <g>
+              <text class="axn" x="420" y="58" text-anchor="middle">防水指数</text>
+              <text class="axu" x="420" y="74" text-anchor="middle">mm / 越高越好</text>
+              <text class="axn" x="644" y="206" text-anchor="start">重量</text>
+              <text class="axu" x="644" y="222" text-anchor="start">kg / 越低越好</text>
+              <text class="axn" x="644" y="452" text-anchor="start">内部空间</text>
+              <text class="axu" x="644" y="468" text-anchor="start">㎡ / 越高越好</text>
+              <text class="axn" x="420" y="596" text-anchor="middle">搭建速度</text>
+              <text class="axu" x="420" y="612" text-anchor="middle">分钟 / 越低越好</text>
+              <text class="axn" x="188" y="452" text-anchor="end">价格</text>
+              <text class="axu" x="188" y="468" text-anchor="end">定价 / 越低越好</text>
+              <text class="axn" x="188" y="206" text-anchor="end">耐用性</text>
+              <text class="axu" x="188" y="222" text-anchor="end">质保 / 越长越好</text>
+            </g>
+            <!-- 系列 A：远山 Pro 2P，实线圆点 -->
+            <g class="series" id="gA" tabindex="0" role="img"
+              aria-label="远山 Pro 2P：防水指数 3000 毫米得 82 分 / 重量 2.1 千克得 84 分 / 内部空间 2.9 平方米得 68 分 / 搭建约 3 分钟得 86 分 / 价格 1899 元得 46 分 / 耐用性 70D 面料 5 年质保得 90 分 / 综合均分 76">
+              <polygon class="polyA" points="420,133.2 594.6,229.2 561.3,411.6 420,536.4 324.4,385.2 232.9,222"></polygon>
+              <g class="late" aria-hidden="true">
+                <circle class="ptA" cx="420" cy="133.2" r="5"></circle>
+                <circle class="ptA" cx="594.6" cy="229.2" r="5"></circle>
+                <circle class="ptA" cx="561.3" cy="411.6" r="5"></circle>
+                <circle class="ptA" cx="420" cy="536.4" r="5"></circle>
+                <circle class="ptA" cx="324.4" cy="385.2" r="5"></circle>
+                <circle class="ptA" cx="232.9" cy="222" r="5"></circle>
+                <text class="vA" x="434" y="137" text-anchor="start">82</text>
+                <text class="vA" x="607" y="234" text-anchor="start">84</text>
+                <text class="vA" x="574" y="416" text-anchor="start">68</text>
+                <text class="vA" x="434" y="541" text-anchor="start">86</text>
+                <text class="vA" x="311" y="390" text-anchor="end">46</text>
+                <text class="vA" x="220" y="226" text-anchor="end">90</text>
+              </g>
+            </g>
+            <!-- 系列 B：云脊 Lite 2P，虚线方点 -->
+            <g class="series gB" id="gB" tabindex="0" role="img"
+              aria-label="云脊 Lite 2P：防水指数 2000 毫米得 58 分 / 重量 2.8 千克得 56 分 / 内部空间 3.3 平方米得 82 分 / 搭建约 7 分钟得 54 分 / 价格 799 元得 92 分 / 耐用性 40D 面料 2 年质保得 48 分 / 综合均分 65">
+              <polygon class="polyB" points="420,190.8 536.4,262.8 590.4,428.4 420,459.6 228.8,440.4 320.2,272.4"></polygon>
+              <g aria-hidden="true">
+                <rect class="ptB" x="415" y="185.8" width="10" height="10" rx="2"></rect>
+                <rect class="ptB" x="531.4" y="257.8" width="10" height="10" rx="2"></rect>
+                <rect class="ptB" x="585.4" y="423.4" width="10" height="10" rx="2"></rect>
+                <rect class="ptB" x="415" y="454.6" width="10" height="10" rx="2"></rect>
+                <rect class="ptB" x="223.8" y="435.4" width="10" height="10" rx="2"></rect>
+                <rect class="ptB" x="315.2" y="267.4" width="10" height="10" rx="2"></rect>
+                <text class="vB" x="434" y="195" text-anchor="start">58</text>
+                <text class="vB" x="549" y="267" text-anchor="start">56</text>
+                <text class="vB" x="603" y="433" text-anchor="start">82</text>
+                <text class="vB" x="434" y="464" text-anchor="start">54</text>
+                <text class="vB" x="215" y="445" text-anchor="end">92</text>
+                <text class="vB" x="307" y="277" text-anchor="end">48</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <figcaption>图 1 / 双人帐篷六维雷达 / 顶点数字为 0 至 100 综合分 / 悬停或 Tab 聚焦任一系列读全值 / 按钮可切换系列</figcaption>
+      </figure>
+      <div class="spec-side">
+        <div class="card">
+          <h3>读图笔记</h3>
+          <ul>
+            <li><b>远山 Pro 2P</b> 轮廓整体外扩，六维拿下五维，唯独价格轴收进内环（46 分）。</li>
+            <li><b>云脊 Lite 2P</b> 在价格（92）与内部空间（82）两轴反超，形成两处轮廓交叉。</li>
+            <li>重量、价格、搭建速度为<b>反向指标</b>：实测值越低，分数越高。</li>
+            <li>多系列按官方色规取差异色相、<b>30% 填充</b>、描边全不透明。</li>
+          </ul>
+        </div>
+        <div class="card ro-card">
+          <h3>系列读值 / 悬停或 Tab 聚焦</h3>
+          <ul id="ro-list" aria-live="polite">
+            <li>远山 Pro 2P 综合均分 <b>76</b> / 六维五优 / 唯一短板在价格</li>
+            <li>云脊 Lite 2P 综合均分 <b>65</b> / 价格与空间两项占优</li>
+            <li>两系列轮廓交叉互补 / 聚焦任一系列可读全部六维实测</li>
+          </ul>
+        </div>
+        <div class="card kb-card">
+          <h3>读值与键盘</h3>
+          <ul>
+            <li>两系列以<b>线型与点形</b>双编码：实线圆点 / 虚线方点，不依赖颜色。</li>
+            <li><kbd>Tab</kbd> 聚焦任一系列，读值区列出该系列全部六维实测与得分。</li>
+            <li>顶部按钮切换系列显隐，对应官方交互等级 <b>Hover + Toggle</b>。</li>
+            <li>完整数值以底部<b>数据表</b>兜底，屏幕阅读器可线性阅读。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 轴数红线 -->
+  <section aria-labelledby="t-deg">
+    <div class="sec-head"><span class="sec-no">贰</span><h2 id="t-deg">轴数红线 / 超过 8 轮就这样降级</h2></div>
+    <p class="sec-sub">
+      官方口径：5 至 8 轴适用，超过 8 轮直接不可读。假设评估维度从六个扩到十个（再加通风、防风、收纳、配件），
+      雷达就该让位——下图是降级后的分面条形迷你样，每维独立基线，十维依然精确。
+    </p>
+    <div class="deg-grid">
+      <div class="fac-block">
+        <p class="fac-head">同两款帐篷的十维拓展评估 / 分面条形 / 条长为 0 至 100 综合分</p>
+        <div role="img" aria-label="分面条形图：十维对比。防水 82 比 58 / 重量 84 比 56 / 空间 68 比 82 / 搭建 86 比 54 / 价格 46 比 92 / 耐用 90 比 48 / 通风 72 比 82 / 防风 88 比 50 / 收纳 58 比 76 / 配件 80 比 58，每组前一数为远山 Pro 2P">
+          <div class="frow"><span class="fname">防水</span><span class="ftrack ftr-a"><i style="width:82%"></i><b>82</b></span><span class="ftrack ftr-b"><i style="width:58%"></i><b>58</b></span></div>
+          <div class="frow"><span class="fname">重量</span><span class="ftrack ftr-a"><i style="width:84%"></i><b>84</b></span><span class="ftrack ftr-b"><i style="width:56%"></i><b>56</b></span></div>
+          <div class="frow"><span class="fname">空间</span><span class="ftrack ftr-a"><i style="width:68%"></i><b>68</b></span><span class="ftrack ftr-b"><i style="width:82%"></i><b>82</b></span></div>
+          <div class="frow"><span class="fname">搭建</span><span class="ftrack ftr-a"><i style="width:86%"></i><b>86</b></span><span class="ftrack ftr-b"><i style="width:54%"></i><b>54</b></span></div>
+          <div class="frow"><span class="fname">价格</span><span class="ftrack ftr-a"><i style="width:46%"></i><b>46</b></span><span class="ftrack ftr-b"><i style="width:92%"></i><b>92</b></span></div>
+          <div class="frow"><span class="fname">耐用</span><span class="ftrack ftr-a"><i style="width:90%"></i><b>90</b></span><span class="ftrack ftr-b"><i style="width:48%"></i><b>48</b></span></div>
+          <div class="frow"><span class="fname">通风</span><span class="ftrack ftr-a"><i style="width:72%"></i><b>72</b></span><span class="ftrack ftr-b"><i style="width:82%"></i><b>82</b></span></div>
+          <div class="frow"><span class="fname">防风</span><span class="ftrack ftr-a"><i style="width:88%"></i><b>88</b></span><span class="ftrack ftr-b"><i style="width:50%"></i><b>50</b></span></div>
+          <div class="frow"><span class="fname">收纳</span><span class="ftrack ftr-a"><i style="width:58%"></i><b>58</b></span><span class="ftrack ftr-b"><i style="width:76%"></i><b>76</b></span></div>
+          <div class="frow"><span class="fname">配件</span><span class="ftrack ftr-a"><i style="width:80%"></i><b>80</b></span><span class="ftrack ftr-b"><i style="width:58%"></i><b>58</b></span></div>
+        </div>
+        <div class="fac-legend">
+          <div><i class="sw-a"></i>远山 Pro 2P</div>
+          <div><i class="sw-b"></i>云脊 Lite 2P</div>
+        </div>
+      </div>
+      <div class="card deg-note">
+        <h3>降级路径</h3>
+        <ul>
+          <li><b>官方红线</b>：轴数大于 8 直接不可读，禁止硬画。</li>
+          <li><b>超过 8 轮</b>：切换平行坐标（官方次选），保留全维单视图。</li>
+          <li><b>本样例路线</b>：分面条形，即分组条形的分面形态，每维对齐自己的基线。</li>
+          <li><b>需要精确对比</b>时同样回到分组条形，官方无障碍回退与它同族。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 系列数限制 -->
+  <section aria-labelledby="t-ser">
+    <div class="sec-head"><span class="sec-no">叁</span><h2 id="t-ser">系列数限制 / 为什么 2 至 3 个封顶</h2></div>
+    <p class="sec-sub">官方阈值：每图最多 2 至 3 个数据系列。雷达的读法依赖轮廓对照，系列一多，先崩掉的不是颜色，是形状记忆。</p>
+    <div class="ser-grid">
+      <div class="card">
+        <h3>系列数的工程口径</h3>
+        <ul>
+          <li><b>2 系列</b>是最佳工况：两条轮廓一对照，强弱与交叉一目了然。</li>
+          <li><b>3 系列</b>是上限工况：仅当三者在多数轴上错层明显时可用。</li>
+          <li>第 4 个系列出现，即为切换信号：交点与穿越急剧增加，轮廓糊成蛛网。</li>
+          <li>超限拆法：拆成两张双系列雷达，或直接改分组条形。</li>
+        </ul>
+      </div>
+      <div class="card mess-card">
+        <h3>第四个系列挤进来之后</h3>
+        <svg viewBox="0 0 300 250" aria-hidden="true">
+          <polygon class="m-ring" points="150,77 183.9,91.1 198,125 183.9,158.9 150,173 116.1,158.9 102,125 116.1,91.1"></polygon>
+          <polygon class="m-ring" points="150,30 217.2,57.8 245,125 217.2,192.2 150,220 82.8,192.2 55,125 82.8,57.8"></polygon>
+          <line class="m-spoke" x1="150" y1="125" x2="150" y2="30"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="217.2" y2="57.8"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="245" y2="125"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="217.2" y2="192.2"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="150" y2="220"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="82.8" y2="192.2"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="55" y2="125"></line>
+          <line class="m-spoke" x1="150" y1="125" x2="82.8" y2="57.8"></line>
+          <polygon class="m-p1" points="150,35 213.6,61.4 205,125 206.6,181.6 150,195 89.9,185.1 100,125 104,79"></polygon>
+          <polygon class="m-p2" points="150,80 210.1,64.9 200,125 213.6,188.6 150,185 121.7,153.3 70,125 111.1,86.1"></polygon>
+          <polygon class="m-p3" points="150,55 178.3,96.7 240,125 188.9,163.9 150,210 107.6,167.4 55,125 82.8,57.8"></polygon>
+          <polygon class="m-p4" points="150,70 203,72 185,125 199.5,174.5 150,170 86.4,188.6 90,125 89.9,64.9"></polygon>
+        </svg>
+        <p class="cap">同轴集上叠加四个系列 / 轮廓交叠后已难逐一看清 / 仅作示意</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 无障碍 -->
+  <section aria-labelledby="t-a11y">
+    <div class="sec-head"><span class="sec-no">肆</span><h2 id="t-a11y">无障碍重点 / 条件性风险的守规矩用法</h2></div>
+    <p class="sec-sub">官方对雷达类的风险评级为条件性：图形本身可用与否，取决于画法是否齐备。</p>
+    <div class="a11y-banner">
+      <span class="tag">风险 条件性</span>
+      <p>
+        风险不在雷达本身，而在「只靠颜色和形状记忆」的画法。轴标签、顶点直标、线型点形、表格后备齐备时，
+        雷达对键盘与读屏同样可读；缺任何一项，就直接换分组条形。
+      </p>
+    </div>
+    <div class="a11y-grid">
+      <div class="card req-card">
+        <h3>画法要求</h3>
+        <ul>
+          <li>轴标签完整：<b>名称 + 单位 + 计分方向</b>，反向指标必须注明。</li>
+          <li>顶点<b>直标数值</b>，读值不依赖网格与颜色。</li>
+          <li>线型与点形双编码：实线圆点 / 虚线方点，官方明令不得只靠颜色。</li>
+          <li>多系列用差异色相 30% 填充、描边全不透明，键盘聚焦即读全部数值。</li>
+        </ul>
+      </div>
+      <div class="card fb-card">
+        <h3>回退规格</h3>
+        <ul>
+          <li>提供<b>原始数据表</b>与一句对比摘要，作为非图形回退。</li>
+          <li>提供<b>分组条形替代</b>视图（见第贰节分面样例）。</li>
+          <li>键盘路径完整：聚焦显示数值 / 按钮切换系列。</li>
+          <li>受众不熟悉雷达图时，官方建议直接不用，从条形起步。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据表后备 -->
+  <section aria-labelledby="t-table">
+    <div class="sec-head"><span class="sec-no">伍</span><h2 id="t-table">数据表后备 / 主标本完整数值</h2></div>
+    <p class="sec-sub">图形之外，同一组数据永远以表格存在；行行同网格对齐，数字右对齐等宽。</p>
+    <p class="tbl-sum">
+      一句话摘要：远山 Pro 2P 六维拿五维、综合均分 <b>76</b>，但 1,899 元的定价是唯一短板；
+      云脊 Lite 2P 以 <b>799</b> 元和 3.3 ㎡ 空间换回两项优势，综合均分 <b>65</b>。
+    </p>
+    <div class="tbl-scroll">
+      <div class="dtable" role="table" aria-label="两款双人帐篷六维对比数据表">
+        <div class="trow" role="columnheader">
+          <span>维度</span>
+          <span>单位与方向</span>
+          <span class="num">远山 Pro 2P</span>
+          <span class="num">得分</span>
+          <span class="num">云脊 Lite 2P</span>
+          <span class="num">得分</span>
+          <span class="num">领先</span>
+        </div>
+        <div class="trow" role="row">
+          <span>防水指数</span>
+          <span class="dim">mm / 越高越好</span>
+          <span class="num">3,000</span>
+          <span class="num">82</span>
+          <span class="num">2,000</span>
+          <span class="num">58</span>
+          <span class="lead-a">远山</span>
+        </div>
+        <div class="trow" role="row">
+          <span>重量</span>
+          <span class="dim">kg / 越低越好</span>
+          <span class="num">2.1</span>
+          <span class="num">84</span>
+          <span class="num">2.8</span>
+          <span class="num">56</span>
+          <span class="lead-a">远山</span>
+        </div>
+        <div class="trow" role="row">
+          <span>内部空间</span>
+          <span class="dim">㎡ / 越高越好</span>
+          <span class="num">2.9</span>
+          <span class="num">68</span>
+          <span class="num">3.3</span>
+          <span class="num">82</span>
+          <span class="lead-b">云脊</span>
+        </div>
+        <div class="trow" role="row">
+          <span>搭建速度</span>
+          <span class="dim">分钟 / 越低越好</span>
+          <span class="num">约 3</span>
+          <span class="num">86</span>
+          <span class="num">约 7</span>
+          <span class="num">54</span>
+          <span class="lead-a">远山</span>
+        </div>
+        <div class="trow" role="row">
+          <span>价格</span>
+          <span class="dim">定价 / 越低越好</span>
+          <span class="num">1,899</span>
+          <span class="num">46</span>
+          <span class="num">799</span>
+          <span class="num">92</span>
+          <span class="lead-b">云脊</span>
+        </div>
+        <div class="trow" role="row">
+          <span>耐用性</span>
+          <span class="dim">面料 / 质保年限</span>
+          <span class="num">70D / 5 年</span>
+          <span class="num">90</span>
+          <span class="num">40D / 2 年</span>
+          <span class="num">48</span>
+          <span class="lead-a">远山</span>
+        </div>
+        <div class="trow foot" role="row">
+          <span>综合均分</span>
+          <span class="dim">六维等权平均</span>
+          <span class="num">—</span>
+          <span class="num">76</span>
+          <span class="num">—</span>
+          <span class="num">65</span>
+          <span class="num">远山</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使用边界 -->
+  <section aria-labelledby="t-bound">
+    <div class="sec-head"><span class="sec-no">陆</span><h2 id="t-bound">使用边界 / 何时用与何时不用</h2></div>
+    <p class="sec-sub">官方选型口径，逐条照抄如下；两条红线都碰到时，直接进入第贰节的降级路径。</p>
+    <div class="bound-grid">
+      <div class="card use-card">
+        <h3>适用</h3>
+        <ul>
+          <li>多个实体在<b>同一组固定属性</b>上比较，如产品特性对比。</li>
+          <li>系列 2 至 3 个、轴 5 至 8 个，轮廓尚可一一辨认。</li>
+          <li>想读的是<b>整体形状与权衡</b>，而非某个精确数值。</li>
+        </ul>
+      </div>
+      <div class="card not-card">
+        <h3>不适用</h3>
+        <ul>
+          <li>轴数大于 8，图形不可读，切换平行坐标。</li>
+          <li>用户需要<b>精确比较数值</b>，改用分组条形。</li>
+          <li>受众不熟悉雷达图，读图成本高于收益。</li>
+          <li>各实体没有共同的属性集，轮廓无对照意义。</li>
+        </ul>
+        <p class="threshold">数据量阈值：<b>每图最多 2 至 3 个系列 / 5 至 8 轴</b>；超过 8 轮即切换平行坐标。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span>UI 设计提示词库 / 图表图鉴 / 多维雷达</span>
+    <span>选型依据 charts.json No.14 / Multi-Variable Comparison</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script src="../stats.js"></script>
+<script>
+// 系列聚焦读值 + 按钮切换显隐（官方交互等级 Hover + Toggle）
+(function () {
+  var svg = document.querySelector('.radar');
+  var list = document.getElementById('ro-list');
+  if (!svg || !list) return;
+  var DATA = {
+    a: {
+      name: '远山 Pro 2P', avg: 76,
+      rows: [
+        ['防水指数', '3,000 mm', '82'],
+        ['重量', '2.1 kg', '84'],
+        ['内部空间', '2.9 ㎡', '68'],
+        ['搭建速度', '约 3 分钟', '86'],
+        ['价格', '¥1,899', '46'],
+        ['耐用性', '70D 面料 / 5 年质保', '90']
+      ]
+    },
+    b: {
+      name: '云脊 Lite 2P', avg: 65,
+      rows: [
+        ['防水指数', '2,000 mm', '58'],
+        ['重量', '2.8 kg', '56'],
+        ['内部空间', '3.3 ㎡', '82'],
+        ['搭建速度', '约 7 分钟', '54'],
+        ['价格', '¥799', '92'],
+        ['耐用性', '40D 面料 / 2 年质保', '48']
+      ]
+    }
+  };
+  var DEF = [
+    '远山 Pro 2P 综合均分 <b>76</b> / 六维五优 / 唯一短板在价格',
+    '云脊 Lite 2P 综合均分 <b>65</b> / 价格与空间两项占优',
+    '两系列轮廓交叉互补 / 聚焦任一系列可读全部六维实测'
+  ];
+  function render(items) {
+    list.innerHTML = items.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+  }
+  function on(key) {
+    var g = document.getElementById('g' + key.toUpperCase());
+    var d = DATA[key];
+    svg.classList.add('dim');
+    g.classList.add('hot');
+    var items = ['<b>' + d.name + ' / 综合均分 ' + d.avg + ' 分</b>'];
+    d.rows.forEach(function (r) { items.push(r[0] + ' / ' + r[1] + ' / <b>' + r[2] + ' 分</b>'); });
+    render(items);
+  }
+  function off() {
+    svg.classList.remove('dim');
+    Array.prototype.forEach.call(document.querySelectorAll('.series.hot'), function (g) { g.classList.remove('hot'); });
+    render(DEF);
+  }
+  Object.keys(DATA).forEach(function (k) {
+    var g = document.getElementById('g' + k.toUpperCase());
+    g.addEventListener('mouseenter', function () { on(k); });
+    g.addEventListener('mouseleave', off);
+    g.addEventListener('focus', function () { on(k); });
+    g.addEventListener('blur', off);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.tg'), function (btn) {
+    btn.addEventListener('click', function () {
+      var pressed = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+      document.getElementById('g' + btn.dataset.s.toUpperCase()).classList.toggle('off', pressed);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

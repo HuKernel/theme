@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表图鉴 No.10：异常检测（Anomaly Detection / Line Chart with Highlights）选型精修样张，含水质溶解氧 30 天监测手写 SVG 折线、三起异常标注、阈值带判据图注、误报漏报取舍与数据后备表。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 异常检测 / UI 设计提示词库</title>
+<style>
+/* token plan: 纸 #F5EFE2 #FBF7EC / 墨 #211D16 #5C5344 #6B6152 / 规线 #C9BFA9 #E4DAC6 / 制图红 #B3261E(字) #FF0000(点) #7A0000(描) / 数据蓝 #0080FF(线) #0059B3(字) / 警戒带 #FFF3CD / 图底 #FFFEF9 */
+:root{
+  --paper:#F5EFE2;
+  --paper2:#FBF7EC;
+  --ink:#211D16;
+  --ink2:#5C5344;
+  --ink3:#6B6152;
+  --hair:#C9BFA9;
+  --grid:#E4DAC6;
+  --red:#B3261E;
+  --dot:#FF0000;
+  --dot-s:#7A0000;
+  --blue:#0080FF;
+  --blue-t:#0059B3;
+  --band:#FFF3CD;
+  --platebg:#FFFEF9;
+  --serif:"Songti SC","STSong","SimSun",Georgia,serif;
+  --sans:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(rgba(92,83,68,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92,83,68,0.05) 1px, transparent 1px);
+  background-size:28px 28px;
+  line-height:1.6;
+}
+.sheet{max-width:1180px;margin:0 auto;padding:26px clamp(16px,4vw,48px) 56px}
+a{color:var(--red)}
+a:focus-visible,button:focus-visible{outline:2.5px solid var(--red);outline-offset:2px}
+
+/* 图纸标题栏 */
+.masthead .m-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;border-bottom:2px solid var(--ink);padding-bottom:18px;position:relative;flex-wrap:wrap}
+.masthead .m-inner::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;background:var(--ink)}
+.kicker{font-size:13px;font-weight:600;color:var(--red);letter-spacing:0.28em}
+.masthead h1{font-family:var(--serif);font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:0.06em;margin:10px 0 4px}
+.m-sub{font-size:15px;color:var(--ink2)}
+.m-kw{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:8px;word-break:break-all}
+.titleblock{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);background:var(--paper2);min-width:300px;font-family:var(--mono)}
+.tb-cell{padding:6px 10px;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.tb-cell:nth-child(2n){border-right:none}
+.tb-cell:nth-child(n+5){border-bottom:none}
+.tb-cell b{display:block;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--ink3)}
+.tb-cell span{font-size:13px;color:var(--ink)}
+
+/* 章节 */
+section{margin-top:46px}
+.s-kicker{font-size:12.5px;font-weight:600;color:var(--red);letter-spacing:0.24em}
+section h2{font-family:var(--serif);font-size:26px;letter-spacing:0.04em;margin:6px 0 6px}
+.s-lead{font-size:14px;color:var(--ink2);max-width:780px}
+
+/* 主图图版 */
+.plate-wrap{position:relative;padding:10px;margin-top:18px}
+.plate-wrap::before{content:"";position:absolute;top:0;left:0;width:20px;height:20px;border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.plate-wrap::after{content:"";position:absolute;bottom:0;right:0;width:20px;height:20px;border-bottom:2px solid var(--ink);border-right:2px solid var(--ink)}
+.plate{background:var(--paper2);border:1.5px solid var(--ink);box-shadow:7px 7px 0 rgba(33,29,22,0.09)}
+.plate-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--hair);padding:10px 14px}
+.pt-title{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.pt-title em{font-style:normal;color:var(--red);font-weight:700}
+.pt-ctrl{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2)}
+.lg-line{width:26px;height:0;border-top:2.5px solid var(--blue)}
+.lg-dot{width:11px;height:11px;border-radius:50%;background:var(--dot);border:2px solid var(--dot-s)}
+.lg-band{width:18px;height:11px;background:var(--band);border:1px solid var(--hair)}
+.zb{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink);background:var(--paper2);border:1.5px solid var(--ink);padding:4px 12px;cursor:pointer}
+.zb:hover{background:var(--ink);color:var(--paper2)}
+.pt-hint{font-size:12px;color:var(--ink3);padding:7px 14px 0}
+.plate-scroll{overflow-x:auto;padding:12px 10px 4px}
+.scrollhint{display:none;font-size:11.5px;color:var(--ink3);padding:2px 14px 8px}
+.mainsvg{display:block;width:100%;min-width:780px;height:auto}
+.readout{min-height:24px;font-family:var(--mono);font-size:12.5px;color:var(--ink2);padding:9px 14px;border-top:1px solid var(--hair)}
+
+/* 图内文字与图形 */
+.tk{font-family:var(--mono);font-size:11px;fill:var(--ink3)}
+.thr{font-family:var(--mono);font-size:11px;font-weight:700;fill:var(--red)}
+.az{font-family:var(--mono);font-size:10.5px;fill:var(--ink3)}
+.ann{font-family:var(--sans);font-size:12.5px;font-weight:600;fill:var(--red)}
+.ann2{font-family:var(--sans);font-size:11.5px;fill:var(--ink3)}
+.acode{font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--red)}
+.lead{stroke:var(--red);stroke-width:1.2}
+.dt{fill:var(--blue);stroke:var(--platebg);stroke-width:0.8}
+.ln{fill:none;stroke:var(--blue);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.ring{fill:none;stroke:var(--red);stroke-width:1.8}
+.ptf{cursor:pointer}
+.ptf:hover{stroke:var(--ink);stroke-width:2}
+.ptf:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.hit{fill:transparent;pointer-events:all;cursor:crosshair}
+
+/* 一次亮相动效：折线描边一次，异常点随后逐个标出 */
+.draw{stroke-dasharray:1500;stroke-dashoffset:1500;animation:drawline 1.6s cubic-bezier(0.4,0,0.2,1) 0.15s forwards}
+@keyframes drawline{to{stroke-dashoffset:0}}
+.pop{opacity:0;transform:scale(0.2);transform-box:fill-box;transform-origin:center;animation:popin 0.45s cubic-bezier(0.2,1.4,0.4,1) forwards}
+@keyframes popin{to{opacity:1;transform:scale(1)}}
+.fadein{opacity:0;animation:fadeout 0.4s ease-out forwards}
+@keyframes fadeout{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .draw{animation:none;stroke-dashoffset:0}
+  .pop{animation:none;opacity:1;transform:none}
+  .fadein{animation:none;opacity:1}
+}
+
+/* 图注与判据 */
+.figcap{margin-top:16px;font-size:14px;color:var(--ink2)}
+.figcap strong{color:var(--ink)}
+.notes{margin-top:12px;padding-left:0;list-style:none;display:grid;gap:6px}
+.notes li{position:relative;padding-left:22px;font-size:13.5px;color:var(--ink2)}
+.notes li::before{content:"";position:absolute;left:2px;top:9px;width:10px;height:3px;background:var(--red)}
+.notes li b{color:var(--ink)}
+.legendline{margin-top:12px;font-family:var(--mono);font-size:12px;color:var(--ink3)}
+
+/* 持久事件列表（无障碍后备） */
+.events{display:grid;gap:14px;margin-top:20px}
+.ev{background:var(--paper2);border:1.5px solid var(--ink);border-left:6px solid var(--red);box-shadow:6px 6px 0 rgba(33,29,22,0.08);padding:14px 18px;display:grid;grid-template-columns:158px 1fr;gap:4px 20px;align-items:start}
+.ev-no{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--red)}
+.ev-meta{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-top:2px}
+.ev-body p{font-size:13.5px;color:var(--ink2)}
+.ev-body p+p{margin-top:4px}
+.ev-body b{color:var(--ink)}
+
+/* 双栏面板与数据上限横条 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;margin-top:20px}
+.panel{background:var(--paper2);border:1.5px solid var(--ink);box-shadow:6px 6px 0 rgba(33,29,22,0.08);padding:18px 20px 20px}
+.panel .no{font-family:var(--mono);font-size:11.5px;color:var(--red);font-weight:700}
+.panel h3{font-family:var(--serif);font-size:19px;margin:4px 0 2px}
+.panel .en{font-size:12.5px;color:var(--ink3);margin-bottom:10px}
+.panel ul{list-style:none;display:grid;gap:7px}
+.panel li{position:relative;padding-left:20px;font-size:13.5px;color:var(--ink2)}
+.panel li::before{content:"";position:absolute;left:1px;top:10px;width:8px;height:2.5px;background:var(--ink3)}
+.panel li b{color:var(--ink)}
+.panel p{font-size:13.5px;color:var(--ink2)}
+.panel p b{color:var(--ink)}
+.panel .fig{font-family:var(--mono);font-size:12px;color:var(--red);margin-top:10px}
+.bar{margin-top:24px;background:var(--paper2);border:1.5px solid var(--ink);border-left:6px solid var(--red);box-shadow:6px 6px 0 rgba(33,29,22,0.08);padding:12px 18px;font-size:13.5px;color:var(--ink2)}
+.bar b{color:var(--ink)}
+
+/* 备选形态小样 */
+.minis{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch;margin-top:20px}
+.mini{background:var(--paper2);border:1.5px solid var(--ink);box-shadow:6px 6px 0 rgba(33,29,22,0.08);padding:16px 18px 18px;display:flex;flex-direction:column}
+.mini .no{font-family:var(--mono);font-size:11.5px;color:var(--red);font-weight:700}
+.mini h3{font-family:var(--serif);font-size:19px;margin:4px 0 2px}
+.mini .en{font-size:12.5px;color:var(--ink3);margin-bottom:10px}
+.mini svg{width:100%;height:auto;display:block;border:1px solid var(--grid);background:var(--platebg);margin-bottom:10px}
+.mini p{font-size:13.5px;color:var(--ink2);margin-top:auto}
+.mini p b{color:var(--ink)}
+
+/* 数据后备表 */
+.tcap{margin-top:20px;font-size:14px;color:var(--ink2)}
+.tcap b{color:var(--ink)}
+.twrap{border:1.5px solid var(--ink);background:var(--paper2);margin-top:12px;overflow-x:auto}
+.dtable{min-width:680px}
+.dtable [role="row"]{display:grid;grid-template-columns:104px 100px 92px 128px 1fr;align-items:center;border-bottom:1px solid var(--grid);padding:4px 16px;column-gap:8px}
+.dtable [role="row"]:last-child{border-bottom:none}
+.dtable .rhead{background:#EFE7D2;border-bottom:1.5px solid var(--ink)}
+.dtable .rhead span{font-size:12.5px;font-weight:700;color:var(--ink)}
+.c-t,.c-n{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.c-n b{font-weight:700;color:var(--ink)}
+.c-s{font-size:12.5px;color:var(--ink2)}
+.c-r{font-size:12.5px;color:var(--ink3)}
+.rano{background:var(--band);border-left:4px solid var(--red)}
+.rano .c-s{color:var(--red);font-weight:700}
+.rano .c-n b{color:var(--red)}
+.tfoot{margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--ink3)}
+
+/* 页脚 */
+.foot{margin-top:56px;border-top:2px solid var(--ink);padding-top:14px}
+.f-in{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}
+.f-in a{font-weight:600}
+
+/* 响应式 */
+@media (max-width:900px){
+  .duo,.minis{grid-template-columns:1fr}
+  .titleblock{min-width:100%}
+}
+@media (max-width:640px){
+  .scrollhint{display:block}
+  .plate-scroll{padding:8px 2px 2px}
+  .mainsvg{min-width:760px}
+  .ev{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <div class="m-inner">
+      <div>
+        <p class="kicker">图表图鉴 第 10 号 / 监测序列</p>
+        <h1>带异常高亮的折线图</h1>
+        <p class="m-sub">Line Chart with Highlights / 水质溶解氧 30 天监测实例 / 制图室样张</p>
+        <p class="m-kw">anomaly / outlier / spike / alert / detection / monitoring / deviation / accessible chart / keyboard accessible chart</p>
+      </div>
+      <div class="titleblock">
+        <div class="tb-cell"><b>数据类型</b><span>异常检测</span></div>
+        <div class="tb-cell"><b>最佳图型</b><span>折线加高亮</span></div>
+        <div class="tb-cell"><b>备选形态</b><span>散点警报图</span></div>
+        <div class="tb-cell"><b>交互级别</b><span>悬停加警报</span></div>
+        <div class="tb-cell"><b>无障碍风险</b><span>有条件</span></div>
+        <div class="tb-cell"><b>触发阈值</b><span>5.0 / 9.5 mg/L</span></div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <p class="s-kicker">01 / 主图图版</p>
+    <h2>溶解氧 30 天监测与三起异常</h2>
+    <p class="s-lead">监测类图示的第一要务是先交代正常，再标出例外：底层一条连续蓝线描绘基线行为，异常作为独立数据层叠加其上，警报醒目而不淹没整体趋势。</p>
+    <div class="plate-wrap">
+      <div class="plate">
+        <div class="plate-top">
+          <p class="pt-title">图 10-a / 苕溪支流 R-07 浮标站 / 溶解氧逐日监测 / <em>异常 3 起</em></p>
+          <div class="pt-ctrl">
+            <span class="lg"><span class="lg-line"></span>正常序列</span>
+            <span class="lg"><span class="lg-dot"></span>异常点</span>
+            <span class="lg"><span class="lg-band"></span>警戒带</span>
+            <button class="zb" id="replay" type="button">重播动效</button>
+          </div>
+        </div>
+        <p class="pt-hint">悬停图面读取任一日数值 / Tab 聚焦红色异常点读事件 / 完整数值后备见表 10-b</p>
+        <div class="plate-scroll">
+          <svg id="main" class="mainsvg" viewBox="0 0 980 470" role="img" aria-labelledby="mt md">
+            <title id="mt">苕溪支流 R-07 站溶解氧 30 天监测折线图</title>
+            <desc id="md">蓝线为逐日午间采样的溶解氧，浅黄为上下警戒带，红色实心圆点标记三起异常：09-18 偏低 3.8，09-26 偏低 4.3，10-03 偏高 11.2 mg/L，完整数值见下方数据表。</desc>
+            <!-- 图底与警戒带 -->
+            <rect x="64" y="26" width="888" height="366" fill="#FFFEF9"/>
+            <rect x="64" y="46.3" width="888" height="81.4" fill="#FFF3CD"/>
+            <rect x="64" y="310.7" width="888" height="61" fill="#FFF3CD"/>
+            <!-- 网格与坐标 -->
+            <line x1="64" y1="351.3" x2="952" y2="351.3" stroke="#E4DAC6" stroke-width="1"/>
+            <line x1="64" y1="270" x2="952" y2="270" stroke="#E4DAC6" stroke-width="1"/>
+            <line x1="64" y1="188.7" x2="952" y2="188.7" stroke="#E4DAC6" stroke-width="1"/>
+            <line x1="64" y1="107.3" x2="952" y2="107.3" stroke="#E4DAC6" stroke-width="1"/>
+            <line x1="64" y1="26" x2="952" y2="26" stroke="#E4DAC6" stroke-width="1"/>
+            <line x1="64" y1="26" x2="64" y2="392" stroke="#211D16" stroke-width="1.5"/>
+            <line x1="64" y1="392" x2="952" y2="392" stroke="#211D16" stroke-width="1.5"/>
+            <text class="tk" x="57" y="355.3" text-anchor="end">4</text>
+            <text class="tk" x="57" y="274" text-anchor="end">6</text>
+            <text class="tk" x="57" y="192.7" text-anchor="end">8</text>
+            <text class="tk" x="57" y="111.3" text-anchor="end">10</text>
+            <text class="tk" x="57" y="30" text-anchor="end">12</text>
+            <text class="tk" x="64" y="16">溶解氧 mg/L</text>
+            <line x1="78.8" y1="392" x2="78.8" y2="398" stroke="#211D16" stroke-width="1"/>
+            <line x1="226.8" y1="392" x2="226.8" y2="398" stroke="#211D16" stroke-width="1"/>
+            <line x1="374.8" y1="392" x2="374.8" y2="398" stroke="#211D16" stroke-width="1"/>
+            <line x1="522.8" y1="392" x2="522.8" y2="398" stroke="#211D16" stroke-width="1"/>
+            <line x1="670.8" y1="392" x2="670.8" y2="398" stroke="#211D16" stroke-width="1"/>
+            <line x1="818.8" y1="392" x2="818.8" y2="398" stroke="#211D16" stroke-width="1"/>
+            <line x1="937.2" y1="392" x2="937.2" y2="398" stroke="#211D16" stroke-width="1"/>
+            <text class="tk" x="78.8" y="412" text-anchor="middle">09-10</text>
+            <text class="tk" x="226.8" y="412" text-anchor="middle">09-15</text>
+            <text class="tk" x="374.8" y="412" text-anchor="middle">09-20</text>
+            <text class="tk" x="522.8" y="412" text-anchor="middle">09-25</text>
+            <text class="tk" x="670.8" y="412" text-anchor="middle">09-30</text>
+            <text class="tk" x="818.8" y="412" text-anchor="middle">10-05</text>
+            <text class="tk" x="937.2" y="412" text-anchor="middle">10-09</text>
+            <text class="tk" x="508" y="438" text-anchor="middle">2026-09-10 至 2026-10-09 / 逐日 14:00 采样</text>
+            <!-- 阈值虚线与带内标注 -->
+            <line x1="64" y1="127.7" x2="952" y2="127.7" stroke="#B3261E" stroke-width="1.6" stroke-dasharray="7 5"/>
+            <line x1="64" y1="310.7" x2="952" y2="310.7" stroke="#B3261E" stroke-width="1.6" stroke-dasharray="7 5"/>
+            <text class="thr" x="948" y="121" text-anchor="end">上阈值 9.5</text>
+            <text class="thr" x="948" y="304" text-anchor="end">下阈值 5.0</text>
+            <text class="az" x="70" y="59">警戒带 9.5 至 11.5</text>
+            <text class="az" x="70" y="366">警戒带 3.5 至 5.0</text>
+            <!-- 正常序列：折线一次描边 -->
+            <polyline class="ln draw" points="78.8,221.2 108.4,213.1 138,225.3 167.6,209 197.2,217.1 226.8,233.4 256.4,229.3 286,237.5 315.6,359.5 345.2,294.4 374.8,261.9 404.4,241.5 434,221.2 463.6,229.3 493.2,213.1 522.8,204.9 552.4,339.1 582,286.3 611.6,249.7 641.2,233.4 670.8,217.1 700.4,209 730,196.8 759.6,58.5 789.2,156.1 818.8,188.7 848.4,204.9 878,213.1 907.6,225.3 937.2,217.1"/>
+            <!-- 逐日采样点 -->
+            <circle class="dt" cx="78.8" cy="221.2" r="2.3"/>
+            <circle class="dt" cx="108.4" cy="213.1" r="2.3"/>
+            <circle class="dt" cx="138" cy="225.3" r="2.3"/>
+            <circle class="dt" cx="167.6" cy="209" r="2.3"/>
+            <circle class="dt" cx="197.2" cy="217.1" r="2.3"/>
+            <circle class="dt" cx="226.8" cy="233.4" r="2.3"/>
+            <circle class="dt" cx="256.4" cy="229.3" r="2.3"/>
+            <circle class="dt" cx="286" cy="237.5" r="2.3"/>
+            <circle class="dt" cx="345.2" cy="294.4" r="2.3"/>
+            <circle class="dt" cx="374.8" cy="261.9" r="2.3"/>
+            <circle class="dt" cx="404.4" cy="241.5" r="2.3"/>
+            <circle class="dt" cx="434" cy="221.2" r="2.3"/>
+            <circle class="dt" cx="463.6" cy="229.3" r="2.3"/>
+            <circle class="dt" cx="493.2" cy="213.1" r="2.3"/>
+            <circle class="dt" cx="522.8" cy="204.9" r="2.3"/>
+            <circle class="dt" cx="582" cy="286.3" r="2.3"/>
+            <circle class="dt" cx="611.6" cy="249.7" r="2.3"/>
+            <circle class="dt" cx="641.2" cy="233.4" r="2.3"/>
+            <circle class="dt" cx="670.8" cy="217.1" r="2.3"/>
+            <circle class="dt" cx="700.4" cy="209" r="2.3"/>
+            <circle class="dt" cx="730" cy="196.8" r="2.3"/>
+            <circle class="dt" cx="789.2" cy="156.1" r="2.3"/>
+            <circle class="dt" cx="818.8" cy="188.7" r="2.3"/>
+            <circle class="dt" cx="848.4" cy="204.9" r="2.3"/>
+            <circle class="dt" cx="878" cy="213.1" r="2.3"/>
+            <circle class="dt" cx="907.6" cy="225.3" r="2.3"/>
+            <circle class="dt" cx="937.2" cy="217.1" r="2.3"/>
+            <!-- 悬停读数热区 -->
+            <rect class="hit" id="hit" x="64" y="26" width="888" height="366"/>
+            <!-- 异常层：A1 偏低 3.8 -->
+            <g class="pop" style="animation-delay:1.55s">
+              <circle class="ring" cx="315.6" cy="359.5" r="9.5"/>
+              <circle class="ptf" tabindex="0" data-d="9" role="img" aria-label="09-18 第 9 日 溶解氧 3.8 mg/L 异常偏低 A1 暴雨径流携入有机物，耗氧激增" cx="315.6" cy="359.5" r="5.2" fill="#FF0000" stroke="#7A0000" stroke-width="1.2"/>
+              <text class="acode" x="315.6" y="383" text-anchor="middle">A1</text>
+            </g>
+            <g class="fadein" style="animation-delay:1.95s">
+              <line class="lead" x1="309" y1="351" x2="297" y2="332"/>
+              <text class="ann" x="293" y="328" text-anchor="end">A1 偏低 3.8 mg/L</text>
+              <text class="ann2" x="293" y="342" text-anchor="end">暴雨径流，耗氧激增</text>
+            </g>
+            <!-- 异常层：A2 偏低 4.3 -->
+            <g class="pop" style="animation-delay:1.7s">
+              <circle class="ring" cx="552.4" cy="339.1" r="9.5"/>
+              <circle class="ptf" tabindex="0" data-d="17" role="img" aria-label="09-26 第 17 日 溶解氧 4.3 mg/L 异常偏低 A2 上游清淤扰动底泥" cx="552.4" cy="339.1" r="5.2" fill="#FF0000" stroke="#7A0000" stroke-width="1.2"/>
+              <text class="acode" x="552.4" y="363" text-anchor="middle">A2</text>
+            </g>
+            <g class="fadein" style="animation-delay:2.1s">
+              <line class="lead" x1="558" y1="331" x2="568" y2="319"/>
+              <text class="ann" x="574" y="315">A2 偏低 4.3 mg/L</text>
+              <text class="ann2" x="574" y="329">上游清淤扰动底泥</text>
+            </g>
+            <!-- 异常层：A3 偏高 11.2 -->
+            <g class="pop" style="animation-delay:1.85s">
+              <circle class="ring" cx="759.6" cy="58.5" r="9.5"/>
+              <circle class="ptf" tabindex="0" data-d="24" role="img" aria-label="10-03 第 24 日 溶解氧 11.2 mg/L 异常偏高 A3 藻类增殖，午后过饱和" cx="759.6" cy="58.5" r="5.2" fill="#FF0000" stroke="#7A0000" stroke-width="1.2"/>
+              <text class="acode" x="742" y="54" text-anchor="end">A3</text>
+            </g>
+            <g class="fadein" style="animation-delay:2.25s">
+              <line class="lead" x1="767" y1="64" x2="784" y2="84"/>
+              <text class="ann" x="790" y="90">A3 偏高 11.2 mg/L</text>
+              <text class="ann2" x="790" y="104">藻类增殖，午后过饱和</text>
+            </g>
+          </svg>
+        </div>
+        <p class="scrollhint">屏幕较窄时图面可横向滑动</p>
+        <p class="readout" id="ro" aria-live="polite">09-10 至 10-09 / 30 日 / 均值 7.1 / 中位数 7.2 mg/L / 异常 3 起（A1 A2 A3）</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="s-kicker">02 / 图注与判据</p>
+    <h2>阈值带与异常判据</h2>
+    <p class="s-lead">异常的合法性来自判据的透明：把带、阈值与规则印在图上，读者才能复核每一次报警，而不是被动接受红点。</p>
+    <p class="figcap">图 10-a 中，<strong>浅黄底为警戒带</strong>（3.5 至 5.0 与 9.5 至 11.5 mg/L），红色虚线为触发阈值；蓝线在安全带 5.0 至 9.5 内自然波动，均值 7.1、中位数 7.2 mg/L。三起异常均以<strong>实心红点加外环加事件号</strong>标出，图中直接注明原因，状态以文字与方向符号传达，不依赖颜色单独成立。</p>
+    <ul class="notes">
+      <li><b>阈值判据：</b>瞬时值低于 5.0 或高于 9.5 mg/L 即触发（A1、A2、A3 均由此判定）</li>
+      <li><b>统计判据：</b>偏离 7 日滚动基线超过 3 倍标准差，用于捕捉缓变漂移</li>
+      <li><b>变率判据：</b>24 小时降幅或升幅超过 2.0 mg/L（本例 A1 日降幅 3.0，A3 日升幅 3.4）</li>
+      <li><b>三条满足其一即标记</b>，并写入持久事件列表与数据表，警报不依赖悬停存在</li>
+    </ul>
+    <p class="legendline">安全带 5.0 至 9.5 / 警戒带 3.5 至 5.0 与 9.5 至 11.5 / 判定 v&lt;5.0 或 v&gt;9.5 或 24h 变幅超 2.0 或偏离基线超 3σ</p>
+  </section>
+
+  <section>
+    <p class="s-kicker">03 / 无障碍后备</p>
+    <h2>持久事件台账</h2>
+    <p class="s-lead">官方无障碍后备要求：异常事件列表加叙述性警报摘要，警报常驻而不依赖悬停。下表即图 10-a 的等价后备，读屏与键盘用户无需接触图形即可取到全部事件。</p>
+    <div class="events">
+      <div class="ev">
+        <div>
+          <p class="ev-no">A1 / 偏低</p>
+          <p class="ev-meta">09-18（第 9 日）</p>
+          <p class="ev-meta">读值 3.8 mg/L</p>
+        </div>
+        <div class="ev-body">
+          <p>命中判据：低于下阈值 5.0，且 24 小时降幅 3.0 触发变率判据。</p>
+          <p>原因：台风外围暴雨，地表径流携入有机物，水体耗氧激增。</p>
+          <p>处置：当日 16 时启动增氧泵并加密巡检，次日回升至 5.4，48 小时后回归安全带。</p>
+        </div>
+      </div>
+      <div class="ev">
+        <div>
+          <p class="ev-no">A2 / 偏低</p>
+          <p class="ev-meta">09-26（第 17 日）</p>
+          <p class="ev-meta">读值 4.3 mg/L</p>
+        </div>
+        <div class="ev-body">
+          <p>命中判据：低于下阈值 5.0，24 小时降幅 3.3，为期内最深单日跌落。</p>
+          <p>原因：上游河道清淤扰动底泥，叠加夜间溶氧低谷。</p>
+          <p>处置：函告施工方调整作业时段，采样加密为每 4 小时一次，两日后恢复至 6.5。</p>
+        </div>
+      </div>
+      <div class="ev">
+        <div>
+          <p class="ev-no">A3 / 偏高</p>
+          <p class="ev-meta">10-03（第 24 日）</p>
+          <p class="ev-meta">读值 11.2 mg/L</p>
+        </div>
+        <div class="ev-body">
+          <p>命中判据：高于上阈值 9.5，24 小时升幅 3.4，进入上警戒带。</p>
+          <p>原因：连续晴热后藻类增殖，午后光合作用致溶解氧过饱和。</p>
+          <p>处置：挂牌观察叶绿素浓度，未发生鱼类死亡，次日回落至 8.8。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="s-kicker">04 / 选型边界</p>
+    <h2>何时使用，何时退避</h2>
+    <p class="s-lead">本图型的分工很明确：时间序列负责讲清基线，高亮层负责讲清例外。例外若已固化成类别，就该换一种图型。</p>
+    <div class="duo">
+      <div class="panel">
+        <p class="no">适用</p>
+        <h3>用时序守候离群</h3>
+        <p class="en">监测时间序列中的离群点</p>
+        <ul>
+          <li>向用户提示运营数据的<b>意外尖峰或骤降</b>，异常占比低（本例 3/30）</li>
+          <li>需要"基线加例外"的双层叙事：先证明平常，再指出反常</li>
+          <li>读者需要沿时间复核事件前后的恢复轨迹（如 A1 后两日回升）</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <p class="no">不适用</p>
+        <h3>换图型的三种情形</h3>
+        <p class="en">改用带高亮的条形图或事件流</p>
+        <ul>
+          <li>异常是<b>预定义类别</b>（如已知故障码）时，改用带高亮的条形图</li>
+          <li><b>实时场景且无暂停控制</b>时不应使用：滚动刷新会吞掉悬停与聚焦</li>
+          <li>读者只关心事件汇总时，持久事件列表比折线更直接</li>
+        </ul>
+      </div>
+    </div>
+    <p class="bar"><b>数据上限：</b>流式渲染在 60fps 以内时改用 Canvas；批处理最多 10,000 点；异常必须作为独立数据层标记，不与主线混绘。</p>
+  </section>
+
+  <section>
+    <p class="s-kicker">05 / 复核</p>
+    <h2>误报与漏报的取舍</h2>
+    <p class="s-lead">阈值不是真理而是一次下注：收紧买安全付人力，放宽买清净付风险。取舍要写在图注里，让读者知道你押了哪一边。</p>
+    <div class="duo">
+      <div class="panel">
+        <p class="no">收紧阈值</p>
+        <h3>误报增多</h3>
+        <p class="en">false positive / 狼来了效应</p>
+        <p>若下阈值自 5.0 收至 5.5 mg/L，本例 09-19（5.4）与 09-27（5.6）两次事件后的正常回升日即被误判，30 日内平添 2 起误报。代价是复核人力被稀释，真警报淹没在噪声里，值守人员逐渐无视所有红色。</p>
+        <p class="fig">本例模拟 / 阈值 5.5 时误报 2 起，漏报 0 起</p>
+      </div>
+      <div class="panel">
+        <p class="no">放宽阈值</p>
+        <h3>漏报风险</h3>
+        <p class="en">false negative / 不可逆代价</p>
+        <p>若下阈值放到 4.0 mg/L，A2（09-26，4.3）即漏报，鱼类窒息的风险窗口被无声略过。低氧对生态是不可逆伤害，而一次误报的代价只是复核一通电话：对这类指标，漏报几乎总是更贵的那一边。</p>
+        <p class="fig">本例模拟 / 阈值 4.0 时漏报 1 起（A2），误报 0 起</p>
+      </div>
+    </div>
+    <ul class="notes">
+      <li><b>监管红线类指标宁可误报：</b>阈值贴红线设置，误报交由人工二次确认</li>
+      <li><b>高频自动场景先粗筛后复核：</b>放宽阈值降噪，配滑动窗口统计判据补漏</li>
+      <li><b>分层设定：</b>值守屏用紧阈值即时告警，周报月报用 IQR 或 3σ 统计判据降噪</li>
+      <li><b>调整即回放：</b>每次改阈值后回放历史 30 日数据，核对误报漏报计数再上线</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="s-kicker">06 / 备选形态</p>
+    <h2>散点警报图与落地建议</h2>
+    <p class="s-lead">当关注的是条件组合下的离群，而非时间顺序本身，横竖两轴换成两个观测指标，异常就用离群环圈出。</p>
+    <div class="minis">
+      <div class="mini">
+        <p class="no">备选 10-c</p>
+        <h3>散点警报图</h3>
+        <p class="en">Scatter with Alert / 浊度对溶解氧</p>
+        <svg viewBox="0 0 320 180" role="img" aria-label="散点警报图小样：浊度与溶解氧呈负相关密集带，W1 与 W2 两个离群点以红环标出">
+          <line x1="40" y1="14" x2="40" y2="150" stroke="#211D16" stroke-width="1.2"/>
+          <line x1="40" y1="150" x2="306" y2="150" stroke="#211D16" stroke-width="1.2"/>
+          <text x="34" y="18" text-anchor="end" font-family="ui-monospace,Consolas,monospace" font-size="9.5" fill="#6B6152">mg/L</text>
+          <text x="173" y="168" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-size="9.5" fill="#6B6152">浊度 NTU</text>
+          <circle cx="62" cy="55" r="2.4" fill="#0080FF"/>
+          <circle cx="80" cy="62" r="2.4" fill="#0080FF"/>
+          <circle cx="95" cy="58" r="2.4" fill="#0080FF"/>
+          <circle cx="110" cy="70" r="2.4" fill="#0080FF"/>
+          <circle cx="125" cy="66" r="2.4" fill="#0080FF"/>
+          <circle cx="140" cy="78" r="2.4" fill="#0080FF"/>
+          <circle cx="155" cy="74" r="2.4" fill="#0080FF"/>
+          <circle cx="170" cy="86" r="2.4" fill="#0080FF"/>
+          <circle cx="185" cy="82" r="2.4" fill="#0080FF"/>
+          <circle cx="200" cy="94" r="2.4" fill="#0080FF"/>
+          <circle cx="215" cy="90" r="2.4" fill="#0080FF"/>
+          <circle cx="230" cy="102" r="2.4" fill="#0080FF"/>
+          <circle cx="245" cy="98" r="2.4" fill="#0080FF"/>
+          <circle cx="260" cy="110" r="2.4" fill="#0080FF"/>
+          <circle cx="275" cy="106" r="2.4" fill="#0080FF"/>
+          <circle cx="105" cy="120" r="5" fill="#FF0000" stroke="#7A0000" stroke-width="1"/>
+          <circle cx="105" cy="120" r="9.5" fill="none" stroke="#B3261E" stroke-width="1.6"/>
+          <text x="120" y="132" font-family="ui-monospace,Consolas,monospace" font-size="10" font-weight="700" fill="#B3261E">W1 低氧离群</text>
+          <circle cx="240" cy="50" r="5" fill="#FF0000" stroke="#7A0000" stroke-width="1"/>
+          <circle cx="240" cy="50" r="9.5" fill="none" stroke="#B3261E" stroke-width="1.6"/>
+          <text x="254" y="46" font-family="ui-monospace,Consolas,monospace" font-size="10" font-weight="700" fill="#B3261E">W2 过饱和</text>
+        </svg>
+        <p>浊度与溶解氧呈负相关密集带，<b>W1、W2</b> 偏离密集区被红环加文字标出。适用于"哪种条件组合下的异常"，损失的是时间顺序信息。</p>
+      </div>
+      <div class="mini">
+        <p class="no">落地 10-d</p>
+        <h3>实现要点</h3>
+        <p class="en">D3.js / Plotly / ApexCharts</p>
+        <ul class="notes" style="margin-top:2px">
+          <li><b>D3.js：</b>阈值带画为背景 rect，异常层单独 append，描边动效用 stroke-dashoffset</li>
+          <li><b>Plotly / ApexCharts：</b>用 shapes 或 bands 承载警戒带，避免和序列混在一个 trace</li>
+          <li><b>流式数据：</b>60fps 以内改用 Canvas 渲染主线，SVG 只保留异常层与标注，保证可聚焦</li>
+          <li><b>事件列表常驻：</b>警报同时写入持久列表，读屏与键盘用户无需悬停也能取到全部事件</li>
+        </ul>
+        <p>本页样张即为手写内联 SVG：无依赖、可打印、异常点可 Tab 聚焦。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="s-kicker">07 / 数据后备</p>
+    <h2>表 10-b 逐日数值与事件</h2>
+    <p class="tcap">折线的完整后备：数值、较前日变幅、状态与备注。异常行以<b>浅黄底加红色侧条</b>标出，状态列含方向符号，不依赖单一颜色。</p>
+    <div class="twrap">
+      <div class="dtable" role="table" aria-label="溶解氧逐日监测数据表，含三起异常事件">
+        <div class="rhead" role="row">
+          <span role="columnheader">日期</span>
+          <span role="columnheader">溶解氧 mg/L</span>
+          <span role="columnheader">较前日</span>
+          <span role="columnheader">状态</span>
+          <span role="columnheader">备注</span>
+        </div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-10</span><span class="c-n" role="cell"><b>7.2</b></span><span class="c-n" role="cell">—</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-11</span><span class="c-n" role="cell"><b>7.4</b></span><span class="c-n" role="cell">+0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-12</span><span class="c-n" role="cell"><b>7.1</b></span><span class="c-n" role="cell">-0.3</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-13</span><span class="c-n" role="cell"><b>7.5</b></span><span class="c-n" role="cell">+0.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-14</span><span class="c-n" role="cell"><b>7.3</b></span><span class="c-n" role="cell">-0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-15</span><span class="c-n" role="cell"><b>6.9</b></span><span class="c-n" role="cell">-0.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-16</span><span class="c-n" role="cell"><b>7.0</b></span><span class="c-n" role="cell">+0.1</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-17</span><span class="c-n" role="cell"><b>6.8</b></span><span class="c-n" role="cell">-0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r rano" role="row"><span class="c-t" role="cell">09-18</span><span class="c-n" role="cell"><b>3.8</b></span><span class="c-n" role="cell">-3.0</span><span class="c-s" role="cell">▼ A1 偏低</span><span class="c-r" role="cell">暴雨径流携入有机物，耗氧激增</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-19</span><span class="c-n" role="cell"><b>5.4</b></span><span class="c-n" role="cell">+1.6</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">A1 事件后回升</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-20</span><span class="c-n" role="cell"><b>6.2</b></span><span class="c-n" role="cell">+0.8</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-21</span><span class="c-n" role="cell"><b>6.7</b></span><span class="c-n" role="cell">+0.5</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-22</span><span class="c-n" role="cell"><b>7.2</b></span><span class="c-n" role="cell">+0.5</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-23</span><span class="c-n" role="cell"><b>7.0</b></span><span class="c-n" role="cell">-0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-24</span><span class="c-n" role="cell"><b>7.4</b></span><span class="c-n" role="cell">+0.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-25</span><span class="c-n" role="cell"><b>7.6</b></span><span class="c-n" role="cell">+0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r rano" role="row"><span class="c-t" role="cell">09-26</span><span class="c-n" role="cell"><b>4.3</b></span><span class="c-n" role="cell">-3.3</span><span class="c-s" role="cell">▼ A2 偏低</span><span class="c-r" role="cell">上游清淤扰动底泥，夜间低值</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-27</span><span class="c-n" role="cell"><b>5.6</b></span><span class="c-n" role="cell">+1.3</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">A2 事件后回升</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-28</span><span class="c-n" role="cell"><b>6.5</b></span><span class="c-n" role="cell">+0.9</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-29</span><span class="c-n" role="cell"><b>6.9</b></span><span class="c-n" role="cell">+0.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">09-30</span><span class="c-n" role="cell"><b>7.3</b></span><span class="c-n" role="cell">+0.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-01</span><span class="c-n" role="cell"><b>7.5</b></span><span class="c-n" role="cell">+0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-02</span><span class="c-n" role="cell"><b>7.8</b></span><span class="c-n" role="cell">+0.3</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r rano" role="row"><span class="c-t" role="cell">10-03</span><span class="c-n" role="cell"><b>11.2</b></span><span class="c-n" role="cell">+3.4</span><span class="c-s" role="cell">▲ A3 偏高</span><span class="c-r" role="cell">藻类增殖，午后溶解氧过饱和</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-04</span><span class="c-n" role="cell"><b>8.8</b></span><span class="c-n" role="cell">-2.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">A3 事件后回落</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-05</span><span class="c-n" role="cell"><b>8.0</b></span><span class="c-n" role="cell">-0.8</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-06</span><span class="c-n" role="cell"><b>7.6</b></span><span class="c-n" role="cell">-0.4</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-07</span><span class="c-n" role="cell"><b>7.4</b></span><span class="c-n" role="cell">-0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-08</span><span class="c-n" role="cell"><b>7.1</b></span><span class="c-n" role="cell">-0.3</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+        <div class="r" role="row"><span class="c-t" role="cell">10-09</span><span class="c-n" role="cell"><b>7.3</b></span><span class="c-n" role="cell">+0.2</span><span class="c-s" role="cell">正常</span><span class="c-r" role="cell">—</span></div>
+      </div>
+    </div>
+    <p class="tfoot">n=30 / 均值 7.06 / 中位数 7.2 / 最小 3.8（09-18）/ 最大 11.2（10-03）/ 安全带内 27 日 / 异常 3 起 / 与图 10-a 及事件 A1 A2 A3 数值一致</p>
+  </section>
+
+  <footer class="foot">
+    <div class="f-in">
+      <p>UI 设计提示词库 / 图表图鉴 / 异常检测</p>
+      <p><a href="../style-catalog.html">返回风格目录</a></p>
+    </div>
+  </footer>
+
+</div>
+<script>
+(function(){
+  var DO=[7.2,7.4,7.1,7.5,7.3,6.9,7.0,6.8,3.8,5.4,6.2,6.7,7.2,7.0,7.4,7.6,4.3,5.6,6.5,6.9,7.3,7.5,7.8,11.2,8.8,8.0,7.6,7.4,7.1,7.3];
+  var DT=["09-10","09-11","09-12","09-13","09-14","09-15","09-16","09-17","09-18","09-19","09-20","09-21","09-22","09-23","09-24","09-25","09-26","09-27","09-28","09-29","09-30","10-01","10-02","10-03","10-04","10-05","10-06","10-07","10-08","10-09"];
+  var EV={9:["A1","偏低 3.8","暴雨径流携入有机物，耗氧激增"],17:["A2","偏低 4.3","上游清淤扰动底泥，夜间低值"],24:["A3","偏高 11.2","藻类增殖，午后溶解氧过饱和"]};
+  var DEF="09-10 至 10-09 / 30 日 / 均值 7.1 / 中位数 7.2 mg/L / 异常 3 起（A1 A2 A3）";
+  var ro=document.getElementById("ro");
+  var svg=document.getElementById("main");
+  function show(i){
+    var v=DO[i-1],ev=EV[i],t;
+    if(ev){t=DT[i-1]+" / 第 "+i+" 日 / "+v+" mg/L / 异常 "+ev[1]+"（"+ev[0]+"）/ "+ev[2];}
+    else{t=DT[i-1]+" / 第 "+i+" 日 / "+v+" mg/L / 正常（安全带 5.0 至 9.5）";}
+    ro.textContent=t;
+  }
+  svg.addEventListener("mousemove",function(e){
+    var r=svg.getBoundingClientRect();
+    var x=(e.clientX-r.left)*980/r.width;
+    var i=Math.round((x-64)/29.6+0.5);
+    i=Math.max(1,Math.min(30,i));
+    show(i);
+  });
+  svg.addEventListener("mouseleave",function(){ro.textContent=DEF;});
+  var pts=svg.querySelectorAll(".ptf");
+  for(var k=0;k<pts.length;k++){
+    pts[k].addEventListener("focus",function(){show(+this.getAttribute("data-d"));});
+    pts[k].addEventListener("blur",function(){ro.textContent=DEF;});
+    pts[k].addEventListener("mouseenter",function(){show(+this.getAttribute("data-d"));});
+  }
+  document.getElementById("replay").addEventListener("click",function(){
+    var els=document.querySelectorAll(".draw,.pop,.fadein");
+    for(var j=0;j<els.length;j++){els[j].style.animation="none";}
+    void document.body.getBoundingClientRect();
+    for(var j2=0;j2<els.length;j2++){els[j2].style.animation="";}
+  });
+})();
+</script>
+</body>
+</html>

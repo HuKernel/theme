@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 流向桑基 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴第 12 号：Flow / Process 数据形态的最佳图形是 Sankey Diagram。以城市垃圾处理流的三段真实感数据集（来源、处理、去向）演示手写 SVG 贝塞尔流量带、逐节点进出守恒校验、桑基与漏斗的取舍与数据表后备。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@500;700&display=swap');
+/* token 计划: paper #FAF7F2 / card #FFFFFF / ink #22303A / slate #556570 / hairline #E3DACB / 来源色 居民#14556B 商业#9C4A21 办公#4C6B3C 公共#56617A / 处理色 分拣#1F6E7E 焚烧#9C3F1E 厨余#5E7A3A 填埋#6B6455 / 损耗汇 #6F6A5E 虚线 / rust #9C3F1E / serif Noto Serif SC + mono JetBrains Mono */
+:root {
+  --paper: #FAF7F2;
+  --card: #FFFFFF;
+  --ink: #22303A;
+  --slate: #556570;
+  --line: #E3DACB;
+  --c-s1: #14556B;
+  --c-s2: #9C4A21;
+  --c-s3: #4C6B3C;
+  --c-s4: #56617A;
+  --c-p1: #1F6E7E;
+  --c-p2: #9C3F1E;
+  --c-p3: #5E7A3A;
+  --c-p4: #6B6455;
+  --c-d5: #6F6A5E;
+  --rust: #9C3F1E;
+  --rust-bg: #F7E7D8;
+  --serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  background-image: radial-gradient(rgba(34,48,58,.07) 1.4px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  line-height: 1.65;
+  padding: 40px 20px 56px;
+}
+.page { max-width: 1120px; margin: 0 auto; }
+
+a { color: var(--c-p1); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--rust); }
+:focus-visible { outline: 3px solid var(--rust); outline-offset: 3px; border-radius: 2px; }
+
+/* ============ 页眉 ============ */
+.crumb {
+  display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline;
+  font-size: 13.5px; color: var(--slate);
+  border-bottom: 1.5px solid var(--line); padding-bottom: 14px; margin-bottom: 34px;
+}
+.crumb .no {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  color: var(--paper); background: var(--c-p1);
+  padding: 2px 10px; border-radius: 3px; letter-spacing: .04em;
+}
+.crumb a { color: var(--slate); }
+.crumb .sep { color: var(--line); }
+
+/* ============ 标题区 ============ */
+.hero { margin-bottom: 36px; }
+.hero .kind { font-family: var(--mono); font-size: 13.5px; color: var(--c-p1); margin-bottom: 10px; }
+h1 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(34px, 5.2vw, 56px); line-height: 1.15;
+  letter-spacing: .02em; margin-bottom: 14px;
+}
+h1 .alt { color: var(--c-p1); }
+.hero .latin { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--slate); margin-bottom: 18px; }
+.hero .latin b { color: var(--ink); font-style: normal; }
+.hero .lede { max-width: 730px; font-size: 15.5px; }
+.hero .lede b { background: linear-gradient(transparent 62%, #CFE4DB 62%, #CFE4DB 94%, transparent 94%); padding: 0 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink);
+  border: 1.5px solid var(--line); background: var(--card);
+  border-radius: 999px; padding: 3px 12px;
+}
+.chip b { color: var(--c-p1); font-weight: 700; }
+
+/* ============ 通用卡片 ============ */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 2px 0 rgba(34,48,58,.06);
+}
+.card-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; padding: 18px 24px 0; }
+.card-head h2 { font-family: var(--serif); font-weight: 900; font-size: 21px; letter-spacing: .02em; }
+.card-head .sub { font-size: 13px; color: var(--slate); }
+.section-label {
+  font-family: var(--mono); font-size: 13px; color: var(--slate);
+  margin: 44px 0 14px; display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ""; flex: 1; height: 1.5px; background: var(--line); }
+
+/* ============ 主图：三段桑基 ============ */
+.hero-chart { padding-bottom: 20px; }
+.balance-strip {
+  display: flex; flex-wrap: wrap; gap: 10px 12px;
+  padding: 14px 24px 4px;
+}
+.bal {
+  flex: 1 1 200px; display: flex; align-items: baseline; gap: 8px;
+  border: 1.5px solid var(--line); border-radius: 10px;
+  background: #FFFEFA; padding: 8px 14px; font-size: 13px; color: var(--slate);
+}
+.bal b { font-family: var(--mono); font-size: 16px; color: var(--ink); }
+.bal .ok { font-family: var(--mono); font-size: 12px; color: var(--c-p1); margin-left: auto; }
+.chart-scroll { padding: 6px 10px 0; overflow-x: auto; }
+.chart-scroll svg { width: 100%; height: auto; display: block; }
+.chart-hint { padding: 2px 24px 8px; font-size: 12.5px; color: var(--slate); }
+
+/* SVG 内文本与形件 */
+.t-cap { font-family: var(--mono); font-size: 12.5px; fill: var(--slate); letter-spacing: .03em; }
+.t-name { font-family: var(--sans); font-size: 15px; font-weight: 600; fill: var(--ink); }
+.t-val { font-family: var(--mono); font-size: 13px; font-weight: 700; }
+.t-name2 { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--ink); }
+.t-val2 { font-family: var(--mono); font-size: 12px; font-weight: 700; fill: var(--slate); }
+.halo { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.nd rect { stroke: rgba(34,48,58,.75); stroke-width: 1; cursor: pointer; }
+.nd:focus-visible { outline: none; }
+.nd:focus-visible rect { stroke: var(--rust); stroke-width: 3; }
+.flow { cursor: pointer; }
+.flow:focus-visible { outline: none; stroke: var(--rust); stroke-width: 2.5; }
+svg.spot .flow { opacity: .13; }
+svg.spot .flow.on { opacity: .88; }
+.t-leg { font-family: var(--mono); font-size: 11.5px; fill: var(--slate); }
+
+/* 一次亮相：流量带自左向右一次填充 */
+@keyframes sweepFill { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes fadeNote { from { opacity: 0; } to { opacity: 1; } }
+.plot { animation: sweepFill 1.15s cubic-bezier(.25,.7,.25,1) .15s both; }
+.lbl-fade { opacity: 0; animation: fadeNote .5s ease-out 1.05s forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .plot { animation: none; }
+  .lbl-fade { animation: none; opacity: 1; }
+}
+
+/* 键盘读值详情条（focus 读值 / Enter 下钻 / Esc 或退格返回） */
+.detail {
+  margin: 10px 24px 16px;
+  border: 1.5px dashed var(--line); border-radius: 10px;
+  background: #FFFEFA; padding: 12px 18px; font-size: 14px; min-height: 78px;
+}
+.detail .d-tag {
+  display: inline-block; font-family: var(--mono); font-size: 12.5px; font-weight: 700;
+  color: var(--paper); background: var(--c-p1); border-radius: 3px;
+  padding: 1px 8px; margin-right: 8px;
+}
+.detail .d-txt { display: block; margin-top: 6px; }
+.detail button {
+  font-family: var(--mono); font-size: 12.5px; font-weight: 700;
+  color: var(--rust); background: var(--rust-bg);
+  border: 1.5px solid var(--rust); border-radius: 6px;
+  padding: 3px 12px; margin-top: 8px; cursor: pointer;
+}
+.detail button:hover { background: #F3DCC6; }
+.detail .kbd { font-family: var(--mono); font-size: 11.5px; color: var(--slate); margin-left: 10px; }
+
+/* ============ 双栏布局 ============ */
+.duo { display: grid; grid-template-columns: 1.04fr .96fr; gap: 18px; align-items: stretch; }
+
+/* 守恒账本 */
+.ledger { padding: 6px 24px 18px; }
+.lrow {
+  display: grid; grid-template-columns: 1fr 3.4em 4.6em 4.6em 4em;
+  gap: 6px; align-items: baseline;
+  padding: 6.5px 8px; border-bottom: 1px solid #EFE8DA; font-size: 13.5px;
+}
+.lrow.head {
+  font-family: var(--mono); font-size: 12px; color: var(--slate);
+  border-bottom: 1.5px solid var(--line); padding-bottom: 8px;
+}
+.lrow .num { font-family: var(--mono); font-weight: 700; text-align: right; }
+.lrow .seg { font-family: var(--mono); font-size: 12px; color: var(--slate); }
+.lrow .mark { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--c-p1); text-align: center; }
+.lrow.sink .mark { color: var(--slate); }
+.lrow.total { border-bottom: none; border-top: 1.5px solid var(--line); background: #FFFEFA; border-radius: 6px; margin-top: 6px; }
+.lrow.total .mark { color: var(--rust); }
+.ledger-note { font-size: 12.5px; color: var(--slate); margin-top: 10px; }
+
+/* 官方规范档案 */
+.spec { padding: 6px 24px 16px; }
+.srow {
+  display: grid; grid-template-columns: 7.6em 1fr; gap: 12px;
+  padding: 8px 0; border-bottom: 1px solid #EFE8DA; font-size: 13.5px;
+}
+.srow:last-of-type { border-bottom: none; }
+.srow dt { font-family: var(--mono); font-size: 12px; color: var(--c-p1); font-weight: 700; padding-top: 2px; }
+.srow dd { color: var(--ink); }
+.srow dd .dim { color: var(--slate); }
+.srow dd b { font-family: var(--mono); }
+
+/* 桑基与漏斗取舍 */
+.pick { padding: 6px 24px 14px; }
+.drow {
+  display: grid; grid-template-columns: 6.2em 1fr 1fr; gap: 10px;
+  padding: 9px 8px; border-bottom: 1px solid #EFE8DA; font-size: 13px;
+}
+.drow.head { font-family: var(--mono); font-size: 12px; color: var(--slate); border-bottom: 1.5px solid var(--line); }
+.drow .dim-name { font-weight: 700; color: var(--ink); }
+.drow .fun { color: var(--slate); }
+.drow .san { color: var(--ink); background: #F2F6F2; border-radius: 6px; padding: 2px 8px; margin: -2px -8px; }
+.pick-verdict {
+  margin-top: 12px; border-left: 4px solid var(--c-p1); background: #F4F8F7;
+  padding: 10px 14px; font-size: 13.5px; border-radius: 0 8px 8px 0;
+}
+.pick-note { font-size: 12.5px; color: var(--slate); margin-top: 10px; }
+
+/* 数据表后备 */
+.ftable { padding: 6px 24px 16px; }
+.frow {
+  display: grid; grid-template-columns: 3em 1fr 1fr 4.8em 4.2em;
+  gap: 6px; align-items: baseline;
+  padding: 5px 8px; border-bottom: 1px solid #EFE8DA; font-size: 13px;
+}
+.frow.head { font-family: var(--mono); font-size: 12px; color: var(--slate); border-bottom: 1.5px solid var(--line); }
+.frow .num { font-family: var(--mono); font-weight: 700; text-align: right; }
+.frow .pct { font-family: var(--mono); color: var(--slate); text-align: right; }
+.frow.sub { background: #FFFEFA; border-bottom: 1.5px solid var(--line); }
+.frow.sub .num, .frow.sub .pct { color: var(--c-p1); }
+.frow .c-seg { font-family: var(--mono); font-size: 11.5px; color: var(--slate); }
+.tsum { font-size: 12.5px; color: var(--slate); margin-top: 10px; }
+
+/* ============ 页脚 ============ */
+footer {
+  margin-top: 46px; padding-top: 16px; border-top: 1.5px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between;
+  font-size: 13px; color: var(--slate);
+}
+
+/* ============ 响应式 ============ */
+@media (max-width: 900px) {
+  .duo { grid-template-columns: 1fr; }
+  body { padding: 32px 16px 48px; }
+}
+@media (max-width: 560px) {
+  body { padding: 24px 10px 40px; }
+  .card-head, .balance-strip, .ledger, .spec, .pick, .ftable { padding-left: 14px; padding-right: 14px; }
+  .card-head { padding-left: 14px; padding-right: 14px; }
+  .detail { margin: 10px 14px 14px; }
+  .chart-scroll svg { min-width: 760px; }
+  .lrow { grid-template-columns: 1fr 2.8em 4em 4em 3.4em; font-size: 12.5px; }
+  .frow { grid-template-columns: 2.2em 1fr 1fr 4.4em 3.8em; font-size: 12px; }
+  .drow { grid-template-columns: 5em 1fr 1fr; font-size: 12.5px; }
+  .bal { flex: 1 1 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="crumb" aria-label="面包屑">
+    <span class="no">No.12</span>
+    <a href="../style-catalog.html">风格目录</a>
+    <span class="sep">/</span>
+    <span>图表图鉴</span>
+    <span class="sep">/</span>
+    <span>Flow / Process Data</span>
+    <span class="sep">/</span>
+    <span>Sankey Diagram</span>
+  </nav>
+
+  <header class="hero">
+    <p class="kind">图表图鉴 第 12 号 / 数据形态 Flow / Process Data / 首选 Sankey Diagram</p>
+    <h1>流向桑基<span class="alt">，把每一吨都记在账上</span></h1>
+    <p class="latin">Best chart type: <b>Sankey Diagram</b> / secondary: Alluvial, Chord Diagram</p>
+    <p class="lede">
+      桑基图回答一个漏斗答不了的问题：<b>东西从哪来、到哪去、路上分了几岔</b>。
+      下面以一座城市一天 2,450 吨生活垃圾的真实感数据，画一张三段全量桑基：
+      来源四类，处理四类，去向五类，25 条流量带全部手写贝塞尔曲线，
+      <b>带宽与吨数严格成正比（40 像素标尺 = 200 吨/日），逐路进出守恒</b>。
+    </p>
+    <div class="chips" aria-label="选型速览">
+      <span class="chip">数据形态 <b>Flow / Process</b></span>
+      <span class="chip">首选 <b>Sankey</b></span>
+      <span class="chip">备选 <b>Alluvial / Chord</b></span>
+      <span class="chip">流量 <b>25 条</b>（少于 50，SVG 阈值内）</span>
+      <span class="chip">交互 <b>Hover + Drilldown</b></span>
+      <span class="chip">无障碍风险 <b>conditional</b></span>
+    </div>
+  </header>
+
+  <p class="section-label">主图 / 三段流量全景：来源 到 处理 到 去向</p>
+  <section class="card hero-chart" aria-labelledby="chartTitle">
+    <div class="card-head">
+      <h2 id="chartTitle">城市垃圾处理流</h2>
+      <span class="sub">某市生活垃圾 / 单位吨/日 / 2025 年观测季均值（示意数据集）</span>
+    </div>
+    <div class="balance-strip" aria-label="三段守恒摘要">
+      <span class="bal">来源合计 <b>2,450</b> 吨/日 <span class="ok">四类源头</span></span>
+      <span class="bal">处理吞吐 <b>2,450</b> 吨/日 <span class="ok">入 = 出</span></span>
+      <span class="bal">去向合计 <b>2,450</b> 吨/日 <span class="ok">五类归处</span></span>
+    </div>
+    <div class="chart-scroll">
+      <svg viewBox="0 0 960 648" role="group" aria-label="三段桑基图：四个来源节点为居民小区 1,180、商业餐饮 620、办公楼宇 380、公共区域 270 吨/日；四个处理节点为机械分拣中心 980、焚烧发电厂 690、厨余处理厂 620、应急填埋场 160 吨/日，每个处理节点流入等于流出；五个去向节点为再生原料 640、炉渣基材 130、有机肥料 260、填埋封存 710、烟气与蒸发 710 吨/日。每条流量带可聚焦读值，节点可回车下钻。">
+        <defs>
+          <linearGradient id="g12f1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#14556B"/><stop offset="1" stop-color="#1F6E7E"/></linearGradient>
+          <linearGradient id="g12f2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#14556B"/><stop offset="1" stop-color="#9C3F1E"/></linearGradient>
+          <linearGradient id="g12f3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#14556B"/><stop offset="1" stop-color="#5E7A3A"/></linearGradient>
+          <linearGradient id="g12f4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#14556B"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g12f5" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C4A21"/><stop offset="1" stop-color="#1F6E7E"/></linearGradient>
+          <linearGradient id="g12f6" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C4A21"/><stop offset="1" stop-color="#9C3F1E"/></linearGradient>
+          <linearGradient id="g12f7" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C4A21"/><stop offset="1" stop-color="#5E7A3A"/></linearGradient>
+          <linearGradient id="g12f8" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C4A21"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g12f9" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4C6B3C"/><stop offset="1" stop-color="#1F6E7E"/></linearGradient>
+          <linearGradient id="g12f10" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4C6B3C"/><stop offset="1" stop-color="#9C3F1E"/></linearGradient>
+          <linearGradient id="g12f11" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4C6B3C"/><stop offset="1" stop-color="#5E7A3A"/></linearGradient>
+          <linearGradient id="g12f12" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4C6B3C"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g12f13" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#56617A"/><stop offset="1" stop-color="#1F6E7E"/></linearGradient>
+          <linearGradient id="g12f14" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#56617A"/><stop offset="1" stop-color="#9C3F1E"/></linearGradient>
+          <linearGradient id="g12f15" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#56617A"/><stop offset="1" stop-color="#5E7A3A"/></linearGradient>
+          <linearGradient id="g12f16" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#56617A"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g23f17" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1F6E7E"/><stop offset="1" stop-color="#1F6E7E"/></linearGradient>
+          <linearGradient id="g23f18" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1F6E7E"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g23f19" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C3F1E"/><stop offset="1" stop-color="#9C3F1E"/></linearGradient>
+          <linearGradient id="g23f20" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C3F1E"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g23f21" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9C3F1E"/><stop offset="1" stop-color="#6F6A5E"/></linearGradient>
+          <linearGradient id="g23f22" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E7A3A"/><stop offset="1" stop-color="#5E7A3A"/></linearGradient>
+          <linearGradient id="g23f23" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E7A3A"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+          <linearGradient id="g23f24" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5E7A3A"/><stop offset="1" stop-color="#6F6A5E"/></linearGradient>
+          <linearGradient id="g23f25" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6B6455"/><stop offset="1" stop-color="#6B6455"/></linearGradient>
+        </defs>
+
+        <text class="t-cap" x="96" y="20" text-anchor="middle">来源</text>
+        <text class="t-cap" x="475" y="20" text-anchor="middle">处理</text>
+        <text class="t-cap" x="845" y="20" text-anchor="middle">去向</text>
+        <text class="t-cap" x="940" y="20" text-anchor="end">单位：吨/日</text>
+
+        <g class="plot">
+          <g role="list" aria-label="来源到处理段流量带">
+            <path class="flow" data-n="s1 p1" tabindex="0" role="listitem" aria-label="流量带 居民小区 至 机械分拣中心 / 640 吨每日 / 占来源 54.2% / 占总量 26.1%" fill="url(#g12f1)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,34 C339,34 339,34 468,34 L468,162 C339,162 339,162 210,162 Z"/>
+            <path class="flow" data-n="s1 p2" tabindex="0" role="listitem" aria-label="流量带 居民小区 至 焚烧发电厂 / 300 吨每日 / 占来源 25.4% / 占总量 12.2%" fill="url(#g12f2)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,162 C339,162 339,260 468,260 L468,320 C339,320 339,222 210,222 Z"/>
+            <path class="flow" data-n="s1 p3" tabindex="0" role="listitem" aria-label="流量带 居民小区 至 厨余处理厂 / 180 吨每日 / 占来源 15.3% / 占总量 7.3%" fill="url(#g12f3)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,222 C339,222 339,422 468,422 L468,458 C339,458 339,258 210,258 Z"/>
+            <path class="flow" data-n="s1 p4" tabindex="0" role="listitem" aria-label="流量带 居民小区 至 应急填埋场 / 60 吨每日 / 占来源 5.1% / 占总量 2.4%" fill="url(#g12f4)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,258 C339,258 339,572 468,572 L468,584 C339,584 339,270 210,270 Z"/>
+            <path class="flow" data-n="s2 p1" tabindex="0" role="listitem" aria-label="流量带 商业餐饮 至 机械分拣中心 / 90 吨每日 / 占来源 14.5% / 占总量 3.7%" fill="url(#g12f5)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,294 C339,294 339,162 468,162 L468,180 C339,180 339,312 210,312 Z"/>
+            <path class="flow" data-n="s2 p2" tabindex="0" role="listitem" aria-label="流量带 商业餐饮 至 焚烧发电厂 / 120 吨每日 / 占来源 19.4% / 占总量 4.9%" fill="url(#g12f6)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,312 C339,312 339,320 468,320 L468,344 C339,344 339,336 210,336 Z"/>
+            <path class="flow" data-n="s2 p3" tabindex="0" role="listitem" aria-label="流量带 商业餐饮 至 厨余处理厂 / 380 吨每日 / 占来源 61.3% / 占总量 15.5%" fill="url(#g12f7)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,336 C339,336 339,458 468,458 L468,534 C339,534 339,412 210,412 Z"/>
+            <path class="flow" data-n="s2 p4" tabindex="0" role="listitem" aria-label="流量带 商业餐饮 至 应急填埋场 / 30 吨每日 / 占来源 4.8% / 占总量 1.2%" fill="url(#g12f8)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,412 C339,412 339,584 468,584 L468,590 C339,590 339,418 210,418 Z"/>
+            <path class="flow" data-n="s3 p1" tabindex="0" role="listitem" aria-label="流量带 办公楼宇 至 机械分拣中心 / 190 吨每日 / 占来源 50.0% / 占总量 7.8%" fill="url(#g12f9)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,442 C339,442 339,180 468,180 L468,218 C339,218 339,480 210,480 Z"/>
+            <path class="flow" data-n="s3 p2" tabindex="0" role="listitem" aria-label="流量带 办公楼宇 至 焚烧发电厂 / 140 吨每日 / 占来源 36.8% / 占总量 5.7%" fill="url(#g12f10)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,480 C339,480 339,344 468,344 L468,372 C339,372 339,508 210,508 Z"/>
+            <path class="flow" data-n="s3 p3" tabindex="0" role="listitem" aria-label="流量带 办公楼宇 至 厨余处理厂 / 30 吨每日 / 占来源 7.9% / 占总量 1.2%" fill="url(#g12f11)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,508 C339,508 339,534 468,534 L468,540 C339,540 339,514 210,514 Z"/>
+            <path class="flow" data-n="s3 p4" tabindex="0" role="listitem" aria-label="流量带 办公楼宇 至 应急填埋场 / 20 吨每日 / 占来源 5.3% / 占总量 0.8%" fill="url(#g12f12)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,514 C339,514 339,590 468,590 L468,594 C339,594 339,518 210,518 Z"/>
+            <path class="flow" data-n="s4 p1" tabindex="0" role="listitem" aria-label="流量带 公共区域 至 机械分拣中心 / 60 吨每日 / 占来源 22.2% / 占总量 2.4%" fill="url(#g12f13)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,542 C339,542 339,218 468,218 L468,230 C339,230 339,554 210,554 Z"/>
+            <path class="flow" data-n="s4 p2" tabindex="0" role="listitem" aria-label="流量带 公共区域 至 焚烧发电厂 / 130 吨每日 / 占来源 48.1% / 占总量 5.3%" fill="url(#g12f14)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,554 C339,554 339,372 468,372 L468,398 C339,398 339,580 210,580 Z"/>
+            <path class="flow" data-n="s4 p3" tabindex="0" role="listitem" aria-label="流量带 公共区域 至 厨余处理厂 / 30 吨每日 / 占来源 11.1% / 占总量 1.2%" fill="url(#g12f15)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,580 C339,580 339,540 468,540 L468,546 C339,546 339,586 210,586 Z"/>
+            <path class="flow" data-n="s4 p4" tabindex="0" role="listitem" aria-label="流量带 公共区域 至 应急填埋场 / 50 吨每日 / 占来源 18.5% / 占总量 2.0%" fill="url(#g12f16)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M210,586 C339,586 339,594 468,594 L468,604 C339,604 339,596 210,596 Z"/>
+          </g>
+          <g role="list" aria-label="处理到去向段流量带">
+            <path class="flow" data-n="p1 d1" tabindex="0" role="listitem" aria-label="流量带 机械分拣中心 至 再生原料 / 640 吨每日 / 占该处理厂流出 65.3% / 占总量 26.1%" fill="url(#g23f17)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,34 C609,34 609,34 736,34 L736,162 C609,162 609,162 482,162 Z"/>
+            <path class="flow" data-n="p1 d4" tabindex="0" role="listitem" aria-label="流量带 机械分拣中心 至 填埋封存 / 340 吨每日 / 占该处理厂流出 34.7% / 占总量 13.9%" fill="url(#g23f18)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,162 C609,162 609,300 736,300 L736,368 C609,368 609,230 482,230 Z"/>
+            <path class="flow" data-n="p2 d2" tabindex="0" role="listitem" aria-label="流量带 焚烧发电厂 至 炉渣基材 / 130 吨每日 / 占该处理厂流出 18.8% / 占总量 5.3%" fill="url(#g23f19)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,260 C609,260 609,182 736,182 L736,208 C609,208 609,286 482,286 Z"/>
+            <path class="flow" data-n="p2 d4" tabindex="0" role="listitem" aria-label="流量带 焚烧发电厂 至 填埋封存（飞灰固化）/ 60 吨每日 / 占该处理厂流出 8.7% / 占总量 2.4%" fill="url(#g23f20)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,286 C609,286 609,368 736,368 L736,380 C609,380 609,298 482,298 Z"/>
+            <path class="flow" data-n="p2 d5" tabindex="0" role="listitem" aria-label="流量带 焚烧发电厂 至 烟气与蒸发 / 500 吨每日 / 占该处理厂流出 72.5% / 占总量 20.4%" fill="url(#g23f21)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,298 C609,298 609,462 736,462 L736,562 C609,562 609,398 482,398 Z"/>
+            <path class="flow" data-n="p3 d3" tabindex="0" role="listitem" aria-label="流量带 厨余处理厂 至 有机肥料 / 260 吨每日 / 占该处理厂流出 41.9% / 占总量 10.6%" fill="url(#g23f22)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,422 C609,422 609,228 736,228 L736,280 C609,280 609,474 482,474 Z"/>
+            <path class="flow" data-n="p3 d4" tabindex="0" role="listitem" aria-label="流量带 厨余处理厂 至 填埋封存（杂质筛下物）/ 150 吨每日 / 占该处理厂流出 24.2% / 占总量 6.1%" fill="url(#g23f23)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,474 C609,474 609,380 736,380 L736,410 C609,410 609,504 482,504 Z"/>
+            <path class="flow" data-n="p3 d5" tabindex="0" role="listitem" aria-label="流量带 厨余处理厂 至 烟气与蒸发（沼气与水分）/ 210 吨每日 / 占该处理厂流出 33.9% / 占总量 8.6%" fill="url(#g23f24)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,504 C609,504 609,562 736,562 L736,604 C609,604 609,546 482,546 Z"/>
+            <path class="flow" data-n="p4 d4" tabindex="0" role="listitem" aria-label="流量带 应急填埋场 至 填埋封存 / 160 吨每日 / 占该处理厂流出 100% / 占总量 6.5%" fill="url(#g23f25)" opacity=".5" stroke="#22303A" stroke-opacity=".28" stroke-width=".6" d="M482,572 C609,572 609,410 736,410 L736,442 C609,442 609,604 482,604 Z"/>
+          </g>
+          <g role="list" aria-label="节点列">
+            <g class="nd" data-n="s1" tabindex="0" role="listitem" aria-label="节点 居民小区 / 来源 / 1,180 吨每日 / 流向 机械分拣 640 / 焚烧发电 300 / 厨余处理 180 / 应急填埋 60"><rect x="196" y="34" width="14" height="236" rx="2" fill="#14556B"/></g>
+            <g class="nd" data-n="s2" tabindex="0" role="listitem" aria-label="节点 商业餐饮 / 来源 / 620 吨每日 / 流向 厨余处理 380 / 焚烧发电 120 / 机械分拣 90 / 应急填埋 30"><rect x="196" y="294" width="14" height="124" rx="2" fill="#9C4A21"/></g>
+            <g class="nd" data-n="s3" tabindex="0" role="listitem" aria-label="节点 办公楼宇 / 来源 / 380 吨每日 / 流向 机械分拣 190 / 焚烧发电 140 / 厨余处理 30 / 应急填埋 20"><rect x="196" y="442" width="14" height="76" rx="2" fill="#4C6B3C"/></g>
+            <g class="nd" data-n="s4" tabindex="0" role="listitem" aria-label="节点 公共区域 / 来源 / 270 吨每日 / 流向 焚烧发电 130 / 机械分拣 60 / 应急填埋 50 / 厨余处理 30"><rect x="196" y="542" width="14" height="54" rx="2" fill="#56617A"/></g>
+            <g class="nd" data-n="p1" tabindex="0" role="listitem" aria-label="节点 机械分拣中心 / 处理 / 流入 980 吨每日 / 流出 980 吨每日 / 再生原料 640 / 填埋封存 340"><rect x="468" y="34" width="14" height="196" rx="2" fill="#1F6E7E"/></g>
+            <g class="nd" data-n="p2" tabindex="0" role="listitem" aria-label="节点 焚烧发电厂 / 处理 / 流入 690 吨每日 / 流出 690 吨每日 / 烟气与蒸发 500 / 炉渣基材 130 / 飞灰填埋 60"><rect x="468" y="260" width="14" height="138" rx="2" fill="#9C3F1E"/></g>
+            <g class="nd" data-n="p3" tabindex="0" role="listitem" aria-label="节点 厨余处理厂 / 处理 / 流入 620 吨每日 / 流出 620 吨每日 / 有机肥料 260 / 沼气与水分 210 / 杂质填埋 150"><rect x="468" y="422" width="14" height="124" rx="2" fill="#5E7A3A"/></g>
+            <g class="nd" data-n="p4" tabindex="0" role="listitem" aria-label="节点 应急填埋场 / 处理 / 流入 160 吨每日 / 流出 160 吨每日 / 全部直接封存"><rect x="468" y="572" width="14" height="32" rx="2" fill="#6B6455"/></g>
+            <g class="nd" data-n="d1" tabindex="0" role="listitem" aria-label="节点 再生原料 / 去向 / 汇入 640 吨每日 / 全部来自机械分拣中心"><rect x="736" y="34" width="14" height="128" rx="2" fill="#1F6E7E"/></g>
+            <g class="nd" data-n="d2" tabindex="0" role="listitem" aria-label="节点 炉渣基材 / 去向 / 汇入 130 吨每日 / 焚烧炉渣用作建材骨料"><rect x="736" y="182" width="14" height="26" rx="2" fill="#9C3F1E"/></g>
+            <g class="nd" data-n="d3" tabindex="0" role="listitem" aria-label="节点 有机肥料 / 去向 / 汇入 260 吨每日 / 厨余堆肥产物"><rect x="736" y="228" width="14" height="52" rx="2" fill="#5E7A3A"/></g>
+            <g class="nd" data-n="d4" tabindex="0" role="listitem" aria-label="节点 填埋封存 / 去向 / 汇入 710 吨每日 / 分拣残余 340 / 飞灰 60 / 厨余杂质 150 / 应急直填 160"><rect x="736" y="300" width="14" height="142" rx="2" fill="#6B6455"/></g>
+            <g class="nd" data-n="d5" tabindex="0" role="listitem" aria-label="节点 烟气与蒸发 / 去向 / 汇入 710 吨每日 / 焚烧 500 / 厨余沼气与水分 210 / 虚线边框标记质量离开系统"><rect x="736" y="462" width="14" height="142" rx="2" fill="#6F6A5E" stroke-dasharray="5 4"/></g>
+          </g>
+        </g>
+
+        <g class="lbl-fade" aria-hidden="true">
+          <text class="t-name" x="188" y="148" text-anchor="end">居民小区</text>
+          <text class="t-val" x="188" y="168" text-anchor="end" fill="#14556B">1,180</text>
+          <text class="t-name" x="188" y="352" text-anchor="end">商业餐饮</text>
+          <text class="t-val" x="188" y="372" text-anchor="end" fill="#9C4A21">620</text>
+          <text class="t-name" x="188" y="476" text-anchor="end">办公楼宇</text>
+          <text class="t-val" x="188" y="496" text-anchor="end" fill="#4C6B3C">380</text>
+          <text class="t-name" x="188" y="565" text-anchor="end">公共区域</text>
+          <text class="t-val" x="188" y="585" text-anchor="end" fill="#56617A">270</text>
+          <text class="t-name2 halo" x="475" y="244" text-anchor="middle">机械分拣中心</text>
+          <text class="t-val2 halo" x="475" y="257" text-anchor="middle">980</text>
+          <text class="t-name2 halo" x="475" y="410" text-anchor="middle">焚烧发电厂</text>
+          <text class="t-val2 halo" x="475" y="421" text-anchor="middle">690</text>
+          <text class="t-name2 halo" x="475" y="559" text-anchor="middle">厨余处理厂</text>
+          <text class="t-val2 halo" x="475" y="570" text-anchor="middle">620</text>
+          <line x1="475" y1="606" x2="475" y2="613" stroke="#556570" stroke-width="1"/>
+          <text x="475" y="627" text-anchor="middle"><tspan class="t-name2">应急填埋场</tspan><tspan class="t-val2" dx="7">160</tspan></text>
+          <text class="t-name" x="758" y="96">再生原料</text>
+          <text class="t-val" x="758" y="115" fill="#1F6E7E">640</text>
+          <text class="t-name" x="758" y="191">炉渣基材</text>
+          <text class="t-val" x="758" y="210" fill="#9C3F1E">130</text>
+          <text class="t-name" x="758" y="237">有机肥料</text>
+          <text class="t-val" x="758" y="256" fill="#5E7A3A">260</text>
+          <text class="t-name" x="758" y="369">填埋封存</text>
+          <text class="t-val" x="758" y="388" fill="#6B6455">710</text>
+          <text class="t-name" x="758" y="531">烟气与蒸发</text>
+          <text class="t-val" x="758" y="550" fill="#556570">710</text>
+          <rect x="24" y="630" width="40" height="8" fill="#22303A" rx="1.5"/>
+          <text class="t-leg" x="72" y="639">40 像素标尺 = 200 吨/日，带宽与吨数成正比</text>
+          <rect x="600" y="628" width="24" height="10" fill="#6F6A5E" fill-opacity=".3" stroke="#6F6A5E" stroke-dasharray="4 3"/>
+          <text class="t-leg" x="632" y="637">虚线边框 = 质量离开系统</text>
+        </g>
+      </svg>
+    </div>
+    <p class="chart-hint">官方明示移动优先场景不建议桑基：窄屏（小于 560 像素）下图表支持左右滑动读图，完整数值见页底数据表后备。</p>
+    <div class="detail" aria-live="polite">
+      <span class="d-tag" id="dTag">总览</span>
+      <span class="d-txt" id="dTxt">全市生活垃圾 2,450 吨/日：来源四类（居民 1,180 / 商业餐饮 620 / 办公楼宇 380 / 公共区域 270），经四类处理设施，流向五类去向，25 条流量逐路守恒。聚焦任一节点或流量带可读值；回车下钻节点，Esc 或退格返回总览。</span>
+      <button type="button" id="backBtn" hidden>返回总览</button>
+      <span class="kbd">键盘：Tab 聚焦读值 / Enter 下钻 / Esc 或 Backspace 返回</span>
+    </div>
+  </section>
+
+  <p class="section-label">校验与规范 / 每个节点的进出账</p>
+  <div class="duo">
+    <section class="card" aria-labelledby="ledgerTitle">
+      <div class="card-head">
+        <h2 id="ledgerTitle">守恒账本</h2>
+        <span class="sub">13 个节点逐一对账，进出必须相等</span>
+      </div>
+      <div class="ledger" role="table" aria-label="节点进出守恒校验表">
+        <div class="lrow head" role="row">
+          <span role="columnheader">节点</span><span role="columnheader">段</span>
+          <span role="columnheader" style="text-align:right">流入</span>
+          <span role="columnheader" style="text-align:right">流出</span>
+          <span role="columnheader" style="text-align:center">校验</span>
+        </div>
+        <div class="lrow" role="row"><span role="cell">居民小区</span><span class="seg" role="cell">来源</span><span class="num" role="cell">—</span><span class="num" role="cell">1,180</span><span class="mark" role="cell">源头</span></div>
+        <div class="lrow" role="row"><span role="cell">商业餐饮</span><span class="seg" role="cell">来源</span><span class="num" role="cell">—</span><span class="num" role="cell">620</span><span class="mark" role="cell">源头</span></div>
+        <div class="lrow" role="row"><span role="cell">办公楼宇</span><span class="seg" role="cell">来源</span><span class="num" role="cell">—</span><span class="num" role="cell">380</span><span class="mark" role="cell">源头</span></div>
+        <div class="lrow" role="row"><span role="cell">公共区域</span><span class="seg" role="cell">来源</span><span class="num" role="cell">—</span><span class="num" role="cell">270</span><span class="mark" role="cell">源头</span></div>
+        <div class="lrow" role="row"><span role="cell">机械分拣中心</span><span class="seg" role="cell">处理</span><span class="num" role="cell">980</span><span class="num" role="cell">980</span><span class="mark" role="cell">平衡</span></div>
+        <div class="lrow" role="row"><span role="cell">焚烧发电厂</span><span class="seg" role="cell">处理</span><span class="num" role="cell">690</span><span class="num" role="cell">690</span><span class="mark" role="cell">平衡</span></div>
+        <div class="lrow" role="row"><span role="cell">厨余处理厂</span><span class="seg" role="cell">处理</span><span class="num" role="cell">620</span><span class="num" role="cell">620</span><span class="mark" role="cell">平衡</span></div>
+        <div class="lrow" role="row"><span role="cell">应急填埋场</span><span class="seg" role="cell">处理</span><span class="num" role="cell">160</span><span class="num" role="cell">160</span><span class="mark" role="cell">平衡</span></div>
+        <div class="lrow sink" role="row"><span role="cell">再生原料</span><span class="seg" role="cell">去向</span><span class="num" role="cell">640</span><span class="num" role="cell">—</span><span class="mark" role="cell">汇点</span></div>
+        <div class="lrow sink" role="row"><span role="cell">炉渣基材</span><span class="seg" role="cell">去向</span><span class="num" role="cell">130</span><span class="num" role="cell">—</span><span class="mark" role="cell">汇点</span></div>
+        <div class="lrow sink" role="row"><span role="cell">有机肥料</span><span class="seg" role="cell">去向</span><span class="num" role="cell">260</span><span class="num" role="cell">—</span><span class="mark" role="cell">汇点</span></div>
+        <div class="lrow sink" role="row"><span role="cell">填埋封存</span><span class="seg" role="cell">去向</span><span class="num" role="cell">710</span><span class="num" role="cell">—</span><span class="mark" role="cell">汇点</span></div>
+        <div class="lrow sink" role="row"><span role="cell">烟气与蒸发</span><span class="seg" role="cell">去向</span><span class="num" role="cell">710</span><span class="num" role="cell">—</span><span class="mark" role="cell">汇点</span></div>
+        <div class="lrow total" role="row"><span role="cell">全系统</span><span class="seg" role="cell">三段</span><span class="num" role="cell">2,450</span><span class="num" role="cell">2,450</span><span class="mark" role="cell">守恒</span></div>
+      </div>
+      <p class="ledger-note">守恒的物理含义：烟气与蒸发（710 吨/日）不是画错，而是以水汽与烟气形式离开系统的真实质量。桑基把损耗也记在账上，这正是它比漏斗诚实的地方。</p>
+    </section>
+
+    <section class="card" aria-labelledby="specTitle">
+      <div class="card-head">
+        <h2 id="specTitle">官方规范档案</h2>
+        <span class="sub">No.12 / Flow / Process Data</span>
+      </div>
+      <dl class="spec">
+        <div class="srow"><dt>何时用</dt><dd>量在节点之间的流转与再分配；多源多汇的分布结构。</dd></div>
+        <div class="srow"><dt>何时不用</dt><dd>流向成环（改用网络图）；流量对少于 3 对；移动优先场景。</dd></div>
+        <div class="srow"><dt>数据量阈值</dt><dd>流量少于 <b>50</b> 用 SVG，达到 <b>50</b> 用 Canvas，超过 <b>200</b> 把小流量归并进其他节点。<span class="dim">本图 25 条，手写 SVG。</span></dd></div>
+        <div class="srow"><dt>颜色规范</dt><dd>从源色到目标色渐变；流量带透明度 <b>0.4 到 0.6</b>（本图 0.5）；节点标签始终可见。</dd></div>
+        <div class="srow"><dt>不靠颜色</dt><dd>辅以线型区分：虚线边框标记损耗去向（烟气与蒸发）；数值全部直标。</dd></div>
+        <div class="srow"><dt>无障碍</dt><dd>风险等级 conditional；后备为流量表加摘要；键盘 focus 读值 / Enter 下钻 / 返回键回退。</dd></div>
+        <div class="srow"><dt>备选图形</dt><dd>Alluvial 冲积图 / Chord 弦图。</dd></div>
+        <div class="srow"><dt>推荐实现</dt><dd>D3.js（d3-sankey）/ Plotly；交互层级 Hover + Drilldown。</dd></div>
+      </dl>
+    </section>
+  </div>
+
+  <p class="section-label">取舍与后备 / 桑基与漏斗怎么选</p>
+  <div class="duo">
+    <section class="card" aria-labelledby="pickTitle">
+      <div class="card-head">
+        <h2 id="pickTitle">桑基与漏斗的取舍</h2>
+        <span class="sub">同一笔账，两种图形各管一段</span>
+      </div>
+      <div class="pick" role="table" aria-label="桑基与漏斗取舍对照表">
+        <div class="drow head" role="row">
+          <span role="columnheader">维度</span>
+          <span role="columnheader">漏斗</span>
+          <span role="columnheader">桑基</span>
+        </div>
+        <div class="drow" role="row"><span class="dim-name" role="cell">数据形状</span><span class="fun" role="cell">单一线性路径，逐级递减</span><span class="san" role="cell">多源多汇，任意分配</span></div>
+        <div class="drow" role="row"><span class="dim-name" role="cell">岔路与合并</span><span class="fun" role="cell">表达不了岔路，只能记为流失</span><span class="san" role="cell">任意分叉合并，但不得成环</span></div>
+        <div class="drow" role="row"><span class="dim-name" role="cell">守恒视角</span><span class="fun" role="cell">只盯逐级转化率</span><span class="san" role="cell">逐路守恒，损耗也入账（本图烟气与蒸发 710 吨即明证）</span></div>
+        <div class="drow" role="row"><span class="dim-name" role="cell">数据门槛</span><span class="fun" role="cell">三到七级为宜</span><span class="san" role="cell">少于 3 对流量不必上桑基；超过 200 对先归并</span></div>
+        <div class="drow" role="row"><span class="dim-name" role="cell">触屏与窄屏</span><span class="fun" role="cell">天然窄长，适合移动端</span><span class="san" role="cell">官方明示移动优先场景不建议，窄屏给表格后备</span></div>
+        <p class="pick-verdict">判断口诀：一条路走到底画漏斗，多岔口分账画桑基，环形流转直接换网络图。</p>
+        <p class="pick-note">与图鉴第 07 号（<a href="funnel-flow.html">转化漏斗</a>）互为镜像：那一页漏斗当主角、桑基只做渠道分流的迷你样；本页桑基当主角，三段全量、逐路守恒，漏斗退为取舍参照。行为桑基的另一个实例见 <a href="../user-behavior-analytics.html">用户行为分析</a>。</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="tableTitle">
+      <div class="card-head">
+        <h2 id="tableTitle">数据表后备</h2>
+        <span class="sub">25 条流量的完整数值，与图形逐一对账</span>
+      </div>
+      <div class="ftable" role="table" aria-label="流量数据表：段、起点、终点、流量与占比">
+        <div class="frow head" role="row">
+          <span role="columnheader">段</span><span role="columnheader">起点</span>
+          <span role="columnheader">终点</span>
+          <span role="columnheader" style="text-align:right">吨/日</span>
+          <span role="columnheader" style="text-align:right">占比</span>
+        </div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">居民小区</span><span role="cell">机械分拣中心</span><span class="num" role="cell">640</span><span class="pct" role="cell">26.1%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">居民小区</span><span role="cell">焚烧发电厂</span><span class="num" role="cell">300</span><span class="pct" role="cell">12.2%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">居民小区</span><span role="cell">厨余处理厂</span><span class="num" role="cell">180</span><span class="pct" role="cell">7.3%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">居民小区</span><span role="cell">应急填埋场</span><span class="num" role="cell">60</span><span class="pct" role="cell">2.4%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">商业餐饮</span><span role="cell">机械分拣中心</span><span class="num" role="cell">90</span><span class="pct" role="cell">3.7%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">商业餐饮</span><span role="cell">焚烧发电厂</span><span class="num" role="cell">120</span><span class="pct" role="cell">4.9%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">商业餐饮</span><span role="cell">厨余处理厂</span><span class="num" role="cell">380</span><span class="pct" role="cell">15.5%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">商业餐饮</span><span role="cell">应急填埋场</span><span class="num" role="cell">30</span><span class="pct" role="cell">1.2%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">办公楼宇</span><span role="cell">机械分拣中心</span><span class="num" role="cell">190</span><span class="pct" role="cell">7.8%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">办公楼宇</span><span role="cell">焚烧发电厂</span><span class="num" role="cell">140</span><span class="pct" role="cell">5.7%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">办公楼宇</span><span role="cell">厨余处理厂</span><span class="num" role="cell">30</span><span class="pct" role="cell">1.2%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">办公楼宇</span><span role="cell">应急填埋场</span><span class="num" role="cell">20</span><span class="pct" role="cell">0.8%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">公共区域</span><span role="cell">机械分拣中心</span><span class="num" role="cell">60</span><span class="pct" role="cell">2.4%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">公共区域</span><span role="cell">焚烧发电厂</span><span class="num" role="cell">130</span><span class="pct" role="cell">5.3%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">公共区域</span><span role="cell">厨余处理厂</span><span class="num" role="cell">30</span><span class="pct" role="cell">1.2%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">一</span><span role="cell">公共区域</span><span role="cell">应急填埋场</span><span class="num" role="cell">50</span><span class="pct" role="cell">2.0%</span></div>
+        <div class="frow sub" role="row"><span class="c-seg" role="cell">计</span><span role="cell">四类来源</span><span role="cell">四类处理</span><span class="num" role="cell">2,450</span><span class="pct" role="cell">100%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">机械分拣中心</span><span role="cell">再生原料</span><span class="num" role="cell">640</span><span class="pct" role="cell">26.1%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">机械分拣中心</span><span role="cell">填埋封存</span><span class="num" role="cell">340</span><span class="pct" role="cell">13.9%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">焚烧发电厂</span><span role="cell">炉渣基材</span><span class="num" role="cell">130</span><span class="pct" role="cell">5.3%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">焚烧发电厂</span><span role="cell">填埋封存</span><span class="num" role="cell">60</span><span class="pct" role="cell">2.4%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">焚烧发电厂</span><span role="cell">烟气与蒸发</span><span class="num" role="cell">500</span><span class="pct" role="cell">20.4%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">厨余处理厂</span><span role="cell">有机肥料</span><span class="num" role="cell">260</span><span class="pct" role="cell">10.6%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">厨余处理厂</span><span role="cell">填埋封存</span><span class="num" role="cell">150</span><span class="pct" role="cell">6.1%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">厨余处理厂</span><span role="cell">烟气与蒸发</span><span class="num" role="cell">210</span><span class="pct" role="cell">8.6%</span></div>
+        <div class="frow" role="row"><span class="c-seg" role="cell">二</span><span role="cell">应急填埋场</span><span role="cell">填埋封存</span><span class="num" role="cell">160</span><span class="pct" role="cell">6.5%</span></div>
+        <div class="frow sub" role="row"><span class="c-seg" role="cell">计</span><span role="cell">四类处理</span><span role="cell">五类去向</span><span class="num" role="cell">2,450</span><span class="pct" role="cell">100%</span></div>
+      </div>
+      <p class="tsum" style="padding: 0 24px 16px">流量摘要：25 条流量，两段总量各 2,450 吨/日；最大单路为居民小区至机械分拣 640 吨（26.1%），最小为办公楼宇至应急填埋 20 吨（0.8%）；占比经四舍五入，合计与 100% 相差 0.1 个百分点以内。</p>
+    </section>
+  </div>
+
+  <footer>
+    <span>UI 设计提示词库 / 图表图鉴 / 流向桑基</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var OV = '全市生活垃圾 2,450 吨/日：来源四类（居民 1,180 / 商业餐饮 620 / 办公楼宇 380 / 公共区域 270），经四类处理设施，流向五类去向，25 条流量逐路守恒。聚焦任一节点或流量带可读值；回车下钻节点，Esc 或退格返回总览。';
+  var D = {
+    s1: { tag: '下钻 / 居民小区（来源）', txt: '1,180 吨/日，占全市 48.2%。流出：机械分拣 640（54.2%）/ 焚烧发电 300（25.4%）/ 厨余处理 180（15.3%）/ 应急填埋 60（5.1%）。分拣占大头，符合居民源可回收物比例高的特征。' },
+    s2: { tag: '下钻 / 商业餐饮（来源）', txt: '620 吨/日，占全市 25.3%。流出：厨余处理 380（61.3%）/ 焚烧发电 120 / 机械分拣 90 / 应急填埋 30。厨余占比最高，是这一源头的鲜明个性。' },
+    s3: { tag: '下钻 / 办公楼宇（来源）', txt: '380 吨/日，占全市 15.5%。流出：机械分拣 190（50.0%）/ 焚烧发电 140（36.8%）/ 厨余处理 30 / 应急填埋 20。纸张与包装类可回收物拉高了分拣比例。' },
+    s4: { tag: '下钻 / 公共区域（来源）', txt: '270 吨/日，占全市 11.0%。流出：焚烧发电 130（48.1%）/ 机械分拣 60 / 应急填埋 50 / 厨余处理 30。混合度高，以焚烧为主渠道。' },
+    p1: { tag: '下钻 / 机械分拣中心（处理）', txt: '流入 980 = 流出 980，平衡。流出：再生原料 640（65.3%）/ 填埋封存 340（34.7%）。残余率约三分之一，是系统里最大的可优化环节。' },
+    p2: { tag: '下钻 / 焚烧发电厂（处理）', txt: '流入 690 = 流出 690，平衡。流出：烟气与蒸发 500（72.5%）/ 炉渣基材 130（18.8%）/ 飞灰固化填埋 60（8.7%）。约七成质量以水汽与烟气形式离开系统，这是焚烧的物理特性，桑基如实记账。' },
+    p3: { tag: '下钻 / 厨余处理厂（处理）', txt: '流入 620 = 流出 620，平衡。流出：有机肥料 260（41.9%）/ 沼气与水分 210（33.9%）/ 杂质筛下物填埋 150（24.2%）。' },
+    p4: { tag: '下钻 / 应急填埋场（处理）', txt: '流入 160 = 流出 160，全部直接封存，无二次转化。应急通道只收超出处理能力的余量。' },
+    d1: { tag: '下钻 / 再生原料（去向）', txt: '汇点，入 640 吨/日，全部来自机械分拣中心，回到工业循环。' },
+    d2: { tag: '下钻 / 炉渣基材（去向）', txt: '汇点，入 130 吨/日，焚烧炉渣用作建材骨料。' },
+    d3: { tag: '下钻 / 有机肥料（去向）', txt: '汇点，入 260 吨/日，厨余堆肥产物，用于园林与农业。' },
+    d4: { tag: '下钻 / 填埋封存（去向）', txt: '汇点，入 710 吨/日 = 分拣残余 340 / 焚烧飞灰 60 / 厨余杂质 150 / 应急直填 160。库容压力主要来自分拣残余。' },
+    d5: { tag: '下钻 / 烟气与蒸发（去向）', txt: '汇点，入 710 吨/日 = 焚烧 500 / 厨余沼气与水分 210。虚线边框标记质量离开系统：守恒不是没有损耗，而是把损耗也入账。' }
+  };
+  var svg = document.querySelector('.chart-scroll svg');
+  var flows = Array.prototype.slice.call(document.querySelectorAll('.flow'));
+  var tagEl = document.getElementById('dTag');
+  var txtEl = document.getElementById('dTxt');
+  var backBtn = document.getElementById('backBtn');
+
+  function show(id) {
+    if (id && D[id]) {
+      tagEl.textContent = D[id].tag;
+      txtEl.textContent = D[id].txt;
+      backBtn.hidden = false;
+    } else {
+      tagEl.textContent = '总览';
+      txtEl.textContent = OV;
+      backBtn.hidden = true;
+    }
+  }
+  function spot(el) {
+    svg.classList.add('spot');
+    flows.forEach(function (f) { f.classList.toggle('on', f === el); });
+  }
+  function spotNode(id) {
+    svg.classList.add('spot');
+    flows.forEach(function (f) { f.classList.toggle('on', f.getAttribute('data-n').indexOf(id) > -1); });
+  }
+  function unspot() {
+    svg.classList.remove('spot');
+    flows.forEach(function (f) { f.classList.remove('on'); });
+  }
+  flows.forEach(function (f) {
+    f.addEventListener('focus', function () { spot(f); show(null); });
+    f.addEventListener('blur', unspot);
+    f.addEventListener('mouseenter', function () { spot(f); });
+    f.addEventListener('mouseleave', unspot);
+  });
+  document.querySelectorAll('.nd').forEach(function (n) {
+    var id = n.getAttribute('data-n');
+    n.addEventListener('focus', function () { spotNode(id); show(null); });
+    n.addEventListener('blur', unspot);
+    n.addEventListener('mouseenter', function () { spotNode(id); });
+    n.addEventListener('mouseleave', unspot);
+    n.addEventListener('click', function () { show(id); });
+    n.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(id); }
+    });
+  });
+  backBtn.addEventListener('click', function () { show(null); });
+  document.querySelector('.chart-scroll').addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' || e.key === 'Backspace') { show(null); unspot(); }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="层级树图图鉴: 开源组件库代码库目录与文件行数真实感样本, 面积即数值 / 嵌套即层级 / 深度过深警示 / 旭日图对比 / 无障碍数据表后备。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 层级树图 / UI 设计提示词库</title>
+<style>
+/* token 计划: 制图纸 #eef0ec / 卡面 #fbfbf7 / 墨 #232a26 / 弱文 #5a6258 / 苔绿 #1f6e5c / 数据蓝 #27598a / 警示红 #9c3d3d / 描线 #d5d9cf / 斑马 #f2f4ee */
+:root{
+  --paper:#eef0ec; --card:#fbfbf7; --ink:#232a26; --mut:#5a6258;
+  --acc:#1f6e5c; --blue:#27598a; --red:#9c3d3d; --line:#d5d9cf; --zebra:#f2f4ee;
+  --lab:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font:16px/1.75 "Source Han Sans SC","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+a{color:var(--acc)}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+
+/* 页眉 */
+.mast{padding:44px 0 26px;border-bottom:3px double var(--ink)}
+.crumb{font-size:14px;color:var(--mut);letter-spacing:.05em}
+.crumb a{color:var(--mut)}
+.mast h1{font-size:clamp(30px,4.2vw,52px);line-height:1.18;letter-spacing:.02em;margin:10px 0 12px}
+.mast h1 em{font-style:normal;color:var(--acc)}
+.lede{max-width:64ch;color:var(--mut);font-size:16.5px}
+.mast .meta{margin-top:14px;font-size:14px;color:var(--mut)}
+
+/* 区块骨架 */
+section{padding:42px 0 8px}
+.kicker{font-size:14px;color:var(--acc);letter-spacing:.14em}
+h2{font-size:clamp(21px,2.4vw,28px);margin:4px 0 14px;letter-spacing:.02em}
+h3{font-size:17px;margin-bottom:8px}
+p.note{color:var(--mut);font-size:15px;max-width:72ch}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 1px 0 rgba(35,42,38,.05)}
+
+/* 主图两栏 */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(0,1fr);gap:26px;align-items:stretch}
+.figure-hero{display:flex;flex-direction:column;gap:12px}
+.readout{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:14.5px;display:flex;gap:8px 22px;flex-wrap:wrap;align-items:baseline}
+.readout .rv{font-size:19px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
+.readout .rs{color:var(--mut);font-size:13.5px}
+
+/* 树图主体: div 嵌套, 面积编码 */
+.tm{position:relative;width:100%;aspect-ratio:1000/640;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;animation:unroll .8s cubic-bezier(.25,.8,.3,1) both}
+@keyframes unroll{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){.tm{animation:none}}
+.grp{position:absolute;border:2px solid #fff;background:#fff}
+.grp-label{position:absolute;left:0;top:0;height:var(--lab);padding:0 8px;display:flex;align-items:center;gap:8px;font:inherit;font-size:12.5px;font-weight:700;color:#fff;cursor:pointer;border:0;width:100%;text-align:left}
+.grp-label .gl-v{font-weight:400;opacity:.92;font-variant-numeric:tabular-nums}
+.grp-label:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+.grp-body{position:absolute;left:0;top:var(--lab);right:0;bottom:0}
+.tile{position:absolute;box-shadow:inset 0 0 0 1px #fff;display:flex;flex-direction:column;justify-content:center;padding:3px 6px;overflow:hidden;cursor:default}
+.tile span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.tile .fn{font-size:12px;font-weight:600}
+.tile .fv{font-size:12.5px;font-variant-numeric:tabular-nums;opacity:.92}
+.tile.one .fn{font-size:11px}
+.tile.one .fv{display:none}
+.tile.tiny span{display:none}
+.tile.hl,.grp.hl{box-shadow:inset 0 0 0 3px var(--ink)}
+.grp.fold .grp-label{height:100%;font-size:14px}
+.grp.fold .gl-v{font-size:13px}
+.figfoot{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;border-top:1px solid var(--line);padding-top:14px;font-size:14px;color:var(--mut)}
+
+/* 图例 */
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 14px;font-size:13.5px}
+.legend li{list-style:none;display:flex;align-items:center;gap:8px;min-width:0}
+.legend .sw{flex:0 0 12px;width:12px;height:12px;border-radius:3px;border:1px solid rgba(35,42,38,.25)}
+.legend .ln{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.legend .lv{color:var(--mut);font-variant-numeric:tabular-nums}
+
+/* 规格卡 */
+.spec{display:flex;flex-direction:column}
+.spec dl{display:grid;grid-template-columns:96px 1fr;gap:0;border-top:1px solid var(--line);margin:0}
+.spec dt{padding:10px 4px 10px 0;font-size:14px;color:var(--acc);border-bottom:1px solid var(--line)}
+.spec dd{padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.65}
+.spec .tail{margin-top:auto;padding-top:16px;font-size:13.5px;color:var(--mut)}
+
+/* 提示框 */
+.tip{position:fixed;z-index:9;pointer-events:none;transform:translate(-50%,-100%);background:var(--ink);color:#f4f6f2;font-size:13.5px;line-height:1.5;padding:7px 12px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 14px rgba(35,42,38,.3)}
+.tip[hidden]{display:none}
+
+/* 原理区三卡 */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.trio .panel{display:flex;flex-direction:column;gap:8px}
+.trio .big{font-size:34px;font-weight:800;color:var(--acc);line-height:1.2}
+.trio .big small{font-size:15px;font-weight:400;color:var(--mut)}
+.demosq{display:flex;gap:10px;align-items:flex-end;margin-top:auto}
+.demosq .sq{background:hsl(152,38%,52%);color:#10241c;display:flex;align-items:flex-end;padding:4px 6px;font-size:11.5px;font-weight:600;border-radius:4px}
+.trio code{background:var(--zebra);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:13.5px}
+
+/* 深度警示 */
+.warn-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.warn-grid figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.mini-stage{position:relative;aspect-ratio:10/7;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ms-tile{position:absolute;box-shadow:inset 0 0 0 1px #fff;display:flex;flex-direction:column;justify-content:center;padding:2px 5px;overflow:hidden}
+.ms-tile span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10.5px;line-height:1.35}
+.brickwall{aspect-ratio:10/7;border:1px solid var(--line);border-radius:10px;background:
+  repeating-linear-gradient(0deg,#b95f4a 0 1px,#e8d9c9 1px 8px),
+  repeating-linear-gradient(90deg,transparent 0 22px,#b95f4a 22px 23px);
+  background-color:#e8d9c9;position:relative}
+.brickwall .bw-tag{position:absolute;left:10px;bottom:10px;background:var(--ink);color:#f4f6f2;font-size:12px;padding:4px 10px;border-radius:6px}
+.warn-points{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.warn-points li{padding-left:20px;position:relative;color:var(--mut);font-size:15px;max-width:88ch}
+.warn-points li::before{content:"";position:absolute;left:2px;top:.62em;width:9px;height:9px;background:var(--red);border-radius:2px}
+.warn-points b{color:var(--ink)}
+
+/* 对比区 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch}
+.duo figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.mini-tm{position:relative;width:100%;aspect-ratio:10/7;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mtile{position:absolute;box-shadow:inset 0 0 0 1px #fff;display:flex;flex-direction:column;justify-content:center;padding:3px 6px;overflow:hidden}
+.mtile span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;line-height:1.35}
+.mtile .mv{font-variant-numeric:tabular-nums;opacity:.9}
+.sunburst{align-self:center}
+figcaption{font-size:14px;color:var(--mut)}
+.vs-note{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.vs-note .panel{padding:16px 20px;font-size:14.5px}
+.vs-note h3{margin-bottom:4px}
+.vs-note ul{margin:6px 0 0;padding-left:18px;color:var(--mut)}
+.vs-note li{margin:2px 0}
+
+/* 数据表 */
+.dtable{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.dtable table{width:100%;border-collapse:collapse;table-layout:fixed}
+.dtable th,.dtable td{padding:8px 14px;font-size:14px;text-align:left;border-bottom:1px solid var(--line)}
+.dtable thead th{background:var(--zebra);font-size:13px;letter-spacing:.06em;color:var(--mut)}
+.dtable .num{text-align:right;font-variant-numeric:tabular-nums}
+.dtable col.c1{width:34%}
+.dtable col.c2{width:16%}
+.dtable col.c3{width:16%}
+.dtable col.c4{width:16%}
+.dtable col.c5{width:18%}
+.dtable tr.grp-row th{background:var(--zebra);font-weight:700;padding-top:12px}
+.dtable tr.grp-row .gdot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px;vertical-align:-1px;border:1px solid rgba(35,42,38,.25)}
+.dtable tbody tr:hover{background:var(--zebra)}
+.dtable tfoot td{font-weight:700;background:var(--zebra)}
+.kbd-hint{margin:14px 0 0;font-size:14px;color:var(--mut)}
+kbd{background:var(--card);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:13px/1.6 inherit}
+
+/* 页脚 */
+footer{margin-top:56px;border-top:1px solid var(--line);background:var(--card)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline;padding:26px 28px;font-size:14px;color:var(--mut)}
+footer a{white-space:nowrap}
+
+/* 响应式 */
+@media (max-width:960px){
+  .hero-grid,.duo,.warn-grid,.vs-note{grid-template-columns:1fr}
+  .trio{grid-template-columns:1fr}
+  .legend{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .tm{aspect-ratio:5/6}
+  .grp-label{font-size:11px}
+  .tile .fn{font-size:10.5px}
+  .tile .fv{font-size:11px}
+  .dtable th,.dtable td{padding:7px 8px;font-size:12.5px}
+  .dtable col.c4,.dtable col.c5{width:14%}
+  .dtable col.c1{width:40%}
+  .legend{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <p class="crumb"><a href="../index.html">UI 设计提示词库</a> / <a href="../style-catalog.html">图表图鉴</a> / 层级树图</p>
+  <h1>层级树图 <em>Treemap</em>：面积即数值，嵌套即层级</h1>
+  <p class="lede">当一份数据既有"目录"又有"文件"，既要看每一份的体量、又要看它们如何归堆，矩形树图把两个问题压进同一张画布：矩形的面积严格正比于数值，矩形的包含关系复刻层级的包含关系。本页以一个开源前端组件库的代码量构成为标本，拆解这套编码的读法、边界与后备。</p>
+  <p class="meta">数据形态 Hierarchical / Nested Data / 推荐图型 Treemap / 无障碍风险 risk:high / 标本仓库 lynx-ui v3.2.0 / 2026-10 快照</p>
+</header>
+
+<!-- 壹 主标本 -->
+<section aria-labelledby="t-hero">
+  <p class="kicker">壹 / 主标本</p>
+  <h2 id="t-hero">开源组件库的代码量构成：目录到文件的两层树图</h2>
+  <div class="hero-grid">
+    <div class="figure-hero">
+      <div class="readout" id="readout" aria-live="polite">
+        <span>当前读数 <span class="rv" id="ro-v">58,600 行</span></span>
+        <span class="rs" id="ro-s">lynx-ui 全仓 / 8 个顶级目录 / 33 个文件 / 面积编码: 矩形面积正比于代码行数</span>
+      </div>
+      <div class="tm" id="tm" role="group" aria-label="lynx-ui 代码库两层层级树图, 面积正比于文件行数, 各矩形可聚焦查看名称与数值, 完整数据见下方数据表"></div>
+      <div class="figfoot">
+        <span>父节点: 目录, 异色相区分</span>
+        <span>子节点: 文件, 同色相浅档</span>
+        <span>白色分隔边 2px</span>
+        <span>渲染: div 嵌套 / 33 节点 SVG 量级</span>
+      </div>
+      <ul class="legend" id="legend" aria-label="目录图例"></ul>
+    </div>
+    <aside class="panel spec" aria-label="选型规格">
+      <h3>选型规格</h3>
+      <dl>
+        <dt>数据形态</dt><dd>Hierarchical / Nested Data（层级 / 嵌套）</dd>
+        <dt>推荐图型</dt><dd>Treemap（矩形树图）</dd>
+        <dt>备选图型</dt><dd>Sunburst / Nested Donut / Icicle</dd>
+        <dt>何时使用</dt><dd>层级内的体量对比与比例结构总览, 如预算分解、代码库构成</dd>
+        <dt>何时不用</dt><dd>层级深度大于 3 层 / 需要精确比较兄弟节点数值</dd>
+        <dt>数据量阈值</dt><dd>小于 200 节点用 SVG / 200 至 1000 用 Canvas / 超过 1000 先分页或预筛</dd>
+        <dt>颜色指导</dt><dd>父节点异色相 / 子节点同色相浅档 / 白色分隔边 2 至 3px</dd>
+        <dt>无障碍</dt><dd>风险 high / 树表为主视图, 树图为补充 / 不依赖颜色单独传达</dd>
+        <dt>交互级别</dt><dd>Hover + Drilldown</dd>
+        <dt>库推荐</dt><dd>D3.js / Recharts / ApexCharts</dd>
+      </dl>
+      <p class="tail">键盘: 聚焦目录条后按 Enter 或 Space 折叠与展开, 按 Backspace 在全仓展开总览。</p>
+    </aside>
+  </div>
+</section>
+
+<!-- 贰 读图原理 -->
+<section aria-labelledby="t-how">
+  <p class="kicker">贰 / 读图原理</p>
+  <h2 id="t-how">两条编码规则撑起整张图</h2>
+  <div class="trio">
+    <div class="panel">
+      <p class="big">面积 = 值<small> / 而不是长度或颜色</small></p>
+      <p class="note">比较两个矩形时, 眼睛评估的是"占多大一块", 也就是面积。3,800 行的 DataTable.tsx 之所以比 2,400 行的 Button.tsx 大, 大的正好是那 1.58 倍的面积份额。</p>
+      <div class="demosq" aria-hidden="true">
+        <div class="sq" style="width:120px;height:60px">2 份</div>
+        <div class="sq" style="width:60px;height:60px">1 份</div>
+      </div>
+      <p class="note">左块面积是右块的两倍, 对应 2 比 1 的数值。树图中所有比较最终都落回这一步。</p>
+    </div>
+    <div class="panel">
+      <p class="big">嵌套 = 层级<small> / 包含关系可视化</small></p>
+      <p class="note">文件矩形画在目录矩形内部, 因为文件本来就属于目录。squarified 布局算法在父矩形内部递归切分, 让每个子矩形尽量接近正方形, 小数点级的面积比例由切分宽度精确保证。</p>
+      <p class="note">本图两层: 仓到目录、目录到文件。第三层起可读性开始崩塌, 见下方警示。</p>
+    </div>
+    <div class="panel">
+      <p class="big">色相 = 归属<small> / 面积之外的第二通道</small></p>
+      <p class="note">目录之间用互异色相, 目录之内用同一色相的深浅档, 颜色回答"它属于谁", 不承担数值编码。数值只由面积负责, 白色分隔边负责让相邻色块不粘连。</p>
+      <p>代码库中对应 <code>src/components</code> 与 <code>tests</code> 一眼可分, 而 <code>DataTable.tsx</code> 与 <code>Select.tsx</code> 的深浅差异只表示同族内的排序档位。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 叁 深度警示 -->
+<section aria-labelledby="t-depth">
+  <p class="kicker">叁 / 深度警示</p>
+  <h2 id="t-depth">第三层之下，树图开始变成砖墙</h2>
+  <p class="note">把上图的 33 个文件再向下拆到"导出函数"甚至"语句块", 节点数会冲破 300。此时每个矩形的边长不足 10 像素: 名称写不下、焦点框挤不进、 Hover 目标小于指尖。层级深度大于 3 层时不应使用树图, 这是选型数据中的硬边界。</p>
+  <div class="warn-grid">
+    <figure>
+      <div class="mini-stage" aria-hidden="true">
+        <div class="ms-tile" style="left:1%;top:2%;width:56%;height:96%;background:hsl(212,40%,72%);color:#1c2531">
+          <span style="font-weight:700">src/core / 9,800</span>
+          <span style="height:82%;position:relative">
+            <span class="ms-tile" style="left:2%;top:8%;width:96%;height:42%;background:hsl(212,40%,82%)"><span>renderer.ts / 4,100</span></span>
+            <span class="ms-tile" style="left:2%;top:53%;width:96%;height:26%;background:hsl(212,40%,82%)"><span>state.ts / 2,900</span></span>
+            <span class="ms-tile" style="left:2%;top:82%;width:96%;height:16%;background:hsl(212,40%,82%)"><span>scheduler.ts / 1,800</span></span>
+          </span>
+        </div>
+        <div class="ms-tile" style="left:59%;top:2%;width:40%;height:96%;background:hsl(187,38%,72%);color:#1a2b2e"><span style="font-weight:700">tests / 7,300</span>
+          <span style="height:78%;position:relative">
+            <span class="ms-tile" style="left:3%;top:6%;width:94%;height:50%;background:hsl(187,38%,82%)"><span>components.test / 3,600</span></span>
+            <span class="ms-tile" style="left:3%;top:59%;width:94%;height:36%;background:hsl(187,38%,82%)"><span>core.test / 2,200</span></span>
+          </span>
+        </div>
+      </div>
+      <figcaption>两层时: 每个矩形都放得下名称与数值, 面积比较仍然成立。</figcaption>
+    </figure>
+    <figure>
+      <div class="brickwall" aria-hidden="true">
+        <span class="bw-tag">约 312 个方法级砖块 / 最小边长 4px / 已不可标注</span>
+      </div>
+      <figcaption>四层时: 同一画布被切成砖墙, 白边成了唯一的视觉信息, 面积编码名存实亡（示意, 非同源数据）。</figcaption>
+    </figure>
+  </div>
+  <ul class="warn-points">
+    <li><b>深度边界:</b> 层级深度大于 3 层时改用旭日图沿半径读深度, 或直接下钻到子层再画一张新树图。</li>
+    <li><b>精度边界:</b> 用户需要精确比较兄弟节点数值时, 面积估读不可靠, 应回到数据表或条形图。</li>
+    <li><b>体量边界:</b> 节点少于 200 用 SVG即可 / 200 至 1000 换 Canvas / 超过 1000 先分页或预筛再渲染。</li>
+    <li><b>本页对策:</b> 深层信息不塞进主图, 由可折叠数据表按需展开承载。</li>
+  </ul>
+</section>
+
+<!-- 肆 同数据异形 -->
+<section aria-labelledby="t-vs">
+  <p class="kicker">肆 / 同数据异形</p>
+  <h2 id="t-vs">矩形树图与旭日图: 同一份数据的两种读法</h2>
+  <p class="note">把主图压回单层（只看 8 个目录）, 再用旭日图重画同一份目录值。左图拼的是面积, 右图拼的是角度与半径。</p>
+  <div class="duo">
+    <figure>
+      <div class="mini-tm" id="mini-tm" role="img" aria-label="迷你矩形树图: 8 个目录按行数占比铺满画布, components 最大占 36.9%, scripts 最小占 2.6%"></div>
+      <figcaption>矩形树图: 空间利用率接近 100%, 体量对比直观, 层级深度增加时矩形迅速碎片化。</figcaption>
+    </figure>
+    <figure>
+      <svg class="sunburst" id="sunburst" viewBox="0 0 300 300" width="100%" height="auto" role="img" aria-label="旭日图: 内环为 8 个目录, 外环为 33 个文件, 角度正比于行数, 悬停或聚焦各段可查看数值"></svg>
+      <figcaption>旭日图: 深度沿半径展开更适合三层以上, 但角度估读精度差, 中心留白浪费空间。</figcaption>
+    </figure>
+  </div>
+  <div class="vs-note">
+    <div class="panel">
+      <h3>选矩形树图, 当</h3>
+      <ul>
+        <li>两至三层, 体量对比是第一诉求</li>
+        <li>画布是矩形且空间宝贵（嵌入报表卡片）</li>
+        <li>节点数值分布偏斜, 大块需要足够的展示面积</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>选旭日图, 当</h3>
+      <ul>
+        <li>层级深度三至五层, 需要沿半径逐层读</li>
+        <li>存在明确的根节点叙事（从中心向外展开）</li>
+        <li>相邻层级的路径关系比精确体量更重要</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 伍 数据表后备 -->
+<section aria-labelledby="t-table">
+  <p class="kicker">伍 / 数据表后备</p>
+  <h2 id="t-table">完整数值清单: 树表才是主视图</h2>
+  <p class="note">树图依赖面积估读与色彩分组, 对屏幕阅读器与低视力用户风险等级为 high。因此完整数据以表格为主视图静态呈现, 不依赖脚本; 悬停表格行会在上方树图中高亮对应矩形。</p>
+  <div class="dtable">
+    <table aria-label="lynx-ui v3.2.0 代码库目录与文件行数完整清单">
+      <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+      <thead>
+        <tr><th scope="col">路径</th><th scope="col" class="num">行数</th><th scope="col" class="num">占目录</th><th scope="col" class="num">占全仓</th><th scope="col">文件角色</th></tr>
+      </thead>
+      <tbody>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(152,38%,34%)"></span>src/components / 21,600 行 / 36.9%</th></tr>
+        <tr><td>src/components/DataTable.tsx</td><td class="num">3,800</td><td class="num">17.6%</td><td class="num">6.5%</td><td>组件源码</td></tr>
+        <tr><td>src/components/DatePicker.tsx</td><td class="num">3,400</td><td class="num">15.7%</td><td class="num">5.8%</td><td>组件源码</td></tr>
+        <tr><td>src/components/Select.tsx</td><td class="num">2,900</td><td class="num">13.4%</td><td class="num">4.9%</td><td>组件源码</td></tr>
+        <tr><td>src/components/Tree.tsx</td><td class="num">2,600</td><td class="num">12.0%</td><td class="num">4.4%</td><td>组件源码</td></tr>
+        <tr><td>src/components/Button.tsx</td><td class="num">2,400</td><td class="num">11.1%</td><td class="num">4.1%</td><td>组件源码</td></tr>
+        <tr><td>src/components/Form.tsx</td><td class="num">2,200</td><td class="num">10.2%</td><td class="num">3.8%</td><td>组件源码</td></tr>
+        <tr><td>src/components/Modal.tsx</td><td class="num">2,100</td><td class="num">9.7%</td><td class="num">3.6%</td><td>组件源码</td></tr>
+        <tr><td>src/components/Input.tsx</td><td class="num">2,000</td><td class="num">9.3%</td><td class="num">3.4%</td><td>组件源码</td></tr>
+        <tr><td>src/components/index.ts</td><td class="num">200</td><td class="num">0.9%</td><td class="num">0.3%</td><td>导出入口</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(212,40%,36%)"></span>src/core / 9,800 行 / 16.7%</th></tr>
+        <tr><td>src/core/renderer.ts</td><td class="num">4,100</td><td class="num">41.8%</td><td class="num">7.0%</td><td>内核</td></tr>
+        <tr><td>src/core/state.ts</td><td class="num">2,900</td><td class="num">29.6%</td><td class="num">4.9%</td><td>内核</td></tr>
+        <tr><td>src/core/scheduler.ts</td><td class="num">1,800</td><td class="num">18.4%</td><td class="num">3.1%</td><td>内核</td></tr>
+        <tr><td>src/core/types.ts</td><td class="num">1,000</td><td class="num">10.2%</td><td class="num">1.7%</td><td>类型定义</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(187,38%,34%)"></span>tests / 7,300 行 / 12.5%</th></tr>
+        <tr><td>tests/components.test.tsx</td><td class="num">3,600</td><td class="num">49.3%</td><td class="num">6.1%</td><td>测试</td></tr>
+        <tr><td>tests/core.test.ts</td><td class="num">2,200</td><td class="num">30.1%</td><td class="num">3.8%</td><td>测试</td></tr>
+        <tr><td>tests/hooks.test.ts</td><td class="num">1,500</td><td class="num">20.5%</td><td class="num">2.6%</td><td>测试</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(26,44%,38%)"></span>src/hooks / 5,400 行 / 9.2%</th></tr>
+        <tr><td>src/hooks/useVirtualList.ts</td><td class="num">2,400</td><td class="num">44.4%</td><td class="num">4.1%</td><td>组合函数</td></tr>
+        <tr><td>src/hooks/useFormControl.ts</td><td class="num">1,300</td><td class="num">24.1%</td><td class="num">2.2%</td><td>组合函数</td></tr>
+        <tr><td>src/hooks/useDragSort.ts</td><td class="num">1,100</td><td class="num">20.4%</td><td class="num">1.9%</td><td>组合函数</td></tr>
+        <tr><td>src/hooks/useMediaQuery.ts</td><td class="num">600</td><td class="num">11.1%</td><td class="num">1.0%</td><td>组合函数</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(2,42%,40%)"></span>src/utils / 4,900 行 / 8.4%</th></tr>
+        <tr><td>src/utils/dom.ts</td><td class="num">2,200</td><td class="num">44.9%</td><td class="num">3.8%</td><td>工具函数</td></tr>
+        <tr><td>src/utils/date.ts</td><td class="num">1,500</td><td class="num">30.6%</td><td class="num">2.6%</td><td>工具函数</td></tr>
+        <tr><td>src/utils/format.ts</td><td class="num">800</td><td class="num">16.3%</td><td class="num">1.4%</td><td>工具函数</td></tr>
+        <tr><td>src/utils/debounce.ts</td><td class="num">400</td><td class="num">8.2%</td><td class="num">0.7%</td><td>工具函数</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(43,42%,36%)"></span>docs / 4,600 行 / 7.8%</th></tr>
+        <tr><td>docs/api-reference.md</td><td class="num">1,800</td><td class="num">39.1%</td><td class="num">3.1%</td><td>文档</td></tr>
+        <tr><td>docs/getting-started.md</td><td class="num">1,400</td><td class="num">30.4%</td><td class="num">2.4%</td><td>文档</td></tr>
+        <tr><td>docs/theming.md</td><td class="num">800</td><td class="num">17.4%</td><td class="num">1.4%</td><td>文档</td></tr>
+        <tr><td>docs/migration.md</td><td class="num">600</td><td class="num">13.0%</td><td class="num">1.0%</td><td>文档</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(272,30%,40%)"></span>src/styles / 3,500 行 / 6.0%</th></tr>
+        <tr><td>src/styles/tokens.css</td><td class="num">1,900</td><td class="num">54.3%</td><td class="num">3.2%</td><td>样式</td></tr>
+        <tr><td>src/styles/reset.css</td><td class="num">900</td><td class="num">25.7%</td><td class="num">1.5%</td><td>样式</td></tr>
+        <tr><td>src/styles/animations.css</td><td class="num">700</td><td class="num">20.0%</td><td class="num">1.2%</td><td>样式</td></tr>
+        <tr class="grp-row"><th colspan="5" scope="colgroup"><span class="gdot" style="background:hsl(330,28%,40%)"></span>scripts / 1,500 行 / 2.6%</th></tr>
+        <tr><td>scripts/build.js</td><td class="num">900</td><td class="num">60.0%</td><td class="num">1.5%</td><td>构建脚本</td></tr>
+        <tr><td>scripts/release.js</td><td class="num">600</td><td class="num">40.0%</td><td class="num">1.0%</td><td>发布脚本</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>总计 / 8 个目录 / 33 个文件</td><td class="num">58,600</td><td class="num">100%</td><td class="num">100%</td><td>全仓</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <p class="kbd-hint">键盘路径: <kbd>Tab</kbd> 逐个聚焦树图矩形与目录条 / <kbd>Enter</kbd> 或 <kbd>Space</kbd> 折叠展开目录 / <kbd>Backspace</kbd> 展开全部回到总览 / 聚焦时读数条与提示框同步报出名称、行数与占比。</p>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>UI 设计提示词库 / 图表图鉴 / 层级树图</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<div class="tip" id="tip" hidden></div>
+
+<script>
+/* ---------- 数据: lynx-ui v3.2.0 代码量快照 ---------- */
+var GROUPS = [
+  {name:'src/components', h:152, s:38, files:[['DataTable.tsx',3800],['DatePicker.tsx',3400],['Select.tsx',2900],['Tree.tsx',2600],['Button.tsx',2400],['Form.tsx',2200],['Modal.tsx',2100],['Input.tsx',2000],['index.ts',200]]},
+  {name:'src/core', h:212, s:40, files:[['renderer.ts',4100],['state.ts',2900],['scheduler.ts',1800],['types.ts',1000]]},
+  {name:'tests', h:187, s:38, files:[['components.test.tsx',3600],['core.test.ts',2200],['hooks.test.ts',1500]]},
+  {name:'src/hooks', h:26, s:44, files:[['useVirtualList.ts',2400],['useFormControl.ts',1300],['useDragSort.ts',1100],['useMediaQuery.ts',600]]},
+  {name:'src/utils', h:2, s:42, files:[['dom.ts',2200],['date.ts',1500],['format.ts',800],['debounce.ts',400]]},
+  {name:'docs', h:43, s:42, files:[['api-reference.md',1800],['getting-started.md',1400],['theming.md',800],['migration.md',600]]},
+  {name:'src/styles', h:272, s:30, files:[['tokens.css',1900],['reset.css',900],['animations.css',700]]},
+  {name:'scripts', h:330, s:28, files:[['build.js',900],['release.js',600]]}
+];
+var BASE_L = 34, TIERS = [64, 72, 80]; /* 父深底白字 / 子三档浅底墨字 */
+var TOTAL = GROUPS.reduce(function (s, g) { return s + g.files.reduce(function (a, f) { return a + f[1]; }, 0); }, 0);
+
+/* ---------- squarified treemap: 面积严格按值切分 ---------- */
+function worst(row, side) {
+  var s = 0, mx = 0, mn = Infinity;
+  for (var i = 0; i < row.length; i++) { s += row[i].a; mx = Math.max(mx, row[i].a); mn = Math.min(mn, row[i].a); }
+  var s2 = s * s, l2 = side * side;
+  return Math.max((l2 * mx) / s2, s2 / (l2 * mn));
+}
+function squarify(items, x, y, w, h, out) {
+  if (!items.length) return;
+  var vert = w >= h, side = vert ? h : w, row = [], rest = items.slice();
+  while (rest.length) {
+    var test = row.concat([rest[0]]);
+    if (!row.length || worst(test, side) <= worst(row, side)) { row = test; rest.shift(); }
+    else break;
+  }
+  var sum = 0; row.forEach(function (r) { sum += r.a; });
+  var thick = sum / side, off = 0;
+  row.forEach(function (r) {
+    var len = r.a / thick;
+    if (vert) { r.x = x; r.y = y + off; r.w = thick; r.h = len; }
+    else { r.x = x + off; r.y = y; r.w = len; r.h = thick; }
+    out.push(r); off += len;
+  });
+  if (vert) squarify(rest, x + thick, y, w - thick, h, out);
+  else squarify(rest, x, y + thick, w, h - thick, out);
+}
+function fmt(n) { return n.toLocaleString('en-US'); }
+function pct(v, base) { return (v / base * 100).toFixed(1) + '%'; }
+function tier(i, n) { return i / n < 1 / 3 ? 0 : (i / n < 2 / 3 ? 1 : 2); }
+function el(tag, cls, parent) { var e = document.createElement(tag); if (cls) e.className = cls; if (parent) parent.appendChild(e); return e; }
+
+/* ---------- 主树图渲染 ---------- */
+var tm = document.getElementById('tm');
+var tip = document.getElementById('tip');
+var roV = document.getElementById('ro-v');
+var roS = document.getElementById('ro-s');
+var DEF = { v: fmt(TOTAL) + ' 行', s: 'lynx-ui 全仓 / 8 个顶级目录 / 33 个文件 / 面积编码: 矩形面积正比于代码行数' };
+var folded = {};
+
+function showTip(node, txt, ev) {
+  tip.textContent = txt; tip.hidden = false;
+  var r = ev && ev.type === 'mousemove' ? null : node.getBoundingClientRect();
+  var x = ev && ev.clientX ? ev.clientX : r.left + r.width / 2;
+  var y = ev && ev.clientY ? ev.clientY : r.top;
+  tip.style.left = x + 'px'; tip.style.top = (y - 8) + 'px';
+}
+function hideTip() { tip.hidden = true; }
+function readout(v, s) { roV.textContent = v; roS.textContent = s; }
+function focusTile(node, label, v, extra) {
+  node.addEventListener('mouseenter', function (e) { showTip(node, label, e); readout(fmt(v) + ' 行', extra); });
+  node.addEventListener('mousemove', function (e) { showTip(node, label, e); });
+  node.addEventListener('mouseleave', function () { hideTip(); readout(DEF.v, DEF.s); });
+  node.addEventListener('focus', function () { showTip(node, label, null); readout(fmt(v) + ' 行', extra); });
+  node.addEventListener('blur', function () { hideTip(); readout(DEF.v, DEF.s); });
+}
+
+function renderTree() {
+  tm.innerHTML = '';
+  var gs = GROUPS.map(function (g) {
+    var v = g.files.reduce(function (a, f) { return a + f[1]; }, 0);
+    return { g: g, v: v, a: v * (1000 * 640) / TOTAL };
+  }).sort(function (p, q) { return q.v - p.v; });
+  var out = [];
+  squarify(gs, 0, 0, 1000, 640, out);
+  out.forEach(function (r) {
+    var g = r.g, base = 'hsl(' + g.h + ',' + g.s + '%,' + BASE_L + '%)';
+    var grp = el('div', 'grp' + (folded[g.name] ? ' fold' : ''), tm);
+    grp.style.left = r.x / 10 + '%'; grp.style.top = r.y / 6.4 + '%';
+    grp.style.width = r.w / 10 + '%'; grp.style.height = r.h / 6.4 + '%';
+    var label = el('button', 'grp-label', grp);
+    label.style.background = base;
+    var gv = r.v;
+    label.innerHTML = '<span class="gl-n">' + g.name + '</span><span class="gl-v">' + fmt(gv) + ' 行 / ' + pct(gv, TOTAL) + '</span>';
+    label.setAttribute('aria-expanded', folded[g.name] ? 'false' : 'true');
+    label.setAttribute('aria-label', '目录 ' + g.name + ' / ' + fmt(gv) + ' 行 / 占全仓 ' + pct(gv, TOTAL) + ' / 按 Enter 或 Space ' + (folded[g.name] ? '展开' : '折叠'));
+    var labelTxt = g.name + ' / ' + fmt(gv) + ' 行 / 占全仓 ' + pct(gv, TOTAL);
+    focusTile(label, labelTxt, gv, '目录 ' + g.name + ' / ' + g.files.length + ' 个文件 / 按 Enter 或 Space ' + (folded[g.name] ? '展开' : '折叠'));
+    label.addEventListener('click', function () { folded[g.name] = !folded[g.name]; renderTree(); });
+    if (folded[g.name]) return;
+    var body = el('div', 'grp-body', grp);
+    var LW = 1000, LH = Math.max(40, 640 * (r.h - 26) / r.h); /* 单位画布内预留目录条 */
+    var kids = g.files.map(function (f) { return { n: f[0], v: f[1], a: f[1] * (LW * LH) / gv }; })
+      .sort(function (p, q) { return q.v - p.v; });
+    var ko = [];
+    squarify(kids, 0, 0, LW, LH, ko);
+    ko.forEach(function (k, i) {
+      var c = 'hsl(' + g.h + ',' + g.s + '%,' + TIERS[tier(i, ko.length)] + '%)';
+      var t = el('div', 'tile', body);
+      t.className = 'tile' + (k.w * k.h < 900 ? (k.h < 22 || k.w < 46 ? ' tiny' : ' one') : '');
+      t.style.left = k.x / LW * 100 + '%'; t.style.top = k.y / LH * 100 + '%';
+      t.style.width = k.w / LW * 100 + '%'; t.style.height = k.h / LH * 100 + '%';
+      t.style.background = c; t.style.color = '#1c2520';
+      t.setAttribute('tabindex', '0');
+      t.setAttribute('role', 'button');
+      t.dataset.path = g.name + '/' + k.n;
+      t.innerHTML = '<span class="fn">' + k.n + '</span><span class="fv">' + fmt(k.v) + ' 行 / ' + pct(k.v, gv) + '</span>';
+      var txt = g.name + '/' + k.n + ' / ' + fmt(k.v) + ' 行 / 占目录 ' + pct(k.v, gv) + ' / 占全仓 ' + pct(k.v, TOTAL);
+      t.setAttribute('aria-label', txt);
+      focusTile(t, txt, k.v, g.name + '/' + k.n + ' / 占全仓 ' + pct(k.v, TOTAL));
+    });
+  });
+}
+tm.addEventListener('keydown', function (e) {
+  if (e.key === 'Backspace') { e.preventDefault(); folded = {}; renderTree(); }
+});
+renderTree();
+
+/* ---------- 图例 ---------- */
+var legend = document.getElementById('legend');
+GROUPS.slice().sort(function (p, q) {
+  return q.files.reduce(function (a, f) { return a + f[1]; }, 0) - p.files.reduce(function (a, f) { return a + f[1]; }, 0);
+}).forEach(function (g) {
+  var v = g.files.reduce(function (a, f) { return a + f[1]; }, 0);
+  var li = el('li', null, legend);
+  li.innerHTML = '<span class="sw" style="background:hsl(' + g.h + ',' + g.s + '%,' + BASE_L + '%)"></span><span class="ln">' + g.name + '</span> <span class="lv">' + fmt(v) + ' / ' + pct(v, TOTAL) + '</span>';
+});
+
+/* ---------- 迷你单层树图 (对比区左) ---------- */
+(function () {
+  var box = document.getElementById('mini-tm');
+  var gs = GROUPS.map(function (g) {
+    var v = g.files.reduce(function (a, f) { return a + f[1]; }, 0);
+    return { g: g, v: v, a: v * (1000 * 700) / TOTAL };
+  }).sort(function (p, q) { return q.v - p.v; });
+  var out = [];
+  squarify(gs, 0, 0, 1000, 700, out);
+  out.forEach(function (r) {
+    var m = el('div', 'mtile', box);
+    m.style.left = r.x / 10 + '%'; m.style.top = r.y / 7 + '%';
+    m.style.width = r.w / 10 + '%'; m.style.height = r.h / 7 + '%';
+    m.style.background = 'hsl(' + r.g.h + ',' + r.g.s + '%,' + BASE_L + '%)';
+    m.style.color = '#fff';
+    var shortName = r.g.name.split('/').pop();
+    m.innerHTML = r.w > 130 ? '<span>' + shortName + '</span><span class="mv">' + fmt(r.v) + ' 行</span>' : '';
+    m.setAttribute('tabindex', '0');
+    var txt = r.g.name + ' / ' + fmt(r.v) + ' 行 / 占全仓 ' + pct(r.v, TOTAL);
+    m.setAttribute('aria-label', txt);
+    m.addEventListener('mouseenter', function (e) { showTip(m, txt, e); });
+    m.addEventListener('mousemove', function (e) { showTip(m, txt, e); });
+    m.addEventListener('mouseleave', hideTip);
+    m.addEventListener('focus', function () { showTip(m, txt, null); });
+    m.addEventListener('blur', hideTip);
+  });
+})();
+
+/* ---------- 旭日图 (对比区右) ---------- */
+(function () {
+  var svg = document.getElementById('sunburst');
+  var NS = 'http://www.w3.org/2000/svg';
+  var CX = 150, CY = 150;
+  function arcPath(r0, r1, a0, a1) {
+    var large = a1 - a0 > Math.PI ? 1 : 0;
+    var x0 = CX + r1 * Math.cos(a0), y0 = CY + r1 * Math.sin(a0);
+    var x1 = CX + r1 * Math.cos(a1), y1 = CY + r1 * Math.sin(a1);
+    var x2 = CX + r0 * Math.cos(a1), y2 = CY + r0 * Math.sin(a1);
+    var x3 = CX + r0 * Math.cos(a0), y3 = CY + r0 * Math.sin(a0);
+    return 'M' + x0 + ' ' + y0 + 'A' + r1 + ' ' + r1 + ' 0 ' + large + ' 1 ' + x1 + ' ' + y1 +
+      'L' + x2 + ' ' + y2 + 'A' + r0 + ' ' + r0 + ' 0 ' + large + ' 0 ' + x3 + ' ' + y3 + 'Z';
+  }
+  var gs = GROUPS.slice().sort(function (p, q) {
+    return q.files.reduce(function (a, f) { return a + f[1]; }, 0) - p.files.reduce(function (a, f) { return a + f[1]; }, 0);
+  });
+  var a = -Math.PI / 2;
+  gs.forEach(function (g) {
+    var gv = g.files.reduce(function (s, f) { return s + f[1]; }, 0);
+    var ga1 = a + (gv / TOTAL) * Math.PI * 2;
+    var seg = document.createElementNS(NS, 'path');
+    seg.setAttribute('d', arcPath(56, 92, a, ga1));
+    seg.setAttribute('fill', 'hsl(' + g.h + ',' + g.s + '%,' + BASE_L + '%)');
+    seg.setAttribute('stroke', '#fbfbf7');
+    seg.setAttribute('stroke-width', '2');
+    var gtxt = g.name + ' / ' + fmt(gv) + ' 行 / 占全仓 ' + pct(gv, TOTAL);
+    seg.setAttribute('tabindex', '0');
+    seg.setAttribute('role', 'button');
+    seg.setAttribute('aria-label', gtxt);
+    var t = document.createElementNS(NS, 'title'); t.textContent = gtxt; seg.appendChild(t);
+    focusSeg(seg, gtxt);
+    svg.appendChild(seg);
+    var fa = a;
+    g.files.slice().sort(function (p, q) { return q[1] - p[1]; }).forEach(function (f, i) {
+      var fa1 = fa + (f[1] / gv) * (ga1 - a);
+      var p2 = document.createElementNS(NS, 'path');
+      p2.setAttribute('d', arcPath(94, 130, fa, fa1));
+      p2.setAttribute('fill', 'hsl(' + g.h + ',' + g.s + '%,' + TIERS[tier(i, g.files.length)] + '%)');
+      p2.setAttribute('stroke', '#fbfbf7');
+      p2.setAttribute('stroke-width', '1.5');
+      var ftxt = g.name + '/' + f[0] + ' / ' + fmt(f[1]) + ' 行 / 占全仓 ' + pct(f[1], TOTAL);
+      p2.setAttribute('tabindex', '0');
+      p2.setAttribute('role', 'button');
+      p2.setAttribute('aria-label', ftxt);
+      var t2 = document.createElementNS(NS, 'title'); t2.textContent = ftxt; p2.appendChild(t2);
+      focusSeg(p2, ftxt);
+      svg.appendChild(p2);
+      fa = fa1;
+    });
+    a = ga1;
+  });
+  function focusSeg(seg, txt) {
+    seg.addEventListener('mouseenter', function (e) { showTip(seg, txt, e); });
+    seg.addEventListener('mousemove', function (e) { showTip(seg, txt, e); });
+    seg.addEventListener('mouseleave', hideTip);
+    seg.addEventListener('focus', function () {
+      var r = seg.getBoundingClientRect();
+      showTip(seg, txt, { clientX: r.left + r.width / 2, clientY: r.top });
+    });
+    seg.addEventListener('blur', hideTip);
+  }
+  var center = document.createElementNS(NS, 'circle');
+  center.setAttribute('cx', CX); center.setAttribute('cy', CY); center.setAttribute('r', 46);
+  center.setAttribute('fill', '#fbfbf7'); center.setAttribute('stroke', '#d5d9cf');
+  svg.appendChild(center);
+  var ct = document.createElementNS(NS, 'text');
+  ct.setAttribute('x', CX); ct.setAttribute('y', CY - 4); ct.setAttribute('text-anchor', 'middle');
+  ct.setAttribute('font-size', '12'); ct.setAttribute('fill', '#232a26');
+  ct.textContent = '全仓';
+  svg.appendChild(ct);
+  var ct2 = document.createElementNS(NS, 'text');
+  ct2.setAttribute('x', CX); ct2.setAttribute('y', CY + 12); ct2.setAttribute('text-anchor', 'middle');
+  ct2.setAttribute('font-size', '13'); ct2.setAttribute('font-weight', '700'); ct2.setAttribute('fill', '#1f6e5c');
+  ct2.textContent = fmt(TOTAL) + ' 行';
+  svg.appendChild(ct2);
+})();
+
+/* ---------- 表格行与树图联动 ---------- */
+(function () {
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.dtable tbody tr:not(.grp-row)'));
+  rows.forEach(function (row) {
+    var path = row.cells[0].textContent;
+    row.addEventListener('mouseenter', function () {
+      var t = document.querySelector('.tile[data-path="' + path + '"]');
+      if (t) t.classList.add('hl');
+    });
+    row.addEventListener('mouseleave', function () {
+      var t = document.querySelector('.tile[data-path="' + path + '"]');
+      if (t) t.classList.remove('hl');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
