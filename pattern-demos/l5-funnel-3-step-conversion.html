@@ -4,137 +4,702 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Funnel (3-Step Conversion) — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Funnel 3-Step 结构 / UI 设计提示词库</title>
+<meta name="description" content="落地结构 No.5：三步转化漏斗样张，示例产品为旧衣回收换新服务，寄出旧衣换积分购新。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');
+/* token 计划：linen 底 #F6F3EC / 墨绿字 #22302A / 步骤色 s1 #A63A2C s2 #9A5A12 s3 #2F6B4F / CTA 品牌松绿 #1E5A43 / 缝线 1.5px dashed / 圆角 10-14px / 4px 间距栅格 */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(0,128,255,.28); --primary: #0080FF; --secondary: #FF1493;
-  --accent: #00FFFF; --on-primary: #fff;
-  --radius: 14px; --btn-radius: 10px;
+  --bg: #F6F3EC;
+  --card: #FFFDF7;
+  --fg: #22302A;
+  --muted: #566259;
+  --line: #DCD5C4;
+  --track: #E9E2D4;
+  --s1: #A63A2C;
+  --s2: #9A5A12;
+  --s3: #2F6B4F;
+  --brand: #1E5A43;
+  --brand-deep: #174733;
+  --cream: #F6F3EC;
+  --on-ink-muted: #C3CFC7;
+  --r-lg: 14px;
+  --r-md: 10px;
+  --mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Nunito Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  background-image: radial-gradient(56vw 56vw at 8% -12%, rgba(0,128,255,0.28), transparent 62%), radial-gradient(50vw 50vw at 96% -4%, rgba(255,20,147,0.22), transparent 62%); background-attachment: fixed;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  background-color: var(--bg);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(34,48,42,.026) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(34,48,42,.026) 0 1px, transparent 1px 4px);
+  color: var(--fg);
+  line-height: 1.65;
+  font-size: 16px;
 }
-h1, h2, h3, .num { font-family: 'Rubik', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(0,128,255,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Rubik', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+::selection { background: #1E5A43; color: #fff; }
+h1, h2, h3 { line-height: 1.25; font-weight: 800; }
+a { color: var(--brand); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 26px; }
+.mono { font-family: var(--mono); }
+section { scroll-margin-top: 92px; }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.cta-band a:focus-visible,
+.cta-band button:focus-visible { outline-color: #EFCF9F; }
+
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(0,128,255,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 24px;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  text-decoration: none;
+  border: 1.5px solid var(--fg);
+  background: var(--card);
+  color: var(--fg);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px); background: linear-gradient(120deg, var(--primary), var(--secondary) 50%, var(--accent)); background-size: 200% 200%; animation: gradflow 10s ease infinite; }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(0,128,255,.28); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(0,128,255,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,128,255,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34,48,42,.14); }
+.btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+.btn-primary:hover { background: var(--brand-deep); }
+.btn-sm { padding: 8px 16px; font-size: 14px; }
+
+/* ---------- 顶栏 + 漏斗进度轨道 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255,253,247,.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: var(--fg); text-decoration: none; }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--brand); color: #fff;
+  display: grid; place-items: center; flex: none;
+}
+.steps-nav { display: flex; gap: 26px; }
+.steps-nav a {
+  font-size: 14.5px; color: var(--muted); text-decoration: none; font-weight: 600;
+  padding: 4px 2px; border-bottom: 2px solid transparent;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+.steps-nav a:hover { color: var(--fg); }
+.steps-nav a[aria-current="true"] { color: var(--nav-c, var(--brand)); border-bottom-color: var(--nav-c, var(--brand)); }
+.steps-nav a[data-nav="1"] { --nav-c: var(--s1); }
+.steps-nav a[data-nav="2"] { --nav-c: var(--s2); }
+.steps-nav a[data-nav="3"] { --nav-c: var(--s3); }
+.funnel-track {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 9px 0 11px;
+}
+.fseg { position: relative; height: 6px; border-radius: 3px; background: var(--track); overflow: hidden; }
+.fseg i {
+  position: absolute; inset: 0 auto 0 0; width: 0;
+  border-radius: 3px;
+  transition: width 650ms cubic-bezier(.22,.75,.3,1);
+}
+.fseg[data-seg="1"] i { background: var(--s1); }
+.fseg[data-seg="2"] i { background: var(--s2); }
+.fseg[data-seg="3"] i { background: var(--s3); }
+.fseg.done i { width: 100%; }
+
+/* ---------- 一次亮相动效 ---------- */
+.reveal { opacity: 0; translate: 0 20px; transition: opacity 620ms ease, translate 620ms cubic-bezier(.22,.75,.3,1); }
+.reveal.in { opacity: 1; translate: 0 0; }
+
+/* ---------- Hero ---------- */
+.hero { padding: 72px 0 30px; }
+.hero-grid { display: grid; grid-template-columns: 5fr 4fr; gap: 52px; align-items: center; }
+.eyebrow { font-size: 13.5px; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+h1 { font-size: clamp(30px, 4.6vw, 50px); letter-spacing: .01em; margin-bottom: 18px; }
+h1 em { font-style: normal; color: var(--brand); }
+.sub { font-size: 16.5px; color: var(--muted); max-width: 34em; margin-bottom: 26px; }
+.cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.hero-aside { display: grid; justify-items: center; gap: 14px; }
+.tag-card {
+  position: relative;
+  width: min(300px, 100%);
+  background: var(--card);
+  border: 1.5px dashed var(--brand);
+  border-radius: var(--r-lg);
+  padding: 40px 24px 22px;
+  transform: rotate(-2.5deg);
+  box-shadow: 0 14px 30px rgba(34,48,42,.12);
+  transition: transform 240ms ease, box-shadow 240ms ease;
+}
+.tag-card:hover { transform: rotate(0deg) translateY(-3px); box-shadow: 0 20px 38px rgba(34,48,42,.16); }
+.tag-hole {
+  position: absolute; top: 14px; left: 50%; translate: -50% 0;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--bg);
+  box-shadow: inset 0 1px 2px rgba(34,48,42,.35), 0 0 0 3px var(--card);
+}
+.tag-title { font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 2px; }
+.tag-sub { font-size: 12.5px; color: var(--muted); text-align: center; margin-bottom: 16px; }
+.tag-pts { text-align: center; margin-bottom: 16px; }
+.tag-pts b { display: block; font-family: var(--mono); font-size: 34px; color: var(--brand); letter-spacing: .02em; }
+.tag-pts span { font-size: 12.5px; color: var(--muted); }
+.bar { width: 138px; height: 32px; margin: 0 auto 6px; opacity: .85;
+  background: repeating-linear-gradient(90deg,
+    var(--fg) 0 2px, transparent 2px 4px, var(--fg) 4px 7px,
+    transparent 7px 9px, var(--fg) 9px 10px, transparent 10px 14px); }
+.tag-code { display: block; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.hero-note { font-size: 13px; color: var(--muted); }
+.stats {
+  margin-top: 46px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+}
+.stat { padding: 20px 8px 4px; }
+.stat + .stat { border-left: 1px solid var(--line); padding-left: 26px; }
+.stat b { display: block; font-family: var(--mono); font-size: 30px; font-weight: 700; color: var(--fg); }
+.stat b small { font-size: 15px; font-weight: 700; margin-left: 2px; }
 .stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(0,128,255,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
+/* ---------- 三步漏斗共享骨架（结构对称） ---------- */
+.step { padding: 58px 0 50px; border-top: 1px solid var(--line); }
+.step-tag {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.tag-num {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  width: 44px; height: 44px; border-radius: 11px;
+  display: grid; place-items: center;
+  background: var(--card);
+  border: 1.5px dashed var(--step-c);
+  color: var(--step-c);
+  position: relative;
+}
+.tag-num::after {
+  content: ""; position: absolute; top: 5px; left: 50%; translate: -50% 0;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--bg); box-shadow: 0 0 0 2px var(--card);
+}
+.step-label { font-size: 14px; font-weight: 700; color: var(--step-c); }
+.step.in .tag-num { animation: tagpop 520ms cubic-bezier(.2,.9,.3,1.3) both; }
+@keyframes tagpop {
+  from { transform: scale(.7) rotate(-8deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.step-grid {
+  display: grid; grid-template-columns: 5fr 4fr;
+  gap: 48px; align-items: stretch;
+}
+.step h2 { font-size: clamp(23px, 3vw, 31px); color: var(--step-c); margin-bottom: 10px; }
+.step-lede { font-size: 15.5px; color: var(--muted); margin-bottom: 22px; max-width: 30em; }
+.facts { list-style: none; display: grid; gap: 0; margin-bottom: 22px; }
+.facts li {
+  display: grid; grid-template-columns: 6.5em 1fr; gap: 14px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.facts li:first-child { border-top: 1px dashed var(--line); }
+.facts b { font-size: 14.5px; color: var(--step-c); font-weight: 700; }
+.facts span { font-size: 14.5px; color: var(--muted); }
+.mini-cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.mini-cta p { font-size: 14px; color: var(--fg); font-weight: 600; }
+.btn-ghost { border-color: var(--step-c); color: var(--step-c); background: transparent; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--step-c) 8%, transparent); }
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 22px 22px 18px;
+  display: flex; flex-direction: column;
+}
+.panel-h { font-size: 13.5px; font-weight: 700; color: var(--fg); margin-bottom: 4px; }
+.panel-s { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.s1 { --step-c: var(--s1); }
+.s2 { --step-c: var(--s2); }
+.s3 { --step-c: var(--s3); }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(0,128,255,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* Step 1 视觉：去向占比条 */
+.share-bar { display: flex; height: 16px; border-radius: 5px; overflow: hidden; margin-bottom: 16px; }
+.share-bar i:nth-child(1) { width: 73%; background: #A63A2C; }
+.share-bar i:nth-child(2) { width: 12%; background: #C4705B; }
+.share-bar i:nth-child(3) { width: 9%; background: #DA9C87; }
+.share-bar i:nth-child(4) { width: 6%; background: #EBCDBE; }
+.legend { list-style: none; display: grid; gap: 0; margin-bottom: 12px; }
+.legend li {
+  display: grid; grid-template-columns: 14px 1fr 52px; gap: 12px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.legend li:last-child { border-bottom: none; }
+.legend i { width: 14px; height: 14px; border-radius: 4px; }
+.legend li:nth-child(1) i { background: #A63A2C; }
+.legend li:nth-child(2) i { background: #C4705B; }
+.legend li:nth-child(3) i { background: #DA9C87; }
+.legend li:nth-child(4) i { background: #EBCDBE; }
+.legend span { font-size: 14px; color: var(--fg); }
+.legend b { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--fg); text-align: right; }
+.panel-foot { margin-top: auto; font-size: 12px; color: var(--muted); }
 
+/* Step 2 视觉：换购货架 */
+.shelf { list-style: none; display: grid; gap: 0; margin-bottom: 12px; }
+.shelf li {
+  display: grid; grid-template-columns: 42px 1fr auto; gap: 14px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.shelf li:last-child { border-bottom: none; }
+.shelf .pic {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: color-mix(in srgb, var(--s2) 12%, var(--card));
+  border: 1px dashed var(--s2);
+  display: grid; place-items: center;
+  color: var(--s2);
+}
+.shelf b { display: block; font-size: 14.5px; font-weight: 700; }
+.shelf small { display: block; font-size: 12px; color: var(--muted); }
+.shelf .pt { font-family: var(--mono); font-size: 15px; font-weight: 700; color: var(--s2); white-space: nowrap; }
+.shelf .pt em { font-style: normal; font-size: 11px; color: var(--muted); margin-left: 2px; }
+
+/* Step 3 视觉与表单 */
+.order { display: grid; gap: 13px; }
+.field { display: grid; gap: 6px; }
+.order-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.f-label { font-size: 13.5px; font-weight: 700; color: var(--fg); }
+.bag-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.bag-btn {
+  font: inherit; cursor: pointer;
+  border: 1.5px solid var(--line); border-radius: var(--r-md);
+  background: var(--card); color: var(--fg);
+  padding: 10px 16px; text-align: left;
+  display: grid; gap: 1px;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+.bag-btn b { font-size: 15px; font-weight: 700; }
+.bag-btn span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.bag-btn:hover { transform: translateY(-1px); border-color: var(--s3); }
+.bag-btn[aria-pressed="true"] { border-color: var(--s3); border-style: dashed; background: color-mix(in srgb, var(--s3) 8%, var(--card)); }
+.slot-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.slot-chip {
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  border: 1.5px solid var(--line); border-radius: 999px;
+  background: var(--card); color: var(--muted);
+  padding: 9px 18px;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+.slot-chip:hover { border-color: var(--s3); color: var(--fg); }
+.slot-chip[aria-pressed="true"] { border-color: var(--s3); color: var(--s3); background: color-mix(in srgb, var(--s3) 8%, var(--card)); }
+.addr {
+  font: inherit; font-size: 15px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--line); border-radius: var(--r-md);
+  background: var(--card); color: var(--fg);
+  width: 100%;
+}
+.addr::placeholder { color: #7A857E; }
+.order-small { font-size: 12.5px; color: var(--muted); }
+.form-msg { font-size: 14px; font-weight: 600; color: var(--s3); min-height: 1.5em; }
+.ticket { position: relative; }
+.tk-rows { list-style: none; display: grid; gap: 0; margin-bottom: 4px; }
+.tk-rows li {
+  display: grid; grid-template-columns: 7em 1fr; gap: 12px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.tk-rows li:last-child { border-bottom: none; }
+.tk-rows b { font-size: 13.5px; color: var(--muted); font-weight: 600; }
+.tk-rows span { font-size: 14.5px; font-weight: 600; }
+.tk-rows .mono { color: var(--s3); }
+.tk-tear { position: relative; border-top: 2px dashed var(--line); margin: 12px -22px; }
+.tk-tear::before, .tk-tear::after {
+  content: ""; position: absolute; top: -7px;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--line);
+}
+.tk-tear::before { left: -29px; }
+.tk-tear::after { right: -29px; }
+.tk-foot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* ---------- CTA progression ---------- */
+.cta-band { background: #22302A; color: var(--cream); padding: 64px 0 58px; }
+.recap { display: flex; align-items: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+.pr-node { display: inline-flex; align-items: center; gap: 9px; }
+.pr-dot {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--cream);
+  display: grid; place-items: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+}
+.pr-node:nth-of-type(1) .pr-dot { color: var(--s1); }
+.pr-node:nth-of-type(2) .pr-dot { color: var(--s2); }
+.pr-node:nth-of-type(3) .pr-dot { color: var(--s3); }
+.pr-node span { font-size: 14px; color: var(--on-ink-muted); font-weight: 600; }
+.pr-line { width: 42px; height: 2px; background: rgba(246,243,236,.34); }
+.cta-band h2 { font-size: clamp(24px, 3.4vw, 36px); margin-bottom: 10px; }
+.cta-band .lede { color: var(--on-ink-muted); font-size: 16px; margin-bottom: 26px; max-width: 32em; }
+.btn-big { padding: 15px 34px; font-size: 16.5px; }
+.cta-band .btn-ghost-ink { border-color: rgba(246,243,236,.55); background: transparent; color: var(--cream); }
+.cta-band .btn-ghost-ink:hover { background: rgba(246,243,236,.1); box-shadow: none; }
+.trust { margin-top: 28px; font-size: 13.5px; color: var(--on-ink-muted); }
+
+/* ---------- footer ---------- */
+footer { border-top: 1px solid var(--line); padding: 26px 0 34px; font-size: 13px; color: var(--muted); }
+footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+footer a { font-weight: 600; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 940px) {
+  .hero-grid, .step-grid { grid-template-columns: 1fr; gap: 34px; }
+  .hero-aside { justify-items: start; }
+  .stats { grid-template-columns: 1fr; border-top: none; }
+  .stat { padding: 12px 0 2px; border-top: 1px solid var(--line); }
+  .stat + .stat { border-left: none; padding-left: 8px; }
+}
+@media (max-width: 768px) {
+  .steps-nav { display: none; }
+  .hero { padding-top: 52px; }
+  .step { padding: 46px 0 40px; }
+  .facts li { grid-template-columns: 1fr; gap: 2px; }
+  .tk-rows li { grid-template-columns: 6em 1fr; }
+}
+@media (max-width: 480px) {
+  .wrap { padding: 0 18px; }
+  h1 { font-size: 30px; }
+  .stat b { font-size: 24px; }
+  .btn { padding: 11px 18px; }
+  .bag-btn { flex: 1 1 40%; }
+  .recap { gap: 8px; }
+  .pr-line { width: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; translate: none; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>帧数战神</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">提交纪录</a></div></header><main><section class="hero container"><p class="doc-meta">本周纪录 12 条 / 验证录像已归档 / Any% / 100%</p><h1>比快更快，快到规则要重写</h1><p class="sub">速通社区：帧级操作、逐帧验证、公开录像。我们崇拜路线，也崇拜改路线的人。</p><div class="cta-row"><a class="btn btn-primary" href="#">提交纪录</a><a class="btn" href="#">看本周榜</a></div></section><section class="container"><section class="sec problem"><h2 class="section-h">你是不是也这样</h2><div class="pb card card-pad"><p class="pb-big">工具换了三套，事情还是那些事情。</p><ul class="pb-list"><li>排期靠吼</li><li>跟进靠记</li><li>复盘靠猜</li></ul></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>周赛</b><p>周四晚 Any% 小时赛，新人组单独计分。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>路线库</b><p>每关最优路线图解，含两个存档点的帧窗口表。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>提交纪录，现在</h2><p>本周纪录 12 条 / 验证录像已归档 / Any% / 100%</p><a class="btn btn-primary" href="#">提交纪录</a></div></section><footer>帧数战神 / 速通社区 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="topbar-inner">
+      <a class="logo" href="#hero">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/><path d="M3 21h18"/></svg>
+        </span>
+        织回
+      </a>
+      <nav class="steps-nav" aria-label="漏斗步骤导航">
+        <a href="#step-1" data-nav="1">01 问题</a>
+        <a href="#step-2" data-nav="2">02 方案</a>
+        <a href="#step-3" data-nav="3">03 行动</a>
+      </nav>
+      <a class="btn btn-primary btn-sm" href="#order">预约取件</a>
+    </div>
+    <div class="funnel-track" role="presentation">
+      <div class="fseg" data-seg="1" aria-hidden="true"><i></i></div>
+      <div class="fseg" data-seg="2" aria-hidden="true"><i></i></div>
+      <div class="fseg" data-seg="3" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- 01 Hero：产品主张 + 主 CTA -->
+<section class="hero" id="hero">
+  <div class="wrap reveal">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">旧衣回收换新服务 / 上门取件 / 积分购新</p>
+        <h1>衣柜装不下的，<br>交给<em>织回</em>换新的</h1>
+        <p class="sub">一袋旧衣免费上门取走，分拣再生后折成积分，直接抵扣新品。从寄出到换新，只需要三步。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#order">预约上门取件</a>
+          <a class="btn" href="#step-1">先看三步流程</a>
+        </div>
+      </div>
+      <div class="hero-aside">
+        <div class="tag-card">
+          <span class="tag-hole" aria-hidden="true"></span>
+          <p class="tag-title">织回回收袋</p>
+          <p class="tag-sub">5kg 装 / 可重复封口 / 免费寄到家</p>
+          <p class="tag-pts"><b>350</b><span>预估可换积分 / 每袋</span></p>
+          <div class="bar" aria-hidden="true"></div>
+          <span class="tag-code">RB-0517 织回</span>
+        </div>
+        <p class="hero-note">已有 38,204 户家庭寄出旧衣</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>2000<small>万吨</small></b><span>国内每年被弃置的旧衣（公开行业报道）</span></div>
+      <div class="stat"><b>15<small>%</small></b><span>旧衣再生利用率，其余大多焚烧或填埋</span></div>
+      <div class="stat"><b>70<small>积分</small></b><span>每公斤旧衣折算，1 积分抵 0.1 元购新</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Step 1 / 问题（红） -->
+<section class="step s1 reveal" id="step-1" data-step="1">
+  <div class="wrap">
+    <div class="step-tag">
+      <span class="tag-num" aria-hidden="true">01</span>
+      <span class="step-label">第一步 / 看清问题</span>
+    </div>
+    <div class="step-grid">
+      <div>
+        <h2>衣柜已经满了，旧衣却不知道去哪</h2>
+        <p class="step-lede">换季整理翻出来的旧衣，大多停在同一个状态里：舍不得扔，也没地方去。</p>
+        <ul class="facts">
+          <li><b>塞不下</b><span>人均闲置旧衣 27 件，衣柜长期超载约两成</span></li>
+          <li><b>不敢扔</b><span>混入生活垃圾的纺织品，几乎全部焚烧或填埋</span></li>
+          <li><b>没处捐</b><span>可穿旧衣缺少稳定捐赠渠道，最后原样塞回柜子</span></li>
+        </ul>
+        <div class="mini-cta">
+          <p>旧衣其实有更体面的去处</p>
+          <a class="btn btn-ghost" href="#step-2">去看第二步的分拣方案</a>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="panel-h">旧衣最终去向</p>
+        <p class="panel-s">弃置旧衣的典型构成 / 示意数据</p>
+        <div class="share-bar" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <ul class="legend">
+          <li><i aria-hidden="true"></i><span>焚烧与填埋</span><b>73%</b></li>
+          <li><i aria-hidden="true"></i><span>出口再生物料</span><b>12%</b></li>
+          <li><i aria-hidden="true"></i><span>公益捐赠再穿</span><b>9%</b></li>
+          <li><i aria-hidden="true"></i><span>持续闲置</span><b>6%</b></li>
+        </ul>
+        <p class="panel-foot">数据为行业公开报道的近似示意，用于说明问题量级</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Step 2 / 方案（橙） -->
+<section class="step s2 reveal" id="step-2" data-step="2">
+  <div class="wrap">
+    <div class="step-tag">
+      <span class="tag-num" aria-hidden="true">02</span>
+      <span class="step-label">第二步 / 方案落地</span>
+    </div>
+    <div class="step-grid">
+      <div>
+        <h2>上门取件，分拣再生，积分当面算清</h2>
+        <p class="step-lede">不用打包出门，也不用到楼下找回收箱，流程在这一步里一次走完。</p>
+        <ul class="facts">
+          <li><b>上门取件</b><span>选好时段，快递员 48 小时内上门，全程免运费</span></li>
+          <li><b>称重入账</b><span>现场称重，重量实时同步到你的账户</span></li>
+          <li><b>分拣评级</b><span>按成色分为再生原料与可穿捐助两条线</span></li>
+          <li><b>积分抵新</b><span>1kg 折 70 积分，换购新品时 1 积分抵 0.1 元</span></li>
+        </ul>
+        <div class="mini-cta">
+          <p>心里有数了，就可以挑时间</p>
+          <a class="btn btn-ghost" href="#order">去第三步预约取件</a>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="panel-h">积分换购货架</p>
+        <p class="panel-s">再生新品 / 积分可直接抵扣</p>
+        <ul class="shelf">
+          <li>
+            <span class="pic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 14.5 16 10 4 20"/><path d="M21 15V6a2 2 0 0 0-2-2h-6"/><path d="m11 11-9 9"/></svg>
+            </span>
+            <span><b>再生棉T恤</b><small>50% 再生棉混纺</small></span>
+            <span class="pt">350<em>积分</em></span>
+          </li>
+          <li>
+            <span class="pic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="4"  y="6" width="16" height="14" rx="2"/><path d="M4 12h16"/></svg>
+            </span>
+            <span><b>再生抓绒卫衣</b><small>由 12 件旧衣再生制成</small></span>
+            <span class="pt">900<em>积分</em></span>
+          </li>
+          <li>
+            <span class="pic" aria-hidden="true">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l3 12H3z"/><path d="M6 8V6a6 6 0 0 1 12 0v2"/></svg>
+            </span>
+            <span><b>帆布托特包</b><small>旧牛仔裤改制</small></span>
+            <span class="pt">200<em>积分</em></span>
+          </li>
+        </ul>
+        <p class="panel-foot">积分可拆分混抵 / 也可等值兑换运费券</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 Step 3 / 行动（绿） -->
+<section class="step s3 reveal" id="step-3" data-step="3">
+  <div class="wrap">
+    <div class="step-tag">
+      <span class="tag-num" aria-hidden="true">03</span>
+      <span class="step-label">第三步 / 现在行动</span>
+    </div>
+    <div class="step-grid">
+      <form class="order" id="order">
+        <h2>选个时间，把衣柜交给我们</h2>
+        <p class="step-lede">填三项信息就可以提交，取件袋会提前免费寄到家。</p>
+        <div class="field">
+          <span class="f-label" id="bag-label">取件袋数</span>
+          <div class="bag-row" role="group" aria-labelledby="bag-label">
+            <button type="button" class="bag-btn" data-bags="1" aria-pressed="true"><b>1 袋</b><span>5kg / 350 积分</span></button>
+            <button type="button" class="bag-btn" data-bags="2" aria-pressed="false"><b>2 袋</b><span>10kg / 700 积分</span></button>
+            <button type="button" class="bag-btn" data-bags="3" aria-pressed="false"><b>3 袋</b><span>15kg / 1050 积分</span></button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="f-label" id="slot-label">取件时段</span>
+          <div class="slot-row" role="group" aria-labelledby="slot-label">
+            <button type="button" class="slot-chip" data-slot="周四 10/15 上午" aria-pressed="true">周四 10/15 上午</button>
+            <button type="button" class="slot-chip" data-slot="周五 10/16 下午" aria-pressed="false">周五 10/16 下午</button>
+            <button type="button" class="slot-chip" data-slot="周六 10/17 全天" aria-pressed="false">周六 10/17 全天</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="f-label" for="addr">取件地址</label>
+          <input class="addr" id="addr" type="text" autocomplete="street-address" placeholder="例：朝阳区望京西园 3 区 2 号楼 501">
+        </div>
+        <button class="btn btn-primary" type="submit" id="submit-btn">预约上门取件（免运费）</button>
+        <div class="order-foot">
+          <p class="form-msg" id="form-msg" aria-live="polite"></p>
+          <p class="order-small">提交后取件袋先寄到家 / 积分 48 小时内到账 / 预约可随时取消</p>
+        </div>
+      </form>
+      <div class="panel ticket">
+        <p class="panel-h">取件凭据</p>
+        <p class="panel-s">提交后实时生成 / 递员按此信息上门</p>
+        <ul class="tk-rows">
+          <li><b>取件袋数</b><span id="t-bags">1 袋（5kg）</span></li>
+          <li><b>取件时段</b><span id="t-slot">周四 10/15 上午</span></li>
+          <li><b>预估积分</b><span class="mono" id="t-pts">350 分</span></li>
+          <li><b>取件地址</b><span id="t-addr">未填写</span></li>
+          <li><b>当前状态</b><span class="mono" id="t-state">等待提交</span></li>
+        </ul>
+        <div class="tk-tear" aria-hidden="true"></div>
+        <p class="tk-foot"><span>RB-0517</span><span>织回回收</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CTA progression / 收口主 CTA（品牌色带） -->
+<section class="cta-band reveal" id="cta">
+  <div class="wrap">
+    <div class="recap" aria-label="三步漏斗进度回顾">
+      <span class="pr-node"><span class="pr-dot">01</span><span>看清问题</span></span>
+      <span class="pr-line" aria-hidden="true"></span>
+      <span class="pr-node"><span class="pr-dot">02</span><span>认可方案</span></span>
+      <span class="pr-line" aria-hidden="true"></span>
+      <span class="pr-node"><span class="pr-dot">03</span><span>预约取件</span></span>
+    </div>
+    <h2>三步走完，只差一次预约</h2>
+    <p class="lede">现在提交预约，取件袋本周寄到，周末前完成交接，下一件新衣就从旧衣里来。</p>
+    <div class="cta-row">
+      <a class="btn btn-primary btn-big" href="#order" id="cta-main">预约上门取件</a>
+      <a class="btn btn-ghost-ink" href="#step-1">返回第一步再看一遍</a>
+    </div>
+    <p class="trust">累计回收旧衣 191 吨 / 覆盖服务城市 28 座 / 家庭复购率 61%</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>UI 设计提示词库 / 落地结构 No.5 / 织回为演示用虚构产品</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* 一次亮相：区块级 reveal，仅触发一次 */
+  var reveals = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); rio.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { rio.observe(el); });
+  }
+
+  /* 漏斗进度：滚动经过各步时点亮顶栏轨道与导航 */
+  var segs = document.querySelectorAll(".fseg");
+  var navs = document.querySelectorAll(".steps-nav a");
+  var steps = document.querySelectorAll(".step[data-step]");
+  function setActive(n) {
+    segs.forEach(function (s) { s.classList.toggle("done", Number(s.dataset.seg) <= n); });
+    navs.forEach(function (a) {
+      if (a.dataset.nav === String(n)) { a.setAttribute("aria-current", "true"); }
+      else { a.removeAttribute("aria-current"); }
+    });
+  }
+  if ("IntersectionObserver" in window) {
+    var sio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { setActive(Number(e.target.dataset.step)); } });
+    }, { rootMargin: "-38% 0px -55% 0px" });
+    steps.forEach(function (s) { sio.observe(s); });
+  }
+
+  /* Step 3 轻交互：袋数 / 时段 / 地址 联动取件凭据 */
+  var bags = 1;
+  var bagBtns = document.querySelectorAll(".bag-btn");
+  var chipBtns = document.querySelectorAll(".slot-chip");
+  var tBags = document.getElementById("t-bags");
+  var tSlot = document.getElementById("t-slot");
+  var tPts = document.getElementById("t-pts");
+  var tAddr = document.getElementById("t-addr");
+  var addr = document.getElementById("addr");
+
+  bagBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      bags = Number(b.dataset.bags);
+      bagBtns.forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      tBags.textContent = bags + " 袋（" + bags * 5 + "kg）";
+      tPts.textContent = bags * 350 + " 分";
+    });
+  });
+  chipBtns.forEach(function (c) {
+    c.addEventListener("click", function () {
+      chipBtns.forEach(function (x) { x.setAttribute("aria-pressed", x === c ? "true" : "false"); });
+      tSlot.textContent = c.dataset.slot;
+    });
+  });
+  addr.addEventListener("input", function () {
+    tAddr.textContent = addr.value.trim() ? "已填写" : "未填写";
+  });
+
+  document.getElementById("order").addEventListener("submit", function (e) {
+    e.preventDefault();
+    document.getElementById("t-state").textContent = "已预约";
+    document.getElementById("submit-btn").textContent = "预约成功 / 等待取件袋寄出";
+    document.getElementById("form-msg").textContent = "预约成功，取件袋将按地址提前寄出，递员会在时段前电话确认。";
+  });
+})();
+</script>
+
 </body>
 </html>

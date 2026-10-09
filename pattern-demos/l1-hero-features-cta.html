@@ -2,139 +2,616 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero+Features+CTA 结构 / UI 设计提示词库</title>
+<meta name="description" content="岩脊单车翎 01 碳纤维山地车架发布页 / Hero + Features + CTA 落地结构样板">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Hero + Features + CTA — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:wght@300;400;500;600;700&display=swap');
+/* token 计划: #FFFFFF 纸白页面底 / #14181C 碳黑(hero 与 CTA 区底色、volt 按钮文字) / #FAFAFA 特性卡底(官方 csv 指定) / #FF4D00 品牌橙(hero vibrant 主色 accent、非文字图形) / #D8F34C 荧光黄(CTA 对比 accent、按钮填充) / #20262B 石墨正文 / 字体角色: 系统中文无衬线承担标题与正文、ui-monospace 承担数字与规格值 / 布局概念: 满幅碳黑 hero(粘性顶栏 CTA) 接 留白单列价值主张 接 四卡特性栅格加双列规格行 接 碳黑深位 CTA 接 白底 footer / 独特性原则: 碳布编织、山地等高线、车架线稿全部由内联 SVG 原生绘制，视觉证据取自碳纤维与山地本身，不依赖位图与装饰渐变堆砌 */
 :root {
-  --bg: #0D0F16; --fg: #EEF1F7; --muted: rgba(238,241,247,.68); --card: #161923;
-  --border: rgba(255,255,255,.14); --primary: #000000; --secondary: #FFFFFF;
-  --accent: #000000; --on-primary: #fff;
-  --radius: 4px; --btn-radius: 2px;
+  --paper: #FFFFFF;
+  --carbon: #14181C;
+  --card: #FAFAFA;
+  --brand: #FF4D00;
+  --volt: #D8F34C;
+  --ink: #20262B;
+  --ink-soft: rgba(32, 38, 43, 0.78);
+  --line: rgba(32, 38, 43, 0.16);
+  --white-soft: rgba(255, 255, 255, 0.82);
+  --white-mute: rgba(255, 255, 255, 0.66);
+  --white-line: rgba(255, 255, 255, 0.16);
+  --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
+  --wrap: 1200px;
+  --radius: 14px;
+  --head-h: 68px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.78;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3, .num { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(255,255,255,.14); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Inter', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+img, svg { display: block; max-width: 100%; }
+ul { list-style: none; }
+a { color: inherit; }
+::selection { background: var(--volt); color: var(--carbon); }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+.dark :focus-visible { outline-color: var(--volt); }
+.dark .btn-volt:focus-visible { outline-color: #FFFFFF; }
+.skip {
+  position: fixed;
+  left: 14px;
+  top: -60px;
+  z-index: 99;
+  background: var(--volt);
+  color: var(--carbon);
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip:focus { top: 14px; }
+.wrap { width: min(var(--wrap), 100% - 48px); margin-inline: auto; }
+.section { padding: clamp(64px, 9vw, 118px) 0; }
+section[id], div[id] { scroll-margin-top: calc(var(--head-h) + 16px); }
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+.kicker::before { content: ""; width: 24px; height: 3px; background: var(--brand); }
+.dark .kicker { color: var(--white-soft); }
+h1, h2, h3 { line-height: 1.18; font-weight: 800; }
+.h2 { font-size: clamp(28px, 4vw, 44px); letter-spacing: 0.01em; }
+.lede { max-width: 62ch; color: var(--ink-soft); margin-top: 18px; }
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(255,255,255,.14);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font: inherit;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 15px 32px;
+  min-height: 52px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius);
-  box-shadow: none; padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.09);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
-
+.btn-volt { background: var(--volt); color: var(--carbon); }
+.btn-volt:hover {
+  box-shadow: 0 12px 36px rgba(216, 243, 76, 0.38), 0 0 26px rgba(216, 243, 76, 0.32);
+}
+.btn-ghost { background: transparent; color: #FFFFFF; border-color: rgba(255, 255, 255, 0.55); }
+.btn-ghost:hover { border-color: #FFFFFF; background: rgba(255, 255, 255, 0.08); }
+.btn-sm { padding: 9px 20px; min-height: 42px; border-radius: 8px; font-size: 15px; }
+/* 粘性顶栏: csv CTA 位置 = "Hero (sticky) + Bottom" 的 sticky 部分 */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(20, 24, 28, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.topbar.is-scrolled { box-shadow: 0 1px 0 var(--white-line), 0 10px 30px rgba(0, 0, 0, 0.25); }
+.topbar-inner { display: flex; align-items: center; gap: 32px; height: var(--head-h); }
+.brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; color: #FFFFFF; }
+.brand svg { color: var(--volt); }
+.brand-name { font-weight: 800; font-size: 17px; letter-spacing: 0.04em; }
+.brand-en { font-family: var(--font-mono); font-size: 12px; color: var(--white-mute); letter-spacing: 0.12em; }
+.nav { display: flex; gap: 26px; margin-left: auto; }
+.nav a { color: var(--white-soft); text-decoration: none; font-size: 15px; padding: 6px 2px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: #FFFFFF; border-bottom-color: var(--volt); }
+.topbar .btn { margin-left: 8px; }
+/* Hero 区: csv Section Order ① "Hero with headline/image" / 色彩 "Hero: Brand primary or vibrant"(品牌橙 vibrant 承担主色, 碳黑为产品材质底) */
+.hero {
+  position: relative;
+  background: var(--carbon);
+  color: #FFFFFF;
+  overflow: hidden;
+  padding: clamp(48px, 7vw, 96px) 0 0;
+}
+.layer-weave { position: absolute; inset: 0; opacity: 0.55; pointer-events: none; }
+.layer-contour { position: absolute; right: -70px; top: -50px; width: 60%; height: 118%; pointer-events: none; will-change: transform; }
+.hero-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.04fr 0.96fr;
+  gap: 48px;
+  align-items: center;
+}
+.hero-copy { max-width: 560px; }
+.hero h1 { font-size: clamp(42px, 6.6vw, 74px); font-weight: 900; line-height: 1.1; margin: 20px 0 22px; }
+.hero h1 .line { display: block; }
+.hero-sub { color: var(--white-soft); font-size: clamp(15.5px, 1.6vw, 17.5px); max-width: 34em; }
+.hero-sub strong { color: #FFFFFF; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 34px; }
+.hero-visual { position: relative; will-change: transform; }
+.hero-visual-inner { position: relative; }
+.bike { width: 100%; height: auto; }
+.hero-meta { position: relative; border-top: 1px solid var(--white-line); margin-top: clamp(40px, 7vw, 84px); }
+.hero-meta ul { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 0; padding: 20px 0 26px; }
+.hero-meta li { display: inline-flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.hero-meta li + li::before { content: "/"; margin: 0 18px 0 6px; color: rgba(255, 255, 255, 0.34); }
+.hero-meta span { color: var(--white-mute); font-size: 14px; }
+.hero-meta strong { font-family: var(--font-mono); font-size: 15.5px; color: #FFFFFF; font-weight: 700; }
+/* 价值主张区: csv Section Order ② "Value prop" */
+.vp-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 56px;
+  align-items: center;
+}
+.stats { display: grid; gap: 26px; }
+.stat { border-left: 3px solid var(--brand); padding: 8px 0 8px 22px; }
+.stat b {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(38px, 4.6vw, 56px);
+  line-height: 1.05;
+  color: var(--ink);
+}
+.stat span { color: var(--ink-soft); font-size: 15px; }
+/* 特性区: csv Section Order ③ "Key features (3-5)" / 色彩 "Features: Card bg #FAFAFA" */
+.sec-head { max-width: 720px; margin-bottom: clamp(34px, 5vw, 56px); }
+.features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.f-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+.f-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 42px rgba(20, 24, 28, 0.14);
+  border-color: rgba(255, 77, 0, 0.55);
+}
+.f-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: var(--brand);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.f-card h3 { font-size: 18.5px; }
+.f-card p { color: var(--ink-soft); font-size: 15px; }
+/* 规格行(特性区附表): grid 三列固定模板, 标签列对齐 */
+.specs { margin-top: clamp(52px, 7vw, 84px); }
+.specs-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 26px; margin-bottom: 22px; }
+.specs-head h3 { font-size: 22px; }
+.spec-note { color: var(--ink-soft); font-size: 13.5px; }
+.spec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 56px;
+}
+.spec-row {
+  display: grid;
+  grid-template-columns: 6.5em 1fr max-content;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.spec-row dt { color: var(--ink-soft); font-size: 15px; }
+.spec-row .lead { border-bottom: 2px dotted rgba(32, 38, 43, 0.26); transform: translateY(-4px); }
+.spec-row dd { font-family: var(--font-mono); font-weight: 700; font-size: 15px; color: var(--ink); text-align: right; }
+/* CTA 区: csv Section Order ④ "CTA section" / 色彩 "CTA: Contrasting accent color"(荧光黄与品牌橙互为对比) / 深位 CTA 落实 csv 转化建议 */
+.cta-final {
+  position: relative;
+  background: var(--carbon);
+  color: #FFFFFF;
+  text-align: center;
+  overflow: hidden;
+}
+.cta-final .layer-weave { opacity: 0.4; }
+.cta-glow {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: min(760px, 90%);
+  height: 320px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(216, 243, 76, 0.12) 0%, rgba(216, 243, 76, 0) 68%);
+  pointer-events: none;
+}
+.cta-final .wrap { position: relative; }
+.cta-final .h2 { font-size: clamp(30px, 4.4vw, 50px); margin-top: 18px; }
+.price-line { display: flex; align-items: baseline; justify-content: center; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
+.price { font-family: var(--font-mono); font-weight: 700; font-size: clamp(54px, 8vw, 88px); line-height: 1; color: var(--volt); }
+.per { color: var(--white-mute); font-size: 15px; }
+.cta-copy { max-width: 56ch; margin: 22px auto 0; color: var(--white-soft); }
+.cta-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 36px; }
+.cta-micro { margin-top: 26px; color: var(--white-mute); font-size: 13.5px; }
+/* Footer: csv Section Order ⑤ "Footer" */
+.site-foot { background: var(--paper); border-top: 1px solid var(--line); padding: 36px 0; }
+.foot-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 36px; }
+.foot-brand { font-weight: 800; }
+.foot-tag { color: var(--ink-soft); }
+.foot-link {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(32, 38, 43, 0.38);
+  text-underline-offset: 4px;
+}
+.foot-link:hover { text-decoration-color: var(--brand); }
+.foot-note { flex-basis: 100%; color: var(--ink-soft); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
+/* 一次亮相动效: 仅 hero 一组, 加载后单次播放 */
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(30px); } }
+@keyframes drift { from { opacity: 0; transform: translateX(-46px); } }
+.anim, .anim-rise, .anim-drift {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 0.75, 0.25, 1);
+  animation-duration: 0.75s;
+  animation-delay: var(--d, 0s);
+}
+.anim { animation-name: fadeIn; }
+.anim-rise { animation-name: rise; }
+.anim-drift { animation-name: drift; animation-duration: 1.05s; }
+.hero .layer-contour { animation: fadeIn 1.4s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .f-card:hover { transform: none; }
+}
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+  .hero-visual { max-width: 560px; }
+  .vp-grid { grid-template-columns: 1fr; gap: 40px; }
+  .layer-contour { width: 78%; }
+}
+@media (max-width: 760px) {
+  .nav { display: none; }
+  .topbar .btn { margin-left: auto; }
+  .spec-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .stat { padding-left: 16px; }
+}
+@media (max-width: 640px) {
+  .hero-meta li + li::before { margin: 0 12px 0 4px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .cta-actions .btn { flex: 1 1 100%; }
+  .spec-row { grid-template-columns: 1fr; gap: 3px; padding: 9px 0; }
+  .spec-row .lead { display: none; }
+  .spec-row dd { text-align: left; }
+  .foot-inner { gap: 10px 20px; }
+  .foot-tag { flex-basis: 100%; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>松之本汤</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">查空房</a></div></header><main><section class="hero container"><p class="doc-meta">一泊二食 / 満室 8 间 / 泉质 单纯硫磺 42°C</p><h1>山把风挡在外面，汤把山还给你</h1><p class="sub">百年木造汤宿，一处内汤一处露天。泡完不要赶路，炉上有焙茶。</p><div class="cta-row"><a class="btn btn-primary" href="#">查空房</a><a class="btn" href="#">交通与接驳</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>岩风吕</b><p>母岩原样凿成，水位随山雨涨落，落款在石头上。</p></div></section></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>晨汤</h3><p>六点半烧到七点整，硫磺味最正。冬季加雪见酒一盏。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>岩风吕</h3><p>母岩原样凿成，水位随山雨涨落，落款在石头上。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>炉边夜话</h3><p>晚饭后炉边焙茶配腌梅干，老板娘讲这座山五十年的事。</p></article></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>查空房，现在</h2><p>一泊二食 / 満室 8 间 / 泉质 单纯硫磺 42°C</p><a class="btn btn-primary" href="#">查空房</a></div></section><footer>松之本汤 / 长野山间 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<!-- 全局碳布编织 pattern 定义(碳纤维纹理, 内联 SVG) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="carbonWeave" width="22" height="22" patternUnits="userSpaceOnUse">
+      <rect width="22" height="22" fill="#14181C"></rect>
+      <rect width="11" height="11" fill="rgba(255,255,255,0.045)"></rect>
+      <rect x="11" y="11" width="11" height="11" fill="rgba(255,255,255,0.045)"></rect>
+      <path d="M11 0v22M0 11h22" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"></path>
+    </pattern>
+  </defs>
+</svg>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<!-- 粘性顶栏: 属于 Hero 区顶缘, 提供 csv 要求的 "Hero (sticky)" CTA -->
+<header class="topbar dark">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#main">
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 16l5-9 4 5 3-6 4 10"></path>
+      </svg>
+      <span class="brand-name">岩脊单车</span>
+      <span class="brand-en">ridgeworks</span>
+    </a>
+    <nav class="nav" aria-label="页内导航">
+      <a href="#features">关键特性</a>
+      <a href="#specs">车架规格</a>
+      <a href="#order">预订</a>
+    </nav>
+    <a class="btn btn-volt btn-sm" href="#order">立即预订</a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Section Order ① Hero with headline/image -->
+  <section class="hero dark">
+    <svg class="layer-weave" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+      <rect width="100%" height="100%" fill="url(#carbonWeave)"></rect>
+    </svg>
+    <svg class="layer-contour" viewBox="0 0 600 640" fill="none" aria-hidden="true" focusable="false">
+      <path d="M300 60 C420 50 520 120 540 230 C558 330 490 420 380 440 C270 460 170 400 150 300 C130 200 190 70 300 60 Z" stroke="#FF4D00" stroke-opacity="0.3" stroke-width="1.6"></path>
+      <path d="M310 120 C390 114 458 168 472 240 C486 316 434 384 352 398 C268 412 196 366 182 296 C168 226 232 126 310 120 Z" stroke="#FF4D00" stroke-opacity="0.22" stroke-width="1.6"></path>
+      <path d="M322 186 C372 182 414 220 424 268 C434 318 400 362 348 372 C294 382 248 350 238 304 C228 256 274 190 322 186 Z" stroke="#FF4D00" stroke-opacity="0.16" stroke-width="1.6"></path>
+      <path d="M340 250 C366 248 388 268 392 294 C396 322 378 344 350 348 C322 352 300 334 296 308 C292 282 314 252 340 250 Z" stroke="#D8F34C" stroke-opacity="0.2" stroke-width="1.6"></path>
+    </svg>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="kicker anim" style="--d:.05s">2026 全新发布 / 碳纤维山地车架</p>
+        <h1>
+          <span class="line anim-rise" style="--d:.12s">轻若翎羽，</span>
+          <span class="line anim-rise" style="--d:.22s">稳若岩脊。</span>
+        </h1>
+        <p class="hero-sub anim-rise" style="--d:.34s">翎 01 全碳硬尾车架，净重 <strong>1,780 克</strong>。东丽 T1100 混铺碳布把每一次踩踏直传后轮，65.5° 头管几何让高速弯道稳得像直线。为长距离爬坡与林道放坡而生。</p>
+        <div class="hero-actions anim-rise" style="--d:.46s">
+          <a class="btn btn-volt" href="#order">立即预订首发</a>
+          <a class="btn btn-ghost" href="#specs">查看完整规格</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-inner anim-drift" style="--d:.2s">
+          <svg class="bike" viewBox="0 0 680 470" role="img" aria-label="翎 01 碳纤维山地车架侧视线稿，碳黑底上以荧光黄与品牌橙绘出车架、双轮与前叉">
+            <g stroke="#FF4D00" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 14" opacity="0.55" fill="none">
+              <path d="M30 212 L128 238"></path>
+              <path d="M14 262 L108 286"></path>
+              <path d="M34 308 L124 324"></path>
+            </g>
+            <g fill="none">
+              <circle cx="170" cy="332" r="112" stroke="rgba(255,255,255,0.38)" stroke-width="10"></circle>
+              <circle cx="170" cy="332" r="93" stroke="#FF4D00" stroke-width="3.5"></circle>
+              <g stroke="rgba(255,255,255,0.16)" stroke-width="2">
+                <path d="M77 332h186M170 239v186M104 266l132 132M104 398l132-132"></path>
+              </g>
+              <circle cx="170" cy="332" r="9" fill="#D8F34C" stroke="none"></circle>
+            </g>
+            <g fill="none">
+              <circle cx="512" cy="332" r="112" stroke="rgba(255,255,255,0.38)" stroke-width="10"></circle>
+              <circle cx="512" cy="332" r="93" stroke="#FF4D00" stroke-width="3.5"></circle>
+              <g stroke="rgba(255,255,255,0.16)" stroke-width="2">
+                <path d="M419 332h186M512 239v186M446 266l132 132M446 398l132-132"></path>
+              </g>
+              <circle cx="512" cy="332" r="9" fill="#D8F34C" stroke="none"></circle>
+            </g>
+            <g fill="none" stroke="#D8F34C" stroke-width="9" stroke-linecap="round">
+              <path d="M278 338 L238 176"></path>
+              <path d="M246 190 L447 150"></path>
+              <path d="M278 338 L470 200"></path>
+              <path d="M240 196 L170 332"></path>
+              <path d="M278 338 Q220 348 170 332"></path>
+            </g>
+            <path d="M452 136 L474 204" fill="none" stroke="#D8F34C" stroke-width="15" stroke-linecap="round"></path>
+            <path d="M474 204 Q492 262 512 332" fill="none" stroke="#FF4D00" stroke-width="8" stroke-linecap="round"></path>
+            <circle cx="474" cy="204" r="7" fill="#D8F34C"></circle>
+            <path d="M238 176 L226 142" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="5" stroke-linecap="round"></path>
+            <path d="M190 136 Q224 122 258 132" fill="none" stroke="#D8F34C" stroke-width="9" stroke-linecap="round"></path>
+            <path d="M452 136 L444 112" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M414 106 L462 108" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="7" stroke-linecap="round"></path>
+            <circle cx="278" cy="338" r="26" fill="none" stroke="#FF4D00" stroke-width="5"></circle>
+            <path d="M278 338 L306 366" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M292 366 L322 366" fill="none" stroke="#D8F34C" stroke-width="8" stroke-linecap="round"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="hero-meta anim" style="--d:.58s">
+      <div class="wrap">
+        <ul>
+          <li><span>车架重量</span><strong>1,780 g（M 码 / 含五金）</strong></li>
+          <li><span>头管角度</span><strong>65.5°</strong></li>
+          <li><span>前叉行程</span><strong>120 – 140 mm</strong></li>
+          <li><span>车架质保</span><strong>5 年</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Order ② Value prop -->
+  <section id="valueprop" class="section">
+    <div class="wrap vp-grid">
+      <div class="vp-copy">
+        <p class="kicker">价值主张</p>
+        <h2 class="h2">铝架的疲惫，来自两处形变</h2>
+        <p class="lede">第一处在踩踏——大发力时五通左右摇摆，功率漏进车架里；第二处在碎石路——高频震动顺着前叉与车架一路传到手掌。翎 01 用两种碳布分别回应：主受力区铺东丽 T1100 单向布，把五通侧向刚度提高 18%；后上叉植入 3.2 mm 低模量弹性碳层，在震动抵达手掌之前先衰减 26%。剩下的力气，都交给下一次摇车。</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <b>1,780 g</b>
+          <span>车架净重（M 码 / 含金属五金）</span>
+        </div>
+        <div class="stat">
+          <b>+18%</b>
+          <span>五通侧向刚度（对比上代铝架）</span>
+        </div>
+        <div class="stat">
+          <b>-26%</b>
+          <span>高频震动传递（碎石路台架实测）</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Order ③ Key features (3-5) / 卡片底 #FAFAFA (csv 指定) -->
+  <section id="features" class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">关键特性</p>
+        <h2 class="h2">四处关键设计，又轻又稳的来源</h2>
+        <p class="lede">从碳布铺层到几何角度，每一个决定都指向同一条林道：上坡更省，下坡更敢。</p>
+      </div>
+      <div class="features-grid">
+        <article class="f-card">
+          <span class="f-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="4" width="8" height="7" rx="1"></rect>
+              <rect x="13" y="4" width="8" height="7" rx="1"></rect>
+              <rect x="3" y="13" width="8" height="7" rx="1"></rect>
+              <rect x="13" y="13" width="8" height="7" rx="1"></rect>
+            </svg>
+          </span>
+          <h3>T1100 / T800 混铺碳布</h3>
+          <p>下管与五通受力区铺 0° 单向 T1100，承受踩踏拉力不形变；上管与座管区改用 T800 缎纹编织，吸收高频细震。一块车架，两种性格。</p>
+        </article>
+        <article class="f-card">
+          <span class="f-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12h3l2-6 3 12 3-9 2 3h5"></path>
+            </svg>
+          </span>
+          <h3>后上叉 DCS 弹性层</h3>
+          <p>后上叉内侧植入 3.2 mm 低模量碳层，形成微悬浮结构。碎石路高频震动衰减 26%，长途放坡手掌不再发麻，弯中后轮贴地感更清晰。</p>
+        </article>
+        <article class="f-card">
+          <span class="f-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19L20 9"></path>
+              <path d="M4 19h16"></path>
+              <path d="M9.5 19a5.5 5.5 0 0 0-1.7-3.9"></path>
+              <circle cx="4" cy="19" r="1.6"></circle>
+            </svg>
+          </span>
+          <h3>65.5° 下坡几何</h3>
+          <p>头管角 65.5°、等效上管 615 mm，匹配 120 – 140 mm 行程前叉。高速直线下沉稳，陡峭爬坡重心不后飘，一台车架通吃爬升与放坡。</p>
+        </article>
+        <article class="f-card">
+          <span class="f-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 19l6-11 4 6 3-4 5 9"></path>
+              <path d="M3 19h18"></path>
+            </svg>
+          </span>
+          <h3>300 天山地实测</h3>
+          <p>两轮试制车架在秦岭与川西累计测试 300 天，通过 20 万次震动台疲劳测试。下管 3K 编织护板抵御石击，尾叉橡胶贴片抑制链条拍打。</p>
+        </article>
+      </div>
+      <div class="specs" id="specs">
+        <div class="specs-head">
+          <h3>车架规格（M 码）</h3>
+          <p class="spec-note">数据来自岩脊实验室 2026 年 1 月台架与路试 / 实际重量随尺码浮动 ±90 g</p>
+        </div>
+        <dl class="spec-grid">
+          <div class="spec-row">
+            <dt>车架材料</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>东丽 T1100 / T800 混铺</dd>
+          </div>
+          <div class="spec-row">
+            <dt>车架重量</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>1,780 g（含五金）</dd>
+          </div>
+          <div class="spec-row">
+            <dt>前叉行程</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>120 – 140 mm</dd>
+          </div>
+          <div class="spec-row">
+            <dt>头管角度</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>65.5°</dd>
+          </div>
+          <div class="spec-row">
+            <dt>等效上管</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>615 mm</dd>
+          </div>
+          <div class="spec-row">
+            <dt>后开档</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>148 mm Boost / 12 mm 桶轴</dd>
+          </div>
+          <div class="spec-row">
+            <dt>五通规格</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>BSA 73 mm 螺纹</dd>
+          </div>
+          <div class="spec-row">
+            <dt>最大胎容</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>29 x 2.6 英寸</dd>
+          </div>
+          <div class="spec-row">
+            <dt>尺码</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>S / M / L / XL</dd>
+          </div>
+          <div class="spec-row">
+            <dt>质保</dt>
+            <i class="lead" aria-hidden="true"></i>
+            <dd>5 年车架质保</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Order ④ CTA section / 深位 CTA + 荧光黄对比 accent / volt 按钮文字对填充约 13:1(≥4.5:1) -->
+  <section id="order" class="cta-final dark section">
+    <svg class="layer-weave" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+      <rect width="100%" height="100%" fill="url(#carbonWeave)"></rect>
+    </svg>
+    <div class="cta-glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="kicker">首发预售</p>
+      <h2 class="h2">把第一台翎 01 骑回家</h2>
+      <p class="price-line">
+        <span class="price">¥6,980</span>
+        <span class="per">起 / 车架套装</span>
+      </p>
+      <p class="cta-copy">首发套装含陶瓷轴承碗组 / 12 mm 桶轴 / 碳纤维座管夹。2026 年 3 月 15 日按订单顺序发货 / 30 天无理由退换 / 5 年车架质保 / 支持三期免息。</p>
+      <div class="cta-actions">
+        <a class="btn btn-volt" href="mailto:order@ridgeworks.example?subject=翎01首发预订">立即预订首发</a>
+        <a class="btn btn-ghost" href="#specs">查看尺码与规格</a>
+      </div>
+      <p class="cta-micro">订单确认后 24 小时内发送发货进度与线下试骑邀约 / 发货与试骑安排以确认邮件为准。</p>
+    </div>
+  </section>
+</main>
+
+<!-- Section Order ⑤ Footer -->
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p class="foot-brand">岩脊单车 ridgeworks</p>
+    <p class="foot-tag">UI 设计提示词库 / 落地结构 No.1</p>
+    <a class="foot-link" href="../style-catalog.html">返回风格目录</a>
+    <p class="foot-note">本页为「Hero + Features + CTA」结构样板 / Section Order 依官方 landing.csv：Hero with headline/image &gt; Value prop &gt; Key features (3-5) &gt; CTA section &gt; Footer / CTA 位置：Hero (sticky) + Bottom / 色彩策略：Hero vibrant / Features 卡片 #FAFAFA / CTA contrasting accent / 仅供设计演示</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var topbar = document.querySelector(".topbar");
+  var contour = document.querySelector(".layer-contour");
+  var visual = document.querySelector(".hero-visual");
+  function onScroll() {
+    var y = window.scrollY || 0;
+    topbar.classList.toggle("is-scrolled", y > 8);
+    if (reduce || y > 900) { return; }
+    contour.style.transform = "translate3d(0," + (y * 0.1).toFixed(1) + "px,0)";
+    visual.style.transform = "translate3d(0," + (y * 0.22).toFixed(1) + "px,0)";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+</script>
 </body>
 </html>

@@ -4,137 +4,682 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Comparison Table + CTA — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Comparison Table+CTA 结构 / UI 设计提示词库</title>
+<meta name="description" content="跨境小包物流比价平台落地页样张 / 对比表加 CTA 结构 / 自营专线、邮政小包、商业快递四维对比。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+/* token 计划: 纸面 #F5F4EF / 卡面 #FFFFFF / 墨 #1C2A38 / 灰 #4A5764 / 品牌蓝 #0A5DA8 / 己方高亮 #FFFACD / 深高亮 #FFF3A8 / 绿勾 #0E7A3D / 印章红 #B4232A / 交替行 #F1F2F4 */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(255,113,206,.28); --primary: #FF71CE; --secondary: #FFCE5C;
-  --accent: #86CCCA; --on-primary: #111;
-  --radius: 14px; --btn-radius: 999px;
+  --paper: #F5F4EF; --card: #FFFFFF; --ink: #1C2A38; --ink-2: #2A3947; --muted: #4A5764;
+  --line: #D9D4C8; --brand: #0A5DA8; --brand-deep: #084B8A;
+  --hl: #FFFACD; --hl-deep: #FFF3A8; --hl-even: #FFF8C2; --green: #0E7A3D;
+  --stamp: #B4232A; --row-alt: #F1F2F4; --row-hover: #E7E9ED; --head: #243447;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  background-image: radial-gradient(rgba(15,23,42,.1) 1.5px, transparent 1.5px); background-size: 22px 22px;
+  font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3, .num { font-family: 'Playfair Display', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 3px solid var(--fg); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Playfair Display', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 60;
+  background: var(--ink);
+  color: #F5F4EF;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 0 0 8px 0;
+  text-decoration: none;
+}
+.skip:focus { left: 0; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(245, 244, 239, 0.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.logo-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--ink); color: #F5F4EF; display: grid; place-items: center; flex: none; }
+.logo-name { font-size: 17px; font-weight: 800; letter-spacing: 0.5px; }
+.logo-sub { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 8px; }
+nav { display: flex; gap: 26px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; transition: color 0.18s ease; }
+nav a:hover,
+nav a:focus-visible { color: var(--brand); }
+/* ---------- 按钮 ---------- */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 3px solid var(--fg);
-  background: var(--card); color: var(--fg);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit; font-weight: 650; font-size: 15px;
+  padding: 12px 24px; border-radius: 9px; cursor: pointer; text-decoration: none;
+  border: 1.5px solid transparent;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 3px solid var(--fg); border-radius: var(--radius);
-  box-shadow: 8px 8px 0 var(--accent); padding: 24px;
-  transition: transform 180ms ease, box-shadow 180ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 11px 11px 0 var(--secondary);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 3px solid var(--fg); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 3px solid var(--fg); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
-
+.btn-primary { background: var(--brand); color: #FFFFFF; border-color: var(--brand-deep); }
+.btn-primary:hover { background: var(--brand-deep); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(10, 93, 168, 0.28); }
+.btn-ghost { background: var(--card); color: var(--ink); border-color: var(--ink); }
+.btn-ghost:hover { background: var(--ink); color: #F5F4EF; transform: translateY(-1px); }
+.btn-lg { padding: 15px 30px; font-size: 16.5px; }
+.btn-mini { padding: 7px 14px; font-size: 13px; border-radius: 7px; margin-top: 10px; }
+.btn-nav { padding: 9px 18px; font-size: 14px; }
+/* ---------- 首屏 ---------- */
+.hero {
+  padding: 84px 0 66px;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.98fr;
+  gap: 56px;
+  align-items: center;
+}
+.eyebrow {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--brand);
+  flex: none;
+}
+h1 {
+  font-size: clamp(30px, 4.4vw, 45px);
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+  margin: 16px 0;
+}
+.hero-sub { font-size: 16px; color: var(--muted); max-width: 46ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
+.hero-note { font-size: 13px; color: var(--muted); margin-top: 16px; }
+/* ---------- 运单标签（首屏视觉） ---------- */
+.hero-visual { display: flex; justify-content: center; }
+.waybill {
+  width: 100%;
+  max-width: 430px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 18px 42px rgba(28, 42, 56, 0.13);
+  transform: rotate(-1.2deg);
+  overflow: hidden;
+}
+.airmail {
+  height: 9px;
+  background: repeating-linear-gradient(90deg, #C9413C 0 18px, #FFFFFF 18px 26px, #2456A6 26px 44px, #FFFFFF 44px 52px);
+}
+.wb-body { position: relative; padding: 18px 20px 16px; }
+.wb-top { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--line); padding-bottom: 10px; }
+.wb-title { font-size: 13px; font-weight: 800; }
+.wb-no { font-family: ui-monospace, "SF Mono", Consolas, "Courier New", monospace; font-size: 12.5px; color: var(--muted); }
+.route { width: 100%; height: auto; display: block; margin: 4px 0 2px; }
+.rt-lab { font-size: 12px; fill: var(--muted); }
+.rt-days { font-size: 12.5px; font-weight: 700; fill: var(--brand); }
+.route-line { clip-path: inset(0 0 0 0); }
+.route-plane { opacity: 1; }
+.wb-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.wb-field span { display: block; font-size: 11.5px; color: var(--muted); }
+.wb-field b { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stamp {
+  position: absolute;
+  top: 42px;
+  right: 12px;
+  transform: rotate(-8deg);
+  border: 2px solid var(--stamp);
+  color: var(--stamp);
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 11.5px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.74);
+}
+.barcode {
+  height: 30px;
+  margin: 12px 20px 16px;
+  opacity: 0.85;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 2px, #FFFFFF 2px 5px, var(--ink) 5px 6px, #FFFFFF 6px 8px, var(--ink) 8px 12px, #FFFFFF 12px 15px);
+  border-radius: 2px;
+}
+/* ---------- 问题引入 ---------- */
+.problem { background: #EFEDE5; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 64px 0 60px; }
+.sec-head { max-width: 660px; }
+.sec-head h2 { font-size: clamp(24px, 3.2vw, 34px); line-height: 1.25; font-weight: 800; margin: 12px 0; }
+.sec-lead { font-size: 15px; color: var(--muted); }
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 36px;
+}
+.stat {
+  padding: 4px 26px;
+  border-left: 1px dashed #C9C3B4;
+}
+.stat:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+.stat b {
+  display: block;
+  font-size: clamp(27px, 3vw, 37px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+.stat > span {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 4px 0 6px;
+}
+.stat p {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.quote-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 34px;
+}
+blockquote {
+  border-left: 3px solid var(--ink);
+  padding-left: 14px;
+}
+blockquote p {
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+blockquote cite {
+  display: block;
+  font-style: normal;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+/* ---------- 对比表 ---------- */
+.compare {
+  padding: 74px 0 72px;
+}
+.cmp-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 26px 0 18px;
+}
+.wswitch {
+  display: inline-flex;
+  align-items: center;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+}
+.wswitch-label { font-size: 13px; font-weight: 700; color: var(--muted); padding: 0 8px 0 12px; }
+.wswitch button {
+  border: 0;
+  background: transparent;
+  font: inherit; font-size: 13.5px; color: var(--ink);
+  padding: 7px 16px; border-radius: 999px; cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.wswitch button[aria-pressed="true"] { background: var(--ink); color: #F7F6F1; font-weight: 700; }
+.cmp-bar-note { font-size: 12.5px; color: var(--muted); }
+.cmp-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 14px 34px rgba(28, 42, 56, 0.10);
+  overflow: hidden;
+}
+.cmp-scroll { overflow-x: auto; }
+.cmp-table { width: 100%; min-width: 700px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+.c-dim { width: 23%; }
+.c-post { width: 21.5%; }
+.c-exp { width: 25%; }
+.c-ours { width: 30.5%; }
+.cmp-table thead th {
+  text-align: left;
+  vertical-align: bottom;
+  padding: 14px 16px;
+  background: var(--head);
+  color: #F2EFE7;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.th-sub { display: block; font-size: 11.5px; font-weight: 400; color: #C6CFDA; margin-top: 3px; }
+.cmp-table thead th.ours { background: var(--brand); color: #FFFFFF; border-bottom: 3px solid var(--hl); }
+.cmp-table thead th.ours .th-sub { color: #DCE9F7; }
+.colbadge { display: inline-block; margin-top: 6px; background: var(--hl); color: var(--ink); font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; }
+.cmp-table tbody th[scope="row"] {
+  text-align: left;
+  vertical-align: top;
+  padding: 13px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--card);
+  border-bottom: 1px solid #E9E6DD;
+}
+.dim-sub { display: block; font-weight: 400; font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+.cmp-table tbody td {
+  vertical-align: top;
+  padding: 12px 16px 13px;
+  background: var(--card);
+  border-bottom: 1px solid #E9E6DD;
+  transition: background 0.15s ease;
+}
+.cmp-table tbody tr:nth-child(even) td { background: var(--row-alt); }
+.cmp-table tbody tr:last-child td,
+.cmp-table tbody tr:last-child th { border-bottom: 0; }
+.cmp-table tbody td.ours { background: var(--hl); border-left: 2px solid var(--brand); border-right: 2px solid var(--brand); }
+.cmp-table tbody tr:nth-child(even) td.ours { background: var(--hl-even); }
+.cmp-table tbody tr:hover td { background: var(--row-hover); }
+.cmp-table tbody tr:hover th[scope="row"] { background: #F4F2EC; }
+.cmp-table tbody tr:hover td.ours { background: var(--hl-deep); }
+.t-strong { display: block; font-size: 14.5px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.price {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 2px;
+}
+.price-ours { color: var(--brand-deep); }
+.td-line { display: flex; align-items: flex-start; gap: 7px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); line-height: 1.45; }
+.td-note { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; }
+.ic { flex: none; width: 15px; height: 15px; margin-top: 2px; }
+.draw { stroke-dasharray: 24; }
+.pval { display: inline-block; }
+.cmp-foot { padding: 12px 18px; font-size: 12.5px; color: var(--muted); background: #F7F6F1; border-top: 1px solid var(--line); }
+/* ---------- 底部 CTA ---------- */
+.cta { padding: 10px 0 86px; }
+.cta-panel {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 18px 44px rgba(28, 42, 56, 0.12);
+  padding: 48px 48px 44px;
+  text-align: center;
+  overflow: hidden;
+}
+.cta-panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: repeating-linear-gradient(180deg, #C9413C 0 16px, #FFFFFF 16px 22px, #2456A6 22px 38px, #FFFFFF 38px 44px);
+}
+.cta-panel h2 { font-size: clamp(24px, 3.4vw, 36px); line-height: 1.25; font-weight: 800; }
+.cta-panel p { font-size: 15px; color: var(--muted); max-width: 54ch; margin: 12px auto 0; }
+.cta-panel .cta-row { justify-content: center; margin-top: 28px; }
+.cta-trust { font-size: 13px; color: var(--muted); margin-top: 18px; }
+/* ---------- 页脚 ---------- */
+footer { border-top: 1px solid var(--line); background: #EFEDE5; padding: 28px 0 36px; }
+.foot-inner { text-align: center; font-size: 13px; color: var(--muted); }
+.foot-inner a { color: var(--brand); font-weight: 650; }
+.foot-inner a:hover { text-decoration: underline; }
+.foot-inner p + p { margin-top: 6px; }
+/* ---------- 一次亮相动效 ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-copy { animation: rise 0.7s ease 0.05s both; }
+.hero-visual .waybill { animation: rise 0.7s ease 0.24s both; }
+@keyframes unrail {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.hero-visual .route-line { animation: unrail 1s ease 0.55s both; }
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.hero-visual .route-plane { animation: appear 0.4s ease 1.4s both; }
+@keyframes drawin {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+.cmp.in .draw { animation: drawin 0.5s ease both; }
+.cmp.in tbody tr:nth-child(3) .draw { animation-delay: 0.05s; }
+.cmp.in tbody tr:nth-child(4) .draw { animation-delay: 0.13s; }
+.cmp.in tbody tr:nth-child(5) .draw { animation-delay: 0.21s; }
+.cmp.in tbody tr:nth-child(7) .draw { animation-delay: 0.29s; }
+@keyframes pflip {
+  0% { opacity: 1; transform: translateY(0); }
+  40% { opacity: 0; transform: translateY(-6px); }
+  60% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.pval.flip { animation: pflip 0.32s ease; }
+/* ---------- 响应式 ---------- */
+@media (max-width: 1023px) {
+  .hero { padding: 60px 0 52px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+  .hero-visual .waybill { transform: none; }
+}
+@media (max-width: 767px) {
+  .container { padding: 0 20px; }
+  nav { display: none; }
+  .wb-meta { grid-template-columns: repeat(2, 1fr); }
+  .stamp { top: 38px; right: 8px; font-size: 10.5px; }
+  .stat-grid { grid-template-columns: 1fr; gap: 0; }
+  .stat { border-left: 0; border-top: 1px dashed #C9C3B4; padding: 16px 0 14px; }
+  .stat:first-child { border-top: 0; padding-top: 4px; }
+  .quote-grid { grid-template-columns: 1fr; gap: 16px; }
+  .cmp-bar { align-items: flex-start; flex-direction: column; }
+  .cmp-table thead th.ours,
+  .cmp-table tbody td.ours { position: sticky; right: 0; }
+  .cmp-table thead th.ours { z-index: 3; }
+  .cmp-table tbody td.ours { z-index: 2; box-shadow: -8px 0 14px -8px rgba(28, 42, 56, 0.25); }
+  .cta-panel { padding: 36px 22px 32px; }
+  .cta-panel::before { width: 8px; }
+}
+/* ---------- 降级 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>国道电台</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看全程路书</a></div></header><main><section class="hero container"><p class="doc-meta">第 7 天 / 康定 - 理塘 / 海拔 4,014m / 油量 2/3</p><h1>路书只写两行：天亮出发，天黑投宿</h1><p class="sub">两个人一台车，沿 318 慢慢走。加油靠导航，投宿靠缘分，照片全部直出。</p><div class="cta-row"><a class="btn btn-primary" href="#">看全程路书</a><a class="btn" href="#">装备清单</a></div></section><section class="container"><section class="sec problem"><h2 class="section-h">你是不是也这样</h2><div class="pb card card-pad"><p class="pb-big">工具换了三套，事情还是那些事情。</p><ul class="pb-list"><li>排期靠吼</li><li>跟进靠记</li><li>复盘靠猜</li></ul></div></section></section><section class="container"><section class="sec compare"><h2 class="section-h">和过去比一比</h2><div class="card cp card-pad"><table><thead><tr><th>环节</th><th>现在</th><th>以前</th></tr></thead><tbody><tr><td>排期</td><td class="cp-us">自动排序</td><td class="cp-old">手工表格</td></tr><tr><td>跟进</td><td class="cp-us">按画像提醒</td><td class="cp-old">凭记忆</td></tr><tr><td>复盘</td><td class="cp-us">全量留痕</td><td class="cp-old">靠会议记录</td></tr><tr><td>上手</td><td class="cp-us">半天</td><td class="cp-old">三周培训</td></tr></tbody></table></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>看全程路书，现在</h2><p>第 7 天 / 康定 - 理塘 / 海拔 4,014m / 油量 2/3</p><a class="btn btn-primary" href="#">看全程路书</a></div></section><footer>国道电台 / 318 手账 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip" href="#compare">跳到对比表</a>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2Z"/></svg></span>
+      <span class="logo-name">航比<span class="logo-sub">跨境小包比价</span></span>
+    </a>
+    <nav aria-label="主导航">
+      <a href="#problem">为什么难比</a>
+      <a href="#compare">四维对比</a>
+      <a href="#cta">免费试寄</a>
+    </nav>
+    <a class="btn btn-primary btn-nav" href="#cta">免费试寄 3 票</a>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">跨境小包物流比价 / 2026 年 10 月 / 深圳发美西</p>
+        <h1>同样是 500 克，报价能差出三倍</h1>
+        <p class="hero-sub">航比把自营专线、邮政小包、商业快递放进同一张表：时效、运费、追踪、清关四个维度对齐，报价 30 秒出，一口价锁 90 天。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#cta">免费试寄 3 票</a>
+          <a class="btn btn-ghost" href="#compare">先看四维对比</a>
+        </div>
+        <p class="hero-note">首单免费 / 无合约 / 妥投率 98.6%（2026 年 9 月自营线实测）</p>
+      </div>
+      <div class="hero-visual">
+        <div class="waybill" role="img" aria-label="一张航空小包运单样例：深圳发洛杉矶，计费 500 克，运费 26.5 元，时效 7 到 9 天，双清包税">
+          <div class="airmail"></div>
+          <div class="wb-body">
+            <div class="wb-top">
+              <p class="wb-title">航空小包运单</p>
+              <p class="wb-no">HB-2026-1008</p>
+            </div>
+            <svg class="route" viewBox="0 0 320 124" aria-hidden="true">
+              <g class="route-line">
+                <path d="M24 96 Q160 6 296 84" fill="none" stroke="#0A5DA8" stroke-width="2" stroke-dasharray="7 5"/>
+                <circle cx="24" cy="96" r="4" fill="#1C2A38"/>
+                <circle cx="296" cy="84" r="4" fill="#1C2A38"/>
+              </g>
+              <g class="route-plane" transform="translate(147 26) scale(0.72)">
+                <path d="M22 2 11 13" fill="none" stroke="#0A5DA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 2 15 22 11 13 2 9 22 2Z" fill="#0A5DA8"/>
+              </g>
+              <text x="24" y="114" class="rt-lab">深圳</text>
+              <text x="296" y="114" text-anchor="end" class="rt-lab">洛杉矶</text>
+              <text x="160" y="18" text-anchor="middle" class="rt-days">7-9 天</text>
+            </svg>
+            <div class="wb-meta">
+              <div class="wb-field"><span>计费重量</span><b>500g</b></div>
+              <div class="wb-field"><span>参考运费</span><b>¥26.5</b></div>
+              <div class="wb-field"><span>追踪节点</span><b>14 个</b></div>
+              <div class="wb-field"><span>清关</span><b>双清包税</b></div>
+            </div>
+            <div class="stamp">阳光清关 / 已预归类</div>
+          </div>
+          <div class="airmail"></div>
+          <div class="barcode" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="problem" id="problem">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">问题引入 / 为什么比不动</p>
+        <h2>问题不在没得选，而在没法比</h2>
+        <p class="sec-lead">做小包的卖家手机里存着七八张报价单：邮政说便宜，快递说快，专线说稳妥。口径不一、附加费藏在脚注里，一张能对齐的表都拼不出来。</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat">
+          <b>15-35 天</b>
+          <span>邮政小包美西妥投区间</span>
+          <p>出境后追踪断更，客户催单只能靠猜。</p>
+        </div>
+        <div class="stat">
+          <b>+25%</b>
+          <span>商业快递旺季附加费</span>
+          <p>月度浮动不锁价，旺季利润被吃掉一截。</p>
+        </div>
+        <div class="stat">
+          <b>2 倍运费</b>
+          <span>多数渠道丢件赔付上限</span>
+          <p>货值再高也只赔运费，损失自己扛。</p>
+        </div>
+      </div>
+      <div class="quote-grid">
+        <blockquote>
+          <p>「我们家全网最便宜。」</p>
+          <cite>邮政代理的报价单</cite>
+        </blockquote>
+        <blockquote>
+          <p>「贵，是因为快。」</p>
+          <cite>快递代理的口头禅</cite>
+        </blockquote>
+        <blockquote>
+          <p>「专线水很深，试错成本是一票货。」</p>
+          <cite>做了五年杂货的老卖家</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+  <section class="compare" id="compare">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">对比表 / 时效 / 运费 / 追踪 / 清关</p>
+        <h2>四维对齐，己方列说清</h2>
+        <p class="sec-lead">同一票 500 克小包，深圳发美西。己方列高亮标出，运费随计价重量实时切换。</p>
+      </div>
+      <div class="cmp-bar">
+        <div class="wswitch" role="group" aria-label="计价重量切换">
+          <span class="wswitch-label">计价重量</span>
+          <button type="button" data-key="w05" aria-pressed="true">0.5kg</button>
+          <button type="button" data-key="w10" aria-pressed="false">1.0kg</button>
+        </div>
+        <p class="cmp-bar-note">含燃油到门价 / 不含关税 / 取 2026-10-08 渠道均值</p>
+      </div>
+      <div class="cmp-card cmp">
+        <div class="cmp-scroll">
+          <table class="cmp-table">
+            <caption class="sr-only">航比自营专线与邮政小包、商业快递在时效、运费、追踪、清关、附加费、赔付、免费试寄七个维度的对比表</caption>
+            <colgroup>
+              <col class="c-dim">
+              <col class="c-post">
+              <col class="c-exp">
+              <col class="c-ours">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">对比维度</th>
+                <th scope="col">邮政小包<span class="th-sub">平邮渠道为主</span></th>
+                <th scope="col">商业快递<span class="th-sub">五大国际快递代理价</span></th>
+                <th scope="col" class="ours">航比自营专线<span class="th-sub">拼货专线 / 一口价锁 90 天</span><span class="colbadge">自营</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">参考时效<span class="dim-sub">深圳发出到美西妥投</span></th>
+                <td><b class="t-strong">15-35 天</b><span class="td-note">旺季整体顺延约一周</span></td>
+                <td><b class="t-strong">3-5 天</b><span class="td-note">周五截件，周末不飞</span></td>
+                <td class="ours"><b class="t-strong">7-9 天</b><span class="td-note">旺季加开两班包机保底</span></td>
+              </tr>
+              <tr>
+                <th scope="row">全程运费<span class="dim-sub">含燃油 / 不含关税</span></th>
+                <td><b class="price"><span class="pval" data-w05="¥18.9" data-w10="¥29.6">¥18.9</span></b><span class="td-note">只保头程，退件另计</span></td>
+                <td><b class="price"><span class="pval" data-w05="¥68.0" data-w10="¥98.0">¥68.0</span></b><span class="td-note">旺季另收附加费</span></td>
+                <td class="ours"><b class="price price-ours"><span class="pval" data-w05="¥26.5" data-w10="¥38.8">¥26.5</span></b><span class="td-note">一口价到门 / 锁价 90 天</span></td>
+              </tr>
+              <tr>
+                <th scope="row">追踪节点<span class="dim-sub">出境到妥投可查点</span></th>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M4 4l8 8M12 4l-8 8" fill="none" stroke="#5A6572" stroke-width="2.2" stroke-linecap="round"/></svg>出境后断更，境外仅 3 个节点</p><span class="td-note">末端妥投靠收件人反馈</span></td>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M3.5 8.6l3 3 6-6.8" fill="none" stroke="#0E7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>22 个节点，全程可查</p><span class="td-note">异常件自动推送提醒</span></td>
+                <td class="ours"><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M3.5 8.6l3 3 6-6.8" fill="none" stroke="#0E7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>14 个节点，中文名可直接转发客户</p><span class="td-note">拒收与退回全程留痕</span></td>
+              </tr>
+              <tr>
+                <th scope="row">清关模式<span class="dim-sub">申报与税费责任</span></th>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M4 8h8" fill="none" stroke="#46647E" stroke-width="2.2" stroke-linecap="round"/></svg>个人申报，敏感品易扣关</p><span class="td-note">扣关件处理平均 12 天</span></td>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M3.5 8.6l3 3 6-6.8" fill="none" stroke="#0E7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>正式报关，需提供税号</p><span class="td-note">无税号件直接退回</span></td>
+                <td class="ours"><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M3.5 8.6l3 3 6-6.8" fill="none" stroke="#0E7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>双清包税，HS 编码预归类</p><span class="td-note">敏感品出货前预审</span></td>
+              </tr>
+              <tr>
+                <th scope="row">旺季附加<span class="dim-sub">报价是否锁定</span></th>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M4 8h8" fill="none" stroke="#46647E" stroke-width="2.2" stroke-linecap="round"/></svg>无附加费，但旺季排仓</p><span class="td-note">排仓期时效不做承诺</span></td>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M4 4l8 8M12 4l-8 8" fill="none" stroke="#5A6572" stroke-width="2.2" stroke-linecap="round"/></svg>月度浮动，旺季 +25%</p><span class="td-note">写在报价单脚注里</span></td>
+                <td class="ours"><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M3.5 8.6l3 3 6-6.8" fill="none" stroke="#0E7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>全年一口价，零附加</p><span class="td-note">黑五照常发货不加收</span></td>
+              </tr>
+              <tr>
+                <th scope="row">丢件赔付<span class="dim-sub">上限与到账周期</span></th>
+                <td><b class="t-strong">最高 2 倍运费</b><span class="td-note">丢件认定需 30 天</span></td>
+                <td><b class="t-strong">按申报货值，上限 ¥650</b><span class="td-note">需提供采购凭证</span></td>
+                <td class="ours"><b class="t-strong">运费 3 倍 + 货值 60%</b><span class="td-note">7 个工作日先赔后查</span></td>
+              </tr>
+              <tr>
+                <th scope="row">免费试寄<span class="dim-sub">新客开通权益</span></th>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M4 4l8 8M12 4l-8 8" fill="none" stroke="#5A6572" stroke-width="2.2" stroke-linecap="round"/></svg>不提供</p><span class="td-note">无新客权益</span></td>
+                <td><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M4 4l8 8M12 4l-8 8" fill="none" stroke="#5A6572" stroke-width="2.2" stroke-linecap="round"/></svg>不提供</p><span class="td-note">仅大客户有账期</span></td>
+                <td class="ours"><p class="td-line"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path class="draw" d="M3.5 8.6l3 3 6-6.8" fill="none" stroke="#0E7A3D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>首单 500g 内免费 3 票</p><a class="btn btn-primary btn-mini" href="#cta">免费试寄</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="cmp-foot">以上为深圳发美西线路参考口径 / 最终以下单时实时报价为准 / 免费试寄限首单 500g 内 3 票</p>
+      </div>
+    </div>
+  </section>
+  <section class="cta" id="cta">
+    <div class="container">
+      <div class="cta-panel">
+        <h2>先寄 3 票，再决定要不要交给我们</h2>
+        <p>首单 500 克内免费 3 票，14 个节点全程可查，双清包税不用自己跑关。试完再谈量价，不签框架、不压货款。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href="#">免费试寄 3 票</a>
+          <a class="btn btn-ghost btn-lg" href="#">下载十月费率表</a>
+        </div>
+        <p class="cta-trust">无合约 / 首单免费 / 报价 30 秒出 / 丢件赔运费 3 倍加货值六成</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="container foot-inner">
+    <p>UI 设计提示词库 / 落地结构 No.6 / Comparison Table + CTA / 跨境小包物流比价示意</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+<script>
+(function () {
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var tbl = document.querySelector(".cmp");
+  if (tbl) {
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      io.observe(tbl);
+    } else {
+      tbl.classList.add("in");
+    }
+  }
+  var btns = document.querySelectorAll(".wswitch button");
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.getAttribute("aria-pressed") === "true") {
+        return;
+      }
+      btns.forEach(function (x) {
+        x.setAttribute("aria-pressed", x === b ? "true" : "false");
+      });
+      var key = b.dataset.key;
+      document.querySelectorAll(".pval").forEach(function (p) {
+        var next = p.dataset[key];
+        if (!next) {
+          return;
+        }
+        if (rm.matches) {
+          p.textContent = next;
+          return;
+        }
+        p.classList.remove("flip");
+        void p.offsetWidth;
+        p.classList.add("flip");
+        window.setTimeout(function () {
+          p.textContent = next;
+        }, 130);
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>

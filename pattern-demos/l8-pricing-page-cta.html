@@ -4,137 +4,672 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Pricing Page + CTA — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Pricing+CTA 结构 / UI 设计提示词库</title>
+<meta name="description" content="落地结构 No.8：Pricing Page + CTA。小团队协作工具定价页样张，三档价格卡 / 功能对照 / FAQ / 最终 CTA。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+/* token 计划 / 底 #F5F6F8 纸灰 + 卡 #FFFFFF 1px 边 + 浅投影 / 墨 #17203A + 次 #5A6480 / 品牌蓝 #2F55D4 = 任务选中态 / 企业层 #1C2540 / 金 #D9A441 / 半径 14 / 8pt 间距 */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(34,139,34,.28); --primary: #228B22; --secondary: #8B4513;
-  --accent: #87CEEB; --on-primary: #fff;
-  --radius: 20px 26px 18px 28px; --btn-radius: 999px;
+  --bg: #F5F6F8;
+  --card: #FFFFFF;
+  --ink: #17203A;
+  --body-c: #3D4665;
+  --muted: #5A6480;
+  --line: #E3E6EC;
+  --line-soft: rgba(23, 32, 58, .06);
+  --brand: #2F55D4;
+  --brand-deep: #24409E;
+  --brand-soft: #E7EDFC;
+  --brand-mid: #DCE6FB;
+  --ok: #0C6B41;
+  --ok-soft: #E3F4EA;
+  --ent: #1C2540;
+  --ent-ink: #E9EDF6;
+  --ent-muted: #A9B4CC;
+  --ent-line: rgba(255, 255, 255, .1);
+  --gold: #D9A441;
+  --r: 14px;
+  --shadow: 0 1px 2px rgba(23, 32, 58, .05), 0 10px 28px rgba(23, 32, 58, .07);
+  --shadow-lift: 0 2px 4px rgba(23, 32, 58, .06), 0 18px 40px rgba(23, 32, 58, .13);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+html { scroll-behavior: smooth; }
+body { font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 15px; }
+a { color: var(--brand); text-decoration: none; }
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+.billing input:focus-visible + label { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* 顶栏 / sticky CTA */
+.topbar { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, .94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 16px; color: var(--ink); }
+.logo-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex: none;
 }
-h1, h2, h3, .num { font-family: 'Playfair Display', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(34,139,34,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Playfair Display', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+.topnav { display: flex; gap: 24px; }
+.topnav a { color: var(--muted); font-size: 14px; }
+.topnav a:hover { color: var(--brand-deep); text-decoration: underline; text-underline-offset: 4px; }
+
+/* 按钮 / 无尾箭头 */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(34,139,34,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 11px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(34,139,34,.28); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(34,139,34,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(34,139,34,.2); border-radius: 22px 30px 20px 32px; }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(34,139,34,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn-sm { padding: 8px 16px; font-size: 13.5px; }
+.btn-block { width: 100%; }
+.btn-primary { background: var(--brand); color: #FFFFFF; }
+.btn-primary:hover { background: var(--brand-deep); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(47, 85, 212, .28); }
+.btn-ghost { background: var(--card); color: var(--brand-deep); border-color: var(--brand); }
+.btn-ghost:hover { background: var(--brand-soft); transform: translateY(-1px); }
+.btn-light { background: #E9EDF6; color: #1C2540; }
+.btn-light:hover { background: #FFFFFF; transform: translateY(-1px); }
 
+/* Hero 定价标题 / 看板列淡线背景 */
+.hero { position: relative; padding: 64px 0 20px; }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent calc(33.3% - .5px), var(--line-soft) calc(33.3% - .5px), var(--line-soft) calc(33.3% + .5px), transparent calc(33.3% + .5px)),
+    linear-gradient(90deg, transparent calc(66.6% - .5px), var(--line-soft) calc(66.6% - .5px), var(--line-soft) calc(66.6% + .5px), transparent calc(66.6% + .5px));
+}
+.hero-inner { position: relative; text-align: center; max-width: 720px; margin: 0 auto; }
+.eyebrow { color: var(--muted); font-size: 13.5px; letter-spacing: .02em; margin-bottom: 14px; }
+.hero h1 { font-size: clamp(30px, 4.6vw, 46px); line-height: 1.2; letter-spacing: -.01em; margin-bottom: 16px; }
+.hero h1 em { font-style: normal; color: var(--brand); }
+.hero .sub { color: var(--body-c); font-size: 15.5px; max-width: 560px; margin: 0 auto 12px; }
+.hero-trust { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(34,139,34,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* 月付 / 年付切换 */
+.billing {
+  position: relative;
+  display: inline-flex;
+  width: 300px;
+  max-width: 100%;
+  background: #E8EAF0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 4px;
+}
+.billing input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.billing label {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  text-align: center;
+  padding: 9px 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 9px;
+  transition: color .2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.save-tag { font-size: 12px; font-weight: 600; color: var(--ok); background: var(--ok-soft); border-radius: 999px; padding: 1.5px 9px; }
+.bill-thumb {
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  background: var(--card);
+  border-radius: 9px;
+  box-shadow: 0 1px 6px rgba(23, 32, 58, .12);
+  transition: transform .28s cubic-bezier(.4, 0, .2, 1);
+}
+#b-yearly:checked ~ .bill-thumb { transform: translateX(100%); }
+#b-monthly:checked + label,
+#b-yearly:checked + label { color: var(--ink); }
+.bill-note { margin-top: 12px; color: var(--muted); font-size: 13px; }
 
+/* 一次亮相 / hero 上浮 + 勾选描线 + 协作光标滑入 */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-inner { animation: rise .6s ease both; }
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+.plan-featured .check path { stroke-dasharray: 26; stroke-dashoffset: 26; animation: draw .45s ease-out .55s forwards; }
+@keyframes matesIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: none; }
+}
+.mates { animation: matesIn .5s ease .75s backwards; }
+
+/* 价格卡 / 任务卡语言：勾选框 + 彩色标签条 */
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; padding: 44px 0 10px; }
+.plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 26px 24px 24px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.plan:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
+.strip { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.plan-free .strip { background: #9AA3B5; }
+.plan-team { border: 2px solid var(--brand); }
+.plan-team .strip { background: var(--brand); }
+.plan-ent { background: var(--ent); border-color: #2C3860; }
+.plan-ent .strip { background: var(--gold); }
+.plan-head { display: flex; align-items: center; gap: 10px; }
+.check {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid #B7BFCE;
+  background: #fff;
+  display: grid;
+  place-items: center;
+}
+.check svg { width: 14px; height: 14px; }
+.check path { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.plan-team .check { width: 24px; height: 24px; border-color: var(--brand); background: var(--brand); box-shadow: 0 3px 10px rgba(47, 85, 212, .35); }
+.plan-name { font-size: 17px; font-weight: 700; }
+.pill {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-deep);
+  background: var(--brand-soft);
+  border-radius: 999px;
+  padding: 3px 11px;
+  white-space: nowrap;
+}
+.plan-ent .check { border-color: #57638C; }
+.plan-ent .plan-name { color: var(--ent-ink); }
+.plan-desc { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.plan-ent .plan-desc { color: var(--ent-muted); }
+
+/* 协作光标 / 推荐档社交信号 */
+.mates { display: flex; align-items: center; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+.mate {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--body-c);
+  background: #F1F3F8;
+  border-radius: 999px;
+  padding: 2.5px 9px 2.5px 5px;
+}
+.mate i { width: 9px; height: 9px; border-radius: 50% 50% 50% 2px; transform: rotate(-45deg); background: var(--c, #E86A33); flex: none; }
+.mates-note { font-size: 12px; color: var(--muted); }
+
+/* 价格行 */
+.price-zone { margin-top: 16px; min-height: 150px; }
+.price { display: flex; align-items: baseline; gap: 5px; }
+.price .cur { font-size: 22px; font-weight: 700; color: var(--ink); }
+.price .num { font-size: 46px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; color: var(--ink); }
+.price .unit { font-size: 13.5px; color: var(--muted); }
+.plan-ent .cur,
+.plan-ent .num { color: var(--ent-ink); }
+.plan-ent .unit,
+.plan-ent .save { color: var(--ent-muted); }
+.save {
+  display: inline-block;
+  margin-top: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-radius: 8px;
+  padding: 3px 10px;
+}
+.plan-ent .save { color: #7FE0AE; background: rgba(127, 224, 174, .12); }
+.ent-note { display: block; margin-top: 7px; font-size: 12.5px; color: var(--muted); }
+.plan-ent .ent-note { color: var(--ent-muted); }
+@keyframes priceSwap {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.price .num.swap { animation: priceSwap .32s ease; }
+
+/* 特性清单 / 勾沿用任务完成语言 */
+.plan ul { list-style: none; margin: 18px 0 20px; display: grid; gap: 10px; flex: 1; }
+.plan ul li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--body-c); }
+.plan ul li::before {
+  content: "";
+  flex: none;
+  width: 15px;
+  height: 8px;
+  margin-top: 6px;
+  border-left: 2px solid var(--brand);
+  border-bottom: 2px solid var(--brand);
+  transform: rotate(-45deg);
+}
+.plan-free ul li::before { border-color: #8A93A8; }
+.plan-ent ul li { color: var(--ent-ink); }
+.plan-ent ul li::before { border-color: var(--gold); }
+.plan-cta { margin-top: auto; }
+.plan-fine { margin-top: 10px; font-size: 12px; color: var(--muted); text-align: center; }
+.plan-ent .plan-fine { color: var(--ent-muted); }
+
+/* 区块通用 */
+section.sec { padding: 64px 0 8px; }
+.sec-head { text-align: center; max-width: 600px; margin: 0 auto 34px; }
+.sec-head h2 { font-size: clamp(22px, 3vw, 30px); letter-spacing: -.01em; margin-bottom: 8px; }
+.sec-head p { color: var(--muted); font-size: 14.5px; }
+
+/* 功能对照表 / 看板列对齐 */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); background: var(--card); }
+table.cmp { width: 100%; min-width: 660px; border-collapse: collapse; table-layout: fixed; }
+.cmp caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cmp th,
+.cmp td { padding: 13px 16px; font-size: 13.5px; text-align: center; border-bottom: 1px solid var(--line); }
+.cmp thead th {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  background: #FAFBFD;
+  border-bottom: 1px solid var(--line);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  position: relative;
+}
+.cmp thead th:first-child { text-align: left; }
+.cmp tbody tr:last-child td { border-bottom: none; }
+.cmp tbody tr { transition: background .15s ease; }
+.cmp tbody tr:hover { background: #F0F3F9; }
+.cmp td:first-child,
+.cmp thead th:first-child { width: 31%; text-align: left; }
+.cmp td:first-child { color: var(--ink); font-weight: 500; }
+.cmp td { color: var(--body-c); }
+.cmp th:nth-child(3),
+.cmp td:nth-child(3) { background: var(--brand-soft); }
+.cmp thead th:nth-child(3) { background: var(--brand-mid); color: var(--brand-deep); box-shadow: inset 0 3px 0 var(--brand); }
+.cmp tbody tr:hover td:nth-child(3) { background: var(--brand-mid); }
+.tick { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--ok-soft); }
+.tick svg { width: 12px; height: 12px; }
+.tick path { fill: none; stroke: var(--ok); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.na { display: inline-block; width: 12px; height: 2px; border-radius: 2px; background: #B7BFCE; vertical-align: middle; }
+.table-note { margin-top: 14px; text-align: center; font-size: 12.5px; color: var(--muted); }
+
+/* FAQ 手风琴 */
+.faq { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+.faq-item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.plus { flex: none; position: relative; width: 18px; height: 18px; transition: transform .25s ease; }
+.plus::before,
+.plus::after { content: ""; position: absolute; background: var(--brand); border-radius: 2px; }
+.plus::before { left: 0; right: 0; top: 8px; height: 2.5px; }
+.plus::after { top: 0; bottom: 0; left: 8px; width: 2.5px; }
+.faq-item[open] .plus { transform: rotate(45deg); }
+.faq-body { overflow: hidden; transition: height .3s ease; }
+.faq-body p { padding: 0 20px 18px; color: var(--body-c); font-size: 14px; }
+
+/* 最终 CTA / 深色就绪列 */
+.cta {
+  margin: 72px 0 0;
+  background: var(--ent);
+  border-radius: 22px;
+  padding: 58px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent calc(33.3% - .5px), var(--ent-line) calc(33.3% - .5px), var(--ent-line) calc(33.3% + .5px), transparent calc(33.3% + .5px)),
+    linear-gradient(90deg, transparent calc(66.6% - .5px), var(--ent-line) calc(66.6% - .5px), var(--ent-line) calc(66.6% + .5px), transparent calc(66.6% + .5px));
+  pointer-events: none;
+}
+.cta h2 { position: relative; color: #FFFFFF; font-size: clamp(24px, 3.4vw, 34px); letter-spacing: -.01em; margin-bottom: 12px; }
+.cta p { position: relative; color: var(--ent-muted); font-size: 14.5px; margin-bottom: 26px; }
+.cta-mates {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+.cta-mates .mate { background: rgba(255, 255, 255, .1); color: var(--ent-ink); }
+.cta-mates .mates-note { color: var(--ent-muted); }
+.cta-row { position: relative; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+/* footer */
+footer { padding: 34px 0 40px; text-align: center; }
+footer p { font-size: 13px; color: var(--muted); margin-top: 6px; }
+footer .f-main { font-size: 14px; color: var(--body-c); }
+footer .f-main a { font-weight: 600; }
+
+/* 响应式 / 960 单列卡 / 640 移动排版 */
+@media (max-width: 960px) {
+  .plans { grid-template-columns: 1fr; gap: 16px; }
+  .topnav { display: none; }
+  .price-zone { min-height: 0; }
+}
+@media (max-width: 640px) {
+  .hero { padding-top: 44px; }
+  .hero::before { display: none; }
+  .billing { width: 100%; }
+  .price .num { font-size: 38px; }
+  section.sec { padding: 52px 0 4px; }
+  .cta { padding: 44px 18px; border-radius: 16px; }
+  .cta-row .btn { width: 100%; }
+  .cmp th, .cmp td { padding: 11px 10px; font-size: 12.5px; }
+}
+
+/* 降级 / 保留最终态 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .hero-inner { opacity: 1; }
+  .plan-featured .check path { stroke-dashoffset: 0; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>地下一层</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">本周演出</a></div></header><main><section class="hero container"><p class="doc-meta">本周演出 4 场 / 场地容 260 人 / 20:30 开门 21:00 开演</p><h1>声音大一点，世界就小一点</h1><p class="sub">老防空洞改的场子，隔音是水泥的，耳朵是自己的。演出不直播，来现场。</p><div class="cta-row"><a class="btn btn-primary" href="#">本周演出</a><a class="btn" href="#">场地守则</a></div></section><section class="container"><section class="sec compare"><h2 class="section-h">和过去比一比</h2><div class="card cp card-pad"><table><thead><tr><th>环节</th><th>现在</th><th>以前</th></tr></thead><tbody><tr><td>排期</td><td class="cp-us">自动排序</td><td class="cp-old">手工表格</td></tr><tr><td>跟进</td><td class="cp-us">按画像提醒</td><td class="cp-old">凭记忆</td></tr><tr><td>复盘</td><td class="cp-us">全量留痕</td><td class="cp-old">靠会议记录</td></tr><tr><td>上手</td><td class="cp-us">半天</td><td class="cp-old">三周培训</td></tr></tbody></table></div></section></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>周四 / 后摇</h3><p>三支本地新队，最后一支压轴 40 分钟不说话。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>周六 / 硬核</h3><p>全场开火车，护场人员在两侧，眼镜收好。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>OpenMic</h3><p>每月末新人开放麦，设备免费用，冷场也是经历。</p></article></div></section></section><section class="container"><section class="sec faq"><h2 class="section-h">常见问题</h2><div class="faq"><details open><summary>多久能上线？</summary><p>标准流程一周：两天接入、三天试跑、两天交接。</p></details><details><summary>数据归谁？</summary><p>全部归你，随时可导出，我们不留副本。</p></details><details><summary>怎么开始？</summary><p>留个联系方式，我们先看流程再谈方案，不推销。</p></details></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>本周演出，现在</h2><p>本周演出 4 场 / 场地容 260 人 / 20:30 开门 21:00 开演</p><a class="btn btn-primary" href="#">本周演出</a></div></section><footer>地下一层 livehouse / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/></svg></span>同桌工作台</a>
+    <nav class="topnav" aria-label="页面导航"><a href="#plans">价格</a><a href="#compare">功能对照</a><a href="#faq">常见问题</a></nav>
+    <a class="btn btn-primary btn-sm" href="#plans">免费开始</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 1 / 定价标题 Hero -->
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <p class="eyebrow">按人数计费 / 随时增减 / 没有隐藏费用</p>
+      <h1 id="hero-title">定价像<em>任务卡</em>一样清楚</h1>
+      <p class="sub">任务、文档、白板放在同一张桌上。免费版 3 人永久免费，年付自动八折，切换周期按剩余天数折算，不用重新付费。</p>
+      <p class="hero-trust">4,200+ 小团队在用 / 平均 6 分钟上手 / 不合适随时走</p>
+      <div class="billing" role="radiogroup" aria-label="计费周期">
+        <input type="radio" name="billing" id="b-monthly" value="monthly" checked>
+        <label for="b-monthly">月付</label>
+        <input type="radio" name="billing" id="b-yearly" value="yearly">
+        <label for="b-yearly">年付<span class="save-tag">省 20%</span></label>
+        <span class="bill-thumb" aria-hidden="true"></span>
+      </div>
+      <p class="bill-note" id="bill-note" aria-live="polite">当前按月计费 / 随时切年付，每人每年立省 ¥96</p>
+    </div>
+
+    <!-- 2 / 三档价格卡 -->
+    <div class="plans" id="plans">
+      <article class="plan plan-free" aria-labelledby="p-free">
+        <span class="strip" aria-hidden="true"></span>
+        <div class="plan-head">
+          <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <h3 class="plan-name" id="p-free">免费版</h3>
+        </div>
+        <p class="plan-desc">给刚起步的三人小组</p>
+        <div class="price-zone">
+          <p class="price"><span class="cur">¥</span><span class="num" data-m="0" data-y="0">0</span><span class="unit">/ 永久免费</span></p>
+          <span class="ent-note">不需要绑卡，注册即用</span>
+        </div>
+        <ul>
+          <li>3 名成员</li>
+          <li>3 块任务板</li>
+          <li>每月 20 篇文档</li>
+          <li>1 张白板</li>
+          <li>看板与列表视图</li>
+          <li>社区支持</li>
+        </ul>
+        <div class="plan-cta">
+          <a class="btn btn-ghost btn-block" href="#">免费开始</a>
+          <p class="plan-fine">注册即用 / 不设到期日</p>
+        </div>
+      </article>
+
+      <article class="plan plan-team plan-featured" aria-labelledby="p-team">
+        <span class="strip" aria-hidden="true"></span>
+        <div class="plan-head">
+          <span class="check" role="img" aria-label="已选中"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <h3 class="plan-name" id="p-team">团队版</h3>
+          <span class="pill">多数团队的选择</span>
+        </div>
+        <p class="plan-desc">给每天一起推进的团队</p>
+        <div class="mates">
+          <span class="mate" style="--c:#E86A33"><i aria-hidden="true"></i>林</span>
+          <span class="mate" style="--c:#0E7C4A"><i aria-hidden="true"></i>陈</span>
+          <span class="mate" style="--c:#6D4BD8"><i aria-hidden="true"></i>周</span>
+          <span class="mates-note">3 位队友在这个方案</span>
+        </div>
+        <div class="price-zone">
+          <p class="price"><span class="cur">¥</span><span class="num" data-m="39" data-y="31">39</span><span class="unit">/ 人 / 月</span></p>
+          <span class="save" data-save hidden>年付立省 ¥96 / 人 / 年</span>
+        </div>
+        <ul>
+          <li>成员人数不限</li>
+          <li>任务板与文档不限</li>
+          <li>白板不限</li>
+          <li>看板 / 日历 / 甘特全视图</li>
+          <li>90 天版本历史</li>
+          <li>工单 2 小时响应</li>
+        </ul>
+        <div class="plan-cta">
+          <a class="btn btn-primary btn-block" href="#">开始 14 天团队试用</a>
+          <p class="plan-fine">无需信用卡 / 试用结束自动降回免费版</p>
+        </div>
+      </article>
+
+      <article class="plan plan-ent" aria-labelledby="p-ent">
+        <span class="strip" aria-hidden="true"></span>
+        <div class="plan-head">
+          <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+          <h3 class="plan-name" id="p-ent">企业版</h3>
+        </div>
+        <p class="plan-desc">给要管控与私有部署的组织</p>
+        <div class="price-zone">
+          <p class="price"><span class="cur">¥</span><span class="num" data-m="99" data-y="79">99</span><span class="unit">/ 人 / 月</span></p>
+          <span class="save" data-save hidden>年付立省 ¥240 / 人 / 年</span>
+          <span class="ent-note">50 人起 / 含私有部署与 99.9% SLA</span>
+        </div>
+        <ul>
+          <li>团队版全部功能</li>
+          <li>SSO 单点登录</li>
+          <li>私有部署可选</li>
+          <li>审计日志</li>
+          <li>批量导出与 API</li>
+          <li>专属客户成功</li>
+        </ul>
+        <div class="plan-cta">
+          <a class="btn btn-light btn-block" href="#">预约企业演示</a>
+          <p class="plan-fine">演示 30 分钟 / 出具定制报价</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 3 / 功能对照表 -->
+  <section class="sec container" id="compare" aria-labelledby="cmp-title">
+    <div class="sec-head">
+      <h2 id="cmp-title">功能对照 / 一张表看清</h2>
+      <p>同一张桌，三档能力。团队版一列已标出，对照着选。</p>
+    </div>
+    <div class="table-wrap">
+      <table class="cmp">
+        <caption>三个版本功能对照表</caption>
+        <thead>
+          <tr><th scope="col">功能</th><th scope="col">免费版</th><th scope="col">团队版</th><th scope="col">企业版</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>成员人数</td><td>3 人</td><td>不限</td><td>不限</td></tr>
+          <tr><td>任务板</td><td>3 块</td><td>不限</td><td>不限</td></tr>
+          <tr><td>文档</td><td>每月 20 篇</td><td>不限</td><td>不限</td></tr>
+          <tr><td>白板</td><td>1 张</td><td>不限</td><td>不限</td></tr>
+          <tr><td>视图（看板 / 日历 / 甘特）</td><td>仅看板</td><td>全部</td><td>全部</td></tr>
+          <tr><td>实时协作与光标</td><td><span class="tick" role="img" aria-label="支持"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span></td><td><span class="tick" role="img" aria-label="支持"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span></td><td><span class="tick" role="img" aria-label="支持"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span></td></tr>
+          <tr><td>访客协作</td><td>1 名访客</td><td>不限访客</td><td>不限 + 审批</td></tr>
+          <tr><td>版本历史</td><td>7 天</td><td>90 天</td><td>不限</td></tr>
+          <tr><td>权限与角色</td><td>基础</td><td>角色分组</td><td>角色 + 审计</td></tr>
+          <tr><td>第三方集成</td><td>网盘</td><td>网盘 + 日历</td><td>网关 + Webhook</td></tr>
+          <tr><td>数据导出</td><td>手动</td><td>批量</td><td>批量 + API</td></tr>
+          <tr><td>支持响应</td><td>社区</td><td>工单 2 小时</td><td>专属客户成功</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">全部版本均含加密传输 / 数据境内存储 / 每日备份</p>
+  </section>
+
+  <!-- 4 / FAQ -->
+  <section class="sec container" id="faq" aria-labelledby="faq-title">
+    <div class="sec-head">
+      <h2 id="faq-title">常见问题 / 先问清楚再决定</h2>
+      <p>计费、数据、迁移，最容易犹豫的几件事一次答完。</p>
+    </div>
+    <div class="faq">
+      <details class="faq-item" open>
+        <summary>免费版会一直免费吗？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>会。3 人以内不收费、不限时长，也不弹升级提醒。数据随时可以导出为标准格式，不锁表。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>从免费版升级，原来的数据怎么办？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>原样保留。升级后任务板、文档、白板的上限立即放开，内容不需要迁移，成员无感切换。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>年付中途想改回月付怎么办？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>在账单页一键切换。未使用的月份按剩余天数折成余额，抵扣后续账单，不收手续费。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>人数变少可以降级吗？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>可以。降级后超出的板与文档转为只读保留 90 天，期间随时导出，或再升级原样找回。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>和分开买三款工具比，贵在哪、省在哪？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>团队版年付折合 ¥31 一人，任务、文档、白板全部包含。按三款单品合计约 ¥87 一人算，十人团队一年省 ¥6,720，还不算来回切换的时间。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>14 天试用结束会自动扣费吗？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>不会。试用不需要信用卡，到期自动降回免费版，期间创建的内容全部保留，不弹挽留弹窗。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>可以开发票吗？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>可以。增值税普通发票与专用发票都能开，付款后在账单页提交开票信息，3 个工作日内开出。</p></div>
+      </details>
+      <details class="faq-item">
+        <summary>数据放在哪里，安全吗？<span class="plus" aria-hidden="true"></span></summary>
+        <div class="faq-body"><p>全部数据存于境内机房，传输 TLS 1.3、存储 AES-256，每日备份且可申请恢复演练。企业版支持私有部署到你的服务器。</p></div>
+      </details>
+    </div>
+
+    <!-- 5 / 最终 CTA -->
+    <div class="cta">
+      <h2>把三件事放回一张桌</h2>
+      <p>免费版 3 人永久免费 / 团队版 14 天全功能试用 / 企业版一对一演示</p>
+      <div class="cta-mates" aria-hidden="true">
+        <span class="mate" style="--c:#E86A33"><i></i>林</span>
+        <span class="mate" style="--c:#0E7C4A"><i></i>陈</span>
+        <span class="mate" style="--c:#6D4BD8"><i></i>周</span>
+        <span class="mates-note">正在编辑《Q4 上线计划》</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#">免费开始</a>
+        <a class="btn btn-light" href="#">预约企业演示</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p class="f-main">UI 设计提示词库 / 落地结构 No.8 / <a href="../style-catalog.html">返回风格目录</a></p>
+    <p>样张仅作结构演示 / 同桌为虚构产品 / 价格与数据均为演示文案</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* 月付 / 年付切换：价格数字 + 立省标签 + 说明行 */
+  var NOTE = {
+    monthly: "当前按月计费 / 随时切年付，每人每年立省 ¥96",
+    yearly: "当前按年计费 / 今天生效，人数变动按比例折算"
+  };
+  var nums = document.querySelectorAll(".price .num");
+  var saves = document.querySelectorAll("[data-save]");
+  var note = document.getElementById("bill-note");
+  document.querySelectorAll(".billing input").forEach(function (r) {
+    r.addEventListener("change", function () {
+      var y = r.value === "yearly";
+      nums.forEach(function (n) {
+        n.textContent = y ? n.dataset.y : n.dataset.m;
+        if (!reduce) { n.classList.remove("swap"); void n.offsetWidth; n.classList.add("swap"); }
+      });
+      saves.forEach(function (s) { s.hidden = !y; });
+      note.textContent = y ? NOTE.yearly : NOTE.monthly;
+    });
+  });
+
+  /* FAQ 开合高度过渡，reduced-motion 直接原生切换 */
+  document.querySelectorAll(".faq-item").forEach(function (item) {
+    var body = item.querySelector(".faq-body");
+    item.querySelector("summary").addEventListener("click", function (e) {
+      if (reduce) return;
+      e.preventDefault();
+      if (item.open) {
+        body.style.height = body.scrollHeight + "px";
+        requestAnimationFrame(function () { body.style.height = "0px"; });
+        body.addEventListener("transitionend", function () {
+          item.open = false;
+          body.style.height = "";
+        }, { once: true });
+      } else {
+        item.open = true;
+        body.style.height = "0px";
+        requestAnimationFrame(function () { body.style.height = body.scrollHeight + "px"; });
+        body.addEventListener("transitionend", function () { body.style.height = ""; }, { once: true });
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
