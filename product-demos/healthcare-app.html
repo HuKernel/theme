@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Healthcare App / UI 设计提示词库</title>
+<meta name="description" content="Healthcare App 产品模板演示页：慢性病随访 app 随诊通，冷静蓝绿医疗色板、大字号中老年可达性、血压血糖记录、复诊提醒与医生留言的手机框展示。">
+<style>
+/* token 计划: Primary #0891B2 / On-Primary #000 / Secondary #22D3EE / Accent #059669 / BG #ECFEFF / FG #164E63 / Card #FFF / Border #A5F3FC / Muted #E8F1F6 / Ring #0891B2, 文本安全加深色 #0E7490 与 #047857 保证对比度不低于 4.5:1 */
+:root {
+  --primary: #0891B2;
+  --primary-deep: #0E7490;
+  --on-primary: #000000;
+  --secondary: #22D3EE;
+  --accent: #059669;
+  --accent-deep: #047857;
+  --bg: #ECFEFF;
+  --fg: #164E63;
+  --fg-soft: #43606E;
+  --card: #FFFFFF;
+  --border: #A5F3FC;
+  --muted: #E8F1F6;
+  --ring: #0891B2;
+  --ok-bg: #D1FAE5;
+  --ok-fg: #065F46;
+  --warn-bg: #FEF3C7;
+  --warn-fg: #92400E;
+  --shadow-d: rgba(22, 78, 99, 0.16);
+  --shadow-l: rgba(255, 255, 255, 0.95);
+  --r-lg: 22px;
+  --r-md: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; min-height: 100vh; }
+.wrap { width: min(1200px, 100% - 48px); margin-inline: auto; }
+a { color: var(--primary-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #155E75; }
+a:focus-visible, button:focus-visible, textarea:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 8px; }
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 8px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+
+/* 顶部导航 */
+.topbar { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.7); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+.crumb { font-size: 16px; color: var(--fg-soft); }
+.topnav { display: flex; gap: 22px; font-size: 16px; flex-wrap: wrap; }
+.topnav a { text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+
+/* 首屏与社会证明数字 */
+.hero { position: relative; padding: 64px 0 44px; text-align: center; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -40% -20% auto; height: 140%; background: radial-gradient(ellipse 420px 300px at 22% 30%, rgba(34, 211, 238, 0.22), transparent 70%), radial-gradient(ellipse 460px 320px at 78% 24%, rgba(5, 150, 105, 0.12), transparent 70%); pointer-events: none; }
+.hero-inner { position: relative; }
+.hero-kicker { font-size: 17px; color: var(--fg-soft); margin-bottom: 10px; }
+.hero h1 { font-size: clamp(44px, 6vw, 64px); letter-spacing: 0.06em; line-height: 1.15; }
+.hero-sub { max-width: 620px; margin: 14px auto 30px; font-size: 19px; color: var(--fg-soft); }
+.stats { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+.stat { background: linear-gradient(145deg, #F7FDFF, #E9FAFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 18px 26px; min-width: 168px; display: flex; flex-direction: column; gap: 2px; }
+.stat strong { font-size: 30px; color: var(--primary-deep); line-height: 1.2; }
+.stat span { font-size: 16px; color: var(--fg-soft); }
+.hero-note { margin-top: 16px; font-size: 16px; color: var(--fg-soft); }
+
+/* 舞台: 两侧说明 + 居中手机 */
+.stage { padding: 30px 0 20px; }
+.stage-head { text-align: center; margin-bottom: 34px; }
+.stage-head h2 { font-size: clamp(26px, 3.4vw, 34px); }
+.stage-head p { color: var(--fg-soft); margin-top: 8px; font-size: 17px; }
+.stage-grid { display: grid; grid-template-columns: minmax(0, 1fr) 396px minmax(0, 1fr); gap: 34px; align-items: stretch; }
+.side { display: flex; flex-direction: column; gap: 22px; }
+.fcard { flex: 1; background: linear-gradient(145deg, #F7FDFF, #E9FAFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 22px 24px; display: flex; gap: 16px; align-items: flex-start; }
+.side-right .fcard { flex-direction: row-reverse; text-align: right; }
+.ficon { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(145deg, #FFFFFF, #E8F8FC); border: 1px solid var(--border); box-shadow: inset 2px 2px 5px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); display: grid; place-items: center; color: var(--primary-deep); }
+.fcard h3 { font-size: 19px; margin-bottom: 6px; }
+.fcard p { font-size: 16px; color: var(--fg-soft); }
+
+/* 手机外壳 */
+.phone-col { display: flex; justify-content: center; }
+.phone { width: 396px; max-width: 100%; border-radius: 48px; padding: 14px; background: linear-gradient(160deg, #1B6E86, #0F5568); box-shadow: 0 28px 56px rgba(22, 78, 99, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+.screen { border-radius: 34px; background: #F6FDFF; border: 1px solid var(--border); overflow: hidden; }
+.sbar { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 12px 24px 2px; font-size: 16px; font-weight: 600; }
+.sbar-icons { display: flex; gap: 6px; align-items: center; color: var(--fg); }
+.notch { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); width: 118px; height: 24px; border-radius: 0 0 14px 14px; background: #1B6E86; }
+.screen-body { padding: 10px 16px 16px; display: flex; flex-direction: column; gap: 14px; }
+.appbar { display: flex; align-items: center; gap: 12px; padding-top: 6px; }
+.avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-weight: 700; font-size: 18px; }
+.appbar h3 { font-size: 19px; line-height: 1.3; }
+.appbar p { font-size: 16px; color: var(--fg-soft); }
+
+/* 通用拟物卡片 */
+.neu { background: linear-gradient(145deg, #F7FDFF, #E9FAFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 16px 18px; }
+
+/* 今日概览 */
+.ov-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ov-head h4 { font-size: 18px; }
+.seg { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: #E2F4F8; box-shadow: inset 2px 2px 5px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); }
+.seg-btn { min-height: 44px; padding: 8px 18px; border: 1px solid transparent; border-radius: 999px; background: transparent; font-size: 16px; font-weight: 600; color: var(--fg-soft); cursor: pointer; transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease; }
+.seg-btn.active { background: #FFFFFF; color: var(--primary-deep); border-color: var(--border); box-shadow: 2px 2px 6px var(--shadow-d), -2px -2px 4px var(--shadow-l); }
+.ov-value { display: flex; align-items: baseline; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.ov-value .num { font-size: 46px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+.ov-unit { font-size: 16px; color: var(--fg-soft); font-weight: 600; }
+.badge { font-size: 16px; font-weight: 700; padding: 4px 12px; border-radius: 999px; align-self: center; }
+.badge-ok { background: var(--ok-bg); color: var(--ok-fg); }
+.badge-warn { background: var(--warn-bg); color: var(--warn-fg); }
+.ov-hint { font-size: 16px; color: var(--fg-soft); margin-top: 2px; }
+.chart { width: 100%; height: auto; margin-top: 10px; }
+.chart .line-bp { fill: none; stroke: var(--primary-deep); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.chart .line-glu { fill: none; stroke: var(--accent-deep); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.chart .area-bp { fill: rgba(14, 116, 144, 0.10); }
+.chart .area-glu { fill: rgba(4, 120, 87, 0.10); }
+.chart .dot-bp { fill: #FFFFFF; stroke: var(--primary-deep); stroke-width: 2.5; }
+.chart .dot-glu { fill: #FFFFFF; stroke: var(--accent-deep); stroke-width: 2.5; }
+.chart .goal { stroke: #94A3B8; stroke-width: 1.5; stroke-dasharray: 5 5; }
+.axis { display: flex; justify-content: space-between; font-size: 16px; color: var(--fg-soft); padding: 2px 6px 0; }
+
+/* 快捷记录 */
+.quick { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.qbtn { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 58px; border-radius: var(--r-md); border: 1px solid var(--border); background: linear-gradient(145deg, #FFFFFF, #E6F9FD); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); font-size: 17px; font-weight: 700; color: var(--fg); cursor: pointer; transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.qbtn:hover { transform: translateY(-2px); box-shadow: 7px 7px 16px var(--shadow-d), -7px -7px 14px var(--shadow-l); }
+.qbtn.qbtn-accent { background: var(--primary); color: var(--on-primary); border-color: #077A96; }
+.qbtn.qbtn-accent:hover { background: #0AA0C4; }
+
+/* 提醒列表 */
+.list-head { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; padding: 2px 2px 0; color: var(--fg); }
+.rlist { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.rmd { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; box-shadow: 4px 4px 10px var(--shadow-d), -4px -4px 8px var(--shadow-l); }
+.ricon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #E4F7FB; color: var(--primary-deep); }
+.rmd-texts { min-width: 0; }
+.rmd-texts h4 { font-size: 17px; line-height: 1.35; }
+.rmd-texts p { font-size: 16px; color: var(--fg-soft); }
+.rmd-btn { min-width: 72px; min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1px solid #077A96; background: var(--primary); color: var(--on-primary); font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.18s ease, color 0.18s ease; }
+.rmd-btn:hover { background: #0AA0C4; }
+.rmd-btn.done { background: var(--ok-bg); color: var(--ok-fg); border-color: #A7F3D0; }
+
+/* 医生留言 */
+.msg-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.mavatar { width: 48px; height: 48px; border-radius: 50%; background: var(--ok-bg); color: var(--ok-fg); display: grid; place-items: center; font-weight: 700; font-size: 18px; }
+.msg-head h4 { font-size: 17px; line-height: 1.3; }
+.msg-head p { font-size: 16px; color: var(--fg-soft); }
+.msg-body { font-size: 16px; }
+.msg-actions { margin-top: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
+.reply-btn { min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--border); background: #FFFFFF; color: var(--primary-deep); font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 3px 3px 8px var(--shadow-d), -3px -3px 6px var(--shadow-l); transition: transform 0.18s ease; }
+.reply-btn:hover { transform: translateY(-1px); }
+.composer { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.composer label { font-size: 16px; font-weight: 600; }
+.composer textarea { width: 100%; min-height: 84px; border-radius: var(--r-md); border: 1px solid var(--border); background: #FFFFFF; box-shadow: inset 2px 2px 6px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); padding: 12px 14px; font: inherit; font-size: 16px; color: var(--fg); resize: vertical; }
+.composer-row { display: flex; gap: 12px; }
+.send-btn { min-height: 44px; padding: 8px 20px; border-radius: 999px; border: 1px solid #077A96; background: var(--primary); color: var(--on-primary); font-size: 16px; font-weight: 700; cursor: pointer; }
+.send-btn:hover { background: #0AA0C4; }
+.cancel-btn { min-height: 44px; padding: 8px 20px; border-radius: 999px; border: 1px solid var(--border); background: #FFFFFF; color: var(--fg-soft); font-size: 16px; font-weight: 600; cursor: pointer; }
+
+/* 底部标签栏 */
+.tabbar { display: grid; grid-template-columns: repeat(4, 1fr); background: #FFFFFF; border-top: 1px solid var(--border); padding: 6px 6px 10px; }
+.tab { min-height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: none; border: none; border-radius: 12px; font-size: 16px; color: #5B7280; cursor: pointer; }
+.tab.active { color: var(--primary-deep); font-weight: 700; }
+.tab .ticon { display: block; }
+
+/* 社会证明区 */
+.proof { padding: 54px 0 10px; }
+.proof h2, .privacy h2 { text-align: center; font-size: clamp(26px, 3.4vw, 34px); }
+.sec-sub { text-align: center; color: var(--fg-soft); margin: 8px 0 28px; font-size: 17px; }
+.ratings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 28px; }
+.ratings p { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: 4px 4px 10px var(--shadow-d), -4px -4px 8px var(--shadow-l); padding: 16px 20px; text-align: center; font-size: 16px; color: var(--fg-soft); }
+.ratings strong { display: block; font-size: 28px; color: var(--primary-deep); line-height: 1.25; }
+.pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.pcard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.pcard svg { color: var(--secondary); }
+.pcard blockquote { font-size: 17px; line-height: 1.7; }
+.pcard footer { margin-top: auto; font-size: 16px; color: var(--fg-soft); }
+.pcard footer strong { display: block; font-size: 17px; color: var(--fg); }
+.rnote { text-align: center; margin-top: 20px; font-size: 16px; color: var(--fg-soft); }
+
+/* 隐私承诺 */
+.privacy { padding: 44px 0 54px; }
+.pv-row { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.pv-item { display: flex; align-items: center; gap: 12px; background: linear-gradient(145deg, #F7FDFF, #E9FAFE); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: 4px 4px 10px var(--shadow-d), -4px -4px 8px var(--shadow-l); padding: 14px 18px; font-size: 16px; }
+.pv-item svg { flex: 0 0 auto; color: var(--accent-deep); }
+
+/* 页脚 */
+.foot { border-top: 1px solid var(--border); background: #E0F8FC; }
+.foot .wrap { padding: 26px 0; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+.foot-crumb { font-size: 16px; font-weight: 600; }
+.foot-note { font-size: 16px; color: var(--fg-soft); }
+
+/* 亮相动效: 仅首屏一次 */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { animation: none; }
+  * { transition: none !important; }
+}
+
+/* 响应式: 1024 平板 */
+@media (max-width: 1024px) {
+  .stage-grid { grid-template-columns: 1fr; }
+  .phone-col { order: -1; }
+  .side { display: grid; grid-template-columns: repeat(2, 1fr); align-items: stretch; }
+  .side-right .fcard { flex-direction: row; text-align: left; }
+}
+/* 响应式: 480 以内手机 */
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  .side { grid-template-columns: 1fr; }
+  .ratings, .pgrid, .pv-row { grid-template-columns: 1fr; }
+  .hero { padding-top: 44px; }
+  .phone { padding: 10px; border-radius: 40px; }
+  .screen { border-radius: 30px; }
+  .quick { gap: 10px; }
+  .rmd { grid-template-columns: 48px minmax(0, 1fr); }
+  .rmd-btn { grid-column: 2; justify-self: start; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <p class="crumb">产品模板 / Healthcare App</p>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#features">功能说明</a>
+      <a href="#proof">用户评价</a>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero reveal">
+    <div class="hero-inner">
+      <p class="hero-kicker">慢性病随访 app / 随诊通</p>
+      <h1>把每一次测量，都变成医生的依据</h1>
+      <p class="hero-sub">血压血糖随手记，复诊不再忘，医生的叮嘱随时看得到。大字号、高对比、状态语言直白，专为长期随访的中老年患者设计。</p>
+      <div class="stats">
+        <p class="stat"><strong>32 家</strong><span>合作医院随访门诊</span></p>
+        <p class="stat"><strong>41 万</strong><span>长期随访患者</span></p>
+        <p class="stat"><strong>87%</strong><span>提醒后的按时复诊率</span></p>
+      </div>
+      <p class="hero-note">以上数字为演示样例，用于展示版式与文案密度。</p>
+    </div>
+  </section>
+
+  <section class="stage" id="features">
+    <div class="wrap">
+      <div class="stage-head">
+        <h2>一部手机，装下整个随访流程</h2>
+        <p>中间为 app 界面演示，两侧是核心功能说明。</p>
+      </div>
+      <div class="stage-grid">
+
+        <div class="side side-left">
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            </span>
+            <div>
+              <h3>血压血糖记录</h3>
+              <p>早晚各一次，30 秒记完一组数据。数值超出安全范围时，用平静的颜色和直白的状态词提示，不制造恐慌。</p>
+            </div>
+          </article>
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 16 8 10 13 14 21 5"/><polyline points="15 5 21 5 21 11"/></svg>
+            </span>
+            <div>
+              <h3>七天趋势曲线</h3>
+              <p>自动汇总成趋势图，复诊时直接给医生看最近的变化，不用再翻一沓纸质记录本。</p>
+            </div>
+          </article>
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><polyline points="22 4 12 14.0 9 11"/></svg>
+            </span>
+            <div>
+              <h3>清晰的状态语言</h3>
+              <p>平稳、偏高、偏低，直接标在每条记录上。状态词加测量时间一并呈现，家人一眼看懂。</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="phone-col">
+          <div class="phone">
+            <div class="screen">
+              <div class="sbar">
+                <span>9:41</span>
+                <span class="notch" aria-hidden="true"></span>
+                <span class="sbar-icons" aria-hidden="true">
+                  <svg width="17" height="14" viewBox="0 0 24 20" fill="currentColor"><rect x="1" y="12" width="4" height="7" rx="1"/><rect x="7" y="8" width="4" height="11" rx="1"/><rect x="13" y="4" width="4" height="15" rx="1"/><rect x="19" y="0" width="4" height="19" rx="1"/></svg>
+                  <svg width="18" height="14" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 6.5a15 15 0 0 1 20 0"/><path d="M5.5 10.5a10 10 0 0 1 13 0"/><path d="M9 14.2a5 5 0 0 1 6 0"/><circle cx="12" cy="16.8" r="1" fill="currentColor" stroke="none"/></svg>
+                  <svg width="24" height="14" viewBox="0 0 28 14" fill="none"><rect x="1" y="1" width="22" height="12" rx="3" stroke="currentColor" stroke-width="2"/><rect x="3.5" y="3.5" width="14" height="7" rx="1.5" fill="currentColor"/><path d="M25 5v4a2 2 0 0 0 0-4z" fill="currentColor"/></svg>
+                </span>
+              </div>
+
+              <div class="screen-body">
+                <div class="appbar">
+                  <span class="avatar" aria-hidden="true">王</span>
+                  <div>
+                    <h3>早上好，王建国</h3>
+                    <p>10月9日 星期五 / 高血压随访第 3 年</p>
+                  </div>
+                </div>
+
+                <section class="neu overview" aria-live="polite">
+                  <div class="ov-head">
+                    <h4 id="ovTitle">今日血压</h4>
+                    <div class="seg" role="group" aria-label="切换血压或血糖">
+                      <button type="button" class="seg-btn active" data-metric="bp" aria-pressed="true">血压</button>
+                      <button type="button" class="seg-btn" data-metric="glu" aria-pressed="false">血糖</button>
+                    </div>
+                  </div>
+                  <p class="ov-value">
+                    <span class="num" id="mValue">128/82</span>
+                    <span class="ov-unit" id="mUnit">mmHg</span>
+                    <span class="badge badge-ok" id="mBadge">平稳</span>
+                  </p>
+                  <p class="ov-hint" id="mHint">在目标范围内 / 今早 6:52 测量</p>
+                  <svg class="chart" id="trendChart" viewBox="0 0 320 100" role="img" aria-label="最近七天血压趋势折线图，整体平稳">
+                    <line class="goal" x1="12" y1="36" x2="307" y2="36" aria-hidden="true"></line>
+                    <g id="bpData">
+                      <path class="area-bp" d="M12,56 L61,26 111,86 160,66 209,76 258,46 307,76 L307,92 12,92 Z"></path>
+                      <polyline class="line-bp" points="12,56 61,26 111,86 160,66 209,76 258,46 307,76"></polyline>
+                      <circle class="dot-bp" cx="307" cy="76" r="4"></circle>
+                    </g>
+                    <g id="gluData" hidden>
+                      <path class="area-glu" d="M12,70 L61,37 111,86 160,59 209,26 258,64 307,48 L307,92 12,92 Z"></path>
+                      <polyline class="line-glu" points="12,70 61,37 111,86 160,59 209,26 258,64 307,48"></polyline>
+                      <circle class="dot-glu" cx="307" cy="48" r="4"></circle>
+                    </g>
+                  </svg>
+                  <div class="axis" aria-hidden="true">
+                    <span>周六</span><span>周日</span><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>今天</span>
+                  </div>
+                </section>
+
+                <div class="quick">
+                  <button type="button" class="qbtn qbtn-accent">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    记血压
+                  </button>
+                  <button type="button" class="qbtn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8s6.3 6.9 6.3 11.2a6.3 6.3 0 0 1-12.6 0C5.7 9.7 12 2.8 12 2.8z"/></svg>
+                    记血糖
+                  </button>
+                </div>
+
+                <section aria-label="复诊与用药提醒">
+                  <div class="list-head">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+                    最近的提醒
+                  </div>
+                  <div class="rlist">
+                    <article class="rmd">
+                      <span class="ricon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      </span>
+                      <div class="rmd-texts">
+                        <h4>内分泌科复诊</h4>
+                        <p>10月16日 周五 上午 / 市人民医院 3 楼诊室 12</p>
+                      </div>
+                      <button type="button" class="rmd-btn">确认</button>
+                    </article>
+                    <article class="rmd">
+                      <span class="ricon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="8" rx="4" transform="rotate(-45 12 12)"/><line x1="8.6" y1="8.6" x2="15.4" y2="15.4"/></svg>
+                      </span>
+                      <div class="rmd-texts">
+                        <h4>降糖药续方</h4>
+                        <p>二甲双胍 0.5g / 还剩 6 天量 / 10月12日前办理</p>
+                      </div>
+                      <button type="button" class="rmd-btn">确认</button>
+                    </article>
+                    <article class="rmd">
+                      <span class="ricon" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8s6.3 6.9 6.3 11.2a6.3 6.3 0 0 1-12.6 0C5.7 9.7 12 2.8 12 2.8z"/></svg>
+                      </span>
+                      <div class="rmd-texts">
+                        <h4>空腹血糖测量</h4>
+                        <p>每天 6:30 提醒 / 测完自动同步给李医生</p>
+                      </div>
+                      <button type="button" class="rmd-btn done">已确认</button>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="neu msg" aria-label="医生留言">
+                  <div class="msg-head">
+                    <span class="mavatar" aria-hidden="true">李</span>
+                    <div>
+                      <h4>李文澜 医生</h4>
+                      <p>内分泌科 / 今天 09:12</p>
+                    </div>
+                  </div>
+                  <p class="msg-body">这两周血压记录得很规律。晨药维持半片，晚药改到饭后半小时服用。复诊前把趋势图带上，我们重点看早上的波动。</p>
+                  <div class="msg-actions">
+                    <button type="button" class="reply-btn" id="replyBtn" aria-expanded="false" aria-controls="composer">查看并回复</button>
+                  </div>
+                  <div class="composer" id="composer" hidden>
+                    <label for="replyText">回复李医生</label>
+                    <textarea id="replyText" placeholder="例如：晚药这周有两次忘了饭后吃，想问问怎么补救。"></textarea>
+                    <div class="composer-row">
+                      <button type="button" class="send-btn" id="sendBtn">发送留言</button>
+                      <button type="button" class="cancel-btn" id="cancelBtn">取消</button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <nav class="tabbar" aria-label="app 主导航">
+                <button type="button" class="tab active">
+                  <span class="ticon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></span>
+                  今日
+                </button>
+                <button type="button" class="tab">
+                  <span class="ticon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+                  记录
+                </button>
+                <button type="button" class="tab">
+                  <span class="ticon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+                  提醒
+                </button>
+                <button type="button" class="tab">
+                  <span class="ticon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                  我的
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div class="side side-right">
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            </span>
+            <div>
+              <h3>复诊提醒</h3>
+              <p>检查、取药、复诊，提前三天和当天各提醒一次，可同步到子女的手机，双保险。</p>
+            </div>
+          </article>
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </span>
+            <div>
+              <h3>医生留言</h3>
+              <p>用药调整和注意事项以留言送达，已读自动回执。有疑问直接回复，不必挤电话线。</p>
+            </div>
+          </article>
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <div>
+              <h3>家人代管</h3>
+              <p>绑定家人后，子女可以代为记录、查看趋势。长辈自己忘了记，也不怕数据断档。</p>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="proof" id="proof">
+    <div class="wrap">
+      <h2>医生和患者怎么说</h2>
+      <p class="sec-sub">随访这件事，最难的是坚持。他们坚持下来了。</p>
+      <div class="ratings">
+        <p><strong>4.8 / 5</strong>应用商店健康类评分</p>
+        <p><strong>92%</strong>患者坚持记录超过 90 天</p>
+        <p><strong>96%</strong>患者愿意推荐给病友</p>
+      </div>
+      <div class="pgrid">
+        <article class="pcard">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 7H6a4 4 0 0 0-4 4v7h8V7zm12 0h-4a4 4 0 0 0-4 4v7h8V7z" opacity="0.35"/><path d="M9.5 5C7 5 5 7.2 5 9.8c0 1.5.6 2.7 1.6 3.7V19c0 .6.4 1 1 1h3.8c.6 0 1-.4 1-1v-5.5c1-.9 1.6-2.2 1.6-3.7C14 7.2 12 5 9.5 5z"/></svg>
+          <blockquote>以前门诊一半时间在问“上次血糖多少”。现在患者把趋势图带过来，我们可以直接谈方案，问诊质量完全不一样了。</blockquote>
+          <footer><strong>周敏</strong>内分泌科副主任医师 / 市人民医院</footer>
+        </article>
+        <article class="pcard">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 7H6a4 4 0 0 0-4 4v7h8V7zm12 0h-4a4 4 0 0 0-4 4v7h8V7z" opacity="0.35"/><path d="M9.5 5C7 5 5 7.2 5 9.8c0 1.5.6 2.7 1.6 3.7V19c0 .6.4 1 1 1h3.8c.6 0 1-.4 1-1v-5.5c1-.9 1.6-2.2 1.6-3.7C14 7.2 12 5 9.5 5z"/></svg>
+          <blockquote>药吃完了它会提醒，复诊前三天我女儿也会收到。字大，我不用戴老花镜也看得清，自己就能操作。</blockquote>
+          <footer><strong>陈国栋</strong>高血压患者 68 岁 / 随访第 3 年</footer>
+        </article>
+        <article class="pcard">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 7H6a4 4 0 0 0-4 4v7h8V7zm12 0h-4a4 4 0 0 0-4 4v7h8V7z" opacity="0.35"/><path d="M9.5 5C7 5 5 7.2 5 9.8c0 1.5.6 2.7 1.6 3.7V19c0 .6.4 1 1 1h3.8c.6 0 1-.4 1-1v-5.5c1-.9 1.6-2.2 1.6-3.7C14 7.2 12 5 9.5 5z"/></svg>
+          <blockquote>我爸的血压我现在每周都能看到。有一次夜间偏高，他的主治医生比我先发来了留言，心里踏实很多。</blockquote>
+          <footer><strong>吴倩</strong>患者家属 / 代管账号使用者</footer>
+        </article>
+      </div>
+      <p class="rnote">评分与评价均为演示样例，用于展示社会证明版式。</p>
+    </div>
+  </section>
+
+  <section class="privacy">
+    <div class="wrap">
+      <h2>健康数据，只属于你</h2>
+      <div class="pv-row">
+        <p class="pv-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          全程加密存储，传输不留副本
+        </p>
+        <p class="pv-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          未经授权，不向任何第三方提供
+        </p>
+        <p class="pv-item">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          随时导出全部记录，或一键删除
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-crumb">UI 设计提示词库 / 产品模板 / Healthcare App</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p class="foot-note">随诊通为虚构产品，本页内容与数据均为设计演示样例。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var metrics = {
+    bp: {
+      title: '今日血压',
+      value: '128/82',
+      unit: 'mmHg',
+      badge: '平稳',
+      badgeCls: 'badge badge-ok',
+      hint: '在目标范围内 / 今早 6:52 测量',
+      chartLabel: '最近七天血压趋势折线图，整体平稳'
+    },
+    glu: {
+      title: '今日血糖',
+      value: '7.2',
+      unit: 'mmol/L',
+      badge: '偏高',
+      badgeCls: 'badge badge-warn',
+      hint: '早餐后 2 小时 / 昨晚 19:40 测量',
+      chartLabel: '最近七天血糖趋势折线图，早餐后偶有偏高'
+    }
+  };
+
+  var chart = document.getElementById('trendChart');
+  var groups = { bp: document.getElementById('bpData'), glu: document.getElementById('gluData') };
+  var segBtns = document.querySelectorAll('.seg-btn');
+
+  segBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var key = btn.dataset.metric;
+      var m = metrics[key];
+      document.getElementById('ovTitle').textContent = m.title;
+      document.getElementById('mValue').textContent = m.value;
+      document.getElementById('mUnit').textContent = m.unit;
+      var badge = document.getElementById('mBadge');
+      badge.textContent = m.badge;
+      badge.className = m.badgeCls;
+      document.getElementById('mHint').textContent = m.hint;
+      chart.setAttribute('aria-label', m.chartLabel);
+      Object.keys(groups).forEach(function (k) {
+        groups[k].hidden = k !== key;
+      });
+      segBtns.forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    });
+  });
+
+  document.querySelectorAll('.rmd-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var done = btn.classList.toggle('done');
+      btn.textContent = done ? '已确认' : '确认';
+    });
+  });
+
+  var replyBtn = document.getElementById('replyBtn');
+  var composer = document.getElementById('composer');
+  var sendBtn = document.getElementById('sendBtn');
+  var cancelBtn = document.getElementById('cancelBtn');
+
+  function setComposer(open) {
+    composer.hidden = !open;
+    replyBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) {
+      document.getElementById('replyText').focus();
+    }
+  }
+
+  replyBtn.addEventListener('click', function () {
+    setComposer(composer.hidden);
+  });
+  cancelBtn.addEventListener('click', function () {
+    setComposer(false);
+    replyBtn.focus();
+  });
+  sendBtn.addEventListener('click', function () {
+    composer.hidden = true;
+    replyBtn.textContent = '已回复';
+    replyBtn.setAttribute('aria-expanded', 'false');
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !composer.hidden) {
+      setComposer(false);
+    }
+  });
+})();
+</script>
+</body>
+</html>

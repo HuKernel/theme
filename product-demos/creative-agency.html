@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Creative Agency / UI 设计提示词库</title>
+<meta name="description" content="两把椅子品牌设计事务所 / 案例精选、方法论、团队与合作流程 / 产品模板演示页">
+<style>
+/* tokens: bg #FDF2F8 / fg #831843 / primary #EC4899 / secondary #F472B6 / accent #0891B2 / card #FFFFFF / border #FBCFE8 / muted #F1EEF5 / link #BE185D 与 accent-deep #0E7490 为对比度达标 4.5:1 的同相加深变体 */
+:root {
+  --bg: #FDF2F8;
+  --fg: #831843;
+  --primary: #EC4899;
+  --secondary: #F472B6;
+  --accent: #0891B2;
+  --accent-deep: #0E7490;
+  --card: #FFFFFF;
+  --border: #FBCFE8;
+  --muted: #F1EEF5;
+  --ring: #EC4899;
+  --link: #BE185D;
+  --ink-soft: rgba(131, 24, 67, 0.8);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+body {
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.7;
+  font-size: 16px;
+}
+::selection {
+  background: var(--primary);
+  color: #000000;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: var(--link);
+}
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+}
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -64px;
+  z-index: 60;
+  background: var(--fg);
+  color: #FFFFFF;
+  padding: 10px 18px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip:focus { top: 12px; }
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 4vw, 48px);
+  padding-right: clamp(20px, 4vw, 48px);
+}
+.serif {
+  font-family: Georgia, "Songti SC", "SimSun", serif;
+}
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--card);
+  border-bottom: 3px solid var(--fg);
+}
+.head-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--fg);
+  text-decoration: none;
+}
+.b-mark { width: 16px; height: 16px; background: var(--primary); border: 3px solid var(--fg); }
+.b-en { font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+.site-nav a {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  padding: 4px 6px;
+}
+.site-nav a:hover {
+  background: var(--fg);
+  color: #FFFFFF;
+}
+.hero {
+  padding-top: clamp(56px, 9vw, 112px);
+}
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.hero-kicker::before { content: ""; width: 12px; height: 12px; background: var(--primary); border: 2px solid var(--fg); }
+.hero-title {
+  margin: 20px 0 28px;
+  font-size: clamp(60px, 12vw, 160px);
+  font-weight: 900;
+  line-height: 0.98;
+  color: var(--fg);
+  text-shadow: 0.045em 0.045em 0 var(--secondary);
+}
+.hero-title span { display: block; }
+.hero-title .l2 { padding-left: 0.6em; }
+.hero-lede {
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.9;
+  color: var(--fg);
+  max-width: 40em;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 36px;
+  margin-bottom: clamp(48px, 7vw, 80px);
+}
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--fg);
+  background: var(--card);
+  border: 3px solid var(--fg);
+  box-shadow: 6px 6px 0 var(--fg);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 9px 0 var(--secondary);
+}
+.btn-primary { background: var(--primary); color: #000000; }
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  border-top: 3px solid var(--fg);
+  padding-top: 26px;
+  padding-bottom: clamp(48px, 7vw, 72px);
+}
+.hm b {
+  display: block;
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 900;
+  color: var(--fg);
+  line-height: 1.2;
+}
+.hm span { font-size: 13px; color: var(--ink-soft); }
+section {
+  padding-top: clamp(52px, 7vw, 92px);
+  padding-bottom: clamp(52px, 7vw, 92px);
+}
+.works { padding-top: 0; }
+.sec-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: end;
+  gap: 8px 20px;
+  border-top: 3px solid var(--fg);
+  padding-top: 22px;
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+.sh-no { font-size: clamp(28px, 3vw, 44px); font-weight: 900; color: var(--primary); line-height: 1; }
+.sec-head h2 {
+  font-size: clamp(34px, 5vw, 60px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--fg);
+}
+.sh-note {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: right;
+  padding-bottom: 8px;
+}
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  align-items: stretch;
+}
+.case {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 3px solid var(--fg);
+  box-shadow: 10px 10px 0 var(--primary);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.case:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 16px 16px 0 var(--secondary);
+}
+.case-art {
+  border-bottom: 3px solid var(--fg);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.case-art svg {
+  width: 100%;
+  height: 100%;
+}
+.case-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  padding: 22px 24px 26px;
+}
+.case-no { font-size: 40px; font-weight: 900; color: var(--primary); line-height: 1; }
+.case h3 {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--fg);
+  line-height: 1.3;
+}
+.case-tag {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-deep);
+}
+.case-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.case-result {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 2px dashed var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.method-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+.method-grid li {
+  border-top: 2px solid var(--fg);
+  padding-top: 16px;
+}
+.m-no { font-size: 13px; font-weight: 800; color: var(--accent-deep); }
+.method-grid h3 {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--fg);
+  margin: 6px 0 10px;
+}
+.method-grid p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 34px;
+  align-items: stretch;
+}
+.member {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 26px;
+  align-items: start;
+  background: var(--card);
+  border: 3px solid var(--fg);
+  box-shadow: 8px 8px 0 var(--border);
+  padding: 26px;
+}
+.chair {
+  border: 3px solid var(--fg);
+}
+.chair svg {
+  width: 100%;
+  height: auto;
+}
+.m-name {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--fg);
+}
+.m-role {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-deep);
+  margin: 4px 0 12px;
+}
+.m-bio {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+.bench {
+  margin-top: 32px;
+  padding-top: 22px;
+  border-top: 2px dashed var(--border);
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+  max-width: 60em;
+}
+.plist {
+  border-bottom: 3px solid var(--fg);
+}
+.prow {
+  display: grid;
+  grid-template-columns: 70px 170px 130px 1fr;
+  gap: 8px 24px;
+  align-items: baseline;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-top: 3px solid var(--fg);
+}
+.p-no { font-size: 30px; font-weight: 900; color: var(--primary); line-height: 1; }
+.prow h3 {
+  font-size: 21px;
+  font-weight: 900;
+  color: var(--fg);
+}
+.p-dur { font-size: 13px; font-weight: 800; color: var(--accent-deep); }
+.p-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.cta {
+  background: var(--primary);
+  color: #000000;
+}
+.cta .wrap {
+  padding-top: clamp(64px, 9vw, 112px);
+  padding-bottom: clamp(64px, 9vw, 112px);
+}
+.cta h2 {
+  font-size: clamp(40px, 7vw, 92px);
+  font-weight: 900;
+  line-height: 1.05;
+  text-shadow: 0.04em 0.04em 0 var(--secondary);
+}
+.cta-sub {
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.9;
+  margin: 24px 0 38px;
+  max-width: 34em;
+}
+.cta-mail {
+  display: inline-block;
+  padding: 16px 30px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #000000;
+  background: var(--card);
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cta-mail:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 12px 12px 0 #000000;
+}
+.cta :focus-visible {
+  outline-color: #000000;
+}
+.cta-meta {
+  margin-top: 42px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 2;
+}
+.site-foot {
+  background: var(--fg);
+  color: var(--border);
+}
+.foot-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+.foot-grid p {
+  font-size: 14px;
+  font-weight: 600;
+}
+.foot-note {
+  font-size: 12.5px;
+  color: var(--border);
+  margin-top: 6px;
+}
+.foot-link {
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.foot-link:hover {
+  text-decoration-thickness: 3px;
+}
+.site-foot :focus-visible {
+  outline-color: #FFFFFF;
+}
+.reveal {
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.reveal.d1 { animation-delay: 0.08s; }
+.reveal.d2 { animation-delay: 0.16s; }
+.reveal.d3 { animation-delay: 0.24s; }
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 920px) {
+  .case-grid {
+    grid-template-columns: 1fr;
+  }
+  .case {
+    flex-direction: row;
+  }
+  .case-art {
+    width: 42%;
+    aspect-ratio: auto;
+    min-height: 260px;
+    border-bottom: 0;
+    border-right: 3px solid var(--fg);
+  }
+  .case-body {
+    flex: 1;
+  }
+  .method-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .hero-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sec-head {
+    grid-template-columns: auto 1fr;
+  }
+  .sh-note {
+    grid-column: 1 / -1;
+    text-align: left;
+    padding-bottom: 0;
+  }
+  .prow {
+    grid-template-columns: 56px 1fr;
+  }
+  .p-no {
+    grid-row: 1;
+  }
+  .prow h3 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .p-dur {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .p-desc {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+@media (max-width: 700px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .case {
+    flex-direction: column;
+  }
+  .case-art {
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    border-right: 0;
+    border-bottom: 3px solid var(--fg);
+  }
+  .btn {
+    flex: 1;
+    text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .method-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-meta {
+    gap: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    animation: none;
+    opacity: 1;
+  }
+  .btn,
+  .cta-mail,
+  .case,
+  .skip {
+    transition: none;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="site-head">
+  <div class="wrap head-grid">
+    <a class="brand" href="#top"><span class="b-mark" aria-hidden="true"></span>两把椅子<span class="b-en">Two Chairs</span></a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="#work">案例</a>
+      <a href="#method">方法</a>
+      <a href="#team">我们</a>
+      <a href="#process">流程</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="wrap">
+      <p class="hero-kicker reveal">两把椅子 / 品牌设计事务所 / 上海</p>
+      <h1 class="hero-title reveal d1"><span class="l1">把立场，</span><span class="l2">坐实。</span></h1>
+      <p class="hero-lede serif reveal d2">两把椅子是一家十二个人的品牌设计事务所，在上海杨浦的一栋旧车间里办公。不比稿，不追风格，九年只做一件事：帮想清楚的品牌，把想清楚的事做出来。</p>
+      <div class="hero-actions reveal d3">
+        <a class="btn btn-primary" href="#work">看案例</a>
+        <a class="btn" href="#contact">聊聊合作</a>
+      </div>
+      <div class="hero-meta">
+        <p class="hm"><b>九年</b><span>自 2016，不追风格</span></p>
+        <p class="hm"><b>十二人</b><span>小而完整的一支队伍</span></p>
+        <p class="hm"><b>上海</b><span>杨浦滨江，旧车间三楼</span></p>
+        <p class="hm"><b>四十多个</b><span>陪过的品牌与转向</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="works" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sh-no" aria-hidden="true">01</span>
+        <h2>案例精选</h2>
+        <p class="sh-note">三个。放得上台面的，才放上来。</p>
+      </div>
+      <div class="case-grid">
+        <article class="case">
+          <div class="case-art" aria-hidden="true">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="300" fill="#FDF2F8"/>
+              <circle cx="314" cy="82" r="36" fill="#0891B2"/>
+              <path d="M-30 300 L130 92 L290 300 Z" fill="#F472B6"/>
+              <path d="M150 300 L280 138 L410 300 Z" fill="#0891B2"/>
+              <path d="M40 300 L200 176 L360 300 Z" fill="#EC4899"/>
+              <path d="M-40 300 L110 212 L260 300 Z" fill="#831843"/>
+              <rect x="0" y="292" width="400" height="8" fill="#831843"/>
+            </svg>
+          </div>
+          <div class="case-body">
+            <p class="case-no" aria-hidden="true">01</p>
+            <h3>山外山</h3>
+            <p class="case-tag">新式茶饮 / 品牌升级 / 2024</p>
+            <p class="case-desc">三家店排到三十家，原来的视觉跟不上了。我们把「山外有山」的克制做进杯身与空间，让它贵得有理由。</p>
+            <p class="case-result">升级后三个月，客单价提升 18%，新杯型成了门店里被拍得最多的物料。</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="case-art" aria-hidden="true">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="300" fill="#F1EEF5"/>
+              <rect x="44" y="34" width="286" height="6" fill="#831843"/>
+              <rect x="338" y="26" width="18" height="18" fill="#EC4899"/>
+              <rect x="44" y="90" width="34" height="180" fill="#831843"/>
+              <rect x="86" y="65" width="26" height="205" fill="#EC4899"/>
+              <rect x="128" y="118" width="40" height="152" fill="#F472B6"/>
+              <rect x="120" y="110" width="40" height="160" fill="none" stroke="#831843" stroke-width="4"/>
+              <rect x="168" y="130" width="30" height="140" fill="#0891B2"/>
+              <rect x="206" y="85" width="34" height="185" fill="#831843"/>
+              <rect x="248" y="115" width="28" height="155" fill="#F472B6"/>
+              <rect x="284" y="100" width="36" height="170" fill="#EC4899"/>
+              <rect x="0" y="292" width="400" height="8" fill="#831843"/>
+            </svg>
+          </div>
+          <div class="case-body">
+            <p class="case-no" aria-hidden="true">02</p>
+            <h3>回声书局</h3>
+            <p class="case-tag">独立书店 / 视觉识别 / 2023</p>
+            <p class="case-desc">一家由旧印刷厂改出来的书店。我们把印刷套准的错位留在标识里，老机器的失误成了新语言。</p>
+            <p class="case-result">会员续费率 71%，同名帆布袋一年补货四次。</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="case-art" aria-hidden="true">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="300" fill="#0891B2"/>
+              <circle cx="308" cy="66" r="46" fill="#EC4899"/>
+              <text x="188" y="212" font-size="150" font-weight="900" fill="#FDF2F8" text-anchor="middle" font-family="Georgia, 'Songti SC', 'SimSun', serif">鹭</text>
+              <rect x="300" y="236" width="16" height="16" fill="#FDF2F8"/>
+              <rect x="322" y="236" width="16" height="16" fill="#831843"/>
+              <rect x="344" y="236" width="16" height="16" fill="#FDF2F8"/>
+              <rect x="300" y="258" width="16" height="16" fill="#831843"/>
+              <rect x="322" y="258" width="16" height="16" fill="#F472B6"/>
+              <rect x="0" y="292" width="400" height="8" fill="#831843"/>
+            </svg>
+          </div>
+          <div class="case-body">
+            <p class="case-no" aria-hidden="true">03</p>
+            <h3>白鹭洲</h3>
+            <p class="case-tag">城市艺术节 / 主视觉 / 2025</p>
+            <p class="case-desc">三天的城市艺术节。主视觉的「鹭」由市民投稿的笔画拼成，系统开放给所有人改。</p>
+            <p class="case-result">三天 12 万人次进场，海报缺货，有观众把灯箱片拆回了家。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sh-no" aria-hidden="true">02</span>
+        <h2>方法</h2>
+        <p class="sh-note">只有一套，用了很多年。</p>
+      </div>
+      <ol class="method-grid">
+        <li>
+          <span class="m-no">01</span>
+          <h3>听</h3>
+          <p>两周访谈。创始人、老员工、流失的客户都会聊到。事实先于观点。</p>
+        </li>
+        <li>
+          <span class="m-no">02</span>
+          <h3>缩</h3>
+          <p>一页纸策略。一个品牌只能代表一件事，我们帮你选出那一件事。</p>
+        </li>
+        <li>
+          <span class="m-no">03</span>
+          <h3>写</h3>
+          <p>命名与话语。怎么说和是什么同样重要，从名字到故事一次写齐。</p>
+        </li>
+        <li>
+          <span class="m-no">04</span>
+          <h3>造</h3>
+          <p>视觉系统。从标志到杯垫一套规则走到底，交付的是接得住的秩序。</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sh-no" aria-hidden="true">03</span>
+        <h2>我们</h2>
+        <p class="sh-note">两把主椅，一张长凳。</p>
+      </div>
+      <div class="team-grid">
+        <div class="member">
+          <div class="chair" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <rect width="120" height="120" fill="#EC4899"/>
+              <rect x="34" y="18" width="12" height="52" fill="#000000"/>
+              <rect x="34" y="64" width="56" height="12" fill="#000000"/>
+              <rect x="34" y="76" width="10" height="28" fill="#000000"/>
+              <rect x="80" y="76" width="10" height="28" fill="#000000"/>
+              <rect x="96" y="18" width="12" height="12" fill="#FDF2F8"/>
+            </svg>
+          </div>
+          <div class="m-body">
+            <h3 class="m-name">周砚</h3>
+            <p class="m-role">创意总监 / 联合创始人</p>
+            <p class="m-bio">前奥美文案，2016 年拉着林一舟租下第一间办公室。信条是「写不出来，就是还没想清楚」，负责策略、命名和所有跟字有关的事。</p>
+          </div>
+        </div>
+        <div class="member">
+          <div class="chair" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <rect width="120" height="120" fill="#0891B2"/>
+              <rect x="74" y="18" width="12" height="52" fill="#000000"/>
+              <rect x="30" y="64" width="56" height="12" fill="#000000"/>
+              <rect x="76" y="76" width="10" height="28" fill="#000000"/>
+              <rect x="30" y="76" width="10" height="28" fill="#000000"/>
+              <rect x="12" y="18" width="12" height="12" fill="#FDF2F8"/>
+            </svg>
+          </div>
+          <div class="m-body">
+            <h3 class="m-name">林一舟</h3>
+            <p class="m-role">设计总监 / 联合创始人</p>
+            <p class="m-bio">做过九年书籍装帧设计，转做品牌后仍然挑剔字距。信条是「字要从马路对面认得出」，负责视觉系统与全部交付质量。</p>
+          </div>
+        </div>
+      </div>
+      <p class="bench">长凳上还有：策略顾问 沈可 / 插画合作 白鹿 / 制片 陆遥。办公室常驻一只叫「胶水」的猫，负责验收纸样。</p>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sh-no" aria-hidden="true">04</span>
+        <h2>合作流程</h2>
+        <p class="sh-note">四步，不神秘。</p>
+      </div>
+      <div class="plist">
+        <div class="prow">
+          <span class="p-no" aria-hidden="true">01</span>
+          <h3>相识</h3>
+          <span class="p-dur">两周</span>
+          <p class="p-desc">一杯咖啡，九十分钟访谈。这一步免费，也不比稿，只判断彼此合不合适。</p>
+        </div>
+        <div class="prow">
+          <span class="p-no" aria-hidden="true">02</span>
+          <h3>聚焦</h3>
+          <span class="p-dur">三周</span>
+          <p class="p-desc">策略一页纸定稿，命名与核心话语在这里完成。越往后改动越贵，所以先想透。</p>
+        </div>
+        <div class="prow">
+          <span class="p-no" aria-hidden="true">03</span>
+          <h3>造物</h3>
+          <span class="p-dur">六至十周</span>
+          <p class="p-desc">视觉系统、打样与落地文件。每周四例会，进度写在同一张表上，谁都能看。</p>
+        </div>
+        <div class="prow">
+          <span class="p-no" aria-hidden="true">04</span>
+          <h3>陪伴</h3>
+          <span class="p-dur">上线后九十天</span>
+          <p class="p-desc">小修不另计费，九十天后交一份复盘报告，做得好不好，都白纸黑字。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <h2>下一个位子，<br>留给你的品牌。</h2>
+      <p class="cta-sub serif">带一个真实的问题来，比带一份完整的需求更受欢迎。预算大小我们都聊，只看问题值不值得。</p>
+      <a class="cta-mail" href="mailto:hello@twochairs.studio">hello@twochairs.studio</a>
+      <p class="cta-meta">上海市杨浦区安浦路 118 号 滨江车间 3F / 工作日 10:00 至 18:00 / 新项目来信请注明大致预算区间</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <div>
+      <p>UI 设计提示词库 / 产品模板 / Creative Agency</p>
+      <p class="foot-note">本页为设计演示，两把椅子与全部案例均为虚构。</p>
+    </div>
+    <a class="foot-link" href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+</body>
+</html>

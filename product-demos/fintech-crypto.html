@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="潮汐结算 TideSettle / 跨境电商稳定币收款 / 多币种账户 实时汇率 到账时间线 / 产品类型样板 Fintech-Crypto">
+<title>产品模板 / Fintech/Crypto / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* token 计划：底 #0F172A / 卡 #222735 / 边 #334155 / 弱底 #272F42 / 主 #F59E0B(压字 #0F172A) / 副 #FBBF24 / 强调 #8B5CF6(仅非文字，文字对比不足) / 字 #F8FAFC / 次字 #94A3B8 / 涨 #34D399 / 跌 #F87171 / 数字 IBM Plex Mono tabular / 玻璃 rgba(34,39,53,.55)+blur18 / 圆角 14-20 */
+:root {
+  --bg:#0F172A; --card:#222735; --border:#334155; --muted-bg:#272F42;
+  --primary:#F59E0B; --on-primary:#0F172A; --secondary:#FBBF24; --accent:#8B5CF6;
+  --ink:#F8FAFC; --tint:#94A3B8; --up:#34D399; --down:#F87171; --ring:#F59E0B;
+  --glass:rgba(34,39,53,.55); --glass-line:rgba(51,65,85,.75);
+  --r-lg:20px; --r-md:14px; --r-pill:999px;
+  --mono:'IBM Plex Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --head:'Sora','PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+  --body:'PingFang SC','Microsoft YaHei','Segoe UI','Sora',sans-serif;
+  --wrap:1200px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body {
+  font-family:var(--body); color:var(--ink); background:var(--bg);
+  background-image:
+    radial-gradient(720px 480px at 82% -6%, rgba(139,92,246,.13), transparent 68%),
+    radial-gradient(860px 560px at 8% 4%, rgba(245,158,11,.09), transparent 66%),
+    linear-gradient(rgba(51,65,85,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51,65,85,.22) 1px, transparent 1px);
+  background-size:auto, auto, 56px 56px, 56px 56px;
+  font-size:16px; line-height:1.65;
+}
+a { color:var(--secondary); text-decoration:none; }
+a:hover { text-decoration:underline; }
+:focus-visible { outline:2px solid var(--ring); outline-offset:2px; border-radius:6px; }
+.num { font-family:var(--mono); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+.wrap { max-width:var(--wrap); margin:0 auto; padding:0 28px; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* ---------- 顶部导航 ---------- */
+.topbar { position:sticky; top:0; z-index:20; backdrop-filter:blur(14px); background:rgba(15,23,42,.78); border-bottom:1px solid var(--border); }
+.topbar-in { display:flex; align-items:center; gap:28px; height:64px; }
+.brand { display:flex; align-items:center; gap:10px; font-family:var(--head); font-weight:700; font-size:17px; color:var(--ink); }
+.brand:hover { text-decoration:none; }
+.brand-mark { width:28px; height:28px; flex:none; }
+.brand small { font-family:var(--mono); font-weight:400; font-size:11px; color:var(--tint); margin-left:2px; }
+.nav-links { display:flex; gap:24px; margin-left:auto; font-size:14px; }
+.nav-links a { color:var(--tint); }
+.nav-links a:hover { color:var(--ink); text-decoration:none; }
+.nav-cta { margin-left:8px; }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--body); font-weight:600; font-size:14px; line-height:1;
+  border-radius:var(--r-pill); padding:12px 22px; cursor:pointer;
+  border:1px solid transparent; transition:background-color .15s ease, border-color .15s ease;
+}
+.btn-primary { background:var(--primary); color:var(--on-primary); }
+.btn-primary:hover { background:var(--secondary); }
+.btn-ghost { background:transparent; color:var(--secondary); border-color:rgba(245,158,11,.55); }
+.btn-ghost:hover { border-color:var(--secondary); background:rgba(245,158,11,.08); }
+.btn-sm { padding:9px 16px; font-size:13px; }
+
+/* ---------- Hero ---------- */
+.hero { padding:72px 0 64px; }
+.hero-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:stretch; }
+.hero-copy { display:flex; flex-direction:column; justify-content:center; }
+.kicker { font-size:13px; color:var(--tint); display:flex; flex-wrap:wrap; gap:6px 0; align-items:center; }
+.kicker b { color:var(--secondary); font-weight:600; }
+.kicker .sep { margin:0 10px; color:var(--border); }
+.hero h1 {
+  margin:18px 0 18px; font-family:var(--head); font-weight:700;
+  font-size:clamp(30px, 4vw, 46px); line-height:1.22; letter-spacing:.01em;
+}
+.hero h1 em { font-style:normal; color:var(--primary); }
+.hero .lede { color:var(--tint); font-size:16.5px; max-width:34em; }
+.hero-actions { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+.hero-trust { margin-top:26px; font-size:13px; color:var(--tint); display:flex; flex-wrap:wrap; gap:6px 0; align-items:center; }
+.hero-trust .num { color:var(--ink); }
+
+/* 结算驾驶舱（签名组件：玻璃面板 + 实时汇率） */
+.cockpit {
+  position:relative; border-radius:var(--r-lg); padding:26px 26px 22px;
+  background:var(--glass); border:1px solid var(--glass-line);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 24px 60px rgba(2,6,23,.5), inset 0 1px 0 rgba(248,250,252,.06);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.cockpit::before {
+  content:""; position:absolute; inset:0 0 auto 0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(251,191,36,.55), transparent);
+}
+.cock-head { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+.cock-title { font-family:var(--head); font-weight:600; font-size:15px; }
+.cock-live { font-size:12px; color:var(--tint); display:flex; align-items:center; gap:7px; }
+.live-dot { width:7px; height:7px; border-radius:50%; background:var(--up); flex:none; }
+.cock-total { margin:16px 0 4px; }
+.cock-total .lbl { font-size:12.5px; color:var(--tint); }
+.cock-total .val { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; font-size:clamp(26px, 2.6vw, 34px); color:var(--secondary); line-height:1.2; }
+.feed { margin-top:14px; border-top:1px solid var(--glass-line); }
+.feed-row {
+  display:grid; grid-template-columns:1fr auto auto; gap:16px; align-items:baseline;
+  padding:11px 0; border-bottom:1px solid rgba(51,65,85,.45); font-size:14px;
+}
+.feed-pair { font-family:var(--mono); font-size:13px; color:var(--ink); }
+.feed-pair span { color:var(--tint); font-size:11.5px; display:block; letter-spacing:.02em; }
+.feed-px { font-family:var(--mono); font-variant-numeric:tabular-nums; font-size:15px; font-weight:600; }
+.feed-chg { font-family:var(--mono); font-size:12px; min-width:64px; text-align:right; }
+.feed-chg.up { color:var(--up); }
+.feed-chg.down { color:var(--down); }
+.cock-foot { margin-top:auto; padding-top:14px; display:flex; justify-content:space-between; gap:12px; font-size:12px; color:var(--tint); flex-wrap:wrap; }
+.cock-foot .num { color:var(--ink); }
+
+/* ---------- 数据证明 ---------- */
+.proof { border-block:1px solid var(--border); background:rgba(15,23,42,.55); }
+.proof-grid { display:grid; grid-template-columns:repeat(4, 1fr); }
+.stat { padding:30px 24px; border-right:1px solid var(--border); }
+.stat:last-child { border-right:none; }
+.stat .v { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; font-size:clamp(24px, 2.4vw, 32px); color:var(--ink); }
+.stat .v i { font-style:normal; color:var(--primary); }
+.stat .k { margin-top:4px; font-size:13px; color:var(--tint); }
+.badges { display:flex; flex-wrap:wrap; gap:10px 12px; padding:0 0 28px; }
+.badge {
+  display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--ink);
+  border:1px solid var(--border); background:var(--muted-bg);
+  border-radius:var(--r-pill); padding:8px 14px;
+}
+.badge svg { color:var(--primary); flex:none; }
+
+/* ---------- 分区通用 ---------- */
+section { padding:76px 0; }
+.sec-head { max-width:46em; margin-bottom:40px; }
+.sec-head h2 { font-family:var(--head); font-weight:700; font-size:clamp(24px, 3vw, 32px); line-height:1.3; }
+.sec-head p { margin-top:10px; color:var(--tint); font-size:15px; }
+.sec-line { font-size:13px; color:var(--tint); margin-bottom:10px; }
+.sec-line b { color:var(--secondary); font-weight:600; }
+
+/* ---------- 方案总览 ---------- */
+.features { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; align-items:stretch; }
+.feat {
+  background:var(--glass); border:1px solid var(--glass-line); border-radius:var(--r-lg);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  padding:26px 24px; display:flex; flex-direction:column;
+}
+.feat-ico {
+  width:42px; height:42px; border-radius:12px; flex:none;
+  background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.35);
+  display:flex; align-items:center; justify-content:center; color:var(--primary);
+}
+.feat:nth-child(2) .feat-ico { background:rgba(139,92,246,.14); border-color:rgba(139,92,246,.45); color:#A78BFA; }
+.feat:nth-child(3) .feat-ico { background:rgba(52,211,153,.10); border-color:rgba(52,211,153,.35); color:var(--up); }
+.feat h3 { margin-top:16px; font-family:var(--head); font-weight:600; font-size:18px; }
+.feat p { margin-top:8px; color:var(--tint); font-size:14px; flex:1; }
+.feat .meta { margin-top:16px; padding-top:14px; border-top:1px dashed rgba(51,65,85,.7); font-size:12.5px; color:var(--tint); }
+.feat .meta .num { color:var(--ink); }
+
+/* ---------- 到账时间线（grid 对齐） */
+.tl-wrap { border:1px solid var(--glass-line); border-radius:var(--r-lg); background:var(--glass); backdrop-filter:blur(14px); overflow:hidden; }
+.tl { --tl-cols: 76px 176px 1fr 128px; }
+.tl-row { display:grid; grid-template-columns:var(--tl-cols); gap:0 18px; align-items:baseline; padding:15px 24px; border-top:1px solid rgba(51,65,85,.5); }
+.tl-row:first-child { border-top:none; }
+.tl-head { background:var(--muted-bg); font-size:12.5px; color:var(--tint); padding:11px 24px; }
+.tl-step { font-family:var(--mono); font-size:13px; color:var(--primary); font-weight:600; }
+.tl-node { font-weight:600; font-size:15px; }
+.tl-desc { color:var(--tint); font-size:14px; }
+.tl-time { font-family:var(--mono); font-size:13px; color:var(--ink); text-align:right; }
+.tl-row.now .tl-node::after { content:"到账完成"; margin-left:10px; font-size:11px; color:var(--up); border:1px solid rgba(52,211,153,.45); border-radius:var(--r-pill); padding:2px 8px; font-weight:400; font-family:var(--body); }
+
+/* ---------- 汇率联动计算器 ---------- */
+.calc-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--glass-line); border-radius:var(--r-lg); overflow:hidden; background:var(--glass); backdrop-filter:blur(14px); }
+.calc-form { padding:30px 28px; border-right:1px solid var(--glass-line); display:flex; flex-direction:column; gap:18px; }
+.field label { display:block; font-size:13px; color:var(--tint); margin-bottom:8px; }
+.field input, .field select {
+  width:100%; background:var(--bg); border:1px solid var(--border); border-radius:var(--r-md);
+  color:var(--ink); font-family:var(--mono); font-size:16px; padding:12px 14px;
+}
+.field select { font-family:var(--body); }
+.field input:focus-visible, .field select:focus-visible { outline:2px solid var(--ring); outline-offset:1px; }
+.calc-note { font-size:12.5px; color:var(--tint); margin-top:auto; }
+.calc-out { padding:30px 28px; background:rgba(15,23,42,.45); display:flex; flex-direction:column; }
+.calc-out h3 { font-family:var(--head); font-size:16px; font-weight:600; }
+.co-row { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid rgba(51,65,85,.5); font-size:14px; color:var(--tint); }
+.co-row .num { color:var(--ink); }
+.co-sum { margin-top:auto; padding-top:18px; }
+.co-sum .lbl { font-size:13px; color:var(--tint); }
+.co-sum .val { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; font-size:clamp(28px, 3vw, 38px); color:var(--secondary); line-height:1.25; }
+
+/* ---------- 费率表（grid 对齐） */
+.fee-wrap { border:1px solid var(--glass-line); border-radius:var(--r-lg); overflow: hidden; background:var(--glass); backdrop-filter:blur(14px); }
+.fee { --fee-cols: 200px 190px 1fr; }
+.fee-row { display:grid; grid-template-columns:var(--fee-cols); gap:0 20px; align-items:baseline; padding:15px 26px; border-top:1px solid rgba(51,65,85,.5); }
+.fee-row:first-child { border-top:none; }
+.fee-head { background:var(--muted-bg); font-size:12.5px; color:var(--tint); padding:11px 26px; }
+.fee-item { font-weight:600; font-size:15px; }
+.fee-rate { font-family:var(--mono); font-size:15px; color:var(--primary); font-weight:600; }
+.fee-note { color:var(--tint); font-size:14px; }
+.fee-foot { padding:14px 26px; border-top:1px solid rgba(51,65,85,.5); font-size:12.5px; color:var(--tint); }
+
+/* ---------- 合规与安全 ---------- */
+.comp-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; align-items:stretch; }
+.comp { border:1px solid var(--glass-line); border-radius:var(--r-lg); background:var(--glass); backdrop-filter:blur(14px); padding:24px; display:flex; flex-direction:column; }
+.comp h3 { font-family:var(--head); font-size:17px; font-weight:600; display:flex; align-items:center; gap:10px; }
+.comp h3 svg { color:var(--primary); flex:none; }
+.comp p { margin-top:10px; color:var(--tint); font-size:14px; flex:1; }
+.comp .meta { margin-top:14px; font-size:12.5px; color:var(--tint); border-top:1px dashed rgba(51,65,85,.7); padding-top:12px; }
+.comp .meta .num { color:var(--ink); }
+
+/* ---------- CTA ---------- */
+.cta-band { border:1px solid rgba(245,158,11,.4); border-radius:var(--r-lg); background:linear-gradient(140deg, rgba(245,158,11,.10), rgba(139,92,246,.08)); padding:52px 48px; display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center; }
+.cta-band h2 { font-family:var(--head); font-weight:700; font-size:clamp(22px, 2.8vw, 30px); line-height:1.3; }
+.cta-band p { margin-top:10px; color:var(--tint); font-size:14.5px; }
+.cta-form { display:flex; gap:10px; }
+.cta-form input { flex:1; min-width:0; background:var(--bg); border:1px solid var(--border); border-radius:var(--r-pill); color:var(--ink); font-size:14px; padding:12px 18px; }
+.cta-form input::placeholder { color:var(--tint); }
+.cta-msg { margin-top:10px; font-size:12.5px; color:var(--tint); }
+.cta-msg .num { color:var(--ink); }
+
+/* ---------- 页脚 ---------- */
+footer { border-top:1px solid var(--border); padding:34px 0 40px; margin-top:20px; }
+.foot-in { display:flex; flex-wrap:wrap; gap:14px 28px; align-items:center; justify-content:space-between; font-size:13px; color:var(--tint); }
+.foot-crumb { font-family:var(--mono); font-size:12.5px; }
+.foot-crumb a { color:var(--secondary); }
+.foot-legal { margin-top:16px; font-size:12px; color:var(--tint); max-width:62em; }
+
+/* ---------- 一次亮相动效（reduced-motion 降级） ---------- */
+.reveal { opacity:0; transform:translateY(16px); animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards; }
+.cockpit.reveal { animation-delay:.12s; }
+@keyframes rise { to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  .reveal { animation:none; opacity:1; transform:none; }
+  .btn { transition:none; }
+}
+
+/* ---------- 响应式 768 / 375 ---------- */
+@media (max-width: 960px) {
+  .hero { padding:52px 0 48px; }
+  .hero-grid { grid-template-columns:1fr; gap:36px; }
+  .features, .comp-grid { grid-template-columns:1fr; }
+  .proof-grid { grid-template-columns:1fr 1fr; }
+  .stat { border-bottom:1px solid var(--border); }
+  .stat:nth-child(2n) { border-right:none; }
+  .stat:nth-child(3n) { border-right:1px solid var(--border); }
+  .calc-grid { grid-template-columns:1fr; }
+  .calc-form { border-right:none; border-bottom:1px solid var(--glass-line); }
+  .cta-band { grid-template-columns:1fr; padding:36px 26px; }
+  .tl { --tl-cols: 52px 1fr 96px; }
+  .tl-row { grid-template-areas:"step node time" "desc desc desc"; row-gap:4px; }
+  .tl-step { grid-area:step; } .tl-node { grid-area:node; } .tl-desc { grid-area:desc; } .tl-time { grid-area:time; }
+  .tl-head .tl-desc, .tl-head .tl-time { display:none; }
+  .tl-row.now .tl-node::after { display:none; }
+  .tl-row:not(.tl-head) { padding:13px 18px; }
+}
+@media (max-width: 640px) {
+  .wrap { padding:0 18px; }
+  .nav-links { display:none; }
+  .hero h1 { font-size:29px; }
+  .hero-actions .btn { flex:1; }
+  .proof-grid { grid-template-columns:1fr; }
+  .stat { border-right:none; padding:22px 18px; }
+  .fee { --fee-cols: 92px 104px 1fr; }
+  .fee-row { padding:13px 16px; gap:0 10px; }
+  .fee-item { font-size:13.5px; } .fee-rate { font-size:13.5px; } .fee-note { font-size:12.5px; }
+  .tl { --tl-cols: 44px 1fr 88px; }
+  .cockpit { padding:20px 18px 16px; }
+  .feed-row { grid-template-columns:1fr auto auto; gap:10px; }
+  .feed-pair span { display:none; }
+  .feed-px { font-size:14px; }
+  .feed-chg { min-width:52px; }
+  section { padding:56px 0; }
+  .cta-form { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top" aria-label="潮汐结算 TideSettle 首页">
+      <svg class="brand-mark" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="26" height="26" rx="7" stroke="#F59E0B" stroke-width="2"/>
+        <path d="M5 16c3-2.5 5.5 2.5 8.5 0s5 2.5 9.5-1" stroke="#FBBF24" stroke-width="2" stroke-linecap="round"/>
+        <path d="M9 10h10M9 10l3 3M19 10l-3 3" stroke="#F8FAFC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      潮汐结算<small>TideSettle</small>
+    </a>
+    <nav class="nav-links" aria-label="页面导航">
+      <a href="#solution">产品能力</a>
+      <a href="#timeline">到账时间线</a>
+      <a href="#fees">费率</a>
+      <a href="#compliance">合规</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#cta">预约演示</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero：使命 + 实时结汇率驾驶舱 -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <p class="kicker"><b>稳定币收款</b><span class="sep">/</span>服务跨境电商<span class="sep">/</span>2026 年 10 月号</p>
+        <h1 id="hero-h">把每一笔海外货款<br>结算成<em>确定到账</em>的现金</h1>
+        <p class="lede">潮汐结算为跨境电商卖家提供多币种稳定币账户：买家付款实时入账，按锁定汇率结汇至境内对公账户，最快 8 分钟到账。全部费率写入结算单，一笔一账可回溯。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#cta">立即开户</a>
+          <a class="btn btn-ghost" href="#fees">查看完整费率</a>
+        </div>
+        <p class="hero-trust">已服务 <span class="num">32,000+</span> 卖家<span class="sep">/</span>覆盖 <span class="num">11</span> 个主流平台<span class="sep">/</span>储备金每月第三方审计</p>
+      </div>
+
+      <div class="cockpit reveal" aria-label="实时结汇率面板">
+        <div class="cock-head">
+          <p class="cock-title">实时结汇率</p>
+          <p class="cock-live"><span class="live-dot" aria-hidden="true"></span>数据延迟小于 2 秒</p>
+        </div>
+        <div class="cock-total">
+          <p class="lbl">今日已结算（USD）</p>
+          <p class="val" id="todayTotal">$42,187,530</p>
+        </div>
+        <div class="feed" id="rateFeed">
+          <div class="feed-row">
+            <p class="feed-pair">USDT / CNY<span>泰达币 兑 人民币</span></p>
+            <p class="feed-px num" data-px="USDT_CNY">7.2168</p>
+            <p class="feed-chg num up" data-chg="USDT_CNY">+0.12%</p>
+          </div>
+          <div class="feed-row">
+            <p class="feed-pair">USDC / CNY<span>美元币 兑 人民币</span></p>
+            <p class="feed-px num" data-px="USDC_CNY">7.2204</p>
+            <p class="feed-chg num down" data-chg="USDC_CNY">-0.05%</p>
+          </div>
+          <div class="feed-row">
+            <p class="feed-pair">EURC / CNY<span>欧元稳定币 兑 人民币</span></p>
+            <p class="feed-px num" data-px="EURC_CNY">7.8890</p>
+            <p class="feed-chg num up" data-chg="EURC_CNY">+0.08%</p>
+          </div>
+          <div class="feed-row">
+            <p class="feed-pair">USDT / EUR<span>泰达币 兑 欧元</span></p>
+            <p class="feed-px num" data-px="USDT_EUR">0.9108</p>
+            <p class="feed-chg num down" data-chg="USDT_EUR">-0.02%</p>
+          </div>
+        </div>
+        <div class="cock-foot">
+          <p>汇率锁定 <span class="num">60</span> 秒</p>
+          <p>更新于 <span class="num" id="feedClock">16:42:08</span> UTC+8</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据证明：规模统计 + 信任徽章 -->
+  <section class="proof" aria-label="运营数据与资质">
+    <div class="wrap">
+      <div class="proof-grid">
+        <div class="stat">
+          <p class="v num">$86<i>亿</i></p>
+          <p class="k">累计结算规模（USD）</p>
+        </div>
+        <div class="stat">
+          <p class="v num">32,000<i>+</i></p>
+          <p class="k">服务跨境卖家</p>
+        </div>
+        <div class="stat">
+          <p class="v num">8<i>分钟</i></p>
+          <p class="k">最快境内到账</p>
+        </div>
+        <div class="stat">
+          <p class="v num">99.98<i>%</i></p>
+          <p class="k">结算系统近一年可用性</p>
+        </div>
+      </div>
+      <ul class="badges" aria-label="资质与审计">
+        <li class="badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          储备金第三方审计 每月发布
+        </li>
+        <li class="badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          美国 FinCEN MSB 备案
+        </li>
+        <li class="badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          结算时效 SLA 99.9%
+        </li>
+        <li class="badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 6v12h16V6M4 6l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          SOC 2 Type II 审计通过
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 方案总览 -->
+  <section id="solution" aria-labelledby="sol-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-line"><b>产品能力</b> / 三项核心 / 全平台可接入</p>
+        <h2 id="sol-h">多币种账户 / 汇率锁定 / 全程对账，一个后台完成</h2>
+        <p>亚马逊、Shopify、TikTok Shop 与独立站收款统一归集，货款不落地第三方，从入账到结汇每一步都有时间戳记录。</p>
+      </div>
+      <div class="features">
+        <article class="feat">
+          <div class="feat-ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M7 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>多币种账户</h3>
+          <p>USDT / USDC / EURC / USD1 余额统一归集，支持 TRC20、ERC20、Polygon 等 12 条链入账，自动识别付款平台并生成对账单。</p>
+          <p class="meta">支持链 <span class="num">12</span> 条 / 币种 <span class="num">4</span> 个 / 对账粒度 单笔</p>
+        </article>
+        <article class="feat">
+          <div class="feat-ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18V9M10 18V5M16 18v-6M22 18H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>汇率锁定</h3>
+          <p>发起结汇即锁定报价 60 秒，期间行情波动不影响到手金额；点差 0.10% 已含在锁定汇率内，结算单逐笔列明，不另收费。</p>
+          <p class="meta">锁价窗口 <span class="num">60</span> 秒 / 点差 <span class="num">0.10%</span> / 汇源 三家做市商中间价</p>
+        </article>
+        <article class="feat">
+          <div class="feat-ico" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>到账时间线</h3>
+          <p>每笔货款从买家支付到境内到账全程可视，链上哈希、结汇批次、划转流水一一对应，节点记录可导出对接财务系统。</p>
+          <p class="meta">最快到账 <span class="num">8</span> 分钟 / 节点 <span class="num">5</span> 个 / 记录可导出 CSV</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 到账时间线 -->
+  <section id="timeline" aria-labelledby="tl-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-line"><b>到账时间线</b> / 2026-10-09 第 41 结算批次 / 示意</p>
+        <h2 id="tl-h">一笔货款的五站旅程，每站都有时间戳</h2>
+        <p>以下为一笔 10,000 USDT 货款的真实批次记录：各节点耗时取自近 30 日中位数，节假日清算通道拥堵时将顺延并短信告知。</p>
+      </div>
+      <div class="tl-wrap">
+        <div class="tl">
+          <div class="tl-row tl-head">
+            <p class="tl-step">阶段</p>
+            <p class="tl-node">节点</p>
+            <p class="tl-desc">说明</p>
+            <p class="tl-time">累计耗时</p>
+          </div>
+          <div class="tl-row">
+            <p class="tl-step num">01</p>
+            <p class="tl-node">买家支付</p>
+            <p class="tl-desc">买家在结账页选择稳定币付款，款项直达你的专属收款地址</p>
+            <p class="tl-time num">T+0 秒</p>
+          </div>
+          <div class="tl-row">
+            <p class="tl-step num">02</p>
+            <p class="tl-node">链上确认</p>
+            <p class="tl-desc">交易广播上链并达到 2 个区块确认，哈希写入账户流水</p>
+            <p class="tl-time num">T+40 秒</p>
+          </div>
+          <div class="tl-row">
+            <p class="tl-step num">03</p>
+            <p class="tl-node">风控审核</p>
+            <p class="tl-desc">自动完成反洗钱校验与交易对手筛查，人工复核仅触发于异常路径</p>
+            <p class="tl-time num">T+90 秒</p>
+          </div>
+          <div class="tl-row">
+            <p class="tl-step num">04</p>
+            <p class="tl-node">结汇执行</p>
+            <p class="tl-desc">按锁定汇率折算人民币并完成跨境申报，批次号同步至结算单</p>
+            <p class="tl-time num">T+6 分钟</p>
+          </div>
+          <div class="tl-row now">
+            <p class="tl-step num">05</p>
+            <p class="tl-node">境内到账</p>
+            <p class="tl-desc">划转至你的对公账户，短信与邮件双通道通知，凭批次号可回溯全链路</p>
+            <p class="tl-time num">T+8 分钟</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 汇率联动计算器 -->
+  <section aria-labelledby="calc-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-line"><b>到手测算</b> / 费率全量展开 / 与右侧实时汇率联动</p>
+        <h2 id="calc-h">输入金额，按当前行情算清每一分</h2>
+        <p>计算器读取上方驾驶舱的实时结汇率（含 0.10% 点差），服务费与网络费分项列示，测算结果与结算单口径一致。</p>
+      </div>
+      <div class="calc-grid">
+        <form class="calc-form" id="calcForm">
+          <div class="field">
+            <label for="calcAmt">货款金额（USDT 计）</label>
+            <input id="calcAmt" type="number" inputmode="decimal" min="100" max="10000000" step="100" value="10000">
+          </div>
+          <div class="field">
+            <label for="calcPair">结汇方向</label>
+            <select id="calcPair">
+              <option value="USDT_CNY">USDT 兑 CNY 人民币</option>
+              <option value="USDC_CNY">USDC 兑 CNY 人民币</option>
+              <option value="EURC_CNY">EURC 兑 CNY 人民币</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="calcNet">提现网络</label>
+            <select id="calcNet">
+              <option value="1.00">TRC20 固定 1.00 USDT</option>
+              <option value="4.50">ERC20 固定 4.50 USDT</option>
+              <option value="0.02">Polygon 固定 0.02 USDT</option>
+            </select>
+          </div>
+          <p class="calc-note">测算基于当前锁定汇率，60 秒内发起结汇按此价执行 / 实际以结算单为准</p>
+        </form>
+        <div class="calc-out" aria-live="polite">
+          <h3>到账明细</h3>
+          <p class="co-row">锁定汇率（含点差 0.10%）<span class="num" id="outRate">7.2096</span></p>
+          <p class="co-row">货款金额<span class="num" id="outAmt">10,000.00 USDT</span></p>
+          <p class="co-row">平台服务费 0.30%<span class="num" id="outFee">-30.00 USDT</span></p>
+          <p class="co-row">链上网络费<span class="num" id="outNet">-1.00 USDT</span></p>
+          <div class="co-sum">
+            <p class="lbl">预计到手（人民币）</p>
+            <p class="val" id="outSum">71,872.33</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 费率表 -->
+  <section id="fees" aria-labelledby="fee-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-line"><b>费率</b> / 全量公开 / 2026 年 10 月执行版</p>
+        <h2 id="fee-h">五个收费项，一张表说清，没有第六项</h2>
+        <p>以下费率对全部卖家一致，不设隐藏档位；月结汇量超过 50 万美元可申请大客户费率，审批结果书面确认。</p>
+      </div>
+      <div class="fee-wrap">
+        <div class="fee">
+          <div class="fee-row fee-head">
+            <p class="fee-item">收费项目</p>
+            <p class="fee-rate">费率</p>
+            <p class="fee-note">说明</p>
+          </div>
+          <div class="fee-row">
+            <p class="fee-item">稳定币收款</p>
+            <p class="fee-rate num">0.00%</p>
+            <p class="fee-note">买家支付即入账，不收入账费，无月费与开户费</p>
+          </div>
+          <div class="fee-row">
+            <p class="fee-item">结汇点差</p>
+            <p class="fee-rate num">0.10%</p>
+            <p class="fee-note">已含在锁定汇率内，结算单逐笔列明适用价与市场中间价</p>
+          </div>
+          <div class="fee-row">
+            <p class="fee-item">平台服务费</p>
+            <p class="fee-rate num">0.30%</p>
+            <p class="fee-note">按结汇金额计收，次月 5 日汇总开具增值税发票</p>
+          </div>
+          <div class="fee-row">
+            <p class="fee-item">链上网络费</p>
+            <p class="fee-rate num">按链实收</p>
+            <p class="fee-note">TRC20 1.00 / ERC20 4.50 / Polygon 0.02 USDT，矿工费原价转嫁</p>
+          </div>
+          <div class="fee-row">
+            <p class="fee-item">境内划转</p>
+            <p class="fee-rate num">0 至 2 元</p>
+            <p class="fee-note">单笔 5 万元以上免手续费，以下每笔 2 元，银行收取部分实报实销</p>
+          </div>
+          <p class="fee-foot">除上表外不再收取任何费用 / 大客户费率以书面协议为准 / 费率调整提前 30 日站内公告</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合规与安全 -->
+  <section id="compliance" aria-labelledby="comp-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-line"><b>合规与安全</b> / 资产隔离 / 储备透明 / 持牌经营</p>
+        <h2 id="comp-h">像银行一样隔离，像区块链一样透明</h2>
+        <p>客户资产与自营资金分账管理，储备证明链上地址全程公开可查，合规记录接受境内外监管与年度审计双重检视。</p>
+      </div>
+      <div class="comp-grid">
+        <article class="comp">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="2"/></svg>
+            资产隔离
+          </h3>
+          <p>客户稳定币存放于独立托管地址，95% 置于多签冷存储，热钱包仅保留当日结算所需流量，划转需双人授权。</p>
+          <p class="meta">冷存储占比 <span class="num">95%</span> / 多签阈值 <span class="num">3/5</span></p>
+        </article>
+        <article class="comp">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            储备透明
+          </h3>
+          <p>每月 5 日发布经第三方审计的储备金证明，链上地址与审计报告编号在官网公示，任何用户可自行链上核验。</p>
+          <p class="meta">最新证明 <span class="num">2026-10-05</span> / 审计机构 安永</p>
+        </article>
+        <article class="comp">
+          <h3>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            持牌经营
+          </h3>
+          <p>持有美国 FinCEN MSB 备案、立陶宛 MPI 虚拟资产牌照与香港 TCSP 信托资质，反洗钱与 KYC 流程通过 SOC 2 Type II 审计。</p>
+          <p class="meta">牌照 <span class="num">3</span> 张 / 审计报告可应约查阅</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA：低摩擦表单 -->
+  <section id="cta" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h2 id="cta-h">留下邮箱，顾问带你走完第一笔结算</h2>
+          <p>无需长期合同：提交后 1 个工作日内对接顾问，10 分钟完成开户资料预审，首笔货款免平台服务费。</p>
+        </div>
+        <div>
+          <form class="cta-form" id="ctaForm">
+            <label class="sr-only" for="ctaMail">工作邮箱</label>
+            <input id="ctaMail" type="email" required placeholder="工作邮箱">
+            <button class="btn btn-primary" type="submit">预约演示</button>
+          </form>
+          <p class="cta-msg" id="ctaMsg">提交后顾问将在 <span class="num">1</span> 个工作日内联系 / 首笔免平台服务费</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <p class="foot-crumb">UI 设计提示词库 / 产品模板 / Fintech/Crypto</p>
+      <p><a href="../style-catalog.html">返回风格目录</a></p>
+    </div>
+    <p class="foot-legal">「潮汐结算 TideSettle」为本库虚构演示品牌，页面数据与费率均为设计示意，不构成任何金融服务要约。样板用途：Fintech/Crypto 产品类型 / Glassmorphism + Dark Mode (OLED) / Conversion-Optimized + Trust &amp; Authority。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 实时汇率（示例数据，驾驶舱与计算器共用） */
+  var RATES = {
+    USDT_CNY: { px: 7.2168, chg: 0.12 },
+    USDC_CNY: { px: 7.2204, chg: -0.05 },
+    EURC_CNY: { px: 7.8890, chg: 0.08 },
+    USDT_EUR: { px: 0.9108, chg: -0.02 }
+  };
+  var SPREAD = 0.001;   /* 结汇点差 0.10% 已含在锁定汇率 */
+  var SERVICE = 0.003;  /* 平台服务费 0.30% */
+
+  function fmtPct(v) { return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
+
+  /* 驾驶舱：汇率行情刷新（文本替换，无过渡动画） */
+  function paintFeed() {
+    Object.keys(RATES).forEach(function (k) {
+      var px = document.querySelector('[data-px="' + k + '"]');
+      var chg = document.querySelector('[data-chg="' + k + '"]');
+      if (!px || !chg) { return; }
+      px.textContent = RATES[k].px.toFixed(4);
+      chg.textContent = fmtPct(RATES[k].chg);
+      chg.className = 'feed-chg num ' + (RATES[k].chg >= 0 ? 'up' : 'down');
+    });
+    var clock = document.getElementById('feedClock');
+    var now = new Date();
+    function p2(n) { return (n < 10 ? '0' : '') + n; }
+    clock.textContent = p2(now.getHours()) + ':' + p2(now.getMinutes()) + ':' + p2(now.getSeconds());
+  }
+  paintFeed();
+  if (!reduce) {
+    setInterval(function () {
+      Object.keys(RATES).forEach(function (k) {
+        var step = k === 'USDT_EUR' ? 0.0004 : 0.003;
+        RATES[k].px += (Math.random() - 0.5) * step;
+        RATES[k].chg += (Math.random() - 0.5) * 0.04;
+        RATES[k].chg = Math.max(-0.9, Math.min(0.9, RATES[k].chg));
+      });
+      paintFeed();
+      calc(); /* 计算器跟随最新行情 */
+    }, 4000);
+  }
+
+  /* 一次亮相：今日结算额数字滚动（reduced-motion 直接静态呈现） */
+  var totalEl = document.getElementById('todayTotal');
+  var TOTAL = 42187530;
+  function paintTotal(v) {
+    totalEl.textContent = '$' + Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  if (reduce) {
+    paintTotal(TOTAL);
+  } else {
+    var t0 = null, DUR = 900;
+    function tick(ts) {
+      if (t0 === null) { t0 = ts; }
+      var p = Math.min(1, (ts - t0) / DUR);
+      var eased = 1 - Math.pow(1 - p, 3);
+      paintTotal(TOTAL * eased);
+      if (p < 1) { window.requestAnimationFrame(tick); }
+    }
+    window.requestAnimationFrame(tick);
+  }
+
+  /* 汇率联动计算器 */
+  var elAmt = document.getElementById('calcAmt');
+  var elPair = document.getElementById('calcPair');
+  var elNet = document.getElementById('calcNet');
+  function fmtUSD(v) {
+    return v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' USDT';
+  }
+  function calc() {
+    var amt = parseFloat(elAmt.value);
+    if (!isFinite(amt) || amt <= 0) { amt = 0; }
+    var rate = RATES[elPair.value].px * (1 - SPREAD);
+    var net = parseFloat(elNet.value);
+    var fee = amt * SERVICE;
+    var sum = Math.max(0, amt - fee - net) * rate;
+    document.getElementById('outRate').textContent = rate.toFixed(4);
+    document.getElementById('outAmt').textContent = fmtUSD(amt);
+    document.getElementById('outFee').textContent = '-' + fmtUSD(fee);
+    document.getElementById('outNet').textContent = '-' + fmtUSD(net);
+    document.getElementById('outSum').textContent =
+      sum.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  elAmt.addEventListener('input', calc);
+  elPair.addEventListener('change', calc);
+  elNet.addEventListener('change', calc);
+  calc();
+
+  /* 低摩擦表单：仅做演示反馈，不发送数据 */
+  document.getElementById('ctaForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('ctaMsg').textContent = '已收到，顾问将在 1 个工作日内与你联系（演示页面，未实际提交）';
+    e.target.reset();
+  });
+})();
+</script>
+</body>
+</html>
