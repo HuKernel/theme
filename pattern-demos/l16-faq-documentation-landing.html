@@ -4,137 +4,618 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / FAQ/Documentation Landing — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>FAQ/Documentation 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.16 FAQ 帮助中心样张，自由职业者记账软件帮助中心：搜索、分类、常见问题、联系支持。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:wght@300;400;500;600;700&display=swap');
+/* token 计划: 页面#EFEDE3 / 票据纸#FCFBF6 / 墨#232A24 / 弱文#5A6055 / 品牌墨蓝#1D4E89 / 已解决绿#1E7A46 / 印章红#B3402A / 表格线#D9D2C2 / 圆角4-6px / 衬线标题+等宽数字 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(135,206,235,.28); --primary: #87CEEB; --secondary: #FFB6C1;
-  --accent: #90EE90; --on-primary: #111;
-  --radius: 24px; --btn-radius: 18px;
+  --page: #EFEDE3; --paper: #FCFBF6; --card: #FFFFFF;
+  --fg: #232A24; --muted: #5A6055;
+  --brand: #1D4E89; --brand-deep: #173E6E;
+  --ok: #1E7A46; --ok-bg: #E7F2EB; --red: #B3402A;
+  --line: #D9D2C2; --rule: rgba(29,78,137,.07); --red-rule: rgba(179,64,42,.32);
+  --serif: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --sans: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --w: 1120px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--page); color: var(--fg); line-height: 1.7; font-size: 16px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+.container { max-width: var(--w); margin: 0 auto; padding: 0 24px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar { background: var(--paper); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 700; font-size: 17px; color: var(--fg); text-decoration: none; }
+.logo-mark { width: 32px; height: 32px; border-radius: 5px; background: var(--brand); color: #FFFFFF; display: grid; place-items: center; flex: none; }
+.topbar nav { display: flex; gap: 24px; }
+.topbar nav a { font-size: 14px; color: var(--muted); text-decoration: none; padding: 4px 2px; }
+.topbar nav a:hover { color: var(--brand); text-decoration: underline; }
+.topbar .top-cta { font-size: 14px; font-weight: 600; color: var(--brand); text-decoration: none; border: 1.5px solid var(--brand); border-radius: 4px; padding: 7px 16px; }
+.topbar .top-cta:hover { background: var(--brand); color: #FFFFFF; }
+
+/* ---------- 01 搜索 Hero（票据纸） ---------- */
+.hero { padding: 56px 0 0; }
+.hero-sheet {
+  position: relative;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 35px, var(--rule) 35px 36px),
+    var(--paper);
+  border: 1px solid var(--line);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 10px 28px rgba(35,42,36,.07);
+  padding: 30px 34px 42px 58px;
+  max-width: 860px;
+  margin: 0 auto;
 }
-h1, h2, h3, .num { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: none; }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Inter', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: none;
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+.hero-sheet::before { content: ""; position: absolute; left: 34px; top: 0; bottom: 0; width: 2px; background: var(--red-rule); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); border-bottom: 1px dashed var(--line); padding-bottom: 14px; margin-bottom: 26px; }
+.hero h1 { font-family: var(--serif); font-weight: 900; font-size: clamp(28px, 4.4vw, 44px); line-height: 1.28; letter-spacing: .5px; max-width: 15em; }
+.hero .sub { color: var(--muted); font-size: 15.5px; max-width: 34em; margin-top: 12px; }
+.search-wrap { position: relative; max-width: 660px; margin-top: 26px; }
+.search-form {
+  display: flex; gap: 10px;
+  background: var(--card);
+  border: 1.5px solid #3A4238; border-radius: 6px;
+  padding: 8px;
+  box-shadow: 3px 3px 0 rgba(35,42,36,.08);
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: none; border-radius: var(--radius);
-  box-shadow: 0 18px 40px rgba(0,0,0,.14); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 26px 52px rgba(0,0,0,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.search-form input { flex: 1; min-width: 0; border: none; background: transparent; font: inherit; font-size: 16px; color: var(--fg); padding: 8px 10px; }
+.search-form input::placeholder { color: #7A8076; }
+.search-form input:focus { outline: none; }
+.search-form button { font: inherit; font-weight: 600; font-size: 15px; background: var(--brand); color: #FFFFFF; border: none; border-radius: 4px; padding: 10px 24px; cursor: pointer; flex: none; }
+.search-form button:hover { background: var(--brand-deep); }
+.search-hint { margin-top: 10px; font-size: 13.5px; color: var(--red); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.search-hint a { color: var(--brand); font-weight: 600; }
+.sug {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px);
+  background: var(--card);
+  border: 1px solid var(--line); border-radius: 6px;
+  box-shadow: 0 12px 26px rgba(35,42,36,.14);
+  z-index: 15; overflow: hidden; list-style: none;
+}
+.sug li { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 11px 16px; cursor: pointer; border-bottom: 1px solid #EFECE2; font-size: 14.5px; }
+.sug li:last-child { border-bottom: none; }
+.sug li:hover, .sug li.active { background: #F0EDE2; }
+.sug li .cat { font-family: var(--mono); font-size: 12px; color: var(--brand); flex: none; background: #EDF1F7; border-radius: 3px; padding: 1px 8px; }
+.quick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; font-size: 13.5px; color: var(--muted); }
+.quick button { font: inherit; font-size: 13px; color: var(--fg); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px; cursor: pointer; }
+.quick button:hover { border-color: var(--brand); color: var(--brand); }
+.stamp {
+  position: absolute; right: 44px; top: 118px;
+  width: 104px; height: 104px; border-radius: 50%;
+  border: 2.5px solid var(--red);
+  box-shadow: inset 0 0 0 4px var(--paper), inset 0 0 0 5.5px var(--red);
+  color: var(--red);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transform: rotate(-12deg);
+  font-family: var(--serif); font-weight: 900;
+  animation: stamp-in .55s cubic-bezier(.2, 1.4, .4, 1) .4s both;
+}
+.stamp span:first-child { font-size: 19px; letter-spacing: 2px; }
+.stamp span:last-child { font-family: var(--mono); font-weight: 500; font-size: 10.5px; letter-spacing: 1px; margin-top: 3px; }
+@keyframes stamp-in { from { opacity: 0; transform: rotate(-26deg) scale(1.7); } to { opacity: 1; transform: rotate(-12deg) scale(1); } }
+.perf {
+  max-width: 860px; margin: 0 auto; height: 12px;
+  background:
+    linear-gradient(-45deg, var(--paper) 6px, transparent 0),
+    linear-gradient(45deg, var(--paper) 6px, transparent 0);
+  background-size: 14px 12px;
+  background-repeat: repeat-x;
+  background-color: var(--page);
+  filter: drop-shadow(0 5px 6px rgba(35,42,36,.05));
+}
 
+/* ---------- 区块标题 ---------- */
+section.block { padding: 64px 0 8px; }
+.sec-head { margin-bottom: 26px; }
+.sec-no { font-family: var(--mono); font-size: 13px; color: var(--brand); letter-spacing: 1px; display: block; margin-bottom: 6px; }
+.sec-head h2 { font-family: var(--serif); font-weight: 900; font-size: clamp(22px, 3vw, 30px); line-height: 1.3; display: inline; padding-bottom: 8px; border-bottom: 3px double var(--line); }
+.sec-head p { color: var(--muted); font-size: 14.5px; margin-top: 10px; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* ---------- 02 热门分类 ---------- */
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: stretch; }
+.cat-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 3px double var(--brand);
+  border-radius: 6px;
+  padding: 22px 20px 18px;
+  display: flex; flex-direction: column;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.cat-card:hover { transform: translateY(-3px); border-color: var(--brand); box-shadow: 0 10px 22px rgba(29,78,137,.1); }
+.cat-icon { width: 42px; height: 42px; border-radius: 6px; background: #EDF1F7; color: var(--brand); display: grid; place-items: center; margin-bottom: 14px; }
+.cat-card h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 4px; }
+.cat-card .desc { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.cat-card ul { list-style: none; display: grid; gap: 7px; margin-bottom: 16px; }
+.cat-card ul a { font-size: 13.5px; color: var(--fg); text-decoration: none; border-bottom: 1px solid #E4E0D4; padding-bottom: 1px; }
+.cat-card ul a:hover { color: var(--brand); border-color: var(--brand); }
+.cat-foot { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+.cat-foot a { color: var(--brand); text-decoration: none; font-weight: 500; }
+.cat-foot a:hover { text-decoration: underline; }
 
+/* ---------- 03 FAQ 手风琴（账本行） ---------- */
+.faq-sheet { background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; box-shadow: 0 8px 22px rgba(35,42,36,.05); }
+.qa { border-bottom: 1px solid var(--line); }
+.qa:last-child { border-bottom: none; }
+.qa-btn {
+  width: 100%;
+  display: grid; grid-template-columns: 64px 1fr 34px;
+  align-items: center; gap: 12px;
+  background: transparent; border: none; cursor: pointer;
+  font: inherit; text-align: left;
+  padding: 20px 22px 20px 16px;
+}
+.qa-btn:hover { background: #F7F5EC; }
+.qa-no { font-family: var(--mono); font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; text-align: center; padding: 2px 0; align-self: start; margin-top: 3px; }
+.qa-q { font-family: var(--serif); font-weight: 700; font-size: 17px; line-height: 1.5; color: var(--fg); }
+.qa-chev { color: var(--brand); justify-self: center; transition: transform .25s ease; }
+.qa.open .qa-chev { transform: rotate(180deg); }
+.qa-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.qa-inner { overflow: hidden; visibility: hidden; transition: visibility 0s .3s; }
+.qa.open .qa-a { grid-template-rows: 1fr; }
+.qa.open .qa-inner { visibility: visible; transition-delay: 0s; }
+.qa-body { padding: 2px 22px 22px 92px; font-size: 14.5px; color: var(--fg); max-width: 62em; }
+.qa-body p + p { margin-top: 8px; }
+.qa-body .note { font-size: 13px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; margin-top: 10px; }
+.fb { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.fb-btn { font: inherit; font-size: 13px; cursor: pointer; background: var(--paper); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 5px 14px; }
+.fb-btn:hover { border-color: var(--brand); color: var(--brand); }
+.fb-btn[disabled] { cursor: default; opacity: .75; }
+.fb-msg { color: var(--muted); }
+.fb-msg a { color: var(--brand); font-weight: 600; }
+.qa.resolved .fb-msg { color: var(--ok); font-weight: 600; }
+.qa.resolved .fb-yes { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+
+/* ---------- 04 联系支持 ---------- */
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; margin-bottom: 34px; }
+.ch-card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 24px 22px; display: flex; flex-direction: column; transition: border-color .2s ease; }
+.ch-card:hover { border-color: var(--brand); }
+.ch-icon { width: 40px; height: 40px; border-radius: 50%; background: #EDF1F7; color: var(--brand); display: grid; place-items: center; margin-bottom: 14px; }
+.ch-card h3 { font-family: var(--serif); font-size: 17px; margin-bottom: 6px; }
+.ch-card p { font-size: 13.5px; color: var(--muted); }
+.ch-card .ch-meta { margin-top: auto; padding-top: 14px; font-family: var(--mono); font-size: 12.5px; color: var(--brand); }
+.cta-band {
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 35px, var(--rule) 35px 36px),
+    var(--paper);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 34px 30px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 18px;
+}
+.cta-band h3 { font-family: var(--serif); font-weight: 900; font-size: clamp(19px, 2.4vw, 25px); margin-bottom: 4px; }
+.cta-band p { font-size: 14px; color: var(--muted); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; flex: none; }
+.btn { display: inline-block; font: inherit; font-weight: 600; font-size: 15px; border-radius: 5px; padding: 12px 28px; cursor: pointer; text-decoration: none; border: 1.5px solid var(--brand); }
+.btn-primary { background: var(--brand); color: #FFFFFF; }
+.btn-primary:hover { background: var(--brand-deep); border-color: var(--brand-deep); }
+.btn-ghost { background: var(--paper); color: var(--brand); }
+.btn-ghost:hover { background: #EDF1F7; }
+
+/* ---------- footer ---------- */
+footer { margin-top: 72px; padding: 26px 0 34px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+footer .container { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: baseline; }
+footer a { color: var(--brand); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ---------- 动效降级 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1024px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } .stamp { right: 26px; top: 96px; width: 92px; height: 92px; } }
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .hero-sheet { padding: 24px 22px 32px 40px; }
+  .hero-sheet::before { left: 22px; }
+  .qa-body { padding-left: 22px; }
+  .qa-btn { grid-template-columns: 52px 1fr 30px; padding: 16px 14px; }
+}
+@media (max-width: 620px) {
+  .topbar nav { display: none; }
+  .cat-grid { grid-template-columns: 1fr; }
+  .stamp { position: static; width: 88px; height: 88px; margin: 22px 0 0 auto; transform: rotate(-8deg); }
+  .search-form { flex-direction: column; }
+  .search-form button { width: 100%; }
+  .cta-band { flex-direction: column; align-items: flex-start; }
+  .qa-btn { grid-template-columns: 1fr 28px; }
+  .qa-no { display: none; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>深夜关东煮</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看今日串</a></div></header><main><section class="hero container"><p class="doc-meta">今夜汤底 第 9 年 / 营业至 02:00 / 剩 6 个座</p><h1>汤滚着，夜就没结束</h1><p class="sub">路口的关东煮车，一辆车一口锅九年。萝卜永远最后一个给你留着。</p><div class="cta-row"><a class="btn btn-primary" href="#">看今日串</a><a class="btn" href="#">来找车</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>今日串</b><p>牛筋炖到筷子夹不起来，鸡蛋限购两枚。</p></div></section></section><section class="container"><section class="sec faq"><h2 class="section-h">常见问题</h2><div class="faq"><details open><summary>多久能上线？</summary><p>标准流程一周：两天接入、三天试跑、两天交接。</p></details><details><summary>数据归谁？</summary><p>全部归你，随时可导出，我们不留副本。</p></details><details><summary>怎么开始？</summary><p>留个联系方式，我们先看流程再谈方案，不推销。</p></details></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>看今日串，现在</h2><p>今夜汤底 第 9 年 / 营业至 02:00 / 剩 6 个座</p><a class="btn btn-primary" href="#">看今日串</a></div></section><footer>深夜关东煮 / 路口第三盏灯 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top"><span class="logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="14" y2="12"></line></svg></span>简账 / 帮助中心</a>
+    <nav aria-label="页面导航"><a href="#categories">分类</a> <a href="#faq">常见问题</a> <a href="#contact">联系我们</a></nav>
+    <a class="top-cta" href="#contact">提交工单</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 01 搜索 hero（官方第一节：Hero with search bar） -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero-sheet">
+      <p class="hero-meta"><span>单据 HB-2026-104</span><span>帮助中心 / 共 328 篇</span><span>工作日 9:00-18:00 回复</span></p>
+      <div class="stamp" aria-hidden="true"><span>当日回复</span><span>2026 / 10 / 08</span></div>
+      <h1 id="hero-h">你的问题，多半有人问过</h1>
+      <p class="sub">简账帮助中心收录了 328 篇解答，覆盖开票、税务、报表与同步。输入关键词，联想列表会直接定位到对应解答；搜不到的，人工当天接手。</p>
+      <div class="search-wrap">
+        <form class="search-form" role="search" id="searchForm">
+          <label class="sr-only" for="q">搜索帮助文档</label>
+          <input id="q" type="search" placeholder="搜索问题，例如：代开发票 / 汇算 / 同步失败" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="suglist" aria-autocomplete="list" aria-describedby="q-desc">
+          <button type="submit">搜索</button>
+        </form>
+        <p id="q-desc" class="sr-only">输入后展示联想列表，可用上下方向键选择，回车定位到对应解答。</p>
+        <ul class="sug" id="suglist" role="listbox" aria-label="搜索联想" hidden></ul>
+        <p class="search-hint" id="noHint" hidden><span>没有找到相关解答。</span><a href="#contact">转人工，当天接手</a></p>
+        <p class="sr-only" role="status" id="srStatus"></p>
+      </div>
+      <div class="quick" id="quickTerms"><span>大家都在搜</span><button type="button">代开发票</button><button type="button">汇算清缴</button><button type="button">应收催款</button><button type="button">流水同步</button></div>
+    </div>
+    <div class="perf" aria-hidden="true"></div>
+  </section>
+
+  <!-- 02 热门分类（官方第二节：Popular categories） -->
+  <section class="block container" id="categories" aria-labelledby="cat-h">
+    <div class="sec-head"><span class="sec-no">02 / 分类</span><h2 id="cat-h">热门分类</h2><p>按主题找答案，四类共 97 篇，覆盖自由职业者记账的高频问题。</p></div>
+    <div class="cat-grid">
+      <article class="cat-card" id="cat-invoice">
+        <div class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2Z"></path><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="11" x2="15" y2="11"></line></svg></div>
+        <h3>开票</h3>
+        <p class="desc">代开流程 / 数电票 / 红冲与重开</p>
+        <ul>
+          <li><a href="#faq">如何申请税务代开发票</a></li>
+          <li><a href="#faq">数电票重复开具了怎么办</a></li>
+          <li><a href="#faq">给客户报价时税率怎么选</a></li>
+        </ul>
+        <div class="cat-foot"><span>26 篇</span><a href="#faq">查看全部</a></div>
+      </article>
+      <article class="cat-card" id="cat-tax">
+        <div class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></div>
+        <h3>税务</h3>
+        <p class="desc">汇算清缴 / 扣除项目 / 征收方式</p>
+        <ul>
+          <li><a href="#faq">年度汇算清缴分步指南</a></li>
+          <li><a href="#faq">劳务报酬与经营所得的区别</a></li>
+          <li><a href="#faq">专项附加扣除怎么填</a></li>
+        </ul>
+        <div class="cat-foot"><span>31 篇</span><a href="#faq">查看全部</a></div>
+      </article>
+      <article class="cat-card" id="cat-report">
+        <div class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"></path><line x1="8" y1="17" x2="8" y2="11"></line><line x1="13" y1="17" x2="13" y2="7"></line><line x1="18" y1="17" x2="18" y2="13"></line></svg></div>
+        <h3>报表</h3>
+        <p class="desc">收支 / 应收账龄 / 导出账套</p>
+        <ul>
+          <li><a href="#faq">月度收支表怎么看</a></li>
+          <li><a href="#faq">应收账龄提醒怎么设置</a></li>
+          <li><a href="#faq">导出年度对账单给会计</a></li>
+        </ul>
+        <div class="cat-foot"><span>18 篇</span><a href="#faq">查看全部</a></div>
+      </article>
+      <article class="cat-card" id="cat-sync">
+        <div class="cat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></div>
+        <h3>同步</h3>
+        <p class="desc">银行流水 / 支付平台 / 授权维护</p>
+        <ul>
+          <li><a href="#faq">绑定银行卡自动记流水</a></li>
+          <li><a href="#faq">支付宝微信账单导入</a></li>
+          <li><a href="#faq">同步失败的常见原因</a></li>
+        </ul>
+        <div class="cat-foot"><span>22 篇</span><a href="#faq">查看全部</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 03 FAQ 手风琴（官方第三节：FAQ accordion） -->
+  <section class="block container" id="faq" aria-labelledby="faq-h">
+    <div class="sec-head"><span class="sec-no">03 / 常见问题</span><h2 id="faq-h">常见问题</h2><p>按账本页码排好，点开即读。每条解答下面可以反馈是否有帮助。</p></div>
+    <div class="faq-sheet">
+
+      <article class="qa" id="qa1">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a1"><span class="qa-no" aria-hidden="true">001</span><span>自由职业者没有公司，怎么给客户开发票？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a1" role="region" aria-label="解答 001"><div class="qa-inner"><div class="qa-body">
+          <p>常见三条路：一是在电子税务局以自然人身份申请代开，增值税目前按 3% 减按 1% 征收；二是本地邮政代开点，适合偶尔开一笔；三是若办了个体工商户登记，可以申领数电票自行开具。</p>
+          <p>简账可以把某个客户在某时段的收入整理成明细表，列清项目、金额与日期，直接用于代开申请，不用再手工对账。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa2">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a2"><span class="qa-no" aria-hidden="true">002</span><span>年度汇算清缴时，各平台的收入怎么合并申报？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a2" role="region" aria-label="解答 002"><div class="qa-inner"><div class="qa-body">
+          <p>每年 3 月 1 日至 6 月 30 日在个人所得税 App 办理。各接单平台的劳务报酬需要手动合并填报，收入额按 80% 计入。</p>
+          <p>简账「税务」页可以按月生成收入汇总，并区分已开票与未开票部分，照着表填，半小时能办完。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa3">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a3"><span class="qa-no" aria-hidden="true">003</span><span>客户拖着不付款，这笔收入该怎么记？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a3" role="region" aria-label="解答 003"><div class="qa-inner"><div class="qa-body">
+          <p>交付完成就记「应收」，钱到账再转「已收」，这样收入表不会虚高，欠款也一目了然。</p>
+          <p>每笔应收可以设账龄提醒：超 30 天自动标黄，超 60 天标红。催款时可以一键带出这段时间的对账单，附在邮件里。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa4">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a4"><span class="qa-no" aria-hidden="true">004</span><span>银行流水同步失败了怎么办？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a4" role="region" aria-label="解答 004"><div class="qa-inner"><div class="qa-body">
+          <p>先查三点：授权是否过期（一般 90 天需要重新授权一次）、银行是否正在维护（公告会挂在同步页顶部）、这张卡是否在别的账号重复绑定过。</p>
+          <p>多数情况到「同步 / 重新授权」里重绑一次就恢复。恢复后，失败期间近七天的流水会自动补拉，不需要手动补录。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa5">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a5"><span class="qa-no" aria-hidden="true">005</span><span>能把账直接导出给代账会计吗？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a5" role="region" aria-label="解答 005"><div class="qa-inner"><div class="qa-body">
+          <p>可以。「报表 / 导出」支持标准账套的 Excel 与 PDF 对账单，记账凭证按月打包，会计常用的科目余额表、序时账都有现成模板。</p>
+          <p>每次导出都带水印编号，会计那边核对版本不会乱。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa6">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a6"><span class="qa-no" aria-hidden="true">006</span><span>同时在三个平台接单，收入来源怎么区分？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a6" role="region" aria-label="解答 006"><div class="qa-inner"><div class="qa-body">
+          <p>给每笔收入打「来源」标签，平台名可以自定义。报表页按来源筛选合计，月末看一眼就知道哪个平台抽成之后实际到手更多，接单重心也好安排。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa7">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a7"><span class="qa-no" aria-hidden="true">007</span><span>免费版够用吗，和付费版差在哪？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a7" role="region" aria-label="解答 007"><div class="qa-inner"><div class="qa-body">
+          <p>帮助中心的全部文档，两个版本都能看，不设门槛。功能上：免费版限 1 个银行账户同步、报表导出保留 24 个月；专业版不限账户数，支持多币种与年度账套导出。</p>
+          <p>完整的差异表放在「报表」分类的置顶文章里，对完再决定要不要升级。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa8">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a8"><span class="qa-no" aria-hidden="true">008</span><span>我的账单数据存在哪里，安全吗？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a8" role="region" aria-label="解答 008"><div class="qa-inner"><div class="qa-body">
+          <p>数据加密后存放在境内节点的云服务上，每日自动备份，异地容灾。你随时可以在「设置 / 数据」里导出全部原始记录带走；删除账户后，数据在 30 天内彻底清除，不留副本。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+      <article class="qa" id="qa9">
+        <h3 class="qa-q"><button type="button" class="qa-btn" aria-expanded="false" aria-controls="a9"><span class="qa-no" aria-hidden="true">009</span><span>周末提交的工单，多久会有人回？</span><svg class="qa-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button></h3>
+        <div class="qa-a" id="a9" role="region" aria-label="解答 009"><div class="qa-inner"><div class="qa-body">
+          <p>工单承诺 24 小时内首次响应，按工作日 9:00-18:00 计时。周五晚上到周日提交的工单，最晚周一上午回复。</p>
+          <p class="note">紧急问题走邮件加急通道，标题注明「加急」，值班同学会优先处理。</p>
+          <div class="fb"><span>这条解答有帮助吗</span><button type="button" class="fb-btn fb-yes">有帮助</button><button type="button" class="fb-btn fb-no">没帮助</button><span class="fb-msg" role="status"></span></div>
+        </div></div></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 04 联系支持（官方第四节：Contact/support CTA） -->
+  <section class="block container" id="contact" aria-labelledby="contact-h">
+    <div class="sec-head"><span class="sec-no">04 / 联系</span><h2 id="contact-h">还没解决？转人工</h2><p>文档没覆盖到的，直接找我们。支持同学也是自由职业者出身，懂行话。</p></div>
+    <div class="contact-grid">
+      <article class="ch-card">
+        <div class="ch-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></div>
+        <h3>在线工单</h3>
+        <p>描述问题、附上截图，支持同学按工单号跟进进度，全程留痕可查。</p>
+        <p class="ch-meta">24 小时内首次响应 / 工作日 9:00-18:00</p>
+      </article>
+      <article class="ch-card">
+        <div class="ch-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2H3v20l4-4h14Z"></path><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="13" y2="12"></line></svg></div>
+        <h3>邮件支持</h3>
+        <p>发到 support@jianzhang.example，紧急问题标题注明「加急」，值班同学优先处理。</p>
+        <p class="ch-meta">support@jianzhang.example</p>
+      </article>
+      <article class="ch-card">
+        <div class="ch-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+        <h3>每周四直播答疑</h3>
+        <p>老用户和产品同学在线连麦，报税季前加场。往期回放都在社区置顶。</p>
+        <p class="ch-meta">社区入口见页脚目录</p>
+      </article>
+    </div>
+    <div class="cta-band">
+      <div><h3>问题不过夜</h3><p>提交工单后你会拿到一个单据号，进度随时可查，解决前不关单。</p></div>
+      <div class="cta-row"><a class="btn btn-primary" href="#top">提交工单</a><a class="btn btn-ghost" href="mailto:support@jianzhang.example">写邮件</a></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container"><span>UI 设计提示词库 / 落地结构 No.16</span><a href="../style-catalog.html">返回风格目录</a></div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 文档索引：FAQ 条目 + 分类文章（供搜索联想与定位） */
+  var DOCS = [
+    { t: '自由职业者没有公司，怎么给客户开发票', c: '开票', faq: 'qa1' },
+    { t: '年度汇算清缴时，各平台的收入怎么合并申报', c: '税务', faq: 'qa2' },
+    { t: '客户拖着不付款，这笔收入该怎么记', c: '报表', faq: 'qa3' },
+    { t: '银行流水同步失败了怎么办', c: '同步', faq: 'qa4' },
+    { t: '能把账直接导出给代账会计吗', c: '报表', faq: 'qa5' },
+    { t: '同时在三个平台接单，收入来源怎么区分', c: '报表', faq: 'qa6' },
+    { t: '免费版够用吗，和付费版差在哪', c: '税务', faq: 'qa7' },
+    { t: '我的账单数据存在哪里，安全吗', c: '同步', faq: 'qa8' },
+    { t: '周末提交的工单，多久会有人回', c: '开票', faq: 'qa9' },
+    { t: '如何申请税务代开发票', c: '开票', go: 'cat-invoice' },
+    { t: '数电票重复开具了怎么办', c: '开票', go: 'cat-invoice' },
+    { t: '给客户报价时税率怎么选', c: '开票', go: 'cat-invoice' },
+    { t: '劳务报酬与经营所得的区别', c: '税务', go: 'cat-tax' },
+    { t: '专项附加扣除怎么填', c: '税务', go: 'cat-tax' },
+    { t: '月度收支表怎么看', c: '报表', go: 'cat-report' },
+    { t: '应收账龄提醒怎么设置', c: '报表', go: 'cat-report' },
+    { t: '导出年度对账单给会计', c: '报表', go: 'cat-report' },
+    { t: '绑定银行卡自动记流水', c: '同步', go: 'cat-sync' },
+    { t: '支付宝微信账单导入', c: '同步', go: 'cat-sync' },
+    { t: '同步失败的常见原因', c: '同步', go: 'cat-sync' }
+  ];
+
+  var input = document.getElementById('q');
+  var suglist = document.getElementById('suglist');
+  var srStatus = document.getElementById('srStatus');
+  var noHint = document.getElementById('noHint');
+  var form = document.getElementById('searchForm');
+  var matches = [];
+  var active = -1;
+
+  function say(text) { srStatus.textContent = text; }
+
+  function closeSug() {
+    suglist.hidden = true;
+    suglist.textContent = '';
+    input.removeAttribute('aria-activedescendant');
+    input.setAttribute('aria-expanded', 'false');
+    matches = []; active = -1;
+  }
+
+  function setActive(idx) {
+    active = idx;
+    var items = suglist.querySelectorAll('li');
+    items.forEach(function (li, i) {
+      li.classList.toggle('active', i === active);
+      li.setAttribute('aria-selected', i === active ? 'true' : 'false');
+    });
+    if (items[active]) { input.setAttribute('aria-activedescendant', items[active].id); }
+  }
+
+  function openFaq(id) {
+    var qa = document.getElementById(id);
+    if (!qa) { return null; }
+    qa.classList.add('open');
+    qa.querySelector('.qa-btn').setAttribute('aria-expanded', 'true');
+    return qa;
+  }
+
+  function choose(doc) {
+    input.value = doc.t;
+    noHint.hidden = true;
+    closeSug();
+    if (doc.faq) {
+      var qa = openFaq(doc.faq);
+      if (qa) { qa.scrollIntoView({ block: 'center' }); }
+      say('已定位并展开解答：' + doc.t);
+    } else if (doc.go) {
+      var card = document.getElementById(doc.go);
+      if (card) { card.scrollIntoView({ block: 'center' }); }
+      say('已定位到分类：' + doc.c);
+    }
+  }
+
+  function render(items) {
+    suglist.textContent = '';
+    items.forEach(function (doc, i) {
+      var li = document.createElement('li');
+      li.id = 'opt-' + i;
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', 'false');
+      var t = document.createElement('span');
+      t.textContent = doc.t;
+      var c = document.createElement('span');
+      c.className = 'cat';
+      c.textContent = doc.c;
+      li.appendChild(t); li.appendChild(c);
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      li.addEventListener('click', function () { choose(doc); });
+      suglist.appendChild(li);
+    });
+    suglist.hidden = items.length === 0;
+    input.setAttribute('aria-expanded', items.length > 0 ? 'true' : 'false');
+  }
+
+  function filter() {
+    var q = input.value.trim().toLowerCase();
+    noHint.hidden = true;
+    if (!q) { closeSug(); return; }
+    matches = DOCS.filter(function (d) {
+      return d.t.toLowerCase().indexOf(q) !== -1 || d.c === q;
+    }).slice(0, 6);
+    render(matches);
+    setActive(-1);
+    say(matches.length ? '共 ' + matches.length + ' 条联想结果' : '没有联想结果');
+  }
+
+  input.addEventListener('input', filter);
+
+  input.addEventListener('keydown', function (e) {
+    if (suglist.hidden || !matches.length) { if (e.key === 'Escape') { closeSug(); } return; }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((active + 1) % matches.length); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active <= 0 ? matches.length - 1 : active - 1); }
+    else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); choose(matches[active]); }
+    else if (e.key === 'Escape') { closeSug(); }
+  });
+
+  input.addEventListener('blur', function () { setTimeout(closeSug, 120); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = input.value.trim().toLowerCase();
+    if (!q) { input.focus(); return; }
+    var hit = DOCS.filter(function (d) { return d.t.toLowerCase().indexOf(q) !== -1; });
+    if (hit.length) { choose(hit[0]); }
+    else {
+      closeSug();
+      noHint.hidden = false;
+      say('没有找到相关解答，建议转人工');
+      noHint.querySelector('a').focus();
+    }
+  });
+
+  document.getElementById('quickTerms').addEventListener('click', function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) { return; }
+    input.value = btn.textContent;
+    filter();
+    input.focus();
+  });
+
+  /* 手风琴：button + aria-expanded，可同时展开多条 */
+  document.querySelectorAll('.qa-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var open = btn.closest('.qa').classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  /* 有帮助反馈：点是即已解决（绿）；点否升级转人工 */
+  document.querySelectorAll('.fb').forEach(function (fb) {
+    fb.addEventListener('click', function (e) {
+      var btn = e.target.closest('.fb-btn');
+      if (!btn || btn.disabled) { return; }
+      var msg = fb.querySelector('.fb-msg');
+      var qa = btn.closest('.qa');
+      if (btn.classList.contains('fb-yes')) {
+        qa.classList.add('resolved');
+        msg.textContent = '已解决，感谢反馈';
+      } else {
+        msg.textContent = '';
+        msg.appendChild(document.createTextNode('已记录。仍未解决可'));
+        var link = document.createElement('a');
+        link.href = '#contact';
+        link.textContent = '转人工，当天接手';
+        msg.appendChild(link);
+      }
+      fb.querySelectorAll('.fb-btn').forEach(function (b) { b.disabled = true; });
+    });
+  });
+})();
+</script>
 </body>
 </html>

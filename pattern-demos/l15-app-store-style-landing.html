@@ -4,137 +4,834 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / App Store Style Landing — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>App Store Style 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.15 样张：白噪音助眠 App 的商店风格落地页，含设备 mockup、截图轮播、图标功能、评分与评价、下载 CTA。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+/* token 计划：浅灰底 #F5F5F7 / 卡面 #FFFFFF / 墨字 #1D1D1F / 次级 #55575C / 主蓝 #0A6CD6 / 链接蓝 #08509F / 星金 #B45309 / 深色带 #0B1220 — 呼应 App Store 明暗双质感 */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(208,32,32,.28); --primary: #D02020; --secondary: #1040C0;
-  --accent: #F0C020; --on-primary: #fff;
-  --radius: 0px; --btn-radius: 0px;
+  --bg: #F5F5F7;
+  --surface: #FFFFFF;
+  --ink: #1D1D1F;
+  --muted: #55575C;
+  --line: #E3E5EA;
+  --accent: #0A6CD6;
+  --accent-ink: #08509F;
+  --gold: #B45309;
+  --gold-off: #C6CBD4;
+  --dark: #0B1220;
+  --dark-ink: #EEF2F8;
+  --dark-muted: #AEB8C8;
+  --ok-ink: #0E6B3B;
+  --ok-bg: #E7F5EC;
+  --radius: 18px;
+  --btn-radius: 12px;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: "SF Pro Text", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3, .num { font-family: 'Lexend', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 2.5px solid var(--fg); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Lexend', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+a:focus-visible, button:focus-visible, .shots-track:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+section { scroll-margin-top: 76px; }
+.section-h { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: 0.2px; }
+.section-sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+
+/* 顶栏 */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: saturate(1.5) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner { display: flex; align-items: center; gap: 14px; height: 62px; }
+.app-identity { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.app-icon {
+  width: 36px; height: 36px; border-radius: 9px; flex: none;
+  background: linear-gradient(160deg, #1B2C55, #0B1220);
+  display: grid; place-items: center; color: #F5D9A8;
+}
+.app-identity b { font-size: 16px; }
+.app-identity small { display: block; font-size: 11.5px; color: var(--muted); font-weight: 400; line-height: 1.3; }
+.topbar-rating { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.topbar-rating b { color: var(--gold); }
+.topbar nav { margin-left: auto; display: flex; gap: 20px; }
+.topbar nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+.topbar nav a:hover { color: var(--accent-ink); }
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 2.5px solid var(--fg);
-  background: var(--card); color: var(--fg);
-  transition: transform 0ms, box-shadow 0ms, background 0ms;
+  padding: 10px 20px; border-radius: var(--btn-radius);
+  cursor: pointer; text-decoration: none; border: 1px solid transparent;
+  transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 2.5px solid var(--fg); border-radius: var(--radius);
-  box-shadow: 4px 4px 0px 0px #121212, active:translate-x-[2px] active:translate-y-[2px] active:shadow-none, border: 2px solid #121212, font-family: Outfit, font-weight: 900 uppercase tracking-tighter (headlines); padding: 24px;
-  transition: transform 0ms, box-shadow 0ms; }
-.card:hover { transform: translateY(-4px); box-shadow: 4px 4px 0px 0px #121212, active:translate-x-[2px] active:translate-y-[2px] active:shadow-none, border: 2px solid #121212, font-family: Outfit, font-weight: 900 uppercase tracking-tighter (headlines);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 2.5px solid var(--fg); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-.grid3 .card:nth-child(1) .card-icon{border-radius:50%} .grid3 .card:nth-child(3) .card-icon{clip-path:polygon(50% 0,100% 100%,0 100%);border-radius:0}
+.btn-accent { background: var(--accent); color: #FFFFFF; }
+.btn-accent:hover { background: #085BB5; transform: translateY(-1px); }
+.topbar .btn-accent { padding: 8px 18px; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 2.5px solid var(--fg); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* Hero 与设备 mockup */
+.hero { padding: 64px 0 72px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+.hero-copy h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.18; letter-spacing: 0.2px; }
+.hero-copy .tagline { font-size: clamp(17px, 2vw, 21px); color: var(--muted); margin-top: 10px; font-weight: 600; }
+.hero-rating {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  margin: 18px 0 4px; font-size: 13.5px; color: var(--muted);
+}
+.hero-rating b { color: var(--ink); font-size: 15px; }
+.hero-desc { color: var(--muted); font-size: 15px; margin: 12px 0 22px; max-width: 46ch; }
+.store-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.store-btn {
+  display: inline-flex; align-items: center; gap: 11px;
+  background: #14181F; color: #FFFFFF; text-decoration: none;
+  padding: 10px 20px; border-radius: var(--btn-radius);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.store-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(11, 18, 32, 0.28); }
+.store-btn .sb-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.25; text-align: left; }
+.store-btn .sb-small { font-size: 10.5px; color: #C9D2DF; }
+.store-btn .sb-big { font-size: 16.5px; font-weight: 650; letter-spacing: 0.2px; }
+.hero-meta { margin-top: 20px; font-size: 12.5px; color: var(--muted); }
 
+/* 星星 */
+.stars { display: inline-flex; gap: 2px; color: var(--gold); }
+.stars .st { width: 17px; height: 17px; fill: currentColor; }
+.stars .st.off { color: var(--gold-off); }
+.stars-lg .st { width: 21px; height: 21px; }
+
+/* 设备组 */
+.device-stack { position: relative; display: flex; justify-content: center; min-height: 520px; align-items: center; }
+.phone {
+  position: relative; width: var(--pw, 232px); flex: none;
+  background: #12151B; border-radius: 42px; padding: 9px;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.24), inset 0 0 0 1.5px rgba(255, 255, 255, 0.10);
+}
+.phone::before {
+  content: ""; position: absolute; top: 19px; left: 50%; transform: translateX(-50%);
+  width: 76px; height: 16px; border-radius: 10px; background: #0A0D12; z-index: 3;
+}
+.screen {
+  position: relative; width: 100%; aspect-ratio: 9 / 17.4;
+  border-radius: 34px; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.screen::after {
+  content: ""; position: absolute; bottom: 7px; left: 50%; transform: translateX(-50%);
+  width: 82px; height: 4px; border-radius: 3px; background: rgba(140, 146, 158, 0.55); z-index: 3;
+}
+.phone-main { z-index: 2; --pw: 250px; }
+.phone-side-l { position: absolute; left: 0; top: 44px; --pw: 196px; transform: rotate(-9deg); z-index: 1; }
+.phone-side-r { position: absolute; right: 0; top: 58px; --pw: 196px; transform: rotate(8deg); z-index: 1; }
+.scr-status {
+  display: flex; justify-content: space-between;
+  padding: 14px 20px 4px; font-size: 10px; opacity: 0.85; z-index: 2;
+}
+
+/* 屏 A：正在播放（深色） */
+.scr-a {
+  background: linear-gradient(180deg, #16203A, #0B1220); color: #EDF1F8;
+  align-items: center; justify-content: space-evenly; text-align: center; padding: 12px 14px 20px;
+}
+.scr-a .disc {
+  width: 74px; height: 74px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #2A3B66, #101A33);
+  display: grid; place-items: center; color: #F5D9A8;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.05);
+}
+.scr-a h3 { font-size: 16px; letter-spacing: 0.3px; }
+.scr-a .scr-sub { font-size: 11px; color: #A9B6CE; margin-top: 2px; }
+.wave { display: flex; align-items: center; gap: 3px; height: 46px; width: 82%; }
+.wave i { flex: 1; max-width: 4px; border-radius: 2px; background: #8FB4F5; }
+.wave i:nth-child(4n+1) { height: 38%; }
+.wave i:nth-child(4n+2) { height: 74%; }
+.wave i:nth-child(4n+3) { height: 52%; }
+.wave i:nth-child(4n) { height: 90%; }
+.wave i:nth-child(3n) { background: #C9A86A; }
+.scr-ctrl { display: flex; align-items: center; gap: 22px; color: #D7E0F2; }
+.scr-ctrl .cbtn { width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.10); display: grid; place-items: center; }
+.scr-ctrl .cbtn.main { width: 48px; height: 48px; background: #0A6CD6; }
+.scr-chip {
+  font-size: 10.5px; color: #D9E3F5; background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 5px 12px; border-radius: 999px;
+}
+
+/* 屏 B：声音库（浅色） */
+.scr-b { background: #F4F6FA; color: var(--ink); padding: 12px 12px 22px; gap: 9px; }
+.scr-b h3 { font-size: 15px; padding: 0 4px; }
+.scr-search {
+  display: flex; align-items: center; gap: 7px;
+  background: #FFFFFF; border: 1px solid var(--line); border-radius: 11px;
+  padding: 8px 11px; font-size: 11.5px; color: var(--muted);
+}
+.scr-row {
+  display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px;
+  background: #FFFFFF; border: 1px solid var(--line); border-radius: 13px; padding: 9px 10px;
+}
+.scr-row .ric { width: 36px; height: 36px; border-radius: 10px; background: #E8F0FC; color: var(--accent-ink); display: grid; place-items: center; }
+.scr-row b { font-size: 12.5px; display: block; }
+.scr-row .rmeta { font-size: 10.5px; color: var(--muted); }
+.scr-row .playing {
+  font-size: 10px; color: #FFFFFF; background: var(--accent);
+  padding: 3px 8px; border-radius: 999px;
+}
+.scr-row.hot { border-color: #B9D2F2; box-shadow: 0 0 0 1px #B9D2F2 inset; }
+
+/* 屏 C：混音台（深色） */
+.scr-c { background: #101623; color: #E7ECF5; padding: 12px 14px 24px; gap: 12px; }
+.scr-c h3 { font-size: 15px; }
+.scr-c .scr-sub { font-size: 10.5px; color: #9AA8C0; margin-top: 2px; }
+.mixer { display: flex; justify-content: space-evenly; align-items: flex-end; gap: 8px; flex: 1; padding-top: 6px; }
+.vgroup { display: flex; flex-direction: column; align-items: center; gap: 7px; font-size: 10px; color: #9AA8C0; }
+.vslide { position: relative; width: 30px; height: 112px; border-radius: 999px; background: #232B3D; overflow: hidden; }
+.vslide .fill { position: absolute; left: 0; right: 0; bottom: 0; background: #0A6CD6; }
+.vslide .knob {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #F2F5FA; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.scr-c .save {
+  align-self: stretch; text-align: center; font-size: 11.5px; font-weight: 600;
+  color: #FFFFFF; background: #0A6CD6; border-radius: 11px; padding: 9px 0;
+}
+
+/* 屏 D：睡眠报告（浅色） */
+.scr-d { background: #FFFFFF; color: var(--ink); padding: 12px 14px 24px; gap: 8px; align-items: center; text-align: center; }
+.scr-d h3 { font-size: 15px; align-self: flex-start; padding-left: 2px; }
+.ring-wrap { position: relative; width: 128px; height: 128px; margin-top: 4px; }
+.ring-wrap svg { width: 100%; height: 100%; }
+.ring-center { position: absolute; inset: 0; display: grid; place-content: center; }
+.ring-center b { font-size: 17px; display: block; line-height: 1.2; }
+.ring-center span { font-size: 9.5px; color: var(--muted); }
+.legend { width: 100%; display: grid; gap: 6px; }
+.legend-row { display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); text-align: left; }
+.legend-row i { width: 10px; height: 10px; border-radius: 3px; }
+.legend-row b { color: var(--ink); font-weight: 600; }
+.scr-d .scr-chip { color: var(--ok-ink); background: var(--ok-bg); border-color: #CBEBD6; }
+
+/* 截图轮播 */
+.shots { padding: 66px 0 58px; background: var(--surface); border-block: 1px solid var(--line); }
+.shots-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.shots-ctrl { display: flex; gap: 10px; }
+.cbtn-round {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  display: grid; place-items: center; cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+.cbtn-round:hover { background: #E9ECF1; transform: translateY(-1px); }
+.cbtn-round[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+.shots-track {
+  --shotw: 232px;
+  display: flex; gap: 22px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 22px calc(50% - var(--shotw) / 2) 10px;
+  margin-top: 22px;
+  scrollbar-width: none;
+}
+.shots-track::-webkit-scrollbar { display: none; }
+.shot { flex: 0 0 var(--shotw); scroll-snap-align: center; }
+.shot .phone { width: 100%; }
+.shot figcaption { text-align: center; font-size: 13px; color: var(--muted); margin-top: 12px; }
+.shot figcaption b { color: var(--ink); margin-right: 8px; font-family: "SF Mono", Consolas, monospace; font-size: 12px; }
+.shots-dots { display: flex; justify-content: center; gap: 9px; margin-top: 14px; }
+.shots-dots button {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: none; background: #C9CDD6; cursor: pointer; padding: 0;
+  transition: width 180ms ease, background 180ms ease;
+}
+.shots-dots button[aria-current="true"] { width: 24px; border-radius: 999px; background: var(--accent); }
+.shots-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+/* 图标功能 */
+.features { padding: 70px 0; }
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+.feat-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px; display: flex; flex-direction: column; gap: 8px;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.feat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.feat-ic {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: #E8F0FC; color: var(--accent-ink);
+  display: grid; place-items: center; margin-bottom: 4px;
+}
+.feat-card h3 { font-size: 16px; }
+.feat-card p { font-size: 13.5px; color: var(--muted); }
+
+/* 评价 */
+.reviews { padding: 66px 0 74px; background: var(--surface); border-block: 1px solid var(--line); }
+.rating-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 18px; margin-top: 30px; align-items: stretch; }
+.rating-card, .review {
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.rating-card { padding: 26px; display: grid; gap: 16px; align-content: start; }
+.rating-head { display: flex; align-items: center; gap: 16px; }
+.rating-head .big { font-size: 52px; font-weight: 750; line-height: 1; letter-spacing: -1px; }
+.rating-head .col { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.bar-rows { display: grid; gap: 9px; }
+.bar-row { display: grid; grid-template-columns: 36px 1fr 42px; align-items: center; gap: 10px; font-size: 12.5px; color: var(--muted); }
+.bar-row .track { height: 8px; border-radius: 999px; background: #E4E7ED; overflow: hidden; display: block; }
+.bar-row .fillp { height: 100%; border-radius: 999px; background: var(--gold); display: block; }
+.bar-row .pct { text-align: right; font-variant-numeric: tabular-nums; }
+.rating-note { font-size: 12px; color: var(--muted); border-top: 1px dashed #D4D7DE; padding-top: 14px; }
+.review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.review {
+  display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto auto auto 1fr auto;
+  column-gap: 12px; row-gap: 8px; padding: 20px; align-items: start;
+}
+.rv-avatar {
+  grid-row: 1 / span 5; width: 44px; height: 44px; border-radius: 50%;
+  background: #1B2C55; color: #F5D9A8; font-weight: 700; font-size: 15px;
+  display: grid; place-items: center;
+}
+.rv-meta b { font-size: 14px; display: block; line-height: 1.3; }
+.rv-meta time { font-size: 11.5px; color: var(--muted); }
+.rv-stars { display: flex; align-items: center; }
+.rv-title { font-size: 14.5px; font-weight: 650; }
+.rv-body { font-size: 13px; color: var(--muted); }
+.verified {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; color: var(--ok-ink); background: var(--ok-bg);
+  border: 1px solid #CBEBD6; border-radius: 999px; padding: 2px 8px;
+}
+
+/* 下载 CTA */
+.download { background: var(--dark); color: var(--dark-ink); padding: 78px 0 84px; }
+.download-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
+.download h2 { font-size: clamp(24px, 3.4vw, 36px); line-height: 1.25; }
+.download .dsub { color: var(--dark-muted); font-size: 15px; margin: 12px 0 26px; max-width: 42ch; }
+.download .hero-meta { color: var(--dark-muted); }
+.dl-panel {
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px; padding: 30px; text-align: center;
+}
+.dl-panel .stars { justify-content: center; margin-bottom: 8px; }
+.dl-panel p { font-size: 13px; color: var(--dark-muted); margin-bottom: 18px; }
+.dl-panel .store-btn { width: 100%; justify-content: center; }
+.dl-panel .store-btn + .store-btn { margin-top: 10px; }
+
+/* footer */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted);
+}
+footer a { color: var(--accent-ink); }
+
+/* 亮相动效：仅一次，终态即静态样式 */
+.hero-copy { animation: heroRise 700ms 80ms both ease-out; }
+.device-stack { animation: settle 800ms 120ms both ease-out; }
+@keyframes heroRise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes settle { from { opacity: 0; transform: translateY(30px) scale(0.97); } to { opacity: 1; transform: none; } }
+.stars .st { animation: starOn 420ms both ease-out; }
+.stars .st:nth-child(1) { animation-delay: 320ms; }
+.stars .st:nth-child(2) { animation-delay: 420ms; }
+.stars .st:nth-child(3) { animation-delay: 520ms; }
+.stars .st:nth-child(4) { animation-delay: 620ms; }
+.stars .st:nth-child(5) { animation-delay: 720ms; }
+@keyframes starOn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+/* 响应式 */
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 34px; }
+  .device-stack { min-height: 460px; }
+  .rating-grid { grid-template-columns: 1fr; }
+  .review-grid { grid-template-columns: 1fr; }
+  .download-grid { grid-template-columns: 1fr; }
+  .topbar nav { display: none; }
+  .topbar .btn-accent { margin-left: auto; }
+}
+@media (max-width: 640px) {
+  .feat-grid { grid-template-columns: 1fr; }
+  .shots-track { --shotw: 188px; gap: 16px; }
+  .phone-side-l, .phone-side-r { display: none; }
+  .device-stack { min-height: 0; }
+  .store-btn { flex: 1 1 100%; }
+  .hero { padding: 44px 0 56px; }
+  .topbar-rating { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>陈记修理</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">价目表</a></div></header><main><section class="hero container"><p class="doc-meta">取件单 #2214 / 修伞/修表/磨刀 / 周三店休</p><h1>修不好的不多，不划算的不少</h1><p class="sub">四十年修理铺：能修的告诉你价，不能修的直接说。这行当赚的是直话直说。</p><div class="cta-row"><a class="btn btn-primary" href="#">价目表</a><a class="btn" href="#">到店导航</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>修表</b><p>机械表洗油 260 起，零件停产的表先问再拆。</p></div></section></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>修伞</h3><p>钢骨断一根换一根，伞面破的自己选布，工费明码。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>修表</h3><p>机械表洗油 260 起，零件停产的表先问再拆。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>磨刀</h3><p>剪子菜刀都磨，立等可取，钝得离谱的加十块。</p></article></div></section></section><section class="container"><section class="sec testi"><h2 class="section-h">用户怎么说</h2><div class="tst-grid"><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「流程终于跑顺了，交接成本几乎为零」</blockquote><figcaption>王琨 / 运营负责人</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「第二周就看到数据变化，团队没人再喊麻烦」</blockquote><figcaption>李潇 / 市场总监</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「客服量降了一半，答案反而更标准」</blockquote><figcaption>赵砚 / 客服主管</figcaption></figure></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>价目表，现在</h2><p>取件单 #2214 / 修伞/修表/磨刀 / 周三店休</p><a class="btn btn-primary" href="#">价目表</a></div></section><footer>陈记修理 / 周三店休 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="app-identity" href="#top">
+      <span class="app-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+      <span><b>枕语</b><small>白噪音与助眠</small></span>
+    </a>
+    <span class="topbar-rating"><b>4.8</b> 分 / 12,483 个评分</span>
+    <nav aria-label="页内导航">
+      <a href="#screenshots">截图</a>
+      <a href="#features">功能</a>
+      <a href="#reviews">评价</a>
+    </nav>
+    <a class="btn btn-accent" href="#download">免费获取</a>
+  </div>
+</header>
+<main id="top">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1>枕语</h1>
+        <p class="tagline">把世界的噪音，调成一晚安眠</p>
+        <div class="hero-rating">
+          <b>4.8</b>
+          <span class="stars" role="img" aria-label="评分 4.8 / 5">
+            <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+          </span>
+          <span>12,483 个评分 / 数据截至 2026-09-30</span>
+        </div>
+        <p class="hero-desc">从夜雨、海浪到山谷里的风，86 条录音棚级白噪音与自然声，由你混成专属入睡配方。定时淡出、浅睡窗口闹钟与每周睡眠报告，全部支持离线。</p>
+        <div class="store-row">
+          <a class="store-btn" href="#download">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.3 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.6-2.8-1.9-3.4-1.9-1.5-.1-2.8.9-3.6.9-.8 0-1.9-.9-3.1-.9-1.6 0-3 1-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3.1.7c1.3 0 2.1-1.1 2.9-2.3.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.6zM13.9 4.8c.7-.8 1.1-1.9 1-3-1 .1-2.2.7-2.9 1.5-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg>
+            <span class="sb-text"><span class="sb-small">下载于</span><span class="sb-big">App Store</span></span>
+          </a>
+          <a class="store-btn" href="#download">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.4v17.2c0 .4.4.6.7.4l3-1.8L4.7 3.6c-.1-.4-.7-.5-.7-.2z" fill="#34A853"/><path d="M4.6 3.1l11.8 7-2.6 1.5L4.2 3.3c-.2-.1 0-.3.4-.2z" fill="#EA4335"/><path d="M4.6 20.9l11.8-7-2.6-1.6-9.6 8.3c-.4.3-.2.5.4.3z" fill="#4285F4"/><path d="M16.4 10.1l4 2.4c.8.5.8 1.5 0 2l-4 2.4-3.2-2.7c.7-.5.7-1 0-1.4l3.2-2.7z" fill="#FBBC04"/></svg>
+            <span class="sb-text"><span class="sb-small">下载于</span><span class="sb-big">Google Play</span></span>
+          </a>
+        </div>
+        <p class="hero-meta">版本 4.2.1 / 大小 86 MB / 年龄 4+ / 免费下载，含可选订阅</p>
+      </div>
+      <div class="device-stack" role="img" aria-label="三台手机组成的设备示意：声音库、正在播放与混音台三个界面">
+        <div class="phone phone-side-l">
+          <div class="screen scr-b">
+            <div class="scr-status"><span>22:05</span><span>86%</span></div>
+            <h3>声音库</h3>
+            <div class="scr-search">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              搜索 86 条声音
+            </div>
+            <div class="scr-row">
+              <span class="ric" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M17.5 15a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6-1A4.5 4.5 0 0 0 6.5 15z"/><path d="M8 18v2M12 18v3M16 18v2"/></svg></span>
+              <span><b>夜雨</b><span class="rmeta">42 分钟</span></span>
+              <span class="rmeta">循环</span>
+            </div>
+            <div class="scr-row hot">
+              <span class="ric" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9c1.5-1.5 3-1.5 4.5 0S9 10.5 10.5 9 13.5 7.5 15 9s2.5 1.5 4 0"/><path d="M2 15c1.5-1.5 3-1.5 4.5 0s2.5 1.5 4 0 2.5-1.5 4 0 2.5 1.5 4 0" opacity=".7"/></svg></span>
+              <span><b>深海浪</b><span class="rmeta">60 分钟</span></span>
+              <span class="playing">播放中</span>
+            </div>
+            <div class="scr-row">
+              <span class="ric" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 6.5-2.6 6.5-6.2 0-2.3-1.2-4.3-2.6-6C14.5 8 13 6 13 3c-3 2-4.2 4.8-4.2 6.8 0 .8.1 1.5.3 2-1-.2-1.8-.9-2.3-1.9C5.1 11.5 5.5 13.7 5.5 15.8 5.5 19.4 8 22 12 22z"/></svg></span>
+              <span><b>篝火</b><span class="rmeta">循环</span></span>
+              <span class="rmeta">52 分钟</span>
+            </div>
+          </div>
+        </div>
+        <div class="phone phone-main">
+          <div class="screen scr-a">
+            <div class="scr-status"><span>23:14</span><span>86%</span></div>
+            <span class="disc" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+            <div>
+              <h3>雨打芭蕉</h3>
+              <p class="scr-sub">精选雨声 / 第 3 夜播放</p>
+            </div>
+            <div class="wave" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="scr-ctrl" aria-hidden="true">
+              <span class="cbtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5v14h-3V5zM5 5l9 7-9 7z"/></svg></span>
+              <span class="cbtn main"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+              <span class="cbtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M5 5v14h3V5zM19 5l-9 7 9 7z"/></svg></span>
+            </div>
+            <span class="scr-chip">45 分钟后淡出关闭</span>
+          </div>
+        </div>
+        <div class="phone phone-side-r">
+          <div class="screen scr-c">
+            <div class="scr-status"><span>23:12</span><span>86%</span></div>
+            <div>
+              <h3>混音台</h3>
+              <p class="scr-sub">调好就存成你的配方</p>
+            </div>
+            <div class="mixer" aria-hidden="true">
+              <div class="vgroup"><div class="vslide"><span class="fill" style="height:70%"></span><span class="knob" style="bottom:calc(70% - 11px)"></span></div>雨声 70</div>
+              <div class="vgroup"><div class="vslide"><span class="fill" style="height:45%"></span><span class="knob" style="bottom:calc(45% - 11px)"></span></div>海浪 45</div>
+              <div class="vgroup"><div class="vslide"><span class="fill" style="height:30%"></span><span class="knob" style="bottom:calc(30% - 11px)"></span></div>炉火 30</div>
+            </div>
+            <span class="save">保存为「雨夜标配」</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="shots" id="screenshots" aria-labelledby="shots-h">
+    <div class="container">
+      <div class="shots-head">
+        <div>
+          <h2 class="section-h" id="shots-h">四屏看完一个安睡的晚上</h2>
+          <p class="section-sub">真实界面截图 / 与商店上架版本 4.2.1 一致</p>
+        </div>
+        <div class="shots-ctrl">
+          <button class="cbtn-round" id="shot-prev" type="button" aria-label="上一张截图">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+          </button>
+          <button class="cbtn-round" id="shot-toggle" type="button" aria-label="暂停自动播放" aria-pressed="true">
+            <svg data-ic="pause" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5h3.4v15H7zM13.6 4.5H17v15h-3.4z"/></svg>
+            <svg data-ic="play" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M7 4.5v15l13-7.5z"/></svg>
+          </button>
+          <button class="cbtn-round" id="shot-next" type="button" aria-label="下一张截图">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="shots-track" id="shots-track" tabindex="0" role="region" aria-roledescription="轮播" aria-label="应用截图">
+        <figure class="shot" role="group" aria-roledescription="幻灯片" aria-label="第 1 张，共 4 张：正在播放" data-name="正在播放">
+          <div class="phone"><div class="screen scr-a">
+            <div class="scr-status"><span>23:14</span><span>86%</span></div>
+            <span class="disc" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
+            <div><h3>雨打芭蕉</h3><p class="scr-sub">精选雨声 / 第 3 夜播放</p></div>
+            <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="scr-ctrl" aria-hidden="true">
+              <span class="cbtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 5v14h-3V5zM5 5l9 7-9 7z"/></svg></span>
+              <span class="cbtn main"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+              <span class="cbtn"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M5 5v14h3V5zM19 5l-9 7 9 7z"/></svg></span>
+            </div>
+            <span class="scr-chip">45 分钟后淡出关闭</span>
+          </div></div>
+          <figcaption><b>01</b>正在播放</figcaption>
+        </figure>
+        <figure class="shot" role="group" aria-roledescription="幻灯片" aria-label="第 2 张，共 4 张：声音库" data-name="声音库">
+          <div class="phone"><div class="screen scr-b">
+            <div class="scr-status"><span>22:05</span><span>86%</span></div>
+            <h3>声音库</h3>
+            <div class="scr-search">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              搜索 86 条声音
+            </div>
+            <div class="scr-row hot">
+              <span class="ric" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9c1.5-1.5 3-1.5 4.5 0S9 10.5 10.5 9 13.5 7.5 15 9s2.5 1.5 4 0"/><path d="M2 15c1.5-1.5 3-1.5 4.5 0s2.5 1.5 4 0 2.5-1.5 4 0 2.5 1.5 4 0" opacity=".7"/></svg></span>
+              <span><b>深海浪</b><span class="rmeta">60 分钟</span></span>
+              <span class="playing">播放中</span>
+            </div>
+            <div class="scr-row">
+              <span class="ric" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M17.5 15a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6-1A4.5 4.5 0 0 0 6.5 15z"/><path d="M8 18v2M12 18v3M16 18v2"/></svg></span>
+              <span><b>夜雨</b><span class="rmeta">42 分钟</span></span>
+              <span class="rmeta">循环</span>
+            </div>
+            <div class="scr-row">
+              <span class="ric" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 6.5-2.6 6.5-6.2 0-2.3-1.2-4.3-2.6-6C14.5 8 13 6 13 3c-3 2-4.2 4.8-4.2 6.8 0 .8.1 1.5.3 2-1-.2-1.8-.9-2.3-1.9C5.1 11.5 5.5 13.7 5.5 15.8 5.5 19.4 8 22 12 22z"/></svg></span>
+              <span><b>篝火</b><span class="rmeta">循环</span></span>
+              <span class="rmeta">52 分钟</span>
+            </div>
+          </div></div>
+          <figcaption><b>02</b>声音库</figcaption>
+        </figure>
+        <figure class="shot" role="group" aria-roledescription="幻灯片" aria-label="第 3 张，共 4 张：混音台" data-name="混音台">
+          <div class="phone"><div class="screen scr-c">
+            <div class="scr-status"><span>23:12</span><span>86%</span></div>
+            <div><h3>混音台</h3><p class="scr-sub">调好就存成你的配方</p></div>
+            <div class="mixer" aria-hidden="true">
+              <div class="vgroup"><div class="vslide"><span class="fill" style="height:70%"></span><span class="knob" style="bottom:calc(70% - 11px)"></span></div>雨声 70</div>
+              <div class="vgroup"><div class="vslide"><span class="fill" style="height:45%"></span><span class="knob" style="bottom:calc(45% - 11px)"></span></div>海浪 45</div>
+              <div class="vgroup"><div class="vslide"><span class="fill" style="height:30%"></span><span class="knob" style="bottom:calc(30% - 11px)"></span></div>炉火 30</div>
+            </div>
+            <span class="save">保存为「雨夜标配」</span>
+          </div></div>
+          <figcaption><b>03</b>混音台</figcaption>
+        </figure>
+        <figure class="shot" role="group" aria-roledescription="幻灯片" aria-label="第 4 张，共 4 张：睡眠报告" data-name="睡眠报告">
+          <div class="phone"><div class="screen scr-d">
+            <div class="scr-status"><span>07:30</span><span>82%</span></div>
+            <h3>昨晚报告</h3>
+            <div class="ring-wrap" role="img" aria-label="睡眠时长 7 小时 42 分">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#E7EAF0" stroke-width="10"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#0A6CD6" stroke-width="10" stroke-linecap="round" stroke-dasharray="252 314" transform="rotate(-90 60 60)"/>
+              </svg>
+              <span class="ring-center"><b>7 小时 42 分</b><span>总睡眠</span></span>
+            </div>
+            <div class="legend">
+              <div class="legend-row"><i style="background:#0A6CD6"></i><span>深睡</span><b>2 小时 10 分</b></div>
+              <div class="legend-row"><i style="background:#8FB4F5"></i><span>浅睡</span><b>5 小时 05 分</b></div>
+              <div class="legend-row"><i style="background:#C9A86A"></i><span>入睡耗时</span><b>18 分钟</b></div>
+            </div>
+            <span class="scr-chip">比上周多睡 26 分钟</span>
+          </div></div>
+          <figcaption><b>04</b>睡眠报告</figcaption>
+        </figure>
+      </div>
+      <div class="shots-dots" id="shots-dots" role="group" aria-label="截图位置">
+        <button type="button" aria-label="第 1 张：正在播放" aria-current="true"></button>
+        <button type="button" aria-label="第 2 张：声音库"></button>
+        <button type="button" aria-label="第 3 张：混音台"></button>
+        <button type="button" aria-label="第 4 张：睡眠报告"></button>
+      </div>
+      <p class="shots-note">支持键盘方向键切换 / 悬停或聚焦时暂停自动播放</p>
+      <p class="sr-only" id="shots-live" aria-live="polite"></p>
+    </div>
+  </section>
+  <section class="features" id="features" aria-labelledby="feat-h">
+    <div class="container">
+      <h2 class="section-h" id="feat-h">为「快睡着」设计的六个细节</h2>
+      <p class="section-sub">没有社交、没有签到、没有红点，只有睡意</p>
+      <div class="feat-grid">
+        <article class="feat-card">
+          <span class="feat-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9c1.5-1.5 3-1.5 4.5 0S9 10.5 10.5 9 13.5 7.5 15 9s2.5 1.5 4 0"/><path d="M2 15c1.5-1.5 3-1.5 4.5 0s2.5 1.5 4 0 2.5-1.5 4 0 2.5 1.5 4 0" opacity=".7"/></svg></span>
+          <h3>86 条高保真声音</h3>
+          <p>夜雨、海浪、篝火、夜行列车与山谷风声，录音棚实地采样，每月新增两条。</p>
+        </article>
+        <article class="feat-card">
+          <span class="feat-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 3v9.5M12 3v6M18 3v12"/><circle cx="6" cy="16" r="2.4"/><circle cx="12" cy="12.5" r="2.4"/><circle cx="18" cy="18.5" r="2.4"/></svg></span>
+          <h3>四层自由混音</h3>
+          <p>最多四层声音同时叠加，各自独立调音量，一键保存为「雨夜标配」这类私人配方。</p>
+        </article>
+        <article class="feat-card">
+          <span class="feat-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2.5h6"/></svg></span>
+          <h3>缓慢淡出定时</h3>
+          <p>5 到 120 分钟任选，音量在最后五分钟缓缓降零，让你在深睡期不被突然的安静惊醒。</p>
+        </article>
+        <article class="feat-card">
+          <span class="feat-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 7.5 5.8V17h-3v-3.2A6 6 0 0 1 6 8z"/><path d="M10 20h4"/><path d="M12 17v3"/></svg></span>
+          <h3>浅睡窗口闹钟</h3>
+          <p>在你设定区间内的浅睡阶段用渐强音唤醒，起床不再心悸，赖床也能被温柔叫停。</p>
+        </article>
+        <article class="feat-card">
+          <span class="feat-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+          <h3>每周睡眠报告</h3>
+          <p>记录入睡耗时与夜间清醒次数，周报附一条可执行的调整建议，可导出给医生。</p>
+        </article>
+        <article class="feat-card">
+          <span class="feat-ic" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v10"/><path d="m7.5 9.5 4.5 4.5 4.5-4.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
+          <h3>全量离线可用</h3>
+          <p>下载声音包后飞行模式照常助眠，不联网、不偷跑流量，枕边不放信号源。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="reviews" id="reviews" aria-labelledby="rev-h">
+    <div class="container">
+      <h2 class="section-h" id="rev-h">12,483 位用户的睡前评价</h2>
+      <p class="section-sub">仅统计已验证下载用户的评分 / 汇总更新于 2026-09-30</p>
+      <div class="rating-grid">
+        <div class="rating-card">
+          <div class="rating-head">
+            <span class="big">4.8</span>
+            <span class="col">
+              <span class="stars stars-lg" role="img" aria-label="平均评分 4.8 / 5">
+                <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+                <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+                <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+                <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+                <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              </span>
+              <span>12,483 个评分</span>
+              <span>5 星占比 82%</span>
+            </span>
+          </div>
+          <div class="bar-rows">
+            <div class="bar-row"><span>5 星</span><span class="track"><span class="fillp" style="width:82%"></span></span><span class="pct">82%</span></div>
+            <div class="bar-row"><span>4 星</span><span class="track"><span class="fillp" style="width:11%"></span></span><span class="pct">11%</span></div>
+            <div class="bar-row"><span>3 星</span><span class="track"><span class="fillp" style="width:4%"></span></span><span class="pct">4%</span></div>
+            <div class="bar-row"><span>2 星</span><span class="track"><span class="fillp" style="width:1%"></span></span><span class="pct">1%</span></div>
+            <div class="bar-row"><span>1 星</span><span class="track"><span class="fillp" style="width:2%"></span></span><span class="pct">2%</span></div>
+          </div>
+          <p class="rating-note">评分摘自两个应用商店的公开数据，按商店规则仅保留已验证下载用户的评分，负面评价同样计入均分。</p>
+        </div>
+        <article class="review">
+          <span class="rv-avatar" aria-hidden="true">林</span>
+          <span class="rv-meta"><b>林晚</b> <time datetime="2026-08-29">2026-08-29</time></span>
+          <span class="rv-stars">
+            <span class="stars" role="img" aria-label="5 星">
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            </span>
+            <span class="verified"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>已验证下载</span>
+          </span>
+          <h3 class="rv-title">换了两年的助眠软件，留下了</h3>
+          <p class="rv-body">混音是灵魂：雨声垫底，加一点点炉火，音量各自调，像有人替我把夜晚调好了音。定时淡出很缓，用了半年，从没在半夜被突然的安静惊醒过。</p>
+        </article>
+      </div>
+      <div class="review-grid">
+        <article class="review">
+          <span class="rv-avatar" aria-hidden="true">陈</span>
+          <span class="rv-meta"><b>陈默</b> <time datetime="2026-09-04">2026-09-04</time></span>
+          <span class="rv-stars">
+            <span class="stars" role="img" aria-label="5 星">
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            </span>
+            <span class="verified"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>已验证下载</span>
+          </span>
+          <h3 class="rv-title">值回票价的一年</h3>
+          <p class="rv-body">常出差坐高铁，离线模式救了我。报告页把每周睡了几小时画得清清楚楚，复诊时医生问睡眠情况，我直接把周报导出给它看。</p>
+        </article>
+        <article class="review">
+          <span class="rv-avatar" aria-hidden="true">苏</span>
+          <span class="rv-meta"><b>苏一苇</b> <time datetime="2026-09-17">2026-09-17</time></span>
+          <span class="rv-stars">
+            <span class="stars" role="img" aria-label="4 星">
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+              <svg class="st off" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+            </span>
+            <span class="verified"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>已验证下载</span>
+          </span>
+          <h3 class="rv-title">好，但想要手表版</h3>
+          <p class="rv-body">声音质量和定时无可挑剔，闹钟在浅睡时叫醒确实舒服。等一个手表版本：习惯戴耳机入睡的人，就不用把手机放在枕头边了。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="download" id="download">
+    <div class="container download-grid">
+      <div>
+        <h2>今晚就交给雨声吧</h2>
+        <p class="dsub">免费下载，核心声音库永久免费使用。混音与睡眠报告属于可选订阅，随时取消，睡觉前不用做任何决定。</p>
+        <div class="store-row">
+          <a class="store-btn" href="#top">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.3 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.6-2.8-1.9-3.4-1.9-1.5-.1-2.8.9-3.6.9-.8 0-1.9-.9-3.1-.9-1.6 0-3 1-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3.1.7c1.3 0 2.1-1.1 2.9-2.3.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.6zM13.9 4.8c.7-.8 1.1-1.9 1-3-1 .1-2.2.7-2.9 1.5-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg>
+            <span class="sb-text"><span class="sb-small">下载于</span><span class="sb-big">App Store</span></span>
+          </a>
+          <a class="store-btn" href="#top">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.4v17.2c0 .4.4.6.7.4l3-1.8L4.7 3.6c-.1-.4-.7-.5-.7-.2z" fill="#34A853"/><path d="M4.6 3.1l11.8 7-2.6 1.5L4.2 3.3c-.2-.1 0-.3.4-.2z" fill="#EA4335"/><path d="M4.6 20.9l11.8-7-2.6-1.6-9.6 8.3c-.4.3-.2.5.4.3z" fill="#4285F4"/><path d="M16.4 10.1l4 2.4c.8.5.8 1.5 0 2l-4 2.4-3.2-2.7c.7-.5.7-1 0-1.4l3.2-2.7z" fill="#FBBC04"/></svg>
+            <span class="sb-text"><span class="sb-small">下载于</span><span class="sb-big">Google Play</span></span>
+          </a>
+        </div>
+        <p class="hero-meta">iOS 15 或更高 / Android 10 或更高 / 无开屏广告 / 隐私标签已在商店公示</p>
+      </div>
+      <div class="dl-panel">
+        <span class="stars" role="img" aria-label="评分 4.8 / 5">
+          <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+          <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+          <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+          <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+          <svg class="st" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3 1.1-6.5L2.6 9.5l6.5-1z"/></svg>
+        </span>
+        <p>4.8 分 / 12,483 个评分 / 更新于 2026-09-30</p>
+        <a class="store-btn" href="#top">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.3 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.6-2.8-1.9-3.4-1.9-1.5-.1-2.8.9-3.6.9-.8 0-1.9-.9-3.1-.9-1.6 0-3 1-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3.1.7c1.3 0 2.1-1.1 2.9-2.3.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.6zM13.9 4.8c.7-.8 1.1-1.9 1-3-1 .1-2.2.7-2.9 1.5-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg>
+          <span class="sb-text"><span class="sb-small">下载于</span><span class="sb-big">App Store</span></span>
+        </a>
+        <a class="store-btn" href="#top">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.4v17.2c0 .4.4.6.7.4l3-1.8L4.7 3.6c-.1-.4-.7-.5-.7-.2z" fill="#34A853"/><path d="M4.6 3.1l11.8 7-2.6 1.5L4.2 3.3c-.2-.1 0-.3.4-.2z" fill="#EA4335"/><path d="M4.6 20.9l11.8-7-2.6-1.6-9.6 8.3c-.4.3-.2.5.4.3z" fill="#4285F4"/><path d="M16.4 10.1l4 2.4c.8.5.8 1.5 0 2l-4 2.4-3.2-2.7c.7-.5.7-1 0-1.4l3.2-2.7z" fill="#FBBC04"/></svg>
+          <span class="sb-text"><span class="sb-small">下载于</span><span class="sb-big">Google Play</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>UI 设计提示词库 / 落地结构 No.15 / <a href="../style-catalog.html">返回风格目录</a></footer>
+<script>
+(function () {
+  var track = document.getElementById('shots-track');
+  var slides = Array.prototype.slice.call(track.querySelectorAll('.shot'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('#shots-dots button'));
+  var live = document.getElementById('shots-live');
+  var btnPrev = document.getElementById('shot-prev');
+  var btnNext = document.getElementById('shot-next');
+  var btnToggle = document.getElementById('shot-toggle');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var INTERVAL = 4500;
+  var index = 0;
+  var timer = null;
+  var playing = !reduce.matches;
+  var visible = true;
+  var hovered = false;
+  var focused = false;
+
+  function behavior() { return reduce.matches ? 'auto' : 'smooth'; }
+  function announce() {
+    live.textContent = '第 ' + (index + 1) + ' / ' + slides.length + ' 张：' + slides[index].getAttribute('data-name');
+    dots.forEach(function (d, i) {
+      if (i === index) { d.setAttribute('aria-current', 'true'); } else { d.removeAttribute('aria-current'); }
+    });
+  }
+  function goTo(i) {
+    index = ((i % slides.length) + slides.length) % slides.length;
+    track.scrollTo({ left: slides[index].offsetLeft, behavior: behavior() });
+    announce();
+  }
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+  function sync() {
+    var should = playing && visible && !hovered && !focused && !reduce.matches && !document.hidden;
+    if (should && timer === null) { timer = window.setInterval(next, INTERVAL); }
+    if (!should && timer !== null) { window.clearInterval(timer); timer = null; }
+  }
+  function setPlaying(on) {
+    playing = on;
+    btnToggle.setAttribute('aria-pressed', String(on));
+    btnToggle.setAttribute('aria-label', on ? '暂停自动播放' : '开始自动播放');
+    btnToggle.querySelector('[data-ic="pause"]').style.display = on ? '' : 'none';
+    btnToggle.querySelector('[data-ic="play"]').style.display = on ? 'none' : '';
+    sync();
+  }
+
+  btnPrev.addEventListener('click', prev);
+  btnNext.addEventListener('click', next);
+  btnToggle.addEventListener('click', function () { setPlaying(!playing); });
+  dots.forEach(function (d, i) { d.addEventListener('click', function () { goTo(i); }); });
+
+  track.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  });
+  track.addEventListener('mouseenter', function () { hovered = true; sync(); });
+  track.addEventListener('mouseleave', function () { hovered = false; sync(); });
+  track.addEventListener('focusin', function () { focused = true; sync(); });
+  track.addEventListener('focusout', function () { focused = false; sync(); });
+
+  var rafPending = false;
+  track.addEventListener('scroll', function () {
+    if (rafPending) { return; }
+    rafPending = true;
+    window.requestAnimationFrame(function () {
+      rafPending = false;
+      var center = track.scrollLeft + track.clientWidth / 2;
+      var best = 0;
+      var bestDist = Infinity;
+      slides.forEach(function (s, i) {
+        var mid = s.offsetLeft + s.offsetWidth / 2;
+        var dist = Math.abs(mid - center);
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      });
+      if (best !== index) { index = best; announce(); }
+    });
+  }, { passive: true });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      sync();
+    }, { threshold: 0.2 }).observe(track);
+  }
+  document.addEventListener('visibilitychange', sync);
+  reduce.addEventListener('change', sync);
+
+  setPlaying(playing);
+})();
+</script>
 </body>
 </html>

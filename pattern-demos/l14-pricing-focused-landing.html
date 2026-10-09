@@ -4,137 +4,779 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Pricing-Focused Landing — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Pricing-Focused 结构 / UI 设计提示词库</title>
+<meta name="description" content="落地结构 No.14 / Pricing-Focused Landing：24 小时自助健身房会员定价页样张。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+/* tokens: paper #F5F8F4 / ink #101828 / night #0B1220 / pulse #0A7A54 / glow #34D399(仅装饰) / steel #5B6B7C / line #DEE6DE */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap');
+
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(103,80,164,.28); --primary: #6750A4; --secondary: #E8DEF8;
-  --accent: #7D5260; --on-primary: #fff;
-  --radius: 28px; --btn-radius: 999px;
+  --night: #0B1220;
+  --night-2: #101B30;
+  --night-3: #16233C;
+  --on-night: #F2F7FC;
+  --on-night-soft: #B9C5DA;
+  --paper: #F5F8F4;
+  --card: #FFFFFF;
+  --ink: #101828;
+  --muted: #4A5866;
+  --steel: #5B6B7C;
+  --pulse: #0A7A54;
+  --pulse-deep: #075C3F;
+  --pulse-tint: #E9F6EF;
+  --glow: #34D399;
+  --line: #DEE6DE;
+  --radius: 18px;
+  --btn-radius: 12px;
+  --num-font: 'Manrope', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'Work Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 16px;
 }
-h1, h2, h3, .num { font-family: 'Outfit', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: none; }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Outfit', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+
+h1, h2, h3 { line-height: 1.28; font-weight: 700; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+a { color: var(--pulse); }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--pulse);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.num, .amt { font-family: var(--num-font); font-variant-numeric: tabular-nums; }
+
+/* ============ 夜色顶栏（含 sticky CTA） ============ */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(11, 18, 32, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(52, 211, 153, 0.18);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 20px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--on-night); text-decoration: none;
+  font-weight: 700; font-size: 17px; letter-spacing: 0.5px;
+}
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--pulse); color: #FFFFFF;
+  display: grid; place-items: center; flex: none;
+}
+.topnav { display: flex; gap: 26px; }
+.topnav a {
+  color: var(--on-night-soft); text-decoration: none; font-size: 14.5px;
+  transition: color 180ms ease;
+}
+.topnav a:hover, .topnav a:focus-visible { color: var(--glow); }
+
+/* ============ 按钮 ============ */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: none;
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: inherit; font-weight: 700; font-size: 15px;
+  padding: 12px 26px; border-radius: var(--btn-radius);
+  cursor: pointer; text-decoration: none; border: 1.5px solid transparent;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: none; border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(103,80,164,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(103,80,164,.2); background: rgba(103,80,164,.13); }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn-primary { background: var(--pulse); color: #FFFFFF; }
+.btn-primary:hover { background: var(--pulse-deep); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(10, 122, 84, 0.32); }
+.btn-ghost-night { background: transparent; color: var(--on-night); border-color: rgba(185, 197, 218, 0.5); }
+.btn-ghost-night:hover { border-color: var(--glow); color: var(--glow); }
+.btn-ghost-day { background: transparent; color: var(--ink); border-color: #B9C4B9; }
+.btn-ghost-day:hover { border-color: var(--pulse); color: var(--pulse-deep); }
+.btn-sm { padding: 9px 18px; font-size: 14px; }
 
+/* ============ 01 Hero（价值主张） ============ */
+.hero {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(900px 480px at 82% -10%, rgba(52, 211, 153, 0.13), transparent 62%),
+    radial-gradient(700px 420px at -8% 108%, rgba(22, 35, 60, 0.9), transparent 60%),
+    var(--night);
+  color: var(--on-night);
+  padding: 88px 0 96px;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(185, 197, 218, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(185, 197, 218, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+}
+.hero-inner {
+  position: relative;
+  display: grid; grid-template-columns: 1.16fr 0.84fr; gap: 56px; align-items: center;
+}
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 14px; color: var(--glow); font-weight: 600;
+  border: 1px solid rgba(52, 211, 153, 0.4); border-radius: 999px;
+  padding: 6px 16px; margin-bottom: 22px;
+}
+.hero-kicker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--glow); box-shadow: 0 0 10px var(--glow); }
+.hero h1 { font-size: 52px; font-weight: 800; letter-spacing: 0.5px; }
+.hero h1 .pulse-word { color: var(--glow); }
+.hero-sub {
+  margin-top: 20px; max-width: 520px;
+  font-size: 17px; color: var(--on-night-soft);
+}
+.hero-meta { margin-top: 26px; font-size: 14.5px; color: var(--on-night-soft); }
+.hero-meta b { color: var(--on-night); font-weight: 700; }
+.hero-cta { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; }
+.hero-trust { margin-top: 30px; font-size: 13.5px; color: #8FA0B8; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* Hero 一次亮相：整块单次位移淡入，无逐卡接力 */
+.hero-reveal { animation: rise-in 720ms cubic-bezier(0.22, 0.8, 0.32, 1) both; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 
+/* 心率曲线：一次描画 */
+.ecg-wrap { position: absolute; left: 0; right: 0; bottom: 8px; height: 92px; pointer-events: none; opacity: 0.85; }
+.ecg-line { width: 100%; height: 100%; display: block; }
+.ecg-path {
+  fill: none; stroke: var(--glow); stroke-width: 2;
+  filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.65));
+  stroke-dasharray: 1600; stroke-dashoffset: 1600;
+  animation: ecg-draw 2200ms ease-out 360ms both;
+}
+@keyframes ecg-draw { to { stroke-dashoffset: 0; } }
+
+/* ============ 门禁卡（签名组件） ============ */
+.pass-stage { perspective: 1100px; display: grid; place-items: center; }
+.pass-card {
+  position: relative; width: 100%; max-width: 380px; aspect-ratio: 1.586 / 1;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #17253F 0%, #0E1830 52%, #132740 100%);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(242, 247, 252, 0.14);
+  padding: 22px 24px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  transition: transform 380ms cubic-bezier(0.2, 0.7, 0.3, 1), box-shadow 380ms ease;
+  animation: rise-in 720ms cubic-bezier(0.22, 0.8, 0.32, 1) 160ms both;
+}
+.pass-card:hover { transform: rotateY(-7deg) rotateX(4deg) translateY(-6px); box-shadow: 0 36px 70px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(242, 247, 252, 0.16); }
+.pass-card::before {
+  content: ""; position: absolute; top: 14px; left: 24px; right: 24px; height: 30px;
+  border-radius: 6px;
+  background: rgba(5, 9, 18, 0.75);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.pass-head { display: flex; justify-content: space-between; align-items: center; padding-top: 48px; }
+.pass-brand { font-weight: 700; font-size: 16px; color: var(--on-night); letter-spacing: 1px; }
+.pass-brand small { display: block; font-weight: 600; font-size: 10.5px; color: var(--glow); letter-spacing: 2.5px; }
+.pass-chip {
+  width: 44px; height: 32px; border-radius: 7px; flex: none;
+  background: linear-gradient(140deg, #E7C878, #B9954B);
+  position: relative; overflow: hidden;
+}
+.pass-chip::before, .pass-chip::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(#0E1830 1.5px, transparent 1.5px) 0 0 / 100% 10.5px,
+    linear-gradient(90deg, #0E1830 1.5px, transparent 1.5px) 0 0 / 10.5px 100%;
+  opacity: 0.55;
+}
+.pass-chip::after { transform: translateX(5px); opacity: 0.35; }
+.pass-num {
+  font-family: var(--num-font); font-size: 21px; letter-spacing: 4px;
+  color: var(--on-night); font-variant-numeric: tabular-nums;
+}
+.pass-foot { display: flex; justify-content: space-between; align-items: flex-end; }
+.pass-holder small, .pass-valid small { display: block; font-size: 10px; color: #8FA0B8; letter-spacing: 1px; margin-bottom: 2px; }
+.pass-holder span, .pass-valid span { font-size: 13.5px; color: var(--on-night); font-weight: 600; }
+.pass-wave { color: var(--glow); opacity: 0.9; }
+
+/* ============ 02 Pricing cards（三档） ============ */
+.sec { padding: 84px 0 20px; }
+.sec-head { text-align: center; max-width: 640px; margin: 0 auto 40px; }
+.sec-eyebrow { font-size: 14px; font-weight: 700; color: var(--pulse-deep); margin-bottom: 10px; letter-spacing: 1px; }
+.sec-head h2 { font-size: 34px; }
+.sec-head p { margin-top: 12px; color: var(--muted); font-size: 15.5px; }
+
+/* 月付 / 付清切换 */
+.bill-toggle-inner { display: flex; justify-content: center; }
+.bill-toggle {
+  position: relative; display: inline-flex; gap: 4px;
+  background: #E8EEE8; border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px;
+  margin: 0 auto 44px;
+}
+.bt-btn {
+  position: relative; z-index: 1;
+  font: inherit; font-size: 14.5px; font-weight: 700;
+  color: var(--muted); background: none; border: none; cursor: pointer;
+  padding: 9px 22px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: color 200ms ease;
+}
+.bt-btn.is-on { color: #FFFFFF; }
+.bt-btn .bt-tag {
+  font-size: 11.5px; font-weight: 700; padding: 1px 8px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5); color: inherit;
+}
+.bt-btn.is-on .bt-tag { background: rgba(255, 255, 255, 0.22); }
+.bt-thumb {
+  position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px;
+  width: calc(50% - 8px);
+  background: var(--pulse); border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(10, 122, 84, 0.3);
+  transition: transform 260ms cubic-bezier(0.3, 0.8, 0.3, 1);
+}
+.bill-toggle[data-bill="full"] .bt-thumb { transform: translateX(100%); }
+
+/* 三档卡片：等高由 grid stretch + 统一内部结构保证 */
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: stretch; }
+.tier {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 34px 30px 30px;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.tier:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(16, 24, 40, 0.1); }
+.tier-name { font-size: 20px; font-weight: 800; }
+.tier-for { margin-top: 6px; font-size: 14px; color: var(--muted); min-height: 44px; }
+.tier-basic { border-color: #C9D2C9; }
+.tier-basic .tier-name { color: var(--steel); }
+
+/* 推荐档：门禁卡语言——磁条压顶 + 品牌描边 + “最常刷”压印标签 */
+.tier-pop {
+  border: 2px solid var(--pulse);
+  background: linear-gradient(180deg, #F2FBF6 0%, #FFFFFF 38%, #FFFFFF 100%);
+  box-shadow: 0 16px 44px rgba(10, 122, 84, 0.16);
+}
+.tier-pop::before {
+  content: ""; position: absolute; top: 0; left: 22px; right: 22px; height: 7px;
+  background: var(--pulse); opacity: 0.92; border-radius: 0 0 5px 5px;
+}
+.pop-flag {
+  position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--pulse); color: #FFFFFF;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  padding: 5px 16px; border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(10, 122, 84, 0.35);
+  white-space: nowrap;
+}
+.tier-premium {
+  background: linear-gradient(170deg, #14213A 0%, #0E1830 100%);
+  border-color: #26405F;
+  color: var(--on-night);
+}
+.tier-premium .tier-for { color: var(--on-night-soft); }
+.tier-premium:hover { box-shadow: 0 20px 46px rgba(11, 18, 32, 0.35); }
+
+.price-row { display: flex; align-items: baseline; gap: 4px; margin-top: 18px; }
+.price-row .cur { font-size: 20px; font-weight: 700; color: inherit; opacity: 0.75; }
+.price-row .amt { font-size: 54px; font-weight: 800; line-height: 1; letter-spacing: -1px; }
+.price-row .unit { font-size: 15px; color: var(--muted); font-weight: 600; }
+.tier-premium .price-row .unit { color: var(--on-night-soft); }
+.price-note { margin-top: 10px; font-size: 13.5px; color: var(--muted); min-height: 42px; }
+.tier-premium .price-note { color: var(--on-night-soft); }
+.save-strip {
+  margin-top: 14px; font-size: 13px; font-weight: 700;
+  color: var(--pulse-deep); background: var(--pulse-tint);
+  border: 1px dashed #9CCDB5; border-radius: 8px;
+  padding: 7px 12px;
+}
+.tier-basic .save-strip { color: var(--steel); background: #EFF2EF; border-color: #C9D2C9; }
+.tier-premium .save-strip { color: #9FE8C4; background: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.38); }
+
+.amt.swap { animation: num-swap 340ms cubic-bezier(0.25, 0.8, 0.35, 1); }
+@keyframes num-swap {
+  0% { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
+
+.perks { list-style: none; margin: 22px 0 26px; display: grid; gap: 11px; }
+.perks li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+.perks li svg { flex: none; margin-top: 3px; color: var(--pulse); }
+.tier-basic .perks li svg { color: var(--steel); }
+.tier-premium .perks li svg { color: var(--glow); }
+.perks li b { font-weight: 700; }
+.tier .btn { margin-top: auto; width: 100%; }
+.btn-outline-night { background: transparent; color: var(--on-night); border-color: #3A5074; }
+.btn-outline-night:hover { border-color: var(--glow); color: var(--glow); }
+.tier-note-under { margin-top: 14px; text-align: center; font-size: 12.5px; color: var(--muted); }
+.tier-premium .tier-note-under { color: #8FA0B8; }
+.pricing-foot { text-align: center; margin-top: 34px; font-size: 14px; color: var(--muted); }
+
+/* ============ 03 Feature comparison（行严格对齐） ============ */
+.cmp-card {
+  background: var(--card); border: 1.5px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+}
+.cmp-scroll { overflow-x: auto; }
+.cmp {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  min-width: 720px;
+  font-size: 14.5px;
+}
+.cmp > div { padding: 14px 20px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; min-height: 53px; }
+.cmp .rh {
+  font-weight: 800; font-size: 15px; background: #FAFCF9;
+  border-bottom: 2px solid #C9D2C9; padding-top: 18px; padding-bottom: 18px;
+}
+.cmp .rh .cell-plan { display: flex; flex-direction: column; gap: 2px; }
+.cmp .rh small { font-weight: 600; color: var(--muted); font-size: 12px; }
+.cmp .rname { font-weight: 600; color: var(--ink); }
+.cmp .col-hi { background: var(--pulse-tint); }
+.cmp .rh.col-hi { background: #DDF3E7; color: var(--pulse-deep); }
+.cmp .rh.col-hi small { color: var(--pulse-deep); }
+.cmp .yes { color: var(--pulse); font-weight: 700; }
+.cmp .no { color: #98A6B5; font-weight: 600; }
+.cmp .txt { color: var(--ink); font-weight: 600; }
+.cmp .rh-last { border-bottom: none; }
+
+/* ============ 04 FAQ ============ */
+.faq-list { max-width: 780px; margin: 0 auto; display: grid; gap: 12px; }
+.faq-item {
+  background: var(--card); border: 1.5px solid var(--line);
+  border-radius: 14px; overflow: hidden;
+}
+.faq-item[data-open="true"] { border-color: #9CCDB5; }
+.faq-q {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  font: inherit; font-size: 16px; font-weight: 700; text-align: left;
+  background: none; border: none; cursor: pointer;
+  padding: 18px 22px; color: var(--ink);
+}
+.faq-q .fx {
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
+  border: 1.5px solid var(--pulse); color: var(--pulse);
+  display: grid; place-items: center; font-size: 15px; font-weight: 700;
+  transition: transform 260ms ease, background 260ms ease, color 260ms ease;
+}
+.faq-item[data-open="true"] .fx { transform: rotate(45deg); background: var(--pulse); color: #FFFFFF; }
+.faq-a {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms cubic-bezier(0.3, 0.8, 0.3, 1);
+}
+.faq-item[data-open="true"] .faq-a { grid-template-rows: 1fr; }
+.faq-a-in { overflow: hidden; }
+.faq-a p { padding: 0 22px 20px; color: var(--muted); font-size: 15px; }
+.faq-a b { color: var(--ink); }
+
+/* ============ 05 Final CTA ============ */
+.final {
+  margin-top: 84px;
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(760px 380px at 50% -20%, rgba(52, 211, 153, 0.14), transparent 64%),
+    var(--night);
+  color: var(--on-night);
+  padding: 84px 0 92px;
+  text-align: center;
+}
+.final h2 { font-size: 36px; font-weight: 800; }
+.final p { margin-top: 14px; color: var(--on-night-soft); font-size: 16.5px; }
+.final-cta { margin-top: 34px; display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+.final-ecg { position: absolute; left: 0; right: 0; top: 54px; height: 60px; opacity: 0.4; pointer-events: none; }
+.final-small { margin-top: 22px; font-size: 13.5px; color: #8FA0B8; }
+
+/* ============ Footer ============ */
+footer {
+  background: var(--night); color: var(--on-night-soft);
+  border-top: 1px solid rgba(52, 211, 153, 0.16);
+  padding: 26px 0; text-align: center; font-size: 13.5px;
+}
+footer a { color: var(--glow); }
+
+/* ============ 响应式 ============ */
+@media (max-width: 1024px) {
+  .hero h1 { font-size: 44px; }
+  .tiers { grid-template-columns: 1fr 1fr; }
+  .tier-premium { grid-column: 1 / -1; max-width: 460px; margin: 0 auto; width: 100%; }
+}
+@media (max-width: 768px) {
+  .topnav { display: none; }
+  .hero { padding: 64px 0 84px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 44px; }
+  .hero h1 { font-size: 36px; }
+  .hero-sub { font-size: 16px; }
+  .sec { padding: 64px 0 16px; }
+  .sec-head h2 { font-size: 27px; }
+  .tiers { grid-template-columns: 1fr; gap: 34px; }
+  .tier-premium { max-width: none; }
+  .cmp { min-width: 640px; }
+  .final h2 { font-size: 28px; }
+  .final { padding: 64px 0 72px; }
+}
+@media (max-width: 420px) {
+  .container { padding: 0 18px; }
+  .hero h1 { font-size: 30px; }
+  .price-row .amt { font-size: 46px; }
+  .bt-btn { padding: 9px 14px; font-size: 13.5px; }
+  .cmp { min-width: 600px; font-size: 13.5px; }
+  .cmp > div { padding: 12px 14px; }
+}
+
+/* ============ 降级 ============ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .ecg-path { stroke-dashoffset: 0; }
+  .tier:hover, .pass-card:hover, .btn:hover { transform: none; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>带它回家</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看在册名单</a></div></header><main><section class="hero container"><p class="doc-meta">领养周 / 在册 46 只 / 全部疫苗驱虫 / 面谈制</p><h1>不买陪伴，领养它</h1><p class="sub">城市流浪动物领养平台：全部实名领养、定期回访。冲动的人我们劝退，想清楚的人我们排队。</p><div class="cta-row"><a class="btn btn-primary" href="#">看在册名单</a><a class="btn" href="#">申请领养</a></div></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>领养流程</h3><p>申请、家访、面谈、试领两周，任何一步反悔都不丢人。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>回访制</h3><p>领养后三个月内两次回访，之后随时可求助，不追责。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>助养</h3><p>暂时带不回家的，可以认领月费，照片月更。</p></article></div></section></section><section class="container"><section class="sec faq"><h2 class="section-h">常见问题</h2><div class="faq"><details open><summary>多久能上线？</summary><p>标准流程一周：两天接入、三天试跑、两天交接。</p></details><details><summary>数据归谁？</summary><p>全部归你，随时可导出，我们不留副本。</p></details><details><summary>怎么开始？</summary><p>留个联系方式，我们先看流程再谈方案，不推销。</p></details></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>看在册名单，现在</h2><p>领养周 / 在册 46 只 / 全部疫苗驱虫 / 面谈制</p><a class="btn btn-primary" href="#">看在册名单</a></div></section><footer>带它回家 / 领养周 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 12h2.5M19.5 12H22M7 7v10M17 7v10M7 12h10"/></svg>
+      </span>
+      夜航健身
+    </a>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#pricing">会员价格</a>
+      <a href="#compare">权益对比</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#pricing">办理会员</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 01 Hero（价值主张） -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-reveal">
+      <p class="hero-kicker"><span class="dot" aria-hidden="true"></span>23 店通用 / 全年 8760 小时开门</p>
+      <h1 id="hero-title">凌晨两点想练铁，<br>门为你<span class="pulse-word">一刷即开</span>。</h1>
+      <p class="hero-sub">夜航是无前台的自助健身房：手机就是门禁卡，力量区、有氧区、淋浴间全天开放。不推私教、不收入会费，练多少付多少。</p>
+      <p class="hero-meta">月卡 <b class="num">¥299</b> 起 / 季卡折合 <b class="num">¥266/月</b> / 年卡折合 <b class="num">¥166/月</b></p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#pricing">看价格选卡</a>
+        <a class="btn btn-ghost-night" href="#faq">先约免费体验</a>
+      </div>
+      <p class="hero-trust">首次到店可免费体验一次全馆器械 / 无合约 / 随时在 App 停卡</p>
+    </div>
+    <div class="pass-stage">
+      <div class="pass-card" role="img" aria-label="夜航健身会员门禁卡示意：深色卡面，带金色芯片与会员编号">
+        <div class="pass-head">
+          <p class="pass-brand">夜航健身<small>nightpass member</small></p>
+          <span class="pass-chip" aria-hidden="true"></span>
+        </div>
+        <p class="pass-num">8421 0093 6627</p>
+        <div class="pass-foot">
+          <p class="pass-holder"><small>持卡会员</small><span>张一练</span></p>
+          <svg class="pass-wave" width="46" height="22" viewBox="0 0 46 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 11h8l3-7 4 14 3-7h8l3-5 4 10 3-5h8"/></svg>
+          <p class="pass-valid"><small>有效期至</small><span>12/28</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ecg-wrap" aria-hidden="true">
+    <svg class="ecg-line" viewBox="0 0 1200 92" preserveAspectRatio="none">
+      <path class="ecg-path" d="M0 58 H150 l8-20 7 34 6-46 8 52 5-20 h180 l8-16 6 28 5-12 h230 l8-20 7 34 6-46 8 52 5-20 h180 l8-16 6 28 5-12 h190 l8-20 7 34 6-46 8 52 5-20 h230"/>
+    </svg>
+  </div>
+</section>
+
+<!-- 02 Pricing cards（三档） -->
+<section class="sec" id="pricing" aria-labelledby="pricing-title">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">会员价格</p>
+      <h2 id="pricing-title">三种卡，练多少选多少</h2>
+      <p>价格即全部：不含入会费、器械使用费、淋浴费。切换下方按钮，看按月扣款和一次付清的差别。</p>
+    </header>
+    <div class="bill-toggle-inner">
+      <div class="bill-toggle" id="billToggle" data-bill="monthly" role="group" aria-label="计价方式切换">
+        <span class="bt-thumb" aria-hidden="true"></span>
+        <button type="button" class="bt-btn is-on" data-bill="monthly" aria-pressed="true">按月自动扣</button>
+        <button type="button" class="bt-btn" data-bill="full" aria-pressed="false">一次付清<span class="bt-tag">更省</span></button>
+      </div>
+    </div>
+
+    <div class="tiers">
+
+      <!-- 月卡（基础灰档） -->
+      <article class="tier tier-basic" aria-labelledby="tier-m-name">
+        <h3 class="tier-name" id="tier-m-name">月卡</h3>
+        <p class="tier-for">刚搬来附近，或想先按一个月试试训练节奏的人。</p>
+        <p class="price-row">
+          <span class="cur">¥</span>
+          <span class="amt" id="amt-m">299</span>
+          <span class="unit" id="unit-m">/ 月</span>
+        </p>
+        <p class="price-note" id="note-m">下月自动续费 / App 里一键关闭</p>
+        <p class="save-strip">单月一口价 ¥299 / 无任何附加费用</p>
+        <ul class="perks">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span><b>24 小时门禁</b>，节假日照常</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>力量区 / 有氧区 / 拉伸区全开放</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>淋浴间与储物柜<b>免费</b></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>限办卡门店使用</span></li>
+        </ul>
+        <a class="btn btn-ghost-day" href="#final">办理月卡</a>
+        <p class="tier-note-under">按月自动扣款，随时停，次月不再扣</p>
+      </article>
+
+      <!-- 季卡（推荐档 / 门禁卡造型） -->
+      <article class="tier tier-pop" aria-labelledby="tier-q-name">
+        <p class="pop-flag">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2 12h2.5M19.5 12H22M7 7v10M17 7v10M7 12h10"/></svg>
+          最常刷
+        </p>
+        <h3 class="tier-name" id="tier-q-name">季卡</h3>
+        <p class="tier-for">给自己 90 天养成习惯，大多数夜航会员的第一张卡。</p>
+        <p class="price-row">
+          <span class="cur">¥</span>
+          <span class="amt" id="amt-q">286</span>
+          <span class="unit" id="unit-q">/ 月</span>
+        </p>
+        <p class="price-note" id="note-q">连续扣 3 个月 / 合计 ¥858</p>
+        <p class="save-strip">一次付清 ¥798 / 比逐月买 3 个月省 ¥99</p>
+        <ul class="perks">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span><b>月卡全部权益</b>，另享 4 项升级</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>团课预约 <b>每月 2 节</b>（燃脂 / 普拉提）</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>好友同行券 <b>每月 1 张</b>，体验日也通用</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span><b>同城 3 店通用</b>，就近刷就近练</span></li>
+        </ul>
+        <a class="btn btn-primary" href="#final">办理季卡</a>
+        <p class="tier-note-under">支持按月扣或一次付清，付款时可再选</p>
+      </article>
+
+      <!-- 年卡（高端深色档） -->
+      <article class="tier tier-premium" aria-labelledby="tier-y-name">
+        <h3 class="tier-name" id="tier-y-name">年卡</h3>
+        <p class="tier-for">训练已是生活的一部分，要的是全年无休和全国通用。</p>
+        <p class="price-row">
+          <span class="cur">¥</span>
+          <span class="amt" id="amt-y">238</span>
+          <span class="unit" id="unit-y">/ 月</span>
+        </p>
+        <p class="price-note" id="note-y">连续扣 12 个月 / 合计 ¥2,856</p>
+        <p class="save-strip">一次付清 ¥1,990 / 比逐月买 12 个月省 ¥1,598</p>
+        <ul class="perks">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span><b>季卡全部权益</b>，团课升到每月 4 节</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span><b>23 城门店通用</b>，出差也不断练</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>体测与训练计划 <b>每月 1 次</b></span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg><span>每年可冻结 <b>30 天</b>，不浪费一天</span></li>
+        </ul>
+        <a class="btn btn-outline-night" href="#final">办理年卡</a>
+        <p class="tier-note-under">支持按月扣或一次付清，付款时可再选</p>
+      </article>
+
+    </div>
+    <p class="pricing-foot">所有价格含税 / 学生与轮班医护凭证件再减 ¥20/月 / 7 天内未到店可全额退</p>
+  </div>
+</section>
+
+<!-- 03 Feature comparison（功能对照） -->
+<section class="sec" id="compare" aria-labelledby="cmp-title">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">权益对比</p>
+      <h2 id="cmp-title">三张卡，差在哪一行行看</h2>
+      <p>同一张门禁刷进同一家店，差别在团课、同行券、通店范围和冻结天数。</p>
+    </header>
+    <div class="cmp-card">
+      <div class="cmp-scroll">
+        <div class="cmp" role="table" aria-label="三档会员权益对比">
+          <div class="rh" role="columnheader"><span class="cell-plan">权益<small>共 9 行 / 左右滑动查看</small></span></div>
+          <div class="rh" role="columnheader">月卡<small>¥299/月</small></div>
+          <div class="rh col-hi" role="columnheader">季卡<small>折合 ¥266/月</small></div>
+          <div class="rh" role="columnheader">年卡<small>折合 ¥166/月</small></div>
+
+          <div class="rname" role="rowheader">24 小时门禁（含节假日）</div>
+          <div role="cell"><span class="yes">支持</span></div>
+          <div class="col-hi" role="cell"><span class="yes">支持</span></div>
+          <div role="cell"><span class="yes">支持</span></div>
+
+          <div class="rname" role="rowheader">力量区 / 有氧区 / 拉伸区</div>
+          <div role="cell"><span class="yes">全开放</span></div>
+          <div class="col-hi" role="cell"><span class="yes">全开放</span></div>
+          <div role="cell"><span class="yes">全开放</span></div>
+
+          <div class="rname" role="rowheader">单次训练时长上限</div>
+          <div role="cell"><span class="txt">90 分钟</span></div>
+          <div class="col-hi" role="cell"><span class="txt">90 分钟</span></div>
+          <div role="cell"><span class="txt">120 分钟</span></div>
+
+          <div class="rname" role="rowheader">团课预约（燃脂 / 普拉提）</div>
+          <div role="cell"><span class="no">不含</span></div>
+          <div class="col-hi" role="cell"><span class="txt">每月 2 节</span></div>
+          <div role="cell"><span class="txt">每月 4 节</span></div>
+
+          <div class="rname" role="rowheader">好友同行券</div>
+          <div role="cell"><span class="no">不含</span></div>
+          <div class="col-hi" role="cell"><span class="txt">每月 1 张</span></div>
+          <div role="cell"><span class="txt">每月 2 张</span></div>
+
+          <div class="rname" role="rowheader">体测与训练计划</div>
+          <div role="cell"><span class="txt">入会 1 次</span></div>
+          <div class="col-hi" role="cell"><span class="txt">每季 1 次</span></div>
+          <div role="cell"><span class="txt">每月 1 次</span></div>
+
+          <div class="rname" role="rowheader">会员冻结（每年）</div>
+          <div role="cell"><span class="no">不支持</span></div>
+          <div class="col-hi" role="cell"><span class="txt">7 天</span></div>
+          <div role="cell"><span class="txt">30 天</span></div>
+
+          <div class="rname" role="rowheader">门店通用范围</div>
+          <div role="cell"><span class="txt">办卡门店</span></div>
+          <div class="col-hi" role="cell"><span class="txt">同城 3 店</span></div>
+          <div role="cell"><span class="txt">23 城通用</span></div>
+
+          <div class="rname rh-last" role="rowheader">支持的付款方式</div>
+          <div class="rh-last" role="cell"><span class="txt">按月扣</span></div>
+          <div class="col-hi rh-last" role="cell"><span class="txt">两种均可</span></div>
+          <div class="rh-last" role="cell"><span class="txt">两种均可</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FAQ -->
+<section class="sec" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">常见问题</p>
+      <h2 id="faq-title">办卡前，把顾虑问完</h2>
+      <p>关于安全、合约、排队和退款，这里一次说清。没答到的，到店扫码问店长。</p>
+    </header>
+    <div class="faq-list">
+
+      <div class="faq-item" data-open="true">
+        <h3><button type="button" class="faq-q" aria-expanded="true">凌晨去，安全吗？<span class="fx" aria-hidden="true">+</span></button></h3>
+        <div class="faq-a"><div class="faq-a-in"><p>每家店 <b>24 小时有人值守云端客服</b>，馆内 6 个摄像头无死角录像保存 30 天，跑步机旁和力量区各有一个<b>紧急呼叫按钮</b>，按下后 3 分钟内本地值班人员到场。深夜到店可选「同行模式」，App 会显示同时在馆人数。</p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <h3><button type="button" class="faq-q" aria-expanded="false">真的没有合约、随时能停吗？<span class="fx" aria-hidden="true">+</span></button></h3>
+        <div class="faq-a"><div class="faq-a-in"><p>按月扣款的卡没有合约期，App 里点「停卡」<b>当月生效、次月不再扣款</b>，没有违约金。一次付清的季卡和年卡属于预付，未开始使用 7 天内可全额退；已使用则按月卡价扣除已练月份后退还余额。</p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <h3><button type="button" class="faq-q" aria-expanded="false">「省 ¥1,598」是怎么算出来的？<span class="fx" aria-hidden="true">+</span></button></h3>
+        <div class="faq-a"><div class="faq-a-in"><p>拿月卡价做基准：连续 12 个月买月卡是 <b>¥299 × 12 = ¥3,588</b>，年卡一次付清是 <b>¥1,990</b>，差价 ¥1,598 就是省下的钱，折合每月 ¥166。季卡的「省 ¥99」同理：¥897 对 ¥798。所有对比都用页面上的真实标价，不做先涨后降。</p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <h3><button type="button" class="faq-q" aria-expanded="false">高峰期要排队等器械吗？<span class="fx" aria-hidden="true">+</span></button></h3>
+        <div class="faq-a"><div class="faq-a-in"><p>App 首页实时显示<b>每家店当前在馆人数</b>，按满员率标成绿 / 黄 / 红三档。晚 7 点到 9 点是高峰，建议错峰；每店力量区标配 2 台深蹲架与 3 张卧推凳，红色时段平均等待不超过 8 分钟。</p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <h3><button type="button" class="faq-q" aria-expanded="false">出差或受伤，能冻结会员吗？<span class="fx" aria-hidden="true">+</span></button></h3>
+        <div class="faq-a"><div class="faq-a-in"><p>季卡每年可冻 <b>7 天</b>、年卡 <b>30 天</b>，在 App 自助操作，冻结期间不扣款、门禁暂停，解冻后有效期顺延。月卡随停随走，不需要冻结。受伤可凭医院证明额外加冻 15 天。</p></div></div>
+      </div>
+
+      <div class="faq-item">
+        <h3><button type="button" class="faq-q" aria-expanded="false">第一次来，能先体验再决定吗？<span class="fx" aria-hidden="true">+</span></button></h3>
+        <div class="faq-a"><div class="faq-a-in"><p>可以。新手机号注册后送<b>一次全馆免费体验</b>，含门禁、淋浴与团课试听（需提前 1 天预约）。体验当天办任意卡，再减 ¥30。先练后买，不着急。</p></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 05 Final CTA -->
+<section class="final" id="final" aria-labelledby="final-title">
+  <svg class="final-ecg" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path class="ecg-path" d="M0 38 H300 l8-14 6 24 5-32 7 36 4-14 h240 l8-14 6 24 5-32 7 36 4-14 h240 l8-14 6 24 5-32 7 36 4-14 h180"/>
+  </svg>
+  <div class="container">
+    <h2 id="final-title">把钥匙留在手机里</h2>
+    <p>现在办卡，今晚就能刷门进馆练第一组。按月扣随时停，一次付清立省最多 ¥1,598。</p>
+    <div class="final-cta">
+      <a class="btn btn-primary" href="#pricing">办理会员</a>
+      <a class="btn btn-ghost-night" href="#faq">先约免费体验</a>
+    </div>
+    <p class="final-small">营业时间 24 小时 / 全年无休 / 支持微信与支付宝扣款</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>UI 设计提示词库 / 落地结构 No.14 / <a href="../style-catalog.html">返回风格目录</a></p>
+</footer>
+
+<script>
+(function () {
+  /* 月付 / 付清切换：价格数据与文案 */
+  var BILL = {
+    monthly: {
+      m: { amt: '299', unit: '/ 月', note: '下月自动续费 / App 里一键关闭' },
+      q: { amt: '286', unit: '/ 月', note: '连续扣 3 个月 / 合计 ¥858' },
+      y: { amt: '238', unit: '/ 月', note: '连续扣 12 个月 / 合计 ¥2,856' }
+    },
+    full: {
+      m: { amt: '299', unit: '/ 单月', note: '一次付清 / 不自动续费' },
+      q: { amt: '798', unit: '/ 季', note: '一次付清 / 比按月扣再省 ¥60' },
+      y: { amt: '1,990', unit: '/ 年', note: '一次付清 / 比按月扣再省 ¥866' }
+    }
+  };
+
+  var toggle = document.getElementById('billToggle');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function swapText(el, text) {
+    if (el.textContent === text) return;
+    el.textContent = text;
+    if (reduce.matches || !el.classList.contains('amt')) return;
+    el.classList.remove('swap');
+    void el.offsetWidth;
+    el.classList.add('swap');
+  }
+
+  toggle.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-bill]');
+    if (!btn || btn.getAttribute('aria-pressed') === 'true') return;
+    var mode = btn.dataset.bill;
+    toggle.dataset.bill = mode;
+    toggle.querySelectorAll('.bt-btn').forEach(function (b) {
+      var on = b === btn;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    ['m', 'q', 'y'].forEach(function (k) {
+      var d = BILL[mode][k];
+      swapText(document.getElementById('amt-' + k), d.amt);
+      swapText(document.getElementById('unit-' + k), d.unit);
+      swapText(document.getElementById('note-' + k), d.note);
+    });
+  });
+
+  /* FAQ 手风琴（平滑展开） */
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var q = item.querySelector('.faq-q');
+    q.addEventListener('click', function () {
+      var open = item.dataset.open === 'true';
+      item.dataset.open = open ? 'false' : 'true';
+      q.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+})();
+</script>
+
 </body>
 </html>

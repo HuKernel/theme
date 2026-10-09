@@ -4,137 +4,719 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Scroll-Triggered Storytelling — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Scroll Storytelling 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.10 Scroll-Triggered Storytelling 样张：溯溪防水背包产品故事页，问题/旅程/揭晓三章节滚动叙事。">
 <style>
-@import url('https://fonts.googleapis.com/css2?JetBrains+Mono:wght@400;500&family=Orbitron:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&display=swap');
+/* token 计划 / 五阶章节渐进色 雾溪#E8F1EF-岩灰#C6D1CF-溪青#0C4E56-深潭#083A41-墨渊#051E22 落实 csv 的 Progressive reveal / 文字对比 浅底≥7:1 深底≥5:1 / 冰川青#45D6C6 仅用于行动点 / 半径 10 与 18 / 间距 4 的倍数 / 织纹网格 12px */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(255,113,206,.28); --primary: #FF71CE; --secondary: #01CDFE;
-  --accent: #05FFA1; --on-primary: #111;
-  --radius: 14px; --btn-radius: 999px;
+  --mist: #E8F1EF;
+  --rock: #C6D1CF;
+  --stream: #0C4E56;
+  --pool: #083A41;
+  --ink: #051E22;
+  --fg-deep: #13333A;
+  --fg-mist: #EFF8F6;
+  --muted-deep: #33565D;
+  --muted-dim: #3A5054;
+  --muted-lit: #B7D2CF;
+  --teal: #0E7C86;
+  --teal-link: #0A4E55;
+  --glacier: #45D6C6;
+  --glacier-soft: #8FE0D9;
+  --panel-light: #F3F7F5;
+  --panel-dark: #0A434A;
+  --line-light: rgba(19, 51, 58, .16);
+  --line-dark: rgba(233, 244, 242, .17);
+  --serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --sans: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  --r-s: 10px;
+  --r-l: 18px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: 84px; }
 body {
-  font-family: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: var(--sans);
+  background: var(--mist);
+  color: var(--fg-deep);
+  line-height: 1.75;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3, .num { font-family: 'Orbitron', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(255,113,206,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Orbitron', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+.skip {
+  position: absolute; left: -999px; top: 12px; z-index: 99;
+  background: var(--fg-deep); color: #FFFFFF;
+  padding: 10px 18px; border-radius: var(--r-s); font-size: 14px; text-decoration: none;
+}
+.skip:focus { left: 12px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+/* ---------- 顶栏与阅读进度 ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(251, 253, 252, .94);
+  border-bottom: 1px solid var(--line-light);
+  backdrop-filter: blur(8px);
+}
+.topbar-inner {
+  max-width: 1120px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg-deep); }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: var(--r-s);
+  background: var(--stream); color: var(--glacier-soft);
+  display: grid; place-items: center; flex: none;
+}
+.logo b { font-family: var(--serif); font-weight: 900; font-size: 18px; letter-spacing: .06em; }
+.logo small { display: block; font-size: 11px; color: var(--muted-deep); letter-spacing: .04em; line-height: 1.2; }
+.topnav { display: flex; gap: 26px; }
+.topnav a { color: var(--muted-deep); text-decoration: none; font-size: 14.5px; }
+.topnav a:hover { color: var(--teal-link); }
+.progress { height: 3px; background: rgba(19, 51, 58, .08); }
+.progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--teal), var(--glacier)); }
+
+/* ---------- 章节侧栏指示 ---------- */
+.rail {
+  position: fixed; right: 22px; top: 50%; translate: 0 -50%; z-index: 15;
+  display: flex; flex-direction: column; gap: 4px;
+  background: rgba(251, 253, 252, .9); border: 1px solid var(--line-light);
+  border-radius: var(--r-l); padding: 12px 10px;
+}
+.rail a {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+  color: var(--muted-deep); font-size: 12px; padding: 5px 8px; border-radius: 8px;
+}
+.rail a i {
+  width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: rgba(19, 51, 58, .25); transition: background .3s ease, box-shadow .3s ease;
+}
+.rail a span { opacity: 0; transform: translateX(4px); transition: opacity .3s ease, transform .3s ease; }
+.rail a:hover span, .rail a.active span { opacity: 1; transform: none; }
+.rail a.active i { background: var(--teal); box-shadow: 0 0 0 4px rgba(14, 124, 134, .18); }
+.rail a.active { color: var(--fg-deep); }
+
+/* ---------- 按钮 ---------- */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(255,113,206,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font: inherit; font-weight: 700; font-size: 15.5px;
+  padding: 14px 30px; border-radius: 999px; cursor: pointer; text-decoration: none;
+  border: 1.5px solid transparent;
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease, color 200ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(255,113,206,.28); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(255,113,206,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(255,113,206,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(255,113,206,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn-primary { background: var(--glacier); color: #04211F; border-color: var(--glacier); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(69, 214, 198, .28); }
+.btn-ghost { background: transparent; color: var(--fg-mist); border-color: rgba(233, 244, 242, .5); }
+.btn-ghost:hover { background: rgba(233, 244, 242, .1); }
+.btn-small { font-size: 13.5px; padding: 8px 18px; background: var(--stream); color: var(--fg-mist); border-color: var(--stream); }
+.btn-small:hover { background: var(--pool); }
 
+/* ---------- 章节入场（每章一次，无循环） ---------- */
+.js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s cubic-bezier(.22, .61, .36, 1); }
+.js .reveal.in { opacity: 1; transform: none; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(255,113,206,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* ---------- 章节底色 / 织纹面料质感 ---------- */
+.sec { position: relative; overflow: hidden; }
+.sec::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(19, 51, 58, .045) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(90deg, rgba(19, 51, 58, .045) 0 1px, transparent 1px 12px);
+}
+.sec-dark::before {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(233, 244, 242, .05) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(90deg, rgba(233, 244, 242, .05) 0 1px, transparent 1px 12px);
+}
+.sec-intro { background: var(--mist); padding: 104px 0 120px; }
+.sec-rock { background: var(--rock); padding: 96px 0 104px; }
+.sec-stream { background: var(--stream); color: var(--fg-mist); padding: 96px 0 104px; }
+.sec-stream a:focus-visible, .sec-pool a:focus-visible, .sec-ink a:focus-visible,
+.sec-stream .btn:focus-visible, .sec-pool .btn:focus-visible { outline-color: var(--glacier-soft); }
+.sec-pool { background: var(--pool); color: var(--fg-mist); padding: 96px 0 104px; }
+.sec-ink { background: var(--ink); color: var(--fg-mist); padding: 120px 0 140px; }
+.decor { position: absolute; z-index: 0; pointer-events: none; }
 
+/* ---------- 序章 hook ---------- */
+.kicker { font-size: 13.5px; letter-spacing: .12em; color: var(--teal-link); margin-bottom: 22px; }
+.sec-stream .kicker, .sec-pool .kicker, .sec-ink .kicker { color: var(--glacier-soft); }
+.sec-intro h1 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(34px, 5.6vw, 62px); line-height: 1.28; letter-spacing: .01em;
+  max-width: 21em; margin-bottom: 26px;
+}
+.lede { font-size: clamp(15.5px, 1.6vw, 18px); color: var(--muted-deep); max-width: 40em; }
+.sec-stream .lede, .sec-pool .lede, .sec-ink .lede { color: var(--muted-lit); }
+.hook-meta {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  margin-top: 52px; max-width: 720px;
+}
+.hook-meta div { border-left: 3px solid var(--teal); padding: 6px 0 6px 18px; }
+.hook-meta b { display: block; font-family: var(--serif); font-size: 32px; font-weight: 900; line-height: 1.3; }
+.hook-meta span { font-size: 13.5px; color: var(--muted-deep); }
+.scroll-cue {
+  margin-top: 64px; display: inline-flex; align-items: center; gap: 10px;
+  font-size: 13.5px; color: var(--muted-deep); letter-spacing: .08em;
+}
+.scroll-cue svg { color: var(--teal); }
+
+/* ---------- 章头 ---------- */
+.ch-head { display: flex; align-items: flex-start; gap: 26px; margin-bottom: 20px; }
+.ch-no {
+  font-family: var(--serif); font-weight: 900; font-size: clamp(56px, 7vw, 88px);
+  line-height: .9; color: rgba(19, 51, 58, .18); flex: none;
+}
+.sec-dark .ch-no { color: rgba(233, 244, 242, .14); }
+.ch-label { font-size: 13.5px; letter-spacing: .14em; color: var(--teal-link); margin-bottom: 10px; }
+.sec-dark .ch-label { color: var(--glacier-soft); }
+.ch-head h2 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(26px, 3.6vw, 42px); line-height: 1.34; letter-spacing: .01em;
+}
+.sec .ch-lede { margin: 18px 0 0; max-width: 42em; }
+
+/* ---------- 第一章 痛点行 ---------- */
+.pain-grid { margin-top: 44px; border-top: 1.5px solid rgba(19, 51, 58, .3); }
+.pain-row {
+  display: grid; grid-template-columns: 64px 1fr 1.9fr; gap: 22px; align-items: baseline;
+  padding: 24px 4px; border-bottom: 1.5px solid rgba(19, 51, 58, .3);
+}
+.pain-row > b:first-child { font-family: var(--serif); font-size: 26px; font-weight: 900; color: var(--teal-link); }
+.pain-row h3 { font-size: 17px; font-weight: 700; }
+.pain-row p { font-size: 15px; color: var(--muted-dim); }
+.weigh {
+  margin-top: 40px; background: var(--panel-light);
+  border: 1px solid var(--line-light); border-radius: var(--r-l); padding: 30px 34px;
+}
+.weigh h3 { font-size: 15px; font-weight: 700; margin-bottom: 18px; }
+.weigh-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.weigh-grid b {
+  display: block; font-family: var(--serif); font-weight: 900;
+  font-size: clamp(28px, 3.2vw, 40px); line-height: 1.2;
+}
+.weigh-grid .wet { color: #8A4A2E; }
+.weigh-grid span { font-size: 13.5px; color: var(--muted-deep); }
+.weigh figcaption { margin-top: 16px; font-size: 12.5px; color: var(--muted-dim); }
+
+/* ---------- 章末 mini CTA ---------- */
+.mini-cta {
+  margin-top: 42px; padding-top: 26px;
+  border-top: 1.5px dashed rgba(19, 51, 58, .3);
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+.mini-cta p { font-size: 15px; color: var(--muted-dim); max-width: 26em; }
+.sec-dark .mini-cta { border-top-color: rgba(233, 244, 242, .28); }
+.sec-dark .mini-cta p { color: var(--muted-lit); }
+.text-link {
+  font-weight: 700; font-size: 15px; text-decoration: none;
+  color: var(--teal-link); border-bottom: 2px solid currentColor; padding-bottom: 3px;
+}
+.sec-dark .text-link { color: var(--glacier-soft); }
+.text-link:hover { opacity: .82; }
+
+/* ---------- 第二章 面板 ---------- */
+.panel {
+  background: var(--panel-dark); border: 1px solid var(--line-dark);
+  border-radius: var(--r-l); padding: 36px 38px; margin-top: 36px;
+}
+.panel:first-of-type { margin-top: 48px; }
+.panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+.panel-head h3 { font-family: var(--serif); font-size: 21px; font-weight: 900; }
+.panel-head span { font-size: 13px; color: var(--muted-lit); }
+.panel > p.note { margin-top: 14px; font-size: 13px; color: var(--muted-lit); }
+.samples { list-style: none; margin-top: 22px; display: grid; gap: 14px; }
+.samples li {
+  display: grid; grid-template-columns: 76px 1fr 58px; gap: 18px; align-items: start;
+  background: rgba(233, 244, 242, .05); border: 1px solid rgba(233, 244, 242, .14);
+  border-radius: var(--r-s); padding: 18px 20px;
+}
+.s-no { font-family: var(--serif); font-weight: 900; font-size: 15px; color: var(--glacier-soft); }
+.samples b { display: block; font-size: 15.5px; margin-bottom: 4px; }
+.samples p { font-size: 14px; color: var(--muted-lit); }
+.s-tag {
+  justify-self: end; font-size: 12.5px; font-weight: 700;
+  border-radius: 999px; padding: 3px 12px; margin-top: 3px;
+}
+.s-fail { color: var(--muted-lit); border: 1px solid rgba(233, 244, 242, .4); }
+.s-pass { color: #04211F; background: var(--glacier); border: 1px solid var(--glacier); }
+.verdict {
+  margin-top: 22px; border-left: 3px solid var(--glacier);
+  padding: 4px 0 4px 18px; font-size: 15px; color: var(--fg-mist);
+}
+.verdict b { color: var(--glacier-soft); }
+
+/* ---------- 测试数据行（grid 对齐） ---------- */
+.test-grid { margin-top: 24px; display: grid; grid-template-columns: 1.1fr 1.6fr 1.2fr 64px; }
+.test-grid .thead { font-size: 13px; font-weight: 700; color: var(--glacier-soft); letter-spacing: .06em; }
+.test-grid > div {
+  padding: 13px 14px; border-bottom: 1px solid rgba(233, 244, 242, .16);
+  font-size: 14.5px; display: flex; align-items: center;
+}
+.test-grid .t-item { font-weight: 700; }
+.test-grid .t-cond, .test-grid .t-res { color: var(--muted-lit); }
+.test-grid .t-pass { color: var(--glacier-soft); font-weight: 700; justify-content: center; }
+
+/* ---------- 第三章 揭晓 ---------- */
+.reveal-product {
+  margin-top: 48px; display: grid; grid-template-columns: 1fr 1.15fr; gap: 48px; align-items: center;
+}
+.product-stage {
+  background: radial-gradient(circle at 50% 42%, #0C525B 0%, #0A434A 62%, #083A41 100%);
+  border: 1px solid var(--line-dark); border-radius: 26px;
+  display: grid; place-items: center; padding: 44px 24px; min-height: 420px;
+}
+.product-stage svg { width: min(78%, 300px); height: auto; filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .35)); }
+.p-name { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 3vw, 36px); line-height: 1.3; }
+.p-sub { font-size: 14px; color: var(--muted-lit); margin-top: 6px; }
+.spec-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; }
+.spec-grid div {
+  background: var(--panel-dark); border: 1px solid var(--line-dark);
+  border-radius: var(--r-s); padding: 14px 16px;
+}
+.spec-grid b { display: block; font-family: var(--serif); font-size: 20px; font-weight: 900; line-height: 1.4; }
+.spec-grid span { font-size: 12.5px; color: var(--muted-lit); }
+.p-points { list-style: none; margin-top: 22px; display: grid; gap: 10px; }
+.p-points li { display: flex; gap: 12px; font-size: 15px; color: var(--fg-mist); }
+.p-points li::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--glacier); flex: none; margin-top: 10px;
+}
+.price-row {
+  margin-top: 28px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.price-row b { font-family: var(--serif); font-weight: 900; font-size: 34px; color: var(--glacier); }
+.price-row s { font-size: 15px; color: var(--muted-lit); }
+.price-row em { font-style: normal; font-size: 13.5px; color: var(--muted-lit); border: 1px solid var(--line-dark); border-radius: 999px; padding: 3px 12px; }
+
+/* ---------- 终章 ---------- */
+.sec-ink .container { text-align: center; }
+.sec-ink h2 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(30px, 4.6vw, 52px); line-height: 1.3; margin: 18px 0 20px;
+}
+.sec-ink .lede { margin: 0 auto; }
+.cta-row { margin-top: 44px; display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+.trust { margin-top: 36px; font-size: 13.5px; color: var(--muted-lit); letter-spacing: .03em; }
+
+/* ---------- footer ---------- */
+footer {
+  background: var(--ink); color: var(--muted-lit);
+  border-top: 1px solid rgba(233, 244, 242, .14);
+  padding: 28px 0; text-align: center; font-size: 13px;
+}
+footer a { color: var(--glacier-soft); }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1200px) { .rail { display: none; } }
+@media (max-width: 900px) {
+  .reveal-product { grid-template-columns: 1fr; gap: 30px; }
+  .product-stage { min-height: 340px; }
+  .ch-head { gap: 18px; }
+}
+@media (max-width: 768px) {
+  .topnav { display: none; }
+  .sec-intro { padding: 72px 0 84px; }
+  .sec { padding-top: 64px; padding-bottom: 72px; }
+  .sec-ink { padding-top: 88px; padding-bottom: 100px; }
+  .hook-meta { gap: 12px; }
+  .hook-meta b { font-size: 24px; }
+  .pain-row { grid-template-columns: 44px 1fr; row-gap: 8px; }
+  .pain-row p { grid-column: 2; }
+  .weigh { padding: 24px 22px; }
+  .panel { padding: 26px 22px; }
+  .samples li { grid-template-columns: 64px 1fr; }
+  .s-tag { grid-column: 2; justify-self: start; }
+  .test-grid { grid-template-columns: 1fr; }
+  .test-grid .thead { display: none; }
+  .test-grid > div { border-bottom: none; padding: 4px 0 4px 88px; position: relative; }
+  .test-grid > div::before {
+    content: attr(data-label); position: absolute; left: 0; top: 7px;
+    font-size: 12.5px; color: var(--glacier-soft); font-weight: 700;
+  }
+  .test-grid .t-row-start { border-top: 1px solid rgba(233, 244, 242, .16); margin-top: 12px; padding-top: 12px; }
+  .mini-cta { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 18px; }
+  .spec-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta-row .btn { width: 100%; }
+  .weigh-grid { grid-template-columns: 1fr 1fr; }
+  .weigh-grid div:last-child { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .reveal { opacity: 1 !important; transform: none !important; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>星光露天场</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">本季片单</a></div></header><main><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>本周 / 修复老片</b><p>4K 修复版，划痕修掉了一半，留了一半。</p></div></section></section><section class="container"><section class="sec story"><h2 class="section-h">两步开始</h2><div class="st-grid"><div class="st-ch card"><span class="st-no">01</span><b>本周 / 修复老片</b><p>4K 修复版，划痕修掉了一半，留了一半。</p></div><div class="st-ch card"><span class="st-no">02</span><b>午夜场</b><p>恐怖片连映，自带外套，场方提供驱蚊水。</p></div></div></section></section><section class="container"><section class="sec story"><h2 class="section-h">两步开始</h2><div class="st-grid"><div class="st-ch card"><span class="st-no">01</span><b>本周 / 修复老片</b><p>4K 修复版，划痕修掉了一半，留了一半。</p></div><div class="st-ch card"><span class="st-no">02</span><b>午夜场</b><p>恐怖片连映，自带外套，场方提供驱蚊水。</p></div></div></section></section><section class="container"><section class="sec story"><h2 class="section-h">两步开始</h2><div class="st-grid"><div class="st-ch card"><span class="st-no">01</span><b>本周 / 修复老片</b><p>4K 修复版，划痕修掉了一半，留了一半。</p></div><div class="st-ch card"><span class="st-no">02</span><b>午夜场</b><p>恐怖片连映，自带外套，场方提供驱蚊水。</p></div></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>本季片单，现在</h2><p>本季片单 / 胶片放映 / 天黑开演(约 19:20) / 雨映</p><a class="btn btn-primary" href="#">本季片单</a></div></section><footer>星光露天场 / 天黑开演 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#intro">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M2 18c2.5 0 2.5 2 5 2s2.5-2 5-2 2.5 2 5 2 2.5-2 5-2"/><path d="M7 8l5-6 5 6"/></svg>
+      </span>
+      <span><b>涧声装备</b><small>溪谷旅行者之选</small></span>
+    </a>
+    <nav class="topnav" aria-label="章节导航">
+      <a href="#chapter-1">问题</a>
+      <a href="#chapter-2">旅程</a>
+      <a href="#chapter-3">揭晓</a>
+    </nav>
+    <a class="btn btn-primary btn-small" href="#climax">预约首发</a>
+  </div>
+  <div class="progress" aria-hidden="true"><span id="pfill"></span></div>
+</header>
+
+<nav class="rail" aria-label="章节进度">
+  <a href="#intro" class="active"><i aria-hidden="true"></i><span>序幕</span></a>
+  <a href="#chapter-1"><i aria-hidden="true"></i><span>问题</span></a>
+  <a href="#chapter-2"><i aria-hidden="true"></i><span>旅程</span></a>
+  <a href="#chapter-3"><i aria-hidden="true"></i><span>揭晓</span></a>
+  <a href="#climax"><i aria-hidden="true"></i><span>首发</span></a>
+</nav>
+
+<main id="main">
+
+  <!-- 序章 hook -->
+  <section id="intro" class="sec sec-intro reveal">
+    <div class="decor decor-intro" data-speed="0.1" aria-hidden="true">
+      <svg width="820" height="220" viewBox="0 0 820 220" fill="none">
+        <path d="M-20 60c60-24 120-24 180 0s120 24 180 0 120-24 180 0 120 24 180 0" stroke="rgba(14,124,134,.22)" stroke-width="2"/>
+        <path d="M-20 130c60-24 120-24 180 0s120 24 180 0 120-24 180 0 120 24 180 0" stroke="rgba(14,124,134,.14)" stroke-width="2"/>
+        <path d="M-20 200c60-24 120-24 180 0s120 24 180 0 120-24 180 0 120 24 180 0" stroke="rgba(14,124,134,.08)" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="container">
+      <p class="kicker">涧声装备 / 产品故事 / 2025 春</p>
+      <h1>每一件背包下水之前，<br>都已经先去过更冷的地方。</h1>
+      <p class="lede">涉川 38 防水溯溪背包，从第一版面料到最终定型，历时 146 天、报废三件样品、在一条浙西溪谷里泡了整个夏天。向下滚动，跟随它走完这段旅程。</p>
+      <div class="hook-meta">
+        <div><b>146 天</b><span>从设计稿到定型出货</span></div>
+        <div><b>3 件样品</b><span>实验室阶段即宣告报废</span></div>
+        <div><b>12 次实测</b><span>溪谷全程真人实背验证</span></div>
+      </div>
+      <p class="scroll-cue">继续向下
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </p>
+    </div>
+  </section>
+
+  <!-- 第一章 问题 -->
+  <section id="chapter-1" class="sec sec-rock reveal">
+    <div class="decor decor-rock" data-speed="0.08" aria-hidden="true">
+      <svg width="900" height="180" viewBox="0 0 900 180" fill="none">
+        <path d="M0 180v-52l74-38 68 30 90-64 86 44 102-72 96 58 110-46 98 62 88-30 88 44v64z" fill="rgba(19,51,58,.07)"/>
+      </svg>
+    </div>
+    <div class="container">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">01</span>
+        <div>
+          <p class="ch-label">第一章 / 问题</p>
+          <h2>溪谷不是下雨天，<br>是每天都在下雨的地方。</h2>
+        </div>
+      </header>
+      <p class="lede ch-lede">2023 年，我们把市面上七只主流防水背包轮流背进浙西溪谷，没有一只撑过第三天。失守的位置，集中在三处。</p>
+      <div class="pain-grid">
+        <div class="pain-row">
+          <b aria-hidden="true">一</b>
+          <h3>缝线</h3>
+          <p>卷口以下的每一道缝线，都是溪水最先找到的入口。四小时后，睡袋袋角出现第一片湿斑。</p>
+        </div>
+        <div class="pain-row">
+          <b aria-hidden="true">二</b>
+          <h3>面料</h3>
+          <p>单面涂层经不住急流冲刷与岩壁摩擦，剥落从包底开始。第三天，包体自重增加 1.4 公斤。</p>
+        </div>
+        <div class="pain-row">
+          <b aria-hidden="true">三</b>
+          <h3>封口</h3>
+          <p>卷口折两次在静水里有用，过潭翻船时等于没折。那一次，全队的电子设备一起善后。</p>
+        </div>
+      </div>
+      <figure class="weigh">
+        <h3>那次三日线结束时的称重</h3>
+        <div class="weigh-grid">
+          <div><b>2.1 kg</b><span>出发时的整包重量</span></div>
+          <div><b>4.8 kg</b><span>回程落水后的实称</span></div>
+          <div><b class="wet">2.7 kg</b><span>差值全部是吸入的水</span></div>
+        </div>
+        <figcaption>数据来自 2023 年 10 月昌北溪三日线，同包同秤，含隔夜静置沥水。</figcaption>
+      </figure>
+      <div class="mini-cta">
+        <p>我们没有修补旧结构，而是从缝线开始，把整只背包重做了一遍。</p>
+        <a class="text-link" href="#chapter-2">看它怎么被造出来 / 进入第二章</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二章 旅程 -->
+  <section id="chapter-2" class="sec sec-stream sec-dark reveal">
+    <div class="decor decor-flow" data-speed="0.12" aria-hidden="true">
+      <svg width="360" height="560" viewBox="0 0 360 560" fill="none">
+        <path d="M80-20c-40 80 40 140 0 220s40 140 0 220 40 100 20 140" stroke="rgba(233,244,242,.1)" stroke-width="2"/>
+        <path d="M200-20c-40 80 40 140 0 220s40 140 0 220 40 100 20 140" stroke="rgba(233,244,242,.07)" stroke-width="2"/>
+        <path d="M320-20c-40 80 40 140 0 220s40 140 0 220 40 100 20 140" stroke="rgba(233,244,242,.05)" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="container">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">02</span>
+        <div>
+          <p class="ch-label">第二章 / 旅程</p>
+          <h2>先在实验室失败三次，<br>再去溪谷通过五项。</h2>
+        </div>
+      </header>
+      <p class="lede ch-lede">防水不靠运气。我们把面料、工艺和封口逐项推倒，每一步都留下可复查的记录。</p>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>面料实验室</h3>
+          <span>杭州滨江 / 2024 年 1 月至 5 月</span>
+        </div>
+        <ol class="samples">
+          <li>
+            <span class="s-no">样品 A</span>
+            <div>
+              <b>70D 尼龙 / 单面涂层工艺</b>
+              <p>耐静水压 8000 毫米，静态达标；反复折叠 2000 次后涂层龟裂，裂缝处持续渗水。</p>
+            </div>
+            <span class="s-tag s-fail">弃用</span>
+          </li>
+          <li>
+            <span class="s-no">样品 B</span>
+            <div>
+              <b>210D 尼龙 / 膜复合工艺</b>
+              <p>折叠 5000 次通过，但零下 8 摄氏度环境变硬发脆，卷口无法徒手压实。</p>
+            </div>
+            <span class="s-tag s-fail">弃用</span>
+          </li>
+          <li>
+            <span class="s-no">样品 C</span>
+            <div>
+              <b>210D 尼龙 / 双面热塑膜复合</b>
+              <p>折叠 10000 次无痕，耐静水压 20000 毫米，零下 15 摄氏度仍保持柔软手感。</p>
+            </div>
+            <span class="s-tag s-pass">定型</span>
+          </li>
+        </ol>
+        <p class="verdict">定型配置：<b>210D 双面复合尼龙，织法加密 12%</b>；整包放弃缝线，改用连续热压合；卷口由两折增至四折，并在颈部内置排水导流槽。</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>山涧实测</h3>
+          <span>浙西 昌北溪剑门段 / 2024 年 6 月至 9 月</span>
+        </div>
+        <div class="test-grid" role="table" aria-label="溪谷实测记录">
+          <div class="thead" role="columnheader">测试项目</div>
+          <div class="thead" role="columnheader">条件</div>
+          <div class="thead" role="columnheader">结果</div>
+          <div class="thead" role="columnheader">结论</div>
+          <div class="t-item t-row-start" role="rowheader" data-label="项目">全包浸水</div>
+          <div class="t-cond" data-label="条件">急流段水深 0.8 米，浸泡 30 分钟</div>
+          <div class="t-res" data-label="结果">主仓干燥，纸巾无水痕</div>
+          <div class="t-pass" data-label="结论">通过</div>
+          <div class="t-item t-row-start" role="rowheader" data-label="项目">人工淋雨</div>
+          <div class="t-cond" data-label="条件">降雨强度每小时 40 毫米，连续 6 小时</div>
+          <div class="t-res" data-label="结果">主仓与拉链仓均干燥</div>
+          <div class="t-pass" data-label="结论">通过</div>
+          <div class="t-item t-row-start" role="rowheader" data-label="项目">岩壁拖拽</div>
+          <div class="t-cond" data-label="条件">花岗岩粗糙面，满载拖行 50 米</div>
+          <div class="t-res" data-label="结果">面料无穿透，底部轻微起毛</div>
+          <div class="t-pass" data-label="结论">通过</div>
+          <div class="t-item t-row-start" role="rowheader" data-label="项目">跌落入潭</div>
+          <div class="t-cond" data-label="条件">3 米落差，正反面各一次</div>
+          <div class="t-res" data-label="结果">卷口未松开，浮力正常</div>
+          <div class="t-pass" data-label="结论">通过</div>
+          <div class="t-item t-row-start" role="rowheader" data-label="项目">低温操作</div>
+          <div class="t-cond" data-label="条件">雪线环境零下 15 摄氏度，徒手开合卷口</div>
+          <div class="t-res" data-label="结果">面料无脆裂，手感仍柔软</div>
+          <div class="t-pass" data-label="结论">通过</div>
+        </div>
+        <p class="note">五项测试全程录像，报告编号 JST-2024-091，可向客服索取原件。</p>
+      </div>
+
+      <div class="mini-cta">
+        <p>实验室与溪谷都走完了，它最终长成了下面这个样子。</p>
+        <a class="text-link" href="#chapter-3">产品揭晓 / 进入第三章</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第三章 揭晓 -->
+  <section id="chapter-3" class="sec sec-pool sec-dark reveal">
+    <div class="container">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">03</span>
+        <div>
+          <p class="ch-label">第三章 / 揭晓</p>
+          <h2>涉川 38，<br>一只没有缝线的防水背包。</h2>
+        </div>
+      </header>
+      <div class="reveal-product">
+        <div class="product-stage">
+          <svg viewBox="0 0 260 320" role="img" aria-label="涉川 38 防水溯溪背包产品图，卷口设计，深青色包体">
+            <defs>
+              <pattern id="weave" width="12" height="12" patternUnits="userSpaceOnUse">
+                <path d="M12 0H0v12" fill="none" stroke="rgba(233,244,242,.06)" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect x="84" y="14" width="92" height="18" rx="9" fill="#0C525B"/>
+            <rect x="80" y="28" width="100" height="18" rx="9" fill="#0A434A"/>
+            <path d="M106 44a24 17 0 0 1 48 0" fill="none" stroke="#8FE0D9" stroke-width="6" stroke-linecap="round"/>
+            <path d="M70 52h120a18 18 0 0 1 18 18v186a26 26 0 0 1-26 26H78a26 26 0 0 1-26-26V70a18 18 0 0 1 18-18z" fill="#0F5A62"/>
+            <path d="M70 52h120a18 18 0 0 1 18 18v186a26 26 0 0 1-26 26H78a26 26 0 0 1-26-26V70a18 18 0 0 1 18-18z" fill="url(#weave)"/>
+            <rect x="116" y="58" width="28" height="58" rx="7" fill="#0A434A"/>
+            <rect x="121" y="78" width="18" height="8" rx="4" fill="#8FE0D9"/>
+            <path d="M70 138h120" stroke="rgba(233,244,242,.32)" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/>
+            <path d="M70 156h120" stroke="rgba(233,244,242,.18)" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/>
+            <rect x="86" y="212" width="88" height="46" rx="11" fill="#0B4A52" stroke="rgba(233,244,242,.24)"/>
+            <path d="M100 212v46M160 212v46" stroke="rgba(233,244,242,.14)" stroke-width="2"/>
+          </svg>
+        </div>
+        <div>
+          <p class="p-name">涉川 38 防水溯溪背包</p>
+          <p class="p-sub">样品 C 定型面料 / 整包热压合 / 卷口四折</p>
+          <div class="spec-grid">
+            <div><b>38 升</b><span>容量</span></div>
+            <div><b>890 克</b><span>整包重量</span></div>
+            <div><b>20000</b><span>耐静水压（毫米）</span></div>
+            <div><b>零缝线</b><span>热压合成型</span></div>
+          </div>
+          <ul class="p-points">
+            <li>整包热压合成型，不存在任何针孔，溪水无从下嘴。</li>
+            <li>卷口四折加导流槽，过潭翻船后仓内依然干燥。</li>
+            <li>悬浮背板贴合走线，贴背不贴汗，湿身也能稳住重心。</li>
+          </ul>
+          <div class="price-row">
+            <b>¥1,280</b>
+            <s>原价 ¥1,480</s>
+            <em>首发限量 500 只</em>
+          </div>
+        </div>
+      </div>
+      <div class="mini-cta">
+        <p>首发批次 3 月 12 日按订单顺序发货，售完即恢复原价。</p>
+        <a class="btn btn-primary" href="#climax">加入首发名单</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 终章 Climax CTA -->
+  <section id="climax" class="sec sec-ink sec-dark reveal">
+    <div class="decor decor-climax" data-speed="0.1" aria-hidden="true">
+      <svg width="900" height="200" viewBox="0 0 900 200" fill="none">
+        <path d="M-20 150c60-24 120-24 180 0s120 24 180 0 120-24 180 0 120 24 180 0 120-24 180 0" stroke="rgba(143,224,217,.14)" stroke-width="2"/>
+        <path d="M-20 100c60-24 120-24 180 0s120 24 180 0 120-24 180 0 120 24 180 0" stroke="rgba(143,224,217,.09)" stroke-width="2"/>
+        <path d="M-20 50c60-24 120-24 180 0s120 24 180 0 120-24 180 0 120 24 180 0" stroke="rgba(143,224,217,.05)" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="container">
+      <p class="kicker">最终章 / 首发预约</p>
+      <h2>它已经替你湿过三次，<br>现在轮到你带它下水。</h2>
+      <p class="lede">涉川 38 首发批次共 500 只，每只附独立测试报告与两年质保。故事到这里结束，旅程从你脚下开始。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#climax">预约首发 / 首发价 ¥1,280</a>
+        <a class="btn btn-ghost" href="#chapter-2">查看完整测试记录</a>
+      </div>
+      <p class="trust">两年质保 / 三十天无理由退换 / 顺丰包邮 / 支持收货验水测</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>UI 设计提示词库 / 落地结构 No.10 / <a href="../style-catalog.html">返回风格目录</a></footer>
+
+<script>
+document.documentElement.classList.add('js');
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var mqMobile = window.matchMedia('(max-width: 899px)');
+  var hasIO = 'IntersectionObserver' in window;
+
+  /* 阅读进度条（转化要点：progress indicator） */
+  var fill = document.getElementById('pfill');
+  var ticking = false;
+  function updateProgress() {
+    var root = document.documentElement;
+    var max = root.scrollHeight - root.clientHeight;
+    var pct = max > 0 ? Math.min(100, Math.max(0, root.scrollTop / max * 100)) : 0;
+    fill.style.width = pct + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(updateProgress); }
+  }, { passive: true });
+  updateProgress();
+
+  /* 章节一次性入场：每章仅触发一次，无循环 */
+  var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if (reduced.matches || !hasIO) {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  /* 侧栏章节指示：当前阅读位置 */
+  var railLinks = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  if (hasIO) {
+    var ioNav = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          railLinks.forEach(function (a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    sections.forEach(function (s) { ioNav.observe(s); });
+  }
+
+  /* 装饰视差层：reduced-motion 与移动端跳过；离屏或页面隐藏即暂停 */
+  var layers = [];
+  if (!reduced.matches && !mqMobile.matches && hasIO) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-speed]'), function (el) {
+      layers.push({ el: el, speed: parseFloat(el.getAttribute('data-speed')), on: false });
+    });
+    var ioPx = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        layers.forEach(function (p) { if (p.el === entry.target) { p.on = entry.isIntersecting; } });
+      });
+    }, { rootMargin: '120px' });
+    layers.forEach(function (p) { ioPx.observe(p.el); });
+    var raf = false;
+    function move() {
+      if (document.hidden) { raf = false; return; }
+      var vh = window.innerHeight;
+      layers.forEach(function (p) {
+        if (!p.on) { return; }
+        var rect = p.el.getBoundingClientRect();
+        var offset = (rect.top + rect.height / 2 - vh / 2) * p.speed;
+        p.el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+      });
+      raf = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!raf) { raf = true; window.requestAnimationFrame(move); }
+    }, { passive: true });
+    move();
+  }
+})();
+</script>
 </body>
 </html>

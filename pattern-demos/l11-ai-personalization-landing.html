@@ -1,140 +1,682 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-dest="kyoto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / AI Personalization Landing — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>AI Personalization 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.11 样张 / AI Personalization Landing / 动态 hero 优先，功能、证言、CTA 随语境切换。">
 <style>
-@import url('https://fonts.googleapis.com/css2?DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+/* token 计划: 色彩=暖纸中性底 + 目的地自适应主色(依据 csv: adaptive / A-B per segment) / 字阶=12.5:13.5:15:17:20:26:34:46 / 圆角=12 与 18 / 间距=8px 基数 */
+
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(0,31,63,.28); --primary: #001F3F; --secondary: #228B22;
-  --accent: #800020; --on-primary: #fff;
-  --radius: 16px; --btn-radius: 12px;
+  --bg: #FAF6EF;
+  --fg: #26221B;
+  --muted: #5C5548;
+  --card: #FFFFFF;
+  --line: #E6DECE;
+  --primary: #A4343C;
+  --primary-ink: #FFFFFF;
+  --accent: #6E2630;
+  --tint: rgba(164, 52, 60, .10);
+  --tint-2: rgba(164, 52, 60, .05);
+  --focus: #6E2630;
+  --radius: 18px;
+  --btn-radius: 12px;
+  --shadow: 0 1px 2px rgba(38, 34, 27, .06), 0 14px 34px rgba(38, 34, 27, .10);
+  --shadow-lift: 0 2px 4px rgba(38, 34, 27, .07), 0 20px 44px rgba(38, 34, 27, .14);
+  --font-body: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-head: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', Consolas, 'PingFang SC', monospace;
 }
+
+/* 目的地语境: 清迈 / 雨季翡翠 */
+html[data-dest="chiangmai"] {
+  --primary: #0E6B5C;
+  --accent: #0A4F44;
+  --tint: rgba(14, 107, 92, .10);
+  --tint-2: rgba(14, 107, 92, .05);
+  --focus: #0A4F44;
+}
+
+/* 目的地语境: 里斯本 / 葡砖靛蓝 */
+html[data-dest="lisbon"] {
+  --primary: #1F5AA8;
+  --accent: #16406F;
+  --tint: rgba(31, 90, 168, .10);
+  --tint-2: rgba(31, 90, 168, .05);
+  --focus: #16406F;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  background-image:
+    radial-gradient(58vw 58vw at 88% -12%, var(--tint), transparent 62%),
+    radial-gradient(42vw 42vw at -10% 34%, var(--tint-2), transparent 60%);
+  transition: background-color .35s ease, color .35s ease;
 }
-h1, h2, h3, .num { font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(0,31,63,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Space Grotesk', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.22; letter-spacing: .005em; }
+a { color: var(--primary); }
+img, svg { display: block; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* 顶栏 */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  transition: border-color .35s ease;
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-head); font-weight: 700; font-size: 18px;
+  color: var(--fg); text-decoration: none;
+}
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 11px;
+  background: var(--primary); color: var(--primary-ink);
+  display: grid; place-items: center;
+  transition: background-color .35s ease;
+}
+.logo small { font-family: var(--font-body); font-weight: 500; font-size: 12.5px; color: var(--muted); }
+nav { display: flex; gap: 24px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; transition: color .2s ease; }
 nav a:hover, nav a:focus-visible { color: var(--primary); }
+
+/* 按钮 */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(0,31,63,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: inherit; font-weight: 700; font-size: 15px;
+  padding: 12px 24px; border-radius: var(--btn-radius);
+  cursor: pointer; text-decoration: none;
+  border: 1.5px solid transparent;
+  transition: transform .2s ease, box-shadow .2s ease, background-color .35s ease, border-color .35s ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(0,31,63,.28); border-radius: var(--radius);
-  box-shadow: 0 2px 0 rgba(20,22,40,.1), 0 10px 0 rgba(20,22,40,.18), 0 22px 30px rgba(20,22,40,.25); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 2px 0 rgba(20,22,40,.1), 0 14px 0 rgba(20,22,40,.2), 0 30px 40px rgba(20,22,40,.3);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(0,31,63,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn-primary { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+.btn-primary:hover, .btn-primary:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px var(--tint);
+}
+.btn-ghost { background: var(--card); color: var(--fg); border-color: var(--line); }
+.btn-ghost:hover, .btn-ghost:focus-visible { transform: translateY(-2px); border-color: var(--primary); }
+.btn-sm { padding: 9px 18px; font-size: 14px; }
+.btn-lg { padding: 15px 32px; font-size: 16.5px; }
 
+/* 官方区块 1/4: 动态 hero(个性化) */
+.hero { padding: 64px 0 72px; }
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.04fr .96fr;
+  gap: 48px;
+  align-items: center;
+}
+.doc-meta {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 26px;
+}
+.picker-wrap { margin-bottom: 26px; }
+.picker-label { font-size: 13.5px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+.picker { display: flex; gap: 10px; flex-wrap: wrap; }
+.pick {
+  font: inherit; cursor: pointer; text-align: left;
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 9px 18px 10px;
+  border: 1.5px solid var(--line); border-radius: 14px;
+  background: var(--card); color: var(--fg);
+  transition: border-color .2s ease, background-color .35s ease, transform .2s ease;
+}
+.pick b { font-family: var(--font-head); font-size: 15.5px; font-weight: 700; }
+.pick span { font-size: 12.5px; color: var(--muted); }
+.pick:hover { border-color: var(--primary); transform: translateY(-1px); }
+.pick.on { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+.pick.on span { color: rgba(255, 255, 255, .92); }
+.hero-copy h1 { font-size: clamp(34px, 4.6vw, 46px); font-weight: 700; }
+.hero-copy .sub {
+  margin-top: 16px;
+  font-size: 16.5px;
+  color: var(--muted);
+  max-width: 34em;
+}
+.cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+.stats {
+  margin-top: 36px; padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+}
+.stat dt { font-size: 12.5px; color: var(--muted); order: 2; }
+.stat dd { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--primary); order: 1; transition: color .35s ease; }
+.stat { display: flex; flex-direction: column; gap: 2px; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(0,31,63,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* 行程卡 */
+.hero-card { min-width: 0; }
+.it {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px 28px 20px;
+}
+.it-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.it-brand { font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); }
+.it-title { font-family: var(--font-head); font-size: 19px; font-weight: 700; margin-top: 2px; }
+.it-badge {
+  flex: none;
+  font-size: 12.5px; font-weight: 700;
+  padding: 4px 12px; border-radius: 999px;
+  background: var(--tint); color: var(--accent);
+}
+.it-row {
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  gap: 4px 16px;
+  align-items: center;
+  padding: 11px 2px;
+  border-bottom: 1px dashed var(--line);
+}
+.it-row:last-child { border-bottom: none; }
+.it-time {
+  font-family: var(--font-mono);
+  font-size: 13.5px; font-weight: 700;
+  color: var(--primary);
+  transition: color .35s ease;
+}
+.it-name { font-size: 15px; font-weight: 500; }
+.it-tag {
+  font-size: 12.5px; font-weight: 500;
+  padding: 3px 11px; border-radius: 999px;
+  background: var(--tint); color: var(--accent);
+  white-space: nowrap;
+}
+.it-foot {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+}
 
+/* 通用区块 */
+.sec { padding: 64px 0 72px; }
+.sec-head { max-width: 640px; margin-bottom: 36px; }
+.sec-kicker { font-size: 13.5px; font-weight: 700; color: var(--accent); margin-bottom: 8px; transition: color .35s ease; }
+.sec-head h2 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; }
+.sec-lead { margin-top: 12px; font-size: 15.5px; color: var(--muted); }
+
+/* 官方区块 2/4: 相关功能 */
+.grid3 { gap: 20px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 13px;
+  background: var(--tint); color: var(--accent);
+  display: grid; place-items: center;
+  transition: background-color .35s ease, color .35s ease;
+}
+.feat h3 { font-size: 17.5px; font-weight: 700; }
+.feat p { font-size: 14px; color: var(--muted); }
+.feat-mono {
+  margin-top: auto; padding-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 12.5px; color: var(--accent);
+}
+
+/* 官方区块 3/4: 定制证言 */
+.tst-grid { gap: 20px; }
+.tst blockquote {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--fg);
+}
+.tst figcaption { margin-top: 16px; display: flex; align-items: center; gap: 12px; }
+.tst-ava {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--tint); color: var(--accent);
+  font-family: var(--font-head); font-weight: 700; font-size: 16px;
+  display: grid; place-items: center;
+  flex: none;
+  transition: background-color .35s ease, color .35s ease;
+}
+.tst figcaption b { display: block; font-size: 14.5px; }
+.tst figcaption span { display: block; font-size: 12.5px; color: var(--muted); }
+
+/* 官方区块 4/4: 智能 CTA */
+.cta-panel {
+  background: linear-gradient(135deg, var(--tint-2), var(--card) 62%);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 1.4);
+  box-shadow: var(--shadow);
+  padding: 60px 32px;
+  text-align: center;
+}
+.cta-panel h2 { font-size: clamp(26px, 3.6vw, 36px); font-weight: 700; }
+.cta-panel .cta-sub { margin: 14px auto 0; max-width: 34em; font-size: 15.5px; color: var(--muted); }
+.cta-panel .cta-row { justify-content: center; margin-top: 28px; }
+.cta-note {
+  margin-top: 26px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.cta-seg {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--accent);
+}
+
+/* 页脚 */
+.site-foot { border-top: 1px solid var(--line); padding: 28px 0; }
+.foot-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  font-size: 13px; color: var(--muted);
+}
+.foot-inner a { font-weight: 700; text-decoration: none; }
+.foot-inner a:hover, .foot-inner a:focus-visible { text-decoration: underline; }
+
+/* 个性化面板切换 */
+.pane { display: none; }
+.pane.on { display: block; }
+.pane.grid3.on, .pane.tst-grid.on { display: grid; grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+.swap-in { animation: swapIn .32s ease both; }
+
+/* 一次亮相动效 */
+.reveal { animation: rise .7s cubic-bezier(.22, .61, .36, 1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes swapIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* 响应式: 平板 */
+@media (max-width: 980px) {
+  .hero { padding: 48px 0 56px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-card { max-width: 600px; }
+  .pane.grid3.on, .pane.tst-grid.on { grid-template-columns: repeat(2, 1fr); }
+  .pane.grid3.on > .card:last-child, .pane.tst-grid.on > .card:last-child { grid-column: 1 / -1; }
+  .sec { padding: 52px 0 56px; }
+}
+
+/* 响应式: 手机 */
+@media (max-width: 640px) {
+  nav { display: none; }
+  .hero { padding: 36px 0 44px; }
+  .hero-copy .sub { font-size: 15.5px; }
+  .cta-row .btn { flex: 1 1 auto; }
+  .stats { gap: 8px; }
+  .stat dd { font-size: 20px; }
+  .pane.grid3.on, .pane.tst-grid.on { grid-template-columns: 1fr; }
+  .pane.grid3.on > .card:last-child, .pane.tst-grid.on > .card:last-child { grid-column: auto; }
+  .it { padding: 20px 18px 16px; }
+  .it-row { grid-template-columns: 48px 1fr; row-gap: 2px; }
+  .it-tag { grid-column: 2; justify-self: start; }
+  .cta-panel { padding: 44px 20px; }
+  .foot-inner { justify-content: center; text-align: center; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>两页书屋</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看十月书单</a></div></header><main><section class="hero container"><p class="doc-meta">十月书单 / 上新 37 种 / 营业 12:00-22:00 / 周一休</p><h1>书店不大，够你走神一下午</h1><p class="sub">独立小书店：选书不追榜，分区看心情。坐下看书不赶人，咖啡另算。</p><div class="cta-row"><a class="btn btn-primary" href="#">看十月书单</a><a class="btn" href="#">到店路线</a></div></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>本月主题架</h3><p>&quot;写坏天气的人&quot;——16 本关于雨、雾和心软的小说与非虚构。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>二手角</h3><p>以书换书，折旧按心情算，绝版书不外借。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>深夜自习</h3><p>22 点前灯全亮，最后一小时只留书架灯。</p></article></div></section></section><section class="container"><section class="sec testi"><h2 class="section-h">用户怎么说</h2><div class="tst-grid"><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「流程终于跑顺了，交接成本几乎为零」</blockquote><figcaption>王琨 / 运营负责人</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「第二周就看到数据变化，团队没人再喊麻烦」</blockquote><figcaption>李潇 / 市场总监</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「客服量降了一半，答案反而更标准」</blockquote><figcaption>赵砚 / 客服主管</figcaption></figure></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>看十月书单，现在</h2><p>十月书单 / 上新 37 种 / 营业 12:00-22:00 / 周一休</p><a class="btn btn-primary" href="#">看十月书单</a></div></section><footer>两页书屋 / 周一休 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.2-6.5-10a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10-6.5 10Z"/><circle cx="12" cy="11" r="2.2"/></svg>
+      </span>
+      拾程<small>AI 行程规划</small>
+    </a>
+    <nav aria-label="主导航">
+      <a href="#features">功能</a>
+      <a href="#testimonials">证言</a>
+      <a href="../style-catalog.html">风格目录</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#cta">免费生成</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 官方区块 1/4: Dynamic hero (personalized) -->
+<section class="hero container" aria-label="个性化首屏">
+  <div class="hero-inner reveal">
+    <div class="hero-left">
+      <p class="doc-meta">落地结构 No.11 / AI Personalization Landing / 首屏随目的地个性化</p>
+      <div class="picker-wrap">
+        <p class="picker-label" id="pickerLabel">先选个目的地，整页跟着变</p>
+        <div class="picker" role="group" aria-labelledby="pickerLabel">
+          <button type="button" class="pick on" data-dest="kyoto" aria-pressed="true"><b>京都</b><span>5 月 / 樱季尾声</span></button>
+          <button type="button" class="pick" data-dest="chiangmai" aria-pressed="false"><b>清迈</b><span>6 月 / 雨季开局</span></button>
+          <button type="button" class="pick" data-dest="lisbon" aria-pressed="false"><b>里斯本</b><span>10 月 / 秋阳正好</span></button>
+        </div>
+      </div>
+      <div class="hero-copy" aria-live="polite">
+        <div class="pane on" data-pane="kyoto">
+          <h1>京都四天，按你的脚程排</h1>
+          <p class="sub">拾程读你的步行速度、寺庙开放时间和晚餐预算，把哲学之道与锦市场排出先后。第一稿 12 分钟到手，出发前随便改。</p>
+        </div>
+        <div class="pane" data-pane="chiangmai">
+          <h1>清迈五日，雨天也排得明白</h1>
+          <p class="sub">古城步行圈、宁曼路咖啡、资质可核验的大象营地，外加六月午后阵雨的室内备选。每个半天配一个备选方案，行程不废。</p>
+        </div>
+        <div class="pane" data-pane="lisbon">
+          <h1>里斯本三天，坡道替你算好</h1>
+          <p class="sub">爬升大的观景点排清晨，午后换 28 路电车与平路；贝伦蛋挞给排队时间窗，法朵演出提前一天提醒订位。</p>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#cta">免费生成第一稿</a>
+        <a class="btn btn-ghost" href="#features">看功能怎么变</a>
+      </div>
+      <dl class="stats">
+        <div class="stat"><dt>第一稿平均耗时</dt><dd>12 分钟</dd></div>
+        <div class="stat"><dt>已覆盖城市</dt><dd>87 座</dd></div>
+        <div class="stat"><dt>行程平均迭代</dt><dd>4.2 次</dd></div>
+      </dl>
+    </div>
+    <aside class="hero-card" aria-label="行程第一稿示例">
+      <div class="it pane on" data-pane="kyoto">
+        <div class="it-head">
+          <div>
+            <p class="it-brand">拾程第一稿</p>
+            <p class="it-title">京都四日 / 第 2 天</p>
+          </div>
+          <span class="it-badge">可编辑</span>
+        </div>
+        <div class="it-rows">
+          <div class="it-row"><span class="it-time">07:40</span><span class="it-name">哲学之道步行</span><span class="it-tag">樱季人潮前</span></div>
+          <div class="it-row"><span class="it-time">10:30</span><span class="it-name">银阁寺</span><span class="it-tag">开门即入</span></div>
+          <div class="it-row"><span class="it-time">12:20</span><span class="it-name">锦市场午餐</span><span class="it-tag">站食也排入</span></div>
+          <div class="it-row"><span class="it-time">15:00</span><span class="it-name">三十三间堂</span><span class="it-tag">闭馆已避开</span></div>
+          <div class="it-row"><span class="it-time">18:30</span><span class="it-name">先斗町晚餐</span><span class="it-tag">按预算筛过</span></div>
+        </div>
+        <p class="it-foot">改动任一处 / 当天顺序自动重排</p>
+      </div>
+      <div class="it pane" data-pane="chiangmai">
+        <div class="it-head">
+          <div>
+            <p class="it-brand">拾程第一稿</p>
+            <p class="it-title">清迈五日 / 第 3 天</p>
+          </div>
+          <span class="it-badge">可编辑</span>
+        </div>
+        <div class="it-rows">
+          <div class="it-row"><span class="it-time">08:00</span><span class="it-name">古城墙晨走</span><span class="it-tag">塔佩门起</span></div>
+          <div class="it-row"><span class="it-time">10:30</span><span class="it-name">宁曼路咖啡</span><span class="it-tag">两家备选</span></div>
+          <div class="it-row"><span class="it-time">14:00</span><span class="it-name">伞村手作</span><span class="it-tag">雨天备选 A</span></div>
+          <div class="it-row"><span class="it-time">17:30</span><span class="it-name">大象营地返程</span><span class="it-tag">接送已含</span></div>
+          <div class="it-row"><span class="it-time">20:00</span><span class="it-name">夜市猪脚饭</span><span class="it-tag">摊位已排序</span></div>
+        </div>
+        <p class="it-foot">午后降雨 / 备选方案自动顶上</p>
+      </div>
+      <div class="it pane" data-pane="lisbon">
+        <div class="it-head">
+          <div>
+            <p class="it-brand">拾程第一稿</p>
+            <p class="it-title">里斯本三日 / 第 1 天</p>
+          </div>
+          <span class="it-badge">可编辑</span>
+        </div>
+        <div class="it-rows">
+          <div class="it-row"><span class="it-time">08:30</span><span class="it-name">阿尔法玛晨走</span><span class="it-tag">坡道最省</span></div>
+          <div class="it-row"><span class="it-time">10:15</span><span class="it-name">贝伦蛋挞</span><span class="it-tag">排队时间窗</span></div>
+          <div class="it-row"><span class="it-time">13:00</span><span class="it-name">商业广场午餐</span><span class="it-tag">顺路排入</span></div>
+          <div class="it-row"><span class="it-time">16:00</span><span class="it-name">28 路电车</span><span class="it-tag">反向乘错峰</span></div>
+          <div class="it-row"><span class="it-time">20:00</span><span class="it-name">法朵晚餐</span><span class="it-tag">一排订位</span></div>
+        </div>
+        <p class="it-foot">坡道爬升 210 米 / 拆进两个清晨</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- 官方区块 2/4: Relevant features -->
+<section class="sec container" id="features" aria-label="相关功能">
+  <header class="sec-head">
+    <p class="sec-kicker">相关功能</p>
+    <h2>功能跟着目的地换</h2>
+    <p class="sec-lead">同一套规划引擎，只讲你选中的那座城需要的能力。回到顶部切换目的地，这三张卡会整组替换。</p>
+  </header>
+  <div class="pane grid3 on" data-pane="kyoto">
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8h6"/></svg></span>
+      <h3>步行半径排程</h3>
+      <p>以你住的河原町为圆心，把 15 分钟步行圈内的点排进同一天，少走回头路。</p>
+      <p class="feat-mono">今日步行 8.4 km / 折返 0 次</p>
+    </article>
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></span>
+      <h3>开放时间校验</h3>
+      <p>清水寺 6:00 开门、茶寮 17:00 收摊，先后顺序按当日真实营业时间排，不靠猜。</p>
+      <p class="feat-mono">校验点位 32 处 / 全部当日核对</p>
+    </article>
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"/><path d="M12 13v6a2 2 0 0 0 4 0"/><path d="M12 3v2"/></svg></span>
+      <h3>闭馆雨天备选</h3>
+      <p>周二闭馆、突降雨，任一事项失效时备选方案一键顶上，全天顺序自动重排。</p>
+      <p class="feat-mono">事项覆盖 100% / 一键替换</p>
+    </article>
+  </div>
+  <div class="pane grid3" data-pane="chiangmai">
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"/><path d="M12 13v6a2 2 0 0 0 4 0"/><path d="M12 3v2"/></svg></span>
+      <h3>雨季双轨方案</h3>
+      <p>六月午后阵雨概率高，每个半天配一个室内备选，雨来了不用站在路边重新想。</p>
+      <p class="feat-mono">午后降雨概率 61% / 备选 5 处</p>
+    </article>
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.4-3 8.2-7 10-4-1.8-7-5.6-7-10V6Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      <h3>营地资质核验</h3>
+      <p>大象营地只收录资质可查证的名单，价格、接送与时长写进行程，不含骑乘表演。</p>
+      <p class="feat-mono">核验营地 11 家 / 资质留档</p>
+    </article>
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8h-4a4 4 0 0 1 0-8h6"/></svg></span>
+      <h3>夜市动线排序</h3>
+      <p>周日夜市从塔佩门起，按你想吃的摊位排出走法，走完一圈正好吃饱。</p>
+      <p class="feat-mono">收录摊位 14 摊 / 步行 2.3 km</p>
+    </article>
+  </div>
+  <div class="pane grid3" data-pane="lisbon">
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 19 6-11 4 7 2.5-4L21 19Z"/><path d="M8 6.5 9.6 9"/></svg></span>
+      <h3>坡道体力分配</h3>
+      <p>把爬升大的观景点排进清晨，午后换成电车段与平路，最后一天腿还在。</p>
+      <p class="feat-mono">全天爬升 210 m / 拆两段</p>
+    </article>
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></span>
+      <h3>排队时间窗</h3>
+      <p>贝伦蛋挞 10:30 前队最短，热门观景台附替代点位与建议到达时段。</p>
+      <p class="feat-mono">时间窗 6 处 / 平均省 34 分钟</p>
+    </article>
+    <article class="card feat">
+      <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10.5 20a2 2 0 0 0 3 0"/></svg></span>
+      <h3>演出订位提醒</h3>
+      <p>法朵 20:00 开场，提前一天提醒订位，座位偏好直接写进行程备注。</p>
+      <p class="feat-mono">提醒提前 24 h / 订位 2 处</p>
+    </article>
+  </div>
+</section>
+
+<!-- 官方区块 3/4: Tailored testimonials -->
+<section class="sec container" id="testimonials" aria-label="定制证言">
+  <header class="sec-head">
+    <p class="sec-kicker">定制证言</p>
+    <h2>去过那里的人怎么说</h2>
+    <p class="sec-lead">证言按目的地筛自用户的行程反馈。切到哪座城，就只听那座城的话。</p>
+  </header>
+  <div class="pane tst-grid on" data-pane="kyoto">
+    <figure class="card tst">
+      <blockquote>「原本排了三天寺庙，它看出我脚程偏慢，压成两天半，多出的半天给了琵琶湖。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">林</span>
+        <span><b>林晚</b><span>产品设计师 / 5 月京都四日</span></span>
+      </figcaption>
+    </figure>
+    <figure class="card tst">
+      <blockquote>「周二闭馆这种事我从来记不住，行程里直接标了替代方案，省了一次白走。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">赵</span>
+        <span><b>赵叙</b><span>自由译者 / 11 月京都周末</span></span>
+      </figcaption>
+    </figure>
+    <figure class="card tst">
+      <blockquote>「带孩子走哲学之道，它把午睡时段也排进去了，这一件事我就一直续费。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">苏</span>
+        <span><b>苏澄</b><span>高中教师 / 4 月京都亲子</span></span>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="pane tst-grid" data-pane="chiangmai">
+    <figure class="card tst">
+      <blockquote>「六月去清迈，每天下午的雨它都提前给了备选，五天里没有半天是废的。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">何</span>
+        <span><b>何屿</b><span>摄影师 / 6 月清迈五日</span></span>
+      </figcaption>
+    </figure>
+    <figure class="card tst">
+      <blockquote>「大象营地那页附了资质链接，我第一次敢不看攻略直接按行程订。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">唐</span>
+        <span><b>唐雨</b><span>兽医 / 8 月清迈义工周</span></span>
+      </figcaption>
+    </figure>
+    <figure class="card tst">
+      <blockquote>「夜市按我想吃的摊位排了顺序，从塔佩门进去，走完一圈正好吃饱。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">陆</span>
+        <span><b>陆一</b><span>厨师 / 2 月清迈年假</span></span>
+      </figcaption>
+    </figure>
+  </div>
+  <div class="pane tst-grid" data-pane="lisbon">
+    <figure class="card tst">
+      <blockquote>「里斯本的坡是真的狠，它把爬升排清晨、平路排午后，最后一天腿还在。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">施</span>
+        <span><b>施乔</b><span>跑步教练 / 10 月里斯本三日</span></span>
+      </figcaption>
+    </figure>
+    <figure class="card tst">
+      <blockquote>「蛋挞店它给了 10:15 前到的时间窗，我们到的时候前面只排了三个人。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">邓</span>
+        <span><b>邓珂</b><span>数据分析师 / 5 月里斯本顺访</span></span>
+      </figcaption>
+    </figure>
+    <figure class="card tst">
+      <blockquote>「法朵演出提前一天提醒订位，位置在第一排，老板还多送了一杯酒。」</blockquote>
+      <figcaption>
+        <span class="tst-ava" aria-hidden="true">孟</span>
+        <span><b>孟真</b><span>图书编辑 / 9 月里斯本蜜月</span></span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 官方区块 4/4: Smart CTA -->
+<section class="sec container" id="cta" aria-label="智能行动区">
+  <div class="cta-panel">
+    <div class="pane on" data-pane="kyoto">
+      <h2>现在生成你的京都行程</h2>
+      <p class="cta-sub">四天、樱季、步行优先。选好出发日期，第一稿 12 分钟后见面；不合意的地方，改到合意为止。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="#">生成京都四日行程</a>
+        <a class="btn btn-ghost btn-lg" href="#features">再看看功能</a>
+      </div>
+      <p class="cta-seg">segment = destination-kyoto / 新访客回退通用文案</p>
+    </div>
+    <div class="pane" data-pane="chiangmai">
+      <h2>现在生成你的清迈行程</h2>
+      <p class="cta-sub">五天、雨季、双轨备选。出发日期一到，午后阵雨的位置已经替你留好了室内方案。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="#">生成清迈五日行程</a>
+        <a class="btn btn-ghost btn-lg" href="#features">再看看功能</a>
+      </div>
+      <p class="cta-seg">segment = destination-chiangmai / 新访客回退通用文案</p>
+    </div>
+    <div class="pane" data-pane="lisbon">
+      <h2>现在生成你的里斯本行程</h2>
+      <p class="cta-sub">三天两夜、坡道拆分、错峰时段。电车方向、排队窗口、订位提醒，都在第一稿里。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="#">生成里斯本三日行程</a>
+        <a class="btn btn-ghost btn-lg" href="#features">再看看功能</a>
+      </div>
+      <p class="cta-seg">segment = destination-lisbon / 新访客回退通用文案</p>
+    </div>
+    <p class="cta-note">个性化仅基于你此刻的选择 / 不读取历史数据 / 关闭页面即恢复通用版</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="container foot-inner">
+    <p>UI 设计提示词库 / 落地结构 No.11</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var picker = document.querySelector('.picker');
+  if (!picker) { return; }
+  var buttons = picker.querySelectorAll('.pick');
+  var panes = document.querySelectorAll('[data-pane]');
+
+  function activate(dest) {
+    root.setAttribute('data-dest', dest);
+    buttons.forEach(function (btn) {
+      var on = btn.getAttribute('data-dest') === dest;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('on', on);
+    });
+    panes.forEach(function (pane) {
+      var on = pane.getAttribute('data-pane') === dest;
+      pane.classList.toggle('on', on);
+      if (on) {
+        pane.classList.remove('swap-in');
+        void pane.offsetWidth;
+        pane.classList.add('swap-in');
+      }
+    });
+  }
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activate(btn.getAttribute('data-dest'));
+    });
+  });
+})();
+</script>
 </body>
 </html>

@@ -4,137 +4,785 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Video-First Hero — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Video-First Hero 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.9 Video-First Hero 样张，海岛冲浪营地报名页，复制后交给 AI 复刻同款网页。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400&family=Playfair+Display:ital@1&display=swap');
+/* token 计划：深海蓝 #071A33 至 #123A5E 构成首屏"视频"底与暗纱 / 日落珊瑚 #C2410C 主行动色（白字 5.2:1）/ 浅滩青 #0E7C7B 辅助（白字 5.0:1）/ 纸面 #F5F9FC 正文墨蓝 #14304D（12.8:1）弱化 #48627D（5.9:1）/ 圆角 14px 按钮 10px / 字阶 clamp 30 至 56 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 :root {
-  --bg: #0D0F16; --fg: #EEF1F7; --muted: rgba(238,241,247,.68); --card: #161923;
-  --border: rgba(255,255,255,.14); --primary: #00FF00; --secondary: #FF00FF;
-  --accent: #00FFFF; --on-primary: #fff;
-  --radius: 4px; --btn-radius: 2px;
+  --sea-0: #071A33; --sea-1: #0C2D4D; --sea-2: #123A5E;
+  --paper: #F5F9FC; --card: #FFFFFF; --ink: #14304D; --muted: #48627D;
+  --coral: #C2410C; --coral-deep: #A63A0B; --coral-wash: #FDEFE7;
+  --teal: #0E7C7B; --line: #D8E4EE; --radius: 14px; --btn-radius: 10px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+}
 body {
-  font-family: 'Playfair Display', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  background-image: repeating-linear-gradient(0deg, rgba(0,255,0,.04) 0 1px, transparent 1px 3px);
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+  background: var(--paper); color: var(--ink); line-height: 1.65;
 }
-h1, h2, h3, .num { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(255,255,255,.14); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Inter', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+h1, h2, h3 {
+  line-height: 1.25;
+  letter-spacing: .01em;
+}
+a {
+  color: inherit;
+}
+svg {
+  display: block;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 60;
+  background: var(--card); color: var(--ink); border: 2px solid var(--coral);
+  padding: 9px 16px; border-radius: 8px; font-size: 14px; font-weight: 700;
+  text-decoration: none; transition: top 180ms ease;
+}
+.skip-link:focus {
+  top: 12px;
+}
+a:focus-visible, button:focus-visible {
+  outline: 3px solid #FFB25C;
+  outline-offset: 3px;
+}
+/* ===== 顶栏 ===== */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(7, 24, 46, .88); backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(190, 220, 245, .16);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 62px;
+  gap: 16px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+  color: #F2F8FD; font-weight: 800; font-size: 17px; white-space: nowrap;
+}
+.logo-mark {
+  width: 32px; height: 32px; border-radius: 9px; flex: none;
+  background: linear-gradient(160deg, #16456E, #0A2440);
+  border: 1px solid rgba(200, 228, 250, .3); color: #9FD4F2;
+  display: grid; place-items: center;
+}
+nav {
+  display: flex;
+  gap: 24px;
+}
+nav a {
+  color: #C9DCEF;
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 4px 2px;
+}
+nav a:hover {
+  color: #FFFFFF;
+}
+/* ===== 按钮体系 ===== */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(255,255,255,.14);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: inherit; font-weight: 700; font-size: 15px; text-decoration: none; cursor: pointer;
+  padding: 13px 26px; border-radius: var(--btn-radius); border: 1.5px solid transparent;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px); text-transform: uppercase; letter-spacing: .12em; box-shadow: 0 0 18px rgba(0,255,0,.4); }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(0,255,0,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,255,0,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
-
+.btn-primary {
+  background: var(--coral); color: #FFFFFF; border-color: var(--coral);
+  box-shadow: 0 8px 20px rgba(194, 65, 12, .32);
+}
+.btn-primary:hover {
+  background: var(--coral-deep);
+  border-color: var(--coral-deep);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  background: rgba(9, 30, 56, .45); color: #EAF3FB;
+  border-color: rgba(214, 234, 250, .55); backdrop-filter: blur(4px);
+}
+.btn-ghost:hover {
+  background: rgba(16, 44, 76, .72);
+  border-color: #D6EAFA;
+  transform: translateY(-2px);
+}
+.btn-sm {
+  padding: 8px 15px;
+  font-size: 13.5px;
+  border-radius: 8px;
+}
+/* ===== 首屏：模拟视频背景 ===== */
+.hero {
+  position: relative;
+  background: var(--sea-0);
+}
+.video-stage {
+  position: relative; overflow: hidden; min-height: min(92vh, 860px);
+  display: flex; flex-direction: column; justify-content: center;
+  background: linear-gradient(180deg, #10365C 0%, #0B2A49 34%, #0A2440 58%, #071A33 100%);
+  padding: 96px 24px 158px;
+}
+.sun {
+  position: absolute; left: 63%; top: 15%; width: 190px; height: 190px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 216, 156, .95), rgba(255, 190, 118, .34) 52%, rgba(255, 176, 96, 0) 74%);
+  filter: blur(1px);
+}
+.wave {
+  position: absolute;
+  left: -980px;
+  width: calc(100% + 1960px);
+  pointer-events: none;
+}
+.wave-back {
+  bottom: 19%;
+  height: 34%;
+  opacity: .9;
+  animation: drift-a 95s linear infinite;
+}
+.wave-mid {
+  bottom: 8%;
+  height: 27%;
+  animation: drift-b 68s linear infinite;
+}
+.wave-front {
+  bottom: -2%;
+  height: 21%;
+  animation: drift-c 46s linear infinite;
+}
+@keyframes drift-a { from { transform: translateX(0); } to { transform: translateX(-720px); } }
+@keyframes drift-b { from { transform: translateX(-576px); } to { transform: translateX(0); } }
+@keyframes drift-c { from { transform: translateX(0); } to { transform: translateX(-960px); } }
+.surfer {
+  position: absolute;
+  left: 27%;
+  bottom: 33%;
+  width: 46px;
+  opacity: .8;
+  pointer-events: none;
+}
+.scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(4, 15, 30, .58) 0%, rgba(4, 15, 30, .34) 38%, rgba(4, 15, 30, .66) 72%, rgba(4, 15, 30, .88) 100%);
+}
+.hero-core {
+  position: relative; z-index: 3; max-width: 780px; margin: 0 auto; text-align: center;
+  animation: reveal-once .9s cubic-bezier(.2, .7, .2, 1) .12s both;
+}
+@keyframes reveal-once { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: #C9DCEF; font-size: 14px; font-weight: 500; letter-spacing: .04em;
+  border: 1px solid rgba(205, 226, 245, .38); border-radius: 999px;
+  padding: 6px 16px; background: rgba(8, 26, 48, .5); margin-bottom: 22px;
+}
+.kicker svg {
+  color: #9FD4F2;
+}
+.hero h1 {
+  color: #FFFFFF; font-size: clamp(30px, 5.6vw, 54px); font-weight: 800;
+  margin-bottom: 18px; text-wrap: balance;
+  text-shadow: 0 2px 18px rgba(3, 12, 26, .55);
+}
+.hero .sub {
+  color: #C9DCEF; font-size: clamp(15px, 1.7vw, 17px); max-width: 620px; margin: 0 auto 30px;
+  text-shadow: 0 1px 10px rgba(3, 12, 26, .6);
+}
+.cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.trust {
+  margin-top: 22px;
+  color: #AFCAE4;
+  font-size: 13.5px;
+  text-shadow: 0 1px 8px rgba(3, 12, 26, .6);
+}
+/* 播放器 chrome：静态单次播放态 */
+.player {
+  position: absolute; z-index: 4; left: clamp(16px, 4vw, 44px); right: clamp(16px, 4vw, 44px); bottom: 118px;
+  background: rgba(5, 17, 33, .68); backdrop-filter: blur(7px);
+  border: 1px solid rgba(190, 220, 245, .22); border-radius: 12px;
+  padding: 0 14px 10px;
+}
+.p-track {
+  position: relative;
+  height: 4px;
+  border-radius: 4px;
+  background: #2C4A6B;
+  margin: 0 -14px 10px;
+}
+.p-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 43%;
+  border-radius: 4px;
+  background: #FFB25C;
+}
+.p-knob {
+  position: absolute; left: 43%; top: 50%; width: 12px; height: 12px; border-radius: 50%;
+  background: #FFD9A8; border: 2px solid #0A2038; transform: translate(-50%, -50%);
+}
+.p-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+}
+.p-btn {
+  width: 34px; height: 34px; border-radius: 50%; flex: none; cursor: pointer;
+  background: rgba(234, 243, 251, .14); border: 1px solid rgba(214, 234, 250, .4);
+  color: #EAF3FB; display: grid; place-items: center;
+}
+.p-btn:hover {
+  background: rgba(234, 243, 251, .26);
+}
+.p-title {
+  color: #C9DCEF;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.p-spacer {
+  flex: 1;
+}
+.p-chip {
+  display: inline-flex; align-items: center; gap: 6px; flex: none;
+  color: #DCE9F7; font-size: 12.5px; font-weight: 600;
+  border: 1px solid rgba(214, 234, 250, .34); border-radius: 7px; padding: 4px 9px;
+}
+.p-time {
+  color: #DCE9F7;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  flex: none;
+}
+/* ===== 分区标题 ===== */
+.sec-head {
+  max-width: 660px;
+  margin-bottom: 34px;
+}
+.sec-head h2 {
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.sec-head p {
+  color: var(--muted);
+  font-size: 15px;
+}
+/* ===== 关键特性：叠压视频下缘 ===== */
+.features {
+  position: relative;
+  z-index: 5;
+  margin-top: -64px;
+  padding: 0 0 72px;
+}
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+.feat {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 14px 34px rgba(9, 32, 60, .14); padding: 26px 24px;
+}
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 11px; margin-bottom: 14px;
+  background: linear-gradient(160deg, #14808F, #0B5E68); color: #EAF9F8;
+  display: grid; place-items: center;
+}
+.feat h3 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.feat p {
+  font-size: 14px;
+  color: var(--muted);
+}
+/* ===== 收益区 ===== */
+.benefits {
+  padding: 8px 0 76px;
+}
+.bene-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.rhythm {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 26px 20px;
+}
+.rhythm h3, .stat-card h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.r-row {
+  display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: baseline;
+  padding: 13px 0; border-top: 1px dashed var(--line);
+}
+.r-day {
+  color: var(--coral-deep);
+  font-weight: 800;
+  font-size: 13.5px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.r-row b {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+.r-row p {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.stat-card {
+  background: linear-gradient(175deg, #0E3255, #0A2440);
+  color: #EAF3FB;
+  border-radius: var(--radius);
+  padding: 26px 26px 20px;
+}
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(200, 226, 246, .16);
+}
+.stat b {
+  font-size: 30px;
+  font-weight: 800;
+  color: #FFC98F;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.stat span {
+  font-size: 13.5px;
+  color: #C9DCEF;
+}
+.stat-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #9FBEDC;
+}
+/* ===== 营期表：行级 grid 对齐 ===== */
+.sess-wrap {
+  margin-top: 46px;
+}
+.sess-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.sess-title h3 {
+  font-size: 19px;
+  font-weight: 800;
+}
+.sess-title p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.sess-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.sess {
+  min-width: 700px;
+}
+.sess-head, .sess-row {
+  display: grid; grid-template-columns: 118px 1.25fr 1.5fr 96px 104px 116px;
+  gap: 0 14px; align-items: center;
+}
+.sess-head {
+  background: var(--sea-2); color: #EAF3FB; font-size: 13px; font-weight: 700;
+  padding: 12px 18px; border-radius: var(--radius) var(--radius) 0 0;
+}
+.sess-row {
+  padding: 15px 18px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.sess-row:nth-of-type(odd) {
+  background: #F0F6FB;
+}
+.sess-row .term {
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.sess-row .date {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.sess-row .cond {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.sess-row .seats {
+  font-weight: 700;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+.seats-few {
+  color: var(--coral-deep);
+}
+.seats-ok {
+  color: var(--teal);
+}
+.sess-row .price {
+  font-weight: 800;
+  color: var(--coral-deep);
+  font-variant-numeric: tabular-nums;
+}
+.btn-row {
+  font: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; white-space: nowrap;
+  padding: 8px 16px; border-radius: 8px; text-decoration: none; text-align: center;
+  background: var(--card); color: var(--coral-deep); border: 1.5px solid var(--coral);
+  transition: background 160ms ease, color 160ms ease;
+}
+.btn-row:hover {
+  background: var(--coral-wash);
+}
+.sess-hot {
+  background: #FFF7EE;
+  box-shadow: inset 3px 0 0 var(--coral);
+}
+.tag-hot {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: var(--coral);
+  border-radius: 6px;
+  padding: 2px 7px;
+  flex: none;
+}
+.sess-note {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+/* ===== 底部转化区 ===== */
+.cta-final {
+  background: linear-gradient(180deg, #0A2440, #071A33);
+  padding: 84px 0 90px;
+  text-align: center;
+}
+.cta-final h2 {
+  color: #FFFFFF;
+  font-size: clamp(24px, 3.6vw, 36px);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+.cta-final .lead {
+  color: #C9DCEF;
+  font-size: 15.5px;
+  max-width: 560px;
+  margin: 0 auto 30px;
+}
+.cta-final .fine {
+  margin-top: 20px;
+  color: #9FBEDC;
+  font-size: 12.5px;
+}
+/* ===== 页脚 ===== */
+footer {
+  background: #050F1E;
+  padding: 28px 0;
+}
+footer .container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+footer p {
+  color: #8FB0CF;
+  font-size: 13px;
+}
+footer a {
+  color: #FFC98F;
+  text-decoration: none;
+  font-weight: 600;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+/* ===== 响应式 ===== */
+@media (max-width: 1020px) {
+  .bene-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 820px) {
+  nav {
+    display: none;
+  }
+  .feat-grid {
+    grid-template-columns: 1fr;
+  }
+  .features {
+    margin-top: -46px;
+    padding-bottom: 60px;
+  }
+  .video-stage {
+    padding: 84px 20px 150px;
+    min-height: auto;
+  }
+  .player {
+    bottom: 96px;
+  }
+  .sun {
+    left: 56%;
+    width: 150px;
+    height: 150px;
+  }
+}
+@media (max-width: 560px) {
+  .p-title {
+    display: none;
+  }
+  .player {
+    left: 12px;
+    right: 12px;
+    bottom: 92px;
+  }
+  .cta-row .btn {
+    width: 100%;
+    max-width: 340px;
+  }
+  .r-row {
+    grid-template-columns: 76px 1fr;
+    gap: 10px;
+  }
+  .sess {
+    min-width: 640px;
+  }
+  .cta-final {
+    padding: 66px 0 72px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>午夜调频</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">今晚节目单</a></div></header><main><section class="hero container"><p class="doc-meta">今夜节目 23:00-01:00 / 主持人 老麦 / 点播线 6220 3141</p><h1>两点前睡着的，都不算失眠</h1><p class="sub">深夜电台：点播、读信、放歌。城市关灯之后的声音都在这个频段。</p><div class="cta-row"><a class="btn btn-primary" href="#">今晚节目单</a><a class="btn" href="#">写一封信</a></div></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>读信环节</h3><p>今晚三封：一封道歉的、一封告别的、一封查无此人的。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>点播榜</h3><p>《晚安》连续七周第一，点歌人每次都说同一句话。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>老麦的话</h3><p>凌晨一点之后的话别当真，但今晚这句你记住。</p></article></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>老麦的话</b><p>凌晨一点之后的话别当真，但今晚这句你记住。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>今晚节目单，现在</h2><p>今夜节目 23:00-01:00 / 主持人 老麦 / 点播线 6220 3141</p><a class="btn btn-primary" href="#">今晚节目单</a></div></section><footer>午夜调频 89.3 / 23:00 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip-link" href="#benefits">跳到主要内容</a>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 12c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M2 17c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M2 7c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/></svg></span>
+      屿浪冲浪营地
+    </a>
+    <nav aria-label="主导航">
+      <a href="#features">营地亮点</a>
+      <a href="#benefits">七天节奏</a>
+      <a href="#schedule">营期与席位</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#schedule">报名 11 月营期</a>
+  </div>
+</header>
+<main id="top">
+  <section class="hero" aria-label="视频首屏">
+    <div class="video-stage">
+      <div class="sun" aria-hidden="true"></div>
+      <svg class="wave wave-back" viewBox="0 0 3920 130" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#16456E" opacity=".85" d="M0 64 C120 46 240 32 360 46 C480 60 600 86 720 64 C840 42 960 30 1080 44 C1200 58 1320 88 1440 64 C1560 46 1680 32 1800 46 C1920 60 2040 86 2160 64 C2280 42 2400 30 2520 44 C2640 58 2760 88 2880 64 C3000 46 3120 32 3240 46 C3360 60 3480 86 3600 64 C3720 42 3840 32 3920 46 L3920 130 L0 130 Z"/>
+      </svg>
+      <svg class="surfer" viewBox="0 0 48 22" aria-hidden="true">
+        <ellipse cx="24" cy="17" rx="20" ry="3.4" fill="#061627"/>
+        <circle cx="25" cy="8" r="3.6" fill="#061627"/>
+        <path d="M21 11c-3 2.4-7.5 3.4-12 3M29 11c3 2.4 7.5 3.4 12 3" stroke="#061627" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+      </svg>
+      <svg class="wave wave-mid" viewBox="0 0 3920 130" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#0E2F52" d="M0 50 C96 74 192 92 288 72 C384 52 480 22 576 44 C672 66 768 88 864 66 C960 46 1056 24 1152 46 C1248 68 1344 90 1440 68 C1536 46 1632 24 1728 46 C1824 68 1920 90 2016 68 C2112 46 2208 24 2304 46 C2400 68 2496 90 2592 68 C2688 46 2784 24 2880 46 C2976 68 3072 90 3168 68 C3264 46 3360 24 3456 46 C3552 68 3648 90 3744 68 C3840 46 3920 34 3920 34 L3920 130 L0 130 Z"/>
+      </svg>
+      <svg class="wave wave-front" viewBox="0 0 3920 130" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#081F3A" stroke="rgba(214, 236, 255, .22)" stroke-width="2" d="M0 58 C160 36 320 26 480 48 C640 70 800 92 960 58 C1120 28 1280 22 1440 44 C1600 66 1760 94 1920 60 C2080 32 2240 22 2400 46 C2560 70 2720 92 2880 58 C3040 28 3200 22 3360 44 C3520 66 3680 94 3840 60 C3890 49 3920 44 3920 44 L3920 130 L0 130 Z"/>
+      </svg>
+      <div class="scrim" aria-hidden="true"></div>
+      <div class="hero-core">
+        <p class="kicker">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          海南万宁 / 日月湾营地 / 冬季浪季第 9 年
+        </p>
+        <h1>这个冬天，站上你的第一道绿浪</h1>
+        <p class="sub">7 天 6 夜零基础冲浪营 / ISA 与国职双证教练 1:3 下水陪练 / 从泡沫浪趴板，到被浪壁推着走的完整路径</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#schedule">报名 11 月营期</a>
+          <a class="btn btn-ghost" href="#schedule">先看营期与席位</a>
+        </div>
+        <p class="trust">已带 1,240 名零基础营员下水 / 84% 学员三天内完成首次起乘</p>
+      </div>
+      <div class="player" role="group" aria-label="背景视频播放控制">
+        <div class="p-track" aria-hidden="true"><span class="p-fill"></span><span class="p-knob"></span></div>
+        <div class="p-row">
+          <button type="button" class="p-btn" aria-label="暂停背景视频：营地实拍">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1.5"/><rect x="14" y="4" width="5" height="16" rx="1.5"/></svg>
+          </button>
+          <span class="p-title">营地实拍 / 第 8 期结营混剪 / 日月湾东浪点</span>
+          <span class="p-spacer" aria-hidden="true"></span>
+          <span class="p-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 10.5a2.4 2.4 0 0 0-4 1.5 2.4 2.4 0 0 0 4 1.5M18 10.5a2.4 2.4 0 0 0-4 1.5 2.4 2.4 0 0 0 4 1.5"/></svg>
+            字幕
+          </span>
+          <button type="button" class="p-btn" aria-label="背景视频已静音">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m22 9-6 6M16 9l6 6"/></svg>
+          </button>
+          <span class="p-time">01:12 / 02:48</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="features" id="features" aria-label="营地关键特性">
+    <div class="container">
+      <div class="feat-grid">
+        <article class="feat">
+          <span class="feat-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 8c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><path d="M8 19.5c1.4 1 2.6 1 4 0s2.6-1 4 0"/></svg></span>
+          <h3>每天按浪况换浪点</h3>
+          <p>礁石起步点、沙滩练习区、进阶浪壁三个点位轮换。教练清晨五点半看浪定当天课表，浪不等人，课也不将就。</p>
+        </article>
+        <article class="feat">
+          <span class="feat-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V6Z"/><path d="m9 11.6 2.1 2.1 4-4.2"/></svg></span>
+          <h3>1:3 配比，教练全程下水</h3>
+          <p>每位教练最多带三名学员，脚绳、防撞帽、对讲耳麦标配。安全交底先于下水，体力不支随时上护航桨板休息。</p>
+        </article>
+        <article class="feat">
+          <span class="feat-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15.5C6 10 9.5 6 14 3c1.6 5-.4 10.4-4.6 14.4-1.7.5-3.6 1-6.4-1.9Z"/><path d="M3 15.5c2.4 3.2 5 4.6 8 5"/><path d="M9 15.5c1.6-1.8 3.4-3.2 5.4-4.2"/></svg></span>
+          <h3>装备住宿三餐全包</h3>
+          <p>软板到硬板的进阶板库、防晒水母衣、营区四人间与海鲜厨房。你只需要飞到万宁，剩下的营地准备好。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="benefits" id="benefits" aria-label="七天收获与营期安排">
+    <div class="container">
+      <div class="sec-head">
+        <h2>七天，从趴板划水到绿浪起乘</h2>
+        <p>课程按万宁冬季浪况设计，先在泡沫浪里找回平衡，再一步步走向未破碎的绿浪。</p>
+      </div>
+      <div class="bene-grid">
+        <div class="rhythm">
+          <h3>每日节奏</h3>
+          <div class="r-row">
+            <span class="r-day">第 1 天</span>
+            <div><b>岸上课与趴板拖拽</b><p>浪况判读、离岸流避险，泡沫浪里练习趴板与转向。</p></div>
+          </div>
+          <div class="r-row">
+            <span class="r-day">第 2 至 3 天</span>
+            <div><b>起乘训练</b><p>划水时机、撑板与站姿分解，教练在浪壁旁喊口令卡点。</p></div>
+          </div>
+          <div class="r-row">
+            <span class="r-day">第 4 至 5 天</span>
+            <div><b>浪壁选择与斜跑</b><p>1:3 下水陪练，学习挑浪、减速与沿浪壁方向滑行。</p></div>
+          </div>
+          <div class="r-row">
+            <span class="r-day">第 6 天</span>
+            <div><b>视频复盘</b><p>上午拍下水素材，晚上逐帧看重心与脚位，第二天立刻改。</p></div>
+          </div>
+          <div class="r-row">
+            <span class="r-day">第 7 天</span>
+            <div><b>绿浪考核与篝火</b><p>独立完成一道绿浪起乘，夜里发结业浪况证书，烤鱼收尾。</p></div>
+          </div>
+        </div>
+        <aside class="stat-card">
+          <h3>九年营期数据</h3>
+          <div class="stat"><b>84%</b><span>零基础学员在第三天前完成首次起乘</span></div>
+          <div class="stat"><b>1,240</b><span>累计下水营员，最年长 61 岁</span></div>
+          <div class="stat"><b>4.9</b><span>营期结束匿名评分（5 分制）</span></div>
+          <p class="stat-note">数据统计区间 2017 年 11 月至 2026 年 9 月，由营地结营问卷汇总。</p>
+        </aside>
+      </div>
+      <div class="sess-wrap" id="schedule">
+        <div class="sess-title">
+          <h3>营期与席位</h3>
+          <p>席位以定金到账顺序锁定 / 浪况为历史同期区间，开营前一周发正式浪报</p>
+        </div>
+        <div class="sess-scroll">
+          <div class="sess">
+            <div class="sess-head">
+              <span>期数</span><span>日期</span><span>预期浪况</span><span>名额</span><span>学费</span><span>报名</span>
+            </div>
+            <div class="sess-row">
+              <span class="term">第 7 期</span>
+              <span class="date">2026-10-24 至 10-30</span>
+              <span class="cond">浪高 0.8 至 1.2 米 / 适合首次下水</span>
+              <span class="seats seats-ok">剩 6 席</span>
+              <span class="price">¥6,800</span>
+              <a class="btn-row" href="#">报名第 7 期</a>
+            </div>
+            <div class="sess-row sess-hot">
+              <span class="term">第 8 期<span class="tag-hot">最抢手</span></span>
+              <span class="date">2026-11-07 至 11-13</span>
+              <span class="cond">浪高 1.0 至 1.5 米 / 起乘巩固与小浪斜跑</span>
+              <span class="seats seats-few">仅剩 2 席</span>
+              <span class="price">¥6,800</span>
+              <a class="btn-row" href="#">报名第 8 期</a>
+            </div>
+            <div class="sess-row">
+              <span class="term">第 9 期</span>
+              <span class="date">2026-11-21 至 11-27</span>
+              <span class="cond">浪高 1.5 至 2.0 米 / 进阶切浪与视频复盘</span>
+              <span class="seats seats-ok">剩 9 席</span>
+              <span class="price">¥7,200</span>
+              <a class="btn-row" href="#">报名第 9 期</a>
+            </div>
+          </div>
+        </div>
+        <p class="sess-note">学费含接送机、住宿三餐、全部装备与保险 / 不含往返机票 / 开营前 14 天外定金可退。</p>
+      </div>
+    </div>
+  </section>
+  <section class="cta-final" aria-label="报名转化">
+    <div class="container">
+      <h2>东北季风已经到了，绿浪不等人</h2>
+      <p class="lead">第 8 期 11 月 7 日开营，仅剩 2 席。支付定金 ¥800 锁席，开营前 14 天外可全额退。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#">锁定第 8 期席位</a>
+        <a class="btn btn-ghost" href="#">先问教练几个问题</a>
+      </div>
+      <p class="fine">下单后 24 小时内教练微信联系 / 出行前一周发送装备清单与浪报。</p>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="container">
+    <p>UI 设计提示词库 / 落地结构 No.9 / <a href="../style-catalog.html">返回风格目录</a></p>
+    <p>官方结构 / Hero with video background &gt; Key features overlay &gt; Benefits section &gt; CTA / 转化要点：字幕与可见暂停控制，reduced-motion 用静态海报保留最终信息与行动入口</p>
+  </div>
+</footer>
 </body>
 </html>

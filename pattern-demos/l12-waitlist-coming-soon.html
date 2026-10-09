@@ -4,137 +4,763 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Waitlist/Coming Soon — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Waitlist 结构 / UI 设计提示词库</title>
+<meta name="description" content="落地结构样张：Waitlist/Coming Soon。独立调香师品牌首发香水候补页，倒计时 + 产品预告 + 邮箱候补表单 + 候补计数社交证明。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+/* token 计划: 暖黑 #161210 / 米白 #F0E9DF / 次级 #B7AA9A / 品牌琥珀 #D8A24A(倒计时/CTA) / 鸢尾紫 #A98BC4 / 陶土橙 #E8794F(紧迫指示) / 卡面 #1F1915 / 描边 rgba(240,233,223,.14) (csv Color Strategy: Dark + accent highlights, countdown in brand color, urgency indicators) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root {
-  --bg: #0D0F16; --fg: #EEF1F7; --muted: rgba(238,241,247,.68); --card: #161923;
-  --border: rgba(255,255,255,.14); --primary: #F5F5F5; --secondary: #333333;
-  --accent: #f5f5f5; --on-primary: #10121A;
+  --bg: #161210; --bg-2: #1D1713; --card: #1F1915; --card-2: #26201A;
+  --fg: #F0E9DF; --muted: #B7AA9A; --faint: #9A8E7E;
+  --amber: #D8A24A; --amber-deep: #B8863A; --iris: #A98BC4; --clay: #E8794F;
+  --line: rgba(240,233,223,.14); --line-strong: rgba(240,233,223,.26);
+  --ink-on-amber: #1D1508;
+  --err: #F2A18E; --ok: #9CC7A9;
   --radius: 10px; --btn-radius: 8px;
+  --focus-ring: 2px solid #D8A24A;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
-  font-family: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg); color: var(--fg); line-height: 1.7; font-size: 15.5px;
+  background-image: radial-gradient(1000px 480px at 78% -10%, rgba(169,139,196,.07), transparent 70%),
+                    radial-gradient(900px 420px at 8% 12%, rgba(216,162,74,.06), transparent 70%);
 }
-h1, h2, h3, .num { font-family: 'Lexend', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(255,255,255,.14); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Lexend', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+h1, h2, h3, .serif { font-family: 'Noto Serif SC', 'Songti SC', serif; }
+.mono { font-family: 'IBM Plex Mono', 'PingFang SC', monospace; }
+a { color: var(--amber); }
+:focus-visible { outline: var(--focus-ring); outline-offset: 2px; border-radius: 2px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- 顶栏（滚动后展开迷你候补表单） ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(22,18,16,.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; height: 62px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); font-weight: 700; font-size: 16px; font-family: 'Noto Serif SC', serif; }
+.brand svg { color: var(--amber); flex: none; }
+.topnav { display: flex; gap: 24px; }
+.topnav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+.topnav a:hover, .topnav a:focus-visible { color: var(--fg); }
+.top-cta { display: flex; align-items: center; gap: 10px; }
+.top-form {
+  display: flex; align-items: center; gap: 8px;
+  max-width: 0; opacity: 0; overflow: hidden; transition: max-width 320ms ease, opacity 320ms ease;
+}
+.top-cta.on .top-form { max-width: 340px; opacity: 1; }
+.top-form input {
+  width: 200px; height: 38px; padding: 0 12px; font: inherit; font-size: 14px;
+  background: var(--card); color: var(--fg); border: 1px solid var(--line-strong); border-radius: var(--btn-radius);
+}
+.top-form input::placeholder { color: var(--faint); }
+
+/* ---------- 按钮 ---------- */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(255,255,255,.14);
-  background: var(--card); color: var(--fg);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: inherit; font-weight: 700; font-size: 15px; line-height: 1;
+  padding: 13px 26px; border-radius: var(--btn-radius); cursor: pointer; text-decoration: none;
+  border: 1px solid var(--line-strong); background: var(--card-2); color: var(--fg);
+  transition: background 180ms ease, border-color 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(245,245,245,.13); padding: 24px;
-  transition: transform 180ms ease, box-shadow 180ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(245,245,245,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn:hover { border-color: var(--amber); }
+.btn-primary { background: var(--amber); border-color: var(--amber); color: var(--ink-on-amber); }
+.btn-primary:hover { background: #E3B25E; border-color: #E3B25E; }
+.btn-sm { padding: 10px 16px; font-size: 14px; }
+.btn-ghost { background: transparent; }
 
+/* ---------- 01 Hero：倒计时 + 首屏邮箱表单 ---------- */
+.hero { padding: 72px 0 84px; }
+.hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 56px; align-items: center; }
+.kicker { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: .04em; }
+.kicker b { color: var(--amber); font-weight: 500; }
+.hero h1 { font-size: clamp(44px, 6.4vw, 74px); font-weight: 900; line-height: 1.12; margin: 14px 0 6px; letter-spacing: .02em; }
+.hero h1 .fr { color: var(--iris); }
+.sub-name { font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: clamp(18px, 2.2vw, 23px); color: var(--iris); font-weight: 600; margin-bottom: 18px; }
+.lede { color: var(--muted); max-width: 52ch; margin-bottom: 30px; }
+.count {
+  display: flex; align-items: flex-end; gap: 14px; margin-bottom: 10px;
+  padding: 20px 24px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  width: fit-content;
+}
+.count .cell { display: flex; flex-direction: column; align-items: center; min-width: 74px; }
+.count .num { font-family: 'IBM Plex Mono', monospace; font-size: 44px; font-weight: 600; line-height: 1.05; color: var(--amber); font-variant-numeric: tabular-nums; }
+.count .unit { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+.count .colon { font-family: 'IBM Plex Mono', monospace; font-size: 30px; color: var(--faint); padding-bottom: 26px; }
+.count-note { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted); margin-bottom: 30px; }
+.count-note b { color: var(--clay); font-weight: 500; }
+.hero-form { margin-bottom: 12px; }
+.form-row { display: flex; gap: 10px; max-width: 520px; }
+.form-row input {
+  flex: 1; min-width: 0; height: 50px; padding: 0 16px; font: inherit; font-size: 15px;
+  background: var(--card); color: var(--fg); border: 1px solid var(--line-strong); border-radius: var(--btn-radius);
+}
+.form-row input::placeholder { color: var(--faint); }
+.form-row input[aria-invalid="true"] { border-color: var(--err); }
+.form-row .btn { height: 50px; padding-top: 0; padding-bottom: 0; white-space: nowrap; }
+.form-msg { display: block; min-height: 22px; font-size: 13px; margin-top: 6px; color: var(--err); }
+.form-msg.ok { color: var(--ok); }
+.privacy-note { font-size: 12.5px; color: var(--faint); }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* ---------- 瓶身刻度液位图（签名组件） ---------- */
+.bottle-fig { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.bottle-fig svg { width: min(300px, 78vw); height: auto; display: block; }
+.bottle-cap { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted); text-align: center; }
+.bottle-cap b { color: var(--amber); font-weight: 500; }
+.launch-steps {
+  width: min(300px, 78vw); border: 1px dashed var(--line-strong); border-radius: var(--radius);
+  padding: 14px 18px 15px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px;
+  color: var(--muted); line-height: 2;
+}
+.launch-steps .launch-title { font-size: 13px; font-weight: 600; color: var(--fg); margin-bottom: 4px; font-family: 'Noto Sans SC', sans-serif; }
+.launch-steps b { color: var(--amber); font-weight: 500; }
 
+/* ---------- 分区公共 ---------- */
+section.block { padding: 76px 0; border-top: 1px solid var(--line); }
+.sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 34px; }
+.sec-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--amber); }
+.sec-head h2 { font-size: clamp(24px, 3.2vw, 34px); font-weight: 700; }
+.sec-head .sec-sub { color: var(--muted); font-size: 14px; margin-left: auto; }
+
+/* ---------- 02 产品预告 ---------- */
+.param-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 40px; }
+.param {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start;
+}
+.param svg { flex: none; color: var(--amber); margin-top: 3px; }
+.param .p-val { font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 600; color: var(--fg); }
+.param .p-key { font-size: 12.5px; color: var(--muted); }
+.teaser-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 40px; align-items: start; }
+
+/* 香调表：三列 grid，所有行同一模板，列位严格对齐 */
+.scent-grid { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.sg-row {
+  display: grid; grid-template-columns: 118px 1fr 1.5fr; gap: 0 22px; align-items: center;
+  padding: 15px 20px; border-top: 1px solid var(--line); background: var(--card);
+}
+.sg-row:first-child { border-top: 0; background: var(--bg-2); }
+.sg-row .sg-head-cell { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted); }
+.sg-layer {
+  justify-self: start; min-width: 86px; text-align: center; padding: 7px 12px 8px;
+  background: linear-gradient(178deg, #EFE6D6 0%, #E2D3BC 78%, #D6C2A4 100%);
+  color: #4A3A22; font-weight: 700; font-size: 13.5px; line-height: 1.2;
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  box-shadow: inset 0 -2px 0 rgba(74,58,34,.22);
+}
+.sg-layer .lv { display: block; font-family: 'IBM Plex Mono', monospace; font-weight: 400; font-size: 10.5px; color: #6E5B3C; letter-spacing: .08em; }
+.sg-notes { font-weight: 500; }
+.sg-notes .tone { color: var(--iris); margin-left: 6px; font-size: 12.5px; font-family: 'IBM Plex Mono', monospace; }
+.sg-desc { color: var(--muted); font-size: 14px; }
+.scent-src { font-size: 12.5px; color: var(--faint); margin-top: 10px; }
+
+.perfumer-note {
+  background: linear-gradient(160deg, rgba(169,139,196,.10), rgba(216,162,74,.06));
+  border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 26px 28px;
+}
+.perfumer-note blockquote { font-family: 'Noto Serif SC', serif; font-size: 17.5px; line-height: 1.85; font-weight: 600; }
+.perfumer-note blockquote::before { content: "「"; color: var(--iris); }
+.perfumer-note blockquote::after { content: "」"; color: var(--iris); }
+.perfumer-note footer { margin-top: 14px; font-size: 13.5px; color: var(--muted); font-style: normal; }
+.perfumer-note footer b { color: var(--fg); font-weight: 600; }
+.vial-row { display: flex; gap: 12px; align-items: flex-start; margin-top: 22px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.vial-row svg { flex: none; color: var(--iris); margin-top: 2px; }
+.vial-row p { font-size: 13.5px; color: var(--muted); }
+.vial-row b { color: var(--fg); font-weight: 600; }
+
+/* ---------- 03 邮箱候补表单 ---------- */
+.join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; }
+.benefit-list { list-style: none; counter-reset: ben; }
+.benefit-list li {
+  counter-increment: ben; position: relative; padding: 16px 0 16px 58px; border-top: 1px solid var(--line);
+}
+.benefit-list li:first-child { border-top: 0; padding-top: 4px; }
+.benefit-list li::before {
+  content: counter(ben, decimal-leading-zero); position: absolute; left: 0; top: 18px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: var(--amber);
+}
+.benefit-list li:first-child::before { top: 6px; }
+.benefit-list b { display: block; font-size: 15.5px; margin-bottom: 3px; }
+.benefit-list p { font-size: 13.5px; color: var(--muted); }
+.honest-terms {
+  margin-top: 24px; padding: 16px 18px; border-left: 3px solid var(--clay);
+  background: rgba(232,121,79,.07); border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 13px; color: var(--muted);
+}
+.honest-terms b { color: var(--clay); font-weight: 600; }
+.join-card { background: var(--card); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 30px 30px 26px; }
+.join-card h3 { font-size: 20px; margin-bottom: 4px; }
+.join-card .join-sub { font-size: 13.5px; color: var(--muted); margin-bottom: 20px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 7px; }
+.field input[type="email"] {
+  width: 100%; height: 48px; padding: 0 14px; font: inherit; font-size: 15px;
+  background: var(--bg-2); color: var(--fg); border: 1px solid var(--line-strong); border-radius: var(--btn-radius);
+}
+.field input[type="email"]::placeholder { color: var(--faint); }
+.field input[type="email"][aria-invalid="true"] { border-color: var(--err); }
+.check-field { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 18px; font-size: 13.5px; color: var(--muted); }
+.check-field input { width: 17px; height: 17px; margin-top: 3px; accent-color: var(--amber); flex: none; }
+.check-field label { cursor: pointer; }
+.join-card .btn { width: 100%; height: 50px; font-size: 15.5px; }
+
+/* 成功面板（三处表单共用一个结果区） */
+.success-panel { display: none; }
+.success-panel.show { display: block; }
+.success-panel .ok-line { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; color: var(--ok); margin-bottom: 8px; }
+.success-panel .ok-mail { font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: var(--amber); word-break: break-all; }
+.success-panel p { font-size: 14px; color: var(--muted); margin: 10px 0 18px; }
+.share-block { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 4px; }
+.share-block .share-title { font-size: 13.5px; font-weight: 600; margin-bottom: 10px; }
+.share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.link-box {
+  display: flex; gap: 8px; align-items: center;
+  border: 1px dashed var(--line-strong); border-radius: var(--btn-radius); padding: 8px 10px;
+}
+.link-box input {
+  flex: 1; min-width: 140px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px;
+  color: var(--muted); background: transparent; border: 0; height: 32px;
+}
+.confetti-piece { position: fixed; width: 8px; height: 12px; top: 0; left: 0; pointer-events: none; z-index: 99; animation: drop 1300ms ease-in forwards; }
+
+/* ---------- 04 社交证明：候补计数 ---------- */
+.proof-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 44px; align-items: start; }
+.proof-left { display: grid; gap: 14px; }
+.count-card { background: var(--card); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 30px; }
+.alt-card { padding: 24px 30px; }
+.count-card .big-num { font-family: 'IBM Plex Mono', monospace; font-size: 58px; font-weight: 600; color: var(--amber); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.count-card .big-label { font-size: 15px; font-weight: 600; margin: 4px 0 18px; }
+.count-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted); line-height: 1.9; border-top: 1px dashed var(--line-strong); padding-top: 14px; }
+.count-meta b { color: var(--fg); font-weight: 500; }
+.quote-list { display: grid; gap: 14px; }
+.quote {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 22px; display: flex; flex-direction: column;
+}
+.quote p { font-family: 'Noto Serif SC', serif; font-size: 15.5px; line-height: 1.85; flex: 1; }
+.quote p::before { content: "「"; color: var(--iris); }
+.quote p::after { content: "」"; color: var(--iris); }
+.quote footer { margin-top: 10px; font-size: 12.5px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+
+/* ---------- Footer ---------- */
+footer { border-top: 1px solid var(--line); padding: 30px 0 38px; text-align: center; font-size: 13px; color: var(--muted); }
+footer .brand-line { margin-bottom: 8px; color: var(--faint); }
+
+/* ---------- 一次亮相动效（仅 hero 整体一次，非逐卡） ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero .reveal { animation: rise 720ms cubic-bezier(.22,.61,.36,1) both; }
+  .count .num.tick { animation: tick 300ms ease both; }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes tick { from { opacity: .25; transform: translateY(-7px); } to { opacity: 1; transform: none; } }
+@keyframes drop {
+  from { opacity: 1; transform: translateY(0) rotate(0deg); }
+  to { opacity: 0; transform: translateY(76vh) rotate(540deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .reveal, .count .num, .confetti-piece { animation: none !important; }
+  .top-form { transition: none; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .hero-grid, .teaser-grid, .join-grid, .proof-grid { grid-template-columns: 1fr; gap: 36px; }
+  .param-strip { grid-template-columns: 1fr 1fr; }
+  .sec-head .sec-sub { display: none; }
+  .bottle-fig { order: -1; }
+  .topnav { display: none; }
+}
+@media (max-width: 560px) {
+  .wrap { padding: 0 20px; }
+  .hero { padding: 48px 0 60px; }
+  section.block { padding: 56px 0; }
+  .count { width: 100%; justify-content: space-between; gap: 8px; padding: 16px 14px; }
+  .count .cell { min-width: 0; flex: 1; }
+  .count .num { font-size: 32px; }
+  .count .colon { display: none; }
+  .form-row { flex-direction: column; }
+  .form-row .btn { width: 100%; height: 48px; }
+  .sg-row { grid-template-columns: 92px 1fr; row-gap: 6px; padding: 14px 14px; }
+  .sg-row .sg-head-cell:nth-child(3), .sg-desc { display: none; }
+  .sg-layer { min-width: 70px; padding: 6px 8px 7px; font-size: 12.5px; }
+  .top-form input { width: 150px; }
+  .param-strip { gap: 10px; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>数说编辑部</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">读本期</a></div></header><main><section class="hero container"><p class="doc-meta">数据专栏 / 第 58 期 / 样本 N=12,406 / 方法附文末</p><h1>把数字问到哑口无言</h1><p class="sub">数据新闻专栏：一个问题、一组数据、一条结论。所有原始数据可下载复核。</p><div class="cta-row"><a class="btn btn-primary" href="#">读本期</a><a class="btn" href="#">下载数据</a></div></section><section class="container"><section class="sec testi"><h2 class="section-h">用户怎么说</h2><div class="tst-grid"><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「流程终于跑顺了，交接成本几乎为零」</blockquote><figcaption>王琨 / 运营负责人</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「第二周就看到数据变化，团队没人再喊麻烦」</blockquote><figcaption>李潇 / 市场总监</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「客服量降了一半，答案反而更标准」</blockquote><figcaption>赵砚 / 客服主管</figcaption></figure></div></section></section><section class="container"><section class="sec newsletter"><h2 class="section-h">保持联系</h2><form class="nl card card-pad" onsubmit="return false"><input type="email" placeholder="你的邮箱" aria-label="邮箱" required><button class="btn btn-primary" type="submit">订阅</button><small>每月一封，只讲干货，随时退订。</small></form></section></section><section class="container"><section class="sec testi"><h2 class="section-h">用户怎么说</h2><div class="tst-grid"><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「流程终于跑顺了，交接成本几乎为零」</blockquote><figcaption>王琨 / 运营负责人</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「第二周就看到数据变化，团队没人再喊麻烦」</blockquote><figcaption>李潇 / 市场总监</figcaption></figure><figure class="card tst"><div class="tst-ava" aria-hidden="true"></div><blockquote>「客服量降了一半，答案反而更标准」</blockquote><figcaption>赵砚 / 客服主管</figcaption></figure></div></section></section><footer>数说编辑部 / 每周三刊出 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4M11 2v4h2V2M8 6h8l1.6 3.2c.3.6.4 1.2.4 1.9V20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8.9c0-.7.1-1.3.4-1.9L8 6Z"/><path d="M6.4 14.5h11.2" opacity=".7"/></svg>
+      迟园调香室
+    </a>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#teaser">产品预告</a>
+      <a href="#join">候补名单</a>
+      <a href="#proof">候补进行中</a>
+    </nav>
+    <div class="top-cta" id="top-cta">
+      <form class="top-form js-waitlist" novalidate>
+        <label class="sr-only" for="top-email">邮箱地址</label>
+        <input type="email" id="top-email" name="email" placeholder="邮箱地址" autocomplete="email">
+        <button class="btn btn-primary btn-sm" type="submit">加入候补</button>
+      </form>
+      <a class="btn btn-primary btn-sm" href="#join">提前 48 小时选购</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 01 Hero with countdown（官方 Section Order 首区 / 邮箱表单 above fold） -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <p class="kicker">迟园调香室 / 首支作品 / <b>Extrait de Parfum 22%</b></p>
+        <h1 id="hero-title">夜鸢 <span class="fr">Nocturne d&rsquo;Iris</span></h1>
+        <p class="sub-name serif">一支写给凌晨一点的鸢尾 / 编号限量 300 瓶</p>
+        <p class="lede">调香师阮迟用三年分馏十八批鸢尾根脂，只为开头一分钟的凉。12 月 4 日 20:00 首发，候补名单先于公开发售 48 小时选购。</p>
+
+        <div class="count" role="timer" aria-label="距首发时刻剩余时间">
+          <div class="cell"><span class="num" id="cd-d">--</span><span class="unit">天</span></div>
+          <span class="colon" aria-hidden="true">:</span>
+          <div class="cell"><span class="num" id="cd-h">--</span><span class="unit">时</span></div>
+          <span class="colon" aria-hidden="true">:</span>
+          <div class="cell"><span class="num" id="cd-m">--</span><span class="unit">分</span></div>
+          <span class="colon" aria-hidden="true">:</span>
+          <div class="cell"><span class="num" id="cd-s">--</span><span class="unit">秒</span></div>
+        </div>
+        <p class="count-note" id="count-note">首发时刻 <b>2026-12-04 20:00</b>（北京时间）/ 候补者 12 月 2 日 20:00 提前进入选购通道</p>
+
+        <form class="hero-form js-waitlist" novalidate>
+          <label class="sr-only" for="hero-email">邮箱地址</label>
+          <div class="form-row">
+            <input type="email" id="hero-email" name="email" placeholder="你的邮箱地址" autocomplete="email">
+            <button class="btn btn-primary" type="submit">加入候补名单</button>
+          </div>
+          <span class="form-msg" id="hero-msg" aria-live="polite"></span>
+          <p class="privacy-note">仅用于发售提醒 / 发售日之后随时一键退订</p>
+        </form>
+      </div>
+
+      <figure class="bottle-fig reveal">
+        <svg viewBox="0 0 300 470" role="img" aria-label="夜鸢瓶身剪影：磨砂方瓶与木塞，瓶内液面表示首批 300 瓶中已分配 83 瓶，右侧为编号刻度">
+          <defs>
+            <linearGradient id="liq" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#D8A24A" stop-opacity=".38"/>
+              <stop offset="1" stop-color="#B8863A" stop-opacity=".5"/>
+            </linearGradient>
+          </defs>
+          <path d="M132 30 h36 l6 14 h-48 Z" fill="#4A3A28"/>
+          <rect x="136" y="44" width="28" height="30" fill="none" stroke="#B7AA9A" stroke-width="1.6"/>
+          <path d="M136 44 q14 10 28 0" fill="none" stroke="#B7AA9A" stroke-width="1" opacity=".6"/>
+          <rect x="86" y="74" width="128" height="330" rx="16" fill="rgba(240,233,223,.03)" stroke="#D8A24A" stroke-width="1.8"/>
+          <path d="M89 313 h122 v75 a13 13 0 0 1 -13 13 h-96 a13 13 0 0 1 -13 -13 Z" fill="url(#liq)"/>
+          <path d="M89 313 q18 -7 31 0 t31 0 t31 0 t29 0" fill="none" stroke="#E3B25E" stroke-width="1.6"/>
+          <text x="150" y="360" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="#F0E9DF">已分配 83</text>
+          <rect x="108" y="150" width="84" height="104" rx="3" fill="rgba(240,233,223,.06)" stroke="#B7AA9A" stroke-width="1"/>
+          <text x="150" y="182" text-anchor="middle" font-family="Noto Serif SC, serif" font-size="19" font-weight="700" fill="#F0E9DF">夜 鸢</text>
+          <line x1="122" y1="192" x2="178" y2="192" stroke="#A98BC4" stroke-width="1" opacity=".8"/>
+          <text x="150" y="210" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#B7AA9A">NOCTURNE D'IRIS</text>
+          <text x="150" y="226" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#B7AA9A">EXTRAIT 22% / 50ML</text>
+          <text x="150" y="243" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#9A8E7E">NO. 001-300</text>
+          <g stroke="#9A8E7E" stroke-width="1">
+            <line x1="224" y1="74" x2="234" y2="74"/>
+            <line x1="224" y1="156.5" x2="230" y2="156.5"/>
+            <line x1="224" y1="239" x2="234" y2="239"/>
+            <line x1="224" y1="321.5" x2="230" y2="321.5"/>
+            <line x1="224" y1="404" x2="234" y2="404"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#B7AA9A">
+            <text x="240" y="77">300</text>
+            <text x="240" y="242">150</text>
+            <text x="240" y="407">000</text>
+          </g>
+          <line x1="216" y1="313" x2="252" y2="313" stroke="#E8794F" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <text x="258" y="316" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#E8794F">083</text>
+          <ellipse cx="150" cy="428" rx="70" ry="7" fill="rgba(0,0,0,.4)"/>
+        </svg>
+        <figcaption class="bottle-cap">
+          首批 300 瓶中 <b>83 瓶</b>已预留给合作渠道（安福路买手店 / 天目里订单）<br>
+          余下 <b>217 瓶</b>面向候补名单开放 / 编号按候补顺序挑选
+        </figcaption>
+        <div class="launch-steps" role="list" aria-label="首发时刻线">
+          <p class="launch-title" role="listitem">首发时刻线</p>
+          <p role="listitem"><b>12-02 20:00</b> 候补选购通道开启，按顺位分批放行</p>
+          <p role="listitem"><b>12-04 20:00</b> 公开发售，剩余编号上架</p>
+          <p role="listitem"><b>12-18 24:00</b> 顺延截止，此后登记转为到货提醒</p>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 02 Product teaser/preview -->
+  <section class="block" id="teaser" aria-labelledby="teaser-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">02</span>
+        <h2 id="teaser-title">产品预告 / 夜鸢的骨架</h2>
+        <span class="sec-sub">三调结构 / 实物参数 / 调香师手记</span>
+      </div>
+
+      <div class="param-strip">
+        <div class="param">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4M11 2v4h2V2M8 6h8l1.6 3.2c.3.6.4 1.2.4 1.9V20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-8.9c0-.7.1-1.3.4-1.9L8 6Z"/></svg>
+          <div><div class="p-val">22%</div><div class="p-key">香精浓度（Extrait）/ 远高于淡香水</div></div>
+        </div>
+        <div class="param">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M12 3v4M8 7h8v3a4 4 0 0 1-1 2.5V19a3 3 0 0 1-6 0v-6.5A4 4 0 0 1 8 10V7Z"/></svg>
+          <div><div class="p-val">50 ml</div><div class="p-key">磨砂厚壁玻璃瓶 / 软木塞封口</div></div>
+        </div>
+        <div class="param">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h5"/></svg>
+          <div><div class="p-val">300 瓶</div><div class="p-key">编号限量 / 售完不加产</div></div>
+        </div>
+        <div class="param">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+          <div><div class="p-val">手写 + 钢印</div><div class="p-key">每瓶瓶底独立编号 / 调香师签名卡</div></div>
+        </div>
+      </div>
+
+      <div class="teaser-grid">
+        <div>
+          <div class="scent-grid" role="table" aria-label="夜鸢三调香调表">
+            <div class="sg-row" role="row">
+              <span class="sg-head-cell" role="columnheader">层</span>
+              <span class="sg-head-cell" role="columnheader">香料</span>
+              <span class="sg-head-cell" role="columnheader">气息描述</span>
+            </div>
+            <div class="sg-row" role="row">
+              <span role="rowheader" class="sg-layer">前调<span class="lv">Top</span></span>
+              <span role="cell" class="sg-notes">佛手柑 / 粉红胡椒<span class="tone">冷冽 / 微辛</span></span>
+              <span role="cell" class="sg-desc">果皮的凉意带一点胡椒的刺，像雨后石阶的第一口气，停留约十五分钟。</span>
+            </div>
+            <div class="sg-row" role="row">
+              <span role="rowheader" class="sg-layer">中调<span class="lv">Heart</span></span>
+              <span role="cell" class="sg-notes">鸢尾根 / 紫罗兰叶<span class="tone">粉感 / 木凉</span></span>
+              <span role="cell" class="sg-desc">十八批根脂分馏后留下的粉感凉花，是整支香的心脏，贴肤停留约两小时。</span>
+            </div>
+            <div class="sg-row" role="row">
+              <span role="rowheader" class="sg-layer">基调<span class="lv">Base</span></span>
+              <span role="cell" class="sg-notes">岩兰草 / 安息香 / 冷杉<span class="tone">干燥 / 脂甜</span></span>
+              <span role="cell" class="sg-desc">暖木裹着树脂的甜与冷杉的干，尾迹安神，第二天清晨还留在袖口。</span>
+            </div>
+          </div>
+          <p class="scent-src">香调数据来自迟园调香室配方记录第 11 稿 / 试香纸样本 No.007</p>
+        </div>
+
+        <div>
+          <div class="perfumer-note">
+            <blockquote>
+              鸢尾是最贵的沉默。三年、十八批根脂，只为开头那一分钟的凉。夜鸢不讨好任何人，它等一个愿意等的人。
+            </blockquote>
+            <footer><b>阮迟</b> / 调香师 / 迟园调香室创始人 / 前格拉斯香水实验室评审成员</footer>
+          </div>
+          <div class="vial-row">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2h8M9 2v5l-4 9a4.5 4.5 0 0 0 4.1 6.5h5.8A4.5 4.5 0 0 0 19 16l-4-9V2"/><path d="M7.5 14.5h9" opacity=".7"/></svg>
+            <p><b>试香零风险</b>：加入候补即寄出 2ml 试香分装与试香纸三张。若不喜欢，发售日不买即可，试香样不用寄回，运费我们出。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Email capture form -->
+  <section class="block" id="join" aria-labelledby="join-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">03</span>
+        <h2 id="join-title">候补名单 / 早一步的 48 小时</h2>
+        <span class="sec-sub">候补者 12 月 2 日 20:00 进入选购通道</span>
+      </div>
+
+      <div class="join-grid">
+        <div>
+          <ol class="benefit-list">
+            <li>
+              <b>提前 48 小时选购</b>
+              <p>12 月 2 日 20:00 开放入口，先于公开发售两天。通道内按候补顺序分批放行，每批 30 分钟。</p>
+            </li>
+            <li>
+              <b>编号优先权</b>
+              <p>No.001-300 按候补顺位挑选，83 瓶留给合作渠道后，面向名单开放 217 瓶。可指定纪念日编号，缺号顺延。</p>
+            </li>
+            <li>
+              <b>试香零风险</b>
+              <p>登记后即寄 2ml 试香分装。不喜欢就不买，分装样无需寄回；已下单者 14 天无理由退，退单运费我们承担。</p>
+            </li>
+            <li>
+              <b>一封邮件的安静</b>
+              <p>只发三类邮件：试香寄出通知、选购通道开通、售罄或顺延说明。不发营销信，随时一键退订。</p>
+            </li>
+          </ol>
+          <div class="honest-terms">
+            <b>如实说明</b>：候补不等于订金，不锁价也不收费。若你在 48 小时通道内未完成下单，编号顺延给下一位；300 瓶售完不加产，公开发售不保证有货。
+          </div>
+        </div>
+
+        <div class="join-card">
+          <h3>加入候补名单</h3>
+          <p class="join-sub">一个邮箱地址即可 / 免费寄出试香分装</p>
+          <form class="js-waitlist" id="main-form" novalidate>
+            <div class="field">
+              <label for="email">邮箱地址</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <div class="check-field">
+              <input type="checkbox" id="agree" name="agree">
+              <label for="agree">我同意接收发售提醒邮件（试香寄出 / 通道开通 / 售罄顺延），不发营销信，随时退订。</label>
+            </div>
+            <span class="form-msg" id="main-msg" aria-live="polite"></span>
+            <button class="btn btn-primary" type="submit">加入候补 / Join the Waitlist</button>
+          </form>
+
+          <div class="success-panel" id="success-panel" tabindex="-1">
+            <p class="ok-line">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>
+              已登记成功
+            </p>
+            <p class="ok-mail" id="ok-mail"></p>
+            <p>确认邮件已发出。12 月 2 日 18:00 你会收到选购通道链接，12 月 4 日 20:00 公开发售。试香分装将在 3 个工作日内寄出。</p>
+            <div class="share-block">
+              <p class="share-title">邀请好友提升顺位 / 每邀请 3 位加入，编号顺位提前 1 位</p>
+              <div class="share-row">
+                <button class="btn btn-sm btn-ghost" type="button" id="copy-link" data-copied="已复制邀请链接">复制邀请链接</button>
+                <a class="btn btn-sm btn-ghost" id="share-weibo" href="https://service.weibo.com/share/share.php" target="_blank" rel="noopener">分享到微博</a>
+                <a class="btn btn-sm btn-ghost" id="share-x" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener">分享到 X</a>
+              </div>
+              <div class="link-box">
+                <input type="text" id="invite-link" readonly aria-label="你的专属邀请链接">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Social proof (waitlist count) -->
+  <section class="block" id="proof" aria-labelledby="proof-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-no">04</span>
+        <h2 id="proof-title">候补进行中 / 名单与回声</h2>
+        <span class="sec-sub">计数每个工作日 10:00 更新</span>
+      </div>
+
+      <div class="proof-grid">
+        <div class="proof-left">
+          <div class="count-card">
+            <div class="big-num" id="waitlist-num">1,847</div>
+            <p class="big-label">人已在候补名单</p>
+            <p class="count-meta">
+              数据截至 <b>2026-10-08 09:00</b><br>
+              来源：候补登记表实时统计 / 含试香寄出 1,209 单<br>
+              名单滚动开放中 / 售罄后自动转为到货提醒
+            </p>
+          </div>
+          <div class="count-card alt-card">
+            <p class="big-label">名单构成速览</p>
+            <p class="count-meta" style="border-top: 0; padding-top: 0;">
+              试香分装已寄出 <b>1,209</b> 单<br>
+              指定纪念日编号请求 <b>336</b> 个<br>
+              合作渠道预留 <b>83</b> 瓶（安福路买手店 47 / 天目里 36）
+            </p>
+          </div>
+        </div>
+        <div class="quote-list">
+          <blockquote class="quote">
+            <p>等鸢尾根等三年的疯子不多，阮迟是其中一个。中调那段粉感的凉，值得你整晚把手腕凑近鼻尖。</p>
+            <footer>佘予 / 气味研究所 主理人 / 早期试香 No.012</footer>
+          </blockquote>
+          <blockquote class="quote">
+            <p>样品闻到第 14 分钟，基调的安息香才完全打开。这是做给耐心的人的香，急不来。</p>
+            <footer>播客「闻刊」第 42 期 / 独立香水专题</footer>
+          </blockquote>
+          <blockquote class="quote">
+            <p>调香室寄来的试香纸上印着编号 007，现在还夹在我的笔记本里，纸上的味道两周没散。</p>
+            <footer>「瓶与纸」读者来稿 / 2026 年 9 月刊</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="brand-line">迟园调香室 / 上海 / 独立调香 / 本页为结构样张，品牌与数据均为演示用虚构</p>
+  <p>UI 设计提示词库 / 落地结构 No.12 / <a href="../style-catalog.html">返回风格目录</a></p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var TARGET = new Date('2026-12-04T20:00:00+08:00').getTime();
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var cells = { d: $('cd-d'), h: $('cd-h'), m: $('cd-m'), s: $('cd-s') };
+
+  /* 倒计时：固定目标时间的真实计算；reduced-motion 只渲染一次静态快照 */
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function renderCd(animate) {
+    var left = TARGET - Date.now();
+    if (left <= 0) {
+      cells.d.textContent = '00'; cells.h.textContent = '00';
+      cells.m.textContent = '00'; cells.s.textContent = '00';
+      $('count-note').textContent = '首发已开始 / 公开选购入口已开放';
+      return false;
+    }
+    var v = {
+      d: String(Math.floor(left / 864e5)),
+      h: pad(Math.floor(left / 36e5) % 24),
+      m: pad(Math.floor(left / 6e4) % 60),
+      s: pad(Math.floor(left / 1e3) % 60)
+    };
+    for (var k in cells) {
+      if (cells[k].textContent !== v[k]) {
+        cells[k].textContent = v[k];
+        if (animate && !reduced) {
+          cells[k].classList.remove('tick');
+          void cells[k].offsetWidth;
+          cells[k].classList.add('tick');
+        }
+      }
+    }
+    return true;
+  }
+
+  var timer = null;
+  function startCd() {
+    if (timer || reduced) { return; }
+    renderCd(false);
+    timer = window.setInterval(function () { renderCd(true); }, 1000);
+  }
+  function stopCd() {
+    if (timer) { window.clearInterval(timer); timer = null; }
+  }
+
+  if (reduced) {
+    renderCd(false);
+    $('count-note').innerHTML = '首发时刻 <b>2026-12-04 20:00</b>（北京时间）/ 上方为当前静态剩余时间，不再逐秒跳动 / 候补者提前 48 小时选购';
+  } else {
+    startCd();
+  }
+
+  /* 官方要求：页面隐藏或倒计时出视口时暂停装饰性跳动 */
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { stopCd(); } else { startCd(); }
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { startCd(); } else { stopCd(); } });
+    }, { threshold: 0.1 }).observe(document.querySelector('.count'));
+  }
+
+  /* 三处候补表单共用校验与成功反馈 */
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var joined = false;
+
+  function setMsg(id, text, ok) {
+    var el = $(id);
+    el.textContent = text;
+    el.className = 'form-msg' + (ok ? ' ok' : '');
+  }
+
+  function joinSuccess(email) {
+    joined = true;
+    $('top-cta').classList.remove('on');
+    var panel = $('success-panel');
+    $('ok-mail').textContent = email;
+    panel.classList.add('show');
+    $('main-form').style.display = 'none';
+    var link = location.href.split('#')[0];
+    $('invite-link').value = link;
+    var shareText = '夜鸢 Nocturne d\u2019Iris / 编号限量 300 瓶 / 候补提前 48 小时选购';
+    $('share-weibo').href = 'https://service.weibo.com/share/share.php?title=' +
+      encodeURIComponent(shareText) + '&url=' + encodeURIComponent(link);
+    $('share-x').href = 'https://twitter.com/intent/tweet?text=' +
+      encodeURIComponent(shareText) + '&url=' + encodeURIComponent(link);
+    panel.focus();
+    if (!reduced) { confetti(); }
+  }
+
+  function confetti() {
+    var colors = ['#D8A24A', '#A98BC4', '#E8794F', '#EDE0C8', '#7C9A83'];
+    for (var i = 0; i < 22; i++) {
+      var p = document.createElement('span');
+      p.className = 'confetti-piece';
+      p.style.left = (35 + Math.random() * 30) + 'vw';
+      p.style.top = (18 + Math.random() * 14) + 'vh';
+      p.style.background = colors[i % colors.length];
+      p.style.animationDelay = (Math.random() * 260) + 'ms';
+      p.style.animationDuration = (1100 + Math.random() * 700) + 'ms';
+      document.body.appendChild(p);
+      window.setTimeout(function (node) { node.remove(); }, 2400, p);
+    }
+  }
+
+  document.querySelectorAll('.js-waitlist').forEach(function (form) {
+    var input = form.querySelector('input[type="email"]');
+    var isMain = form.id === 'main-form';
+    var msgId = isMain ? 'main-msg' : (form.classList.contains('top-form') ? 'top-msg' : 'hero-msg');
+    if (form.classList.contains('top-form')) {
+      var tm = document.createElement('span');
+      tm.className = 'form-msg';
+      tm.id = 'top-msg';
+      tm.setAttribute('aria-live', 'polite');
+      form.appendChild(tm);
+    }
+    function validate(showOk) {
+      var v = input.value.trim();
+      if (!v) { setMsg(msgId, '请填写邮箱地址'); input.setAttribute('aria-invalid', 'true'); return false; }
+      if (!EMAIL_RE.test(v)) { setMsg(msgId, '邮箱格式好像不对，请检查后再试'); input.setAttribute('aria-invalid', 'true'); return false; }
+      input.removeAttribute('aria-invalid');
+      setMsg(msgId, showOk ? '邮箱格式正确，可以提交' : '', showOk);
+      return true;
+    }
+    input.addEventListener('input', function () { if ($(msgId).textContent) { validate(false); } });
+    input.addEventListener('blur', function () { if (input.value.trim()) { validate(true); } });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (joined) { return; }
+      if (!validate(false)) { input.focus(); return; }
+      if (isMain && !$('agree').checked) {
+        setMsg(msgId, '请先勾选同意接收发售提醒邮件');
+        $('agree').focus();
+        return;
+      }
+      joinSuccess(input.value.trim());
+    });
+  });
+
+  /* 复制邀请链接（键盘可操作的 referral 动作） */
+  $('copy-link').addEventListener('click', function () {
+    var btn = this;
+    var done = function () {
+      btn.textContent = btn.dataset.copied;
+      window.setTimeout(function () { btn.textContent = '复制邀请链接'; }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText($('invite-link').value).then(done, done);
+    } else {
+      $('invite-link').select();
+      document.execCommand('copy');
+      done();
+    }
+  });
+
+  /* 滚动 sticky 迷你表单：滚过首屏且未登记时展开 */
+  var topCta = $('top-cta');
+  window.addEventListener('scroll', function () {
+    topCta.classList.toggle('on', window.scrollY > 620 && !joined);
+  }, { passive: true });
+})();
+</script>
 </body>
 </html>
