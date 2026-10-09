@@ -4,137 +4,784 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Real-Time / Operations Landing — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Real-Time Operations 结构 / UI 设计提示词库</title>
+<meta name="description" content="落地结构 No.34：产品+实时预览 hero、关键指标、工作方式、询价 CTA。样张主题为快递交叉带分拣系统。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+/* token 计划: 底 #101418 / 面 #161C24 / 文 #E8EDF2 / 弱 #9FACB9 / 运行绿 #3DDC84(即品牌主色,状态灯即品牌) / 满载琥珀 #E8B14E / 拥堵红 #EA7A7E / IBM Plex Mono 走数字 / PingFang SC 走正文 / 布局: 左销售文案+右分拣线实时小屏 / 独特性: 演示小屏的数据密度与诚实标注(演示数据/暂停控件) */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root {
-  --bg: #0D0F16; --fg: #EEF1F7; --muted: rgba(238,241,247,.68); --card: #161923;
-  --border: rgba(255,255,255,.14); --primary: #00FF00; --secondary: #FF00FF;
-  --accent: #00FFFF; --on-primary: #fff;
-  --radius: 4px; --btn-radius: 2px;
+  --bg: #101418;
+  --surface: #161C24;
+  --surface-2: #1C242E;
+  --fg: #E8EDF2;
+  --muted: #9FACB9;
+  --line: rgba(232, 237, 242, 0.14);
+  --ok: #3DDC84;
+  --warn: #E8B14E;
+  --alarm: #EA7A7E;
+  --primary: #3DDC84;
+  --on-primary: #0C1712;
+  --mono: 'IBM Plex Mono', ui-monospace, 'PingFang SC', monospace;
+  --radius: 10px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 body {
-  font-family: 'Fira Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  background-image: repeating-linear-gradient(0deg, rgba(0,255,0,.04) 0 1px, transparent 1px 3px);
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  font-size: 15px;
 }
-h1, h2, h3, .num { font-family: 'Fira Code', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(255,255,255,.14); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Fira Code', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 26px; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; border-radius: 3px; }
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(255,255,255,.14);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 11px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px); text-transform: uppercase; letter-spacing: .12em; box-shadow: 0 0 18px rgba(0,255,0,.4); }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(0,255,0,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,255,0,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
-
+.btn:hover { background: var(--surface-2); transform: translateY(-1px); }
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover { background: #4FE790; border-color: #4FE790; }
+/* 顶栏 */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(16, 20, 24, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  height: 62px;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--ok);
+  color: var(--on-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+nav { display: flex; gap: 22px; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+nav a:hover, nav a:focus-visible { color: var(--fg); }
+.topbar .btn { padding: 9px 18px; font-size: 14px; }
+/* hero：左文案右实时小屏 */
+.hero { border-bottom: 1px solid var(--line); }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.04fr 0.96fr;
+  gap: 52px;
+  align-items: center;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+.doc-meta {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+h1 {
+  font-size: clamp(30px, 4.2vw, 46px);
+  line-height: 1.22;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+h1 .n { font-family: var(--mono); color: var(--ok); font-weight: 600; }
+.sub {
+  color: var(--muted);
+  font-size: 16px;
+  margin-top: 18px;
+  max-width: 34em;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.hero-small {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 22px;
+}
+/* 实时预览小屏（签名组件） */
+.screen {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+}
+.screen-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.screen-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.screen-title em {
+  font-style: normal;
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--muted);
+}
+.live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 0 rgba(61, 220, 132, 0.35);
+  flex: none;
+}
+#feed-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: var(--mono);
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+#feed-toggle:hover { border-color: rgba(232, 237, 242, 0.4); }
+#feed-toggle .i-play { display: none; }
+#feed-toggle[data-mode="play"] .i-pause { display: none; }
+#feed-toggle[data-mode="play"] .i-play { display: block; }
+.screen-body { padding: 18px 16px 14px; }
+.kpis {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.kpi {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.kpi-label { font-size: 12px; color: var(--muted); }
+.kpi-num {
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--ok);
+  line-height: 1.25;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.kpi.kpi-sub .kpi-num { font-size: 21px; padding-top: 5px; }
+.kpi-num small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 4px;
+}
+.blk-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+.blk-label span { font-family: var(--mono); font-size: 11.5px; }
+.lanes {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.lane {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 6px;
+  row-gap: 1px;
+  padding: 7px 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.lane .lamp {
+  grid-row: 1 / span 2;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+.lane .no { font-family: var(--mono); font-size: 12px; color: var(--fg); line-height: 1.3; }
+.lane .st { font-size: 11px; line-height: 1.4; }
+.lane.is-ok .lamp { background: var(--ok); }
+.lane.is-ok .st { color: var(--ok); }
+.lane.is-warn .lamp { background: var(--warn); }
+.lane.is-warn .st { color: var(--warn); }
+.lane.is-alarm .lamp { background: var(--alarm); }
+.lane.is-alarm .st { color: var(--alarm); }
+.log {
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+}
+.log li::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--line);
+  margin-right: 8px;
+  vertical-align: 2px;
+}
+.log li:first-child { color: var(--fg); }
+.log li:first-child::before { background: var(--ok); }
+.screen-foot {
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.screen-foot b { color: var(--fg); font-weight: 500; }
+/* 分区通用 */
+.section { padding-top: 68px; padding-bottom: 20px; }
+h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  line-height: 1.3;
+}
+.sec-sub {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 10px;
+  margin-bottom: 34px;
+}
+/* 指标区 */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 20px 20px;
+}
+.stat-num {
+  font-family: var(--mono);
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--ok);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.stat-num small {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 5px;
+}
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 10px; }
+.trust {
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.trust-label { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+.trust-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+}
+/* 指标后的 CTA 横带 */
+.band-wrap { padding-top: 40px; padding-bottom: 8px; }
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ok);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+}
+.band-title { font-size: 18px; font-weight: 700; }
+.band-sub {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+/* 工作方式 */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.step-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.step-no {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ok);
+  border: 1px solid rgba(61, 220, 132, 0.4);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.step-icon {
+  color: var(--muted);
+  display: inline-flex;
+}
+.step h3 { font-size: 16.5px; font-weight: 700; }
+.step p { font-size: 13.5px; color: var(--muted); }
+/* 尾部 CTA */
+.cta-wrap { padding-top: 68px; padding-bottom: 76px; }
+.cta-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 52px 40px;
+  text-align: center;
+}
+.cta-card h2 { font-size: clamp(24px, 3.4vw, 34px); }
+.cta-card > p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 40em;
+  margin: 14px auto 0;
+}
+.cta-card .cta-row { justify-content: center; margin-top: 30px; }
+.cta-small {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 24px;
+}
+/* footer */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+footer a { color: var(--ok); }
+/* 一次亮相动效 + 状态脉冲：reduced-motion 下全部不启动 */
+@media (prefers-reduced-motion: no-preference) {
+  .screen {
+    animation: screen-in 640ms cubic-bezier(0.22, 0.9, 0.32, 1) both;
+  }
+  @keyframes screen-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.985); }
+  }
+  .live-dot {
+    animation: dot-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    50% { box-shadow: 0 0 0 6px rgba(61, 220, 132, 0.12); }
+  }
+}
+/* 响应式：980 一档、480 一档，桌面 1440 由容器约束 */
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; padding-top: 54px; padding-bottom: 54px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  nav { display: none; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 18px; }
+  .steps { grid-template-columns: 1fr; }
+  .lanes { grid-template-columns: repeat(4, 1fr); }
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .kpi:first-child { grid-column: 1 / -1; }
+  .cta-card { padding: 40px 22px; }
+  .topbar .btn { padding: 8px 14px; font-size: 13px; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>两页书屋</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看十月书单</a></div></header><main><section class="hero container"><p class="doc-meta">十月书单 / 上新 37 种 / 营业 12:00-22:00 / 周一休</p><h1>书店不大，够你走神一下午</h1><p class="sub">独立小书店：选书不追榜，分区看心情。坐下看书不赶人，咖啡另算。</p><div class="cta-row"><a class="btn btn-primary" href="#">看十月书单</a><a class="btn" href="#">到店路线</a></div></section><section class="container"><div class="grid3 stats-row"><div class="card stat"><b>37种</b><span>本月上新</span></div><div class="card stat"><b>16本</b><span>主题架</span></div><div class="card stat"><b>9年</b><span>开店年头</span></div></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>深夜自习</b><p>22 点前灯全亮，最后一小时只留书架灯。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>看十月书单，现在</h2><p>十月书单 / 上新 37 种 / 营业 12:00-22:00 / 周一休</p><a class="btn btn-primary" href="#">看十月书单</a></div></section><footer>两页书屋 / 周一休 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h8M4 12h12M4 17h8"/><circle cx="18" cy="7" r="2.4" fill="currentColor" stroke="none"/><circle cx="18.5" cy="17" r="2.4" fill="currentColor" stroke="none"/></svg>
+      </span>
+      驰速分拣 SortFlow
+    </a>
+    <nav aria-label="主导航">
+      <a href="#metrics">运行数据</a>
+      <a href="#how">工作方式</a>
+      <a href="#cta">询价</a>
+    </nav>
+    <a class="btn btn-primary" href="#cta">预约演示</a>
+  </div>
+</header>
+<main id="top">
+  <section class="hero" aria-label="产品与实时预览">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="doc-meta">交叉带分拣系统 / 主控 V4.2 / 双层主机 / 已守 6 个双十一</p>
+        <h1>每小时 <span class="n">21,600</span> 件，错分不超过万分之一</h1>
+        <p class="sub">驰速交叉带分拣系统把供包、识别、落格、集包连成一条线，进场到整线验收 14 天。旁边这块小屏，就是它在分拨中心值班室里的日常。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#cta">预约现场演示</a>
+          <a class="btn" href="#cta">获取报价单</a>
+        </div>
+        <p class="hero-small">已在 37 个分拨中心连续运行 / 最长单线连续无故障 214 天</p>
+      </div>
+      <div class="screen" id="screen" role="region" aria-label="3 号分拣线实时状态演示小屏，含暂停控件">
+        <div class="screen-head">
+          <p class="screen-title">
+            <span class="live-dot" aria-hidden="true"></span>
+            3 号分拣线 <em>/ 实时状态</em>
+          </p>
+          <button id="feed-toggle" type="button" data-mode="pause">
+            <svg class="i-pause" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+            <svg class="i-play" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.4v13.2L19 12Z"/></svg>
+            <span id="feed-toggle-text">暂停实时</span>
+          </button>
+        </div>
+        <div class="screen-body">
+          <div class="kpis">
+            <div class="kpi">
+              <p class="kpi-label">今日已分拣</p>
+              <p class="kpi-num"><span id="parcel-count">48,213</span><small>件</small></p>
+            </div>
+            <div class="kpi kpi-sub">
+              <p class="kpi-label">当前时效</p>
+              <p class="kpi-num"><span id="rate">8,940</span><small>件/时</small></p>
+            </div>
+            <div class="kpi kpi-sub">
+              <p class="kpi-label">通道在线</p>
+              <p class="kpi-num">12<small>/12</small></p>
+            </div>
+          </div>
+          <p class="blk-label">通道占用 <span>满载预警自动匀速</span></p>
+          <div class="lanes" id="lanes">
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">01</span><span class="st">运行</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">02</span><span class="st">运行</span></div>
+            <div class="lane is-warn"><span class="lamp"></span><span class="no">03</span><span class="st">满载</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">04</span><span class="st">运行</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">05</span><span class="st">运行</span></div>
+            <div class="lane is-alarm"><span class="lamp"></span><span class="no">06</span><span class="st">拥堵</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">07</span><span class="st">运行</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">08</span><span class="st">运行</span></div>
+            <div class="lane is-warn"><span class="lamp"></span><span class="no">09</span><span class="st">满载</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">10</span><span class="st">运行</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">11</span><span class="st">运行</span></div>
+            <div class="lane is-ok"><span class="lamp"></span><span class="no">12</span><span class="st">运行</span></div>
+          </div>
+          <p class="blk-label">最近事件 <span>最新在上</span></p>
+          <ol class="log" id="log">
+            <li>14:32:08 包裹 K7F2-M041 落格 通道 07</li>
+            <li>14:32:06 通道 03 满载预警 / 供包已匀速</li>
+            <li>14:32:04 集包袋 B217 满袋 / 换袋 12 秒</li>
+          </ol>
+        </div>
+        <p class="screen-foot"><span id="feed-state">实时更新中 / 每 2 秒一帧</span> / 更新于 <b id="clock">14:32:08</b> / 演示数据本地生成</p>
+      </div>
+    </div>
+  </section>
+  <section class="container section" id="metrics" aria-labelledby="metrics-h">
+    <h2 id="metrics-h">全网在用的线，交出的数</h2>
+    <p class="sec-sub">统计口径 / 37 条在用产线 / 2026 年 7 至 9 月</p>
+    <div class="stats">
+      <div class="stat">
+        <p class="stat-num">21,600<small>件/时</small></p>
+        <p class="stat-label">单线峰值分拣能力 / 双层交叉带主机</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num">0.01<small>%</small></p>
+        <p class="stat-label">近 90 天全网错分率 / 低于万分之一</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num">14<small>天</small></p>
+        <p class="stat-label">进场到整线验收 / 含联调与值班培训</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num">6,800<small>万件</small></p>
+        <p class="stat-label">去年双十一单日全网分拣量</p>
+      </div>
+    </div>
+    <div class="trust">
+      <p class="trust-label">在用客户（部分）</p>
+      <p class="trust-names"><span>华东捷运</span><span>闽驿快递</span><span>北仓供应链</span><span>途鲜冷链</span><span>蜀驿云仓</span></p>
+    </div>
+  </section>
+  <div class="container band-wrap">
+    <div class="band">
+      <div class="band-copy">
+        <p class="band-title">想先看它跑您自己的包裹？</p>
+        <p class="band-sub">到场 2 小时搭一段演示线 / 吞吐与错分数据当场导出</p>
+      </div>
+      <a class="btn btn-primary" href="#cta">预约演示</a>
+    </div>
+  </div>
+  <section class="container section" id="how" aria-labelledby="how-h">
+    <h2 id="how-h">一件包裹的 40 秒</h2>
+    <p class="sec-sub">从供包台到集包袋 / 四个工位一段皮带</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-head">
+          <span class="step-no">第 1 步</span>
+          <span class="step-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M9 8V5h6v3M9 12.5v3M12 12.5v3M15 12.5v3"/></svg>
+          </span>
+        </div>
+        <h3>供包与建集合</h3>
+        <p>DWS 一体机扫码、称重、测方，单件 0.4 秒建集合，超规件自动剔除到暂存线。</p>
+      </div>
+      <div class="step">
+        <div class="step-head">
+          <span class="step-no">第 2 步</span>
+          <span class="step-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h6c5 0 5-6 10-6M3 12h6c5 0 5 6 10 6"/><circle cx="20" cy="6" r="1.8"/><circle cx="20" cy="18" r="1.8"/></svg>
+          </span>
+        </div>
+        <h3>路由与分流</h3>
+        <p>按网点、流向与时效算格口，路由规则热更新，不停机即可生效。</p>
+      </div>
+      <div class="step">
+        <div class="step-head">
+          <span class="step-no">第 3 步</span>
+          <span class="step-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 9h11l-1.3 11H7.8L6.5 9Z"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0"/></svg>
+          </span>
+        </div>
+        <h3>落格与集包</h3>
+        <p>格口灯引导装袋，满袋自动封口打称，换袋提示只要 12 秒。</p>
+      </div>
+      <div class="step">
+        <div class="step-head">
+          <span class="step-no">第 4 步</span>
+          <span class="step-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M6.5 20v-6M11.5 20V7M16.5 20v-9"/></svg>
+          </span>
+        </div>
+        <h3>看板与值守</h3>
+        <p>吞吐、错分、拥堵实时可视，异常第一时间推送到值班手机。</p>
+      </div>
+    </div>
+  </section>
+  <section class="container cta-wrap" id="cta" aria-labelledby="cta-h">
+    <div class="cta-card">
+      <h2 id="cta-h">先跑起来，再谈采购</h2>
+      <p>支持带件 PoC：我们带演示段到场，用您真实的包裹跑一小时，吞吐与错分数据当场导出带走。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#cta">预约现场演示</a>
+        <a class="btn" href="#cta">获取报价单</a>
+      </div>
+      <p class="cta-small">售前直线 400-820-3434 / 工作日 9:00-18:00 / 14 天上线 / 含首年运维</p>
+    </div>
+  </section>
+</main>
+<footer>
+  <p>UI 设计提示词库 / 落地结构 No.34 / <a href="../style-catalog.html">返回风格目录</a></p>
+</footer>
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var screenBox = document.getElementById('screen');
+  var countEl = document.getElementById('parcel-count');
+  var rateEl = document.getElementById('rate');
+  var clockEl = document.getElementById('clock');
+  var stateEl = document.getElementById('feed-state');
+  var btn = document.getElementById('feed-toggle');
+  var btnText = document.getElementById('feed-toggle-text');
+  var logEl = document.getElementById('log');
+  var laneEls = Array.prototype.slice.call(document.querySelectorAll('#lanes .lane'));
+  var stateNames = ['运行', '满载', '拥堵'];
+  var stateClass = ['is-ok', 'is-warn', 'is-alarm'];
+  var parcels = 48213;
+  var rate = 8940;
+  var lanes = [0, 0, 1, 0, 0, 2, 0, 0, 1, 0, 0, 0];
+  var events = [
+    '14:32:08 包裹 K7F2-M041 落格 通道 07',
+    '14:32:06 通道 03 满载预警 / 供包已匀速',
+    '14:32:04 集包袋 B217 满袋 / 换袋 12 秒'
+  ];
+  var letters = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+  function pad(x) { return (x < 10 ? '0' : '') + x; }
+  function now() {
+    var d = new Date();
+    return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  function fmt(n) { return n.toLocaleString('en-US'); }
+  function tag() {
+    var pool = letters + '23456789';
+    var s = '';
+    for (var i = 0; i < 4; i++) {
+      s += pool.charAt(Math.floor(Math.random() * pool.length));
+    }
+    return s;
+  }
+  function parcelTag() { return tag() + '-' + tag(); }
+  function bagTag() { return 'B' + (100 + Math.floor(Math.random() * 900)); }
+  function laneNo() { return pad(1 + Math.floor(Math.random() * 12)); }
+  function paintLanes() {
+    laneEls.forEach(function (el, i) {
+      var s = lanes[i];
+      el.className = 'lane ' + stateClass[s];
+      el.querySelector('.st').textContent = stateNames[s];
+    });
+  }
+  function paintLog() {
+    logEl.textContent = '';
+    events.forEach(function (text) {
+      var li = document.createElement('li');
+      li.textContent = text;
+      logEl.appendChild(li);
+    });
+  }
+  function render() {
+    countEl.textContent = fmt(parcels);
+    rateEl.textContent = fmt(rate);
+    clockEl.textContent = now();
+    paintLanes();
+    paintLog();
+  }
+  function step() {
+    parcels += 9 + Math.floor(Math.random() * 7);
+    rate = Math.max(7600, Math.min(11800, rate + Math.floor(Math.random() * 121) - 60));
+    for (var i = 0; i < lanes.length; i++) {
+      var r = Math.random();
+      if (r < 0.03) { lanes[i] = 2; }
+      else if (r < 0.12) { lanes[i] = 1; }
+      else if (r < 0.6) { lanes[i] = 0; }
+    }
+    var pool = [
+      '包裹 ' + parcelTag() + ' 落格 通道 ' + laneNo(),
+      '通道 ' + laneNo() + ' 满载预警 / 供包已匀速',
+      '集包袋 ' + bagTag() + ' 满袋 / 换袋 12 秒',
+      '称重段剔除一件超规包裹 / 已转暂存',
+      '通道 ' + laneNo() + ' 拥堵解除 / 恢复额定速度'
+    ];
+    events.unshift(now() + ' ' + pool[Math.floor(Math.random() * pool.length)]);
+    if (events.length > 3) { events.pop(); }
+    render();
+  }
+  /* 刷新控制：手动暂停、页面隐藏、小屏滚出视野，任一命中即停表 */
+  var timer = null;
+  var userPaused = false;
+  var inView = true;
+  function stateText() {
+    if (reduce) { return '静态快照 / 已按系统偏好停用自动刷新'; }
+    if (userPaused) { return '已暂停 / 显示为静态快照'; }
+    if (document.hidden || !inView) { return '画面不在视野 / 已停止刷新'; }
+    return '实时更新中 / 每 2 秒一帧';
+  }
+  function apply() {
+    var should = !userPaused && inView && !document.hidden && !reduce;
+    stateEl.textContent = stateText();
+    if (!reduce) {
+      btnText.textContent = userPaused ? '继续刷新' : '暂停实时';
+      btn.setAttribute('data-mode', userPaused ? 'play' : 'pause');
+    }
+    if (should && timer === null) { timer = window.setInterval(step, 2000); }
+    if (!should && timer !== null) { window.clearInterval(timer); timer = null; }
+  }
+  btn.addEventListener('click', function () {
+    if (reduce) {
+      step();
+      stateEl.textContent = '静态快照 / 已手动刷新一帧';
+      return;
+    }
+    userPaused = !userPaused;
+    apply();
+  });
+  document.addEventListener('visibilitychange', apply);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      inView = entries[0].isIntersecting;
+      apply();
+    }, { threshold: 0.15 }).observe(screenBox);
+  }
+  if (reduce) {
+    btnText.textContent = '单帧刷新';
+    btn.setAttribute('data-mode', 'play');
+    stateEl.textContent = '静态快照 / 已按系统偏好停用自动刷新';
+  } else {
+    apply();
+  }
+})();
+</script>
 </body>
 </html>

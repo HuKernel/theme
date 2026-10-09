@@ -2,139 +2,805 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enterprise Gateway 结构 / UI 设计提示词库</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Enterprise Gateway — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<meta name="description" content="落地结构 No.25 / Enterprise Gateway / 工业风机设备联网平台精修样张，含按行业方案 / 方案矩阵 / 安全合规 / 客户logo墙 / 企业CTA。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
-:root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(37,99,235,.28); --primary: #2563EB; --secondary: #6b25eb;
-  --accent: #ebad25; --on-primary: #fff;
-  --radius: 8px; --btn-radius: 6px;
+/* token 计划（l25 Color：企业海军蓝/灰，高可信，克制点缀）: 底 #F3F5F8 / 白卡 #FFFFFF / 次底 #E9EEF4，深海军 #0A1A2E 与 #0E2440，主蓝 #1B4470，墨 #17273A / 次文 #46586C，钢青点缀 #0E7490 / 淡青 #E3F0F4，警示琥珀文本 #9A5B0B / 琥珀点 #E8A33D，浅线 #D5DCE5 */
+:root{
+  --bg:#F3F5F8;
+  --panel:#FFFFFF;
+  --panel-2:#E9EEF4;
+  --navy-950:#0A1A2E;
+  --navy-900:#0E2440;
+  --navy-800:#143356;
+  --blue:#1B4470;
+  --blue-press:#163A5F;
+  --ink:#17273A;
+  --muted:#46586C;
+  --line:#D5DCE5;
+  --cyan:#0E7490;
+  --cyan-soft:#E3F0F4;
+  --cyan-dark:#0C5A6E;
+  --cyan-on-dark:#8FC1DC;
+  --amber:#9A5B0B;
+  --amber-dot:#E8A33D;
+  --on-dark:#E8EEF6;
+  --on-dark-2:#AFC0D4;
+  --on-dark-3:#9FB3C9;
+  --ok:#2E6B4A;
+  --mono:ui-monospace,"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  --radius:10px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
 }
-h1, h2, h3, .num { font-family: 'Lexend', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(37,99,235,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Lexend', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(37,99,235,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+h1,h2,h3,p,ul,figure,form{margin:0}
+ul{padding:0;list-style:none}
+a{color:var(--cyan-dark)}
+img,svg{max-width:100%}
+.container{width:min(1120px,100% - 40px);margin-inline:auto}
+section{scroll-margin-top:80px}
+[hidden]{display:none!important}
+.skip{position:absolute;left:-9999px;top:0;background:#FFFFFF;color:var(--ink);padding:10px 16px;border-radius:8px;z-index:99;font-weight:700}
+.skip:focus{left:12px;top:12px}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;border-radius:4px}
+
+/* 按钮（无尾箭头） */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:inherit;font-weight:600;font-size:15px;line-height:1.3;
+  padding:11px 22px;border-radius:8px;cursor:pointer;text-decoration:none;
+  border:1px solid transparent;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(37,99,235,.28); border-radius: var(--radius);
-  box-shadow: 0 8px 16px rgba(0,0,0,.14), 0 0 1px rgba(0,0,0,.2); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(37,99,235,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn-primary{background:var(--blue);color:#FFFFFF}
+.btn-primary:hover{background:var(--blue-press)}
+.btn-outline{background:transparent;color:var(--on-dark);border-color:rgba(255,255,255,.45)}
+.btn-outline:hover{border-color:#FFFFFF;color:#FFFFFF}
+.btn-ghost{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan-dark)}
+.btn-sm{padding:8px 16px;font-size:13.5px}
 
+/* 顶栏 + mega menu */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;font-size:16px;text-decoration:none;letter-spacing:.01em}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--navy-900);color:#CFE1F2;display:grid;place-items:center;flex:none}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links>a,.mega-btn{color:var(--muted);text-decoration:none;font-size:14.5px;padding:8px 12px;border-radius:8px;border:1px solid transparent;background:none;font:inherit}
+.nav-links>a:hover,.mega-btn:hover{color:var(--ink);background:var(--panel-2)}
+.nav-item{position:relative}
+.mega-btn{cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.mega-btn .caret{width:10px;height:10px;flex:none}
+.nav-item .mega{
+  position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  width:min(430px,calc(100vw - 32px));background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 44px rgba(10,26,46,.16);
+  padding:10px;display:none;z-index:60;
+}
+.nav-item .mega.open{display:block}
+.mega a{display:block;padding:11px 12px;border-radius:8px;text-decoration:none;color:var(--ink)}
+.mega a:hover,.mega a:focus-visible{background:var(--cyan-soft)}
+.mega b{display:block;font-size:14.5px}
+.mega span{display:block;font-size:12.5px;color:var(--muted)}
+.topbar-cta{display:flex;gap:10px;align-items:center}
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(37,99,235,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* Hero（视频/任务区）: 金属网格 + 风机叶片弧线 */
+.hero{
+  position:relative;overflow:hidden;color:var(--on-dark);
+  background:
+    radial-gradient(900px 480px at 88% -12%, rgba(14,116,144,.32), transparent 62%),
+    radial-gradient(700px 500px at -8% 110%, rgba(27,68,112,.5), transparent 60%),
+    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+    var(--navy-950);
+  background-size:auto,auto,56px 56px,56px 56px,auto;
+}
+.fan{position:absolute;width:min(600px,52vw);right:max(-110px,38% - 620px);top:-90px;opacity:.55;pointer-events:none}
+.fan-rotor,.fan-ring{transform-box:fill-box;transform-origin:center}
+.fan-rotor{animation:spin 46s linear infinite}
+.fan-ring{animation:spin 130s linear infinite reverse}
+.hero.still .fan-rotor,.hero.still .fan-ring,.hero.still .dot{animation-play-state:paused}
+.hero.off .fan-rotor,.hero.off .fan-ring,.hero.off .dot{animation-play-state:paused}
+.hero-in{position:relative;z-index:1;padding:76px 0 0}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+.kicker{font-size:13.5px;font-weight:700;color:var(--cyan-on-dark);letter-spacing:.06em}
+.hero .kicker{margin-bottom:16px}
+.hero h1{font-size:clamp(30px,4.4vw,50px);line-height:1.18;font-weight:800;letter-spacing:.01em;margin-bottom:18px}
+.hero-sub{font-size:16.5px;color:var(--on-dark-2);max-width:34em;margin-bottom:28px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.motion-note{display:flex;align-items:center;gap:10px;margin-top:22px;font-size:12.5px;color:var(--on-dark-3)}
+.motion-note .dot{width:8px;height:8px;border-radius:50%;background:var(--amber-dot);flex:none;animation:pulse 2.6s ease-out infinite}
+/* SCADA 遥测面板 */
+.tele{background:rgba(10,26,46,.74);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:18px 18px 10px;backdrop-filter:blur(3px)}
+.tele-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.16);font-family:var(--mono);font-size:12px;color:var(--on-dark-3)}
+.tele-h b{color:var(--on-dark);font-weight:600}
+.tele-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px dashed rgba(255,255,255,.14)}
+.tele-row span{font-size:13.5px;color:var(--on-dark-2)}
+.tele-row b{font-family:var(--mono);font-size:15px;color:var(--on-dark);font-weight:600;white-space:nowrap}
+.tele-row b i{font-style:normal;font-size:11.5px;color:var(--on-dark-3);margin-left:4px}
+.tele-row b em{font-style:normal;color:var(--amber-dot)}
+.tele-f{display:flex;justify-content:space-between;padding-top:10px;font-family:var(--mono);font-size:11.5px;color:var(--on-dark-3)}
+/* 信任数据条 */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:52px;border-top:1px solid rgba(255,255,255,.16)}
+.hs{padding:20px 20px 26px;border-left:1px solid rgba(255,255,255,.1)}
+.hs:first-child{border-left:none;padding-left:0}
+.hs b{display:block;font-family:var(--mono);font-size:26px;font-weight:700;color:#FFFFFF;letter-spacing:.01em}
+.hs span{display:block;margin-top:4px;font-size:12.5px;color:var(--on-dark-3)}
 
+/* 区块头 */
+.sec{padding:72px 0}
+.sec-head{max-width:640px;margin-bottom:8px}
+.sec-head .kicker{color:var(--cyan-dark);margin-bottom:10px}
+.sec-head h2{font-size:clamp(22px,3vw,32px);line-height:1.3;font-weight:800;margin-bottom:10px}
+.sec-head p{font-size:15px;color:var(--muted)}
+
+/* 按行业方案: tab 切换 */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:26px 0 22px;overflow-x:auto}
+.tab{
+  font:inherit;font-size:15px;font-weight:600;color:var(--muted);
+  background:none;border:none;border-bottom:3px solid transparent;
+  padding:10px 18px 12px;cursor:pointer;margin-bottom:-1px;white-space:nowrap;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:30px}
+.ind-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:34px}
+.ind-copy h3{font-size:19px;font-weight:800;margin-bottom:10px}
+.ind-copy>p{font-size:14.5px;color:var(--muted);margin-bottom:18px}
+.ind-list{display:grid;gap:14px}
+.ind-list li{padding-left:13px;border-left:2px solid #C7DAE3}
+.ind-list strong{display:block;font-size:14.5px;color:var(--ink)}
+.ind-list span{font-size:13.5px;color:var(--muted)}
+.ind-metrics{border-left:1px dashed var(--line);padding-left:34px}
+.m-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:13px 0;border-bottom:1px dashed var(--line)}
+.m-row:first-child{padding-top:2px}
+.m-row span{font-size:13.5px;color:var(--muted)}
+.m-row b{font-family:var(--mono);font-size:16.5px;color:var(--cyan-dark);white-space:nowrap}
+.m-note{padding-top:12px;font-size:12px;color:var(--muted);font-family:var(--mono)}
+
+/* 方案矩阵（按角色）: 表格行严格对齐 */
+.mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-top:30px}
+table.mx{width:100%;min-width:880px;border-collapse:collapse}
+.mx th{
+  text-align:left;font-size:13px;font-weight:700;color:var(--muted);
+  background:var(--panel-2);padding:13px 18px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+.mx td{padding:16px 18px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px;color:var(--ink)}
+.mx tbody tr:last-child td{border-bottom:none}
+.mx tbody tr:hover td{background:#F7FAFC}
+.mx .role{font-weight:700;font-size:14.5px}
+.mx .role small{display:block;margin-top:3px;font-weight:400;font-size:12px;color:var(--muted)}
+.mx .tag{
+  display:inline-block;margin-top:7px;padding:2px 9px;border-radius:99px;
+  background:var(--cyan-soft);color:var(--cyan-dark);font-size:11.5px;font-weight:600;
+}
+.mx td ul{display:grid;gap:5px}
+.mx td li{font-size:13.5px;color:var(--muted)}
+.mx td li::before{content:"/ ";color:#9DB2C4}
+.mx .num{font-family:var(--mono);font-weight:600;color:var(--cyan-dark)}
+.mx-hint{margin-top:10px;font-size:12px;color:var(--muted);font-family:var(--mono)}
+
+/* 安全合规（信任信号） */
+.comp{background:linear-gradient(180deg,var(--navy-950),var(--navy-900));color:var(--on-dark)}
+.comp .kicker{color:var(--cyan-on-dark)}
+.comp .sec-head h2{color:#FFFFFF}
+.comp .sec-head p{color:var(--on-dark-2)}
+.comp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px}
+.comp-card{
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;padding:22px 20px;
+}
+.comp-card h3{font-size:15.5px;color:#FFFFFF;margin:2px 0 8px}
+.comp-card p{font-size:13.5px;color:var(--on-dark-2)}
+.comp-tag{font-family:var(--mono);font-size:11.5px;color:var(--cyan-on-dark);letter-spacing:.04em}
+.comp-foot{
+  margin-top:26px;padding:16px 20px;border:1px dashed rgba(255,255,255,.22);border-radius:10px;
+  font-size:13.5px;color:var(--on-dark-2);display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;
+}
+.comp-foot b{color:#FFFFFF;font-weight:600}
+
+/* 客户 logo 墙: 可暂停走马灯 */
+.clients{padding:72px 0}
+.rail-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:26px}
+.rail-note{font-size:12.5px;color:var(--muted);margin-top:6px}
+.rail{overflow:hidden;position:relative;padding:4px 0}
+.rail::before,.rail::after{content:"";position:absolute;top:0;bottom:0;width:70px;z-index:2;pointer-events:none}
+.rail::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(243,245,248,0))}
+.rail::after{right:0;background:linear-gradient(-90deg,var(--bg),rgba(243,245,248,0))}
+.logo-track{display:flex;gap:14px;width:max-content;animation:slide 42s linear infinite}
+.rail.paused .logo-track{animation-play-state:paused}
+.logo-set{display:flex;gap:14px}
+.lg{
+  width:196px;height:64px;flex:none;display:flex;align-items:center;justify-content:center;gap:9px;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  font-weight:700;font-size:14.5px;color:#3C4E63;letter-spacing:.02em;
+}
+.lg i{width:9px;height:9px;border-radius:2px;background:var(--cyan);flex:none;transform:rotate(45deg)}
+.lg i.n{background:var(--navy-800)}
+.lg i.a{background:var(--amber-dot)}
+.clients-stats{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+
+/* 企业 CTA（Contact Sales） */
+.cta-sec{background:var(--panel-2);border-top:1px solid var(--line);padding:72px 0}
+.cta-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:36px;align-items:stretch}
+.form-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+.field{display:grid;gap:6px}
+.field.full{grid-column:1 / -1}
+.field label{font-size:13.5px;font-weight:600;color:var(--ink)}
+.field .req{color:#B42318;margin-left:2px}
+.field input,.field select,.field textarea{
+  font:inherit;font-size:14.5px;color:var(--ink);background:#FFFFFF;
+  border:1px solid #B9C4D0;border-radius:8px;padding:10px 12px;width:100%;
+}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline-offset:0;border-color:var(--cyan)}
+.field textarea{min-height:92px;resize:vertical}
+.form-privacy{margin-top:14px;font-size:12.5px;color:var(--muted)}
+.form-ok{
+  margin-top:14px;padding:12px 14px;border-radius:8px;
+  background:#E7F3EC;border:1px solid #BFDCCB;color:var(--ok);font-size:14px;font-weight:600;
+}
+.side-contact{display:grid;grid-template-rows:auto auto 1fr;gap:0;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+.side-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:15px 20px;border-bottom:1px solid var(--line)}
+.side-row span{font-size:13.5px;color:var(--muted)}
+.side-row b{font-family:var(--mono);font-size:14.5px;color:var(--ink);font-weight:600}
+.side-sla{background:var(--navy-900);color:var(--on-dark);padding:20px}
+.side-sla h3{font-size:15px;color:#FFFFFF;margin-bottom:6px}
+.side-sla p{font-size:13.5px;color:var(--on-dark-2)}
+.side-sla p b{color:var(--amber-dot);font-family:var(--mono)}
+.side-list{padding:16px 20px 20px;display:grid;gap:9px;align-content:start}
+.side-list li{font-size:13.5px;color:var(--muted)}
+.side-list li::before{content:"/ ";color:#9DB2C4}
+
+/* 页脚 */
+.footer{border-top:1px solid var(--line);padding:26px 0;background:var(--bg)}
+.footer-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.foot-brand{font-size:13.5px;color:var(--muted)}
+.foot-brand a{color:var(--cyan-dark);font-weight:600;text-decoration:none}
+.foot-brand a:hover{text-decoration:underline}
+
+/* 一次亮相动效（仅 hero 首屏, reduced-motion 降级见底部） */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.reveal{animation:rise .65s cubic-bezier(.2,.7,.25,1) both}
+.d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}.d4{animation-delay:.29s}.d5{animation-delay:.37s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(232,163,61,0)}100%{box-shadow:0 0 0 0 rgba(232,163,61,0)}}
+@keyframes slide{to{transform:translateX(calc(-50% - 7px))}}
+
+/* 响应式 768 / 375 */
+@media (max-width:980px){
+  .nav-links{display:none}
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .fan{right:-140px;top:-40px;opacity:.38}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hs:nth-child(3){border-left:none;padding-left:0}
+  .hs{border-top:1px solid rgba(255,255,255,.1);padding-top:16px}
+  .hs:nth-child(1),.hs:nth-child(2){border-top:none}
+  .comp-grid{grid-template-columns:repeat(2,1fr)}
+  .ind-grid{grid-template-columns:1fr;gap:24px}
+  .ind-metrics{border-left:none;padding-left:0;border-top:1px dashed var(--line);padding-top:8px}
+  .cta-grid{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .container{width:min(1120px,100% - 32px)}
+  .topbar-cta .btn-outline-login{display:none}
+  .sec{padding:56px 0}
+  .tab-panel{padding:22px 18px}
+  .form-grid{grid-template-columns:1fr}
+  .form-card{padding:22px 18px}
+  .comp-grid{grid-template-columns:1fr}
+  .hero h1{font-size:clamp(28px,8.4vw,34px)}
+  .lg{width:164px;height:58px;font-size:13.5px}
+  .rail::before,.rail::after{width:40px}
+}
+
+/* reduced-motion: 全静态终态（风机停格 / 走马灯平铺 / 亮相取消） */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  .logo-track{width:100%;flex-wrap:wrap;animation:none}
+  .logo-set{flex-wrap:wrap}
+  .logo-dup{display:none}
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>麦芒</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看今日炉单</a></div></header><main><section class="hero container"><p class="doc-meta">今日炉次 #264 / 醒面 18 小时 / 07:00 出炉</p><h1>六点半的队伍，等的是同一炉面包</h1><p class="sub">天然酵母长时醒面，只用粉、水、盐和一点耐心。卖完是真的卖完。</p><div class="cta-row"><a class="btn btn-primary" href="#">看今日炉单</a><a class="btn" href="#">预约周六</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>可颂</b><p>法国黄油开 27 层，出炉两小时内是它的黄金时段。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>碱水结</b><p>碱水重口，配啤酒刚好。下午四点后第二炉半价。</p></div></section></section><section class="container"><div class="lg-row"><span class="lg">晨钟文化</span><span class="lg">Nordlab</span><span class="lg">拾光事务所</span><span class="lg">山脊工作室</span><span class="lg">Bluebay</span><span class="lg">远见集团</span></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>可颂</b><p>法国黄油开 27 层，出炉两小时内是它的黄金时段。</p></div></section></section><footer>麦芒 / 街角面包房 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="topbar">
+  <div class="container topbar-in">
+    <a class="brand" href="#main">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M12 12C11 8.4 12.4 5.6 16 3.6c-1.6 3.4-2.6 5.5-2.6 8.4"/>
+          <path d="M12 12C8.4 11 5.6 12.4 3.6 16c3.4-1.6 5.5-2.6 8.4-2.6"/>
+          <path d="M12 12c3.6-1 6.4.4 8.4 4-3.4-1.6-5.5-2.6-8.4-2.6" transform="rotate(60 12 12)"/>
+        </svg>
+      </span>
+      风枢 WindGrid
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#industries">方案概览</a>
+      <span class="nav-item">
+        <button class="mega-btn" id="megaBtn" aria-expanded="false" aria-controls="megaInd">
+          行业方案
+          <svg class="caret" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+        </button>
+        <span class="mega" id="megaInd">
+          <a href="#industries" data-tab="wind"><b>风电场</b><span>主机与辅助系统状态透视 / 功率曲线偏离报警</span></a>
+          <a href="#industries" data-tab="cement"><b>水泥厂</b><span>高温风机与工艺联动 / 单位电耗看板</span></a>
+          <a href="#industries" data-tab="ship"><b>船舶</b><span>机舱通风窄带联网 / 船队集中看板</span></a>
+        </span>
+      </span>
+      <a href="#matrix">方案矩阵</a>
+      <a href="#compliance">安全合规</a>
+      <a href="#clients">客户</a>
+    </nav>
+    <div class="topbar-cta">
+      <a class="btn btn-ghost btn-sm btn-outline-login" href="#contact">登录平台</a>
+      <a class="btn btn-primary btn-sm" href="#contact">联系销售</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 01 Hero（视频/任务区） -->
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <svg class="fan" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="bladeG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#33648F"/>
+          <stop offset="1" stop-color="#173B5F"/>
+        </linearGradient>
+      </defs>
+      <g class="fan-ring">
+        <circle cx="100" cy="100" r="94" fill="none" stroke="#2A5580" stroke-width="1" stroke-dasharray="3 7"/>
+        <circle cx="100" cy="100" r="78" fill="none" stroke="#25496E" stroke-width="1" stroke-dasharray="1 6"/>
+      </g>
+      <g class="fan-rotor">
+        <path fill="url(#bladeG)" d="M100 100C94 64 102 34 126 14c-8 32-14 60-16 86Z"/>
+        <path fill="url(#bladeG)" d="M100 100C94 64 102 34 126 14c-8 32-14 60-16 86Z" transform="rotate(120 100 100)"/>
+        <path fill="url(#bladeG)" d="M100 100C94 64 102 34 126 14c-8 32-14 60-16 86Z" transform="rotate(240 100 100)"/>
+        <circle cx="100" cy="100" r="11" fill="#0E2440" stroke="#3E6EA1" stroke-width="2"/>
+      </g>
+    </svg>
+    <div class="container hero-in">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker reveal d1">工业风机设备联网平台 / 风枢 WindGrid</p>
+          <h1 id="heroTitle" class="reveal d2">让每一台风机，<br>连成一张可运维的网</h1>
+          <p class="hero-sub reveal d3">从风电场主机到水泥厂窑尾高温风机，再到船舶机舱通风机组，风枢把振动 / 温度 / 电流与工艺工况汇入同一张 SCADA 画面，让故障在发生前被看见。</p>
+          <div class="cta-row reveal d4">
+            <a class="btn btn-primary" href="#contact">联系销售</a>
+            <a class="btn btn-outline" href="#contact">登录平台</a>
+          </div>
+          <p class="motion-note reveal d5">
+            <span class="dot" aria-hidden="true"></span>
+            动态背景为平台示意 / 可随时暂停
+            <button class="btn btn-outline btn-sm" id="motionBtn" aria-pressed="false">暂停动态背景</button>
+          </p>
+        </div>
+        <div class="tele reveal d3" aria-label="边缘网关实时遥测示例">
+          <div class="tele-h"><b>GW-2 边缘网关 / 3 号窑尾高温风机</b><span>在线</span></div>
+          <div class="tele-row"><span>运行状态</span><b>运行中 <em>/ 额定 82%</em></b></div>
+          <div class="tele-row"><span>轴承温度（驱动端）</span><b>68.3<i>°C / 阈值 85</i></b></div>
+          <div class="tele-row"><span>振动速度（RMS）</span><b>4.2<i>mm/s / 阈值 7.1</i></b></div>
+          <div class="tele-row"><span>定子电流</span><b>216<i>A / 额定 280</i></b></div>
+          <div class="tele-f"><span>采样 1 kHz / 特征值 1 Hz 上传</span><span>断点缓存 72 h</span></div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><b>12,400+</b><span>在线机组（台）</span></div>
+        <div class="hs"><b>860,000</b><span>实时采集测点</span></div>
+        <div class="hs"><b>99.98%</b><span>平台年可用率</span></div>
+        <div class="hs"><b>72 h</b><span>故障预警提前量（中位）</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Solutions by Industry（行业方案 tab 切换） -->
+  <section class="sec" id="industries" aria-labelledby="indTitle">
+    <div class="container">
+      <header class="sec-head">
+        <p class="kicker">按行业接入</p>
+        <h2 id="indTitle">三个行业，三套已经跑通的方案</h2>
+        <p>同一平台底座，不同的工艺语境。选择您的行业，查看对应的接入方式与已验证的量化结果。</p>
+      </header>
+      <div class="tabs" role="tablist" aria-label="按行业查看方案">
+        <button class="tab" id="tab-wind" role="tab" aria-selected="true" aria-controls="panel-wind">风电场</button>
+        <button class="tab" id="tab-cement" role="tab" aria-selected="false" aria-controls="panel-cement" tabindex="-1">水泥厂</button>
+        <button class="tab" id="tab-ship" role="tab" aria-selected="false" aria-controls="panel-ship" tabindex="-1">船舶</button>
+      </div>
+      <div class="tab-panel" id="panel-wind" role="tabpanel" aria-labelledby="tab-wind" tabindex="0">
+        <div class="ind-grid">
+          <div class="ind-copy">
+            <h3>风电场 / 主机与辅助系统的状态透视</h3>
+            <p>对接主流整机厂 SCADA 与 CMS，在不改动控制逻辑的前提下补齐高频振动数据，形成场级健康档案。</p>
+            <ul class="ind-list">
+              <li><strong>齿轮箱与主轴承</strong><span>高频振动与油温联合建模，提前识别啮合异常</span></li>
+              <li><strong>功率曲线偏离</strong><span>按风速仓自动比对，定位叶片污损与偏航误差</span></li>
+              <li><strong>检修窗口</strong><span>结合风功率预测，给出未来 7 天维护窗口建议</span></li>
+              <li><strong>机型适配</strong><span>双馈与直驱机型均提供标准接入模板</span></li>
+            </ul>
+          </div>
+          <div class="ind-metrics">
+            <div class="m-row"><span>场级可利用率</span><b>+1.8 个百分点</b></div>
+            <div class="m-row"><span>年减少损失电量（每场）</span><b>约 4.2 GWh</b></div>
+            <div class="m-row"><span>单场接入周期</span><b>5 个工作日</b></div>
+            <div class="m-row"><span>已接入场数</span><b>63 座</b></div>
+            <p class="m-note">基于近三年脱敏项目统计 / 2025 年 12 月更新</p>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panel-cement" role="tabpanel" aria-labelledby="tab-cement" tabindex="0" hidden>
+        <div class="ind-grid">
+          <div class="ind-copy">
+            <h3>水泥厂 / 高温风机与循环风机的工艺联动</h3>
+            <p>把风机数据放回工艺语境：与窑况 / 篦冷机 / 煤磨系统对齐时间轴，定位真正的能耗与结皮风险点。</p>
+            <ul class="ind-list">
+              <li><strong>窑尾高温风机</strong><span>结皮趋势预警 / 入口负压与轴承温度联动分析</span></li>
+              <li><strong>循环风机</strong><span>磨损分层识别，避免过早上线备用机组</span></li>
+              <li><strong>单位电耗看板</strong><span>按熟料产量归一，班次之间可直接对比</span></li>
+              <li><strong>停机协同</strong><span>与检修计划联动，切换窗口压缩至 4 小时内</span></li>
+            </ul>
+          </div>
+          <div class="ind-metrics">
+            <div class="m-row"><span>单位熟料风机电耗</span><b>下降 3% 至 5%</b></div>
+            <div class="m-row"><span>年非计划停机</span><b>减少 6 至 8 次</b></div>
+            <div class="m-row"><span>备件占用资金</span><b>下降 18%</b></div>
+            <div class="m-row"><span>已接入产线</span><b>41 条</b></div>
+            <p class="m-note">基于近三年脱敏项目统计 / 2025 年 12 月更新</p>
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panel-ship" role="tabpanel" aria-labelledby="tab-ship" tabindex="0" hidden>
+        <div class="ind-grid">
+          <div class="ind-copy">
+            <h3>船舶 / 机舱通风与货舱除湿的窄带联网</h3>
+            <p>为卫星链路设计的数据协议，按优先级压缩与断点续传，抵港即可补齐全部离线数据。</p>
+            <ul class="ind-list">
+              <li><strong>机舱通风机</strong><span>状态与振动同步至船内屏显与公司船队看板</span></li>
+              <li><strong>货舱除湿</strong><span>露点控制建议，降低货物凝露与货损风险</span></li>
+              <li><strong>窄带回传</strong><span>优先级队列 / 单日报文可压缩至 200 KB 以内</span></li>
+              <li><strong>船检材料</strong><span>报表格式对齐 CCS 与 DNV 年检要求</span></li>
+            </ul>
+          </div>
+          <div class="ind-metrics">
+            <div class="m-row"><span>平均修复时间</span><b>缩短 40%</b></div>
+            <div class="m-row"><span>抵港前备件确认率</span><b>100%</b></div>
+            <div class="m-row"><span>单船月度流量</span><b>低于 60 MB</b></div>
+            <div class="m-row"><span>已接入船舶</span><b>118 艘</b></div>
+            <p class="m-note">基于近三年脱敏项目统计 / 2025 年 12 月更新</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Solutions by Role（方案矩阵） -->
+  <section class="sec" id="matrix" aria-labelledby="mxTitle" style="padding-top:0">
+    <div class="container">
+      <header class="sec-head">
+        <p class="kicker">按角色选路径</p>
+        <h2 id="mxTitle">我是谁，决定我看到哪张画面</h2>
+        <p>同一份数据，四种视图。从场长到安全负责人，各自拿到与职责直接相关的结论。</p>
+      </header>
+      <div class="mx-wrap">
+        <table class="mx">
+          <thead>
+            <tr>
+              <th scope="col" style="width:17%">角色</th>
+              <th scope="col" style="width:24%">核心关切</th>
+              <th scope="col" style="width:33%">平台能力</th>
+              <th scope="col">量化的结果</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="role">风电场场长<small>集团新能源板块</small></span><span class="tag">风电</span></td>
+              <td>场级可利用率与损失电量归因</td>
+              <td><ul><li>机组健康排名</li><li>功率曲线偏离报警</li><li>检修窗口建议</li></ul></td>
+              <td><span class="num">+1.8 个百分点</span> 可利用率 / 损失电量月报自动出具</td>
+            </tr>
+            <tr>
+              <td><span class="role">水泥厂中控主任<small>熟料产线三班</small></span><span class="tag">水泥</span></td>
+              <td>工艺联动与单位电耗</td>
+              <td><ul><li>风机与窑工况耦合曲线</li><li>高温风机结皮预警</li><li>单位电耗看板</li></ul></td>
+              <td>单位熟料风机电耗 <span class="num">下降 3% 至 5%</span></td>
+            </tr>
+            <tr>
+              <td><span class="role">船舶轮机长<small>散货与油轮船队</small></span><span class="tag">船舶</span></td>
+              <td>机舱通风与除湿设备可用性</td>
+              <td><ul><li>窄带卫星链路回传</li><li>离线缓存抵港补传</li><li>船队集中看板</li></ul></td>
+              <td>平均修复时间 <span class="num">缩短 40%</span> / 抵港前完成备件确认</td>
+            </tr>
+            <tr>
+              <td><span class="role">设备工程师<small>区域检修中心</small></span><span class="tag">全行业</span></td>
+              <td>预测性维护与工单执行</td>
+              <td><ul><li>振动频谱分析</li><li>轴承温度趋势</li><li>备件剩余寿命预测</li></ul></td>
+              <td>预警提前量中位 <span class="num">72 小时</span> / 工单自动派发至移动端</td>
+            </tr>
+            <tr>
+              <td><span class="role">IT 与安全负责人<small>集团数字化部</small></span><span class="tag">全行业</span></td>
+              <td>接入边界与合规审计</td>
+              <td><ul><li>边缘网关单向隔离</li><li>私有化部署选项</li><li>全量审计日志</li></ul></td>
+              <td>通过 <span class="num">等保三级</span> 测评 / 审计留存不少于 180 天</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mx-hint">窄屏下表格可左右滑动 / 列宽保持对齐</p>
+    </div>
+  </section>
+
+  <!-- 04 安全合规（信任信号） -->
+  <section class="comp sec" id="compliance" aria-labelledby="compTitle">
+    <div class="container">
+      <header class="sec-head">
+        <p class="kicker">安全与合规</p>
+        <h2 id="compTitle">数据从边缘到云端，每一步都可审计</h2>
+        <p>控制网数据只出不进。安全能力不是附件，而是平台架构本身。</p>
+      </header>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <span class="comp-tag">ISO/IEC 27001</span>
+          <h3>信息安全管理体系</h3>
+          <p>覆盖研发到运维全流程，年度外部监督审核，证书编号可在认证机构官网核验。</p>
+        </div>
+        <div class="comp-card">
+          <span class="comp-tag">IEC 62443</span>
+          <h3>工控纵深防御</h3>
+          <p>按区域与管道模型划分网络，边缘网关侧单向隔离，控制网不接收任何下行指令。</p>
+        </div>
+        <div class="comp-card">
+          <span class="comp-tag">等保 2.0 / 三级</span>
+          <h3>国内合规落地</h3>
+          <p>支持完全私有化部署，已协助 14 家客户完成三级测评与整改闭环。</p>
+        </div>
+        <div class="comp-card">
+          <span class="comp-tag">数据主权</span>
+          <h3>原始数据不出厂</h3>
+          <p>原始波形可全量留存厂内，平台侧仅保留特征值，传输与存储支持国密算法。</p>
+        </div>
+      </div>
+      <p class="comp-foot">
+        <b>审计承诺</b>
+        <span>操作与告警日志留存不少于 180 天</span>
+        <span>支持客户自有 SIEM 对接</span>
+        <span>每年可申请一次第三方渗透测试报告</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 05 Client Logos（客户 logo 墙 / 可暂停走马灯） -->
+  <section class="clients" id="clients" aria-labelledby="cliTitle">
+    <div class="container">
+      <div class="rail-head">
+        <header class="sec-head" style="margin-bottom:0">
+          <p class="kicker">客户与装机</p>
+          <h2 id="cliTitle">他们已经在同一张网上运维</h2>
+          <p class="rail-note">焦点停留或离开视口时自动暂停 / 支持键盘操作 / 示例名称已做脱敏处理</p>
+        </header>
+        <button class="btn btn-ghost btn-sm" id="logoPause" aria-pressed="false" aria-label="暂停或恢复客户案例滚动">暂停滚动</button>
+      </div>
+    </div>
+    <div class="rail" id="railWrap" aria-label="客户案例滚动横列">
+      <div class="logo-track">
+        <div class="logo-set">
+          <span class="lg"><i aria-hidden="true"></i>北疆水泥集团</span>
+          <span class="lg"><i class="n" aria-hidden="true"></i>东南海上风电</span>
+          <span class="lg"><i class="a" aria-hidden="true"></i>蓝湾船舶重工</span>
+          <span class="lg"><i aria-hidden="true"></i>华洋重装</span>
+          <span class="lg"><i class="n" aria-hidden="true"></i>金岭矿业</span>
+          <span class="lg"><i class="a" aria-hidden="true"></i>恒力传动</span>
+          <span class="lg"><i aria-hidden="true"></i>秦发电力</span>
+          <span class="lg"><i class="n" aria-hidden="true"></i>中瑞新材料</span>
+        </div>
+        <div class="logo-set logo-dup" aria-hidden="true">
+          <span class="lg"><i aria-hidden="true"></i>北疆水泥集团</span>
+          <span class="lg"><i class="n" aria-hidden="true"></i>东南海上风电</span>
+          <span class="lg"><i class="a" aria-hidden="true"></i>蓝湾船舶重工</span>
+          <span class="lg"><i aria-hidden="true"></i>华洋重装</span>
+          <span class="lg"><i class="n" aria-hidden="true"></i>金岭矿业</span>
+          <span class="lg"><i class="a" aria-hidden="true"></i>恒力传动</span>
+          <span class="lg"><i aria-hidden="true"></i>秦发电力</span>
+          <span class="lg"><i class="n" aria-hidden="true"></i>中瑞新材料</span>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <p class="clients-stats">
+        <span>12,400 台在线机组</span>
+        <span>19 个国家与地区的装机</span>
+        <span>最长连续在网运行 6 年 4 个月</span>
+        <span>客户续约率 96%</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 06 Contact Sales（企业 CTA） -->
+  <section class="cta-sec" id="contact" aria-labelledby="ctaTitle">
+    <div class="container">
+      <header class="sec-head">
+        <p class="kicker">联系销售</p>
+        <h2 id="ctaTitle">告诉我们机组清单，剩下的交给我们</h2>
+        <p>留下基本信息，销售工程师会带着接入评估与同行业案例与您联系。</p>
+      </header>
+      <div class="cta-grid">
+        <div class="form-card">
+          <form id="salesForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name">姓名<span class="req" aria-hidden="true">*</span></label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="f-mail">工作邮箱<span class="req" aria-hidden="true">*</span></label>
+                <input id="f-mail" name="email" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="f-co">公司<span class="req" aria-hidden="true">*</span></label>
+                <input id="f-co" name="company" type="text" autocomplete="organization" required>
+              </div>
+              <div class="field">
+                <label for="f-ind">所属行业</label>
+                <select id="f-ind" name="industry">
+                  <option value="wind">风电场</option>
+                  <option value="cement">水泥制造</option>
+                  <option value="ship">船舶与海洋工程</option>
+                  <option value="other">其他工业</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="f-msg">想了解的内容</label>
+                <textarea id="f-msg" name="message" placeholder="例如：2 条熟料线 / 窑尾与循环风机共 9 台 / 希望三个月内完成接入"></textarea>
+              </div>
+            </div>
+            <p class="form-privacy">提交即表示同意<a href="#compliance">隐私与数据处理声明</a> / 我们不会向第三方共享您的信息</p>
+            <button class="btn btn-primary" type="submit">预约销售沟通</button>
+            <p class="form-ok" id="formOk" hidden tabindex="-1">已收到您的信息 / 工作日 2 小时内会有销售工程师与您联系</p>
+          </form>
+        </div>
+        <aside class="side-contact" aria-label="其他联系方式">
+          <div class="side-row"><span>销售直线（工作日 9:00 至 18:00）</span><b>400-618-2200</b></div>
+          <div class="side-row"><span>商务邮箱</span><b>sales@windgrid.example.com</b></div>
+          <div class="side-sla">
+            <h3>响应时限承诺</h3>
+            <p>工作日 <b>2 小时</b>内首次响应 / <b>48 小时</b>内提供初版接入方案与报价区间</p>
+          </div>
+          <ul class="side-list">
+            <li>免费接入评估：提供机型与测点清单即可开始</li>
+            <li>可安排现场或远程演示，支持私有化环境演示</li>
+            <li>提供供应商安全自评表，方便您走内部采购流程</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-in">
+    <p class="foot-brand">UI 设计提示词库 / 落地结构 No.25</p>
+    <nav class="foot-nav" aria-label="页脚导航" style="display:flex;gap:20px">
+      <a href="../style-catalog.html">返回风格目录</a>
+      <a href="#hero">回到顶部</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* 行业方案 tab 切换（方向键 / Home / End 可操作） */
+  var tablist = document.querySelector('[role="tablist"]');
+  var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+  function selectTab(tab, focus){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if(focus){ tab.focus(); }
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ selectTab(t, false); });
+    t.addEventListener('keydown', function(e){
+      var n = null;
+      if(e.key === 'ArrowRight'){ n = tabs[(i + 1) % tabs.length]; }
+      else if(e.key === 'ArrowLeft'){ n = tabs[(i - 1 + tabs.length) % tabs.length]; }
+      else if(e.key === 'Home'){ n = tabs[0]; }
+      else if(e.key === 'End'){ n = tabs[tabs.length - 1]; }
+      if(n){ e.preventDefault(); selectTab(n, true); }
+    });
+  });
+
+  /* mega menu（点击展开 / Esc 或点击外部关闭 / 链接直达对应 tab） */
+  var megaBtn = document.getElementById('megaBtn');
+  var mega = document.getElementById('megaInd');
+  function closeMega(){
+    mega.classList.remove('open');
+    megaBtn.setAttribute('aria-expanded', 'false');
+  }
+  megaBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = mega.classList.toggle('open');
+    megaBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e){
+    if(!mega.contains(e.target) && e.target !== megaBtn){ closeMega(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeMega(); }
+  });
+  mega.querySelectorAll('a[data-tab]').forEach(function(link){
+    link.addEventListener('click', function(){
+      var tab = document.getElementById('tab-' + link.getAttribute('data-tab'));
+      if(tab){ selectTab(tab, false); }
+      closeMega();
+    });
+  });
+
+  /* hero 动态背景暂停 / 播放 */
+  var hero = document.getElementById('hero');
+  var motionBtn = document.getElementById('motionBtn');
+  motionBtn.addEventListener('click', function(){
+    var still = hero.classList.toggle('still');
+    motionBtn.setAttribute('aria-pressed', still ? 'true' : 'false');
+    motionBtn.textContent = still ? '播放动态背景' : '暂停动态背景';
+  });
+
+  /* 客户走马灯：按钮可暂停 / 焦点暂停 / 离开视口暂停 */
+  var rail = document.getElementById('railWrap');
+  var railBtn = document.getElementById('logoPause');
+  var userPaused = false, railFocus = false, railVisible = true;
+  function updateRail(){
+    rail.classList.toggle('paused', userPaused || railFocus || !railVisible);
+    railBtn.textContent = userPaused ? '恢复滚动' : '暂停滚动';
+    railBtn.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
+  }
+  railBtn.addEventListener('click', function(){
+    userPaused = !userPaused;
+    updateRail();
+  });
+  rail.addEventListener('focusin', function(){ railFocus = true; updateRail(); });
+  rail.addEventListener('focusout', function(){ railFocus = false; updateRail(); });
+
+  /* 视口外暂停（hero 风机 + 走马灯） */
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.target === rail){ railVisible = en.isIntersecting; updateRail(); }
+        if(en.target === hero){ hero.classList.toggle('off', !en.isIntersecting); }
+      });
+    }, { threshold: 0.15 });
+    io.observe(rail);
+    io.observe(hero);
+  }
+
+  /* 表单：本页演示提交 */
+  var form = document.getElementById('salesForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = document.getElementById('formOk');
+    ok.hidden = false;
+    ok.focus();
+  });
+})();
+</script>
 </body>
 </html>

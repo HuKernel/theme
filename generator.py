@@ -2830,19 +2830,14 @@ def main():
     theme_keys = list(THEMES.keys())
     lentries = []
     for li, l in enumerate(load_landing()):
+        # 落地结构样张已全部手工精修（见 pattern-demos/l*.html），重跑不再覆盖
         fam = FAM_CYCLE[li % len(FAM_CYCLE)]
         rep = styles_by_name.get(FAMILY_REP.get(fam, 'Minimalism & Swiss Style'))
         s = make_skin(rep) if rep else base_skin()
-        t = THEMES[theme_keys[li % len(theme_keys)]]
         fh, fb, fq = pick_fonts(l['Keywords'] + ' ' + l['Pattern Name'])
         file = 'l%s-%s.html' % (l['No'], slug(l['Pattern Name']))
-        title = '落地结构 / %s — landing.csv 官方模式' % l['Pattern Name']
-        body = pattern_page(l, t, s).replace('__BOLT__', BOLT)
-        css = PATTERN_CSS.replace('__BORDER__', s['border'].replace('VAR_BORDER', s['border_c']))
-        page = base_css(s, fh, fb, fq, title, css).replace('__BODY__', body)
-        open(os.path.join(OUT_LDIR, file), 'w', encoding='utf-8').write(page)
         lentries.append((l, s, file, (fh, fb)))
-    print('落地结构样板:', len(lentries))
+    print('落地结构样板: %d（手工精修版，生成器不再覆盖）' % len(lentries))
 
     # ---- 目录页：Memphis Design 版完整重建（风格 + 落地结构） ----
     open(CATALOG, 'w', encoding='utf-8').write(build_catalog(manifest, [], lentries, content_styles.CONTENT_STYLES))

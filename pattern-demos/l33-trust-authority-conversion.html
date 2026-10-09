@@ -4,137 +4,812 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Trust & Authority + Conversion — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Trust &amp; Authority 结构 / UI 设计提示词库</title>
+<meta name="description" content="三代传承老酱油厂直营页样张：使命型 hero、可验证的信任证明、日晒计数工艺透明与低摩擦下单路径。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+/* token 计划: 墨 #2B1D12 / 酱棕 #6B4423(信任主色,链接与结构) / 纸 #F7F1E5 / 陶缸暗底 #2E1C10 / 封泥红 #A63A22 仅用于主行动按钮与焦点环 / 边线 rgba(60,38,20,.18) / 标题衬线 Noto Serif SC */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(34,139,34,.28); --primary: #228B22; --secondary: #8B4513;
-  --accent: #87CEEB; --on-primary: #fff;
-  --radius: 20px 26px 18px 28px; --btn-radius: 999px;
+  --ink: #2B1D12;
+  --paper: #F7F1E5;
+  --paper-2: #EFE5D2;
+  --card: #FBF7ED;
+  --sauce: #6B4423;
+  --sauce-deep: #54341A;
+  --vat: #2E1C10;
+  --vat-line: rgba(243, 233, 215, .16);
+  --cream: #F3E9D7;
+  --cream-dim: #D9C6A8;
+  --seal: #A63A22;
+  --line: rgba(60, 38, 20, .18);
+  --muted: #6B5A48;
+  --radius: 10px;
+  --serif: 'Noto Serif SC', 'SimSun', serif;
+  --sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 15.5px; }
+h1, h2, h3, .serif { font-family: var(--serif); }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 3px solid var(--seal);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(166, 58, 34, .28);
+  border-radius: 4px;
 }
-h1, h2, h3, .num { font-family: 'Lexend', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(34,139,34,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Lexend', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--ink); color: var(--cream);
+  padding: 10px 18px; z-index: 99; font-size: 14px;
+}
+.skip:focus-visible { left: 12px; top: 12px; }
+
+/* 顶栏 */
+.topbar { position: sticky; top: 0; z-index: 10; background: rgba(247, 241, 229, .96); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: var(--serif); font-weight: 700; font-size: 17.5px; }
+.mark {
+  width: 34px; height: 34px; border-radius: 7px;
+  background: var(--sauce); color: var(--cream);
+  display: grid; place-items: center;
+  font-size: 17px; font-weight: 700;
+}
+.topbar nav { display: flex; gap: 22px; }
+.topbar nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
+.topbar nav a:hover { color: var(--sauce-deep); }
+
+/* 按钮: 封泥红只给主行动按钮,无尾箭头 */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(34,139,34,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-block; font-family: var(--sans); font-weight: 600; font-size: 14.5px;
+  padding: 11px 24px; border-radius: 7px; cursor: pointer; text-decoration: none;
+  border: 1.5px solid var(--sauce); background: transparent; color: var(--sauce-deep);
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(34,139,34,.28); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(34,139,34,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(34,139,34,.2); border-radius: 22px 30px 20px 32px; }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(34,139,34,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn:hover { background: rgba(107, 68, 35, .1); transform: translateY(-1px); }
+.btn-primary { background: var(--seal); border-color: var(--seal); color: #FFFFFF; }
+.btn-primary:hover { background: #8F2F1B; border-color: #8F2F1B; color: #FFFFFF; }
+.btn-sm { padding: 8px 18px; font-size: 13.5px; }
+.btn-cream { border-color: var(--cream-dim); color: var(--cream); }
+.btn-cream:hover { background: rgba(243, 233, 215, .12); }
 
+/* Hero: 使命与年代感,陶缸暗底 */
+.hero { background: var(--vat); color: var(--cream); padding: 76px 0 68px; }
+.hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: center; }
+.doc-meta {
+  font-size: 13.5px; color: var(--cream-dim); letter-spacing: .5px;
+  border-left: 3px solid var(--sauce); padding-left: 12px; margin-bottom: 18px;
+}
+.hero h1 {
+  font-size: clamp(28px, 4.2vw, 44px); font-weight: 900; line-height: 1.32;
+  margin-bottom: 18px; color: var(--cream);
+}
+.hero .sub { font-size: 16px; color: var(--cream-dim); max-width: 560px; margin-bottom: 28px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.hero-proof { list-style: none; margin-top: 30px; display: grid; gap: 8px; }
+.hero-proof li {
+  font-size: 13.5px; color: var(--cream-dim); padding-left: 18px; position: relative;
+}
+.hero-proof li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 8px; height: 8px; background: var(--sauce); border-radius: 2px;
+}
+.hero-proof b { color: var(--cream); font-weight: 500; font-variant-numeric: tabular-nums; }
+.hero-jar { text-align: center; }
+.hero-jar figcaption { font-size: 12.5px; color: var(--cream-dim); margin-top: 10px; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(34,139,34,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* 区块公共 */
+.sec { padding: 64px 0; }
+.sec-h { font-size: clamp(22px, 3vw, 30px); font-weight: 900; color: var(--ink); }
+.sec-note { font-size: 13.5px; color: var(--muted); margin-top: 6px; margin-bottom: 34px; }
+.sec-vat { background: var(--vat); color: var(--cream); }
+.sec-vat .sec-h { color: var(--cream); }
+.sec-vat .sec-note { color: var(--cream-dim); }
 
+/* 轮播: 木牌 logo,可暂停,失焦/悬停/离屏即停 */
+.car-block { margin-bottom: 48px; }
+.car-title { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 14px; font-family: var(--sans); }
+.car { position: relative; }
+.car-viewport { overflow: hidden; padding: 6px 0; }
+.car-track { display: flex; gap: 18px; transition: transform 450ms ease; will-change: transform; }
+.car-track li {
+  list-style: none; flex: 0 0 218px;
+  background: linear-gradient(175deg, #C79A5D, #B28249);
+  border: 1px solid #8A5A2B; border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 2px 6px rgba(43, 29, 18, .18);
+  padding: 18px 12px; text-align: center; position: relative;
+  font-family: var(--serif); font-weight: 700; font-size: 16.5px; color: #33200F;
+}
+.car-track li::before, .car-track li::after {
+  content: ""; position: absolute; top: 8px; width: 5px; height: 5px;
+  border-radius: 50%; background: #4A2B14;
+}
+.car-track li::before { left: 10px; }
+.car-track li::after { right: 10px; }
+.car-ctl {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1.5px solid var(--sauce); background: var(--card); color: var(--sauce-deep);
+  display: grid; place-items: center; cursor: pointer; z-index: 2;
+}
+.car-ctl:hover { background: rgba(107, 68, 35, .12); }
+.car-prev { left: -12px; }
+.car-next { right: -12px; }
+.car-foot { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+.car-pause {
+  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 6px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--card); color: var(--sauce-deep);
+}
+.car-note { font-size: 12.5px; color: var(--muted); }
+.lg-static { display: none; }
+
+/* 证明卡: 三卡等高(grid 拉伸),可验证编号/日期/机构 */
+.proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.pcard {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px 22px; display: flex; flex-direction: column;
+  box-shadow: 0 1px 3px rgba(43, 29, 18, .08);
+}
+.pcard h3 { font-size: 17.5px; font-weight: 700; margin-bottom: 4px; }
+.pcard .meta { font-size: 12.5px; color: var(--muted); margin-bottom: 16px; font-variant-numeric: tabular-nums; }
+
+/* 检测报告表: 行级 grid 对齐 */
+.rep-head, .rep-row {
+  display: grid; grid-template-columns: 1.35fr .95fr .95fr .65fr; gap: 6px 10px;
+  align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line);
+}
+.rep-head { border-top: none; font-weight: 700; font-size: 12.5px; color: var(--sauce-deep); padding-bottom: 6px; }
+.rep-row { font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.rep-row .ok { font-weight: 700; color: var(--sauce-deep); }
+.rep-foot { margin-top: auto; padding-top: 14px; font-size: 12px; color: var(--muted); }
+
+/* 认证卡: 标签值 grid 对齐 */
+.cert-row { display: grid; grid-template-columns: 92px 1fr; gap: 6px 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.cert-row:first-of-type { border-top: none; }
+.cert-row .k { color: var(--muted); }
+.cert-row .v { font-weight: 500; font-variant-numeric: tabular-nums; }
+.cert-extra { margin-top: auto; padding-top: 14px; border-top: 2px solid var(--sauce); font-size: 12.5px; color: var(--muted); }
+.cert-extra b { color: var(--ink); font-family: var(--serif); }
+
+/* 时间线: 年份列固定宽 grid 对齐 */
+.tl-row { display: grid; grid-template-columns: 52px 1fr; gap: 0 14px; }
+.tl-year { font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--sauce-deep); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.tl-body { border-left: 2px solid var(--line); padding: 0 0 16px 14px; position: relative; }
+.tl-row:last-child .tl-body { padding-bottom: 2px; }
+.tl-body::before {
+  content: ""; position: absolute; left: -5.5px; top: .55em;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--sauce);
+}
+.tl-body b { display: block; font-size: 13.5px; font-weight: 700; }
+.tl-body span { font-size: 12.5px; color: var(--muted); line-height: 1.55; display: block; }
+
+/* 统计行 */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 44px; }
+.stat { border-left: 3px solid var(--sauce); padding: 6px 0 6px 16px; }
+.stat b { display: block; font-family: var(--serif); font-size: clamp(26px, 3vw, 36px); font-weight: 900; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1.15; }
+.stat b i { font-style: normal; font-size: .5em; font-weight: 700; color: var(--muted); margin-left: 2px; }
+.stat span { font-size: 12.5px; color: var(--muted); }
+
+/* 大师背书条 */
+.quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 22px; }
+.quotes blockquote {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px; font-size: 15px; line-height: 1.8;
+}
+.quotes p::before { content: "「"; color: var(--sauce); font-family: var(--serif); font-weight: 900; }
+.quotes p::after { content: "」"; color: var(--sauce); font-family: var(--serif); font-weight: 900; }
+.quotes footer { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.quotes cite { font-style: normal; font-weight: 700; color: var(--ink); margin-right: 4px; }
+
+/* 工艺透明 / 日晒计数木牌 */
+.sun { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: stretch; margin-bottom: 52px; }
+.sun-tag {
+  background: linear-gradient(175deg, #C79A5D, #A9783F);
+  border: 1px solid #7E5327; border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 6px 18px rgba(0, 0, 0, .35);
+  color: #33200F; text-align: center; padding: 28px 22px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.sun-tag .k { font-size: 13px; font-weight: 600; letter-spacing: 1px; }
+.sun-tag .num {
+  font-family: var(--serif); font-size: clamp(64px, 8vw, 104px); font-weight: 900;
+  line-height: 1.05; font-variant-numeric: tabular-nums; display: inline-block;
+}
+.sun-tag .unit { font-size: 20px; font-weight: 700; margin-left: 6px; }
+.sun-tag .sub { font-size: 12.5px; margin-top: 10px; line-height: 1.6; }
+.sun-facts { list-style: none; display: grid; gap: 12px; align-content: center; }
+.sun-facts li {
+  display: grid; grid-template-columns: 108px 1fr; gap: 12px;
+  border-bottom: 1px solid var(--vat-line); padding-bottom: 12px;
+  font-size: 13.5px; color: var(--cream-dim); font-variant-numeric: tabular-nums;
+}
+.sun-facts li:last-child { border-bottom: none; }
+.sun-facts .k { color: var(--cream); font-weight: 600; }
+
+/* 工艺四步 */
+.steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: step; margin-bottom: 52px; }
+.steps li { border-top: 3px solid var(--sauce); padding-top: 14px; counter-increment: step; }
+.steps li::before { content: "0" counter(step); font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--sauce); display: block; margin-bottom: 6px; }
+.steps b { display: block; font-family: var(--serif); font-size: 16.5px; font-weight: 700; color: var(--cream); margin-bottom: 4px; }
+.steps i { font-style: normal; font-size: 12px; color: var(--cream-dim); display: block; margin-bottom: 6px; }
+.steps span { font-size: 13px; color: var(--cream-dim); line-height: 1.65; display: block; }
+
+/* 溯源牌 */
+.trace h3 { font-size: 17px; font-weight: 700; color: var(--cream); margin-bottom: 16px; }
+.trace-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+.trace-cell { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid var(--vat-line); font-size: 13.5px; }
+.trace-cell .k { color: var(--cream-dim); }
+.trace-cell .v { color: var(--cream); font-variant-numeric: tabular-nums; }
+
+/* 价格与下单 */
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.price {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 26px 24px; display: flex; flex-direction: column; position: relative;
+}
+.price.hot { border: 2px solid var(--sauce); box-shadow: 0 6px 18px rgba(43, 29, 18, .12); }
+.price .tag {
+  position: absolute; top: -13px; left: 22px;
+  background: var(--sauce); color: var(--cream);
+  font-size: 12px; font-weight: 600; padding: 3px 12px; border-radius: 999px;
+}
+.price h3 { font-size: 18px; font-weight: 700; }
+.price .vol { font-size: 12.5px; color: var(--muted); margin: 2px 0 12px; }
+.price .amt { font-family: var(--serif); font-size: 34px; font-weight: 900; color: var(--ink); font-variant-numeric: tabular-nums; }
+.price .amt i { font-style: normal; font-size: 14px; font-weight: 600; color: var(--muted); margin-right: 2px; }
+.pf { list-style: none; margin: 16px 0 22px; display: grid; gap: 8px; }
+.pf li { display: grid; grid-template-columns: 1fr auto; gap: 10px; font-size: 13px; color: var(--muted); border-bottom: 1px dashed var(--line); padding-bottom: 8px; font-variant-numeric: tabular-nums; }
+.pf li b { color: var(--ink); font-weight: 500; }
+.price .btn { margin-top: auto; text-align: center; }
+.ship { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; }
+.ship li { font-size: 12.5px; color: var(--muted); padding-left: 14px; position: relative; }
+.ship li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--sauce); border-radius: 2px; }
+
+/* 低摩擦报价表单 */
+.quote-wrap {
+  margin-top: 48px; background: var(--paper-2); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 32px; display: grid;
+  grid-template-columns: .8fr 1.2fr; gap: 36px; align-items: center;
+}
+.quote-wrap h3 { font-size: 20px; font-weight: 900; }
+.quote-wrap .lead { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
+.quote-wrap form { display: grid; gap: 14px; }
+.quote-wrap label { font-size: 13px; font-weight: 600; display: grid; gap: 6px; }
+.quote-wrap input, .quote-wrap select {
+  font: inherit; font-size: 14.5px; padding: 11px 14px;
+  border: 1.5px solid var(--line); border-radius: 7px; background: var(--card); color: var(--ink);
+}
+.quote-wrap input:hover, .quote-wrap select:hover { border-color: var(--sauce); }
+.quote-ok { font-size: 13.5px; color: var(--sauce-deep); font-weight: 600; min-height: 1.4em; }
+.priv { font-size: 12px; color: var(--muted); }
+
+/* 终段转化 */
+.final { background: var(--vat); color: var(--cream); padding: 60px 0; text-align: center; }
+.final h2 { font-size: clamp(22px, 3.2vw, 32px); font-weight: 900; margin-bottom: 10px; }
+.final p { font-size: 14px; color: var(--cream-dim); margin-bottom: 26px; }
+.final .tel { color: var(--cream); font-size: 15px; }
+.final .cta-row { justify-content: center; }
+
+footer { border-top: 1px solid var(--line); padding: 26px 0; text-align: center; }
+footer p { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+footer a { color: var(--sauce-deep); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .car-block .car, .car-block .car-foot { display: none; }
+  .lg-static {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .lg-static li {
+    list-style: none; background: linear-gradient(175deg, #C79A5D, #B28249);
+    border: 1px solid #8A5A2B; border-radius: 8px; padding: 16px 12px;
+    text-align: center; font-family: var(--serif); font-weight: 700;
+    font-size: 16px; color: #33200F;
+  }
+}
+
+@media (max-width: 1024px) {
+  .proof-grid { grid-template-columns: 1fr 1fr; }
+  .pcard-wide { grid-column: 1 / -1; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .topbar nav { display: none; }
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hero-jar svg { width: 200px; height: auto; }
+  .sun { grid-template-columns: 1fr; gap: 26px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .quotes { grid-template-columns: 1fr; }
+  .price-grid { grid-template-columns: 1fr; }
+  .quote-wrap { grid-template-columns: 1fr; }
+  .ship { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .sec { padding: 48px 0; }
+  .proof-grid { grid-template-columns: 1fr; }
+  .trace-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rep-head { display: none; }
+  .rep-row { grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+  .rep-row span { font-size: 12.5px; }
+  .rep-row span::before { content: attr(data-l); display: block; font-size: 11px; color: var(--muted); }
+  .lg-static { grid-template-columns: 1fr 1fr; }
+  .cta-row .btn { width: 100%; text-align: center; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>星光露天场</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">本季片单</a></div></header><main><section class="hero container"><p class="doc-meta">本季片单 / 胶片放映 / 天黑开演(约 19:20) / 雨映</p><h1>天一黑，白墙就是银幕</h1><p class="sub">老社区的天台露天场，胶片机还是 1994 年那台。蚊子是免费的 3D 效果。</p><div class="cta-row"><a class="btn btn-primary" href="#">本季片单</a><a class="btn" href="#">天台路线</a></div></section><section class="container"><div class="lg-row"><span class="lg">晨钟文化</span><span class="lg">Nordlab</span><span class="lg">拾光事务所</span><span class="lg">山脊工作室</span><span class="lg">Bluebay</span><span class="lg">远见集团</span></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>放映员</b><p>王师傅守这台机器二十九年，换本比换气还熟。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>本季片单，现在</h2><p>本季片单 / 胶片放映 / 天黑开演(约 19:20) / 雨映</p><a class="btn btn-primary" href="#">本季片单</a></div></section><footer>星光露天场 / 天黑开演 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip" href="#order">跳到价格与下单</a>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="mark">官</span>
+      官渡老酱园
+    </a>
+    <nav aria-label="主导航">
+      <a href="#proof">检测与认证</a>
+      <a href="#craft">晒场实况</a>
+      <a href="#order">价格</a>
+      <a href="../style-catalog.html">风格目录</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#quote">获取报价</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Section 1: Hero 使命与可信度 -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="doc-meta">始于 1912 / 湖南浏阳官渡镇 / 三代直营，无中间商</p>
+        <h1>一缸酱油要晒一百八十七天，<br>我们家晒了一百一十二年。</h1>
+        <p class="sub">官渡老酱园只做高盐稀态日晒酱油：东北非转基因黄豆、本厂自留米曲霉、浏阳河畔三百六十口陶缸。不兑水，不加焦糖色，不催熟。你在这页看到的每一个编号，都可以拿去对应机构核验。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#order">直接下单</a>
+          <a class="btn btn-cream" href="#proof">查看本批检测报告</a>
+        </div>
+        <ul class="hero-proof">
+          <li>生产许可证编号 <b>SC10343018100012</b>，湖南省市场监督管理局签发，官网可查</li>
+          <li>「官渡古法酱油酿制技艺」市级非物质文化遗产，编号 <b>Ⅷ-104</b>，2016 年公布</li>
+          <li>每一批出厂检测报告在本页公示，含报告编号与检测日期</li>
+        </ul>
+      </div>
+      <figure class="hero-jar">
+        <svg width="260" height="300" viewBox="0 0 260 300" role="img" aria-label="陶缸示意图：缸口以竹叶与封泥封住，挂有官渡酱园木牌">
+          <ellipse cx="130" cy="278" rx="86" ry="14" fill="rgba(0,0,0,.28)"></ellipse>
+          <path d="M42 92 C30 196 56 264 130 264 C204 264 230 196 218 92 Z" fill="#6E4526"></path>
+          <path d="M42 92 C30 196 56 264 130 264 C90 224 74 160 82 92 Z" fill="#7E5330" opacity=".55"></path>
+          <ellipse cx="130" cy="92" rx="88" ry="22" fill="#55341D"></ellipse>
+          <ellipse cx="130" cy="92" rx="74" ry="16" fill="#3B2412"></ellipse>
+          <path d="M96 78 Q130 64 164 78 L164 96 Q130 84 96 96 Z" fill="#4A2B14"></path>
+          <path d="M100 80 Q130 68 160 80" fill="none" stroke="#C8A76A" stroke-width="2" opacity=".7"></path>
+          <rect x="106" y="70" width="48" height="26" rx="6" fill="#503017" stroke="#C8A76A" stroke-width="1"></rect>
+          <text x="130" y="88" text-anchor="middle" font-size="15" fill="#F3E9D7" style="font-family:'Noto Serif SC',serif;font-weight:700">封</text>
+          <path d="M186 104 q14 34 6 58" fill="none" stroke="#C8A76A" stroke-width="2"></path>
+          <rect x="146" y="160" width="86" height="44" rx="7" fill="#C79A5D" stroke="#8A5A2B" stroke-width="1.5"></rect>
+          <circle cx="154" cy="168" r="2.5" fill="#4A2B14"></circle>
+          <circle cx="224" cy="168" r="2.5" fill="#4A2B14"></circle>
+          <text x="189" y="188" text-anchor="middle" font-size="17" fill="#33200F" style="font-family:'Noto Serif SC',serif;font-weight:700;letter-spacing:2px">官渡酱園</text>
+        </svg>
+        <figcaption>G-217 号缸 / 泥封待启，竹叶垫底</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Section 2: Proof 信任证明（轮播 / 证明卡 / 统计 / 背书） -->
+  <section class="sec" id="proof">
+    <div class="container">
+      <h2 class="sec-h">证明，不是说给自己听的</h2>
+      <p class="sec-note">本页所有编号、日期、机构名均为样张示意格式，按同样格式可到对应机构官网复核。</p>
+
+      <div class="car-block" id="carBlock">
+        <p class="car-title">这些后厨在用</p>
+        <div class="car" id="logoCar" aria-roledescription="轮播" aria-label="合作用餐品牌">
+          <button class="car-ctl car-prev" id="carPrev" type="button" aria-label="上一组品牌">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+          </button>
+          <div class="car-viewport">
+            <ul class="car-track" id="logoTrack">
+              <li>栖湘小馆</li>
+              <li>南门口饭庄</li>
+              <li>洞庭春酒楼</li>
+              <li>汨源食府</li>
+              <li>麓山食研</li>
+              <li>老灶台土菜馆</li>
+            </ul>
+          </div>
+          <button class="car-ctl car-next" id="carNext" type="button" aria-label="下一组品牌">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+          </button>
+        </div>
+        <div class="car-foot">
+          <button class="car-pause" id="carPause" type="button" aria-pressed="false">暂停轮播</button>
+          <p class="car-note">鼠标悬停或键盘聚焦时自动暂停 / 也可用左右按钮切换 / 页面不可见或滚出视口时停止</p>
+        </div>
+        <ul class="lg-static">
+          <li>栖湘小馆</li>
+          <li>南门口饭庄</li>
+          <li>洞庭春酒楼</li>
+          <li>汨源食府</li>
+          <li>麓山食研</li>
+          <li>老灶台土菜馆</li>
+        </ul>
+      </div>
+
+      <div class="proof-grid">
+        <article class="pcard pcard-wide">
+          <h3>本批出厂检测</h3>
+          <p class="meta">报告编号 JC-2026-0912-088 / 华测检测认证集团 / 报告日期 2026 年 9 月 12 日</p>
+          <div class="rep">
+            <div class="rep-head">
+              <span>检测项</span>
+              <span>国标限值</span>
+              <span>本厂实测</span>
+              <span>判定</span>
+            </div>
+            <div class="rep-row">
+              <span data-l="检测项">氨基酸态氮（以氮计）</span>
+              <span data-l="国标限值">≥0.80 g/100mL</span>
+              <span data-l="本厂实测">1.28 g/100mL</span>
+              <span data-l="判定" class="ok">符合特级</span>
+            </div>
+            <div class="rep-row">
+              <span data-l="检测项">全氮（以氮计）</span>
+              <span data-l="国标限值">≥1.50 g/100mL</span>
+              <span data-l="本厂实测">2.05 g/100mL</span>
+              <span data-l="判定" class="ok">符合特级</span>
+            </div>
+            <div class="rep-row">
+              <span data-l="检测项">苯甲酸及其钠盐</span>
+              <span data-l="国标限值">本厂承诺不添加</span>
+              <span data-l="本厂实测">未检出</span>
+              <span data-l="判定" class="ok">符合</span>
+            </div>
+            <div class="rep-row">
+              <span data-l="检测项">黄曲霉毒素 B1</span>
+              <span data-l="国标限值">≤5.0 μg/kg</span>
+              <span data-l="本厂实测">未检出</span>
+              <span data-l="判定" class="ok">符合</span>
+            </div>
+          </div>
+          <p class="rep-foot">检验依据 GB/T 18186-2000（高盐稀态发酵酱油）/ 下单可备注索取报告原件复印件，随箱寄出。</p>
+        </article>
+
+        <article class="pcard">
+          <h3>非遗与老字号</h3>
+          <p class="meta">认证信息 / 编号与机关均可复核</p>
+          <div class="cert-row">
+            <span class="k">项目名称</span>
+            <span class="v">官渡古法酱油酿制技艺</span>
+          </div>
+          <div class="cert-row">
+            <span class="k">非遗级别</span>
+            <span class="v">长沙市级非物质文化遗产</span>
+          </div>
+          <div class="cert-row">
+            <span class="k">编号</span>
+            <span class="v">Ⅷ-104（传统技艺类）</span>
+          </div>
+          <div class="cert-row">
+            <span class="k">公布机关</span>
+            <span class="v">长沙市人民政府</span>
+          </div>
+          <div class="cert-row">
+            <span class="k">公布年份</span>
+            <span class="v">2016 年第五批</span>
+          </div>
+          <div class="cert-row">
+            <span class="k">老字号</span>
+            <span class="v">湖南老字号，省商务厅 2019 年授牌</span>
+          </div>
+          <p class="cert-extra">传承谱系：<b>周毓丰（1912 立号）/ 周伯衡（1987 重建晒场）/ 周砚秋（2013 接缸至今）</b></p>
+        </article>
+
+        <article class="pcard">
+          <h3>年份时间线</h3>
+          <p class="meta">一百一十二年里的六个节点</p>
+          <div class="tl">
+            <div class="tl-row">
+              <span class="tl-year">1912</span>
+              <div class="tl-body"><b>周毓丰在官渡镇开缸立号</b><span>前店后坊六口缸，挑担沿河卖头油。</span></div>
+            </div>
+            <div class="tl-row">
+              <span class="tl-year">1958</span>
+              <div class="tl-body"><b>并入副食品厂，缸群封存</b><span>老缸登记造册，技艺在家庭作坊里延续。</span></div>
+            </div>
+            <div class="tl-row">
+              <span class="tl-year">1987</span>
+              <div class="tl-body"><b>周伯衡重建晒场</b><span>河滩重立一百二十口陶缸，恢复日晒夜露。</span></div>
+            </div>
+            <div class="tl-row">
+              <span class="tl-year">2013</span>
+              <div class="tl-body"><b>周砚秋接缸，登记三百六十口</b><span>建立逐缸台账，下缸、翻酱、抽油全部留痕。</span></div>
+            </div>
+            <div class="tl-row">
+              <span class="tl-year">2016</span>
+              <div class="tl-body"><b>技艺列入市级非遗</b><span>编号 Ⅷ-104，传统技艺类第五批。</span></div>
+            </div>
+            <div class="tl-row">
+              <span class="tl-year">2024</span>
+              <div class="tl-body"><b>直营页上线，逐批公示检测</b><span>报告编号、机构、日期全部写在页面上。</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <b>112<i>年</i></b>
+          <span>三代传承，厂龄自 1912 年起算</span>
+        </div>
+        <div class="stat">
+          <b>360<i>口</i></b>
+          <span>在册陶缸，逐缸编号建档</span>
+        </div>
+        <div class="stat">
+          <b>187<i>天</i></b>
+          <span>本批酱醅已日晒天数（每日晨检更新）</span>
+        </div>
+        <div class="stat">
+          <b>1.28<i>g/100mL</i></b>
+          <span>氨基酸态氮实测值，特级线为 0.80</span>
+        </div>
+      </div>
+
+      <div class="quotes">
+        <blockquote>
+          <p>缸里的事骗不了人。氨基酸态氮 1.28 是一天天晒出来的，不是后期配出来的。哪个环节偷懒，数字都会掉下来。</p>
+          <footer><cite>周砚秋</cite>/ 官渡古法酱油酿制技艺第三代传承人 / 从业 31 年</footer>
+        </blockquote>
+        <blockquote>
+          <p>我家红烧肉只用他家的三年陈。挂汁亮，咸里有鲜，不压食材本味。后厨换了三拨人，这桶酱油没换过。</p>
+          <footer><cite>楚镇湘</cite>/ 湘菜大师 / 连锁餐饮出品顾问</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: 工艺透明（Solution overview） -->
+  <section class="sec sec-vat" id="craft">
+    <div class="container">
+      <h2 class="sec-h">晒场没有秘密</h2>
+      <p class="sec-note">每口缸一块牌：缸号、下缸日期、翻酱次数，晨检后录入，你在下单备注里就能调出来。</p>
+
+      <div class="sun">
+        <div class="sun-tag">
+          <p class="k">本批酱醅 / 缸号 G-217 / 2026 年 4 月 4 日下缸</p>
+          <p><span class="num" id="sunDays">187</span><span class="unit">天</span></p>
+          <p class="sub">截至今日已日晒天数 / 距立冬开缸还有 23 天</p>
+        </div>
+        <ul class="sun-facts">
+          <li><span class="k">数据更新</span><span>2026 年 10 月 8 日 06:40，晨检完成后录入</span></li>
+          <li><span class="k">翻酱记录</span><span>今日 06:20 第 41 次，记录人周砚秋</span></li>
+          <li><span class="k">当日天气</span><span>晴，东南风二级，晒场温度 24 摄氏度</span></li>
+          <li><span class="k">索取方式</span><span>下单时备注缸号，随箱附当日缸况与台账照片</span></li>
+        </ul>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <b>三月制曲</b>
+          <i>立春后 / 竹匾培养 48 小时</i>
+          <span>本厂自留米曲霉，四十年未断种。成曲香气清正，无异味才进缸。</span>
+        </li>
+        <li>
+          <b>伏天晒酱</b>
+          <i>6 至 9 月 / 日晒夜露</i>
+          <span>白天开缸晒，夜里承接露水回润。每两日人工翻酱一次，逢雨加盖。</span>
+        </li>
+        <li>
+          <b>秋抽头油</b>
+          <i>10 月 / 头道原油</i>
+          <span>竹篾插入缸心，只取头道原油，不兑水、不二次压榨。</span>
+        </li>
+        <li>
+          <b>冬封陈酿</b>
+          <i>11 月起 / 泥封静置</i>
+          <span>竹叶封口，泥封盖缸。一年陈出库，三年陈、五年陈分缸另记。</span>
+        </li>
+      </ol>
+
+      <div class="trace">
+        <h3>每缸一牌 / G-217 号缸台账摘录</h3>
+        <div class="trace-grid">
+          <div class="trace-cell"><span class="k">缸号</span><span class="v">G-217（1987 年周伯衡重建批次）</span></div>
+          <div class="trace-cell"><span class="k">原料</span><span class="v">东北非转基因黄豆，蛋白质含量 41%</span></div>
+          <div class="trace-cell"><span class="k">曲种</span><span class="v">本厂自留米曲霉，编号 MQ-GD-03</span></div>
+          <div class="trace-cell"><span class="k">食盐</span><span class="v">湘澧盐矿食用盐，日晒盐</span></div>
+          <div class="trace-cell"><span class="k">下缸日期</span><span class="v">2026 年 4 月 4 日（清明前二日）</span></div>
+          <div class="trace-cell"><span class="k">当前状态</span><span class="v">日晒中，已翻酱 41 次</span></div>
+          <div class="trace-cell"><span class="k">记录人</span><span class="v">周砚秋（第三代传承人）</span></div>
+          <div class="trace-cell"><span class="k">复核人</span><span class="v">李慕澄（质检员）</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Clear conversion path 价格与下单 -->
+  <section class="sec" id="order">
+    <div class="container">
+      <h2 class="sec-h">价格与下单</h2>
+      <p class="sec-note">三档都出自同一批缸，只差陈酿天数。价格为厂里直营价，含出厂检测报告复印件。</p>
+
+      <div class="price-grid">
+        <article class="price">
+          <h3>一年陈 头道生抽</h3>
+          <p class="vol">500mL / 玻璃瓶 / 日常炒菜</p>
+          <p class="amt"><i>¥</i>42</p>
+          <ul class="pf">
+            <li><span>日晒天数</span><b>180 天以上</b></li>
+            <li><span>氨基酸态氮</span><b>≥1.00 g/100mL</b></li>
+            <li><span>配料</span><b>水、黄豆、小麦、盐</b></li>
+            <li><span>保质期</span><b>18 个月，避光存放</b></li>
+          </ul>
+          <a class="btn" href="#quote">下单一年陈</a>
+        </article>
+
+        <article class="price hot">
+          <span class="tag">回购最多</span>
+          <h3>三年陈 原酿</h3>
+          <p class="vol">500mL / 玻璃瓶 / 红烧与蘸食</p>
+          <p class="amt"><i>¥</i>88</p>
+          <ul class="pf">
+            <li><span>陈酿天数</span><b>1095 天起</b></li>
+            <li><span>氨基酸态氮</span><b>≥1.20 g/100mL</b></li>
+            <li><span>配料</span><b>水、黄豆、小麦、盐</b></li>
+            <li><span>开瓶建议</span><b>三个月内用完，鲜味不散</b></li>
+          </ul>
+          <a class="btn btn-primary" href="#quote">下单三年陈</a>
+        </article>
+
+        <article class="price">
+          <h3>五年陈 头油</h3>
+          <p class="vol">250mL / 玻璃瓶 / 蘸食与送礼</p>
+          <p class="amt"><i>¥</i>168</p>
+          <ul class="pf">
+            <li><span>陈酿天数</span><b>1825 天起</b></li>
+            <li><span>氨基酸态氮</span><b>≥1.25 g/100mL</b></li>
+            <li><span>本批量</span><b>限量 800 瓶，售完等明年</b></li>
+            <li><span>随箱附</span><b>检测报告原件复印件</b></li>
+          </ul>
+          <a class="btn" href="#quote">下单五年陈</a>
+        </article>
+      </div>
+
+      <ul class="ship">
+        <li>两瓶包邮（湖南省外补运费差价 8 元）</li>
+        <li>顺丰陆运，48 小时内发出</li>
+        <li>破损拍照即赔，无需寄回</li>
+        <li>支持对公转账与增值税普通发票</li>
+      </ul>
+
+      <div class="quote-wrap" id="quote">
+        <div>
+          <h3>获取报价</h3>
+          <p class="lead">餐饮批量与礼盒定制按量报价。留个电话，厂家回电确认数量、价格与发货时间，不做其他用途。</p>
+        </div>
+        <form id="quoteForm">
+          <label for="phone">手机号</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="用于回电确认" required>
+          <label for="need">需求</label>
+          <select id="need" name="need">
+            <option value="home">家庭自用，2 至 6 瓶</option>
+            <option value="biz">餐饮后厨，按月批量</option>
+            <option value="gift">礼盒定制，印牌匾字样</option>
+            <option value="other">其他，回电时说明</option>
+          </select>
+          <button class="btn btn-primary" type="submit">提交，等待回电</button>
+          <p class="quote-ok" id="quoteOk" role="status"></p>
+          <p class="priv">仅用于本次报价回电 / 不用于营销 / 不留存第二份名单 / 工作时间 9:00 至 18:00</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="container">
+      <h2>立冬开缸在即</h2>
+      <p>五年陈本批只有 800 瓶，按到账顺序留缸 / 售完等明年同一批缸</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#quote">锁定本批五年陈</a>
+        <a class="btn btn-cream tel" href="tel:073183401212">或来电 0731-8340 1212</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>官渡老酱园（虚构厂牌，页面为设计样张，编号与日期均为格式示意）</p>
+  <p>UI 设计提示词库 / 落地结构 No.33 / <a href="../style-catalog.html">返回风格目录</a></p>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* 日晒计数：全页唯一亮相动效，进入视口后缓出滚至 187；reduced-motion 与无 JS 时直接落位 */
+  var sunEl = document.getElementById('sunDays');
+  var target = 187;
+  function runCounter() {
+    var t0 = null, dur = 1300;
+    function frame(t) {
+      if (t0 === null) { t0 = t; }
+      var p = Math.min((t - t0) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      sunEl.textContent = String(Math.round(e * target));
+      if (p < 1) { requestAnimationFrame(frame); }
+    }
+    sunEl.textContent = '0';
+    requestAnimationFrame(frame);
+  }
+  if (!reduce.matches && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          io.disconnect();
+          runCounter();
+        }
+      }
+    }, { threshold: 0.4 });
+    io.observe(sunEl.closest('.sun'));
+  }
+
+  /* 品牌轮播：悬停、聚焦、离屏、页面隐藏时暂停；按钮提供键盘等效；reduced-motion 走静态列表（CSS 切换） */
+  var block = document.getElementById('carBlock');
+  if (block && !reduce.matches) {
+    var track = document.getElementById('logoTrack');
+    var items = Array.prototype.slice.call(track.children);
+    var n = items.length;
+    var idx = 0, hover = false, focus = false, userPaused = false, visible = true, coolUntil = 0;
+    var prevBtn = document.getElementById('carPrev');
+    var nextBtn = document.getElementById('carNext');
+    var pauseBtn = document.getElementById('carPause');
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        for (var j = 0; j < es.length; j++) { visible = es[j].isIntersecting; }
+      }).observe(block);
+    }
+    function step() {
+      var gap = 18;
+      return items[0].getBoundingClientRect().width + gap;
+    }
+    function go(i) {
+      idx = ((i % n) + n) % n;
+      track.style.transform = 'translateX(' + (-idx * step()) + 'px)';
+    }
+    function playing() {
+      return !hover && !focus && !userPaused && visible && !document.hidden && Date.now() >= coolUntil;
+    }
+    setInterval(function () { if (playing()) { go(idx + 1); } }, 2600);
+    block.addEventListener('mouseenter', function () { hover = true; });
+    block.addEventListener('mouseleave', function () { hover = false; });
+    block.addEventListener('focusin', function () { focus = true; });
+    block.addEventListener('focusout', function () { focus = false; });
+    prevBtn.addEventListener('click', function () { go(idx - 1); coolUntil = Date.now() + 8000; });
+    nextBtn.addEventListener('click', function () { go(idx + 1); coolUntil = Date.now() + 8000; });
+    pauseBtn.addEventListener('click', function () {
+      userPaused = !userPaused;
+      pauseBtn.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
+      pauseBtn.textContent = userPaused ? '恢复轮播' : '暂停轮播';
+    });
+    window.addEventListener('resize', function () { go(idx); });
+  }
+
+  /* 低摩擦表单：本地确认回电提示，不发送任何数据 */
+  var qf = document.getElementById('quoteForm');
+  qf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('quoteOk').textContent = '已收到。厂家将在工作时间（9:00 至 18:00）回电确认数量与报价。';
+    qf.reset();
+  });
+})();
+</script>
 </body>
 </html>

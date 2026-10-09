@@ -4,137 +4,689 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Hero-Centric Design — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Hero-Centric 结构 / UI 设计提示词库</title>
+<meta name="description" content="鹤影 F1 折叠便携无人机 / Hero-Centric 单屏主张样张 / 落地结构 No.32">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:wght@300;400;500;600;700&display=swap');
+/* token 计划: bg #0B1220 / panel #101C30 / line rgba(159,192,255,.16) / fg #F2F6FF / muted #A9B6CC / accent #F0A93B / on-accent #1D1305 / num-font Space Grotesk / radius 14px / spec-grid clamp(120px,22%,200px)+1fr */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-  --bg: #ECEAF2; --fg: #0F172A; --muted: #475569; --card: #ECEAF2;
-  --border: transparent; --primary: #C8E0F4; --secondary: #F5E0E8;
-  --accent: #E8E8E8; --on-primary: #111;
-  --radius: 18px; --btn-radius: 14px;
+  --bg: #0B1220;
+  --panel: #101C30;
+  --panel-2: #0E1828;
+  --line: rgba(159, 192, 255, 0.16);
+  --fg: #F2F6FF;
+  --muted: #A9B6CC;
+  --accent: #F0A93B;
+  --accent-deep: #C8861F;
+  --on-accent: #1D1305;
+  --num-font: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --radius: 14px;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3, .num { font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: none; }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Inter', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+
+/* ============ 顶部导航 / minimal chrome + sticky nav CTA ============ */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(11, 18, 32, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 15.5px;
+}
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: var(--on-accent);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.topbar nav {
+  display: flex;
+  gap: clamp(14px, 3vw, 28px);
+  margin-left: auto;
+  margin-right: 8px;
+}
+.topbar nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 180ms ease;
+}
+.topbar nav a:hover { color: var(--fg); }
+
+/* ============ 按钮 ============ */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: none;
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-weight: 650;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  padding: 12px 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: none; border-radius: var(--radius);
-  box-shadow: -7px -7px 14px rgba(255,255,255,.9), 7px 7px 14px rgba(0,0,0,.14); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: inset -4px -4px 10px rgba(255,255,255,.9), inset 4px 4px 10px rgba(0,0,0,.12);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-primary:hover {
+  background: #F6BA5B;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(240, 169, 59, 0.28);
+}
+.btn-small { padding: 8px 18px; font-size: 13.5px; }
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line);
+}
+.btn-ghost:hover { background: rgba(159, 192, 255, 0.08); }
 
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: none; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* ============ Hero / 全幅一屏 ============ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto auto auto;
+  align-items: center;
+  overflow: hidden;
+  padding: 0 clamp(16px, 5vw, 40px) 22px;
+  text-align: center;
+  background:
+    radial-gradient(1100px 520px at 50% -12%, rgba(96, 140, 230, 0.20), transparent 62%),
+    radial-gradient(700px 420px at 82% 108%, rgba(240, 169, 59, 0.07), transparent 60%),
+    var(--bg);
+}
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-sky .star {
+  position: absolute;
+  border-radius: 50%;
+  background: #C9D9F6;
+  opacity: 0.5;
+}
+.hero-sky .s1 { width: 2px; height: 2px; left: 18%; top: 18%; }
+.hero-sky .s2 { width: 3px; height: 3px; left: 76%; top: 12%; opacity: 0.35; }
+.hero-sky .s3 { width: 2px; height: 2px; left: 64%; top: 30%; opacity: 0.4; }
+.hero-sky .s4 { width: 2px; height: 2px; left: 30%; top: 9%; opacity: 0.3; }
+.hero-sky .s5 { width: 3px; height: 3px; left: 88%; top: 42%; opacity: 0.28; }
 
+/* 无人机视觉区 */
+.drone-zone {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  place-items: end center;
+  padding-top: clamp(8px, 3vh, 28px);
+}
+.liftoff {
+  animation: liftoff 1.7s cubic-bezier(0.2, 0.85, 0.3, 1) 0.15s both;
+}
+.float-wrap {
+  animation: floaty 9s ease-in-out 2.1s infinite;
+}
+.drone {
+  width: clamp(280px, min(52vw, 46svh), 540px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.5));
+}
+.prop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spinup 1.5s cubic-bezier(0.32, 0.62, 0.24, 1) 0.5s both;
+}
+.prop-cw  { animation-name: spinup-cw; }
+.prop-ccw { animation-name: spinup-ccw; }
+.hero-shadow {
+  width: clamp(190px, 34vw, 330px);
+  height: clamp(24px, 4vw, 38px);
+  margin: 4px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 72%);
+  animation: shadow-in 1.7s cubic-bezier(0.2, 0.85, 0.3, 1) 0.15s both;
+}
+
+@keyframes liftoff {
+  from { transform: translateY(96px); opacity: 0; }
+  55%  { opacity: 1; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+@keyframes spinup-cw  { from { transform: rotate(0deg); }   to { transform: rotate(1440deg); } }
+@keyframes spinup-ccw { from { transform: rotate(0deg); }   to { transform: rotate(-1440deg); } }
+@keyframes shadow-in {
+  from { transform: scaleX(1.35); opacity: 0.9; }
+  to   { transform: scaleX(0.82); opacity: 0.45; }
+}
+
+/* Hero 文案 / 一句主张 + 单 CTA */
+.hero-claim {
+  font-size: clamp(30px, 5.4vw, 58px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: 0.005em;
+  margin: clamp(10px, 2.6vh, 26px) auto 10px;
+  max-width: 14em;
+  text-wrap: balance;
+}
+.hero-sub {
+  color: var(--muted);
+  font-size: clamp(14px, 1.6vw, 17px);
+  max-width: 34em;
+  margin: 0 auto;
+}
+.hero-cta-row {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(16px, 3.4vh, 30px);
+}
+.hero .btn-primary { padding: 14px 34px; font-size: 16px; }
+
+/* 下滚提示 / 不遮挡后续内容线索 */
+.scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: center;
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+  margin-top: clamp(14px, 3vh, 26px);
+  padding: 6px 10px;
+  border-radius: 999px;
+  transition: color 180ms ease;
+}
+.scroll-cue:hover { color: var(--fg); }
+.scroll-cue svg { animation: cue-dip 2.6s ease-in-out 2.4s infinite; }
+@keyframes cue-dip {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+/* ============ 单一价值条 / value prop strip ============ */
+.value-strip {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(240, 169, 59, 0.06), rgba(240, 169, 59, 0.02));
+}
+.value-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 26px clamp(16px, 5vw, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.value-inner p {
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 550;
+  max-width: 40em;
+}
+.value-inner p b { color: var(--accent); font-weight: 700; }
+.value-icon {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+}
+
+/* ============ 关键收益与证据 / 三数字 + 参数表 ============ */
+.proof {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(44px, 7vh, 72px) clamp(16px, 5vw, 40px) clamp(36px, 5vh, 56px);
+}
+.proof h2 {
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 700;
+  text-align: center;
+}
+.proof > .proof-sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14.5px;
+  margin: 8px auto 0;
+  max-width: 38em;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2.5vw, 24px);
+  margin: clamp(30px, 5vh, 44px) 0 clamp(38px, 6vh, 56px);
+}
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 18px 22px;
+  text-align: center;
+}
+.stat .num {
+  font-family: var(--num-font);
+  font-size: clamp(34px, 4.6vw, 50px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--fg);
+  white-space: nowrap;
+}
+.stat .num small {
+  font-size: 0.44em;
+  font-weight: 600;
+  color: var(--accent);
+  margin-left: 3px;
+}
+.stat .lbl {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* 参数表 / 网格对齐 */
+.spec-wrap {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(20px, 3vw, 34px);
+}
+.spec-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(28px, 5vw, 64px);
+}
+.spec-row {
+  display: grid;
+  grid-template-columns: clamp(120px, 22%, 200px) 1fr;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.spec-cols .spec-col:last-child .spec-row:last-child { border-bottom: none; }
+.spec-row dt {
+  color: var(--muted);
+  font-size: 14px;
+}
+.spec-row dd {
+  font-size: 14.5px;
+  font-weight: 550;
+}
+.spec-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+/* ============ 主 CTA / 购买 ============ */
+.buy {
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(640px 300px at 50% 0%, rgba(240, 169, 59, 0.09), transparent 65%),
+    var(--panel-2);
+}
+.buy-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(44px, 7vh, 72px) clamp(16px, 5vw, 40px);
+  text-align: center;
+}
+.buy h2 {
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 700;
+}
+.buy .buy-sub {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 10px auto 22px;
+  max-width: 36em;
+}
+.price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+.price .now {
+  font-family: var(--num-font);
+  font-size: clamp(38px, 5vw, 54px);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+.price .now small { font-size: 0.5em; font-weight: 600; }
+.price .was {
+  color: var(--muted);
+  font-size: 15px;
+  text-decoration: line-through;
+}
+.buy-cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.buy .btn-primary { padding: 14px 40px; font-size: 16px; }
+.buy-note {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* ============ footer ============ */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 24px clamp(16px, 5vw, 40px);
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 900px) {
+  .spec-cols { grid-template-columns: 1fr; }
+  .spec-cols .spec-col:first-child .spec-row:last-child { border-bottom: none; }
+}
+@media (max-width: 700px) {
+  .topbar nav a.link-quiet { display: none; }
+  .stats { grid-template-columns: 1fr; gap: 12px; }
+  .stat { display: flex; align-items: baseline; justify-content: space-between;
+          text-align: left; padding: 18px 22px; }
+  .stat .lbl { margin-top: 0; }
+  .hero-claim { max-width: 11em; }
+}
+@media (max-width: 420px) {
+  .stat { flex-direction: column; gap: 4px; }
+  .hero .btn-primary { width: 100%; max-width: 340px; }
+  .hero-cta-row { width: 100%; }
+}
+@media (min-width: 1440px) {
+  .hero { padding-top: 12px; }
+  .drone { width: clamp(320px, 34vw, 560px); }
+  .topbar-inner, .value-inner, .proof, .buy-inner { max-width: 1180px; }
+}
+
+/* ============ reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .liftoff, .float-wrap, .prop, .prop-cw, .prop-ccw,
+  .hero-shadow, .scroll-cue svg { animation: none !important; }
+  .btn, .topbar nav a, .scroll-cue { transition: none !important; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>午夜调频</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">今晚节目单</a></div></header><main><section class="hero container"><p class="doc-meta">今夜节目 23:00-01:00 / 主持人 老麦 / 点播线 6220 3141</p><h1>两点前睡着的，都不算失眠</h1><p class="sub">深夜电台：点播、读信、放歌。城市关灯之后的声音都在这个频段。</p><div class="cta-row"><a class="btn btn-primary" href="#">今晚节目单</a><a class="btn" href="#">写一封信</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>点播榜</b><p>《晚安》连续七周第一，点歌人每次都说同一句话。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>老麦的话</b><p>凌晨一点之后的话别当真，但今晚这句你记住。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>今晚节目单，现在</h2><p>今夜节目 23:00-01:00 / 主持人 老麦 / 点播线 6220 3141</p><a class="btn btn-primary" href="#">今晚节目单</a></div></section><footer>午夜调频 89.3 / 23:00 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M5 19l4-8M19 19l-4-8"/><circle cx="12" cy="18" r="3"/></svg>
+      </span>
+      鹤影航空
+    </a>
+    <nav aria-label="主导航">
+      <a class="link-quiet" href="#specs">参数</a>
+      <a class="link-quiet" href="#buy">购买</a>
+    </nav>
+    <a class="btn btn-primary btn-small" href="#buy">立即购买</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 01 / Full-bleed Hero：一句主张 + 单 CTA + 无人机全屏悬停 -->
+  <section class="hero" aria-label="鹤影 F1 折叠便携无人机">
+    <div class="hero-sky" aria-hidden="true">
+      <span class="star s1"></span><span class="star s2"></span><span class="star s3"></span>
+      <span class="star s4"></span><span class="star s5"></span>
+    </div>
+
+    <div class="drone-zone">
+      <div class="liftoff">
+        <div class="float-wrap">
+          <svg class="drone" viewBox="0 0 640 620" role="img" aria-label="鹤影 F1 无人机俯视剪影 / 四轴可折叠机臂 / 展开悬停状态">
+            <defs>
+              <linearGradient id="body-g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#24395F"/>
+                <stop offset="1" stop-color="#0E1930"/>
+              </linearGradient>
+              <linearGradient id="arm-g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2A4169"/>
+                <stop offset="1" stop-color="#121F38"/>
+              </linearGradient>
+              <radialGradient id="halo-g" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="rgba(120,160,235,0.28)"/>
+                <stop offset="1" stop-color="rgba(120,160,235,0)"/>
+              </radialGradient>
+            </defs>
+
+            <ellipse cx="320" cy="310" rx="305" ry="295" fill="url(#halo-g)"/>
+
+            <!-- 机臂 x4 -->
+            <g stroke="url(#arm-g)" stroke-width="20" stroke-linecap="round">
+              <line x1="278" y1="272" x2="164" y2="158"/>
+              <line x1="362" y1="272" x2="476" y2="158"/>
+              <line x1="278" y1="356" x2="164" y2="470"/>
+              <line x1="362" y1="356" x2="476" y2="470"/>
+            </g>
+
+            <!-- 折叠铰链 -->
+            <g fill="#31507E">
+              <circle cx="278" cy="272" r="11"/>
+              <circle cx="362" cy="272" r="11"/>
+              <circle cx="278" cy="356" r="11"/>
+              <circle cx="362" cy="356" r="11"/>
+            </g>
+
+            <!-- 电机座 x4 -->
+            <g>
+              <circle cx="148" cy="142" r="36" fill="url(#body-g)" stroke="#3A5788" stroke-width="2"/>
+              <circle cx="492" cy="142" r="36" fill="url(#body-g)" stroke="#3A5788" stroke-width="2"/>
+              <circle cx="148" cy="486" r="36" fill="url(#body-g)" stroke="#3A5788" stroke-width="2"/>
+              <circle cx="492" cy="486" r="36" fill="url(#body-g)" stroke="#3A5788" stroke-width="2"/>
+            </g>
+
+            <!-- 桨叶 x4 / 一次启动 -->
+            <g fill="#8FB4E8">
+              <g class="prop prop-cw">
+                <rect x="53" y="135" width="190" height="14" rx="7"/>
+                <circle cx="148" cy="142" r="10" fill="#C9D9F6"/>
+              </g>
+              <g class="prop prop-ccw">
+                <rect x="397" y="135" width="190" height="14" rx="7"/>
+                <circle cx="492" cy="142" r="10" fill="#C9D9F6"/>
+              </g>
+              <g class="prop prop-ccw">
+                <rect x="53" y="479" width="190" height="14" rx="7"/>
+                <circle cx="148" cy="486" r="10" fill="#C9D9F6"/>
+              </g>
+              <g class="prop prop-cw">
+                <rect x="397" y="479" width="190" height="14" rx="7"/>
+                <circle cx="492" cy="486" r="10" fill="#C9D9F6"/>
+              </g>
+            </g>
+
+            <!-- 机身 -->
+            <rect x="268" y="246" width="104" height="150" rx="36" fill="url(#body-g)" stroke="#3A5788" stroke-width="2"/>
+            <path d="M284 260 Q320 246 356 260" fill="none" stroke="#7FA0D4" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+
+            <!-- 云台相机 -->
+            <circle cx="320" cy="252" r="26" fill="#0B1426" stroke="#3A5788" stroke-width="2"/>
+            <circle cx="320" cy="252" r="14" fill="#101F3A"/>
+            <circle cx="315" cy="247" r="5" fill="#9CC2FF" opacity="0.9"/>
+            <circle cx="320" cy="252" r="6" fill="none" stroke="#F0A93B" stroke-width="2"/>
+
+            <!-- 电池 / 尾部指示灯 -->
+            <rect x="296" y="352" width="48" height="26" rx="8" fill="#182A48" stroke="#3A5788" stroke-width="1.5"/>
+            <circle cx="320" cy="365" r="4.5" fill="#F0A93B"/>
+
+            <!-- 机腹光晕 -->
+            <ellipse cx="320" cy="330" rx="46" ry="18" fill="rgba(120,160,235,0.14)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-shadow" aria-hidden="true"></div>
+    </div>
+
+    <h1 class="hero-claim">一折入口袋，一展开就是天空</h1>
+    <p class="hero-sub">鹤影 F1 折叠便携无人机，249 克起飞重量，装进通勤包，出门就能飞。</p>
+    <div class="hero-cta-row">
+      <a class="btn btn-primary" href="#buy">立即购买 / ¥3,199</a>
+    </div>
+    <a class="scroll-cue" href="#value">
+      下滑查看完整参数
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </a>
+  </section>
+
+  <!-- 02 / Single value prop strip：单一价值 -->
+  <section class="value-strip" id="value" aria-label="核心价值">
+    <div class="value-inner">
+      <span class="value-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16M4 8v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V8"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </span>
+      <p>折叠后 <b>148×94×64 毫米</b>，比一部手机还小；起飞重量低于 250 克，多数国家和地区免登记注册，展开即飞。</p>
+    </div>
+  </section>
+
+  <!-- 03 / Key benefit & proof：三个数字 + 参数表 -->
+  <section class="proof">
+    <h2>轻到随身，稳到放心</h2>
+    <p class="proof-sub">三个数字说明一切，完整参数列在下方。</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">249<small>克</small></div>
+        <div class="lbl">起飞重量 / 免登记级</div>
+      </div>
+      <div class="stat">
+        <div class="num">34<small>分钟</small></div>
+        <div class="lbl">单块电池悬停续航</div>
+      </div>
+      <div class="stat">
+        <div class="num">10<small>公里</small></div>
+        <div class="lbl">图传距离 / FCC 标准</div>
+      </div>
+    </div>
+
+    <div class="spec-wrap" id="specs">
+      <div class="spec-cols">
+        <dl class="spec-col">
+          <div class="spec-row"><dt>起飞重量</dt><dd>249 克</dd></div>
+          <div class="spec-row"><dt>折叠尺寸</dt><dd>148×94×64 毫米</dd></div>
+          <div class="spec-row"><dt>展开尺寸</dt><dd>251×302×64 毫米</dd></div>
+          <div class="spec-row"><dt>最大悬停时间</dt><dd>34 分钟（无风环境）</dd></div>
+          <div class="spec-row"><dt>图传距离</dt><dd>10 公里（FCC）/ 6 公里（SRRC）</dd></div>
+          <div class="spec-row"><dt>最大水平速度</dt><dd>16 米/秒</dd></div>
+          <div class="spec-row"><dt>最大上升速度</dt><dd>5 米/秒</dd></div>
+        </dl>
+        <dl class="spec-col">
+          <div class="spec-row"><dt>最大抗风等级</dt><dd>5 级</dd></div>
+          <div class="spec-row"><dt>悬停精度</dt><dd>垂直 ±0.1 米 / 水平 ±0.3 米</dd></div>
+          <div class="spec-row"><dt>影像传感器</dt><dd>1/2.3 英寸 CMOS / 1200 万有效像素</dd></div>
+          <div class="spec-row"><dt>视频规格</dt><dd>4K UHD / 30fps</dd></div>
+          <div class="spec-row"><dt>感知系统</dt><dd>前向 + 后向视觉感知</dd></div>
+          <div class="spec-row"><dt>电池容量</dt><dd>2839 毫安时智能飞行电池</dd></div>
+          <div class="spec-row"><dt>充电接口</dt><dd>USB-C / 30 瓦快充</dd></div>
+        </dl>
+      </div>
+      <p class="spec-note">上述数据均在受控实验条件下测得：续航为无风环境满电悬停结果；图传距离为无遮挡、无干扰环境实测值，实际表现因环境而异。</p>
+    </div>
+  </section>
+
+  <!-- 04 / Primary CTA：购买 -->
+  <section class="buy" id="buy">
+    <div class="buy-inner">
+      <h2>把飞行装进口袋</h2>
+      <p class="buy-sub">首批附赠一块备用电池与收纳袋，支持 12 期免息。</p>
+      <div class="price">
+        <span class="now"><small>¥</small>3,199</span>
+        <span class="was">日常价 ¥3,499</span>
+      </div>
+      <div class="buy-cta-row">
+        <a class="btn btn-primary" href="#">立即购买</a>
+        <a class="btn btn-ghost" href="#specs">完整参数</a>
+      </div>
+      <p class="buy-note">下单后 48 小时内发货 / 全国包邮 / 七天无理由退换</p>
+    </div>
+  </section>
+
+  <footer>
+    UI 设计提示词库 / 落地结构 No.32 / <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</main>
+
 </body>
 </html>

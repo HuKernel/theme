@@ -4,137 +4,730 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Interactive 3D Configurator — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>3D Configurator 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.29 Interactive 3D Configurator 样张：儿童安全座椅在线配置器。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+/* token 计划: 底#FAF7F0 摄影棚暖白 / 主#F5E6C8 奶油高光 / 辅#D4A574 皮革暖棕 / 强调#4A7B7C 安全青(文字用深青#3A6364) / 墨#2B2420 暖黑 / 圆角6px / Lexend 标题 + Source Sans 3 正文 / 布局概念: 中性棚拍底上陈列一把可换装的座椅, UI 如贴在灯箱上的极简覆盖层 / 独特性: hero 就是配置器本体, 三个控件改的是实物不是表单 */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap');
 :root {
-  --bg: #FAF7F0; --fg: #0F172A; --muted: #6B6355; --card: #FFFDF8;
-  --border: #D8D2C4; --primary: #F5E6C8; --secondary: #D4A574;
-  --accent: #4A7B7C; --on-primary: #111;
-  --radius: 6px; --btn-radius: 4px;
+  --bg: #FAF7F0; --card: #FFFFFF; --cream: #F5E6C8; --tan: #D4A574;
+  --teal: #4A7B7C; --teal-ink: #3A6364; --ink: #2B2420; --muted: #6B5D52;
+  --line: #E7DECC; --radius: 6px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  background: var(--bg); color: var(--ink); line-height: 1.65; font-size: 15.5px;
 }
 h1, h2, h3, .num { font-family: 'Lexend', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid #D8D2C4; }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Lexend', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--teal-ink); }
+:focus-visible { outline: 2px solid var(--teal-ink); outline-offset: 2px; border-radius: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* 顶栏 */
+.topbar { position: sticky; top: 0; z-index: 40; background: rgba(250,247,240,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; font-family: 'Lexend', 'PingFang SC', sans-serif; }
+.logo-mark { width: 30px; height: 30px; border-radius: calc(var(--radius) * .8); background: var(--teal); color: #fff; display: grid; place-items: center; }
+nav { display: flex; gap: 20px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+nav a:hover, nav a:focus-visible { color: var(--teal-ink); }
+
+/* 按钮 */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid #D8D2C4;
-  background: var(--card); color: var(--fg);
-  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: inherit; font-weight: 600; font-size: 14.5px; cursor: pointer;
+  padding: 11px 22px; border-radius: var(--btn-radius, var(--radius));
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid #D8D2C4; border-radius: var(--radius);
-  box-shadow: none; padding: 24px;
-  transition: transform 220ms ease, box-shadow 220ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(60,50,30,.12);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid #D8D2C4; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(43,36,32,.10); }
+.btn-primary { background: var(--teal-ink); border-color: var(--teal-ink); color: #fff; }
+.btn-primary:hover { box-shadow: 0 8px 18px rgba(58,99,100,.28); }
 
+/* 第 1 区: 配置器 hero */
+.hero { padding: 34px 0 46px; }
+.doc-meta {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 12.5px; color: var(--muted); letter-spacing: .02em; margin-bottom: 14px;
+}
+.hero h1 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; line-height: 1.22; max-width: 22em; }
+.hero .sub { color: var(--muted); max-width: 40em; margin: 12px 0 26px; }
+.cfg-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 22px; align-items: stretch; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid #D8D2C4; padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* 舞台(预览区) */
+.stage {
+  position: relative; min-height: 640px; display: flex; flex-direction: column;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F6EFE2 100%);
+  border: 1px solid var(--line); border-radius: calc(var(--radius) * 2);
+  overflow: hidden;
+}
+.stage-floor { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(430px 190px at 50% 86%, rgba(212,165,116,.30), transparent 72%);
+}
+.stage-floor::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 74px; height: 1px; background: rgba(107,93,82,.28); }
+.turner-wrap { flex: 1; display: grid; place-items: center; padding: 26px 18px 8px; }
+.turner {
+  --rx: -14; --zoom: 1;
+  width: min(430px, 82%); cursor: grab; border-radius: 12px;
+  transform: perspective(1100px) rotateY(calc(var(--rx) * .14deg)) scale(var(--zoom));
+  transition: transform 480ms cubic-bezier(.25,.8,.3,1);
+  animation: turnIn 1.15s cubic-bezier(.2,.75,.25,1) both;
+}
+@keyframes turnIn {
+  from { transform: perspective(1100px) rotateY(24deg) translateX(46px) scale(var(--zoom)); opacity: 0; }
+  to   { transform: perspective(1100px) rotateY(calc(var(--rx) * .14deg)) scale(var(--zoom)); opacity: 1; }
+}
+.turner svg { width: 100%; height: auto; display: block; }
+.turner svg .g-shadow { transform: translateX(calc(var(--rx) * .25px)); transition: transform 480ms ease; }
+.turner svg .g-far    { transform: translateX(calc(var(--rx) * -.55px)); transition: transform 480ms ease; }
+.turner svg .g-mid    { transform: translateX(calc(var(--rx) * -.22px)); transition: transform 480ms ease; }
+.turner svg .g-near   { transform: translateX(calc(var(--rx) * .5px)); transition: transform 480ms ease; }
+.turner svg .g-gloss  { transform: translateX(calc(var(--rx) * -.9px)); transition: transform 480ms ease; }
+.turner svg .g-gloss-anim { animation: sheenDrift 7s ease-in-out infinite; }
+@keyframes sheenDrift { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(6px); } }
+.stage.off .g-gloss-anim, .stage.off .turner { animation-play-state: paused; }
+.c-shell { fill: var(--shell, #5F5C59); transition: fill 450ms ease; }
+.c-deep  { fill: var(--shell-deep, #454240); transition: fill 450ms ease; }
+.c-light { fill: var(--shell-light, #7A7570); transition: fill 450ms ease; }
+.stage-hud { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px 6px; justify-content: center; }
+.hud-btn {
+  display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 13px; font-weight: 600;
+  padding: 7px 13px; border-radius: var(--radius); border: 1px solid var(--line);
+  background: #fff; color: var(--ink); cursor: pointer; transition: background 160ms ease;
+}
+.hud-btn:hover { background: var(--cream); }
+.stage-note {
+  text-align: center; font-size: 12px; color: var(--muted); padding: 6px 16px 14px;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+.stage-cap { position: absolute; top: 12px; left: 14px; font-size: 12px; color: var(--muted);
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; }
 
+/* 配置面板 */
+.panel {
+  background: var(--card); border: 1px solid var(--line); border-radius: calc(var(--radius) * 2);
+  padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 18px; min-height: 640px;
+}
+.grp { border: none; }
+.grp-legend { font-family: 'Lexend', 'PingFang SC', sans-serif; font-weight: 700; font-size: 15px; padding: 0 0 2px; }
+.grp-sub { font-size: 12.5px; color: var(--muted); margin: 2px 0 12px; display: block; }
+.grp input[type="radio"] { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.sw-row { display: flex; gap: 10px; }
+.sw { flex: 1; cursor: pointer; }
+.sw-card {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  border: 1px solid var(--line); border-radius: var(--radius); background: #fff;
+  padding: 12px 6px 10px; transition: border-color 160ms ease, background 160ms ease;
+}
+.sw-dot { width: 34px; height: 34px; border-radius: 50%; background: var(--dot); box-shadow: inset -4px -5px 8px rgba(0,0,0,.22), inset 3px 4px 6px rgba(255,255,255,.28); }
+.sw-name { font-size: 13px; font-weight: 600; }
+.sw-price { font-size: 12px; color: var(--muted); }
+.grp input:checked + .sw-card { border-color: var(--teal-ink); background: #F2F6F4; box-shadow: 0 0 0 1px var(--teal-ink); }
+.grp input:focus-visible + .sw-card { outline: 2px solid var(--teal-ink); outline-offset: 2px; }
+.opt-list { display: flex; flex-direction: column; gap: 9px; }
+.opt { cursor: pointer; }
+.opt-card {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+  border: 1px solid var(--line); border-radius: var(--radius); background: #fff;
+  padding: 11px 14px; transition: border-color 160ms ease, background 160ms ease;
+}
+.opt-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #B9AE9C; background: #fff; display: block; }
+.opt-name { font-weight: 600; font-size: 14px; display: block; }
+.opt-desc { font-size: 12.5px; color: var(--muted); display: block; }
+.opt-price { font-weight: 700; font-size: 13.5px; color: var(--teal-ink); white-space: nowrap; }
+.grp input:checked + .opt-card { border-color: var(--teal-ink); background: #F2F6F4; box-shadow: 0 0 0 1px var(--teal-ink); }
+.grp input:checked + .opt-card .opt-dot { border-color: var(--teal-ink); background: radial-gradient(circle at center 4px, var(--teal-ink) 0 4px, #fff 5px); }
+.grp input:focus-visible + .opt-card { outline: 2px solid var(--teal-ink); outline-offset: 2px; }
+.cfg-total { margin-top: auto; border-top: 1px dashed var(--line); padding-top: 14px; }
+.cfg-total .lab { font-size: 13px; color: var(--muted); }
+.cfg-total .val { font-family: 'Lexend', 'PingFang SC', sans-serif; font-size: 30px; font-weight: 800; line-height: 1.2; }
+.cfg-total .val small { font-size: 13px; font-weight: 600; color: var(--muted); margin-left: 8px; }
+.cfg-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* 通用分区 */
+.sec { padding: 46px 0 8px; }
+.section-h { font-size: clamp(20px, 2.6vw, 27px); font-weight: 800; margin-bottom: 6px; }
+.section-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; max-width: 46em; }
+
+/* 第 2 区: 联动特性 */
+.feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.fcard {
+  background: var(--card); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5);
+  padding: 18px 16px 16px; position: relative; transition: border-color 240ms ease, box-shadow 240ms ease;
+}
+.fcard.on { border-color: var(--teal-ink); box-shadow: 0 0 0 1px var(--teal-ink); }
+.fcard-icon { width: 34px; height: 34px; border-radius: var(--radius); background: var(--cream); color: #6B4F2E; display: grid; place-items: center; margin-bottom: 12px; }
+.fcard h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 6px; }
+.fcard p { font-size: 13.5px; color: var(--muted); }
+.fchip {
+  display: none; margin-top: 12px; font-size: 12px; font-weight: 700; color: var(--teal-ink);
+  background: #EDF3F1; border-radius: 999px; padding: 3px 10px; width: fit-content;
+}
+.fcard.on .fchip { display: inline-block; }
+
+/* 第 3 区: 价格与规格 */
+.price-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 14px; align-items: start; }
+.sum-card { background: var(--card); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); padding: 22px; }
+.sum-head { font-family: 'Lexend', 'PingFang SC', sans-serif; font-weight: 800; font-size: 17px; margin-bottom: 4px; }
+.sum-note { font-size: 12.5px; color: var(--muted); margin-bottom: 16px; }
+.sum-rows { display: grid; gap: 0; }
+.sum-row {
+  display: grid; grid-template-columns: 108px 1fr auto; align-items: baseline; gap: 10px;
+  padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 14px;
+}
+.sum-row .k { color: var(--muted); font-size: 13px; }
+.sum-row .v { font-weight: 600; }
+.sum-row .p { font-variant-numeric: tabular-nums; color: var(--teal-ink); font-weight: 700; }
+.sum-row.total { border-bottom: none; padding-top: 14px; align-items: center; }
+.sum-row.total .v { font-size: 17px; }
+.sum-row.total .p { font-family: 'Lexend', 'PingFang SC', sans-serif; font-size: 26px; font-weight: 800; color: var(--ink); }
+.spec-card { background: var(--card); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); padding: 22px; }
+.spec-card .sum-head { margin-bottom: 2px; }
+.spec-note { font-size: 12.5px; color: var(--muted); margin-bottom: 14px; }
+.spec-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.spec-table th, .spec-table td { text-align: left; padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.spec-table th { font-weight: 600; color: var(--muted); width: 132px; }
+.spec-table td { font-weight: 600; }
+
+/* 第 4 区: 认证与购买 */
+.cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.ccard { background: var(--card); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); padding: 18px 16px 16px; }
+.ccard .std { font-family: 'Lexend', 'PingFang SC', sans-serif; font-weight: 800; font-size: 16.5px; color: var(--teal-ink); margin-bottom: 4px; }
+.ccard .who { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+.ccard p { font-size: 13.5px; color: var(--ink); }
+.buy-band {
+  margin-top: 18px; background: var(--cream); border: 1px solid var(--tan); border-radius: calc(var(--radius) * 1.5);
+  padding: 26px 26px; display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
+}
+.buy-band h3 { font-size: 19px; font-weight: 800; }
+.buy-band .assur { font-size: 13px; color: #5A4632; margin-top: 6px; }
+.buy-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.buy-price { font-family: 'Lexend', 'PingFang SC', sans-serif; font-size: 24px; font-weight: 800; }
+.buy-price small { font-size: 12.5px; color: #5A4632; display: block; font-weight: 600; }
+
+/* 粘性底栏 */
+.stickybar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  background: rgba(43,36,32,.97); color: #F5EFE4;
+  transform: translateY(110%); transition: transform 320ms ease;
+  padding: 10px 0;
+}
+.stickybar.show { transform: translateY(0); }
+.bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.bar-cfg { font-size: 13px; color: #D9CDBB; }
+.bar-cfg b { color: #fff; font-weight: 600; }
+.bar-right { display: flex; align-items: center; gap: 16px; }
+.bar-total { font-family: 'Lexend', 'PingFang SC', sans-serif; font-size: 21px; font-weight: 800; color: #fff; }
+.bar-btn { background: var(--cream); color: var(--ink); border: none; font-weight: 700; }
+
+footer { border-top: 1px solid var(--line); margin-top: 54px; padding: 26px 0 84px; text-align: center; font-size: 13px; color: var(--muted); }
+footer a { color: var(--teal-ink); font-weight: 600; }
+
+@media (max-width: 1024px) {
+  .feat-grid, .cert-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 860px) {
+  .cfg-grid, .price-grid { grid-template-columns: 1fr; }
+  .panel { min-height: 0; }
+  .stage { min-height: 480px; }
+  nav { display: none; }
+}
+@media (max-width: 560px) {
+  .feat-grid, .cert-grid { grid-template-columns: 1fr; }
+  .cfg-cta { grid-template-columns: 1fr; }
+  .buy-band { flex-direction: column; align-items: flex-start; }
+  .bar-cfg { display: none; }
+  .sum-row { grid-template-columns: 92px 1fr auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .turner { opacity: 1; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>国道电台</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看全程路书</a></div></header><main><section class="hero container"><p class="doc-meta">第 7 天 / 康定 - 理塘 / 海拔 4,014m / 油量 2/3</p><h1>路书只写两行：天亮出发，天黑投宿</h1><p class="sub">两个人一台车，沿 318 慢慢走。加油靠导航，投宿靠缘分，照片全部直出。</p><div class="cta-row"><a class="btn btn-primary" href="#">看全程路书</a><a class="btn" href="#">装备清单</a></div></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>折多山口</h3><p>十月的垭口有雪。下车拍照三分钟，手指就交待了。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>理塘集市</h3><p>牦牛肉干按斤称，老板娘多送了一把奶糖。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>姊妹湖</h3><p>下午四点逆光，湖面像两块没擦的镜子。</p></article></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>姊妹湖</b><p>下午四点逆光，湖面像两块没擦的镜子。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>折多山口</b><p>十月的垭口有雪。下车拍照三分钟，手指就交待了。</p></div></section></section><footer>国道电台 / 318 手账 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg></span>
+      稚安 Zean / 儿童安全座椅
+    </a>
+    <nav aria-label="页内导航">
+      <a href="#cfg">配置器</a>
+      <a href="#features">联动特性</a>
+      <a href="#price">价格规格</a>
+      <a href="#cert">认证购买</a>
+      <a href="../style-catalog.html">风格目录</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 第 1 区 / Hero (Configurator) -->
+<section class="hero container" id="cfg" aria-label="在线配置器">
+  <p class="doc-meta">落地结构样张 l29 / 儿童安全座椅在线配置器 / 2026 年 10 月 8 日</p>
+  <h1>先在屏幕里把这把座椅配好，再让它上车</h1>
+  <p class="sub">椅身颜色 / 面料工艺 / 安装接口，三项实时换装：座椅会跟着你的选择换色并微微转身。看清楚了再进购物车，装到车上就是这一把。</p>
+
+  <div class="cfg-grid">
+    <div class="stage" id="stage">
+      <div class="stage-floor" aria-hidden="true"></div>
+      <p class="stage-cap">中性棚拍视图 / 换装实时生效</p>
+      <div class="turner-wrap">
+        <div class="turner" id="turner" tabindex="0" role="img" aria-label="儿童安全座椅三维示意，随配置换色，可用键盘方向键旋转">
+          <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="glossG" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffffff" stop-opacity=".30"/>
+                <stop offset=".5" stop-color="#ffffff" stop-opacity=".06"/>
+                <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+              <pattern id="p-mesh" width="14" height="14" patternUnits="userSpaceOnUse">
+                <circle cx="4" cy="4" r="2.1" fill="#2B2420" opacity=".16"/>
+                <circle cx="11" cy="11" r="2.1" fill="#2B2420" opacity=".16"/>
+              </pattern>
+              <pattern id="p-tencel" width="16" height="14" patternUnits="userSpaceOnUse">
+                <path d="M0,7 L4,0 L12,0 L16,7 L12,14 L4,14 Z" fill="none" stroke="#2B2420" opacity=".13" stroke-width="1.2"/>
+              </pattern>
+              <pattern id="p-oxford" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M0,10 L10,0" stroke="#2B2420" opacity=".10" stroke-width="1.4"/>
+                <path d="M-2,2 L2,-2 M8,12 L12,8" stroke="#2B2420" opacity=".10" stroke-width="1.4"/>
+              </pattern>
+            </defs>
+            <g class="g-shadow">
+              <ellipse cx="262" cy="520" rx="182" ry="22" fill="rgba(43,36,32,.16)"/>
+            </g>
+            <g class="g-far">
+              <path class="c-deep" d="M170,452 C124,380 122,242 160,146 C178,98 240,76 284,104 C318,126 326,184 324,258 C322,332 318,404 312,452 Z"/>
+            </g>
+            <g class="g-mid">
+              <path class="c-shell" d="M180,452 C138,386 138,250 172,156 C186,112 244,92 284,118 C314,138 322,192 320,260 C318,332 314,404 308,452 Z"/>
+              <rect class="c-shell" x="170" y="92" width="124" height="66" rx="32"/>
+              <rect class="c-deep" x="186" y="102" width="98" height="46" rx="22" opacity=".55"/>
+              <path id="padTint" d="M200,444 C166,382 168,262 196,176 C208,140 246,124 276,142 C300,156 306,200 304,262 C302,324 300,388 296,444 Z" fill="#EADFC5" opacity=".5" style="transition: fill 450ms ease;"/>
+              <path id="padPattern" d="M200,444 C166,382 168,262 196,176 C208,140 246,124 276,142 C300,156 306,200 304,262 C302,324 300,388 296,444 Z" fill="url(#p-tencel)" opacity=".45"/>
+              <path d="M236,186 C242,246 234,306 244,352" stroke="#352F2A" stroke-width="13" fill="none" stroke-linecap="round"/>
+              <path d="M264,184 C268,246 262,306 258,350" stroke="#352F2A" stroke-width="13" fill="none" stroke-linecap="round"/>
+              <rect x="228" y="214" width="16" height="34" rx="8" fill="#4A443E"/>
+              <rect x="258" y="212" width="16" height="34" rx="8" fill="#4A443E"/>
+              <rect x="232" y="344" width="34" height="28" rx="9" fill="#352F2A"/>
+              <circle cx="249" cy="352" r="4" fill="#B24A3B"/>
+            </g>
+            <g class="g-near">
+              <path class="c-light" d="M150,306 C118,312 104,352 114,392 C122,424 156,438 188,430 C214,424 226,400 220,376 C210,340 186,300 150,306 Z"/>
+              <rect class="c-deep" x="116" y="418" width="238" height="62" rx="24"/>
+              <g id="g-isofix">
+                <rect x="62" y="446" width="58" height="11" rx="5" fill="#57534E" opacity=".5"/>
+                <rect x="56" y="430" width="66" height="13" rx="6" fill="#57534E"/>
+                <rect x="40" y="424" width="20" height="25" rx="5" fill="#3F3B37"/>
+                <rect x="44" y="434" width="6" height="9" rx="2" fill="#3F8F5F"/>
+              </g>
+              <g id="g-leg">
+                <rect x="130" y="468" width="20" height="46" rx="7" fill="#57534E"/>
+                <rect x="127" y="482" width="26" height="8" rx="4" fill="#3F3B37"/>
+                <rect x="108" y="506" width="64" height="14" rx="7" fill="#3F3B37"/>
+              </g>
+              <g id="g-tether" style="display:none">
+                <path d="M296,112 C342,86 388,74 424,78" stroke="#57534E" stroke-width="11" fill="none" stroke-linecap="round"/>
+                <path d="M418,68 L438,84 L418,96" stroke="#3F3B37" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="340" cy="93" r="9" fill="#3F3B37"/>
+              </g>
+              <g id="g-belt" style="display:none">
+                <path d="M92,374 C150,356 214,360 264,372 L264,402 C214,390 150,388 96,404 Z" fill="none" stroke="#4A443E" stroke-width="15" stroke-linejoin="round"/>
+                <rect x="160" y="352" width="18" height="34" rx="6" fill="#3F3B37"/>
+                <path d="M180,250 L204,258 M186,320 L210,326" stroke="#3F3B37" stroke-width="6" stroke-linecap="round"/>
+              </g>
+              <circle cx="238" cy="442" r="25" fill="#FAF7F0" stroke="#4A443E" stroke-width="4"/>
+              <path d="M238,426 L238,438" stroke="#4A443E" stroke-width="5" stroke-linecap="round"/>
+            </g>
+            <g class="g-gloss">
+              <g class="g-gloss-anim">
+                <path d="M180,452 C138,386 138,250 172,156 C186,112 244,92 284,118 C314,138 322,192 320,260 C318,332 314,404 308,452 Z" fill="url(#glossG)"/>
+                <rect x="170" y="92" width="124" height="66" rx="32" fill="url(#glossG)"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="stage-hud" role="group" aria-label="座椅视角控制">
+        <button type="button" class="hud-btn" id="rotL"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a9 9 0 1 1 2 7"/><path d="M3 3v5h5"/></svg>向左转</button>
+        <button type="button" class="hud-btn" id="rotR"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8a9 9 0 1 0-2 7"/><path d="M21 3v5h-5"/></svg>向右转</button>
+        <button type="button" class="hud-btn" id="rot0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.4"/></svg>回正</button>
+        <button type="button" class="hud-btn" id="zoomIn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6"/><path d="m21 21-4.3-4.3"/></svg>拉近</button>
+        <button type="button" class="hud-btn" id="zoomOut"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M8 11h6"/><path d="m21 21-4.3-4.3"/></svg>拉远</button>
+      </div>
+      <p class="stage-note">键盘控制 / 左右方向键旋转 / 加号减号缩放 / 0 回正</p>
+    </div>
+
+    <aside class="panel" aria-label="配置选项">
+      <fieldset class="grp">
+        <legend class="grp-legend">椅身颜色</legend>
+        <span class="grp-sub">三种官方色均为哑光抗污涂层，颜色包含在基价内</span>
+        <div class="sw-row">
+          <label class="sw">
+            <input type="radio" name="shellColor" value="grey" checked>
+            <span class="sw-card">
+              <span class="sw-dot" style="--dot:#5F5C59"></span>
+              <span class="sw-name">曜石灰</span>
+              <span class="sw-price">含</span>
+            </span>
+          </label>
+          <label class="sw">
+            <input type="radio" name="shellColor" value="blue">
+            <span class="sw-card">
+              <span class="sw-dot" style="--dot:#66859C"></span>
+              <span class="sw-name">湖雾蓝</span>
+              <span class="sw-price">含</span>
+            </span>
+          </label>
+          <label class="sw">
+            <input type="radio" name="shellColor" value="clay">
+            <span class="sw-card">
+              <span class="sw-dot" style="--dot:#B07B54"></span>
+              <span class="sw-name">陶土赭</span>
+              <span class="sw-price">含</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend class="grp-legend">面料工艺</legend>
+        <span class="grp-sub">椅垫与靠背内衬面料，差价即时计入合计</span>
+        <div class="opt-list">
+          <label class="opt">
+            <input type="radio" name="fabricKind" value="mesh">
+            <span class="opt-card">
+              <span class="opt-dot" aria-hidden="true"></span>
+              <span><span class="opt-name">透气三明治网布</span><span class="opt-desc">双层面料留 6 mm 气流层，夏季背部不闷</span></span>
+              <span class="opt-price">含</span>
+            </span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="fabricKind" value="oxford">
+            <span class="opt-card">
+              <span class="opt-dot" aria-hidden="true"></span>
+              <span><span class="opt-name">防泼水牛津布</span><span class="opt-desc">210D 面料经 DWR 处理，水渍奶渍一擦即净</span></span>
+              <span class="opt-price">+¥160</span>
+            </span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="fabricKind" value="tencel" checked>
+            <span class="opt-card">
+              <span class="opt-dot" aria-hidden="true"></span>
+              <span><span class="opt-name">天丝蜂窝绒</span><span class="opt-desc">导湿快于常规绒布，冬季触感不冰凉</span></span>
+              <span class="opt-price">+¥280</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend class="grp-legend">安装接口</legend>
+        <span class="grp-sub">决定固定方式与随附五金，选购前请核对你的车型</span>
+        <div class="opt-list">
+          <label class="opt">
+            <input type="radio" name="mountKind" value="leg" checked>
+            <span class="opt-card">
+              <span class="opt-dot" aria-hidden="true"></span>
+              <span><span class="opt-name">ISOFIX 硬接口 + 支撑腿</span><span class="opt-desc">绿色指示窗确认到位，支撑腿防翻转</span></span>
+              <span class="opt-price">含</span>
+            </span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="mountKind" value="tether">
+            <span class="opt-card">
+              <span class="opt-dot" aria-hidden="true"></span>
+              <span><span class="opt-name">ISOFIX + Top Tether 上拉带</span><span class="opt-desc">适合地板下有储物盒的车型</span></span>
+              <span class="opt-price">+¥120</span>
+            </span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="mountKind" value="belt">
+            <span class="opt-card">
+              <span class="opt-dot" aria-hidden="true"></span>
+              <span><span class="opt-name">车载安全带通用安装</span><span class="opt-desc">无 ISOFIX 车型也能装，椅侧刻有走带槽</span></span>
+              <span class="opt-price">-¥200</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="cfg-total">
+        <p class="lab">当前配置合计（含税与运费）</p>
+        <p class="val"><span id="panelTotal">¥3,260</span><small>基础价 ¥2,980 起，随配置变动</small></p>
+      </div>
+      <div class="cfg-cta">
+        <button type="button" class="btn btn-primary" id="buyPanel">立即购买</button>
+        <a class="btn" href="#price">查看规格与价格</a>
+      </div>
+    </aside>
+  </div>
+  <p class="sr-only" id="live" aria-live="polite"></p>
+</section>
+
+<!-- 第 2 区 / Feature Highlight (synced) -->
+<section class="container sec" id="features" aria-label="联动特性高亮">
+  <h2 class="section-h">换一处配置，这些特性跟着变</h2>
+  <p class="section-sub">下列卡片与上方配置器实时联动：当前生效的配置会点亮对应卡片，并显示你选定的版本。</p>
+  <div class="feat-grid">
+    <article class="fcard on" id="fCardFabric">
+      <div class="fcard-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5c3-2 6 2 9 0s6 2 9 0"/><path d="M3 12c3-2 6 2 9 0s6 2 9 0"/><path d="M3 19c3-2 6 2 9 0s6 2 9 0"/></svg></div>
+      <h3>面料工学</h3>
+      <p id="lineFabric">天丝纤维蜂窝格纹，导湿快于常规绒布，触感接近纯棉。</p>
+      <span class="fchip">当前面料 / <span id="chipFabric">天丝蜂窝绒</span></span>
+    </article>
+    <article class="fcard on" id="fCardMount">
+      <div class="fcard-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/><path d="M7 20v2M17 20v2"/></svg></div>
+      <h3>接口防误装</h3>
+      <p id="lineMount">两只锚臂插入车身接口，支撑腿抵住地板；绿色指示窗全部变绿才算装好。</p>
+      <span class="fchip">当前接口 / <span id="chipMount">ISOFIX 硬接口 + 支撑腿</span></span>
+    </article>
+    <article class="fcard on" id="fCardColor">
+      <div class="fcard-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/><path d="M9.5 12l2 2 3.5-3.5"/></svg></div>
+      <h3>椅身涂层</h3>
+      <p id="lineColor">哑光表层不留指纹，浅划痕可水磨修复。</p>
+      <span class="fchip">当前椅身 / <span id="chipColor">曜石灰</span></span>
+    </article>
+    <article class="fcard" id="fCardSpin">
+      <div class="fcard-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></div>
+      <h3>360° 换向座舱</h3>
+      <p>安装后可单手 360° 旋转换向；现在就在上方预览里，用视角控制把它转一圈看看接缝。</p>
+      <span class="fchip">正在试转，视角 <span id="chipSpin">-14°</span></span>
+    </article>
+  </div>
+</section>
+
+<!-- 第 3 区 / Price + Specs -->
+<section class="container sec" id="price" aria-label="价格与规格">
+  <h2 class="section-h">价格汇总与规格对照</h2>
+  <p class="section-sub">左侧为当前配置的逐项计价，右侧为完整规格表：这是三维交互之外的二维备用视图，打印或低带宽环境以本表为准。</p>
+  <div class="price-grid">
+    <div class="sum-card">
+      <p class="sum-head">当前配置计价</p>
+      <p class="sum-note">价格随上方配置器实时更新</p>
+      <div class="sum-rows" role="list">
+        <div class="sum-row" role="listitem"><span class="k">椅身颜色</span><span class="v" id="sumColorName">曜石灰</span><span class="p">含</span></div>
+        <div class="sum-row" role="listitem"><span class="k">面料工艺</span><span class="v" id="sumFabricName">天丝蜂窝绒</span><span class="p" id="sumFabricPrice">+¥280</span></div>
+        <div class="sum-row" role="listitem"><span class="k">安装接口</span><span class="v" id="sumMountName">ISOFIX 硬接口 + 支撑腿</span><span class="p" id="sumMountPrice">含</span></div>
+        <div class="sum-row" role="listitem"><span class="k">试装保障</span><span class="v">30 天试装与上门安装教学</span><span class="p">含</span></div>
+        <div class="sum-row total" role="listitem"><span class="k">合计</span><span class="v">含税与运费</span><span class="p" id="sumTotal" aria-live="polite">¥3,260</span></div>
+      </div>
+    </div>
+    <div class="spec-card">
+      <p class="sum-head">规格表 / 二维备用视图</p>
+      <p class="spec-note">对应产品说明书主要条目，认证编号见下方认证区</p>
+      <table class="spec-table">
+        <tbody>
+          <tr><th scope="row">适用人群</th><td>身高 40 至 150 cm / 体重 0 至 36 kg（约 0 至 12 岁）</td></tr>
+          <tr><th scope="row">乘坐方向</th><td>105 cm 以下反向乘坐，之后可正向，R129 要求 15 个月龄前反向</td></tr>
+          <tr><th scope="row">外形尺寸</th><td>深 62 cm / 宽 44 cm / 高 68 cm（不含支撑腿伸出量）</td></tr>
+          <tr><th scope="row">整椅重量</th><td>ISOFIX 版 12.6 kg / 安全带版 10.9 kg</td></tr>
+          <tr><th scope="row">旋转与仰角</th><td>座椅本体 360° 十二档旋转 / 靠背四档仰角调节</td></tr>
+          <tr><th scope="row">侧防结构</th><td>双模吸能侧翼 / EPP 芯材加抗冲击外壳</td></tr>
+          <tr><th scope="row">面料维护</th><td>椅垫可拆洗 / 网布与绒布 30°C 机洗 / 牛津布湿擦</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 第 4 区 / Purchase（安全认证 + 购买） -->
+<section class="container sec" id="cert" aria-label="安全认证与购买">
+  <h2 class="section-h">认证编号，逐一可查</h2>
+  <p class="section-sub">下单前请核对认证标签与椅身激光刻印一致；以下为本样张引用的真实标准编号与测试工况。</p>
+  <div class="cert-grid">
+    <article class="ccard">
+      <p class="std">ECE R129/03</p>
+      <p class="who">联合国欧洲经济委员会 / i-Size 整体通用类</p>
+      <p>第 129 号法规 03 系列修订，侧向碰撞为强制测试项；本椅按 i-Size 尺寸分级认证。</p>
+    </article>
+    <article class="ccard">
+      <p class="std">GB 27887-2011</p>
+      <p class="who">中国强制性国家标准 / 机动车儿童乘员用约束系统</p>
+      <p>国内销售随附 CCC 强制性产品认证证书，证书编号印于椅背标签。</p>
+    </article>
+    <article class="ccard">
+      <p class="std">碰撞工况</p>
+      <p class="who">第三方指定实验室 / 台车复核</p>
+      <p>正面偏置 64 km/h / 侧面柱撞 50 km/h，完整台车与假人数据报告可索取。</p>
+    </article>
+    <article class="ccard">
+      <p class="std">反向乘坐</p>
+      <p class="who">R129 强制要求 / 15 个月龄前</p>
+      <p>反向模式覆盖至 105 cm，头颈部承托件随头枕同步升降。</p>
+    </article>
+  </div>
+  <div class="buy-band">
+    <div>
+      <h3>确认这把配置，直接下单</h3>
+      <p class="assur">30 天试装 / 免费上门安装教学 / 旧椅回收抵 ¥150 / 顺丰送货上门</p>
+    </div>
+    <div class="buy-actions">
+      <p class="buy-price"><span id="bandTotal">¥3,260</span><small>当前配置含税价</small></p>
+      <button type="button" class="btn btn-primary" id="buyBand">立即购买</button>
+    </div>
+  </div>
+</section>
+
+<footer>UI 设计提示词库 / 落地结构 No.29 / <a href="../style-catalog.html">返回风格目录</a></footer>
+</main>
+
+<div class="stickybar" id="stickybar">
+  <div class="container bar-inner">
+    <p class="bar-cfg">当前配置 / <b id="barCfg">曜石灰 / 天丝蜂窝绒 / ISOFIX 硬接口 + 支撑腿</b></p>
+    <div class="bar-right">
+      <p class="bar-total" id="barTotal" aria-live="polite">¥3,260</p>
+      <button type="button" class="btn bar-btn" id="buyBar">立即购买</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var DATA = {
+    color: {
+      grey: { name: '曜石灰', shell: '#5F5C59', deep: '#454240', light: '#7A7570', line: '哑光表层不留指纹，浅划痕可水磨修复。' },
+      blue: { name: '湖雾蓝', shell: '#66859C', deep: '#4B6376', light: '#85A1B5', line: '低饱和色浆长期日晒色差更小，适合西晒一侧用车。' },
+      clay: { name: '陶土赭', shell: '#B07B54', deep: '#885C3C', light: '#C69A77', line: '色浆含抗紫外稳定剂，浅色内装也不显突兀。' }
+    },
+    fabric: {
+      mesh:   { name: '透气三明治网布', add: 0,   tint: '#D9E1DC', pat: 'p-mesh',   line: '双层网布间留 6 mm 气流通道，靠背中部冲孔排湿。' },
+      oxford: { name: '防泼水牛津布',   add: 160, tint: '#DCD7CA', pat: 'p-oxford', line: '210D 牛津布经 DWR 防泼水处理，奶渍与雨水一擦即净。' },
+      tencel: { name: '天丝蜂窝绒',     add: 280, tint: '#EADFC5', pat: 'p-tencel', line: '天丝纤维蜂窝格纹，导湿快于常规绒布，触感接近纯棉。' }
+    },
+    mount: {
+      leg:    { name: 'ISOFIX 硬接口 + 支撑腿',     add: 0,   line: '两只锚臂插入车身接口，支撑腿抵住地板；绿色指示窗全部变绿才算装好。' },
+      tether: { name: 'ISOFIX + Top Tether 上拉带', add: 120, line: '硬接口之外增加上拉带，抑制急刹时座椅前翻，适合地板下有储物盒的车型。' },
+      belt:   { name: '车载安全带通用安装',         add: -200, line: '用车上三点式安全带沿走带槽固定，无 ISOFIX 车型同样可装。' }
+    }
+  };
+  var BASE = 2980;
+  var state = { color: 'grey', fabric: 'tencel', mount: 'leg', rx: -14, zoom: 1 };
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var turner = $('turner'), stage = $('stage');
+  var fmt = function (v) { return v === 0 ? '含' : (v > 0 ? '+¥' + v : '-¥' + (-v)); };
+  var fmtTotal = function (v) { return '¥' + v.toLocaleString('zh-CN'); };
+  var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+
+  function render() {
+    var c = DATA.color[state.color], f = DATA.fabric[state.fabric], m = DATA.mount[state.mount];
+    turner.style.setProperty('--shell', c.shell);
+    turner.style.setProperty('--shell-deep', c.deep);
+    turner.style.setProperty('--shell-light', c.light);
+    $('padTint').setAttribute('fill', f.tint);
+    $('padPattern').setAttribute('fill', 'url(#' + f.pat + ')');
+    $('g-isofix').style.display = state.mount === 'belt' ? 'none' : '';
+    $('g-leg').style.display = state.mount === 'leg' ? '' : 'none';
+    $('g-tether').style.display = state.mount === 'tether' ? '' : 'none';
+    $('g-belt').style.display = state.mount === 'belt' ? '' : 'none';
+
+    var total = BASE + f.add + m.add, t = fmtTotal(total);
+    $('panelTotal').textContent = t;
+    $('sumTotal').textContent = t;
+    $('bandTotal').textContent = t;
+    $('barTotal').textContent = t;
+
+    $('sumColorName').textContent = c.name;
+    $('sumFabricName').textContent = f.name;
+    $('sumFabricPrice').textContent = fmt(f.add);
+    $('sumMountName').textContent = m.name;
+    $('sumMountPrice').textContent = fmt(m.add);
+
+    $('chipColor').textContent = c.name;
+    $('chipFabric').textContent = f.name;
+    $('chipMount').textContent = m.name;
+    $('lineColor').textContent = c.line;
+    $('lineFabric').textContent = f.line;
+    $('lineMount').textContent = m.line;
+    $('barCfg').textContent = c.name + ' / ' + f.name + ' / ' + m.name;
+  }
+
+  function swing() {
+    if (RM) return;
+    state.rx = clamp(state.rx + 9, -42, 42);
+    applyView();
+    setTimeout(function () {
+      state.rx = clamp(state.rx - 9, -42, 42);
+      applyView();
+    }, 190);
+  }
+
+  function applyView() {
+    turner.style.setProperty('--rx', state.rx);
+    turner.style.setProperty('--zoom', state.zoom);
+    $('chipSpin').textContent = state.rx + '°';
+    $('fCardSpin').classList.toggle('on', state.rx !== -14);
+    $('live').textContent = '视角 ' + state.rx + ' 度 / 缩放 ' + Math.round(state.zoom * 100) + '%';
+  }
+
+  function bindRadios() {
+    var map = { shellColor: 'color', fabricKind: 'fabric', mountKind: 'mount' };
+    Object.keys(map).forEach(function (n) {
+      var list = document.querySelectorAll('input[name="' + n + '"]');
+      Array.prototype.forEach.call(list, function (r) {
+        r.addEventListener('change', function () {
+          state[map[n]] = r.value;
+          render();
+          swing();
+          var lab = { color: '椅身颜色', fabric: '面料工艺', mount: '安装接口' }[map[n]];
+          $('live').textContent = '已切换 ' + lab + ' / 合计 ' + $('sumTotal').textContent;
+        });
+      });
+    });
+  }
+
+  function bindHud() {
+    $('rotL').addEventListener('click', function () { state.rx = clamp(state.rx - 10, -42, 42); applyView(); });
+    $('rotR').addEventListener('click', function () { state.rx = clamp(state.rx + 10, -42, 42); applyView(); });
+    $('rot0').addEventListener('click', function () { state.rx = -14; state.zoom = 1; applyView(); });
+    $('zoomIn').addEventListener('click', function () { state.zoom = clamp(state.zoom + 0.09, 0.82, 1.26); applyView(); });
+    $('zoomOut').addEventListener('click', function () { state.zoom = clamp(state.zoom - 0.09, 0.82, 1.26); applyView(); });
+    turner.addEventListener('keydown', function (e) {
+      var k = e.key;
+      if (k === 'ArrowLeft') { state.rx = clamp(state.rx - 10, -42, 42); applyView(); e.preventDefault(); }
+      else if (k === 'ArrowRight') { state.rx = clamp(state.rx + 10, -42, 42); applyView(); e.preventDefault(); }
+      else if (k === '+' || k === '=') { state.zoom = clamp(state.zoom + 0.09, 0.82, 1.26); applyView(); }
+      else if (k === '-') { state.zoom = clamp(state.zoom - 0.09, 0.82, 1.26); applyView(); }
+      else if (k === '0') { state.rx = -14; state.zoom = 1; applyView(); }
+    });
+  }
+
+  function bindBuy() {
+    ['buyPanel', 'buyBand', 'buyBar'].forEach(function (id) {
+      $(id).addEventListener('click', function () {
+        $('live').textContent = '已提交当前配置 / ' + $('barCfg').textContent + ' / 合计 ' + $('sumTotal').textContent;
+      });
+    });
+  }
+
+  function bindObservers() {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) { stage.classList.toggle('off', !en.isIntersecting || document.hidden); });
+      }, { threshold: 0.05 }).observe(stage);
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) { $('stickybar').classList.toggle('show', !en.isIntersecting); });
+      }, { threshold: 0.05 }).observe($('cfg'));
+    }
+    document.addEventListener('visibilitychange', function () {
+      stage.classList.toggle('off', document.hidden);
+    });
+  }
+
+  render();
+  applyView();
+  bindRadios();
+  bindHud();
+  bindBuy();
+  bindObservers();
+})();
+</script>
 </body>
 </html>

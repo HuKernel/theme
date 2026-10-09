@@ -4,137 +4,748 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Bento Grid Showcase — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Bento Showcase 结构 / UI 设计提示词库</title>
+<meta name="description" content="落地结构 No.28 / Bento Grid Showcase 样张：智能桌面音箱功能便当格，深色音频质感，复制后交给 AI 复刻同款网页。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Space+Grotesk:wght@700&display=swap');
+/* token 计划: 底 #0B0E14 / 卡走 csv Color Strategy 的 Glass 分支 rgba(255,255,255,.05) / 主文字 #EAF0F8 次 #A8B3C7 / 图标品牌彩 橙#FF9F4A 青#4CC9B0 蓝#6FA8FF 紫#B48CFF 粉#F2749C 银#9FB4D0 / 圆角 20-12 / 间距 8 的倍数 / 字号 12 到 64 */
 :root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(245,245,245,.28); --primary: #F5F5F5; --secondary: #f5f5f5;
-  --accent: #f5f5f5; --on-primary: #111;
-  --radius: 18px; --btn-radius: 10px;
+  --bg: #0B0E14;
+  --fg: #EAF0F8;
+  --muted: #A8B3C7;
+  --card: rgba(255, 255, 255, 0.05);
+  --card-hi: rgba(255, 255, 255, 0.08);
+  --line: rgba(255, 255, 255, 0.1);
+  --line-hi: rgba(255, 255, 255, 0.2);
+  --orange: #FF9F4A;
+  --teal: #4CC9B0;
+  --blue: #6FA8FF;
+  --violet: #B48CFF;
+  --pink: #F2749C;
+  --silver: #9FB4D0;
+  --on-light: #10141C;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --gap: 14px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  background-image: radial-gradient(600px 400px at 85% -10%, rgba(245,245,245,0.25), transparent 65%), radial-gradient(520px 380px at -10% 30%, rgba(245,245,245,0.2), transparent 65%); background-attachment: fixed;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  font-size: 15px;
+  background-image:
+    radial-gradient(720px 420px at 88% -6%, rgba(255, 159, 74, 0.09), transparent 62%),
+    radial-gradient(640px 400px at -8% 22%, rgba(76, 201, 176, 0.07), transparent 60%),
+    radial-gradient(560px 380px at 50% 118%, rgba(180, 140, 255, 0.06), transparent 62%);
+  background-attachment: fixed;
 }
-h1, h2, h3, .num { font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(245,245,245,.28); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Space Grotesk', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+a { color: inherit; }
+img, svg { display: block; }
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 12px;
+  z-index: 99;
+  background: #F4F5F7;
+  color: var(--on-light);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip:focus-visible { left: 12px; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(11, 14, 20, 0.78);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 62px;
+  gap: 18px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(255, 159, 74, 0.22), rgba(76, 201, 176, 0.18));
+  border: 1px solid rgba(255, 159, 74, 0.4);
+  color: var(--orange);
+}
+.topnav { display: flex; gap: 24px; }
+.topnav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 200ms ease;
+}
+.topnav a:hover, .topnav a:focus-visible { color: var(--fg); }
+/* ---------- 按钮 ---------- */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(245,245,245,.28);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 11px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--line-hi);
+  background: transparent;
+  color: var(--fg);
+  transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(245,245,245,.28); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(245,245,245,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(245,245,245,.2); backdrop-filter: blur(18px) saturate(1.3); background: rgba(255,255,255,.06); }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(245,245,245,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(245,245,245,.28); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
-
+.btn:hover { transform: translateY(-2px); background: var(--card-hi); border-color: rgba(255, 255, 255, 0.32); }
+.btn-primary {
+  background: #F4F5F7;
+  color: var(--on-light);
+  border-color: #F4F5F7;
+}
+.btn-primary:hover { background: #FFFFFF; border-color: #FFFFFF; }
+.btn-sm { padding: 8px 18px; font-size: 13.5px; }
+/* ---------- Hero ---------- */
+.hero { padding: 88px 0 64px; }
+.hero-meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.14;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  max-width: 760px;
+}
+.hero h1 span {
+  background: linear-gradient(100deg, #FFB36B, #FF9F4A 40%, #4CC9B0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero .sub {
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 16px;
+  margin-top: 20px;
+}
+.cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+  margin-top: 56px;
+}
+.hero-stat {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.hero-stat b {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 0.01em;
+}
+.hero-stat span { font-size: 13px; color: var(--muted); }
+/* ---------- 区块标题 ---------- */
+.sec { padding: 64px 0 8px; }
+.sec-head { margin-bottom: 26px; }
+.sec-head h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.sec-head p { color: var(--muted); margin-top: 8px; font-size: 14.5px; }
+/* ---------- 便当格 ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--gap);
+}
+.tile {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  padding: 24px;
+  overflow: hidden;
+  transition: transform 240ms ease, border-color 240ms ease, background 240ms ease;
+}
+.tile:hover {
+  transform: scale(1.02);
+  border-color: var(--line-hi);
+  background: var(--card-hi);
+}
+.tile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+}
+.tile h3 { font-size: 17px; font-weight: 700; letter-spacing: 0.01em; }
+.tile p { font-size: 13.5px; color: var(--muted); margin-top: 6px; }
+.tile-value {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  margin: 2px 0 8px;
+}
+.b-audio {
+  grid-column: span 4;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(420px 260px at 18% 12%, rgba(255, 159, 74, 0.1), transparent 64%),
+    var(--card);
+}
+.b-audio .tile-body { max-width: 420px; }
+.b-audio p { max-width: 360px; }
+.b-batt { grid-column: span 2; }
+.b-ip { grid-column: span 2; }
+.b-voice { grid-column: span 2; }
+.b-multi { grid-column: span 2; }
+.b-mat { grid-column: span 2; }
+.c-orange { color: var(--orange); background: rgba(255, 159, 74, 0.12); }
+.c-teal { color: var(--teal); background: rgba(76, 201, 176, 0.12); }
+.c-blue { color: var(--blue); background: rgba(111, 168, 255, 0.12); }
+.c-violet { color: var(--violet); background: rgba(180, 140, 255, 0.12); }
+.c-pink { color: var(--pink); background: rgba(242, 116, 156, 0.12); }
+.c-silver { color: var(--silver); background: rgba(159, 180, 208, 0.12); }
+/* 波形可视化 */
+.wave { margin-top: auto; padding-top: 24px; }
+.wave-tag {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.wave-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 138px;
+}
+.bar {
+  flex: 1;
+  min-width: 4px;
+  max-width: 12px;
+  height: var(--h, 60%);
+  border-radius: 3px;
+  background: linear-gradient(180deg, #FFC48F, #FF9F4A 52%, rgba(255, 159, 74, 0.18));
+  transform-origin: bottom;
+  animation: barPulse 1.7s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.wave.is-paused .bar { animation-play-state: paused; }
+@keyframes barPulse {
+  0%, 100% { transform: scaleY(0.58); }
+  50% { transform: scaleY(1.12); }
+}
+.wave-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chip {
+  font-size: 12.5px;
+  color: #FFC08A;
+  border: 1px solid rgba(255, 159, 74, 0.34);
+  background: rgba(255, 159, 74, 0.09);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.batt-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.09);
+  margin-top: 16px;
+  overflow: hidden;
+}
+.batt-fill {
+  width: 78%;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #4CC9B0, #7FE0CB);
+}
+/* ---------- 深入卡片 ---------- */
+.detail-card {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 36px;
+  align-items: center;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  padding: 36px;
+  margin-bottom: var(--gap);
+}
+.detail-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.detail-card .lead { color: var(--muted); font-size: 14.5px; margin-top: 12px; }
+.check-list { list-style: none; margin-top: 20px; }
+.check-list li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 14px;
+  color: var(--fg);
+  margin-top: 10px;
+}
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid var(--teal);
+}
+.check-list li::after {
+  content: "";
+  position: absolute;
+  left: 4.5px;
+  top: 8px;
+  width: 7px;
+  height: 4px;
+  border-left: 1.8px solid var(--teal);
+  border-bottom: 1.8px solid var(--teal);
+  transform: rotate(-45deg);
+}
+.detail-visual {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(11, 14, 20, 0.5);
+  padding: 20px;
+}
+.detail-visual figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+  text-align: center;
+}
+/* ---------- 技术规格 ---------- */
+.specs {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+.spec-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-row dt { color: var(--muted); font-size: 13.5px; }
+.spec-row dd { font-size: 14px; }
+/* ---------- CTA ---------- */
+.cta-panel {
+  margin: 72px 0 80px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 159, 74, 0.28);
+  background:
+    radial-gradient(520px 280px at 82% 0%, rgba(255, 159, 74, 0.12), transparent 62%),
+    radial-gradient(420px 260px at 8% 100%, rgba(76, 201, 176, 0.1), transparent 60%),
+    var(--card);
+  text-align: center;
+  padding: 64px 28px;
+}
+.cta-panel h2 {
+  font-size: clamp(26px, 3.6vw, 40px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.cta-panel .price {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--orange);
+  margin-top: 16px;
+}
+.cta-panel .assure { color: var(--muted); font-size: 13.5px; margin-top: 10px; }
+.cta-panel .cta-row { justify-content: center; margin-top: 30px; }
+/* ---------- footer ---------- */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+  text-align: center;
+  font-size: 13px;
+  color: #8E99AC;
+}
+footer a { color: var(--fg); }
+/* ---------- 一次亮相动效 ---------- */
+@keyframes settle {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.hero-meta, .hero h1, .hero .sub, .hero .cta-row, .hero-stats {
+  animation: settle 0.6s cubic-bezier(0.22, 0.9, 0.3, 1) backwards;
+}
+.hero h1 { animation-delay: 0.05s; }
+.hero .sub { animation-delay: 0.11s; }
+.hero .cta-row { animation-delay: 0.17s; }
+.hero-stats { animation-delay: 0.23s; }
+.bento > * {
+  animation: settle 0.55s cubic-bezier(0.22, 0.9, 0.3, 1) backwards;
+}
+.b-audio { animation-delay: 0.08s; }
+.b-batt { animation-delay: 0.16s; }
+.b-ip { animation-delay: 0.22s; }
+.b-voice { animation-delay: 0.28s; }
+.b-multi { animation-delay: 0.34s; }
+.b-mat { animation-delay: 0.4s; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* ---------- 响应式 ---------- */
+@media (max-width: 1024px) {
+  .topnav { display: none; }
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .b-audio { grid-column: span 2; grid-row: auto; }
+  .b-batt, .b-ip, .b-voice, .b-multi { grid-column: span 1; }
+  .b-mat { grid-column: span 2; }
+  .detail-card { grid-template-columns: 1fr; gap: 24px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .hero { padding: 56px 0 40px; }
+  .sec { padding: 48px 0 4px; }
+  .bento { grid-template-columns: 1fr; }
+  .bento > * { grid-column: 1 / -1; }
+  .tile { padding: 20px; }
+  .tile-value { font-size: 32px; }
+  .wave-bars { height: 110px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .spec-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 18px; }
+  .detail-card { padding: 24px; }
+  .cta-panel { padding: 44px 18px; }
+  .topbar .btn { display: none; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>帧数战神</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">提交纪录</a></div></header><main><section class="hero container"><p class="doc-meta">本周纪录 12 条 / 验证录像已归档 / Any% / 100%</p><h1>比快更快，快到规则要重写</h1><p class="sub">速通社区：帧级操作、逐帧验证、公开录像。我们崇拜路线，也崇拜改路线的人。</p><div class="cta-row"><a class="btn btn-primary" href="#">提交纪录</a><a class="btn" href="#">看本周榜</a></div></section><section class="container"><section class="sec features"><h2 class="section-h">核心能力</h2><div class="grid3"><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>路线库</h3><p>每关最优路线图解，含两个存档点的帧窗口表。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>验证组</h3><p>三人交叉审录像，截帧存证，公示七天。</p></article><article class="card"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><h3>周赛</h3><p>周四晚 Any% 小时赛，新人组单独计分。</p></article></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>周赛</b><p>周四晚 Any% 小时赛，新人组单独计分。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>路线库</b><p>每关最优路线图解，含两个存档点的帧窗口表。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>提交纪录，现在</h2><p>本周纪录 12 条 / 验证录像已归档 / Any% / 100%</p><a class="btn btn-primary" href="#">提交纪录</a></div></section><footer>帧数战神 / 速通社区 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip" href="#bento">跳到功能便当格</a>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4"/><path d="M8 6v12"/><path d="M13 3v18"/><path d="M18 7v10"/><path d="M22 10v4"/></svg>
+      </span>
+      AURA One
+    </a>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#bento">功能便当格</a>
+      <a href="#detail">深入解析</a>
+      <a href="#specs">技术规格</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#cta">立即购买</a>
+  </div>
+</header>
+<main id="top">
+  <section class="hero container">
+    <p class="hero-meta">AURA One 智能桌面音箱 / 2026 秋季新品 / 现已开售</p>
+    <h1>把录音室级声场，<br>折叠进 <span>18 厘米的桌面</span></h1>
+    <p class="sub">60W 2.1 声学系统，45Hz 低频贴着桌面扩散；一体成型铝合金机身，声学织物 68% 来自回收 PET。插电是主力音源，拔电是随身伴侣。</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#cta">立即购买 ¥1,699</a>
+      <a class="btn" href="#specs">查看技术规格</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><b>60W</b><span>RMS 额定功率</span></div>
+      <div class="hero-stat"><b>45Hz</b><span>低频下潜</span></div>
+      <div class="hero-stat"><b>18h</b><span>单次续航</span></div>
+      <div class="hero-stat"><b>IP54</b><span>防泼溅 / 防尘</span></div>
+    </div>
+  </section>
+  <section class="container sec" id="bento" aria-labelledby="bento-h">
+    <div class="sec-head">
+      <h2 id="bento-h">六件事，一格一件</h2>
+      <p>每一格都是一个可以直接扫读的价值点，不藏二级菜单。</p>
+    </div>
+    <div class="bento">
+      <article class="tile b-audio">
+        <div class="tile-icon c-orange" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+        </div>
+        <div class="tile-body">
+          <h3>60W 2.1 声学系统</h3>
+          <p>独立三通道 D 类放大，45Hz 下潜经导流槽贴桌扩散，Hi-Res Wireless 认证高解析无线传输。</p>
+          <div class="chips">
+            <span class="chip">LDAC</span>
+            <span class="chip">AirPlay 2</span>
+            <span class="chip">Hi-Res Wireless</span>
+          </div>
+        </div>
+        <div class="wave" id="wave">
+          <p class="wave-tag">实时频谱 / 1.8kHz 数字分频</p>
+          <div class="wave-bars" id="waveBars" aria-hidden="true"></div>
+          <div class="wave-axis">
+            <span>45Hz</span>
+            <span>1kHz</span>
+            <span>20kHz</span>
+          </div>
+        </div>
+      </article>
+      <article class="tile b-batt">
+        <div class="tile-icon c-teal" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2"/></svg>
+        </div>
+        <p class="tile-value">18h</p>
+        <h3>摆脱电源线</h3>
+        <p>6600mAh 电池撑过整周通勤播放，USB-C 3.5 小时回满。</p>
+        <div class="batt-track" aria-hidden="true"><div class="batt-fill"></div></div>
+      </article>
+      <article class="tile b-ip">
+        <div class="tile-icon c-blue" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+        </div>
+        <p class="tile-value">IP54</p>
+        <h3>防泼溅 / 防尘</h3>
+        <p>厨房水花与桌面浮尘都进不来，湿布擦拭即净。</p>
+      </article>
+      <article class="tile b-voice">
+        <div class="tile-icon c-violet" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg>
+        </div>
+        <p class="tile-value">4 麦</p>
+        <h3>远场语音助手</h3>
+        <p>五米内准确唤醒，指令本地处理；物理开关一键断开麦克风电路。</p>
+      </article>
+      <article class="tile b-multi">
+        <div class="tile-icon c-pink" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="14" height="10" rx="2"/><rect x="16" y="4" width="6" height="5" rx="1.5"/><rect x="16" y="14" width="6" height="5" rx="1.5"/></svg>
+        </div>
+        <p class="tile-value">32 台</p>
+        <h3>全屋多房间</h3>
+        <p>SyncClock 协议组网同步，起播偏差低于 20ms，人耳不可分辨。</p>
+      </article>
+      <article class="tile b-mat">
+        <div class="tile-icon c-silver" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
+        </div>
+        <p class="tile-value">68%</p>
+        <h3>回收材质机身</h3>
+        <p>一体成型铝合金骨架，声学织物 68% 来自回收 PET 瓶。</p>
+      </article>
+    </div>
+  </section>
+  <section class="container sec" id="detail" aria-labelledby="detail-h">
+    <div class="sec-head">
+      <h2 id="detail-h">再往深看两格</h2>
+      <p>声学怎么摆，隐私怎么保，拆开讲清楚。</p>
+    </div>
+    <div class="detail-card">
+      <div>
+        <h3>向桌面借低音，向夹角借声场</h3>
+        <p class="lead">3.5 英寸长冲程低音单元垂直固定在箱体底部，声音经导流槽贴桌面扩散，借助桌面反射增强下潜；两只 1.2 英寸丝膜高音以 20° 夹角外抛，在正前方形成约 120° 的稳定听域。数字分频点设于 1.8kHz，三通道独立放大逐单元校准。</p>
+        <ul class="check-list">
+          <li>45Hz – 20kHz 频响（±3dB）</li>
+          <li>出厂逐台配对校音，单元间误差不超过 0.5dB</li>
+          <li>120° 水平听域，偏轴 30° 依然平直</li>
+        </ul>
+      </div>
+      <figure class="detail-visual">
+        <svg viewBox="0 0 320 200" role="img" aria-label="单元布局示意：底部低音单元，上方两只外抛高音">
+          <circle cx="160" cy="150" r="34" fill="none" stroke="#FF9F4A" stroke-width="1.6"/>
+          <circle cx="160" cy="150" r="22" fill="rgba(255,159,74,0.14)" stroke="#FF9F4A" stroke-width="1.2"/>
+          <circle cx="160" cy="150" r="9" fill="#FF9F4A"/>
+          <path d="M92 118 L132 96" stroke="#4CC9B0" stroke-width="1.4"/>
+          <path d="M228 118 L188 96" stroke="#4CC9B0" stroke-width="1.4"/>
+          <circle cx="84" cy="108" r="16" fill="rgba(76,201,176,0.14)" stroke="#4CC9B0" stroke-width="1.4"/>
+          <circle cx="236" cy="108" r="16" fill="rgba(76,201,176,0.14)" stroke="#4CC9B0" stroke-width="1.4"/>
+          <path d="M40 176 Q70 120 130 92" fill="none" stroke="#6FA8FF" stroke-width="1" stroke-dasharray="4 4"/>
+          <path d="M280 176 Q250 120 190 92" fill="none" stroke="#6FA8FF" stroke-width="1" stroke-dasharray="4 4"/>
+          <path d="M36 182 H284" stroke="rgba(255,255,255,0.28)" stroke-width="1.4"/>
+          <text x="160" y="52" fill="#A8B3C7" font-size="11" text-anchor="middle">高音外抛 20°</text>
+          <text x="160" y="196" fill="#A8B3C7" font-size="11" text-anchor="middle">桌面反射面</text>
+        </svg>
+        <figcaption>2.1 单元布局与桌面反射路径</figcaption>
+      </figure>
+    </div>
+    <div class="detail-card">
+      <div>
+        <h3>32 台同步起播，隐私留在本地</h3>
+        <p class="lead">SyncClock 协议跑在 Wi-Fi 6 上，全屋最多 32 台 AURA 组成同步群，起播与切歌的偏差低于 20ms，走动听不出接缝。语音唤醒与指令全部在设备本地完成，不上传云端；不想被听见时，拨动物理静音开关，麦克风电路直接断开。</p>
+        <ul class="check-list">
+          <li>同步偏差低于 20ms（Wi-Fi 6 组网）</li>
+          <li>语音指令本地处理，无需联网</li>
+          <li>断电级物理静音开关，状态窗一眼可查</li>
+        </ul>
+      </div>
+      <figure class="detail-visual">
+        <svg viewBox="0 0 320 200" role="img" aria-label="多房间同步示意：四台设备在同一时钟下起播">
+          <rect x="24" y="70" width="80" height="60" rx="10" fill="rgba(76,201,176,0.1)" stroke="#4CC9B0" stroke-width="1.4"/>
+          <rect x="120" y="36" width="80" height="60" rx="10" fill="rgba(255,159,74,0.1)" stroke="#FF9F4A" stroke-width="1.4"/>
+          <rect x="216" y="70" width="80" height="60" rx="10" fill="rgba(180,140,255,0.1)" stroke="#B48CFF" stroke-width="1.4"/>
+          <rect x="120" y="118" width="80" height="60" rx="10" fill="rgba(111,168,255,0.1)" stroke="#6FA8FF" stroke-width="1.4"/>
+          <path d="M104 100 L120 76" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+          <path d="M200 76 L216 100" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+          <path d="M160 96 L160 118" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+          <path d="M44 92 h8 v-8 h10 v16 h8 v-8 h10" fill="none" stroke="#4CC9B0" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M140 58 h8 v-8 h10 v16 h8 v-8 h10" fill="none" stroke="#FF9F4A" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M236 92 h8 v-8 h10 v16 h8 v-8 h10" fill="none" stroke="#B48CFF" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M140 140 h8 v-8 h10 v16 h8 v-8 h10" fill="none" stroke="#6FA8FF" stroke-width="1.6" stroke-linejoin="round"/>
+          <text x="160" y="20" fill="#A8B3C7" font-size="11" text-anchor="middle">SyncClock / 同一时钟源</text>
+          <text x="160" y="196" fill="#A8B3C7" font-size="11" text-anchor="middle">最多 32 台 / 偏差低于 20ms</text>
+        </svg>
+        <figcaption>多房间同步拓扑与本地语音链路</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="container sec" id="specs" aria-labelledby="specs-h">
+    <div class="sec-head">
+      <h2 id="specs-h">技术规格</h2>
+      <p>全部参数以量产固件 v3.2 实测为准。</p>
+    </div>
+    <dl class="specs">
+      <div class="spec-row">
+        <dt>声学结构</dt>
+        <dd>2.1 声道 / 3.5 英寸长冲程低音单元 ×1 / 1.2 英寸丝膜高音 ×2</dd>
+      </div>
+      <div class="spec-row">
+        <dt>额定功率</dt>
+        <dd>60W RMS（低音 36W / 高音 12W ×2）</dd>
+      </div>
+      <div class="spec-row">
+        <dt>频响范围</dt>
+        <dd>45Hz – 20kHz（±3dB）</dd>
+      </div>
+      <div class="spec-row">
+        <dt>无线连接</dt>
+        <dd>Wi-Fi 6 双频 / 蓝牙 5.3 / AirPlay 2 / LDAC</dd>
+      </div>
+      <div class="spec-row">
+        <dt>有线连接</dt>
+        <dd>USB-C（充电与音频）/ 3.5mm AUX 输入</dd>
+      </div>
+      <div class="spec-row">
+        <dt>麦克风</dt>
+        <dd>4 麦克风远场阵列 / 物理静音开关</dd>
+      </div>
+      <div class="spec-row">
+        <dt>电池</dt>
+        <dd>6600mAh / 约 18 小时（50% 音量）/ 3.5 小时充满</dd>
+      </div>
+      <div class="spec-row">
+        <dt>防护等级</dt>
+        <dd>IP54（防泼溅 / 防尘）</dd>
+      </div>
+      <div class="spec-row">
+        <dt>尺寸与重量</dt>
+        <dd>168 × 98 × 104mm / 1.4kg</dd>
+      </div>
+      <div class="spec-row">
+        <dt>机身材质</dt>
+        <dd>一体成型铝合金 / 68% 回收 PET 声学织物</dd>
+      </div>
+    </dl>
+  </section>
+  <section class="container" id="cta" aria-labelledby="cta-h">
+    <div class="cta-panel">
+      <h2 id="cta-h">现在，把 AURA One 搬上桌面</h2>
+      <p class="price">¥1,699</p>
+      <p class="assure">三年质保 / 30 天无理由退换 / 顺丰包邮</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#">立即购买</a>
+        <a class="btn" href="#">预约线下试听</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>UI 设计提示词库 / 落地结构 No.28 / <a href="../style-catalog.html">返回风格目录</a></footer>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  /* 波形频谱：生成 44 根条，高度由正弦序列决定，静态可读 */
+  var barsBox = document.getElementById('waveBars');
+  if (barsBox) {
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < 44; i++) {
+      var b = document.createElement('span');
+      var h = Math.round(24 + 60 * Math.abs(Math.sin(i * 0.34)) + (i % 3) * 4);
+      b.className = 'bar';
+      b.style.setProperty('--h', Math.min(h, 96) + '%');
+      b.style.setProperty('--d', (i * 0.045).toFixed(2) + 's');
+      frag.appendChild(b);
+    }
+    barsBox.appendChild(frag);
+  }
+  /* 卡片媒体：移出视口或页面隐藏时暂停（csv conversion 要求） */
+  var wave = document.getElementById('wave');
+  if (wave && !reduce.matches) {
+    var pauseWave = function (p) { wave.classList.toggle('is-paused', p); };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        pauseWave(!entries[0].isIntersecting);
+      }, { threshold: 0 }).observe(wave);
+    }
+    document.addEventListener('visibilitychange', function () {
+      pauseWave(document.hidden);
+    });
+  }
+  /* 大格轻倾角（csv effects: tilt），仅精确指针 + 非 reduced-motion 时启用 */
+  var big = document.querySelector('.b-audio');
+  if (big && !reduce.matches && window.matchMedia('(pointer: fine)').matches) {
+    big.addEventListener('pointermove', function (e) {
+      var r = big.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      big.style.transform = 'perspective(900px) rotateX(' + (-y * 4).toFixed(2) + 'deg) rotateY(' + (x * 4).toFixed(2) + 'deg) scale(1.02)';
+    });
+    big.addEventListener('pointerleave', function () {
+      big.style.transform = '';
+    });
+  }
+})();
+</script>
 </body>
 </html>
