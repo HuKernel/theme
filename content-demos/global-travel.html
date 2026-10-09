@@ -4,166 +4,809 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>环球旅册 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>环球旅册 Global Travel / UI 设计提示词库</title>
+<meta name="description" content="旅行作家八年环球旅册，点阵世界地图、暖色图钉与大洲纪行。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces+family=Inter+family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@600&display=swap');
+
+/* token 计划: bg#EAF2F0 / panel#FFF / ink#22333B / muted#6E8483(仅限大字号与装饰) / deep#566B6A(小字正文, 对比度≥4.5) / accent#FF6B4A(珊瑚主行动, 配墨色文字) / line#CFE0DC / radius 8px / Fraunces + Inter */
 
 :root {
-  --bg: #EAF2F0; --panel: #FFFFFF; --ink: #22333B; --muted: #6E8483;
-  --accent: #FF6B4A; --line: #CFE0DC; --radius: 8px;
-  --fh: 'Fraunces', 'PingFang SC', 'Microsoft YaHei', serif;
-  --fb: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --bg: #EAF2F0;
+  --panel: #FFFFFF;
+  --ink: #22333B;
+  --muted: #6E8483;
+  --deep: #566B6A;
+  --accent: #FF6B4A;
+  --line: #CFE0DC;
+  --dot: #B9CFC8;
+  --radius: 8px;
+  --fh: 'Fraunces', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --fb: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
+::selection { background: var(--accent); color: var(--ink); }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2.5px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.travel-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vw, 62px) clamp(18px, 4vw, 48px) 72px;
+}
+
+/* ---------- 居中标题块 ---------- */
+
+.dossier-head { text-align: center; }
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.kicker::before {
+  content: '';
+  width: 26px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.dossier-head h1 {
+  font-family: var(--fh);
+  font-weight: 600;
+  font-size: clamp(42px, 7vw, 74px);
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  margin: 14px 0 16px;
+}
+
+.lede {
+  max-width: 36em;
+  margin: 0 auto;
+  font-size: clamp(14.5px, 1.6vw, 16px);
+  color: var(--deep);
+}
+
+.head-tools {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px 14px;
+}
+
+.seg {
+  display: inline-flex;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.seg-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: var(--fb);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 8px 16px;
+  cursor: pointer;
+  border-left: 1px solid var(--line);
+}
+
+.seg-btn:first-child { border-left: none; }
+
+.seg-btn.is-on { background: var(--ink); color: #FFFFFF; font-weight: 600; }
+
+.act {
+  appearance: none;
+  border: none;
+  font-family: var(--fb);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--accent);
+  border-radius: var(--radius);
+  padding: 9px 20px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(34, 51, 59, 0.18);
+}
+
+.act:hover { filter: brightness(1.04); }
+
+.act-note { font-size: 12.5px; color: var(--deep); }
+
+/* ---------- 点阵世界地图 ---------- */
+
+.world-field {
+  position: relative;
+  margin-top: 42px;
+  padding: clamp(18px, 3vw, 34px) 0 10px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+#atlas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#dots circle {
+  fill: var(--dot);
+  opacity: 0;
+  animation: dot-in 0.5s ease-out forwards;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes dot-in { to { opacity: 1; } }
+
+.route {
+  fill: none;
+  stroke: var(--accent);
+  stroke-opacity: 0.5;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 8;
+  opacity: 0;
+  animation: soft-in 0.7s ease-out 0.85s forwards;
+}
+
+.pin {
+  cursor: pointer;
+  opacity: 0;
+  animation: soft-in 0.6s ease-out 0.95s forwards;
+}
+
+@keyframes soft-in { to { opacity: 1; } }
+
+.pin-dot {
+  fill: var(--accent);
+  stroke: #FFFFFF;
+  stroke-width: 1.6;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+.pin-core { fill: #FFFFFF; opacity: 0.9; }
+
+.pin-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0;
+  transition: opacity 0.25s ease, stroke 0.25s ease;
+}
+
+.pin:hover .pin-dot { transform: scale(1.22); }
+
+.pin.is-sel .pin-dot { transform: scale(1.38); }
+
+.pin.is-sel .pin-ring { opacity: 0.65; }
+
+.pin:focus-visible { outline: none; }
+
+.pin:focus-visible .pin-ring { opacity: 1; stroke: var(--ink); stroke-width: 2; }
+
+.field-caption {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--deep);
+}
+
+/* ---------- 浮动地点卡 ---------- */
+
+.callout-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(300px, 74vw);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px 18px 13px;
+  box-shadow: 0 16px 36px rgba(34, 51, 59, 0.15);
+  transform: translate(20px, -50%);
+  z-index: 3;
+}
+
+.callout-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 46px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+}
+
+.callout-card::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  margin-top: -5px;
+  width: 9px;
+  height: 9px;
+  background: #FFFFFF;
+  border-left: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+
+.callout-card.flip-x { transform: translate(calc(-100% - 20px), -50%); }
+
+.callout-card.flip-x::after {
+  left: auto;
+  right: -5px;
+  border-left: none;
+  border-bottom: none;
+  border-right: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+
+.callout-card.pos-below { transform: translate(16px, 10px); }
+
+.callout-card.pos-below::after {
+  left: 22px;
+  top: -5px;
+  margin-top: 0;
+  border-bottom: none;
+  border-left: none;
+  border-right: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  transform: rotate(135deg);
+}
+
+.cc-meta { font-size: 12.5px; color: var(--deep); }
+
+.cc-name {
+  font-family: var(--fh);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.25;
+  margin: 3px 0 7px;
+}
+
+.cc-en { font-family: var(--fb); font-weight: 400; font-size: 13px; color: var(--deep); }
+
+.cc-note { font-size: 13.5px; line-height: 1.7; color: var(--ink); }
+
+.cc-days {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--deep);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.cc-days b {
+  font-family: var(--fh);
+  font-weight: 600;
+  font-size: 23px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 数字跑道 ---------- */
+
+.metric-runway {
+  margin-top: 46px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+}
+
+.metric { padding: 26px clamp(16px, 2.6vw, 30px) 28px; border-left: 1px solid var(--line); }
+
+.metric:first-child { border-left: none; }
+
+.mi { width: 23px; height: 23px; color: var(--ink); margin-bottom: 12px; }
+
+.m-num { height: 1.3em; display: flex; align-items: baseline; }
+
+.num {
+  font-family: var(--fh);
+  font-weight: 600;
+  font-size: clamp(36px, 4.4vw, 54px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.m-label { margin-top: 8px; font-size: 14px; font-weight: 500; color: var(--ink); }
+
+/* ---------- 大洲纪行 ---------- */
+
+.continent-ledger { margin-top: 58px; }
+
+.ledger-title { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+
+.continent-ledger h2 { font-family: var(--fh); font-weight: 600; font-size: 24px; }
+
+.ledger-title-meta { font-size: 13px; color: var(--deep); }
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: 148px 126px 62px 86px 1fr 138px;
+  grid-template-areas: "name years nat days note bar";
+  gap: 6px 18px;
+  align-items: baseline;
+  padding: 15px 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ledger-head {
+  padding: 10px 6px 8px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.lg-name { grid-area: name; font-family: var(--fh); font-weight: 600; font-size: 17px; line-height: 1.3; }
+
+.ledger-head .lg-name { font-family: var(--fb); font-weight: 500; font-size: 12.5px; color: var(--deep); }
+
+.lg-name i { display: block; font-style: normal; font-family: var(--fb); font-weight: 400; font-size: 12px; color: var(--deep); }
+
+.lg-years { grid-area: years; font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.ledger-head .lg-years { font-size: 12.5px; color: var(--deep); }
+
+.lg-nat { grid-area: nat; font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.ledger-head .lg-nat { font-size: 12.5px; color: var(--deep); }
+
+.lg-days { grid-area: days; font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.ledger-head .lg-days { font-size: 12.5px; color: var(--deep); }
+
+.lg-note { grid-area: note; font-size: 13.5px; color: var(--deep); line-height: 1.7; }
+
+.lg-bar {
+  grid-area: bar;
+  align-self: center;
+  height: 6px;
+  border-radius: 3px;
+  background: #DCE9E5;
+  overflow: hidden;
+}
+
+.lg-bar i { display: block; height: 100%; border-radius: 3px; background: var(--accent); width: var(--w); }
+
+.ledger-body { list-style: none; }
+
+.colophon {
+  margin: 62px auto 0;
+  max-width: 30em;
+  text-align: center;
+  font-family: var(--fh);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.8;
+}
+
+/* ---------- 页脚 ---------- */
+
+.foot {
+  margin-top: 68px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  font-size: 13px;
+  color: var(--deep);
+}
+
+.foot a {
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.foot a:hover { color: var(--accent); }
+
+/* ---------- 响应式 ---------- */
+
+@media (min-width: 1440px) {
+  .travel-shell { max-width: 1220px; }
+}
+
+@media (max-width: 1023px) {
+  .ledger-row { grid-template-columns: 118px 108px 54px 74px 1fr 108px; }
+}
+
+@media (max-width: 767px) {
+  .metric-runway { grid-template-columns: 1fr 1fr; }
+
+  .metric:nth-child(odd) { border-left: none; }
+
+  .metric:nth-child(n+3) { border-top: 1px solid var(--line); }
+
+  .callout-card {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100%;
+    max-width: 430px;
+    margin: 14px auto 4px;
+  }
+
+  .callout-card::after { display: none; }
+
+  .ledger-head { display: none; }
+
+  .ledger-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "name days" "years nat" "note note" "bar bar";
+    row-gap: 8px;
+    padding: 14px 2px;
+  }
+}
+
+@media (max-width: 400px) {
+  .seg-btn { padding: 8px 11px; font-size: 12.5px; }
+}
+
+/* ---------- 动效降级 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #dots circle,
+  .pin { animation: none; opacity: 1; }
+
+  .route { animation: none; opacity: 0.5; }
+
+  .pin-dot { transition: none; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Global Travel</p>
-  <h1>环球旅册</h1>
-  <p class="sub">居中式旅行档案：优雅 dossier，不是地图应用。个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面。</p>
-  <p class="meta">本页 token：<code>底 #EAF2F0</code> <code>面板 #FFFFFF</code> <code>主字 #22333B</code> <code>强调 #FF6B4A</code> <code>圆角 8px</code> / 标题 <code>Fraunces</code> / 正文 <code>Inter</code> / 动效：点阵地图一次浮现</p>
+<div class="travel-shell">
 
-  <h2>结构示意</h2>
-  <div class="hx travel" style="--a:#FF6B4A">
-  <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="runway"><div><b>12</b><span>城市</span></div><div><b>38k</b><span>公里</span></div><div><b>5</b><span>洲</span></div></div>
+  <header class="dossier-head">
+    <p class="kicker">旅行档案 / 2018–2025 / 第 3 次修订</p>
+    <h1>环球旅册</h1>
+    <p class="lede">八年，二十七个国家与地区，两本在路上写完的书。地图上的每一枚暖色图钉，都是一次真实的抵达。</p>
+    <div class="head-tools">
+      <div class="seg" role="group" aria-label="统计时段">
+        <button type="button" class="seg-btn is-on" data-set="all">全程 2018–2025</button>
+        <button type="button" class="seg-btn" data-set="early">2018–2021</button>
+        <button type="button" class="seg-btn" data-set="late">2022–2025</button>
+      </div>
+      <button type="button" class="act" id="exportBtn">导出 GPX 航迹</button>
+      <span class="act-note" id="exportNote" hidden>已生成 214 个航迹点 / 约 1.2 MB</span>
+    </div>
+  </header>
+
+  <section class="world-field" aria-label="点阵世界地图">
+    <svg id="atlas" viewBox="0 0 1080 450" role="group" aria-label="低对比点阵世界地图，暖色图钉标注十三座常访城市，虚线为时间顺序旅线">
+      <g id="dots"></g>
+      <polyline id="route" class="route" points=""></polyline>
+      <g id="pins"></g>
+    </svg>
+    <aside class="callout-card" id="callout" aria-live="polite">
+      <p class="cc-meta" id="ccMeta">葡萄牙 / 到访 2018.04 / 2023.10</p>
+      <h3 class="cc-name" id="ccName">里斯本 <span class="cc-en">Lisbon</span></h3>
+      <p class="cc-note" id="ccNote">两次长住都在阿尔法玛，黄电车穿过整本佩索阿。</p>
+      <p class="cc-days"><b id="ccDays">47</b><span>天累计停留</span></p>
+    </aside>
+    <p class="field-caption">十三座常访城市 / 432 个过夜记录 / 虚线为时间顺序旅线 / 数据截至 2025.09</p>
+  </section>
+
+  <section class="metric-runway" aria-label="旅程数字">
+    <div class="metric">
+      <svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 20.5h17"/><path d="M6.5 20.5V10h4.5v10.5"/><path d="M11 20.5V4.5h6.5v16"/><path d="M14 8.5h.01M14 12h.01M14 15.5h.01"/></svg>
+      <p class="m-num"><span class="num" id="num0">0</span></p>
+      <p class="m-label">城市</p>
+    </div>
+    <div class="metric">
+      <svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c3.2 3.6 3.2 13.4 0 17-3.2-3.6-3.2-13.4 0-17z"/></svg>
+      <p class="m-num"><span class="num" id="num1">0</span></p>
+      <p class="m-label">国家与地区</p>
+    </div>
+    <div class="metric">
+      <svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="5.5" cy="18.5" r="1.8"/><circle cx="18.5" cy="5.5" r="1.8"/><path d="M7.3 16.8c5.5-2.3 3.2-6.8 6.7-8.4 1.6-.7 3-1 4.7-1.1"/></svg>
+      <p class="m-num"><span class="num" id="num2">0</span></p>
+      <p class="m-label">里程（公里）</p>
+    </div>
+    <div class="metric">
+      <svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="5.5" width="16" height="15" rx="2.5"/><path d="M4 10.5h16"/><path d="M8.5 3v5M15.5 3v5"/></svg>
+      <p class="m-num"><span class="num" id="num3">0</span></p>
+      <p class="m-label">在途天数</p>
+    </div>
+  </section>
+
+  <section class="continent-ledger" aria-label="大洲纪行">
+    <div class="ledger-title">
+      <h2>大洲纪行</h2>
+      <p class="ledger-title-meta">按首次抵达排序 / 天数为累计在途</p>
+    </div>
+    <div class="ledger-row ledger-head" aria-hidden="true">
+      <span class="lg-name">大洲</span>
+      <span class="lg-years">时段</span>
+      <span class="lg-nat">国家</span>
+      <span class="lg-days">天数</span>
+      <span class="lg-note">纪行</span>
+      <span class="lg-bar"></span>
+    </div>
+    <ol class="ledger-body">
+      <li class="ledger-row">
+        <span class="lg-name">欧洲<i>Europe</i></span>
+        <span class="lg-years">2018–2019</span>
+        <span class="lg-nat">10 国</span>
+        <span class="lg-days">476 天</span>
+        <span class="lg-note">从里斯本的黄电车开始，在佩索阿的诗行里学会慢船。</span>
+        <span class="lg-bar"><i style="--w:73%"></i></span>
+      </li>
+      <li class="ledger-row">
+        <span class="lg-name">亚洲<i>Asia</i></span>
+        <span class="lg-years">2019–2021</span>
+        <span class="lg-nat">6 国</span>
+        <span class="lg-days">651 天</span>
+        <span class="lg-note">东京的雨季与孟买的季风之间，写完第一本书。</span>
+        <span class="lg-bar"><i style="--w:100%"></i></span>
+      </li>
+      <li class="ledger-row">
+        <span class="lg-name">非洲<i>Africa</i></span>
+        <span class="lg-years">2021–2022</span>
+        <span class="lg-nat">3 国</span>
+        <span class="lg-days">283 天</span>
+        <span class="lg-note">从开罗旧书市到桌山云海，同一本笔记的第 214 页。</span>
+        <span class="lg-bar"><i style="--w:43%"></i></span>
+      </li>
+      <li class="ledger-row">
+        <span class="lg-name">南美洲<i>South America</i></span>
+        <span class="lg-years">2022–2023</span>
+        <span class="lg-nat">4 国</span>
+        <span class="lg-days">334 天</span>
+        <span class="lg-note">安第斯的夜车，从利马一路摇进巴塔哥尼亚的风里。</span>
+        <span class="lg-bar"><i style="--w:51%"></i></span>
+      </li>
+      <li class="ledger-row">
+        <span class="lg-name">北美洲<i>North America</i></span>
+        <span class="lg-years">2023–2024</span>
+        <span class="lg-nat">2 国</span>
+        <span class="lg-days">202 天</span>
+        <span class="lg-note">温哥华的渡轮与墨西哥城的天台，两次长居。</span>
+        <span class="lg-bar"><i style="--w:31%"></i></span>
+      </li>
+      <li class="ledger-row">
+        <span class="lg-name">大洋洲<i>Oceania</i></span>
+        <span class="lg-years">2024–2025</span>
+        <span class="lg-nat">2 国</span>
+        <span class="lg-days">168 天</span>
+        <span class="lg-note">从奥克兰向南，在冰川上给八年画一个逗号。</span>
+        <span class="lg-bar"><i style="--w:26%"></i></span>
+      </li>
+    </ol>
+    <p class="colophon">手记仍在中途。下一站 / 2026 年春 / 摩洛哥 丹吉尔。</p>
+  </section>
+
+  <footer class="foot">
+    <p>UI 设计提示词库 / 内容排版 / 环球旅册</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>居中标题块：一个强标题、一句副题、紧凑选择器与主行动</span></li><li><b>02</b><span>点阵世界地图：低对比点阵充满首屏，SVG/CSS 绘制</span></li><li><b>03</b><span>暖色图钉与一个浮标卡：标注选中城市/路线</span></li><li><b>04</b><span>数字跑道：4-6 个大计数器配细描边图标，数字即节奏</span></li><li><b>05</b><span>折叠线以下的细节：时间线、花费、下钻都从属于地图舞台</span></li></ol>
+<script>
+(function () {
+  'use strict';
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.travel-shell .world-field .pin .callout-card .metric-runway</p>
+  /* 点阵世界地图：72 列 x 30 行，5 度一格，# 为陆地（手绘近似） */
+  var D = '............';
+  var WORLD = [
+    D + D + D + D + D + D,
+    D + D + '#######.....' + D + D + D,
+    D + '..........##' + '#########...' + D + '........###.' + '..###...###.',
+    '........####' + '############' + '########....' + '........####' + '############' + '############',
+    '......######' + '############' + '########....' + '...#########' + '############' + '############',
+    '....#######.' + '############' + '.######.##..' + '..##########' + '############' + '############',
+    '....#######.' + '##########..' + D + '..##########' + '############' + '############',
+    '..........##' + '############' + '..........##' + '############' + '############' + '############',
+    '..........##' + '############' + '..........##' + '############' + '############' + '##########..',
+    '...........#' + '###########.' + '..........##' + '############' + '############' + '....#####...',
+    '...........#' + '###########.' + '..........##' + '############' + '############' + '....##.##...',
+    D + '###########.' + '.........###' + '############' + '############' + '##..##......',
+    D + '.##########.' + '........####' + '############' + '############' + '###.........',
+    D + '..######....' + '........####' + '############' + '##.###..###.' + D,
+    D + '...####.##..' + '........####' + '############' + '##.####.###.' + D,
+    D + '....####....' + '........####' + '############' + '##.###..###.' + '##..........',
+    D + '.....#####..' + '.........###' + '############' + '##....#..###' + '##..........',
+    D + '.......#####' + '####........' + '############' + '#.......####' + '##..####....',
+    D + '.......#####' + '#####.......' + '###########.' + '.........###' + '####.#####..',
+    D + '......######' + '######......' + '###########.' + '.........###' + '###.........',
+    D + '......######' + '#######.....' + '###########.' + '..........##' + '##..........',
+    D + '.......#####' + '#######.....' + '##########..' + '..........##' + '######......',
+    D + '.......#####' + '#######.....' + '##########.#' + '..........##' + '#######.....',
+    D + '........####' + '#######.....' + '#########.#.' + '..........##' + '#######.....',
+    D + '........####' + '#####.......' + '########....' + '...........#' + '#######.....',
+    D + '.........###' + '###.........' + '.######.....' + D + '######....##',
+    D + '.........###' + '##..........' + D + D + '.......##...',
+    D + '.........###' + '#...........' + D + D + '.......##...',
+    D + '..........##' + D + D + D + D,
+    D + '..........#.' + D + D + D + D
+  ];
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  /* 常访城市：经纬度与档案 */
+  var CITIES = {
+    lisbon:     { n: '里斯本',   en: 'Lisbon',        c: '葡萄牙',   lon: -9.14,   lat: 38.71,  v: '2018.04 / 2023.10', d: 47, s: '两次长住都在阿尔法玛，黄电车穿过整本佩索阿。' },
+    reykjavik:  { n: '雷克雅未克', en: 'Reykjavik',   c: '冰岛',     lon: -21.94,  lat: 64.15,  v: '2019.01',            d: 12, s: '一月的极光把黑沙滩照成一张底片。' },
+    tokyo:      { n: '东京',     en: 'Tokyo',         c: '日本',     lon: 139.69,  lat: 35.69,  v: '2019.06 / 2021.09',  d: 54, s: '梅雨季的早班车上，写完第一本书的最后三章。' },
+    mumbai:     { n: '孟买',     en: 'Mumbai',        c: '印度',     lon: 72.88,   lat: 19.08,  v: '2020.01',            d: 38, s: '季风来的那一周，全城都在等一场雨。' },
+    cairo:      { n: '开罗',     en: 'Cairo',         c: '埃及',     lon: 31.24,   lat: 30.04,  v: '2021.02',            d: 26, s: '旧书市里淘到 1962 年的尼罗河航图。' },
+    capetown:   { n: '开普敦',   en: 'Cape Town',     c: '南非',     lon: 18.42,   lat: -33.92, v: '2021.11',            d: 24, s: '桌山的云像一封没写完的信。' },
+    istanbul:   { n: '伊斯坦布尔', en: 'Istanbul',    c: '土耳其',   lon: 28.98,   lat: 41.01,  v: '2021.12 / 2024.03',  d: 31, s: '两次跨年，都在加拉塔的另一侧。' },
+    lima:       { n: '利马',     en: 'Lima',          c: '秘鲁',     lon: -77.04,  lat: -12.05, v: '2022.05',            d: 29, s: '海雾里的米拉弗洛雷斯，面包房凌晨四点开门。' },
+    buenos:     { n: '布宜诺斯艾利斯', en: 'Buenos Aires', c: '阿根廷', lon: -58.38, lat: -34.60, v: '2022.12',          d: 41, s: '博尔赫斯的图书馆，和一整夜探戈。' },
+    vancouver:  { n: '温哥华',   en: 'Vancouver',     c: '加拿大',   lon: -123.12, lat: 49.28,  v: '2023.03',            d: 30, s: '渡轮上的整个四月，雪山一直在窗外。' },
+    mexico:     { n: '墨西哥城', en: 'Mexico City',   c: '墨西哥',   lon: -99.13,  lat: 19.43,  v: '2023.08',            d: 46, s: '屋顶天台上，校完第二本书的清样。' },
+    sydney:     { n: '悉尼',     en: 'Sydney',        c: '澳大利亚', lon: 151.21,  lat: -33.87, v: '2024.07',            d: 21, s: '冬天的曼利海滩，泳者比海鸥更早。' },
+    auckland:   { n: '奥克兰',   en: 'Auckland',      c: '新西兰',   lon: 174.76,  lat: -36.85, v: '2024.09',            d: 33, s: '向南之前，把八年整理成一只箱子。' }
+  };
+
+  /* 旅线（时间顺序） */
+  var ORDER = ['lisbon', 'reykjavik', 'tokyo', 'mumbai', 'cairo', 'capetown', 'istanbul', 'lima', 'buenos', 'vancouver', 'mexico', 'sydney', 'auckland'];
+
+  var W = 1080, H = 450, S = 15;
+
+  function pt(id) {
+    var c = CITIES[id];
+    return [(c.lon + 180) * 3, (90 - c.lat) * 3];
+  }
+
+  function buildDots() {
+    var html = '';
+    for (var r = 0; r < WORLD.length; r++) {
+      var row = WORLD[r];
+      for (var c = 0; c < row.length; c++) {
+        if (row.charAt(c) === '#') {
+          var dly = Math.round((c * 0.9 + r) * 9 + Math.random() * 60);
+          html += '<circle cx="' + (c * S + 7.5) + '" cy="' + (r * S + 7.5) + '" r="3.1" style="--d:' + dly + 'ms"/>';
+        }
+      }
+    }
+    document.getElementById('dots').innerHTML = html;
+  }
+
+  function buildRoute() {
+    var pts = ORDER.map(function (id) {
+      var p = pt(id);
+      return p[0].toFixed(1) + ',' + p[1].toFixed(1);
+    });
+    document.getElementById('route').setAttribute('points', pts.join(' '));
+  }
+
+  function buildPins() {
+    var html = '';
+    Object.keys(CITIES).forEach(function (id) {
+      var c = CITIES[id], p = pt(id);
+      html += '<g class="pin" data-id="' + id + '" tabindex="0" role="button" aria-pressed="false" aria-label="' +
+        c.n + '（' + c.c + '）/ 累计停留 ' + c.d + ' 天" transform="translate(' + p[0].toFixed(1) + ' ' + p[1].toFixed(1) + ')">' +
+        '<circle class="pin-ring" r="10"/><circle class="pin-dot" r="4.2"/><circle class="pin-core" r="1.5"/></g>';
+    });
+    var pins = document.getElementById('pins');
+    pins.innerHTML = html;
+    pins.addEventListener('click', function (e) {
+      var g = e.target.closest('.pin');
+      if (g) select(g.dataset.id);
+    });
+    pins.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        var g = e.target.closest('.pin');
+        if (g) { e.preventDefault(); select(g.dataset.id); }
+      }
+    });
+  }
+
+  var card = document.getElementById('callout');
+
+  function select(id) {
+    var pins = document.querySelectorAll('.pin');
+    for (var i = 0; i < pins.length; i++) {
+      var on = pins[i].dataset.id === id;
+      pins[i].classList.toggle('is-sel', on);
+      pins[i].setAttribute('aria-pressed', on);
+    }
+    var c = CITIES[id], p = pt(id);
+    document.getElementById('ccMeta').textContent = c.c + ' / 到访 ' + c.v;
+    document.getElementById('ccName').innerHTML = c.n + ' <span class="cc-en">' + c.en + '</span>';
+    document.getElementById('ccNote').textContent = c.s;
+    document.getElementById('ccDays').textContent = c.d;
+    var cx = p[0] / W, cy = p[1] / H;
+    card.classList.remove('flip-x', 'pos-below');
+    if (cx > 0.60) card.classList.add('flip-x');
+    if (cy < 0.28) card.classList.add('pos-below');
+    card.style.left = (cx * 100).toFixed(2) + '%';
+    card.style.top = (cy * 100).toFixed(2) + '%';
+  }
+
+  /* 数字跑道 */
+  var SETS = { all: [42, 27, 296480, 2114], early: [27, 16, 168920, 1190], late: [15, 11, 127560, 924] };
+  var nums = [].slice.call(document.querySelectorAll('.num'));
+  var cur = [0, 0, 0, 0];
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function fmt(n) { return n.toLocaleString('zh-CN'); }
+
+  function tween(i, from, to) {
+    if (reduced || from === to) { nums[i].textContent = fmt(to); return; }
+    var t0 = performance.now(), dur = 950;
+    var step = function (t) {
+      var k = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
+      nums[i].textContent = fmt(Math.round(from + (to - from) * e));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function apply(key) {
+    SETS[key].forEach(function (v, i) { tween(i, cur[i], v); cur[i] = v; });
+  }
+
+  var runway = document.querySelector('.metric-runway');
+  if ('IntersectionObserver' in window && !reduced) {
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { apply('all'); io.disconnect(); }
+    }, { threshold: 0.35 });
+    io.observe(runway);
+  } else {
+    apply('all');
+  }
+
+  document.querySelector('.seg').addEventListener('click', function (e) {
+    var b = e.target.closest('.seg-btn');
+    if (!b) return;
+    document.querySelectorAll('.seg-btn').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+    apply(b.dataset.set);
+  });
+
+  document.getElementById('exportBtn').addEventListener('click', function () {
+    var note = document.getElementById('exportNote');
+    note.hidden = !note.hidden;
+  });
+
+  buildDots();
+  buildRoute();
+  buildPins();
+  select('lisbon');
+})();
+</script>
 </body>
 </html>

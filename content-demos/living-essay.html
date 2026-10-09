@@ -4,166 +4,599 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>菌丝长文 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>菌丝长文 Living Essay / UI 设计提示词库</title>
+<meta name="description" content="一篇关于停顿、噪声与被填满的时间的慢读长文：为什么我们开始害怕安静。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono+family=Noto+Serif+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+/* token 计划：bg #F4F1E8 / panel #FBF9F2 / ink #33322D / muted #8C8878（小字场景以 #6B675A 保对比）/ accent #6B7F3E（作正文色时用 #4F6130）/ line #DDD8C8 / radius 6px / fh fb 均为 Noto Serif SC */
 
 :root {
-  --bg: #F4F1E8; --panel: #FBF9F2; --ink: #33322D; --muted: #8C8878;
-  --accent: #6B7F3E; --line: #DDD8C8; --radius: 6px;
-  --fh: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
-  --fb: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --bg: #F4F1E8;
+  --panel: #FBF9F2;
+  --ink: #33322D;
+  --muted: #8C8878;
+  --soft: #6B675A;
+  --accent: #6B7F3E;
+  --accent-ink: #4F6130;
+  --line: #DDD8C8;
+  --radius: 6px;
+  --fh: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --fb: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 2.05;
+  letter-spacing: 0.01em;
+  padding: 0 0 40px;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
+::selection { background: rgba(107, 127, 62, 0.22); }
+
+a { color: var(--accent-ink); }
+
+a:focus-visible,
+.spore:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- 顶部刊头：仅一行字，极少元数据 ---------- */
+
+.mast {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 34px 22px 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mast p {
+  font-size: 13px;
+  color: var(--soft);
+  letter-spacing: 0.08em;
+}
+
+/* ---------- 阅读布局：左缘问题胶囊 + 中央纸面手稿 ---------- */
+
+.layout {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 44px 22px 8px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: clamp(14px, 3vw, 26px);
+  align-items: start;
+}
+
+/* 菌丝层：整幅内联 SVG 覆盖阅读区，线从胶囊长向孢子词 */
+
+.mycelium-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.45;
+  animation: layer-settle 3s ease-out 1.1s both;
+}
+
+@keyframes layer-settle {
+  from { opacity: 0.95; }
+  to { opacity: 0.45; }
+}
+
+.hypha {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+}
+
+.node { fill: var(--accent); }
+
+/* 左缘竖排问题胶囊：边框缓慢呼吸 */
+
+.rail { position: relative; z-index: 4; }
+
+.capsule-container { display: flex; justify-content: center; }
+
+.capsule {
+  writing-mode: vertical-rl;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  line-height: 1.6;
+  color: var(--accent-ink);
+  background: var(--panel);
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  padding: 18px 8px;
+  animation: breathe 7s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    border-color: rgba(107, 127, 62, 0.5);
+    box-shadow: 0 0 0 rgba(107, 127, 62, 0);
+  }
+  50% {
+    border-color: rgba(107, 127, 62, 1);
+    box-shadow: 0 0 12px rgba(107, 127, 62, 0.22);
+  }
+}
+
+/* 纸面手稿：单一中央阅读栏，衬线、宽行距、行长不超过 70ch */
+
+.sheet {
+  position: relative;
+  z-index: 2;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(28px, 5vw, 56px) clamp(22px, 4.5vw, 52px);
+}
+
+.essay { max-width: 70ch; }
+
+.essay-head {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.7em;
+  margin-bottom: 2.1em;
+}
+
+h1 {
+  font-family: var(--fh);
+  font-size: clamp(28px, 5.4vw, 40px);
+  line-height: 1.32;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.dek {
+  margin-top: 0.9em;
+  font-size: 15.5px;
+  line-height: 1.95;
+  color: var(--soft);
+}
+
+.essay-meta {
+  margin-top: 1.1em;
+  font-size: 13px;
+  color: var(--soft);
+  letter-spacing: 0.05em;
+}
+
+h2 {
+  font-family: var(--fh);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.7;
+  margin: 2.5em 0 1em;
+}
+
+h2 .no {
+  color: var(--accent-ink);
+  font-size: 0.85em;
+  margin-right: 0.6em;
+}
+
+p { margin: 0 0 1.35em; text-align: justify; }
+
+.open::first-letter {
+  float: left;
+  font-size: 3em;
+  line-height: 1.05;
+  padding: 0.06em 0.14em 0 0;
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.pull {
+  margin: 2.3em 0;
+  padding: 0.15em 0 0.15em 1.2em;
+  border-left: 2px solid var(--accent);
+  font-size: 1.12em;
+  line-height: 1.95;
+  font-weight: 600;
+}
+
+/* 孢子词：被菌丝连接或被选中时显出强调色下划线 */
+
+.spore {
+  border-bottom: 2px solid rgba(107, 127, 62, 0.35);
+  transition: border-color 0.35s ease;
+  cursor: default;
+}
+
+.spore:hover,
+.spore:focus-visible,
+.spore.is-linked { border-bottom-color: var(--accent); }
+
+/* ---------- 安静附录：细线条列表收尾，不做卡片 ---------- */
+
+.appendix {
+  max-width: 780px;
+  margin: 30px auto 0;
+  padding: 0 22px;
+}
+
+.ap-head {
+  font-family: var(--fh);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 1.9em 0 0.4em;
+}
+
+.ap-head:first-child { margin-top: 0; }
+
+.ap-note {
+  font-size: 13px;
+  color: var(--soft);
+  margin-bottom: 0.8em;
+}
+
+.ap-list { list-style: none; border-bottom: 1px solid var(--line); }
+
+.ap-row {
+  display: grid;
+  grid-template-columns: 12.5em 1fr;
+  gap: 14px;
+  padding: 11px 2px;
+  border-top: 1px solid var(--line);
+  font-size: 14.5px;
+  line-height: 1.85;
+}
+
+.ap-row dt,
+.ap-row .t {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ap-row dd,
+.ap-row .d { color: var(--soft); }
+
+/* ---------- 页脚 ---------- */
+
+.foot {
+  max-width: 780px;
+  margin: 64px auto 0;
+  padding: 20px 22px 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--soft);
+}
+
+.foot a { text-decoration: none; font-weight: 600; }
+
+.foot a:hover { text-decoration: underline; }
+
+/* ---------- 响应式 ---------- */
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .layout { grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding-top: 34px; }
+  .capsule { font-size: 11px; letter-spacing: 0.22em; padding: 13px 6px; }
+  .ap-row { grid-template-columns: 1fr; gap: 2px; padding: 10px 2px; }
+  .ap-row dt,
+  .ap-row .t { font-size: 14.5px; }
+}
+
+@media (min-width: 1100px) {
+  .layout { padding-top: 56px; }
+  .appendix { padding-top: 6px; }
+}
+
+/* ---------- 一次亮相之外的全部静音：减少动态偏好 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .mycelium-layer { animation: none; opacity: 0.45; }
+  .hypha, .node { animation: none !important; }
+  .node { opacity: 0.85; }
+  .capsule { animation: none; border-color: rgba(107, 127, 62, 0.85); }
+  .spore { transition: none; }
+}
+
+@media print {
+  .mycelium-layer, .rail, .mast { display: none; }
+  body { background: #FFFFFF; }
+  .sheet { border: none; padding: 0; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Living Essay</p>
-  <h1>菌丝长文</h1>
-  <p class="sub">菌丝发酵式慢读环境：诗意阅读工具，不是产品仪表盘。高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被"读"而不是被"操作"的内容。</p>
-  <p class="meta">本页 token：<code>底 #F4F1E8</code> <code>面板 #FBF9F2</code> <code>主字 #33322D</code> <code>强调 #6B7F3E</code> <code>圆角 6px</code> / 标题 <code>Noto Serif SC</code> / 正文 <code>Noto Serif SC</code> / 动效：菌丝 SVG 一次生长</p>
 
-  <h2>结构示意</h2>
-  <div class="hx essayh" style="--a:#6B7F3E">
-  <div class="capsule">何为慢读</div>
-  <p>阅读不是采集，而是让概念在<span class="spore">缓慢发酵</span>中彼此连接，像菌丝穿过一页页<span class="spore">纸的季节</span>。</p>
+<header class="mast">
+  <p>菌丝长文 / Living Essay</p>
+</header>
+
+<div class="layout">
+
+  <svg class="mycelium-layer" aria-hidden="true" preserveAspectRatio="none"></svg>
+
+  <aside class="rail">
+    <div class="capsule-container">
+      <div class="capsule">我们究竟在躲避什么</div>
+    </div>
+  </aside>
+
+  <article class="sheet">
+    <div class="essay">
+
+      <header class="essay-head">
+        <h1>为什么我们开始害怕安静</h1>
+        <p class="dek">关于停顿、噪声与被填满的时间——一篇写给慢读的文字。
+        它不提供可以立刻转发的结论，只提供一段可以陪你坐一会儿的路。</p>
+        <p class="essay-meta">慢读 / 约十二分钟 / 二〇二六年十月</p>
+      </header>
+
+      <p class="open">电梯从八楼到一楼要十四秒。就在门关上的那一瞬，
+      几乎所有人的手都伸向了口袋。不是有消息要回，也不是有人正在等——
+      只是安静突然降临，而我们早已不知道该拿它怎么办。</p>
+
+      <p>这样的时刻到处都是：地铁钻进隧道、信号消失的九十秒，排队时前面还有三个人，
+      广告加载之前的半秒黑屏。安静一来，我们就条件反射般地找东西把它填上。
+      安静曾经是一种「状态」，如今它变成了一个「空档」——
+      一段必须被立刻消灭的、令人不安的时间。</p>
+
+      <h2><span class="no">一</span>安静从默认变成了事件</h2>
+
+      <p>一百年前，安静是不需要争取的。夜晚是真的黑，农闲是真的闲，
+      声音是例外：一场雨、一次集市、一个节日。人和安静的关系是共处——
+      安静是底色，声音才是上门的客人，来了，走了，屋里重新静下来。</p>
+
+      <p>工业与城市把这个关系倒了过来。机器不休息，街道不睡觉，屏幕不肯黑。
+      声音成了环境的预设值，安静反而成了需要预约的东西：降噪耳机、冥想软件、
+      「请勿打扰」。我们把安静做成了一件可以按月订阅的产品，
+      这件事本身就说明，我们已经很少免费拥有它了。这种「声音先于一切」的处境，
+      不妨叫作<span class="spore" data-link>噪声默认</span>。</p>
+
+      <p class="pull">我们把安静做成了产品，恰恰证明我们已经失去了它。</p>
+
+      <h2><span class="no">二</span>每一秒空闲都成了货架</h2>
+
+      <p>注意力经济有一个很少被明说的前提：未被占据的注意力，是一种正在浪费的库存。
+      走路的三十分钟可以听完一节课，洗碗的十分钟可以追上两档播客，
+      连等电梯的十四秒也值得塞进一条短视频。仿佛心里有一排货架，
+      哪怕空着一格，都是经营上的亏损。</p>
+
+      <p>于是我们共同养成了一种从未写进任何合同的义务——可以称之为<span class="spore" data-link>填充义务</span>：
+      只要醒着，就应当正在消费点什么、生产点什么，至少也得在「输入」点什么。
+      倍速播放是这项义务最坦白的仪式。用两倍速听完一本书的人，省下来的时间去了哪里？
+      多半是拿去填下一个空档了。倍速不是效率，是对「空」的恐慌。</p>
+
+      <p>久而久之，我们怕的其实不是无聊，而是没有产出感的时间本身。
+      一段时间如果什么都没换来，它就好像没有活过。
+      <span class="spore" data-link>安静赤字</span>就是这样欠下的：
+      不是环境太吵，而是我们已经不再允许自己闲着。</p>
+
+      <h2><span class="no">三</span>安静是思考的后台</h2>
+
+      <p>可惜，大脑恰恰在「什么都没做」的时候做了很多事。
+      认知科学里有一类现象叫<span class="spore" data-link>心智游移</span>：
+      走神时大脑并没有关机，而是在整理记忆、编织自我叙事、
+      把白天来不及照面的想法悄悄接上线。许多顿悟不出现在书桌前，
+      而出现在淋浴间和散步的路口——那不是巧合，
+      那是后台任务终于浮出了水面。</p>
+
+      <p>我愿意把这个过程叫作<span class="spore" data-link>发酵期</span>。
+      想法不是被「想出来」的，是被「养出来」的：它需要在黑暗安静的地方待一会儿，
+      与别的想法搭上线，像菌丝在腐叶之下，把断开的养分慢慢连成一张网。
+      你塞进来的每一个声音，都在给这张网断电。我们戒掉安静，
+      等于戒掉了连接本身。</p>
+
+      <h2><span class="no">四</span>也要诚实：不是所有安静都值得向往</h2>
+
+      <p>写到这里必须拐个弯。安静并不总是温柔的。冷暴力里的沉默是刀；
+      深夜独自面对焦虑时，安静会被放大成耳鸣。有一种恐惧是真实的：
+      <span class="spore" data-link>空场恐惧</span>——当所有声音退场，
+      我们被迫听见自己，而自己说的话并不总是好听。</p>
+
+      <p>所以要区分两种安静。被选择的安静是一间房，你可以进去待一会儿，
+      也可以随时走出来；被抛下的安静是一堵墙，你被留在墙的这一边。
+      我们真正要练习的，不是消灭对后者的恐惧，
+      而是把墙一点一点改成房——把「独自面对」翻译成「主动独处」。
+      这两种安静外表相同，内核相反。</p>
+
+      <h2><span class="no">五</span>小剂量的练习</h2>
+
+      <p>不必为此搞一场盛大的「数字排毒」，那只是把安静变成另一场成就表演。
+      小剂量就够用了：起床后三分钟不碰手机，让今天的第一个声音来自窗外而不是提示音；
+      每周走两次不带耳机的路，把耳朵还给街道本来的声音；
+      允许一顿饭只有碗筷声，不给它配一部背景剧。</p>
+
+      <p>安静是肌肉，不是奖杯。它会被练出来，也会被荒废。
+      十四秒的电梯做不了什么，但它可以每天提醒你一次：
+      在噪声默认的世界里，你仍然保留着走进安静而不慌张的能力。</p>
+
+      <p>下次电梯门关上，试着什么都不做。那十四秒里你没有失联，没有落后，
+      也没有浪费——你只是短暂地回到了自己身边。
+      想法是孢子，只在没有人播放什么的黑暗里发芽。
+      安静不是空白，它是最诚实的房间：它不往你心里添加任何东西，
+      所以你听见的一切，都是你自己的。</p>
+
+    </div>
+  </article>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>纸面手稿：单一中央阅读栏、宽行距、准正文、极少元数据</span></li><li><b>02</b><span>竖排问题胶囊：左缘一枚竖排文字的胶囊，边框缓慢呼吸</span></li><li><b>03</b><span>菌丝层：内联 SVG 细线在胶囊与"孢子词"之间缓慢生长又淡出</span></li><li><b>04</b><span>孢子词：正文内被连接/选中时下划线的术语</span></li><li><b>05</b><span>安静附录：阅读节奏、书架、主题等以细线条列表收尾，不做卡片</span></li></ol>
+<section class="appendix" aria-label="安静附录">
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.layout .mycelium-layer .question-zone .capsule-container .spore</p>
+  <h2 class="ap-head">安静附录</h2>
+  <p class="ap-note">正文读完之后的部分，供慢读者回看与延伸。</p>
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  <h3 class="ap-head">阅读节奏</h3>
+  <dl class="ap-list">
+    <div class="ap-row">
+      <dt>一次读完</dt>
+      <dd>约十二分钟，建议不被打断地读完前两节</dd>
+    </div>
+    <div class="ap-row">
+      <dt>建议场景</dt>
+      <dd>清晨或深夜，只留一盏灯，关掉其余屏幕</dd>
+    </div>
+    <div class="ap-row">
+      <dt>重读间隔</dt>
+      <dd>一周后重读第三节，留意自己的发酵期</dd>
+    </div>
+  </dl>
+
+  <h3 class="ap-head">相关书目</h3>
+  <ul class="ap-list">
+    <li class="ap-row">
+      <span class="t">沉默</span>
+      <span class="d">埃尔林·卡格 / 把安静当作可以抵达的地方，而不是逃离的空档</span>
+    </li>
+    <li class="ap-row">
+      <span class="t">安静</span>
+      <span class="d">苏珊·凯恩 / 关于「不必被声音说服」的性情证据</span>
+    </li>
+    <li class="ap-row">
+      <span class="t">深度工作</span>
+      <span class="d">卡尔·纽波特 / 无干扰的长时间块为何稀缺，又为何值钱</span>
+    </li>
+    <li class="ap-row">
+      <span class="t">四千周</span>
+      <span class="d">奥利弗·伯克曼 / 放下「填满每一段时间」这项义务</span>
+    </li>
+  </ul>
+
+  <h3 class="ap-head">孢子词小注</h3>
+  <dl class="ap-list">
+    <div class="ap-row">
+      <dt>噪声默认</dt>
+      <dd>声音成为环境预设、安静反而需要主动申请的状态</dd>
+    </div>
+    <div class="ap-row">
+      <dt>填充义务</dt>
+      <dd>认为醒着的每一秒都应当被内容占据的隐性规范</dd>
+    </div>
+    <div class="ap-row">
+      <dt>安静赤字</dt>
+      <dd>长期缺少自主留白之后欠下的注意力债务</dd>
+    </div>
+    <div class="ap-row">
+      <dt>心智游移</dt>
+      <dd>走神时大脑整理记忆、建立新联系的认知过程</dd>
+    </div>
+    <div class="ap-row">
+      <dt>发酵期</dt>
+      <dd>想法在无输入状态下缓慢连接、逐渐成形的时间</dd>
+    </div>
+    <div class="ap-row">
+      <dt>空场恐惧</dt>
+      <dd>声音全部退场后，被迫听见自己的那种不安</dd>
+    </div>
+  </dl>
+
+</section>
+
+<footer class="foot">
+  <p>UI 设计提示词库 / 内容排版 / 菌丝长文</p>
+  <a href="../style-catalog.html">返回风格目录</a>
+</footer>
+
+<script>
+(function () {
+  var layout = document.querySelector('.layout');
+  var svg = document.querySelector('.mycelium-layer');
+  var cap = document.querySelector('.capsule');
+  var spores = Array.prototype.slice.call(document.querySelectorAll('.spore[data-link]'));
+  var NS = 'http://www.w3.org/2000/svg';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function draw(animate) {
+    if (!layout || !svg || !cap || !spores.length) return;
+    var L = layout.getBoundingClientRect();
+    svg.setAttribute('viewBox', '0 0 ' + L.width + ' ' + L.height);
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    var C = cap.getBoundingClientRect();
+    var sx = C.right - L.left + 1;
+    var sy = C.top - L.top + C.height * 0.62;
+
+    spores.forEach(function (el, i) {
+      var r = el.getBoundingClientRect();
+      var ex = r.left - L.left - 8;
+      var ey = r.bottom - L.top - 1;
+      var mx = (sx + ex) / 2;
+      var j1 = ((i * 53) % 23 - 11) * 3.2;
+      var j2 = ((i * 37) % 19 - 9) * 2.6;
+      var d = 'M' + sx + ' ' + sy +
+        ' C ' + (sx + 34) + ' ' + (sy + 2 + j1) +
+        ', ' + (mx + j2) + ' ' + (ey - 70 - j2) +
+        ', ' + ex + ' ' + ey;
+
+      var p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', d);
+      p.setAttribute('class', 'hypha');
+      svg.appendChild(p);
+
+      var len = Math.ceil(p.getTotalLength()) + 4;
+      var delay = 0.25 + i * 0.28;
+
+      if (animate) {
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = len;
+        p.style.animation = 'hypha-grow 1.5s cubic-bezier(.25,.6,.3,1) ' + delay + 's forwards';
+        el.style.transition = 'border-color .6s ease ' + (delay + 1.4) + 's';
+      }
+      el.classList.add('is-linked');
+
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', ex);
+      c.setAttribute('cy', ey);
+      c.setAttribute('r', 2.4);
+      c.setAttribute('class', 'node');
+      if (animate) {
+        c.style.opacity = '0';
+        c.style.animation = 'node-pop .5s ease-out ' + (delay + 1.35) + 's forwards';
+      }
+      svg.appendChild(c);
+    });
+  }
+
+  var rule = document.createElement('style');
+  rule.textContent =
+    '@keyframes hypha-grow{to{stroke-dashoffset:0}}' +
+    '@keyframes node-pop{to{opacity:.85}}';
+  document.head.appendChild(rule);
+
+  function boot() { draw(!reduce); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      setTimeout(function () { draw(false); }, reduce ? 0 : 3400);
+    });
+  }
+
+  var timer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () { draw(false); }, 180);
+  });
+})();
+</script>
+
 </body>
 </html>

@@ -4,167 +4,792 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>教学工作室 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>教学工作室 Teaching Studio / UI 设计提示词库</title>
+<meta name="description" content="手冲咖啡三段注水教学工作室样张 / 课程栏 / 冲煮模型舞台 / 检查器 / 自测关卡 / UI 设计提示词库">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+family=JetBrains+Mono+family=Zilla+Slab&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+/* token 计划：底 #FBF9F4 / 面板 #FFFFFF / 主字 #1F2429 / 弱文 #6E7568 / 强调 #2F6F4F / 线 #DCE2D8 / 圆角 12px / 标题 Zilla Slab / 正文 IBM Plex Sans / 布局：工作室三栏 1:1.6:1 / 独特性：冲煮剖面 SVG 随课程单联动 */
 :root {
-  --bg: #FBF9F4; --panel: #FFFFFF; --ink: #1F2429; --muted: #6E7568;
-  --accent: #2F6F4F; --line: #DCE2D8; --radius: 12px;
+  --bg: #FBF9F4;
+  --panel: #FFFFFF;
+  --ink: #1F2429;
+  --muted: #6E7568;
+  --accent: #2F6F4F;
+  --accent-soft: rgba(47, 111, 79, 0.08);
+  --line: #DCE2D8;
+  --radius: 12px;
+  --bad: #B4552D;
   --fh: 'Zilla Slab', 'PingFang SC', 'Microsoft YaHei', serif;
   --fb: 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
-
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  padding: 42px 22px 64px;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.wrap { max-width: 1220px; margin: 0 auto; }
 
+/* ---------- 页头 ---------- */
+.masthead { padding-bottom: 22px; border-bottom: 1.5px solid var(--line); margin-bottom: 26px; }
+.kicker {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+h1 {
+  font-family: var(--fh);
+  font-size: clamp(32px, 5vw, 46px);
+  font-weight: 700;
+  line-height: 1.12;
+  margin: 6px 0 10px;
+}
+.sub { color: var(--muted); font-size: 15px; max-width: 720px; }
+.meta {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- 工作室三栏 ---------- */
+.studio {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.panel {
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.rail-h {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rail-h::after {
+  content: '';
+  flex: 1;
+  height: 1.5px;
+  background: var(--line);
+}
+.rail-h .sub { font-weight: 400; color: var(--muted); }
+.block + .block { margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line); }
+/* 左栏：课程栏 */
+.goal-text { font-size: 13.5px; }
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: var(--bg);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 4px;
+}
+.seg-b {
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 7px 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.seg-b.on {
+  background: var(--accent);
+  color: #FFFFFF;
+}
+.mode-note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+.lesson-list { list-style: none; display: grid; gap: 8px; }
+.lesson {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 2px 10px;
+  align-items: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.lesson:hover { border-color: var(--accent); }
+.lesson .l-t {
+  grid-row: span 2;
+  font-family: var(--fh);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  border-right: 1.5px solid var(--line);
+  padding-right: 8px;
+}
+.lesson .l-n { font-size: 14px; font-weight: 600; line-height: 1.3; }
+.lesson .l-d { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.lesson.on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.lesson.on .l-t { color: var(--accent); }
+/* 中栏：模型舞台 */
+.stage-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.stage-kicker { font-size: 12.5px; font-weight: 700; color: var(--accent); }
+.stage-kicker span { color: var(--muted); font-weight: 400; }
+.stage-num { text-align: right; line-height: 1; }
+.stage-num b {
+  font-family: var(--fh);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.stage-num small { font-size: 13px; color: var(--muted); margin-left: 3px; }
+.stage-num span { display: block; font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+.stage-fig { margin: 0; }
+.stage-fig svg { width: 100%; height: auto; display: block; }
+.stage-fig figcaption {
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px dashed var(--line);
+  margin-top: 6px;
+  padding-top: 8px;
+}
+.params {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.param {
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 10px;
+  display: grid;
+  gap: 1px;
+}
+.param .k { font-size: 11.5px; color: var(--muted); }
+.param .v {
+  font-family: var(--fh);
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+/* 右栏：检查器 */
+.facts { display: grid; gap: 0; margin-bottom: 4px; }
+.frow {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 13px;
+}
+.frow .k { color: var(--muted); }
+.frow .v { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.why {
+  font-size: 13.5px;
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 12px;
+}
+
+/* ---------- 步骤进度轨 ---------- */
+.track-wrap { margin-top: 26px; }
+.track-wrap > .rail-h { margin-bottom: 10px; }
+.step-track {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.step-track li,
+.step-track .trk {
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 10px 12px;
+  position: relative;
+  overflow: hidden;
+}
+.step-track li::before,
+.step-track .trk::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--line);
+}
+.step-track li.done::before,
+.step-track .trk.done::before { background: rgba(47, 111, 79, 0.45); }
+.step-track li.on::before,
+.step-track .trk.on::before { background: var(--accent); }
+button.trk {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+button.trk:hover { border-color: var(--accent); }
+.step-track b { display: block; font-size: 13px; font-weight: 700; }
+.step-track b em {
+  font-style: normal;
+  font-family: var(--fh);
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  margin-right: 6px;
+}
+.step-track span { font-size: 12px; color: var(--muted); }
+
+/* ---------- 自测关卡 ---------- */
+.check-gate { margin-top: 26px; }
+.gate-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.gate-head h2 { font-family: var(--fh); font-size: 19px; }
+.gate-head p { font-size: 12.5px; color: var(--muted); }
+.gate-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.gate-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.q {
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  padding: 13px 14px;
+  display: grid;
+  gap: 9px;
+  align-content: start;
+}
+.q-t { font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+.q-o { display: grid; gap: 6px; }
+.opt {
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  padding: 7px 11px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.opt:hover { border-color: var(--accent); }
+.opt.ok {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.opt.bad {
+  border-color: var(--bad);
+  color: var(--bad);
+  background: #FFFFFF;
+}
+.q-f { font-size: 12px; color: var(--muted); min-height: 18px; line-height: 1.5; }
+.q.done { border-color: rgba(47, 111, 79, 0.55); }
+.q.done .q-f { color: var(--accent); font-weight: 600; }
+.gate-done {
+  display: none;
+  margin-top: 14px;
+  padding: 11px 14px;
+  border: 1.5px dashed var(--accent);
+  border-radius: 10px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13.5px;
+}
+.gate-done.show { display: block; }
+
+/* ---------- 页脚 ---------- */
+.foot {
+  margin-top: 44px;
+  border-top: 1.5px solid var(--line);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+.foot a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+.foot a:hover { background: var(--accent-soft); }
+
+/* ---------- 动效：模型舞台一次旋转入场 ---------- */
+.stage-entrance {
+  animation: stageIn 720ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transform-origin: 50% 46%;
+}
+@keyframes stageIn {
+  from { opacity: 0; transform: perspective(900px) rotateY(-13deg) scale(0.965); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-entrance { animation: none; }
+  .lesson, .opt, button.trk { transition: none; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1020px) {
+  .studio { grid-template-columns: 1fr; }
+  .gate-grid { grid-template-columns: 1fr; }
+  .params { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  body { padding: 30px 14px 48px; }
+  .step-track { grid-template-columns: 1fr 1fr; }
+  .stage-num b { font-size: 34px; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Teaching Studio</p>
-  <h1>教学工作室</h1>
-  <p class="sub">引导式学习装置：看着学、改着学、测着学、走向下一个概念。教程、课程页、交互讲解、"教我 X"、任何需要引导式学习序列的页面。</p>
-  <p class="meta">本页 token：<code>底 #FBF9F4</code> <code>面板 #FFFFFF</code> <code>主字 #1F2429</code> <code>强调 #2F6F4F</code> <code>圆角 12px</code> / 标题 <code>Zilla Slab</code> / 正文 <code>IBM Plex Sans</code> / 动效：模型舞台一次旋转入场</p>
 
-  <h2>结构示意</h2>
-  <div class="hx grid3" style="--l:#DCE2D8">
-  <div class="p mini"><b>课程栏</b><span>目标 / 模式</span><span>对象 01/02/03</span></div>
-  <div class="p stage"><b>模型舞台</b><svg viewBox="0 0 120 60" aria-hidden="true"><circle cx="60" cy="30" r="22" fill="none" stroke="#2F6F4F" stroke-width="3"/><circle cx="60" cy="30" r="4" fill="#2F6F4F"/></svg></div>
-  <div class="p mini"><b>检查器</b><span>事实 / 为什么重要</span></div>
+  <header class="masthead">
+    <p class="kicker">手冲咖啡教学工作室 / 入门序列 第 2 课</p>
+    <h1>三段注水</h1>
+    <p class="sub">一套 225g 总水量的分段节奏：闷蒸唤醒粉层 / 第一段建立萃取层 / 第二段定下浓度。在左侧课程单选择步骤，中央冲煮模型随之切换，右侧检查器给出本步事实与背后的原因。</p>
+    <p class="meta">器具 V60 滤杯 01 号 / 咖啡粉 15g / 总时长 约 2 分 30 秒 / 难度 入门</p>
+  </header>
+
+  <main>
+    <section class="studio" aria-label="教学工作室">
+
+      <aside class="panel lesson-rail" aria-label="课程栏">
+        <div class="block">
+          <h2 class="rail-h">本课目标</h2>
+          <p class="goal-text">不看笔记，按三段节奏注完 225g 热水，累计误差不超过 ±10g，并说清每一段为什么这样注。</p>
+        </div>
+        <div class="block">
+          <h2 class="rail-h">模式 / 烘焙度</h2>
+          <div class="seg" role="group" aria-label="烘焙度模式">
+            <button type="button" class="seg-b on" data-m="light" aria-pressed="true">浅烘</button>
+            <button type="button" class="seg-b" data-m="deep" aria-pressed="false">深烘</button>
+          </div>
+          <p class="mode-note" id="modeNote">92°C / 中细研磨（白砂糖粗细）/ 浅烘豆质地致密，需要更高水温把酸甜物质拉出来</p>
+        </div>
+        <div class="block">
+          <h2 class="rail-h">课程单</h2>
+          <ol class="lesson-list" id="lessonList">
+            <li>
+              <button type="button" class="lesson on" data-i="0" aria-pressed="true">
+                <span class="l-t">0:00</span>
+                <span class="l-n">闷蒸浸湿</span>
+                <span class="l-d">30g / 排气与均匀浸润</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="lesson" data-i="1" aria-pressed="false">
+                <span class="l-t">0:45</span>
+                <span class="l-n">第一段注水</span>
+                <span class="l-d">到 120g / 建立萃取层</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="lesson" data-i="2" aria-pressed="false">
+                <span class="l-t">1:30</span>
+                <span class="l-n">第二段注水</span>
+                <span class="l-d">到 225g / 定浓度</span>
+              </button>
+            </li>
+          </ol>
+        </div>
+      </aside>
+
+      <section class="panel object-stage" aria-label="冲煮模型舞台">
+        <div class="stage-head">
+          <p class="stage-kicker">冲煮模型 <span>/ 侧视剖面</span></p>
+          <div class="stage-num">
+            <b id="totalWater">30</b><small>g</small>
+            <span>累计注水量</span>
+          </div>
+        </div>
+        <figure class="stage-fig stage-entrance">
+          <svg id="brewSvg" viewBox="0 0 360 320" role="img" aria-label="手冲冲煮剖面示意图：细口壶注水，滤杯内水位与粉层，下方分享壶收集咖啡液，右上角为俯视注水轨迹">
+            <!-- 细口壶 -->
+            <g stroke="#1F2429" fill="#FFFFFF" stroke-width="3" stroke-linecap="round">
+              <path d="M40,54 C46,38 74,38 78,54" fill="none"></path>
+              <rect x="32" y="54" width="50" height="26" rx="8"></rect>
+              <path d="M82,60 C102,50 110,47 124,40" fill="none"></path>
+            </g>
+            <!-- 注水弧线 -->
+            <path id="pourArc" d="M124,40 Q150,54 176,142" fill="none" stroke="#2F6F4F" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round" opacity="0.85"></path>
+            <text x="126" y="28" font-size="9.5" fill="#6E7568">注水轨迹</text>
+            <!-- 滤杯 -->
+            <g stroke="#1F2429" stroke-width="3" fill="none" stroke-linecap="round">
+              <path d="M120,88 L240,88"></path>
+              <path d="M124,90 L177,196"></path>
+              <path d="M236,90 L183,196"></path>
+            </g>
+            <!-- 滤纸 -->
+            <g stroke="#DCE2D8" stroke-width="1.5" fill="none">
+              <path d="M131,96 L179,189"></path>
+              <path d="M229,96 L181,189"></path>
+            </g>
+            <!-- 咖啡液位 -->
+            <polygon id="waterBody" points="171,174 189,174 201,150 159,150" fill="rgba(47,111,79,0.22)"></polygon>
+            <ellipse id="waterTop" cx="180" cy="150" rx="21" ry="3.5" fill="rgba(47,111,79,0.30)" stroke="#2F6F4F" stroke-width="1"></ellipse>
+            <!-- 粉床 -->
+            <polygon points="172,175 188,175 183,188 177,188" fill="#9C6B3F" stroke="#7A5230" stroke-width="1.5"></polygon>
+            <!-- 滴落 -->
+            <path d="M180,200 L180,210" stroke="#2F6F4F" stroke-width="2" stroke-dasharray="1 4" stroke-linecap="round"></path>
+            <circle cx="180" cy="216" r="2.6" fill="#2F6F4F"></circle>
+            <!-- 分享壶 -->
+            <g stroke="#1F2429" stroke-width="3" fill="none">
+              <path d="M146,214 C150,210 230,210 234,214"></path>
+              <path d="M152,222 L208,222 L204,290 L156,290 Z"></path>
+            </g>
+            <polygon id="serving" points="157,285 203,285 202,281 158,281" fill="#B48A4C" opacity="0.85"></polygon>
+            <text x="180" y="306" font-size="9.5" fill="#6E7568" text-anchor="middle">分享壶 / 咖啡液</text>
+            <!-- 俯视轨迹 -->
+            <g fill="none">
+              <circle id="cir0" cx="312" cy="46" r="7" stroke="#2F6F4F" stroke-width="2.5"></circle>
+              <circle id="cir1" cx="312" cy="46" r="13" stroke="#6E7568" stroke-width="1.5" stroke-dasharray="3 4"></circle>
+              <circle id="cir2" cx="312" cy="46" r="19" stroke="#6E7568" stroke-width="1.5" stroke-dasharray="3 4"></circle>
+              <text x="312" y="78" font-size="9.5" fill="#6E7568" text-anchor="middle">俯视 / 画圈半径</text>
+            </g>
+          </svg>
+          <figcaption>图示剖面 / 水位高度与画圈半径随所选课程切换 / 虚线为注水路径</figcaption>
+        </figure>
+        <dl class="params">
+          <div class="param">
+            <dt class="k">粉水比</dt>
+            <dd class="v">1:15</dd>
+          </div>
+          <div class="param">
+            <dt class="k">水温</dt>
+            <dd class="v" id="paramTemp">92°C</dd>
+          </div>
+          <div class="param">
+            <dt class="k">累计注水</dt>
+            <dd class="v" id="paramTotal">30g</dd>
+          </div>
+          <div class="param">
+            <dt class="k">本段用时</dt>
+            <dd class="v" id="paramDur">45s</dd>
+          </div>
+        </dl>
+      </section>
+
+      <aside class="panel inspector" aria-label="检查器">
+        <div class="block">
+          <h2 class="rail-h">本步事实 <span class="sub" id="factTitle">/ 闷蒸浸湿</span></h2>
+          <div class="facts" id="factList"></div>
+        </div>
+        <div class="block">
+          <h2 class="rail-h">为什么重要</h2>
+          <p class="why" id="whyText"></p>
+        </div>
+      </aside>
+
+    </section>
+
+    <section class="track-wrap" aria-label="步骤进度轨">
+      <h2 class="rail-h">步骤进度 / 一次完整冲煮的骨架</h2>
+      <ol class="step-track" id="track">
+        <li>
+          <button type="button" class="trk on">
+            <b><em>0:00</em>闷蒸浸湿</b>
+            <span>30g / 排气与均匀浸润</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="trk">
+            <b><em>0:45</em>第一段注水</b>
+            <span>到 120g / 建立萃取层</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="trk">
+            <b><em>1:30</em>第二段注水</b>
+            <span>到 225g / 定浓度</span>
+          </button>
+        </li>
+        <li>
+          <div class="trk" aria-hidden="true">
+            <b><em>2:30</em>滴滤完成</b>
+            <span>约 190g 咖啡液 / 移开滤杯</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="panel check-gate" aria-label="自测关卡">
+      <div class="gate-head">
+        <div>
+          <h2>自测关卡</h2>
+          <p>小步检查 / 答错可以再选，直到三题全部通过</p>
+        </div>
+        <span class="gate-score" id="gateScore">已通过 0/3</span>
+      </div>
+      <div class="gate-grid">
+        <div class="q" data-a="1">
+          <p class="q-t">咖啡粉 15g，目标粉水比 1:15，总注水量应注到多少克？</p>
+          <div class="q-o">
+            <button type="button" class="opt">A 180g</button>
+            <button type="button" class="opt">B 225g</button>
+            <button type="button" class="opt">C 260g</button>
+          </div>
+          <p class="q-f" aria-live="polite"></p>
+        </div>
+        <div class="q" data-a="1">
+          <p class="q-t">闷蒸阶段先注 30g 热水，最主要的目的在于？</p>
+          <div class="q-o">
+            <button type="button" class="opt">A 降低整杯浓度</button>
+            <button type="button" class="opt">B 让粉层排出二氧化碳</button>
+            <button type="button" class="opt">C 提前给滤纸升温</button>
+          </div>
+          <p class="q-f" aria-live="polite"></p>
+        </div>
+        <div class="q" data-a="0">
+          <p class="q-t">同样 15g 粉，深烘豆通常建议的注水水温更接近哪一档？</p>
+          <div class="q-o">
+            <button type="button" class="opt">A 87°C 左右</button>
+            <button type="button" class="opt">B 92°C 左右</button>
+          </div>
+          <p class="q-f" aria-live="polite"></p>
+        </div>
+      </div>
+      <p class="gate-done" id="gateDone">三题全部通过 / 下一概念：绕圈手法与研磨度校准，回到课程栏继续练节奏。</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>UI 设计提示词库 / 内容排版 / 教学工作室</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>左侧课程栏：标题、目标、模式控制、对象列表</span></li><li><b>02</b><span>中央模型舞台：选中对象或模式即切换的主教学面</span></li><li><b>03</b><span>右侧检查器：所选对象的事实与"为什么重要"</span></li><li><b>04</b><span>步骤进度轨：贯穿学习序列的骨架</span></li><li><b>05</b><span>自测关卡：小步检查而非期末考试</span></li></ol>
+<script>
+(function () {
+  'use strict';
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.lesson-rail .object-stage .inspector .step-track .check-gate</p>
+  var MODES = {
+    light: { temp: '92°C', note: '92°C / 中细研磨（白砂糖粗细）/ 浅烘豆质地致密，需要更高水温把酸甜物质拉出来' },
+    deep: { temp: '87°C', note: '87°C / 中粗研磨 / 深烘豆质地疏松，苦味物质溶出快，低水温保住甜感' }
+  };
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  var L = [
+    {
+      name: '闷蒸浸湿', wy: 150, lvl: 0.25, cir: 0, total: 30, totalText: '30g', dur: '45s',
+      facts: [
+        ['本段注水', '30g / 约粉量 2 倍'],
+        ['画圈半径', '2cm 以内'],
+        ['水流控制', '细而稳，不断流'],
+        ['等待时间', '45 秒再注下一段'],
+        ['观察信号', '粉床鼓起并冒泡']
+      ],
+      why: '新鲜咖啡粉接触热水会大量排出二氧化碳，气体占据孔道，水进不去就萃不出物质。先用 30g 热水把粉层整体润湿，让它把气吐完，后面两段的萃取才有稳定通道。跳过闷蒸，成品常见尖酸与涩感。'
+    },
+    {
+      name: '第一段注水', wy: 128, lvl: 0.6, cir: 1, total: 120, totalText: '120g', dur: '45s',
+      facts: [
+        ['本段注水', '90g / 累计 120g'],
+        ['画圈半径', '2 到 4cm 由内向外'],
+        ['离壁距离', '距滤纸留 1cm'],
+        ['注水时长', '约 45 秒'],
+        ['观察信号', '粉层随水流翻滚']
+      ],
+      why: '这一段溶出整杯约六成风味物质。水位抬升让粉层整体翻滚，酸甜物质先进入液体；若把水直接冲到滤纸边缘，水会沿纸壁短路流下，绕过咖啡粉，成品单薄、醇厚度不足。'
+    },
+    {
+      name: '第二段注水', wy: 106, lvl: 1, cir: 2, total: 225, totalText: '225g', dur: '60s',
+      facts: [
+        ['本段注水', '105g / 累计 225g'],
+        ['水流控制', '略粗于上一段'],
+        ['结束时间', '2 分 30 秒注完'],
+        ['滴滤完成', '得约 190g 咖啡液'],
+        ['粉水关系', '15g 粉对 225g 水，即 1:15']
+      ],
+      why: '最后一段定浓度。越到后段，滴出的液体带出的苦味与木质味越多，注到 225g 即停，用分享壶中已收集的咖啡液把整体浓度衬到目标值。想喝淡一点，宁可提前截水，也不要硬萃到干涩。'
+    }
+  ];
+
+  var mode = 'light';
+  var cur = 0;
+
+  function el(id) { return document.getElementById(id); }
+  function iwL(y) { return 131 + (y - 95) * (48 / 94); }
+  function iwR(y) { return 229 - (y - 95) * (48 / 94); }
+
+  function renderFacts(i) {
+    var html = '';
+    for (var j = 0; j < L[i].facts.length; j++) {
+      html += '<div class="frow"><span class="k">' + L[i].facts[j][0] +
+              '</span><span class="v">' + L[i].facts[j][1] + '</span></div>';
+    }
+    el('factList').innerHTML = html;
+    el('factTitle').textContent = '/ ' + L[i].name;
+    el('whyText').textContent = L[i].why;
+  }
+
+  function selectLesson(i) {
+    cur = i;
+    var d = L[i];
+
+    var wy = d.wy;
+    var bL = iwL(174).toFixed(1), bR = iwR(174).toFixed(1);
+    var tL = iwL(wy).toFixed(1), tR = iwR(wy).toFixed(1);
+    el('waterBody').setAttribute('points',
+      bL + ',174 ' + bR + ',174 ' + tR + ',' + wy + ' ' + tL + ',' + wy);
+    el('waterTop').setAttribute('cy', wy);
+    el('waterTop').setAttribute('rx', ((tR - tL) / 2).toFixed(1));
+    el('pourArc').setAttribute('d', 'M124,40 Q150,54 176,' + (wy - 8));
+
+    var sy = 288 - 26 * d.lvl;
+    el('serving').setAttribute('points',
+      '158,' + sy + ' 202,' + sy + ' 204,289 156,289');
+
+    for (var c = 0; c < 3; c++) {
+      el('cir' + c).setAttribute('stroke', c === d.cir ? '#2F6F4F' : '#6E7568');
+      el('cir' + c).setAttribute('stroke-width', c === d.cir ? '2.5' : '1.5');
+      el('cir' + c).setAttribute('stroke-dasharray', c === d.cir ? 'none' : '3 4');
+    }
+
+    el('totalWater').textContent = d.total;
+    el('paramTotal').textContent = d.totalText;
+    el('paramDur').textContent = d.dur;
+    el('paramTemp').textContent = MODES[mode].temp;
+
+    var lessons = document.querySelectorAll('.lesson');
+    for (var k = 0; k < lessons.length; k++) {
+      var on = k === i;
+      lessons[k].classList.toggle('on', on);
+      lessons[k].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+
+    var trks = document.querySelectorAll('#track button.trk');
+    for (var t = 0; t < trks.length; t++) {
+      trks[t].classList.toggle('on', t === i);
+      trks[t].classList.toggle('done', t < i);
+    }
+
+    renderFacts(i);
+  }
+
+  function setMode(m) {
+    mode = m;
+    var segs = document.querySelectorAll('.seg-b');
+    for (var s = 0; s < segs.length; s++) {
+      var on = segs[s].getAttribute('data-m') === m;
+      segs[s].classList.toggle('on', on);
+      segs[s].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    el('modeNote').textContent = MODES[m].note;
+    el('paramTemp').textContent = MODES[m].temp;
+  }
+
+  document.getElementById('lessonList').addEventListener('click', function (e) {
+    var b = e.target.closest('.lesson');
+    if (b) selectLesson(parseInt(b.getAttribute('data-i'), 10));
+  });
+
+  document.getElementById('track').addEventListener('click', function (e) {
+    var b = e.target.closest('button.trk');
+    if (!b) return;
+    var items = this.querySelectorAll('button.trk');
+    for (var t = 0; t < items.length; t++) {
+      if (items[t] === b) { selectLesson(t); break; }
+    }
+  });
+
+  var segBtns = document.querySelectorAll('.seg-b');
+  for (var s = 0; s < segBtns.length; s++) {
+    segBtns[s].addEventListener('click', function () { setMode(this.getAttribute('data-m')); });
+  }
+
+  /* 自测关卡 */
+
+  var FB = [
+    '对 / 粉水比即总水量除以粉量：15g 粉配 225g 水，就是 1:15。',
+    '对 / 二氧化碳占着孔道，水进不去；先排气，后续萃取才均匀。',
+    '对 / 深烘豆质地疏松，苦味物质溶出快，87°C 上下更稳。'
+  ];
+
+  function updateScore() {
+    var done = document.querySelectorAll('.q.done').length;
+    el('gateScore').textContent = '已通过 ' + done + '/3';
+    el('gateDone').classList.toggle('show', done === 3);
+  }
+
+  var qs = document.querySelectorAll('.q');
+  for (var qi = 0; qi < qs.length; qi++) {
+    (function (q, idx) {
+      var answer = parseInt(q.getAttribute('data-a'), 10);
+      var opts = q.querySelectorAll('.opt');
+      for (var oi = 0; oi < opts.length; oi++) {
+        (function (opt, oidx) {
+          opt.addEventListener('click', function () {
+            if (q.classList.contains('done')) return;
+            if (oidx === answer) {
+              opt.classList.add('ok');
+              q.classList.add('done');
+              q.querySelector('.q-f').textContent = FB[idx];
+              updateScore();
+            } else {
+              opt.classList.add('bad');
+              q.querySelector('.q-f').textContent = '再想想 / 可以对照左栏参数与检查器里的数字。';
+            }
+          });
+        })(opts[oi], oi);
+      }
+    })(qs[qi], qi);
+  }
+
+  selectLesson(0);
+})();
+</script>
 </body>
 </html>

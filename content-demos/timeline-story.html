@@ -4,171 +4,774 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>时间线叙事 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>时间线叙事 Timeline Story / UI 设计提示词库</title>
+<meta name="description" content="独立唱片行「回声唱片」十年店史时间线样张：时间透镜、竖向时间主轴、十年章节、节奏条与可搜索的发行年表。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono+family=Noto+Serif+SC&display=swap');
+/* token 计划：底 #F7F3EA / 面板 #FFFFFF / 墨 #2C2A26 / 弱化 #6E6858（原 #8A8272 加深至 5.0:1）/ 强调 #B4552D 用于线与圆点、强调文本 #A64A24（5.2:1）/ 线 #D8D2C4 / Noto Serif SC / 圆角 10px */
 
 :root {
-  --bg: #F7F3EA; --panel: #FFFFFF; --ink: #2C2A26; --muted: #8A8272;
-  --accent: #B4552D; --line: #D8D2C4; --radius: 10px;
-  --fh: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
-  --fb: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --bg: #F7F3EA;
+  --panel: #FFFFFF;
+  --ink: #2C2A26;
+  --muted: #6E6858;
+  --accent: #B4552D;
+  --accent-ink: #A64A24;
+  --line: #D8D2C4;
+  --radius: 10px;
+  --serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --padL: 64px;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
+[hidden] { display: none !important; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--serif);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  padding: 52px 22px 72px;
+  -webkit-font-smoothing: antialiased;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
+::selection { background: var(--accent); color: #FFFFFF; }
+
+a, button, input { font-family: inherit; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent-ink);
+  outline-offset: 2px;
+}
+
+.story-shell { max-width: 960px; margin: 0 auto; }
+
+/* ── 店招 ─────────────────────────────── */
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 17px;
+  font-weight: 700;
+}
+.brand .en {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--muted);
+}
+.brand .addr {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+h1 {
+  font-size: clamp(34px, 6.2vw, 56px);
+  font-weight: 900;
+  line-height: 1.16;
+  letter-spacing: .01em;
+  margin: 26px 0 14px;
+  max-width: 15em;
+}
+
+.lede {
+  font-size: 15.5px;
+  color: var(--muted);
+  max-width: 38em;
+  margin-bottom: 34px;
+}
+
+/* ── 开场时间透镜 ─────────────────────── */
+
+.time-lens .stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.stat {
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 18px 20px 16px;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+.stat b {
+  font-size: clamp(26px, 3.8vw, 38px);
+  font-weight: 900;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+.stat .stat-label { font-size: 13px; font-weight: 700; color: var(--accent-ink); }
+.stat .stat-note { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+/* ── 年份主导航（period scrubber）─────── */
+
+.scrubber {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: var(--bg);
+  border-top: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--line);
+  padding: 11px 2px;
+  margin-top: 40px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.scrubber .scrub-label {
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-right: 4px;
+}
+.scrubber button {
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 15px;
+  cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+}
+.scrubber button:hover { border-color: var(--ink); }
+.scrubber button.now { border-color: var(--accent-ink); }
+.scrubber button.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+/* ── 十年章节（竖向时间主轴）──────────── */
+
+.sec-title { font-size: 22px; font-weight: 900; margin-top: 46px; }
+.sec-sub { font-size: 14px; color: var(--muted); margin: 4px 0 22px; }
+
+.chapters-block { scroll-margin-top: 78px; }
+
+.chapters {
+  position: relative;
+  padding-left: var(--padL);
+  display: grid;
+  gap: 22px;
+}
+.spine {
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  overflow: visible;
+}
+.spine line {
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: spine-draw 1.5s cubic-bezier(.25, .6, .3, 1) .2s forwards;
+}
+@keyframes spine-draw { to { stroke-dashoffset: 0; } }
+
+.chapter { position: relative; scroll-margin-top: 78px; }
+.chapter::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: calc(10px - var(--padL));
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--ink);
+  transition: box-shadow .2s ease;
+}
+.chapter.now::before { box-shadow: 0 0 0 5px rgba(180, 85, 45, .18); }
+.ch-card {
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 24px 18px;
+  max-width: 780px;
+  transition: border-color .2s ease;
+}
+.chapter.now .ch-card { border-color: var(--accent); }
+.ch-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ch-card .yr {
+  font-size: 13.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 0 8px;
+  line-height: 1.7;
+}
+.ch-sub { font-size: 14.5px; color: var(--muted); margin: 7px 0 14px; max-width: 40em; }
+.scene {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 22px;
+  border-top: 1.5px dashed var(--line);
+  padding-top: 12px;
+}
+.scene > div { display: grid; gap: 1px; align-content: start; }
+.scene span { font-size: 12px; color: var(--muted); }
+.scene b { font-size: 14px; font-weight: 600; line-height: 1.5; }
+
+/* ── 节奏条 ───────────────────────────── */
+
+.rhythm-block { scroll-margin-top: 78px; }
+.rhythm-strip {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 12px;
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.ry-year { text-align: center; transition: opacity .25s ease; }
+.ry-year > span {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.ry-cells {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  margin-top: 6px;
+}
+.ry-cells i { aspect-ratio: 1; border-radius: 3px; }
+.ry-cells .l0 { background: transparent; border: 1.5px solid var(--line); }
+.ry-cells .l1 { background: #F0E7D8; }
+.ry-cells .l2 { background: #E3C4AE; }
+.ry-cells .l3 { background: #CE8B63; }
+.ry-cells .l4 { background: var(--accent); }
+.ry-year.off { opacity: .25; }
+.ry-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.ry-note i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+.ry-note .sw { display: inline-flex; align-items: center; gap: 5px; }
+
+/* ── 记忆抽屉：发行与文献年表 ─────────── */
+
+.drawer-block { scroll-margin-top: 78px; }
+.drawer-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 16px 0 14px;
+}
+.drawer-bar label { font-size: 13px; color: var(--muted); }
+.drawer-bar input[type="search"] {
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 8px 14px;
+  width: min(340px, 100%);
+}
+.drawer-bar input[type="search"]::placeholder { color: var(--muted); }
+.count {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+.rel-board {
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.rel-row {
+  display: grid;
+  grid-template-columns: 3.6em 4.8em minmax(0, 1.15fr) 5.2em minmax(0, 1fr);
+  grid-template-areas: "year id name fmt note";
+  gap: 6px 14px;
+  align-items: baseline;
+  padding: 11px 18px;
+  border-top: 1px solid var(--line);
+  transition: background-color .15s ease;
+}
+.rel-row:hover { background: #FBF7EC; }
+.rel-head {
+  border-top: none;
+  background: #F6F1E5;
+  padding: 10px 18px;
+}
+.rel-head span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.c-year { grid-area: year; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.c-id { grid-area: id; font-size: 13px; font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; }
+.c-name { grid-area: name; font-size: 15px; font-weight: 700; }
+.c-fmt { grid-area: fmt; font-size: 13px; color: var(--muted); }
+.c-note { grid-area: note; font-size: 13px; color: var(--muted); }
+.empty {
+  background: var(--panel);
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+/* ── 页脚 ─────────────────────────────── */
+
+.foot {
+  margin-top: 64px;
+  border-top: 1.5px solid var(--ink);
+  padding-top: 22px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.foot p { font-size: 13px; color: var(--muted); }
+.foot a {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2.5px solid var(--accent);
+  padding-bottom: 2px;
+}
+.foot a:hover { color: var(--accent-ink); border-color: var(--accent-ink); }
+
+/* ── 响应式 ───────────────────────────── */
+
+@media (min-width: 1440px) {
+  body { padding: 72px 48px 96px; }
+  .story-shell { max-width: 1120px; }
+  h1 { max-width: none; }
+}
+
+@media (max-width: 768px) {
+  :root { --padL: 48px; }
+  .spine { left: 12px; }
+  .chapter::before { left: calc(6px - var(--padL)); }
+  .time-lens .stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat { padding: 14px 14px 12px; }
+  .rhythm-strip { grid-template-columns: repeat(5, 1fr); gap: 14px 10px; }
+}
+
+@media (max-width: 640px) {
+  .rel-row {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "year id fmt"
+      "name name name"
+      "note note note";
+    gap: 3px 12px;
+    padding: 12px 16px;
+  }
+  .count { margin-left: 0; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 40px 16px 60px; }
+  :root { --padL: 40px; }
+  .spine { left: 9px; width: 3px; }
+  .spine line { stroke-width: 2.5; }
+  .chapter::before {
+    left: calc(4.5px - var(--padL));
+    width: 14px;
+    height: 14px;
+    border-width: 2.5px;
+  }
+  .time-lens .stats { grid-template-columns: 1fr; }
+  .scene { grid-template-columns: 1fr; }
+  .rhythm-strip { grid-template-columns: repeat(3, 1fr); }
+  .brand .addr { margin-left: 0; width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spine line { animation: none; stroke-dashoffset: 0; }
+  .chapter::before, .ch-card, .ry-year, .rel-row, .scrubber button { transition: none; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Timeline Story</p>
-  <h1>时间线叙事</h1>
-  <p class="sub">滚动驱动的记忆系统——像走过一段人生，不是读仪表盘。个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾。</p>
-  <p class="meta">本页 token：<code>底 #F7F3EA</code> <code>面板 #FFFFFF</code> <code>主字 #2C2A26</code> <code>强调 #B4552D</code> <code>圆角 10px</code> / 标题 <code>Noto Serif SC</code> / 正文 <code>Noto Serif SC</code> / 动效：时间主轴一次描边生长</p>
+<div class="story-shell">
 
-  <h2>结构示意</h2>
-  <div class="hx" style="--a:#B4552D;--l:#D8D2C4">
-  <div class="lens"><div><b>38</b><span>本年读完</span></div><div><b>11</b><span>最长连胜（天）</span></div><div><b>4.2</b><span>平均评分</span></div></div>
-  <div class="tl tl-grow">
-    <div class="tl-node"><i></i><div class="tl-card"><b>3 月 / 峰值月</b><span>读完 6 本，最长连胜 11 天</span></div></div>
-    <div class="tl-node"><i></i><div class="tl-card"><b>7 月 / 沉寂期</b><span>只补完了 1 本随笔</span></div></div>
-    <div class="tl-node"><i></i><div class="tl-card"><b>11 月 / 回归</b><span>科幻月：4 本长篇连读</span></div></div>
-  </div>
-  <div class="rhythm"><i style="height:30%"></i><i style="height:67%"></i><i style="height:39%"></i><i style="height:76%"></i><i style="height:48%"></i><i style="height:85%"></i><i style="height:57%"></i><i style="height:94%"></i><i style="height:66%"></i><i style="height:38%"></i><i style="height:75%"></i><i style="height:47%"></i></div>
+  <header class="masthead">
+    <p class="brand">回声唱片 <span class="en">Echo Records</span> <span class="addr">城南棉花巷 17 号 / 独立唱片行 / 店史档案</span></p>
+    <h1>一间地下唱片行，转了十年</h1>
+    <p class="lede">2016 年春天，回声唱片开在棉花巷 17 号的地下室里，起家的是三百张旧盘。这份店史按年收录十年间的搬迁、习惯、峰值与沉寂，像整理一柜子唱片那样，把它归档给你。</p>
+  </header>
+
+  <section class="time-lens" aria-label="十年总览">
+    <div class="stats">
+      <div class="stat">
+        <b>2016—2025</b>
+        <span class="stat-label">覆盖时段</span>
+        <span class="stat-note">十年，从三十平米地下室到巷口爵士房</span>
+      </div>
+      <div class="stat">
+        <b>11,247</b>
+        <span class="stat-label">经手唱片（张）</span>
+        <span class="stat-note">含店内零售、外送药方、代寻与回购</span>
+      </div>
+      <div class="stat">
+        <b>437</b>
+        <span class="stat-label">期周三试听夜</span>
+        <span class="stat-note">最长的一条记忆：每周三晚八点亮起的那盏灯</span>
+      </div>
+    </div>
+  </section>
+
+  <nav class="scrubber" aria-label="按年份过滤整页">
+    <span class="scrub-label">年份 / 主导航</span>
+    <button type="button" data-year="" aria-pressed="true">全部</button>
+    <button type="button" data-year="2016" aria-pressed="false">2016</button>
+    <button type="button" data-year="2017" aria-pressed="false">2017</button>
+    <button type="button" data-year="2018" aria-pressed="false">2018</button>
+    <button type="button" data-year="2019" aria-pressed="false">2019</button>
+    <button type="button" data-year="2020" aria-pressed="false">2020</button>
+    <button type="button" data-year="2021" aria-pressed="false">2021</button>
+    <button type="button" data-year="2022" aria-pressed="false">2022</button>
+    <button type="button" data-year="2023" aria-pressed="false">2023</button>
+    <button type="button" data-year="2024" aria-pressed="false">2024</button>
+    <button type="button" data-year="2025" aria-pressed="false">2025</button>
+  </nav>
+
+  <section class="chapters-block" id="chapters" aria-label="十年章节">
+    <h2 class="sec-title">十年章节</h2>
+    <p class="sec-sub">从地下室到爵士房 / 点选上方任意年份，整页只保留那一年</p>
+    <div class="chapters">
+      <svg class="spine" aria-hidden="true" focusable="false"><line x1="2" y1="0" x2="2" y2="100%" pathLength="1"></line></svg>
+
+      <article class="chapter" data-year="2016">
+        <div class="ch-card">
+          <h3><span class="yr">2016</span>三十平米的地下室</h3>
+          <p class="ch-sub">棉花巷 17 号地下，三百张起家盘，一盏挂在暖气管上的灯。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>爵士入门盘与老摇滚再版</b></div>
+            <div><span>重复习惯</span><b>周三试听夜，从第一期开始</b></div>
+            <div><span>峰值</span><b>开业首月售出 288 张</b></div>
+            <div><span>沉寂期</span><b>梅雨季，整月只开了十一天门</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2017">
+        <div class="ch-card">
+          <h3><span class="yr">2017</span>第一台洗碟机</h3>
+          <p class="ch-sub">攒了半年的账，把一台二手机台从旧货市场抬回地下室。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>重录黑胶与爵士女声</b></div>
+            <div><span>重复习惯</span><b>周六下午三点，新到货准时上架</b></div>
+            <div><span>峰值</span><b>店庆周七天，进出 412 人次</b></div>
+            <div><span>沉寂期</span><b>七月发潮，歇业盘点半个月</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2018">
+        <div class="ch-card">
+          <h3><span class="yr">2018</span>搬到巷口</h3>
+          <p class="ch-sub">临街铺面十二平米，窗户终于能照进下午的太阳。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>城市民谣与后摇</b></div>
+            <div><span>重复习惯</span><b>每月最后一个周日，整架打乱重排</b></div>
+            <div><span>峰值</span><b>首张压盘三百张，两周售罄</b></div>
+            <div><span>沉寂期</span><b>盛夏装修，闭店四十天</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2019">
+        <div class="ch-card">
+          <h3><span class="yr">2019</span>回声制成立</h3>
+          <p class="ch-sub">自有厂牌「回声制 / Echo Press」，第一张合辑收了巷子里六支乐队。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>本地乐队小样与 demo 磁带</b></div>
+            <div><span>重复习惯</span><b>试听夜曲目单手写张贴，雷打不动</b></div>
+            <div><span>峰值</span><b>发布夜排队排到了巷子路口</b></div>
+            <div><span>沉寂期</span><b>年底房东换约，忐忑了一整个冬天</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2020">
+        <div class="ch-card">
+          <h3><span class="yr">2020</span>停摆与唱片药方</h3>
+          <p class="ch-sub">闭店 97 天，改成无接触外送：报一种心情，配一张唱片。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>「唱片药方」外送单</b></div>
+            <div><span>重复习惯</span><b>每晚在账号上写一张药方</b></div>
+            <div><span>峰值</span><b>线上单月送出 214 份药方</b></div>
+            <div><span>沉寂期</span><b>春天整整一季，店门没有开过一次</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2021">
+        <div class="ch-card">
+          <h3><span class="yr">2021</span>灯又亮了</h3>
+          <p class="ch-sub">试听夜重启那晚，老客把 2019 年落在店里的杯子又放回了原位。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>磁带回潮，卡带柜台重开</b></div>
+            <div><span>重复习惯</span><b>周三晚八点，灯准时亮</b></div>
+            <div><span>峰值</span><b>重启首月，到店 1,033 人次</b></div>
+            <div><span>沉寂期</span><b>冬天两波反复，又停了五个周三</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2022">
+        <div class="ch-card">
+          <h3><span class="yr">2022</span>档案卡制度</h3>
+          <p class="ch-sub">给经手的每张唱片手写一张档案卡：来处、去处、一句评语。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>盘库与档案补录</b></div>
+            <div><span>重复习惯</span><b>每天闭店前写满十张卡</b></div>
+            <div><span>峰值</span><b>全年写卡 3,196 张</b></div>
+            <div><span>沉寂期</span><b>独自盘库的二月，巷子静得能听见暖气声</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2023">
+        <div class="ch-card">
+          <h3><span class="yr">2023</span>爵士房</h3>
+          <p class="ch-sub">隔出六平米专室，只放爵士，进门脱鞋。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>爵士重发与日版旧盘</b></div>
+            <div><span>重复习惯</span><b>周五晚爵士房清唱机时间</b></div>
+            <div><span>峰值</span><b>跨年通宵营业到清晨六点</b></div>
+            <div><span>沉寂期</span><b>梅雨又来，专室除湿机响了整月</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2024">
+        <div class="ch-card">
+          <h3><span class="yr">2024</span>街区唱片日</h3>
+          <p class="ch-sub">联合巷子里六家小店，把整条街变成一个下午的唱片摊。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>灵魂乐与爵士女声</b></div>
+            <div><span>重复习惯</span><b>每月第一个周六，街坊旧盘交换角</b></div>
+            <div><span>峰值</span><b>唱片日当天，全街进出 2,400 人次</b></div>
+            <div><span>沉寂期</span><b>十月连雨，交换角停了三期</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="chapter" data-year="2025">
+        <div class="ch-card">
+          <h3><span class="yr">2025</span>第十年</h3>
+          <p class="ch-sub">《回声十年》合辑收录 49 位常客每人一首选曲，附一页手写店史。</p>
+          <div class="scene">
+            <div><span>当年高频</span><b>十周年系列再版与旧盘回购</b></div>
+            <div><span>重复习惯</span><b>周三试听夜，进行到第 437 期</b></div>
+            <div><span>峰值</span><b>店庆周七天，售出 1,206 张</b></div>
+            <div><span>沉寂期</span><b>暂无，灯还亮着</b></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rhythm-block" aria-label="十年节奏">
+    <h2 class="sec-title">十年节奏</h2>
+    <p class="sec-sub">到店与进货的按月密度，一格一个月 / 颜色越深，那个月越忙</p>
+    <div class="rhythm-strip">
+      <div class="ry-year" data-year="2016"><span>2016</span><div class="ry-cells"><i class="l4"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l1"></i><i class="l1"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l4"></i><i class="l3"></i></div></div>
+      <div class="ry-year" data-year="2017"><span>2017</span><div class="ry-cells"><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l1"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l4"></i><i class="l4"></i></div></div>
+      <div class="ry-year" data-year="2018"><span>2018</span><div class="ry-cells"><i class="l3"></i><i class="l2"></i><i class="l1"></i><i class="l0"></i><i class="l0"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i></div></div>
+      <div class="ry-year" data-year="2019"><span>2019</span><div class="ry-cells"><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l4"></i><i class="l3"></i></div></div>
+      <div class="ry-year" data-year="2020"><span>2020</span><div class="ry-cells"><i class="l1"></i><i class="l0"></i><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l2"></i></div></div>
+      <div class="ry-year" data-year="2021"><span>2021</span><div class="ry-cells"><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l4"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i></div></div>
+      <div class="ry-year" data-year="2022"><span>2022</span><div class="ry-cells"><i class="l2"></i><i class="l2"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i></div></div>
+      <div class="ry-year" data-year="2023"><span>2023</span><div class="ry-cells"><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l4"></i></div></div>
+      <div class="ry-year" data-year="2024"><span>2024</span><div class="ry-cells"><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><i class="l4"></i><i class="l3"></i><i class="l3"></i><i class="l1"></i><i class="l1"></i><i class="l3"></i></div></div>
+      <div class="ry-year" data-year="2025"><span>2025</span><div class="ry-cells"><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l4"></i><i class="l3"></i><i class="l3"></i><i class="l3"></i><i class="l4"></i><i class="l4"></i><i class="l4"></i><i class="l4"></i></div></div>
+    </div>
+    <p class="ry-note"><span class="sw"><i class="l0"></i>停摆</span><span class="sw"><i class="l1"></i>清闲</span><span class="sw"><i class="l2"></i>如常</span><span class="sw"><i class="l3"></i>热闹</span><span class="sw"><i class="l4"></i>满座</span>2020 年春天的整季空白，是「唱片药方」开始的地方</p>
+  </section>
+
+  <section class="drawer-block" aria-label="发行与文献年表">
+    <h2 class="sec-title">发行与文献年表</h2>
+    <p class="sec-sub">回声制 Echo Press 与店史文献的全部条目 / 关键词搜索与年份过滤可以叠加</p>
+    <div class="drawer-bar">
+      <label for="q">搜索</label>
+      <input type="search" id="q" placeholder="名称 / 编号 / 备注，如：药方">
+      <p class="count" id="count" aria-live="polite">共 14 条</p>
+    </div>
+    <div class="rel-board">
+      <div class="rel-row rel-head" aria-hidden="true">
+        <span class="c-year">年份</span><span class="c-id">编号</span><span class="c-name">名称</span><span class="c-fmt">载体</span><span class="c-note">备注</span>
+      </div>
+      <div class="rel-row" data-year="2016">
+        <span class="c-year">2016</span><span class="c-id">档-001</span><span class="c-name">起家盘手写清单</span><span class="c-fmt">纸质</span><span class="c-note">三百张，店主笔迹，现存店史铁盒</span>
+      </div>
+      <div class="rel-row" data-year="2016">
+        <span class="c-year">2016</span><span class="c-id">档-002</span><span class="c-name">试听夜第一期歌单</span><span class="c-fmt">纸质</span><span class="c-note">复印三十份，当晚被常客分完</span>
+      </div>
+      <div class="rel-row" data-year="2018">
+        <span class="c-year">2018</span><span class="c-id">EP-001</span><span class="c-name">巷子里的十七分钟</span><span class="c-fmt">黑胶</span><span class="c-note">首张正式压盘，三百张手工编号</span>
+      </div>
+      <div class="rel-row" data-year="2019">
+        <span class="c-year">2019</span><span class="c-id">EP-002</span><span class="c-name">雨季不关门</span><span class="c-fmt">CD</span><span class="c-note">巷内六支乐队合辑，发布夜现场签售</span>
+      </div>
+      <div class="rel-row" data-year="2020">
+        <span class="c-year">2020</span><span class="c-id">档-017</span><span class="c-name">唱片药方存根</span><span class="c-fmt">纸质</span><span class="c-note">九十七天外送单，装订成三册</span>
+      </div>
+      <div class="rel-row" data-year="2020">
+        <span class="c-year">2020</span><span class="c-id">EP-003</span><span class="c-name">唱片药方 Vol.1</span><span class="c-fmt">CD</span><span class="c-note">随单附赠混音小盘，共烧两百张</span>
+      </div>
+      <div class="rel-row" data-year="2021">
+        <span class="c-year">2021</span><span class="c-id">EP-004</span><span class="c-name">重启之夜现场</span><span class="c-fmt">黑胶</span><span class="c-note">试听夜重启首场录音，末轨保留掌声</span>
+      </div>
+      <div class="rel-row" data-year="2022">
+        <span class="c-year">2022</span><span class="c-id">档-031</span><span class="c-name">档案卡样张集</span><span class="c-fmt">纸质</span><span class="c-note">全年三千一百九十六张手写卡中的四十二张</span>
+      </div>
+      <div class="rel-row" data-year="2022">
+        <span class="c-year">2022</span><span class="c-id">EP-005</span><span class="c-name">仓库磁带</span><span class="c-fmt">磁带</span><span class="c-note">盘库时发现的未登记 demo，后来成了三支乐队首作</span>
+      </div>
+      <div class="rel-row" data-year="2023">
+        <span class="c-year">2023</span><span class="c-id">EP-006</span><span class="c-name">爵士房规则</span><span class="c-fmt">黑胶</span><span class="c-note">六平米专室开放日的整面墙录音</span>
+      </div>
+      <div class="rel-row" data-year="2024">
+        <span class="c-year">2024</span><span class="c-id">EP-007</span><span class="c-name">街区唱片日现场</span><span class="c-fmt">CD</span><span class="c-note">全街六家小店摊位的声音采样</span>
+      </div>
+      <div class="rel-row" data-year="2025">
+        <span class="c-year">2025</span><span class="c-id">EP-008</span><span class="c-name">回声十年</span><span class="c-fmt">黑胶加CD</span><span class="c-note">四十九位常客选曲，附一页手写店史</span>
+      </div>
+      <div class="rel-row" data-year="2025">
+        <span class="c-year">2025</span><span class="c-id">档-049</span><span class="c-name">十年盘点账本</span><span class="c-fmt">纸质</span><span class="c-note">经手 11,247 张唱片的出入流水</span>
+      </div>
+      <div class="rel-row" data-year="2025">
+        <span class="c-year">2025</span><span class="c-id">EP-009</span><span class="c-name">棉花巷地图歌单</span><span class="c-fmt">磁带</span><span class="c-note">店庆周限定，按巷子门牌顺序排的十四首歌</span>
+      </div>
+    </div>
+    <p class="empty" id="empty" hidden>没有匹配的条目 / 换个关键词，或点「全部」重看十年</p>
+  </section>
+
+  <footer class="foot">
+    <p>UI 设计提示词库 / 内容排版 / 时间线叙事</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>开场时间透镜：覆盖时段、总量、一个作故事钩子的记忆模式</span></li><li><b>02</b><span>时间主轴：年/月/周是主导航，选中时段过滤全页模块</span></li><li><b>03</b><span>章节面板：每个时段一个紧凑场景（最高频项/重复习惯/峰值/沉寂期）</span></li><li><b>04</b><span>节奏条：热力图或堆叠条展示节奏，不做运营图表</span></li><li><b>05</b><span>记忆抽屉：可搜索的条目浏览器，按章节过滤</span></li></ol>
+<script>
+(function () {
+  'use strict';
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.scrubber button'));
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.chapter'));
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.ry-year'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.rel-row')).filter(function (r) {
+    return !r.classList.contains('rel-head');
+  });
+  var count = document.getElementById('count');
+  var empty = document.getElementById('empty');
+  var input = document.getElementById('q');
+  var year = '';
+  var kw = '';
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.story-shell .time-lens .timeline-spine .chapter-panel .period-scrubber .rhythm-strip .memory-drawer</p>
+  function apply() {
+    chapters.forEach(function (c) {
+      c.hidden = !!year && c.getAttribute('data-year') !== year;
+    });
+    groups.forEach(function (g) {
+      g.classList.toggle('off', !!year && g.getAttribute('data-year') !== year);
+    });
+    var shown = 0;
+    rows.forEach(function (r) {
+      var okYear = !year || r.getAttribute('data-year') === year;
+      var okKw = !kw || r.textContent.toLowerCase().indexOf(kw) !== -1;
+      var ok = okYear && okKw;
+      r.hidden = !ok;
+      if (ok) { shown++; }
+    });
+    count.textContent = year ? year + ' 年 / 显示 ' + shown + ' 条' : '共 ' + rows.length + ' 条';
+    empty.hidden = shown !== 0;
+    chips.forEach(function (b) {
+      var on = (b.getAttribute('data-year') || '') === year;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  chips.forEach(function (b) {
+    b.addEventListener('click', function () {
+      year = b.getAttribute('data-year') || '';
+      apply();
+      if (year) {
+        var smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.getElementById('chapters').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+      }
+    });
+  });
+
+  input.addEventListener('input', function () {
+    kw = input.value.trim().toLowerCase();
+    apply();
+  });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var y = en.target.getAttribute('data-year');
+        en.target.classList.toggle('now', en.isIntersecting);
+        if (!year && en.isIntersecting) {
+          chips.forEach(function (b) {
+            b.classList.toggle('now', (b.getAttribute('data-year') || '') === y);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    chapters.forEach(function (c) { io.observe(c); });
+  }
+
+  apply();
+})();
+</script>
 </body>
 </html>

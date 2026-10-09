@@ -4,168 +4,755 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>关系图谱 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>关系图谱 Network Map / UI 设计提示词库</title>
+<meta name="description" content="关系图谱内容排版样张：以播客「深夜编译」嘉宾宇宙为例的网络画布、实体检查器、聚类控件、桥与枢纽卡与关联节目浏览器。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter+family=JetBrains+Mono+family=Manrope&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;600;700&display=swap');
 
+/* token 计划：底 #F4F5F7 / 面板 #FFFFFF / 墨 #23272E / 弱字 #5C6470（#737B88 仅作非文字线框）/ 强调 #5B4FFF / 分隔线 #DCDFE6 / 圆角 12px / 标题 Manrope / 正文 Inter / 簇色 靛-青-橙-绿-玫红 */
 :root {
-  --bg: #F4F5F7; --panel: #FFFFFF; --ink: #23272E; --muted: #737B88;
-  --accent: #5B4FFF; --line: #DCDFE6; --radius: 12px;
-  --fh: 'Manrope', 'PingFang SC', 'Microsoft YaHei', serif;
+  --bg: #F4F5F7;
+  --panel: #FFFFFF;
+  --ink: #23272E;
+  --muted: #737B88;
+  --soft: #5C6470;
+  --accent: #5B4FFF;
+  --line: #DCDFE6;
+  --radius: 12px;
+  --fh: 'Manrope', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --fb: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
-
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
+button { font-family: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
+.network-shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 26px clamp(16px, 4vw, 44px) 54px;
+}
+
+/* 顶栏与标题块 */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--fh);
+  font-weight: 800;
+  font-size: 16px;
+}
+.brand i { width: 11px; height: 11px; border-radius: 4px; background: var(--accent); }
+.brand span {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--soft);
+  border-left: 1px solid var(--line);
+  padding-left: 9px;
+}
+.top-meta { font-size: 12.5px; color: var(--soft); font-variant-numeric: tabular-nums; }
+
+.hero { margin: 30px 0 20px; }
+.kicker { font-size: 13px; font-weight: 700; color: var(--accent); }
+h1 {
+  font-family: var(--fh);
+  font-weight: 800;
+  font-size: clamp(28px, 4.2vw, 42px);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  margin: 6px 0 10px;
+}
+.lede { color: var(--soft); font-size: 15px; max-width: 720px; }
+.rules { margin-top: 12px; font-size: 13px; color: var(--soft); }
+.rules b { color: var(--ink); font-weight: 600; }
+
+/* 主舞台：网络画布 + 实体检查器 */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 336px;
+  gap: 20px;
+  align-items: start;
+}
+.network-canvas { min-width: 0; }
+.canvas-frame {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+svg.net { display: block; width: 100%; height: auto; }
+.canvas-note { margin-top: 9px; font-size: 12.5px; color: var(--soft); }
+
+/* 图谱连线与节点 */
+.layer-edges { animation: fadein .7s .45s both; }
+.edge { opacity: .38; transition: opacity .25s; }
+.edge.is-hot { opacity: .95; }
+.edge.is-dim { opacity: .06; }
+.co-edge {
+  stroke: #98A0AC;
+  stroke-dasharray: 5 6;
+  fill: none;
+  opacity: .5;
+  transition: opacity .25s;
+}
+.co-edge.is-hot { opacity: .95; stroke: var(--ink); }
+.co-edge.is-dim { opacity: .05; }
+.layer-nodes .pop {
+  animation: popin .55s cubic-bezier(.3, 1.55, .55, 1) both;
+  animation-delay: var(--d, 0s);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.node { cursor: pointer; }
+.node circle { transition: opacity .25s; }
+.node:hover circle { stroke: var(--ink); stroke-width: 2.5; }
+.node:focus { outline: none; }
+.node:focus-visible circle { stroke: var(--accent); stroke-width: 3.5; }
+.node.is-dim { opacity: .2; }
+.n-count { fill: #FFFFFF; font-family: var(--fb); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.n-in { fill: #FFFFFF; font-family: var(--fh); font-size: 15px; font-weight: 700; text-anchor: middle; }
+.n-label { fill: var(--ink); font-family: var(--fb); font-size: 12px; font-weight: 600; text-anchor: middle; }
+
+/* 实体检查器 */
+.entity-inspector { position: sticky; top: 16px; }
+.entity-inspector h2 {
+  font-family: var(--fh);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--soft);
+  margin-bottom: 9px;
+}
+.insp-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px 22px;
+}
+.insp-kick {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--soft);
+}
+.insp-kick i { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+.insp-name {
+  font-family: var(--fh);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-top: 7px;
+}
+.insp-role { font-size: 13px; color: var(--soft); margin-top: 2px; }
+.insp-stats {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+.insp-stats li {
+  background: var(--bg);
+  border-radius: 9px;
+  padding: 10px 8px 8px;
+  text-align: center;
+}
+.insp-stats b {
+  display: block;
+  font-family: var(--fh);
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.insp-stats span { font-size: 11.5px; color: var(--soft); }
+.insp-label { font-size: 12.5px; font-weight: 700; margin: 16px 0 7px; }
+.ep-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ep-chips span {
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: var(--bg);
+  font-variant-numeric: tabular-nums;
+}
+.insp-co { list-style: none; display: grid; gap: 6px; }
+.insp-co li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 7px 11px;
+}
+.co-link {
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+.co-link:hover { text-decoration: underline; }
+.insp-co li span, .insp-none { font-size: 12.5px; color: var(--soft); }
+.dist { list-style: none; display: grid; gap: 7px; }
+.dist li {
+  display: grid;
+  grid-template-columns: 86px 1fr 26px;
+  gap: 9px;
+  align-items: center;
+  font-size: 12.5px;
+}
+.dist li span { color: var(--soft); }
+.dist i { height: 8px; border-radius: 4px; display: block; }
+.dist b { font-family: var(--fh); text-align: right; font-variant-numeric: tabular-nums; }
+
+/* 聚类控件 */
+.cluster-controls { margin-top: 18px; }
+.cc-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid var(--line);
+  background: var(--panel);
+  color: var(--soft);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.chip i { width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--ink)); flex: none; }
+.chip:hover { border-color: var(--muted); color: var(--ink); }
+.chip.is-on { border-color: var(--ink); color: var(--ink); background: #EEF0F4; }
+.cc-hint { margin-top: 10px; font-size: 12.5px; color: var(--soft); }
+
+/* 桥与枢纽卡 */
+.sec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.sec-head h2 { font-family: var(--fh); font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+.sec-head p { font-size: 12.5px; color: var(--soft); }
+.hubs { margin-top: 34px; }
+.hub-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.hub-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--c, var(--accent));
+  border-radius: var(--radius);
+  padding: 15px 17px 17px;
+}
+.hub-k { font-size: 12px; font-weight: 700; color: var(--c, var(--accent)); }
+.hub-card h3 {
+  font-family: var(--fh);
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 5px 0 6px;
+}
+.hub-card p { font-size: 13px; color: var(--soft); }
+.hub-card p b { color: var(--ink); font-weight: 600; }
+
+/* 关联记录浏览器 */
+.record-browser { margin-top: 34px; }
+.rb-cols, .ep-row {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr) 10.5rem 5.4rem 2.8rem;
+  gap: 10px;
+  align-items: center;
+}
+.rb-cols { font-size: 12px; color: var(--soft); font-weight: 600; padding: 0 14px 8px; }
+.ep-list {
+  list-style: none;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ep-row {
+  padding: 9px 14px;
+  border-bottom: 1px solid #EAECF0;
+  font-size: 13.5px;
+  transition: background .15s;
+}
+.ep-row:hover { background: #F7F8FB; }
+.ep-list li:last-child { border-bottom: none; }
+.ep-no {
+  font-family: var(--fh);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.ep-t { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ep-g { font-size: 12.5px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ep-d { font-size: 12.5px; color: var(--soft); font-variant-numeric: tabular-nums; }
+.ep-dots { display: flex; gap: 4px; }
+.ep-dots i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+
+/* 页脚 */
+.foot {
+  margin-top: 46px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.foot p { font-size: 13px; color: var(--soft); }
+.foot a { font-size: 13px; font-weight: 700; color: var(--accent); text-decoration: none; }
+.foot a:hover { text-decoration: underline; }
+
+/* 亮相动效：节点一次弹入 */
+@keyframes popin {
+  from { opacity: 0; transform: scale(.35); }
+  72% { opacity: 1; transform: scale(1.07); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .stage { grid-template-columns: 1fr; }
+  .entity-inspector { position: static; }
+  .hub-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 820px) {
+  .canvas-frame { overflow-x: auto; }
+  svg.net { min-width: 680px; }
+  .rb-cols, .ep-row { grid-template-columns: 2.6rem minmax(0, 1fr) 5.2rem 1.6rem; }
+  .ep-g, .h-g { display: none; }
+}
+@media (max-width: 560px) {
+  .hub-grid { grid-template-columns: 1fr; }
+  .rb-cols, .ep-row { grid-template-columns: 2.4rem minmax(0, 1fr) 1.4rem; }
+  .ep-d, .h-d { display: none; }
+  .insp-stats b { font-size: 19px; }
+  .insp-card { padding: 17px 16px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .layer-nodes .pop, .layer-edges { animation: none; }
+  .ep-row, .chip { transition: none; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Network Map</p>
-  <h1>关系图谱</h1>
-  <p class="sub">关系图系统：揭示簇、桥、反复交易对手与模式。人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要。</p>
-  <p class="meta">本页 token：<code>底 #F4F5F7</code> <code>面板 #FFFFFF</code> <code>主字 #23272E</code> <code>强调 #5B4FFF</code> <code>圆角 12px</code> / 标题 <code>Manrope</code> / 正文 <code>Inter</code> / 动效：节点一次弹入</p>
+<div class="network-shell">
 
-  <h2>结构示意</h2>
-  <div class="hx net" style="--a:#5B4FFF">
-  <svg viewBox="0 0 300 110" aria-hidden="true">
-    <line x1="60" y1="55" x2="150" y2="25" stroke="#DCDFE6" stroke-width="1.5"/><line x1="60" y1="55" x2="150" y2="85" stroke="#DCDFE6" stroke-width="1.5"/><line x1="150" y1="25" x2="240" y2="55" stroke="#DCDFE6" stroke-width="1.5"/><line x1="150" y1="85" x2="240" y2="55" stroke="#DCDFE6" stroke-width="1.5"/><line x1="150" y1="25" x2="150" y2="85" stroke="#DCDFE6" stroke-width="1.5"/>
-    <circle cx="60" cy="55" r="9" fill="#5B4FFF"/><circle cx="150" cy="25" r="7" fill="#23272E" opacity=".65"/><circle cx="150" cy="85" r="7" fill="#23272E" opacity=".65"/><circle cx="240" cy="55" r="8" fill="#5B4FFF" opacity=".7"/>
-  </svg>
+  <header class="topbar">
+    <p class="brand"><i></i>深夜编译<span>嘉宾宇宙</span></p>
+    <p class="top-meta">三季 / 40 期 / 更新至 2026-09-24</p>
+  </header>
+
+  <section class="hero">
+    <p class="kicker">内容排版 / 关系图谱</p>
+    <h1>「深夜编译」嘉宾宇宙</h1>
+    <p class="lede">主持人阿澈居于中心，40 期节目先后请过 17 位嘉宾，按五个主题簇着色聚拢。离中心越近、节点越大，与节目的绑定越深；点选任一嘉宾，右侧检查器与下方节目列表随之切换。</p>
+    <p class="rules"><b>节点半径</b> = 出场期数 / <b>连线粗细</b> = 出场次数 / <b>虚线</b> = 同台关系 / 可用 Tab 聚焦节点后回车选中</p>
+  </section>
+
+  <main class="stage">
+    <section class="network-canvas" aria-label="网络画布">
+      <div class="canvas-frame">
+        <svg class="net" viewBox="0 0 960 620" role="group" aria-label="「深夜编译」嘉宾关系网络图，共 18 个节点">
+          <g class="layer-edges">
+            <line class="edge" data-g="luzhiyuan" x1="480" y1="302" x2="300" y2="118" stroke="#5B4FFF" stroke-width="4"/>
+            <line class="edge" data-g="shenmo" x1="480" y1="302" x2="158" y2="178" stroke="#5B4FFF" stroke-width="2.5"/>
+            <line class="edge" data-g="baishan" x1="480" y1="302" x2="136" y2="296" stroke="#5B4FFF" stroke-width="2.5"/>
+            <line class="edge" data-g="linwanzhao" x1="480" y1="302" x2="566" y2="84" stroke="#0B7285" stroke-width="3"/>
+            <line class="edge" data-g="jiangsheng" x1="480" y1="302" x2="692" y2="108" stroke="#0B7285" stroke-width="2.5"/>
+            <line class="edge" data-g="yemai" x1="480" y1="302" x2="792" y2="172" stroke="#0B7285" stroke-width="2.5"/>
+            <line class="edge" data-g="tanxiao" x1="480" y1="302" x2="846" y2="262" stroke="#0B7285" stroke-width="1.5"/>
+            <line class="edge" data-g="guchangfeng" x1="480" y1="302" x2="830" y2="382" stroke="#C2410C" stroke-width="4"/>
+            <line class="edge" data-g="qinzhun" x1="480" y1="302" x2="792" y2="478" stroke="#C2410C" stroke-width="2.5"/>
+            <line class="edge" data-g="wenxu" x1="480" y1="302" x2="688" y2="544" stroke="#C2410C" stroke-width="2"/>
+            <line class="edge" data-g="hejianwei" x1="480" y1="302" x2="594" y2="576" stroke="#C2410C" stroke-width="1.5"/>
+            <line class="edge" data-g="chengyiwei" x1="480" y1="302" x2="462" y2="548" stroke="#2B7A42" stroke-width="3"/>
+            <line class="edge" data-g="shiyuan" x1="480" y1="302" x2="344" y2="576" stroke="#2B7A42" stroke-width="2"/>
+            <line class="edge" data-g="guizhi" x1="480" y1="302" x2="238" y2="548" stroke="#2B7A42" stroke-width="1.5"/>
+            <line class="edge" data-g="mengqianfan" x1="480" y1="302" x2="146" y2="462" stroke="#C2255C" stroke-width="2.5"/>
+            <line class="edge" data-g="yanxu" x1="480" y1="302" x2="92" y2="352" stroke="#C2255C" stroke-width="2.5"/>
+            <line class="edge" data-g="hanzhao" x1="480" y1="302" x2="66" y2="246" stroke="#C2255C" stroke-width="1.5"/>
+            <line class="co-edge" data-a="luzhiyuan" data-b="guchangfeng" x1="300" y1="118" x2="830" y2="382" stroke-width="2.2"/>
+            <line class="co-edge" data-a="guchangfeng" data-b="linwanzhao" x1="830" y1="382" x2="566" y2="84" stroke-width="1.3"/>
+            <line class="co-edge" data-a="qinzhun" data-b="chengyiwei" x1="792" y1="478" x2="462" y2="548" stroke-width="1.3"/>
+            <line class="co-edge" data-a="jiangsheng" data-b="shiyuan" x1="692" y1="108" x2="344" y2="576" stroke-width="1.3"/>
+            <line class="co-edge" data-a="wenxu" data-b="hejianwei" x1="688" y1="544" x2="594" y2="576" stroke-width="1.3"/>
+            <line class="co-edge" data-a="yemai" data-b="tanxiao" x1="792" y1="172" x2="846" y2="262" stroke-width="1.3"/>
+            <line class="co-edge" data-a="baishan" data-b="shenmo" x1="136" y1="296" x2="158" y2="178" stroke-width="1.3"/>
+            <line class="co-edge" data-a="mengqianfan" data-b="hanzhao" x1="146" y1="462" x2="66" y2="246" stroke-width="1.3"/>
+          </g>
+          <g class="layer-nodes">
+            <g class="node host" data-id="host" tabindex="0" role="button" aria-label="阿澈，主持人，40 期" aria-pressed="true">
+              <g class="pop"><circle cx="480" cy="302" r="38" fill="#23272E"/><text class="n-in" x="480" y="307">阿澈</text><text class="n-label" x="480" y="361">主持人 / 40 期</text></g>
+            </g>
+            <g class="node c-a" data-id="luzhiyuan" tabindex="0" role="button" aria-label="陆知远，出场 6 期" aria-pressed="false">
+              <g class="pop" style="--d:.06s"><circle cx="300" cy="118" r="21" fill="#5B4FFF"/><text class="n-count" x="300" y="122">6</text><text class="n-label" x="300" y="156">陆知远</text></g>
+            </g>
+            <g class="node c-a" data-id="shenmo" tabindex="0" role="button" aria-label="沈墨，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.12s"><circle cx="158" cy="178" r="15" fill="#5B4FFF"/><text class="n-count" x="158" y="182">3</text><text class="n-label" x="158" y="210">沈墨</text></g>
+            </g>
+            <g class="node c-a" data-id="baishan" tabindex="0" role="button" aria-label="白山，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.18s"><circle cx="136" cy="296" r="15" fill="#5B4FFF"/><text class="n-count" x="136" y="300">3</text><text class="n-label" x="136" y="328">白山</text></g>
+            </g>
+            <g class="node c-b" data-id="linwanzhao" tabindex="0" role="button" aria-label="林晚照，出场 4 期" aria-pressed="false">
+              <g class="pop" style="--d:.24s"><circle cx="566" cy="84" r="17" fill="#0B7285"/><text class="n-count" x="566" y="88">4</text><text class="n-label" x="566" y="118">林晚照</text></g>
+            </g>
+            <g class="node c-b" data-id="jiangsheng" tabindex="0" role="button" aria-label="江声，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.30s"><circle cx="692" cy="108" r="15" fill="#0B7285"/><text class="n-count" x="692" y="112">3</text><text class="n-label" x="692" y="140">江声</text></g>
+            </g>
+            <g class="node c-b" data-id="yemai" tabindex="0" role="button" aria-label="叶脉，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.36s"><circle cx="792" cy="172" r="15" fill="#0B7285"/><text class="n-count" x="792" y="176">3</text><text class="n-label" x="792" y="204">叶脉</text></g>
+            </g>
+            <g class="node c-b" data-id="tanxiao" tabindex="0" role="button" aria-label="谈笑，出场 1 期" aria-pressed="false">
+              <g class="pop" style="--d:.42s"><circle cx="846" cy="262" r="11" fill="#0B7285"/><text class="n-count" x="846" y="266">1</text><text class="n-label" x="846" y="290">谈笑</text></g>
+            </g>
+            <g class="node c-c" data-id="guchangfeng" tabindex="0" role="button" aria-label="顾长风，出场 6 期" aria-pressed="false">
+              <g class="pop" style="--d:.48s"><circle cx="830" cy="382" r="21" fill="#C2410C"/><text class="n-count" x="830" y="386">6</text><text class="n-label" x="830" y="420">顾长风</text></g>
+            </g>
+            <g class="node c-c" data-id="qinzhun" tabindex="0" role="button" aria-label="秦准，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.54s"><circle cx="792" cy="478" r="15" fill="#C2410C"/><text class="n-count" x="792" y="482">3</text><text class="n-label" x="792" y="510">秦准</text></g>
+            </g>
+            <g class="node c-c" data-id="wenxu" tabindex="0" role="button" aria-label="温叙，出场 2 期" aria-pressed="false">
+              <g class="pop" style="--d:.60s"><circle cx="688" cy="544" r="13" fill="#C2410C"/><text class="n-count" x="688" y="548">2</text><text class="n-label" x="688" y="574">温叙</text></g>
+            </g>
+            <g class="node c-c" data-id="hejianwei" tabindex="0" role="button" aria-label="何见微，出场 1 期" aria-pressed="false">
+              <g class="pop" style="--d:.66s"><circle cx="594" cy="576" r="11" fill="#C2410C"/><text class="n-count" x="594" y="580">1</text><text class="n-label" x="594" y="604">何见微</text></g>
+            </g>
+            <g class="node c-d" data-id="chengyiwei" tabindex="0" role="button" aria-label="程一苇，出场 4 期" aria-pressed="false">
+              <g class="pop" style="--d:.72s"><circle cx="462" cy="548" r="17" fill="#2B7A42"/><text class="n-count" x="462" y="552">4</text><text class="n-label" x="462" y="582">程一苇</text></g>
+            </g>
+            <g class="node c-d" data-id="shiyuan" tabindex="0" role="button" aria-label="施远，出场 2 期" aria-pressed="false">
+              <g class="pop" style="--d:.78s"><circle cx="344" cy="576" r="13" fill="#2B7A42"/><text class="n-count" x="344" y="580">2</text><text class="n-label" x="344" y="606">施远</text></g>
+            </g>
+            <g class="node c-d" data-id="guizhi" tabindex="0" role="button" aria-label="桂枝，出场 1 期" aria-pressed="false">
+              <g class="pop" style="--d:.84s"><circle cx="238" cy="548" r="11" fill="#2B7A42"/><text class="n-count" x="238" y="552">1</text><text class="n-label" x="238" y="576">桂枝</text></g>
+            </g>
+            <g class="node c-e" data-id="mengqianfan" tabindex="0" role="button" aria-label="孟千帆，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.90s"><circle cx="146" cy="462" r="15" fill="#C2255C"/><text class="n-count" x="146" y="466">3</text><text class="n-label" x="146" y="494">孟千帆</text></g>
+            </g>
+            <g class="node c-e" data-id="yanxu" tabindex="0" role="button" aria-label="严序，出场 3 期" aria-pressed="false">
+              <g class="pop" style="--d:.96s"><circle cx="92" cy="352" r="15" fill="#C2255C"/><text class="n-count" x="92" y="356">3</text><text class="n-label" x="92" y="384">严序</text></g>
+            </g>
+            <g class="node c-e" data-id="hanzhao" tabindex="0" role="button" aria-label="韩照，出场 1 期" aria-pressed="false">
+              <g class="pop" style="--d:1.02s"><circle cx="66" cy="246" r="11" fill="#C2255C"/><text class="n-count" x="66" y="250">1</text><text class="n-label" x="66" y="274">韩照</text></g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p class="canvas-note">18 个节点 / 17 条主持连线（实线，颜色随主题簇）/ 8 条同台连线（虚线，粗细随同台次数）</p>
+    </section>
+
+    <aside class="entity-inspector" aria-label="实体检查器">
+      <h2>实体检查器</h2>
+      <div class="insp-card" id="inspBody" aria-live="polite">
+        <p class="insp-kick"><i style="background:#23272E"></i>主持人 / 全景视图</p>
+        <h3 class="insp-name">阿澈</h3>
+        <p class="insp-role">「深夜编译」主播 / 三季共 40 期</p>
+        <ul class="insp-stats">
+          <li><b>40</b><span>出场期数</span></li>
+          <li><b>17</b><span>合作嘉宾</span></li>
+          <li><b>5</b><span>主题簇</span></li>
+        </ul>
+        <p class="insp-label">主题分布（按节目触达）</p>
+        <ul class="dist">
+          <li><span>底层与系统</span><i style="width:100%;background:#5B4FFF"></i><b>11</b></li>
+          <li><span>前端与语言</span><i style="width:91%;background:#0B7285"></i><b>10</b></li>
+          <li><span>AI 与数据</span><i style="width:100%;background:#C2410C"></i><b>11</b></li>
+          <li><span>开源与社区</span><i style="width:64%;background:#2B7A42"></i><b>7</b></li>
+          <li><span>产品与职业</span><i style="width:55%;background:#C2255C"></i><b>6</b></li>
+        </ul>
+        <p class="insp-label">高频嘉宾</p>
+        <ul class="insp-co">
+          <li><button class="co-link" data-id="luzhiyuan">陆知远</button><span>6 期 / 出场之最</span></li>
+          <li><button class="co-link" data-id="guchangfeng">顾长风</button><span>6 期 / 横跨三簇</span></li>
+          <li><button class="co-link" data-id="linwanzhao">林晚照</button><span>4 期 / 前端常客</span></li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <section class="cluster-controls" aria-label="聚类控件">
+    <div class="cc-row">
+      <button class="chip is-on" data-cluster="all" aria-pressed="true">全部 / 18 个节点</button>
+      <button class="chip" data-cluster="a" aria-pressed="false"><i style="--c:#5B4FFF"></i>底层与系统 / 3 位</button>
+      <button class="chip" data-cluster="b" aria-pressed="false"><i style="--c:#0B7285"></i>前端与语言 / 4 位</button>
+      <button class="chip" data-cluster="c" aria-pressed="false"><i style="--c:#C2410C"></i>AI 与数据 / 4 位</button>
+      <button class="chip" data-cluster="d" aria-pressed="false"><i style="--c:#2B7A42"></i>开源与社区 / 3 位</button>
+      <button class="chip" data-cluster="e" aria-pressed="false"><i style="--c:#C2255C"></i>产品与职业 / 3 位</button>
+    </div>
+    <p class="cc-hint">按主题簇聚拢高亮 / 点选任一节点查看实体详情 / 点选主持人回到全景</p>
+  </section>
+
+  <section class="hubs" aria-label="桥与枢纽">
+    <div class="sec-head">
+      <h2>桥与枢纽</h2>
+      <p>全图 25 条连线里的四种关键角色</p>
+    </div>
+    <div class="hub-grid">
+      <article class="hub-card" style="--c:#5B4FFF">
+        <p class="hub-k">最强连接</p>
+        <h3>陆知远</h3>
+        <p>出场 <b>6 期</b>，与主持人的连线全图最粗。第 3 期首登、第 40 期收官，存储话题的定海嘉宾。</p>
+      </article>
+      <article class="hub-card" style="--c:#C2410C">
+        <p class="hub-k">跨簇之桥</p>
+        <h3>顾长风</h3>
+        <p>出场 <b>6 期</b>，与陆知远、林晚照的同台把 <b>底层 / AI / 前端</b> 三个簇缝在一起，是全图唯一的跨三簇节点。</p>
+      </article>
+      <article class="hub-card" style="--c:#23272E">
+        <p class="hub-k">最常同台</p>
+        <h3>陆知远 × 顾长风</h3>
+        <p>第 12 期「当数据库遇上大模型」与第 35 期「向量数据库踩坑实录」<b>两次同台</b>，全图唯一的二重同台边。</p>
+      </article>
+      <article class="hub-card" style="--c:#C2255C">
+        <p class="hub-k">单次来访</p>
+        <h3>4 位嘉宾</h3>
+        <p><b>谈笑 / 何见微 / 桂枝 / 韩照</b> 各只出场一次，外圈的细线小节点就是它们在图谱里的位置。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="record-browser" aria-label="关联节目">
+    <div class="sec-head">
+      <h2>关联节目</h2>
+      <p class="rb-count" id="rbCount">当前显示 40 / 40 期</p>
+    </div>
+    <div class="rb-cols">
+      <span>期号</span>
+      <span>标题</span>
+      <span class="h-g">嘉宾</span>
+      <span class="h-d">日期</span>
+      <span>簇</span>
+    </div>
+    <ol class="ep-list" id="epList"></ol>
+  </section>
+
+  <footer class="foot">
+    <p>UI 设计提示词库 / 内容排版 / 关系图谱</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>网络画布：首屏 SVG/canvas 节点-连线图或邻接矩阵</span></li><li><b>02</b><span>实体检查器：选中人物/组织的上下文与关联记录</span></li><li><b>03</b><span>聚类控件：按组织/发送者/主题/关系类型分组</span></li><li><b>04</b><span>桥与枢纽卡：最强连接、陈旧关系、未回复线程</span></li><li><b>05</b><span>关联记录浏览器：随选中节点/边过滤</span></li></ol>
+<script>
+var C = {
+  a: { n: '底层与系统', c: '#5B4FFF' },
+  b: { n: '前端与语言', c: '#0B7285' },
+  c: { n: 'AI 与数据', c: '#C2410C' },
+  d: { n: '开源与社区', c: '#2B7A42' },
+  e: { n: '产品与职业', c: '#C2255C' }
+};
+var G = {
+  luzhiyuan:   { name: '陆知远', role: '数据库内核工程师，前云厂商存储团队负责人', c: 'a', eps: [3, 12, 19, 27, 35, 40], tags: ['存储引擎', '事务隔离', '向量检索'], co: [['guchangfeng', 2]] },
+  shenmo:      { name: '沈墨', role: '内核与可观测性工程师', c: 'a', eps: [7, 31, 36], tags: ['eBPF', '调度延迟', '尾延迟'], co: [['baishan', 1]] },
+  baishan:     { name: '白山', role: '存储系统研究员', c: 'a', eps: [14, 22, 31], tags: ['LSM-Tree', '冷热分层'], co: [['shenmo', 1]] },
+  linwanzhao:  { name: '林晚照', role: '渲染引擎工程师', c: 'b', eps: [5, 16, 21, 38], tags: ['渲染管线', '合成线程', '滚动性能'], co: [['guchangfeng', 1]] },
+  jiangsheng:  { name: '江声', role: 'TypeScript 编译器工程师', c: 'b', eps: [9, 23, 32], tags: ['类型系统', '编译器'], co: [['shiyuan', 1]] },
+  yemai:       { name: '叶脉', role: '设计系统工程师', c: 'b', eps: [18, 25, 30], tags: ['设计令牌', '无障碍'], co: [['tanxiao', 1]] },
+  tanxiao:     { name: '谈笑', role: 'CSS 布局顾问', c: 'b', eps: [25], tags: ['现代 CSS'], co: [['yemai', 1]] },
+  guchangfeng: { name: '顾长风', role: '大模型推理工程师', c: 'c', eps: [2, 12, 21, 29, 35, 39], tags: ['推理优化', '蒸馏量化', '端侧推理'], co: [['luzhiyuan', 2], ['linwanzhao', 1]] },
+  qinzhun:     { name: '秦准', role: '检索系统工程师', c: 'c', eps: [15, 26, 34], tags: ['RAG', '混合检索'], co: [['chengyiwei', 1]] },
+  wenxu:       { name: '温叙', role: '数据平台工程师', c: 'c', eps: [10, 20], tags: ['流式管道', '数据契约'], co: [['hejianwei', 1]] },
+  hejianwei:   { name: '何见微', role: '模型评测研究员', c: 'c', eps: [10], tags: ['评测方法'], co: [['wenxu', 1]] },
+  chengyiwei:  { name: '程一苇', role: '开源基金会项目维护者', c: 'd', eps: [4, 6, 17, 26], tags: ['社区治理', 'RFC 流程'], co: [['qinzhun', 1]] },
+  shiyuan:     { name: '施远', role: 'Rust 工具链贡献者', c: 'd', eps: [13, 32], tags: ['异步运行时', '工具链'], co: [['jiangsheng', 1]] },
+  guizhi:      { name: '桂枝', role: '技术文档工程师', c: 'd', eps: [8], tags: ['文档即代码'], co: [] },
+  mengqianfan: { name: '孟千帆', role: '独立开发者', c: 'e', eps: [1, 11, 37], tags: ['独立产品', '成本控制'], co: [['hanzhao', 1]] },
+  yanxu:       { name: '严序', role: '工程经理', c: 'e', eps: [24, 28, 33], tags: ['团队管理', '技术债'], co: [] },
+  hanzhao:     { name: '韩照', role: '技术写作者', c: 'e', eps: [37], tags: ['技术写作'], co: [['mengqianfan', 1]] }
+};
+var EPS = [
+  [1,  '一个人的产品：从第一行代码到第一批用户', ['mengqianfan'], '2024-03-14'],
+  [2,  '推理成本：一张 GPU 账单背后的取舍', ['guchangfeng'], '2024-04-04'],
+  [3,  'B 树、写放大与 SSD 的脾气', ['luzhiyuan'], '2024-04-25'],
+  [4,  '维护者倦怠：开源里没人想谈的事', ['chengyiwei'], '2024-05-16'],
+  [5,  '打开渲染管线：一帧的旅程', ['linwanzhao'], '2024-06-06'],
+  [6,  'RFC 是怎么变成代码的', ['chengyiwei'], '2024-06-27'],
+  [7,  '用 eBPF 看清内核里的等待', ['shenmo'], '2024-07-18'],
+  [8,  '文档即代码：写给两年后的自己', ['guizhi'], '2024-08-08'],
+  [9,  '在类型检查器里长大', ['jiangsheng'], '2024-08-29'],
+  [10, '评测管线：数字是怎么被做出来的', ['wenxu', 'hejianwei'], '2024-09-19'],
+  [11, '付不起的服务器：独立开发者的账本', ['mengqianfan'], '2024-10-10'],
+  [12, '当数据库遇上大模型', ['luzhiyuan', 'guchangfeng'], '2024-10-31'],
+  [13, '异步 Rust：从回调地狱到 async fn', ['shiyuan'], '2024-11-21'],
+  [14, 'LSM-Tree：写友好的代价', ['baishan'], '2024-12-12'],
+  [15, '检索增强生成：先解决检索那一半', ['qinzhun'], '2025-01-02'],
+  [16, '合成线程：像素去哪儿了', ['linwanzhao'], '2025-01-23'],
+  [17, '治理委员会：社区如何做一次决定', ['chengyiwei'], '2025-02-13'],
+  [18, '设计令牌：颜色之外的一切', ['yemai'], '2025-03-06'],
+  [19, '隔离级别：四个名字四种误会', ['luzhiyuan'], '2025-03-27'],
+  [20, '流式管道：迟到的数据算数吗', ['wenxu'], '2025-04-17'],
+  [21, '把推理塞进浏览器', ['guchangfeng', 'linwanzhao'], '2025-05-08'],
+  [22, '冷数据与热路径', ['baishan'], '2025-05-29'],
+  [23, '类型系统的极限在哪里', ['jiangsheng'], '2025-06-19'],
+  [24, '从写代码到写周报', ['yanxu'], '2025-07-10'],
+  [25, 'CSS 还是那个 CSS 吗', ['yemai', 'tanxiao'], '2025-07-31'],
+  [26, '一套开源检索栈的养成', ['qinzhun', 'chengyiwei'], '2025-08-21'],
+  [27, '为 SSD 重写存储引擎', ['luzhiyuan'], '2025-09-11'],
+  [28, '第一次开除一个人之后', ['yanxu'], '2025-10-02'],
+  [29, '推理集群的调度问题', ['guchangfeng'], '2025-10-23'],
+  [30, '主题化与无障碍：对比度从哪来', ['yemai'], '2025-11-13'],
+  [31, '存储与内核的边界', ['baishan', 'shenmo'], '2025-12-04'],
+  [32, '用 Rust 重写一个编译器', ['jiangsheng', 'shiyuan'], '2025-12-25'],
+  [33, '技术债的利息与本金', ['yanxu'], '2026-01-15'],
+  [34, '混合检索：关键词没有过时', ['qinzhun'], '2026-02-12'],
+  [35, '向量数据库踩坑实录', ['luzhiyuan', 'guchangfeng'], '2026-03-12'],
+  [36, '尾延迟：P99 的故事', ['shenmo'], '2026-04-09'],
+  [37, '独立开发者的写作课', ['mengqianfan', 'hanzhao'], '2026-05-14'],
+  [38, '滚动卡顿是怎么来的', ['linwanzhao'], '2026-06-11'],
+  [39, '蒸馏与量化：模型瘦身的边界', ['guchangfeng'], '2026-07-16'],
+  [40, '存储引擎十年教训', ['luzhiyuan'], '2026-09-24']
+];
+var DATE = {};
+EPS.forEach(function (ep) { DATE[ep[0]] = ep[3]; });
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.network-shell .network-canvas .entity-inspector .cluster-controls .hub-card</p>
+var sel = 'host', filter = 'all';
+function fmt(n) { return '#' + String(n).padStart(2, '0'); }
+function each(list, fn) { return Array.prototype.forEach.call(list, fn); }
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+function renderInspector() {
+  var box = document.getElementById('inspBody'), h = '';
+  if (sel === 'host') {
+    h = '<p class="insp-kick"><i style="background:#23272E"></i>主持人 / 全景视图</p>'
+      + '<h3 class="insp-name">阿澈</h3><p class="insp-role">「深夜编译」主播 / 三季共 40 期</p>'
+      + '<ul class="insp-stats"><li><b>40</b><span>出场期数</span></li><li><b>17</b><span>合作嘉宾</span></li><li><b>5</b><span>主题簇</span></li></ul>'
+      + '<p class="insp-label">主题分布（按节目触达）</p><ul class="dist">'
+      + '<li><span>底层与系统</span><i style="width:100%;background:#5B4FFF"></i><b>11</b></li>'
+      + '<li><span>前端与语言</span><i style="width:91%;background:#0B7285"></i><b>10</b></li>'
+      + '<li><span>AI 与数据</span><i style="width:100%;background:#C2410C"></i><b>11</b></li>'
+      + '<li><span>开源与社区</span><i style="width:64%;background:#2B7A42"></i><b>7</b></li>'
+      + '<li><span>产品与职业</span><i style="width:55%;background:#C2255C"></i><b>6</b></li></ul>'
+      + '<p class="insp-label">高频嘉宾</p><ul class="insp-co">'
+      + '<li><button class="co-link" data-id="luzhiyuan">陆知远</button><span>6 期 / 出场之最</span></li>'
+      + '<li><button class="co-link" data-id="guchangfeng">顾长风</button><span>6 期 / 横跨三簇</span></li>'
+      + '<li><button class="co-link" data-id="linwanzhao">林晚照</button><span>4 期 / 前端常客</span></li></ul>';
+  } else {
+    var g = G[sel], cl = C[g.c], eps = g.eps;
+    var co = g.co.length
+      ? '<ul class="insp-co">' + g.co.map(function (x) {
+          return '<li><button class="co-link" data-id="' + x[0] + '">' + G[x[0]].name + '</button><span>同台 ' + x[1] + ' 次</span></li>';
+        }).join('') + '</ul>'
+      : '<p class="insp-none">尚无同台记录</p>';
+    h = '<p class="insp-kick"><i style="background:' + cl.c + '"></i>' + cl.n + ' / 嘉宾</p>'
+      + '<h3 class="insp-name">' + g.name + '</h3><p class="insp-role">' + g.role + '</p>'
+      + '<ul class="insp-stats"><li><b>' + eps.length + '</b><span>出场期数</span></li>'
+      + '<li><b>' + fmt(eps[0]) + '</b><span>首次 ' + DATE[eps[0]].slice(0, 7) + '</span></li>'
+      + '<li><b>' + fmt(eps[eps.length - 1]) + '</b><span>最近 ' + DATE[eps[eps.length - 1]].slice(0, 7) + '</span></li></ul>'
+      + '<p class="insp-label">出场期号</p><p class="ep-chips">'
+      + eps.map(function (n) { return '<span>' + fmt(n) + '</span>'; }).join('') + '</p>'
+      + '<p class="insp-label">常聊话题</p><p class="ep-chips">'
+      + g.tags.map(function (t) { return '<span>' + t + '</span>'; }).join('') + '</p>'
+      + '<p class="insp-label">共同嘉宾</p>' + co;
+  }
+  box.innerHTML = h;
+}
+
+function renderList() {
+  var rows = EPS.filter(function (ep) {
+    if (sel !== 'host' && ep[2].indexOf(sel) < 0) return false;
+    if (filter !== 'all' && !ep[2].some(function (id) { return G[id].c === filter; })) return false;
+    return true;
+  });
+  document.getElementById('epList').innerHTML = rows.map(function (ep) {
+    var names = ep[2].map(function (id) { return G[id].name; }).join(' × ');
+    var dots = ep[2].map(function (id) { var k = C[G[id].c]; return '<i style="background:' + k.c + '" title="' + k.n + '"></i>'; }).join('');
+    return '<li class="ep-row"><span class="ep-no">' + fmt(ep[0]) + '</span><span class="ep-t">' + ep[1]
+      + '</span><span class="ep-g">' + names + '</span><span class="ep-d">' + ep[3].slice(0, 7)
+      + '</span><span class="ep-dots">' + dots + '</span></li>';
+  }).join('');
+  var label = '当前显示 ' + rows.length + ' / ' + EPS.length + ' 期';
+  if (sel !== 'host') label += ' / ' + G[sel].name;
+  if (filter !== 'all') label += ' / ' + C[filter].n;
+  document.getElementById('rbCount').textContent = label;
+}
+
+function applyCanvas() {
+  var partners = sel === 'host' ? [] : G[sel].co.map(function (x) { return x[0]; });
+  each(document.querySelectorAll('.node'), function (n) {
+    var id = n.getAttribute('data-id'), lit = true;
+    if (filter !== 'all' && id !== 'host' && G[id].c !== filter) lit = false;
+    if (sel !== 'host' && id !== sel && id !== 'host' && partners.indexOf(id) < 0) lit = false;
+    n.classList.toggle('is-dim', !lit);
+    n.setAttribute('aria-pressed', id === sel ? 'true' : 'false');
+  });
+  each(document.querySelectorAll('.edge'), function (e) {
+    var g = e.getAttribute('data-g');
+    var hot = sel !== 'host' && g === sel;
+    var on = hot || sel === 'host';
+    if (filter !== 'all' && G[g].c !== filter) on = false;
+    e.classList.toggle('is-hot', hot);
+    e.classList.toggle('is-dim', !on);
+  });
+  each(document.querySelectorAll('.co-edge'), function (e) {
+    var a = e.getAttribute('data-a'), b = e.getAttribute('data-b');
+    var touches = sel !== 'host' && (a === sel || b === sel);
+    var on = sel === 'host' || touches;
+    if (filter !== 'all' && G[a].c !== filter && G[b].c !== filter) on = false;
+    e.classList.toggle('is-hot', touches);
+    e.classList.toggle('is-dim', !on);
+  });
+}
+
+function select(id) {
+  sel = id;
+  renderInspector();
+  renderList();
+  applyCanvas();
+}
+
+each(document.querySelectorAll('.node'), function (n) {
+  n.addEventListener('click', function () { select(n.getAttribute('data-id')); });
+  n.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(n.getAttribute('data-id')); }
+  });
+});
+each(document.querySelectorAll('.chip'), function (ch) {
+  ch.addEventListener('click', function () {
+    filter = ch.getAttribute('data-cluster');
+    each(document.querySelectorAll('.chip'), function (x) {
+      var on = x === ch;
+      x.classList.toggle('is-on', on);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    renderList();
+    applyCanvas();
+  });
+});
+document.getElementById('inspBody').addEventListener('click', function (e) {
+  var b = e.target.closest('.co-link');
+  if (b) select(b.getAttribute('data-id'));
+});
+
+renderInspector();
+renderList();
+applyCanvas();
+</script>
 </body>
 </html>
