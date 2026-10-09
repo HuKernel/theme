@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 过程挖掘 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴第 25 号：Process Mining 数据形态的最佳图形是 Process Map / Graph。以报销审批 1,240 单的示意事件日志演示流转守恒的过程图、瓶颈标注、实际与制度差异揭示与路径汇总表后备。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@500;700&display=swap');
+/* Design tokens: paper #FAF7F1 / card #FFFFFF / ink #22303A / slate #556570 / hairline #E4DBC9 / happy stroke #10B981 (text #047857) / deviation stroke #F59E0B (text #B45309) / bottleneck fill #EF4444 (annotation #B91C1C, on-fill text #2A0A0A) / node fill #24404E / terminal #556570 / serif Noto Serif SC + mono JetBrains Mono */
+:root {
+  --paper: #FAF7F1;
+  --card: #FFFFFF;
+  --ink: #22303A;
+  --slate: #556570;
+  --line: #E4DBC9;
+  --happy: #10B981;
+  --happy-ink: #047857;
+  --dev: #F59E0B;
+  --dev-ink: #B45309;
+  --bot: #EF4444;
+  --bot-ink: #B91C1C;
+  --bot-on: #2A0A0A;
+  --node: #24404E;
+  --term: #556570;
+  --serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  background-image: radial-gradient(rgba(34,48,58,.07) 1.4px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  line-height: 1.65;
+  padding: 40px 20px 56px;
+}
+.page { max-width: 1140px; margin: 0 auto; }
+a { color: var(--happy-ink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--bot-ink); }
+:focus-visible { outline: 3px solid var(--bot-ink); outline-offset: 3px; border-radius: 2px; }
+
+/* ============ 页眉 ============ */
+.crumb {
+  display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline;
+  font-size: 13.5px; color: var(--slate);
+  border-bottom: 1.5px solid var(--line); padding-bottom: 14px; margin-bottom: 34px;
+}
+.crumb .no {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  color: var(--paper); background: var(--node);
+  padding: 2px 10px; border-radius: 3px; letter-spacing: .04em;
+}
+.crumb .sep { color: var(--line); }
+
+/* ============ 标题区 ============ */
+.hero { margin-bottom: 34px; }
+.hero .kind {
+  font-family: var(--mono); font-size: 13.5px; color: var(--happy-ink);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(34px, 5.2vw, 56px); line-height: 1.15;
+  letter-spacing: .02em; margin-bottom: 12px;
+}
+h1 .alt { color: var(--happy-ink); }
+.hero .latin {
+  font-family: var(--serif); font-style: italic; font-size: 17px;
+  color: var(--slate); margin-bottom: 18px;
+}
+.hero .latin b { color: var(--ink); font-style: normal; }
+.hero .lede { max-width: 740px; font-size: 15.5px; }
+.hero .lede b {
+  background: linear-gradient(transparent 62%, #CFE9DE 62%, #CFE9DE 94%, transparent 94%);
+  padding: 0 2px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chips span {
+  font-family: var(--mono); font-size: 12.5px; color: var(--slate);
+  border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 3px 12px; background: var(--card);
+}
+.chips b { color: var(--ink); font-weight: 700; }
+
+/* ============ 通用卡片与分节 ============ */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 2px 0 rgba(34,48,58,.06);
+}
+.card-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; padding: 18px 24px 0; }
+.card-head h2 { font-family: var(--serif); font-weight: 900; font-size: 21px; letter-spacing: .02em; }
+.card-head .sub { font-size: 13px; color: var(--slate); }
+.section-label {
+  font-family: var(--mono); font-size: 13px; color: var(--slate);
+  margin: 44px 0 14px; display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ""; flex: 1; height: 1.5px; background: var(--line); }
+
+/* ============ 适用性 ============ */
+.fit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.fit { padding: 20px 24px 22px; }
+.fit h3 { font-family: var(--serif); font-weight: 900; font-size: 17.5px; margin-bottom: 8px; }
+.fit .yes { color: var(--happy-ink); }
+.fit .nope { color: var(--bot-ink); }
+.fit p { font-size: 14px; color: var(--slate); }
+.fit p + p { margin-top: 8px; }
+.fit p b { color: var(--ink); }
+
+/* ============ 主图卡片 ============ */
+.hero-card { padding-bottom: 20px; }
+.stat-strip {
+  display: flex; flex-wrap: wrap; gap: 10px 36px;
+  padding: 14px 24px 10px; font-size: 13.5px; color: var(--slate);
+}
+.stat-strip b { font-family: var(--mono); font-size: 16px; color: var(--ink); margin-right: 4px; }
+.stat-strip .warn b { color: var(--bot-ink); }
+.legend {
+  display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center;
+  padding: 8px 24px 4px; font-size: 13px; color: var(--slate);
+}
+.legend .it { display: inline-flex; align-items: center; gap: 8px; }
+.legend svg { flex: none; }
+.legend .fmt { font-family: var(--mono); font-size: 12px; color: var(--slate); }
+.pm-wrap { padding: 4px 14px 6px; }
+.pm-wrap svg { width: 100%; height: auto; display: block; }
+
+/* svg 节点与连线 */
+.node, .edge { cursor: pointer; }
+.node .shape { stroke: #0E2634; stroke-width: 2; }
+.node .ring { fill: none; stroke: transparent; stroke-width: 3.5; }
+.node .inner-dash { fill: none; stroke: rgba(255,255,255,.75); stroke-width: 1.6; stroke-dasharray: 5 4; }
+.node:focus-visible .ring, .node.active .ring { stroke: var(--bot-ink); }
+.node text { font-family: var(--sans); }
+.node .n-name { font-size: 19px; font-weight: 700; fill: #FFFFFF; }
+.node .n-sub { font-family: var(--mono) !important; font-size: 12.5px; fill: rgba(255,255,255,.92); }
+.node text.n-name, .node text.n-sub { pointer-events: none; }
+.edge .line { fill: none; stroke-linecap: round; }
+.edge.e-happy .line { stroke: var(--happy); }
+.edge.e-dev .line { stroke: var(--dev); stroke-dasharray: 8 6; }
+.edge .e-lbl {
+  font-family: var(--mono) !important; font-size: 13px; font-weight: 700;
+  paint-order: stroke; stroke: #FFFFFF; stroke-width: 4px; stroke-linejoin: round;
+}
+.edge.e-happy .e-lbl { fill: var(--happy-ink); }
+.edge.e-dev .e-lbl { fill: var(--dev-ink); }
+.edge:focus-visible .line, .edge.hl .line { stroke-width: calc(var(--w) + 4); }
+.edge.slow .e-lbl { fill: var(--bot-ink); }
+
+/* 一次亮相：连线按宽度生长（左右揭示 + 描边变宽），仅播放一次 */
+.js .edge { clip-path: inset(-40% 102% -40% -4%); }
+.js .edge .line { stroke-width: 0; transition: stroke-width .9s cubic-bezier(.25,.8,.3,1) var(--d, 0s); }
+.js .edge .e-lbl { opacity: 0; transition: opacity .5s ease calc(var(--d, 0s) + .45s); }
+.js svg.ready .edge { animation: edgeReveal .95s cubic-bezier(.25,.8,.3,1) var(--d, 0s) both; }
+.js svg.ready .edge .line { stroke-width: var(--w); }
+.js svg.ready .edge .e-lbl { opacity: 1; }
+@keyframes edgeReveal {
+  from { clip-path: inset(-40% 102% -40% -4%); }
+  to { clip-path: inset(-40% -6% -40% -4%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .edge, .js svg.ready .edge { clip-path: none; animation: none; }
+  .js .edge .line, .js svg.ready .edge .line { stroke-width: var(--w); transition: none; }
+  .js .edge .e-lbl, .js svg.ready .edge .e-lbl { opacity: 1; transition: none; }
+}
+
+/* 激活态聚焦：相关连线加亮，其余淡出 */
+svg.has-active .edge:not(.hl) { opacity: .28; }
+svg.has-active .node:not(.active) { opacity: .5; }
+.callout-line { stroke: var(--bot-ink); stroke-width: 2; stroke-dasharray: 4 3; fill: none; }
+.callout-box { fill: #FFFFFF; stroke: var(--bot-ink); stroke-width: 2; }
+.callout-t1 { font-family: var(--sans) !important; font-size: 13.5px; font-weight: 700; fill: var(--bot-ink); }
+.callout-t2 { font-family: var(--sans) !important; font-size: 12.5px; fill: var(--ink); }
+
+/* 读值面板与键盘操作 */
+.pm-detail {
+  margin: 14px 24px 6px; padding: 14px 18px;
+  border: 1.5px solid var(--line); border-left: 5px solid var(--happy-ink);
+  border-radius: 8px; background: #FDFCF8;
+}
+.pm-detail.pinned { border-left-color: var(--bot-ink); }
+.pm-detail .d-tag { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.pm-detail .d-txt { font-size: 14px; color: var(--slate); min-height: 3.2em; }
+.d-ops { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.d-ops button {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: var(--ink); background: var(--card);
+  border: 1.5px solid var(--ink); border-radius: 7px;
+  padding: 5px 16px; cursor: pointer;
+}
+.d-ops button:hover { background: var(--ink); color: #FFFFFF; }
+.kbd-hint { padding: 8px 26px 4px; font-size: 12.5px; color: var(--slate); }
+.kbd-hint b { font-family: var(--mono); font-weight: 700; color: var(--ink); }
+
+/* ============ 制度 vs 实际 ============ */
+.diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+.diff { padding: 20px 24px 22px; }
+.diff h3 { font-family: var(--serif); font-weight: 900; font-size: 17.5px; margin-bottom: 4px; }
+.diff .sub { font-size: 12.5px; color: var(--slate); margin-bottom: 14px; }
+.diff svg { width: 100%; height: auto; display: block; }
+.diff .cap { font-size: 12.5px; color: var(--slate); margin-top: 10px; }
+.dstats { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-bottom: 14px; font-size: 13px; color: var(--slate); }
+.dstats b { font-family: var(--mono); font-size: 15.5px; color: var(--ink); margin-right: 3px; }
+.dstats .warn b { color: var(--bot-ink); }
+.gap-list { list-style: none; }
+.gap-list li {
+  display: flex; gap: 12px; padding: 10px 0;
+  border-top: 1.5px dashed var(--line); font-size: 13.5px; color: var(--slate);
+}
+.gap-list li:first-child { border-top: none; padding-top: 2px; }
+.gap-list .gn { font-family: var(--mono); font-weight: 700; font-size: 13px; color: var(--bot-ink); flex: none; padding-top: 1px; }
+.gap-list b { color: var(--ink); }
+
+/* ============ 数据表后备 ============ */
+.tables-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.tbl-card { padding: 18px 0 8px; }
+.tbl-card h3 { font-family: var(--serif); font-weight: 900; font-size: 17.5px; padding: 0 24px 4px; }
+.tbl-card .note { font-size: 12.5px; color: var(--slate); padding: 0 24px 12px; }
+.tscroll { overflow-x: auto; }
+.t-v { min-width: 660px; }
+.t-c { min-width: 580px; }
+.trow { display: grid; gap: 0 12px; align-items: baseline; padding: 9px 24px; border-bottom: 1px solid var(--line); }
+.t-v .trow { grid-template-columns: 3.2em minmax(17em, 1fr) 5em 4.6em 6.4em 7em; }
+.t-c .trow { grid-template-columns: 7.2em 5.6em 5.6em 1fr; }
+.trow.thead {
+  font-family: var(--mono); font-size: 12px; color: var(--slate);
+  border-bottom: 1.5px solid var(--ink); padding-top: 4px;
+}
+.trow .num { font-family: var(--mono); font-size: 13.5px; }
+.trow .path { font-size: 13.5px; }
+.trow .path i { font-style: normal; color: var(--dev-ink); }
+.trow .ok { color: var(--happy-ink); font-size: 13px; }
+.trow .warn { color: var(--bot-ink); font-size: 13px; }
+.trow .mid { color: var(--slate); font-size: 13px; }
+.trow.total { border-bottom: none; border-top: 1.5px solid var(--ink); font-weight: 700; }
+.trow.total span { color: var(--ink); }
+.narr {
+  margin: 0 24px 18px; padding: 12px 16px;
+  background: #FBEFEA; border: 1.5px solid #EAC6B8; border-radius: 8px;
+  font-size: 13.5px; color: var(--ink);
+}
+.narr b { color: var(--bot-ink); }
+
+/* ============ 工程注记 ============ */
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.note-card { padding: 20px 24px 22px; }
+.note-card h3 { font-family: var(--serif); font-weight: 900; font-size: 17.5px; margin-bottom: 8px; }
+.note-card p { font-size: 13.5px; color: var(--slate); }
+.note-card p + p { margin-top: 8px; }
+.note-card b { color: var(--ink); }
+.note-card .mono { font-family: var(--mono); font-size: 12.5px; }
+
+/* ============ 页脚 ============ */
+footer {
+  margin-top: 48px; padding-top: 18px;
+  border-top: 1.5px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; justify-content: space-between;
+  font-size: 13.5px; color: var(--slate);
+}
+footer a { font-weight: 700; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 768px) {
+  body { padding: 28px 14px 44px; }
+  .stat-strip { gap: 8px 22px; }
+  .pm-detail { margin: 12px 14px 4px; }
+  .kbd-hint { padding: 8px 16px 4px; }
+  .card-head, .stat-strip, .legend { padding-left: 16px; padding-right: 16px; }
+  .tbl-card h3, .tbl-card .note, .narr { margin-left: 14px; margin-right: 14px; }
+  .narr { margin-bottom: 16px; }
+  .trow { padding: 9px 14px; }
+  .t-v, .t-c { min-width: 600px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="crumb">
+    <span class="no">25</span>
+    <span>图表图鉴</span>
+    <span class="sep">/</span>
+    <span>过程挖掘</span>
+    <span class="sep">/</span>
+    <span>Process Map / Graph</span>
+  </header>
+
+  <section class="hero">
+    <p class="kind">数据形态 No.25 / Process Mining / 最佳图形 Process Map / Graph</p>
+    <h1>过程挖掘：<span class="alt">流转不会说谎</span></h1>
+    <p class="latin">Process Mining / <b>Process Map &amp; Graph</b> / 事件日志里的真实路径</p>
+    <p class="lede">
+      报销审批的 <b>1,240 张单据</b>并没有完全按制度走。过程挖掘把事件日志里的每一次流转画成带权图：
+      节点是环节，<b>连线宽度是流转单数</b>，标注是平均耗时；「补充材料」一环以红色高亮，
+      它是单据超时的主因。全部节点进出守恒，可用下方数据表复核。
+    </p>
+    <div class="chips">
+      <span>次选 <b>DAG / Petri Net</b></span>
+      <span>交互级别 <b>拖拽 + 节点点击</b></span>
+      <span>无障碍风险 <b>条件性</b></span>
+      <span>数据窗口 <b>2026 年 Q3</b></span>
+    </div>
+  </section>
+
+  <p class="section-label">01 / 适用性判断</p>
+  <div class="fit-grid">
+    <div class="card fit">
+      <h3 class="yes">适用场景</h3>
+      <p>分析<b>事件日志</b>，还原流程的实际流转路径与变体分布；识别<b>瓶颈环节</b>与制度偏差；
+      运营与产品漏斗的过程审计。关键词覆盖 process、mining、variants、path、bottleneck、event log。</p>
+    </div>
+    <div class="card fit">
+      <h3 class="nope">不适用场景</h3>
+      <p>没有事件日志数据（仅有访谈或制度文件）时不适用；受众只想要一张<b>静态流程图</b>时改用绘图工具；
+      节点数超过 <b>100</b> 且未预过滤时，先收敛变体再画图，否则成了一锅意大利面。</p>
+    </div>
+  </div>
+
+  <p class="section-label">02 / 主图：报销审批实际流转</p>
+  <section class="card hero-card">
+    <div class="card-head">
+      <h2>过程图：节点 / 连线 / 守恒</h2>
+      <span class="sub">节点为环节，连线宽按流转单数缩放，标注为 单数 / 平均小时</span>
+    </div>
+    <div class="stat-strip">
+      <span><b>1,240</b>单据申请</span>
+      <span><b>1,204</b>完成打款（97.1%）</span>
+      <span><b>5</b>种实际变体</span>
+      <span><b>82.7%</b>全程走制度主干</span>
+      <span class="warn"><b>43.7h</b>瓶颈等待</span>
+    </div>
+    <div class="legend">
+      <span class="it">
+        <svg width="44" height="14" aria-hidden="true"><line x1="2" y1="7" x2="42" y2="7" stroke="#10B981" stroke-width="8" stroke-linecap="round"/></svg>
+        制度主干（实线，宽度对应单数）
+      </span>
+      <span class="it">
+        <svg width="44" height="14" aria-hidden="true"><line x1="2" y1="7" x2="42" y2="7" stroke="#F59E0B" stroke-width="3" stroke-dasharray="7 5"/></svg>
+        偏差流转（虚线）
+      </span>
+      <span class="it">
+        <svg width="16" height="14" aria-hidden="true"><rect x="1" y="1" width="14" height="12" rx="3" fill="#EF4444"/></svg>
+        瓶颈节点（红填充 + 文字标注）
+      </span>
+      <span class="it">
+        <svg width="16" height="14" aria-hidden="true"><rect x="1" y="2" width="14" height="10" rx="5" fill="#24404E"/></svg>
+        起点 / 终点为胶囊形
+      </span>
+      <span class="fmt">标注格式：单数 / 平均小时</span>
+    </div>
+    <div class="pm-wrap">
+      <svg id="pmSvg" viewBox="0 0 1160 668" role="group" aria-label="报销审批过程挖掘图：提交、初审、复审、打款四个制度环节，加上补充材料、主管加签、撤回终止三个制度外环节，共 7 个节点 8 条连线，全部节点进出单数守恒">
+        <defs>
+          <marker id="ah-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#10B981"/>
+          </marker>
+          <marker id="ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#F59E0B"/>
+          </marker>
+        </defs>
+
+        <!-- 制度主干连线 -->
+        <g class="edge e-happy" id="e1" data-from="n1" data-to="n2" tabindex="0" role="img"
+           aria-label="连线 1：提交报销到初审，1,240 单，平均 4.6 小时，制度主干实线" style="--w:14; --d:.05s">
+          <path class="line" d="M 174 282 H 248" stroke-width="14" marker-end="url(#ah-g)"/>
+          <text class="e-lbl" x="212" y="258" text-anchor="middle">1,240 / 4.6h</text>
+        </g>
+        <g class="edge e-happy" id="e2" data-from="n2" data-to="n5" tabindex="0" role="img"
+           aria-label="连线 2：初审到复审，1,092 单，占 88.1%，平均 16.8 小时，制度主干实线" style="--w:12.5; --d:.25s">
+          <path class="line" d="M 406 282 H 648" stroke-width="12.5" marker-end="url(#ah-g)"/>
+          <text class="e-lbl" x="527" y="258" text-anchor="middle">1,092 / 16.8h</text>
+        </g>
+        <g class="edge e-happy" id="e3" data-from="n5" data-to="n7" tabindex="0" role="img"
+           aria-label="连线 3：复审到打款，1,134 单，平均 8.2 小时，制度主干实线" style="--w:13; --d:.45s">
+          <path class="line" d="M 806 282 H 1002" stroke-width="13" marker-end="url(#ah-g)"/>
+          <text class="e-lbl" x="904" y="258" text-anchor="middle">1,134 / 8.2h</text>
+        </g>
+
+        <!-- 偏差连线（虚线） -->
+        <g class="edge e-dev" id="e4" data-from="n2" data-to="n4" tabindex="0" role="img"
+           aria-label="连线 4：初审到补充材料，112 单，占 9.0%，平均 2.9 小时，偏差路径虚线" style="--w:3.5; --d:.65s">
+          <path class="line" d="M 330 318 C 330 420, 380 512, 446 512" stroke-width="3.5" marker-end="url(#ah-a)"/>
+          <text class="e-lbl" x="322" y="420" text-anchor="end">112 / 2.9h</text>
+        </g>
+        <g class="edge e-dev slow" id="e5" data-from="n4" data-to="n5" tabindex="0" role="img"
+           aria-label="连线 5：补充材料回流复审，112 单，平均 43.7 小时，全流程最慢连线，偏差路径虚线" style="--w:3.5; --d:.75s">
+          <path class="line" d="M 634 512 C 658 512, 676 430, 676 322" stroke-width="3.5" marker-end="url(#ah-a)"/>
+          <text class="e-lbl" x="688" y="430" text-anchor="start">112 / 43.7h</text>
+        </g>
+        <g class="edge e-dev" id="e6" data-from="n5" data-to="n6" tabindex="0" role="img"
+           aria-label="连线 6：复审到主管加签，70 单，占 5.6%，平均 21.5 小时，偏差路径虚线" style="--w:3; --d:.85s">
+          <path class="line" d="M 780 318 C 806 380, 820 512, 852 512" stroke-width="3" marker-end="url(#ah-a)"/>
+          <text class="e-lbl" x="864" y="440" text-anchor="start">70 / 21.5h</text>
+        </g>
+        <g class="edge e-dev" id="e7" data-from="n6" data-to="n7" tabindex="0" role="img"
+           aria-label="连线 7：主管加签到打款，70 单，平均 30.9 小时，偏差路径虚线" style="--w:3; --d:.95s">
+          <path class="line" d="M 952 470 C 1002 470, 1062 400, 1062 322" stroke-width="3" marker-end="url(#ah-a)"/>
+          <text class="e-lbl" x="1046" y="452" text-anchor="start">70 / 30.9h</text>
+        </g>
+        <g class="edge e-dev" id="e8" data-from="n2" data-to="n3" tabindex="0" role="img"
+           aria-label="连线 8：初审到撤回终止，36 单，占 2.9%，平均卡单 118 小时后撤回，偏差路径虚线" style="--w:2.5; --d:1.05s">
+          <path class="line" d="M 328 246 C 356 140, 402 86, 466 86" stroke-width="2.5" marker-end="url(#ah-a)"/>
+          <text class="e-lbl" x="410" y="150" text-anchor="start">36 / 118h</text>
+        </g>
+
+        <!-- 节点：制度环节（胶囊起点终点 / 圆角矩形标准 / 虚线内框为偏差环节） -->
+        <g class="node" id="n1" tabindex="0" role="img"
+           aria-label="节点 1 提交报销：流程起点，流出 1,240 单，自动受理即时进入初审">
+          <rect class="ring" x="20" y="238" width="160" height="88" rx="42"/>
+          <rect class="shape" x="28" y="246" width="144" height="72" rx="36" fill="#24404E"/>
+          <text class="n-name" x="100" y="279" text-anchor="middle">提交报销</text>
+          <text class="n-sub" x="100" y="301" text-anchor="middle">出 1,240 单</text>
+        </g>
+        <g class="node" id="n2" tabindex="0" role="img"
+           aria-label="节点 2 初审：进入 1,240 单，离开 1,240 单，去向为复审 1,092、补充材料 112、撤回终止 36，进出守恒，平均处理 2.4 小时">
+          <rect class="ring" x="244" y="238" width="168" height="88" rx="16"/>
+          <rect class="shape" x="252" y="246" width="152" height="72" rx="10" fill="#24404E"/>
+          <text class="n-name" x="328" y="279" text-anchor="middle">初审</text>
+          <text class="n-sub" x="328" y="301" text-anchor="middle">进 1,240 / 出 1,240</text>
+        </g>
+        <g class="node" id="n3" tabindex="0" role="img"
+           aria-label="节点 3 撤回终止：进入 36 单，占 2.9%，均为初审卡单超过 5 个自然日后由员工主动撤回，制度外出口">
+          <rect class="ring" x="462" y="44" width="196" height="84" rx="16"/>
+          <rect class="shape" x="470" y="52" width="180" height="68" rx="10" fill="#556570"/>
+          <rect class="inner-dash" x="476" y="58" width="168" height="56" rx="7"/>
+          <text class="n-name" x="560" y="84" text-anchor="middle">撤回终止</text>
+          <text class="n-sub" x="560" y="106" text-anchor="middle">进 36 单（2.9%）</text>
+        </g>
+        <g class="node" id="n4" tabindex="0" role="img"
+           aria-label="节点 4 补充材料：进入 112 单，离开 112 单全部回流复审，等待中位 43.7 小时，全流程瓶颈，红色填充并配文字标注">
+          <rect class="ring" x="442" y="462" width="196" height="100" rx="16"/>
+          <rect class="shape" x="450" y="470" width="180" height="84" rx="10" fill="#EF4444"/>
+          <text class="n-name" x="540" y="504" text-anchor="middle" fill="#2A0A0A">补充材料</text>
+          <text class="n-sub" x="540" y="526" text-anchor="middle" fill="#2A0A0A">进 112 / 出 112</text>
+          <text class="n-sub" x="540" y="545" text-anchor="middle" fill="#2A0A0A">等待中位 43.7h</text>
+          <rect x="456" y="456" width="56" height="26" rx="5" fill="#B91C1C"/>
+          <text x="484" y="474" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">瓶颈</text>
+        </g>
+        <g class="node" id="n5" tabindex="0" role="img"
+           aria-label="节点 5 复审：进入 1,204 单，其中 1,092 来自初审、112 来自补充材料回流，离开 1,204 单，去向为打款 1,134、主管加签 70，进出守恒，平均处理 1.8 小时">
+          <rect class="ring" x="644" y="238" width="168" height="88" rx="16"/>
+          <rect class="shape" x="652" y="246" width="152" height="72" rx="10" fill="#24404E"/>
+          <text class="n-name" x="728" y="279" text-anchor="middle">复审</text>
+          <text class="n-sub" x="728" y="301" text-anchor="middle">进 1,204 / 出 1,204</text>
+        </g>
+        <g class="node" id="n6" tabindex="0" role="img"
+           aria-label="节点 6 主管加签：进入 70 单，离开 70 单，制度外环节，金额 5,000 元以上系统强制触发，等待审批中位 30.9 小时">
+          <rect class="ring" x="848" y="462" width="208" height="100" rx="16"/>
+          <rect class="shape" x="856" y="470" width="192" height="84" rx="10" fill="#24404E"/>
+          <rect class="inner-dash" x="862" y="476" width="180" height="72" rx="7"/>
+          <text class="n-name" x="952" y="504" text-anchor="middle">主管加签</text>
+          <text class="n-sub" x="952" y="526" text-anchor="middle">进 70 / 出 70</text>
+          <text class="n-sub" x="952" y="545" text-anchor="middle">加签多等 52.4h</text>
+        </g>
+        <g class="node" id="n7" tabindex="0" role="img"
+           aria-label="节点 7 打款：流程终点，进入 1,204 单，其中 1,134 直审通过、70 经主管加签，完成率 97.1%，T+1 批量执行">
+          <rect class="ring" x="998" y="238" width="148" height="88" rx="42"/>
+          <rect class="shape" x="1006" y="246" width="132" height="72" rx="36" fill="#24404E"/>
+          <text class="n-name" x="1072" y="279" text-anchor="middle">打款</text>
+          <text class="n-sub" x="1072" y="301" text-anchor="middle">进 1,204 单</text>
+        </g>
+
+        <!-- 瓶颈文字标注（不只靠颜色） -->
+        <path class="callout-line" d="M 540 554 V 586"/>
+        <rect class="callout-box" x="330" y="586" width="430" height="76" rx="8"/>
+        <text class="callout-t1" x="348" y="610">瓶颈标注：等待补充材料 中位 43.7 小时</text>
+        <text class="callout-t2" x="348" y="632">112 单受影响（9.0%），经此路径端到端中位 59.4 小时</text>
+        <text class="callout-t2" x="348" y="651">该环节为超时主因，红填充与文字标注双重提示</text>
+      </svg>
+    </div>
+
+    <div class="pm-detail" id="pmDetail">
+      <p class="d-tag" id="dTag">总览</p>
+      <p class="d-txt" id="dTxt" aria-live="polite">2026 年 Q3 报销审批事件日志（示意数据）：1,240 单申请、5 种实际路径、97.1% 完成打款。用 Tab 或鼠标聚焦任一节点或连线，可在此读出流转次数与耗时。</p>
+      <div class="d-ops">
+        <button type="button" id="btnPrev">上一项</button>
+        <button type="button" id="btnNext">下一项</button>
+        <button type="button" id="btnBack">返回总览</button>
+      </div>
+    </div>
+    <p class="kbd-hint">键盘操作：<b>Tab</b> 聚焦节点或连线即读值 / <b>Enter</b> 激活并高亮相关连线 / <b>Esc</b> 或返回总览按钮回到概览 / 移动按钮替代拖拽遍历。</p>
+  </section>
+
+  <p class="section-label">03 / 差异揭示：实际流转 vs 制度流程</p>
+  <div class="diff-grid">
+    <div class="card diff">
+      <h3>制度流程（应然）</h3>
+      <p class="sub">报销管理办法规定的线性单路径，无任何分支出口</p>
+      <svg viewBox="0 0 560 128" role="img"
+           aria-label="制度流程图：提交、初审、复审、打款四个环节线性串联，初审一个工作日、复审半个工作日、打款 T 加一，端到端承诺 T 加三个工作日">
+        <defs>
+          <marker id="mi-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#556570"/>
+          </marker>
+        </defs>
+        <g font-size="15" font-weight="700" text-anchor="middle">
+          <rect x="10" y="22" width="96" height="58" rx="26" fill="#FFFFFF" stroke="#24404E" stroke-width="2"/>
+          <text x="58" y="46" fill="#22303A">提交</text>
+          <text x="58" y="66" font-size="11.5" font-weight="500" fill="#556570">自动受理</text>
+          <rect x="158" y="22" width="96" height="58" rx="10" fill="#FFFFFF" stroke="#24404E" stroke-width="2"/>
+          <text x="206" y="46" fill="#22303A">初审</text>
+          <text x="206" y="66" font-size="11.5" font-weight="500" fill="#556570">1 个工作日</text>
+          <rect x="306" y="22" width="96" height="58" rx="10" fill="#FFFFFF" stroke="#24404E" stroke-width="2"/>
+          <text x="354" y="46" fill="#22303A">复审</text>
+          <text x="354" y="66" font-size="11.5" font-weight="500" fill="#556570">半个工作日</text>
+          <rect x="454" y="22" width="96" height="58" rx="26" fill="#FFFFFF" stroke="#24404E" stroke-width="2"/>
+          <text x="502" y="46" fill="#22303A">打款</text>
+          <text x="502" y="66" font-size="11.5" font-weight="500" fill="#556570">T+1 执行</text>
+        </g>
+        <g stroke="#556570" stroke-width="2.5" fill="none">
+          <path d="M 110 51 H 152" marker-end="url(#mi-a)"/>
+          <path d="M 258 51 H 300" marker-end="url(#mi-a)"/>
+          <path d="M 406 51 H 448" marker-end="url(#mi-a)"/>
+        </g>
+        <text x="280" y="112" text-anchor="middle" font-size="12.5" fill="#556570">端到端承诺：T+3 个工作日内完成打款</text>
+      </svg>
+      <p class="cap">制度口径只有 4 个环节、1 条路径；实际日志里却是 7 个环节、5 种变体、2 个制度外出口。</p>
+    </div>
+    <div class="card diff">
+      <h3>四条被日志揭开的偏差</h3>
+      <p class="sub">按对端到端耗时的影响排序，全部可在主图中聚焦复核</p>
+      <div class="dstats">
+        <span><b>1 条</b>制度路径</span>
+        <span><b>5 条</b>实际变体</span>
+        <span class="warn"><b>17.3%</b>单据偏离主干</span>
+      </div>
+      <ul class="gap-list">
+        <li>
+          <span class="gn">01</span>
+          <span><b>制度外的「补充材料」环节</b>：112 单（9.0%）被打回补件，此段平均 43.7 小时，
+            比初审直接放行（16.8 小时）多等 29.8 小时，是最大瓶颈。</span>
+        </li>
+        <li>
+          <span class="gn">02</span>
+          <span><b>制度外的「主管加签」环节</b>：金额 5,000 元以上系统强制触发，70 单（5.6%）
+            累计多等 52.4 小时（转签 21.5 小时 + 审批 30.9 小时）。</span>
+        </li>
+        <li>
+          <span class="gn">03</span>
+          <span><b>制度没有「撤回」出口</b>：36 单（2.9%）在初审卡单平均 118 小时后由员工主动撤回，
+            流程悄然终止，报表上只体现为未完成。</span>
+        </li>
+        <li>
+          <span class="gn">04</span>
+          <span><b>承诺与现实的差距</b>：制度承诺 T+3 个工作日；实际仅 82.7% 单据全程走主干按时完成，
+            含偏差单据端到端中位 59.4 至 103.6 小时。</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-label">04 / 数据表后备与瓶颈叙述</p>
+  <div class="tables-grid">
+    <div class="card tbl-card">
+      <h3>路径汇总表（变体）</h3>
+      <p class="note">屏幕阅读器与无图环境的完整后备：中位端到端为该变体各段平均耗时之和</p>
+      <div class="tscroll">
+        <div class="t-v" role="table" aria-label="路径汇总表：五种变体的路径、单数、占比、中位端到端耗时与制度关系">
+          <div class="trow thead" role="row">
+            <span role="columnheader">编号</span><span role="columnheader">实际路径</span>
+            <span role="columnheader">单数</span><span role="columnheader">占比</span>
+            <span role="columnheader">中位端到端</span><span role="columnheader">与制度关系</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="num" role="cell">V1</span>
+            <span class="path" role="cell">提交 / 初审 / 复审 / 打款</span>
+            <span class="num" role="cell">1,026</span><span class="num" role="cell">82.7%</span>
+            <span class="num" role="cell">29.6 h</span><span class="ok" role="cell">制度主干</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="num" role="cell">V2</span>
+            <span class="path" role="cell">提交 / 初审 / <i>补充材料</i> / 复审 / 打款</span>
+            <span class="num" role="cell">108</span><span class="num" role="cell">8.7%</span>
+            <span class="num" role="cell">59.4 h</span><span class="warn" role="cell">含偏差</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="num" role="cell">V3</span>
+            <span class="path" role="cell">提交 / 初审 / 复审 / <i>主管加签</i> / 打款</span>
+            <span class="num" role="cell">66</span><span class="num" role="cell">5.3%</span>
+            <span class="num" role="cell">73.8 h</span><span class="warn" role="cell">含偏差</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="num" role="cell">V4</span>
+            <span class="path" role="cell">提交 / 初审 / <i>补充材料</i> / 复审 / <i>主管加签</i> / 打款</span>
+            <span class="num" role="cell">4</span><span class="num" role="cell">0.3%</span>
+            <span class="num" role="cell">103.6 h</span><span class="warn" role="cell">含偏差</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="num" role="cell">V5</span>
+            <span class="path" role="cell">提交 / 初审 / <i>撤回终止</i></span>
+            <span class="num" role="cell">36</span><span class="num" role="cell">2.9%</span>
+            <span class="num" role="cell">122.6 h</span><span class="warn" role="cell">未完成</span>
+          </div>
+          <div class="trow total" role="row">
+            <span class="num" role="cell">合计</span><span role="cell">5 种变体</span>
+            <span class="num" role="cell">1,240</span><span class="num" role="cell">100%</span>
+            <span class="num" role="cell">29.6 h</span><span class="mid" role="cell">完成 97.1%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card tbl-card">
+      <h3>节点流转守恒表</h3>
+      <p class="note">每个节点进入与离开单数相等，可用此表逐行复核主图连线宽度</p>
+      <div class="tscroll">
+        <div class="t-c" role="table" aria-label="节点流转守恒表：七个节点的进入单数、离开单数与去向明细">
+          <div class="trow thead" role="row">
+            <span role="columnheader">节点</span><span role="columnheader">进入</span>
+            <span role="columnheader">离开</span><span role="columnheader">去向明细</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">提交报销</span><span class="num" role="cell">0</span>
+            <span class="num" role="cell">1,240</span><span class="mid" role="cell">初审 1,240</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">初审</span><span class="num" role="cell">1,240</span>
+            <span class="num" role="cell">1,240</span>
+            <span class="mid" role="cell">复审 1,092 / 补充材料 112 / 撤回终止 36</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">补充材料</span><span class="num" role="cell">112</span>
+            <span class="num" role="cell">112</span><span class="mid" role="cell">复审 112（回流）</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">复审</span><span class="num" role="cell">1,204</span>
+            <span class="num" role="cell">1,204</span><span class="mid" role="cell">打款 1,134 / 主管加签 70</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">主管加签</span><span class="num" role="cell">70</span>
+            <span class="num" role="cell">70</span><span class="mid" role="cell">打款 70</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">打款</span><span class="num" role="cell">1,204</span>
+            <span class="num" role="cell">0</span><span class="mid" role="cell">流程终点（完成 1,204）</span>
+          </div>
+          <div class="trow" role="row">
+            <span class="path" role="cell">撤回终止</span><span class="num" role="cell">36</span>
+            <span class="num" role="cell">0</span><span class="mid" role="cell">流程终点（撤回 36）</span>
+          </div>
+          <div class="trow total" role="row">
+            <span role="cell">守恒校验</span><span class="num" role="cell">1,240</span>
+            <span class="num" role="cell">1,240</span><span class="mid" role="cell">全部节点进出相等</span>
+          </div>
+        </div>
+      </div>
+      <p class="narr">
+        <b>瓶颈叙述：</b>全流程最慢环节为「补充材料」，等待员工补件中位 <b>43.7 小时</b>，
+        是同级主干流转（16.8 小时）的 2.6 倍；112 单（9.0%）受影响，经此环节端到端中位 59.4 小时，
+        超出 T+3 工作日承诺。次慢环节为主管加签（21.5 + 30.9 小时）。两处合计解释约八成超时单据（示意归因）。
+      </p>
+    </div>
+  </div>
+
+  <p class="section-label">05 / 工程注记</p>
+  <div class="notes-grid">
+    <div class="card note-card">
+      <h3>数据量阈值</h3>
+      <p class="mono">少于 30 节点 / 用 SVG</p>
+      <p class="mono">30 至 100 节点 / 用 Canvas</p>
+      <p class="mono">超过 100 节点 / 先按变体过滤再渲染</p>
+      <p>本页 <b>7 个节点</b>，落在 SVG 区间；变体过滤指保留覆盖 <b>80% 案例</b>的高频变体，长尾路径折叠为「其他」。</p>
+    </div>
+    <div class="card note-card">
+      <h3>图形与库选型</h3>
+      <p>最佳图形为 <b>Process Map / Graph</b>；次选 <b>DAG</b>（有向无环图）与 <b>Petri Net</b>（佩特里网，可做合规性校验）。</p>
+      <p>交互实现推荐 <b>React-Flow</b>、<b>Cytoscape.js</b>、<b>Recharts</b>；交互级别为拖拽布局加节点点击，本静态图鉴以聚焦与点击替代拖拽。</p>
+    </div>
+    <div class="card note-card">
+      <h3>无障碍实施</h3>
+      <p>风险等级为<b>条件性</b>：不以颜色为唯一区分，主干用<b>实线</b>、偏差用<b>虚线</b>、起终点用<b>胶囊形</b>，全部连线带文字数值，瓶颈配文字标注。</p>
+      <p>后备为<b>路径汇总表加瓶颈叙述</b>；键盘上，移动按钮替代拖拽，聚焦即读值，Enter 激活节点，Esc 返回。</p>
+    </div>
+  </div>
+
+  <footer>
+    <span class="crumb-line">UI 设计提示词库 / 图表图鉴 / 过程挖掘</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var SVG = document.getElementById('pmSvg');
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { SVG.classList.add('ready'); });
+  });
+
+  var OV_TAG = '总览';
+  var OV_TXT = '2026 年 Q3 报销审批事件日志（示意数据）：1,240 单申请、5 种实际路径、97.1% 完成打款。用 Tab 或鼠标聚焦任一节点或连线，可在此读出流转次数与耗时。';
+  var D = {
+    n1: { tag: '节点 01 / 提交报销（起点）', txt: '员工提交报销单，共 1,240 单进入流程。自动受理，即时流入初审，中位停留 0.2 小时。' },
+    n2: { tag: '节点 02 / 初审', txt: '进入 1,240 单，离开 1,240 单：1,092 单放行进入复审，112 单被打回补充材料，36 单卡单后被撤回，进出守恒。平均处理 2.4 小时。' },
+    n3: { tag: '节点 03 / 撤回终止（制度外出口）', txt: '进入 36 单，占 2.9%。均为初审停留超过 5 个自然日后由员工主动撤回，平均卡单 118 小时。制度流程未定义此出口，报表上只体现为未完成。' },
+    n4: { tag: '节点 04 / 补充材料（瓶颈）', txt: '进入 112 单，离开 112 单，全部回流复审。等待员工补件中位 43.7 小时，是全流程最慢环节，红色填充并配文字标注双重提示。' },
+    n5: { tag: '节点 05 / 复审', txt: '进入 1,204 单（1,092 来自初审，112 来自补充材料回流），离开 1,204 单：1,134 单直接打款，70 单金额超 5,000 元转主管加签，进出守恒。平均处理 1.8 小时。' },
+    n6: { tag: '节点 06 / 主管加签（制度外环节）', txt: '进入 70 单，离开 70 单。制度未定义该环节，金额 5,000 元以上由系统强制触发，等待主管审批平均 30.9 小时，累计多等 52.4 小时。' },
+    n7: { tag: '节点 07 / 打款（终点）', txt: '进入 1,204 单（1,134 直审通过，70 经主管加签），完成率 97.1%。财务在复审通过后 T+1 批量打款。' },
+    e1: { tag: '连线 01 / 提交报销到初审', txt: '1,240 单流转，即全部单据；平均 4.6 小时。制度主干，实线加粗表示。' },
+    e2: { tag: '连线 02 / 初审到复审', txt: '1,092 单，占 88.1%；平均 16.8 小时。制度主干。' },
+    e3: { tag: '连线 03 / 复审到打款', txt: '1,134 单；平均 8.2 小时。制度主干，复审通过后 T+1 批量执行。' },
+    e4: { tag: '连线 04 / 初审到补充材料', txt: '112 单，占 9.0%；平均 2.9 小时。偏差路径，虚线表示：票据不全或金额与事由不符被打回。' },
+    e5: { tag: '连线 05 / 补充材料回流复审', txt: '112 单；平均 43.7 小时，全流程最慢的一条边。偏差路径：等待员工补件占据了变体 V2 的绝大部分耗时。' },
+    e6: { tag: '连线 06 / 复审到主管加签', txt: '70 单，占 5.6%；平均 21.5 小时。偏差路径：金额超 5,000 元强制转签。' },
+    e7: { tag: '连线 07 / 主管加签到打款', txt: '70 单；平均 30.9 小时。偏差路径：等待主管审批，加上转签等待合计 52.4 小时。' },
+    e8: { tag: '连线 08 / 初审到撤回终止', txt: '36 单，占 2.9%；平均卡单 118 小时后撤回。偏差路径：制度没有此出口。' }
+  };
+
+  var tagEl = document.getElementById('dTag');
+  var txtEl = document.getElementById('dTxt');
+  var boxEl = document.getElementById('pmDetail');
+  var items = Array.prototype.slice.call(SVG.querySelectorAll('.node, .edge'));
+
+  function show(id) {
+    if (id && D[id]) { tagEl.textContent = D[id].tag; txtEl.textContent = D[id].txt; }
+    else { tagEl.textContent = OV_TAG; txtEl.textContent = OV_TXT; }
+  }
+  function clearActive() {
+    SVG.classList.remove('has-active');
+    items.forEach(function (el) { el.classList.remove('active', 'hl'); });
+    boxEl.classList.remove('pinned');
+  }
+  function activate(el) {
+    clearActive();
+    el.classList.add('active');
+    SVG.classList.add('has-active');
+    boxEl.classList.add('pinned');
+    var id = el.getAttribute('id');
+    if (el.classList.contains('node')) {
+      SVG.querySelectorAll('.edge[data-from="' + id + '"], .edge[data-to="' + id + '"]')
+        .forEach(function (e) { e.classList.add('hl'); });
+    } else { el.classList.add('hl'); }
+    show(id);
+  }
+
+  items.forEach(function (el) {
+    var id = el.getAttribute('id');
+    el.addEventListener('focus', function () { if (!el.classList.contains('active')) show(id); });
+    el.addEventListener('mouseenter', function () { if (!el.classList.contains('active')) show(id); });
+    el.addEventListener('click', function () { activate(el); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(el); }
+      if (e.key === 'Escape') { clearActive(); show(null); }
+    });
+  });
+
+  function move(step) {
+    var cur = items.indexOf(document.activeElement);
+    var next = cur < 0 ? (step > 0 ? 0 : items.length - 1) : (cur + step + items.length) % items.length;
+    items[next].focus();
+  }
+  document.getElementById('btnPrev').addEventListener('click', function () { move(-1); });
+  document.getElementById('btnNext').addEventListener('click', function () { move(1); });
+  document.getElementById('btnBack').addEventListener('click', function () { clearActive(); show(null); });
+})();
+</script>
+</body>
+</html>

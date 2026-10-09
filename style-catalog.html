@@ -6302,6 +6302,146 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 ▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
 ▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
 ▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sb" data-type="chart" data-status="chart" data-search="performance vs target (compact) bullet, compact, kpi, dashboard, target, benchmark, range, accessible chart, keyboard accessible chart bullet chart 图表 chart"><div class="m-head"><div><h2>Performance vs Target (Compact)</h2><span class="en">图表图鉴 / Bullet Chart</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Bullet Chart</p><div class="links"><a class="demo-link" href="chart-demos/performance-vs-target-compact.html">查看样张</a></div><pre class="prompt">请按「Performance vs Target (Compact)」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Bullet Chart
+- Secondary Options: Gauge, Progress Bar
+- When to Use: Dashboard with multiple KPIs side by side; space-constrained contexts where a gauge is too large
+- When NOT to Use: Single KPI with emphasis (use gauge); data has no defined target range; fewer than 3 KPIs
+- Data Volume Threshold: Ideal for 3–10 bullet charts in a grid; scales to any count efficiently
+- Color Guidance: Qualitative ranges: #FFCDD2 / #FFF9C4 / #C8E6C9 (bad/ok/good). Performance bar: #1976D2. Target: black 3px marker
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:low
+- Accessibility Notes: Label every qualitative range and target with text; color is supplementary.
+- A11y Fallback: Visible KPI/target table plus status summary. Keyboard: focus reveals the same detail as hover.
+- Library Recommendation: D3.js, Plotly, Custom SVG
+- Interactive Level: Hover
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sc" data-type="chart" data-status="chart" data-search="proportional / percentage waffle, percentage, proportion, progress, filled, grid, accessible chart, keyboard accessible chart waffle chart 图表 chart"><div class="m-head"><div><h2>Proportional / Percentage</h2><span class="en">图表图鉴 / Waffle Chart</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Waffle Chart</p><div class="links"><a class="demo-link" href="chart-demos/proportional-percentage.html">查看样张</a></div><pre class="prompt">请按「Proportional / Percentage」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Waffle Chart
+- Secondary Options: Pictogram, Stacked Bar 100%
+- When to Use: Showing what fraction of a whole is filled; percentage progress in a visually engaging and accessible format
+- When NOT to Use: More than 5 categories (use stacked bar); exact values matter over visual proportion; very tight space
+- Data Volume Threshold: 10×10 grid standard (100 cells); for &gt; 5 categories switch to stacked 100% bar
+- Color Guidance: 3–5 categories max. 2–3px gap between cells. Each category a distinct accessible color pair
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:low
+- Accessibility Notes: Label each category and percentage and add patterns or symbols; filled-cell color alone is insufficient.
+- A11y Fallback: Percentage table/list plus part-to-whole summary. Keyboard: focus reveals each cell value.
+- Library Recommendation: D3.js, React-Waffle, Custom CSS Grid
+- Interactive Level: Hover
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sd" data-type="chart" data-status="chart" data-search="root cause analysis root cause, decomposition, tree, hierarchy, drill-down, ai-split, attribution, accessible chart, keyboard accessible chart decomposition tree 图表 chart"><div class="m-head"><div><h2>Root Cause Analysis</h2><span class="en">图表图鉴 / Decomposition Tree</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Decomposition Tree</p><div class="links"><a class="demo-link" href="chart-demos/root-cause-analysis.html">查看样张</a></div><pre class="prompt">请按「Root Cause Analysis」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Decomposition Tree
+- Secondary Options: Decision Tree, Flow Chart
+- When to Use: Decomposing a metric into contributing factors; AI-assisted analysis or BI drill-down scenarios
+- When NOT to Use: No clear parent-child causal relationship; audience expects a summary rather than exploration
+- Data Volume Threshold: Up to 5 levels deep; limit visible nodes to 20 per level for readability; lazy-load deeper levels
+- Color Guidance: Positive impact nodes: #2563EB. Negative impact nodes: #EF4444. Neutral connectors: #94A3B8
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:low
+- Accessibility Notes: Name each node and contribution and use shapes/connector styles in addition to color. Do not rely on color alone.
+- A11y Fallback: Expandable tree table plus root-cause summary. Keyboard: Enter/Space drills and expands; Back collapses; dedicated expand/collapse buttons expose the same operations.
+- Library Recommendation: Power BI (native), React-Flow, Custom D3.js
+- Interactive Level: Drill + Expand
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sa" data-type="chart" data-status="chart" data-search="3d spatial data 3d, spatial, immersive, terrain, molecular, volumetric, point-cloud, accessible chart, keyboard accessible chart 3d scatter / surface plot 图表 chart"><div class="m-head"><div><h2>3D Spatial Data</h2><span class="en">图表图鉴 / 3D Scatter / Surface Plo</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：3D Scatter / Surface Plot</p><div class="links"><a class="demo-link" href="chart-demos/3d-spatial-data.html">查看样张</a></div><pre class="prompt">请按「3D Spatial Data」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: 3D Scatter / Surface Plot
+- Secondary Options: Volumetric Rendering, Point Cloud
+- When to Use: Scientific/engineering context where Z-axis carries essential info not expressible in 2D
+- When NOT to Use: 2D projection conveys the same insight; mobile context; accessibility-required environments; standard business dashboards
+- Data Volume Threshold: WebGL required. Deck.gl: up to 1M points. Three.js: LOD required beyond 50,000 pts
+- Color Guidance: Depth cues: lighting and shading. Z-axis: color gradient (cool → warm). Transparent overlapping: opacity 0.4
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:high
+- Accessibility Notes: Use labels, shapes, and depth-independent cues; color and 3D position cannot be the only carriers of meaning.
+- A11y Fallback: Mandatory 2D projection, data table, and spatial summary. Keyboard: rotate/pan buttons and +/- zoom controls replace pointer/VR manipulation; Reset returns the camera.
+- Library Recommendation: Three.js, Deck.gl, Plotly 3D
+- Interactive Level: Rotate + Zoom + VR
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sb" data-type="chart" data-status="chart" data-search="real-time streaming streaming, real-time, ticker, live, velocity, pulse, monitoring, accessible chart, keyboard accessible chart streaming area chart 图表 chart"><div class="m-head"><div><h2>Real-Time Streaming</h2><span class="en">图表图鉴 / Streaming Area Chart</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Streaming Area Chart</p><div class="links"><a class="demo-link" href="chart-demos/real-time-streaming.html">查看样张</a></div><pre class="prompt">请按「Real-Time Streaming」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Streaming Area Chart
+- Secondary Options: Ticker Tape, Moving Gauge
+- When to Use: Live monitoring dashboards; IoT/ops data updating at ≥1 Hz; user needs current value at a glance
+- When NOT to Use: Update frequency &lt; 1/min (use periodic-refresh line chart); flashing content without reduced-motion support
+- Data Volume Threshold: Canvas/WebGL required. Buffer last 60–300s of data. Downsample older data on scroll
+- Color Guidance: Current pulse: #00FF00 (dark theme) or #0080FF (light theme). History: fading opacity. Grid: dark background
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:conditional
+- Accessibility Notes: Show the current value and status text and use line styles or markers in addition to color. Do not rely on color alone.
+- A11y Fallback: Streaming data table plus current-value/trend summary. Keyboard: Pause/Resume button controls updates; focus reveals values; +/- buttons zoom; Reset restores range.
+- Library Recommendation: Smoothed D3.js, CanvasJS
+- Interactive Level: Real-time + Pause + Zoom
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sc" data-type="chart" data-status="chart" data-search="sentiment / emotion sentiment, emotion, nlp, opinion, feeling, text-analysis, accessible chart, keyboard accessible chart word cloud with sentiment 图表 chart"><div class="m-head"><div><h2>Sentiment / Emotion</h2><span class="en">图表图鉴 / Word Cloud with Sentimen</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Word Cloud with Sentiment</p><div class="links"><a class="demo-link" href="chart-demos/sentiment-emotion.html">查看样张</a></div><pre class="prompt">请按「Sentiment / Emotion」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Word Cloud with Sentiment
+- Secondary Options: Sentiment Arc, Radar Chart
+- When to Use: NLP output visualization; exploratory analysis of text corpus sentiment; frequency-weighted keyword overview
+- When NOT to Use: Precise values matter (word size is inherently imprecise); screen-reader context; corpus &lt; 50 items
+- Data Volume Threshold: 50–5000 terms optimal. Beyond 5000: apply top-N filtering before render. Avoid on mobile
+- Color Guidance: Positive: #22C55E. Negative: #EF4444. Neutral: #94A3B8. Word size maps to frequency
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:high
+- Accessibility Notes: Expose every term, count, and sentiment as text; size and color are supplementary only.
+- A11y Fallback: Sortable term table/list plus sentiment summary; word cloud is supplementary. Keyboard: focus reveals word details; labeled controls filter with Space/Enter.
+- Library Recommendation: D3-cloud, Highcharts, Nivo
+- Interactive Level: Hover + Filter
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
+<article class="m-card sd" data-type="chart" data-status="chart" data-search="process mining process, mining, variants, path, bottleneck, log, event, accessible chart, keyboard accessible chart process map / graph 图表 chart"><div class="m-head"><div><h2>Process Mining</h2><span class="en">图表图鉴 / Process Map / Graph</span></div><div class="badges"><span class="badge b-pat">图表</span></div></div><p class="best">首选：Process Map / Graph</p><div class="links"><a class="demo-link" href="chart-demos/process-mining.html">查看样张</a></div><pre class="prompt">请按「Process Mining」图表选型实现数据展示：〔在这里写下你的数据与场景〕
+
+▍官方选型（charts.csv 原文，零改写）：
+- Best Chart Type: Process Map / Graph
+- Secondary Options: Directed Acyclic Graph (DAG), Petri Net
+- When to Use: Analyzing event logs to visualize actual process flows; identifying bottlenecks and deviations in ops/product funnels
+- When NOT to Use: No event log data available; audience expects a static flowchart (use diagram tool); node count &gt; 100 without pre-filtering
+- Data Volume Threshold: &lt;30 nodes: SVG; 30–100: Canvas; &gt;100: apply variant filtering (top 80% of cases) before rendering
+- Color Guidance: Happy path: #10B981 thick line. Deviations: #F59E0B thin line. Bottleneck nodes: #EF4444 fill
+- Accessibility Grade: deprecated: use Accessibility Risk
+- Accessibility Risk: risk:conditional
+- Accessibility Notes: Label nodes and paths and use shapes/line styles in addition to color; bottlenecks require text annotations. Do not rely on color alone.
+- A11y Fallback: Path summary table plus bottleneck narrative. Keyboard: Move buttons replace drag; focus reveals node details; Enter activates a node; Back returns.
+- Library Recommendation: React-Flow, Cytoscape.js, Recharts
+- Interactive Level: Drag + Node-Click
+
+▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽
+▍动效：图表一次生长/描边亮相即可，reduced-motion 降级
+▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji
+▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440</pre><button class="copy-btn" type="button">复制提示词</button></article>
   </div>
   <footer>UI 设计提示词库 / Memphis Design 版 / 生成自 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max</a> 官方风格库 styles.csv（已剔除 9 个废弃风格）/ <a href="index.html">返回八版精修样张</a> / 友情链接 / <a href="https://www.lhxl.chat/" target="_blank" rel="noopener">lhxl.chat</a> / <a href="https://wordflow.lhxl.chat/download" target="_blank" rel="noopener">WordFlow 下载</a></footer>
 </div>

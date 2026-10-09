@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表图鉴: 情感词云 Word Cloud with Sentiment。民宿评价 40 关键词的情感着色手工排布词云、可聚焦读频次、官方红绿配色的对比度与色盲补丁、精确对比请用条形的迷你对照与可排序数据表后备。">
+<title>图表图鉴 / 情感词云 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划: 底 #F6F8FB / 卡 #FFFFFF / 文 #0F172A / 弱 #475569 / 线 #D9E2EE / 主 #0B5FD9 / 官方色 正 #22C55E 负 #EF4444 中 #94A3B8 / 文本深化 正 #15803D 负 #B91C1C 中 #64748B / 圆角 12px / mono 数字 */
+:root{
+  --bg:#F6F8FB; --card:#FFFFFF; --fg:#0F172A; --muted:#475569; --line:#D9E2EE;
+  --deep:#0B5FD9; --radius:12px;
+  --posT:#15803D; --negT:#B91C1C; --neuT:#64748B;
+  --posF:#22C55E; --negF:#EF4444; --neuF:#94A3B8;
+  --mono:Consolas,'JetBrains Mono','Cascadia Mono','Microsoft YaHei',monospace;
+  --sans:'Segoe UI','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--sans);
+  font-size:14px; line-height:1.7; -webkit-text-size-adjust:100%;
+}
+.page{max-width:1180px;margin:0 auto;padding:26px 20px 46px;}
+a{color:var(--deep);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible,button:focus-visible,.w:focus-visible{
+  outline:3px solid var(--deep);outline-offset:2px;border-radius:6px;
+}
+h1,h2,h3{line-height:1.3;}
+
+/* 顶栏 */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px;}
+.brand{display:flex;align-items:center;gap:11px;}
+.brand-mark{width:28px;height:28px;border-radius:8px;flex:none;
+  background:linear-gradient(135deg,#22C55E 0%,#94A3B8 50%,#EF4444 100%);
+  box-shadow:0 2px 8px rgba(15,23,42,.16);}
+.brand-text strong{font-family:var(--mono);font-size:15px;font-weight:700;display:block;}
+.brand-text small{font-size:11px;color:var(--muted);display:block;}
+.back{font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);white-space:nowrap;}
+.back:hover{text-decoration:none;border-color:var(--deep);}
+
+/* hero */
+.hero{background:linear-gradient(180deg,#FFFFFF 0%,#F2F6FC 100%);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px 26px;}
+.kicker{font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;font-family:var(--mono);}
+.hero h1{font-family:var(--mono);font-size:33px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+.hero h1 small{font-size:16px;color:var(--muted);font-weight:400;letter-spacing:0;}
+.lede{max-width:800px;color:var(--muted);margin-bottom:22px;}
+.lede strong{color:var(--fg);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px 11px;}
+.stat-num{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1.2;display:flex;align-items:baseline;gap:3px;}
+.stat-num small{font-size:13px;color:var(--muted);font-weight:400;}
+.stat p{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* 区块通用 */
+.block{margin-top:30px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 24px 20px;}
+.block-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+.block-head h2{font-family:var(--mono);font-size:19px;font-weight:700;display:flex;align-items:baseline;gap:10px;}
+.idx{font-size:14px;color:var(--deep);font-weight:700;}
+.block-head p{font-size:12px;color:var(--muted);}
+.block > p.intro{color:var(--muted);max-width:840px;margin-bottom:16px;font-size:13.5px;}
+.note{font-size:12px;color:var(--muted);margin-top:12px;}
+
+/* 工具条 */
+.toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px;}
+.toolbar button{
+  font-family:var(--sans);
+  font-size:12.5px;
+  color:var(--fg);
+  cursor:pointer;
+  padding:7px 15px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--card);
+}
+.toolbar button:hover{border-color:var(--deep);color:var(--deep);}
+.toolbar button[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:#FFFFFF;}
+.tool-note{font-size:12px;color:var(--muted);margin-left:2px;}
+
+/* 词云画布: 手工排布, 不依赖 d3-cloud */
+.cloud-scroll{overflow-x:auto;padding-bottom:6px;}
+.cloud{
+  position:relative;
+  height:560px;
+  min-width:760px;
+  list-style:none;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background-color:#FBFCFE;
+  background-image:radial-gradient(circle,#E3EAF4 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.w{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  white-space:nowrap;
+  font-weight:700;
+  line-height:1.1;
+  cursor:default;
+  padding:1px 4px;
+  border-radius:4px;
+  transition:color .18s,text-decoration-color .18s,background-color .18s;
+}
+.w:hover{background:rgba(11,95,217,.08);}
+.w.p{color:var(--posT);text-decoration:underline;text-decoration-style:solid;text-decoration-thickness:2px;text-underline-offset:.22em;}
+.w.n{color:var(--negT);text-decoration:underline;text-decoration-style:dashed;text-decoration-thickness:2px;text-underline-offset:.22em;}
+.w.u{color:var(--neuT);text-decoration:none;}
+/* 情感过滤: 未命中词灰化 (用颜色而非透明度, 避开入场动画的 opacity 终态) */
+.cloud[data-filter="p"] .w:not(.p),
+.cloud[data-filter="n"] .w:not(.n),
+.cloud[data-filter="u"] .w:not(.u){
+  color:#AEB9C6;text-decoration-color:#AEB9C6;filter:grayscale(1);
+}
+
+/* 图例 */
+.legend{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);}
+.leg{flex:1;min-width:230px;}
+.leg-cap{font-size:12px;font-weight:700;margin-bottom:6px;}
+.leg ul{list-style:none;}
+.leg li{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:4px;}
+.leg i{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none;border:1px solid rgba(15,23,42,.14);}
+.leg .u-line{width:22px;height:0;border-top:2px solid var(--fg);flex:none;}
+.leg .d-line{width:22px;height:0;border-top:2px dashed var(--fg);flex:none;}
+.leg .n-line{width:22px;height:0;border-top:2px dotted #C6D0DD;flex:none;}
+.status{
+  margin-top:14px;padding:9px 13px;border-radius:8px;background:#EEF4FE;border:1px solid #C9DCF8;
+  font-family:var(--mono);font-size:12.5px;color:var(--fg);
+}
+
+/* 争议与边界: 条形对照 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.panel{border:1px solid var(--line);border-radius:10px;background:#FBFCFE;padding:16px 16px 14px;}
+.panel h3{font-family:var(--mono);font-size:14px;margin-bottom:4px;}
+.panel .sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.bars{margin-bottom:10px;}
+.brow{
+  display:grid;
+  grid-template-columns:56px 1fr 52px 44px;
+  gap:8px;
+  align-items:center;
+  height:34px;
+}
+.blab{font-size:12.5px;font-weight:600;white-space:nowrap;}
+.btrack{height:18px;background:#EDF2F9;border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+.bfill{display:block;height:100%;}
+.bfill.p{background:var(--posF);}
+.bfill.n{background:var(--negF);}
+.bfill.u{background:var(--neuF);}
+.bnum{font-family:var(--mono);font-size:12px;text-align:right;}
+.bsen{font-size:11.5px;font-weight:600;}
+.bsen.p{color:var(--posT);}
+.bsen.n{color:var(--negT);}
+.bsen.u{color:var(--neuT);}
+.mleg{font-size:11px;color:var(--muted);margin-top:2px;}
+.mleg b{color:var(--fg);font-weight:600;}
+.verdict{font-size:12px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);}
+.verdict b{color:var(--fg);}
+ul.vs{list-style:none;}
+ul.vs li{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--card);
+  padding:10px 13px;
+  margin-bottom:8px;
+  font-size:12.5px;
+  color:var(--muted);
+}
+ul.vs li b{display:block;font-size:13px;color:var(--fg);margin-bottom:3px;}
+.callout{border-left:4px solid var(--deep);background:#EEF4FE;border-radius:0 8px 8px 0;
+  padding:12px 15px;margin-top:16px;font-size:13px;max-width:920px;}
+.callout b{font-weight:700;}
+
+/* 无障碍防线 */
+.def{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px;}
+.def li{
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px 15px;
+  background:#FBFCFE;
+  font-size:12.5px;
+  color:var(--muted);
+}
+.def li b{display:block;font-size:13px;color:var(--fg);margin-bottom:5px;}
+.def li .tag{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--deep);
+  border:1px solid #BFD6F5;
+  border-radius:5px;
+  padding:1px 7px;
+  margin-bottom:8px;
+}
+
+/* 数据表后备 */
+.tb-scroll{overflow-x:auto;padding-bottom:4px;}
+table.dt{border-collapse:collapse;width:max-content;font-family:var(--mono);font-size:11.5px;}
+.dt caption{text-align:left;font-family:var(--sans);font-size:12px;color:var(--muted);padding-bottom:8px;}
+.dt th,.dt td{border:1px solid var(--line);padding:5px 10px;text-align:right;}
+.dt th{background:#EEF3FA;color:var(--fg);font-weight:600;}
+.dt th[scope="row"]{text-align:left;font-family:var(--sans);font-size:12.5px;white-space:nowrap;}
+.dt td.tp{color:var(--posT);font-weight:700;}
+.dt td.tn{color:var(--negT);font-weight:700;}
+.dt td.tu{color:var(--neuT);font-weight:600;}
+.dt tbody tr:nth-child(even){background:#FAFBFD;}
+.dt tbody tr:hover{background:#EEF4FE;}
+
+/* 选型速查 */
+.dossier{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.kv{border:1px solid var(--line);border-radius:10px;padding:11px 14px;background:#FBFCFE;}
+.kv dt{font-family:var(--mono);font-size:12px;color:var(--deep);font-weight:700;margin-bottom:3px;}
+.kv dd{font-size:12.5px;color:var(--muted);}
+
+/* footer */
+footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);}
+
+/* 一次亮相: 词按频次自高到低浮现 (延迟内联指定) */
+@keyframes win{
+  from{opacity:0;transform:translate(-50%,-44%) scale(.92);}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1);}
+}
+.w{animation:win .55s cubic-bezier(.2,.7,.3,1) both;}
+@media (prefers-reduced-motion: reduce){
+  .w{animation:none;transform:translate(-50%,-50%);}
+  .w:hover{transition:none;}
+}
+
+/* 响应式 */
+@media (max-width:900px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .duo,.dossier{grid-template-columns:1fr;}
+  .def{grid-template-columns:1fr;}
+  .hero{padding:24px 18px 20px;}
+  .hero h1{font-size:26px;}
+  .block{padding:18px 16px 16px;}
+}
+@media (max-width:480px){
+  .stats{grid-template-columns:1fr 1fr;gap:8px;}
+  .page{padding:18px 12px 36px;}
+  .hero h1{font-size:22px;}
+  .toolbar{gap:6px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text"><strong>图表图鉴</strong><small>UI 设计提示词库 / 收录号 24 / Word Cloud with Sentiment</small></span>
+    </div>
+    <a class="back" href="../style-catalog.html">返回风格目录</a>
+  </header>
+
+  <section class="hero">
+    <p class="kicker">图表图鉴 / 编号 24 / 情感词云</p>
+    <h1>情感词云 <small>/ Word Cloud with Sentiment</small></h1>
+    <p class="lede">
+      情感词云的编码只有两条: <strong>字号映射词频, 颜色标注情感</strong>。本页用云栖山居民宿
+      <strong>4,126 条真实感住客评价</strong>做完整示范: 40 个关键词如何手工排布成云 (不依赖 d3-cloud),
+      官方红绿配色的对比度与色盲补丁怎么做, 以及官方划下的三条红线——
+      <strong>精确对比 / 读屏环境 / 语料少于 50 条, 一律别用词云</strong>。
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">40<small>词</small></div><p>关键词 / 手工预排布</p></div>
+      <div class="stat"><div class="stat-num">3,873<small>次</small></div><p>全部提及 / 字号 13 到 54px</p></div>
+      <div class="stat"><div class="stat-num">64.4<small>%</small></div><p>正面提及占比 / 2,495 次</p></div>
+      <div class="stat"><div class="stat-num">高</div><p>无障碍风险 / 官方 risk:high</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">01</span>情感词云主图 / 民宿评价 40 关键词</h2>
+      <p>云栖山居 / 近一年 4,126 条评价 / 字号 = 词频 / 颜色 + 下划线 = 情感</p>
+    </div>
+    <div class="toolbar" role="group" aria-label="情感过滤">
+      <button type="button" class="fbtn" data-f="all" aria-pressed="true">全部 40 词</button>
+      <button type="button" class="fbtn" data-f="p" aria-pressed="false">仅正面 18 词</button>
+      <button type="button" class="fbtn" data-f="n" aria-pressed="false">仅负面 12 词</button>
+      <button type="button" class="fbtn" data-f="u" aria-pressed="false">仅中性 10 词</button>
+      <span class="tool-note">官方交互级别 Hover + Filter / 按钮用 Space 或 Enter 生效</span>
+    </div>
+    <div class="cloud-scroll">
+      <ul class="cloud" id="cloud" data-filter="all">
+        <li class="w p" tabindex="0" data-t="治愈" data-s="正面" data-c="88" data-p="2.3" data-f="21" aria-label="治愈 / 正面 / 提及 88 次" style="left:11%;top:9%;font-size:21px;animation-delay:.80s">治愈</li>
+        <li class="w p" tabindex="0" data-t="日出" data-s="正面" data-c="118" data-p="3.0" data-f="26" aria-label="日出 / 正面 / 提及 118 次" style="left:29%;top:8%;font-size:26px;animation-delay:.50s">日出</li>
+        <li class="w p" tabindex="0" data-t="惊喜" data-s="正面" data-c="81" data-p="2.1" data-f="20" aria-label="惊喜 / 正面 / 提及 81 次" style="left:47%;top:10%;font-size:20px;animation-delay:.90s">惊喜</li>
+        <li class="w u" tabindex="0" data-t="淡季" data-s="中性" data-c="43" data-p="1.1" data-f="15" aria-label="淡季 / 中性 / 提及 43 次" style="left:64%;top:8%;font-size:15px;animation-delay:1.55s">淡季</li>
+        <li class="w u" tabindex="0" data-t="环线" data-s="中性" data-c="29" data-p="0.7" data-f="14" aria-label="环线 / 中性 / 提及 29 次" style="left:78%;top:11%;font-size:14px;animation-delay:1.75s">环线</li>
+        <li class="w u" tabindex="0" data-t="夜路" data-s="中性" data-c="21" data-p="0.5" data-f="13" aria-label="夜路 / 中性 / 提及 21 次" style="left:90%;top:8%;font-size:13px;animation-delay:1.90s">夜路</li>
+        <li class="w p" tabindex="0" data-t="床品" data-s="正面" data-c="102" data-p="2.6" data-f="23" aria-label="床品 / 正面 / 提及 102 次" style="left:8%;top:22%;font-size:23px;animation-delay:.65s">床品</li>
+        <li class="w p" tabindex="0" data-t="泳池" data-s="正面" data-c="138" data-p="3.6" data-f="29" aria-label="泳池 / 正面 / 提及 138 次" style="left:25%;top:20%;font-size:29px;animation-delay:.35s">泳池</li>
+        <li class="w p" tabindex="0" data-t="老板" data-s="正面" data-c="186" data-p="4.8" data-f="36" aria-label="老板 / 正面 / 提及 186 次" style="left:46%;top:22%;font-size:36px;animation-delay:.20s">老板</li>
+        <li class="w u" tabindex="0" data-t="海拔" data-s="中性" data-c="109" data-p="2.8" data-f="25" aria-label="海拔 / 中性 / 提及 109 次" style="left:68%;top:21%;font-size:25px;animation-delay:.60s">海拔</li>
+        <li class="w u" tabindex="0" data-t="接送" data-s="中性" data-c="36" data-p="0.9" data-f="15" aria-label="接送 / 中性 / 提及 36 次" style="left:84%;top:23%;font-size:15px;animation-delay:1.65s">接送</li>
+        <li class="w p" tabindex="0" data-t="惊艳" data-s="正面" data-c="47" data-p="1.2" data-f="16" aria-label="惊艳 / 正面 / 提及 47 次" style="left:93%;top:20%;font-size:16px;animation-delay:1.45s">惊艳</li>
+        <li class="w p" tabindex="0" data-t="温泉" data-s="正面" data-c="174" data-p="4.5" data-f="34" aria-label="温泉 / 正面 / 提及 174 次" style="left:11%;top:35%;font-size:34px;animation-delay:.25s">温泉</li>
+        <li class="w p" tabindex="0" data-t="景色" data-s="正面" data-c="207" data-p="5.3" data-f="39" aria-label="景色 / 正面 / 提及 207 次" style="left:32%;top:33%;font-size:39px;animation-delay:.15s">景色</li>
+        <li class="w n" tabindex="0" data-t="蚊虫" data-s="负面" data-c="96" data-p="2.5" data-f="22" aria-label="蚊虫 / 负面 / 提及 96 次" style="left:55%;top:35%;font-size:22px;animation-delay:.70s">蚊虫</li>
+        <li class="w u" tabindex="0" data-t="自驾" data-s="中性" data-c="87" data-p="2.2" data-f="20" aria-label="自驾 / 中性 / 提及 87 次" style="left:71%;top:34%;font-size:20px;animation-delay:.85s">自驾</li>
+        <li class="w n" tabindex="0" data-t="插座" data-s="负面" data-c="31" data-p="0.8" data-f="14" aria-label="插座 / 负面 / 提及 31 次" style="left:84%;top:33%;font-size:14px;animation-delay:1.70s">插座</li>
+        <li class="w n" tabindex="0" data-t="爬坡" data-s="负面" data-c="28" data-p="0.7" data-f="14" aria-label="爬坡 / 负面 / 提及 28 次" style="left:93%;top:36%;font-size:14px;animation-delay:1.80s">爬坡</li>
+        <li class="w p" tabindex="0" data-t="干净" data-s="正面" data-c="318" data-p="8.2" data-f="54" aria-label="干净 / 正面 / 提及 318 次" style="left:14%;top:50%;font-size:54px;animation-delay:.00s">干净</li>
+        <li class="w p" tabindex="0" data-t="早餐" data-s="正面" data-c="221" data-p="5.7" data-f="41" aria-label="早餐 / 正面 / 提及 221 次" style="left:42%;top:49%;font-size:41px;animation-delay:.10s">早餐</li>
+        <li class="w n" tabindex="0" data-t="隔音" data-s="负面" data-c="142" data-p="3.7" data-f="30" aria-label="隔音 / 负面 / 提及 142 次" style="left:65%;top:51%;font-size:30px;animation-delay:.30s">隔音</li>
+        <li class="w u" tabindex="0" data-t="山路" data-s="中性" data-c="66" data-p="1.7" data-f="18" aria-label="山路 / 中性 / 提及 66 次" style="left:82%;top:49%;font-size:18px;animation-delay:1.05s">山路</li>
+        <li class="w u" tabindex="0" data-t="预订" data-s="中性" data-c="55" data-p="1.4" data-f="17" aria-label="预订 / 中性 / 提及 55 次" style="left:92%;top:52%;font-size:17px;animation-delay:1.35s">预订</li>
+        <li class="w p" tabindex="0" data-t="安静" data-s="正面" data-c="264" data-p="6.8" data-f="47" aria-label="安静 / 正面 / 提及 264 次" style="left:11%;top:66%;font-size:47px;animation-delay:.05s">安静</li>
+        <li class="w n" tabindex="0" data-t="停车" data-s="负面" data-c="117" data-p="3.0" data-f="26" aria-label="停车 / 负面 / 提及 117 次" style="left:35%;top:67%;font-size:26px;animation-delay:.55s">停车</li>
+        <li class="w p" tabindex="0" data-t="氛围" data-s="正面" data-c="96" data-p="2.5" data-f="22" aria-label="氛围 / 正面 / 提及 96 次" style="left:53%;top:66%;font-size:22px;animation-delay:.70s">氛围</li>
+        <li class="w n" tabindex="0" data-t="空调" data-s="负面" data-c="44" data-p="1.1" data-f="15" aria-label="空调 / 负面 / 提及 44 次" style="left:68%;top:68%;font-size:15px;animation-delay:1.50s">空调</li>
+        <li class="w n" tabindex="0" data-t="断电" data-s="负面" data-c="22" data-p="0.6" data-f="13" aria-label="断电 / 负面 / 提及 22 次" style="left:80%;top:65%;font-size:13px;animation-delay:1.85s">断电</li>
+        <li class="w n" tabindex="0" data-t="等位" data-s="负面" data-c="61" data-p="1.6" data-f="18" aria-label="等位 / 负面 / 提及 61 次" style="left:90%;top:68%;font-size:18px;animation-delay:1.15s">等位</li>
+        <li class="w p" tabindex="0" data-t="热情" data-s="正面" data-c="133" data-p="3.4" data-f="28" aria-label="热情 / 正面 / 提及 133 次" style="left:9%;top:81%;font-size:28px;animation-delay:.40s">热情</li>
+        <li class="w p" tabindex="0" data-t="舒适" data-s="正面" data-c="127" data-p="3.3" data-f="27" aria-label="舒适 / 正面 / 提及 127 次" style="left:27%;top:82%;font-size:27px;animation-delay:.45s">舒适</li>
+        <li class="w u" tabindex="0" data-t="入住" data-s="中性" data-c="94" data-p="2.4" data-f="22" aria-label="入住 / 中性 / 提及 94 次" style="left:44%;top:81%;font-size:22px;animation-delay:.75s">入住</li>
+        <li class="w n" tabindex="0" data-t="加价" data-s="负面" data-c="74" data-p="1.9" data-f="19" aria-label="加价 / 负面 / 提及 74 次" style="left:59%;top:83%;font-size:19px;animation-delay:1.00s">加价</li>
+        <li class="w p" tabindex="0" data-t="贴心" data-s="正面" data-c="63" data-p="1.6" data-f="18" aria-label="贴心 / 正面 / 提及 63 次" style="left:73%;top:81%;font-size:18px;animation-delay:1.10s">贴心</li>
+        <li class="w n" tabindex="0" data-t="信号" data-s="负面" data-c="49" data-p="1.3" data-f="16" aria-label="信号 / 负面 / 提及 49 次" style="left:86%;top:82%;font-size:16px;animation-delay:1.40s">信号</li>
+        <li class="w p" tabindex="0" data-t="猫咪" data-s="正面" data-c="74" data-p="1.9" data-f="19" aria-label="猫咪 / 正面 / 提及 74 次" style="left:7%;top:93%;font-size:19px;animation-delay:1.00s">猫咪</li>
+        <li class="w p" tabindex="0" data-t="值得" data-s="正面" data-c="58" data-p="1.5" data-f="17" aria-label="值得 / 正面 / 提及 58 次" style="left:20%;top:94%;font-size:17px;animation-delay:1.25s">值得</li>
+        <li class="w n" tabindex="0" data-t="潮湿" data-s="负面" data-c="57" data-p="1.5" data-f="17" aria-label="潮湿 / 负面 / 提及 57 次" style="left:33%;top:93%;font-size:17px;animation-delay:1.30s">潮湿</li>
+        <li class="w n" tabindex="0" data-t="退订" data-s="负面" data-c="38" data-p="1.0" data-f="15" aria-label="退订 / 负面 / 提及 38 次" style="left:46%;top:94%;font-size:15px;animation-delay:1.60s">退订</li>
+        <li class="w u" tabindex="0" data-t="房型" data-s="中性" data-c="79" data-p="2.0" data-f="19" aria-label="房型 / 中性 / 提及 79 次" style="left:60%;top:93%;font-size:19px;animation-delay:.95s">房型</li>
+      </ul>
+    </div>
+    <div class="legend">
+      <div class="leg">
+        <div class="leg-cap">官方色彩 / 文本深化保对比度</div>
+        <ul>
+          <li><i style="background:var(--posF)"></i>正面 #22C55E / 文本 #15803D (5.0:1)</li>
+          <li><i style="background:var(--negF)"></i>负面 #EF4444 / 文本 #B91C1C (6.5:1)</li>
+          <li><i style="background:var(--neuF)"></i>中性 #94A3B8 / 文本 #64748B (4.8:1)</li>
+        </ul>
+      </div>
+      <div class="leg">
+        <div class="leg-cap">形状冗余 / 红绿色盲补丁</div>
+        <ul>
+          <li><span class="u-line" aria-hidden="true"></span>实线下划线 = 正面</li>
+          <li><span class="d-line" aria-hidden="true"></span>虚线下划线 = 负面</li>
+          <li><span class="n-line" aria-hidden="true"></span>无下划线 = 中性</li>
+        </ul>
+      </div>
+      <div class="leg">
+        <div class="leg-cap">字号刻度 / 线性映射词频</div>
+        <ul>
+          <li>54px 对应 318 次 (干净)</li>
+          <li>13px 对应 19 至 21 次</li>
+          <li>字号从不单独承载频次 / 聚焦读值 + 表格同列</li>
+        </ul>
+      </div>
+    </div>
+    <p class="status" id="wcStatus" aria-live="polite">悬停或用 Tab 聚焦任一词 / 此处读出 词 / 情感 / 频次 / 占比 / 字号</p>
+    <p class="note">
+      读云 / 正面词占据主视觉: 干净 318 / 安静 264 / 早餐 221; 负面集中在家居实体: 隔音 142 / 停车 117 / 蚊虫 96;
+      中性词多是行程事实: 海拔 109 / 入住 94 / 自驾 87。词云给出的是印象, 不是读数。窄屏下画布保留 760px 最小宽并横向滚动, 而非把字号压成蚂蚁字。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">02</span>争议与边界 / 精确对比请用条形</h2>
+      <p>官方 When NOT to Use 三条红线 + 同数据的条形对照</p>
+    </div>
+    <p class="intro">
+      官方原文: 精确值重要勿用 (字号天生不精确) / 读屏环境勿用 / 语料少于 50 条勿用。
+      词云最擅长的只有一件事: 探索式浏览。要回答「隔音比泳池多多少」, 请换条形图。
+    </p>
+    <div class="duo">
+      <div class="panel">
+        <h3>条形对照 / Top 8 提及次数</h3>
+        <p class="sub">同一份数据 / 宽度按 318 次 = 100% 线性换算 / 数值直标在轨外</p>
+        <div class="bars">
+          <div class="brow"><span class="blab">干净</span><span class="btrack"><i class="bfill p" style="width:100%"></i></span><span class="bnum">318</span><span class="bsen p">正面</span></div>
+          <div class="brow"><span class="blab">安静</span><span class="btrack"><i class="bfill p" style="width:83%"></i></span><span class="bnum">264</span><span class="bsen p">正面</span></div>
+          <div class="brow"><span class="blab">早餐</span><span class="btrack"><i class="bfill p" style="width:69.5%"></i></span><span class="bnum">221</span><span class="bsen p">正面</span></div>
+          <div class="brow"><span class="blab">景色</span><span class="btrack"><i class="bfill p" style="width:65.1%"></i></span><span class="bnum">207</span><span class="bsen p">正面</span></div>
+          <div class="brow"><span class="blab">老板</span><span class="btrack"><i class="bfill p" style="width:58.5%"></i></span><span class="bnum">186</span><span class="bsen p">正面</span></div>
+          <div class="brow"><span class="blab">温泉</span><span class="btrack"><i class="bfill p" style="width:54.7%"></i></span><span class="bnum">174</span><span class="bsen p">正面</span></div>
+          <div class="brow"><span class="blab">隔音</span><span class="btrack"><i class="bfill n" style="width:44.7%"></i></span><span class="bnum">142</span><span class="bsen n">负面</span></div>
+          <div class="brow"><span class="blab">泳池</span><span class="btrack"><i class="bfill p" style="width:43.4%"></i></span><span class="bnum">138</span><span class="bsen p">正面</span></div>
+        </div>
+        <p class="mleg">刻度 / <b>0</b> 至 <b>318</b> 次 / 条色为官方正负中填充色 / 情感另有文本列</p>
+        <p class="verdict"><b>收益 /</b> 隔音 142 对 泳池 138 只差 4 次, 词云字号 30px 对 29px 肉眼难分; 条形图里这 4 次的差距、58.5% 对 44.7% 的位置差, 都能直接读出。</p>
+      </div>
+      <div class="panel">
+        <h3>词云读数的三种失真</h3>
+        <p class="sub">同一语料 / 换一种编码就露出的信息</p>
+        <ul class="vs">
+          <li><b>面积夸大 / 干净 318 对 安静 264</b>
+            频次只多 20.5%, 字号 54px 对 47px 的视觉面积差让人感觉远不止。</li>
+          <li><b>近邻混淆 / 隔音 142 对 泳池 138</b>
+            词云里几乎同大, 4 次差值完全丢失; 条形图一眼分出。</li>
+          <li><b>情感遮蔽 / 蚊虫 96 与 氛围 96</b>
+            同频异色, 一红一绿抢走注意力, 「频次相同」这个事实反被忽略。</li>
+        </ul>
+        <p class="verdict"><b>结论 /</b> 词云适合「这堆评价在说什么」, 条形适合「差多少」, 数据表适合「到底是多少」。</p>
+      </div>
+    </div>
+    <p class="callout">
+      <b>取舍规则 /</b> 探索语料用词云, 汇报精确对比换条形, 无障碍交付以数据表为主件、词云为插图。
+      官方数据量阈值: 50 到 5000 词最优, 超过 5000 先做 top-N 过滤再渲染, 移动端避免使用。
+    </p>
+    <p class="note">
+      本页语料 4,126 条评价落在官方阈值内; 若只有 30 条评价 (<a href="#dtTop">50 条红线</a>), 词云应当整体换掉, 直接给条形或表格。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">03</span>不只靠字号与颜色 / 无障碍三道防线</h2>
+      <p>官方风险 risk:high / 后备给足才可用</p>
+    </div>
+    <p class="intro">
+      官方 Accessibility Notes 说得直白: 每个词 / 频次 / 情感都以文本暴露, 尺寸与颜色仅为补充。
+      词云是官方标注的高风险图型, 落到本页就是三道防线。
+    </p>
+    <ul class="def">
+      <li>
+        <span class="tag">防线一</span>
+        <b>每词可聚焦</b>
+        Tab 逐一聚焦 40 个词, 状态行读出 词 / 情感 / 频次 / 占比 / 字号; 每词的 aria-label 同样带全这三项。
+      </li>
+      <li>
+        <span class="tag">防线二</span>
+        <b>过滤即控件</b>
+        全部 / 仅正面 / 仅负面 / 仅中性 四个按钮带 aria-pressed, Space 或 Enter 生效, 对应官方 A11y Fallback 的键盘要求。
+      </li>
+      <li>
+        <span class="tag">防线三</span>
+        <b>表格为主件</b>
+        区块 04 的 40 行数据表可排序, 是官方指定的 primary; 词云是 supplementary 插图。红绿之外, 下划线实线 / 虚线 / 无, 三态形状可辨。
+      </li>
+    </ul>
+    <p class="note">
+      字号从不单独承载频次 (聚焦读值 + 表格同列给出精确数), 颜色从不单独承载情感 (下划线形状 + 表格文本列)。
+      官方备选图型 Sentiment Arc 与 Radar Chart 可在需要趋势或分维对比时替换。
+    </p>
+  </section>
+
+  <section class="block" id="dtTop">
+    <div class="block-head">
+      <h2><span class="idx">04</span>数据表后备 / Term Frequency Table</h2>
+      <p>官方 A11y Fallback / 可排序词条表 + 情感摘要</p>
+    </div>
+    <div class="toolbar" role="group" aria-label="表格排序">
+      <button type="button" class="sbtn" data-mode="freq" aria-pressed="true">按频次降序</button>
+      <button type="button" class="sbtn" data-mode="group" aria-pressed="false">按情感分组</button>
+      <span class="tool-note">排序不改变任何数值 / 与词云和条形同源</span>
+    </div>
+    <div class="tb-scroll">
+      <table class="dt" id="dt" aria-label="民宿评价关键词词频与情感数据表">
+        <caption>关键词 × 情感 × 提及次数 × 占比 × 词云字号 / 云栖山居近一年评价</caption>
+        <thead>
+          <tr>
+            <th scope="col">关键词</th>
+            <th scope="col">情感</th>
+            <th scope="col">提及次数</th>
+            <th scope="col">占全部提及</th>
+            <th scope="col">词云字号</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-c="318" data-g="p"><th scope="row">干净</th><td class="tp">正面</td><td>318</td><td>8.2%</td><td>54px</td></tr>
+          <tr data-c="264" data-g="p"><th scope="row">安静</th><td class="tp">正面</td><td>264</td><td>6.8%</td><td>47px</td></tr>
+          <tr data-c="221" data-g="p"><th scope="row">早餐</th><td class="tp">正面</td><td>221</td><td>5.7%</td><td>41px</td></tr>
+          <tr data-c="207" data-g="p"><th scope="row">景色</th><td class="tp">正面</td><td>207</td><td>5.3%</td><td>39px</td></tr>
+          <tr data-c="186" data-g="p"><th scope="row">老板</th><td class="tp">正面</td><td>186</td><td>4.8%</td><td>36px</td></tr>
+          <tr data-c="174" data-g="p"><th scope="row">温泉</th><td class="tp">正面</td><td>174</td><td>4.5%</td><td>34px</td></tr>
+          <tr data-c="142" data-g="n"><th scope="row">隔音</th><td class="tn">负面</td><td>142</td><td>3.7%</td><td>30px</td></tr>
+          <tr data-c="138" data-g="p"><th scope="row">泳池</th><td class="tp">正面</td><td>138</td><td>3.6%</td><td>29px</td></tr>
+          <tr data-c="133" data-g="p"><th scope="row">热情</th><td class="tp">正面</td><td>133</td><td>3.4%</td><td>28px</td></tr>
+          <tr data-c="127" data-g="p"><th scope="row">舒适</th><td class="tp">正面</td><td>127</td><td>3.3%</td><td>27px</td></tr>
+          <tr data-c="118" data-g="p"><th scope="row">日出</th><td class="tp">正面</td><td>118</td><td>3.0%</td><td>26px</td></tr>
+          <tr data-c="117" data-g="n"><th scope="row">停车</th><td class="tn">负面</td><td>117</td><td>3.0%</td><td>26px</td></tr>
+          <tr data-c="109" data-g="u"><th scope="row">海拔</th><td class="tu">中性</td><td>109</td><td>2.8%</td><td>25px</td></tr>
+          <tr data-c="102" data-g="p"><th scope="row">床品</th><td class="tp">正面</td><td>102</td><td>2.6%</td><td>23px</td></tr>
+          <tr data-c="96" data-g="p"><th scope="row">氛围</th><td class="tp">正面</td><td>96</td><td>2.5%</td><td>22px</td></tr>
+          <tr data-c="96" data-g="n"><th scope="row">蚊虫</th><td class="tn">负面</td><td>96</td><td>2.5%</td><td>22px</td></tr>
+          <tr data-c="94" data-g="u"><th scope="row">入住</th><td class="tu">中性</td><td>94</td><td>2.4%</td><td>22px</td></tr>
+          <tr data-c="88" data-g="p"><th scope="row">治愈</th><td class="tp">正面</td><td>88</td><td>2.3%</td><td>21px</td></tr>
+          <tr data-c="87" data-g="u"><th scope="row">自驾</th><td class="tu">中性</td><td>87</td><td>2.2%</td><td>20px</td></tr>
+          <tr data-c="81" data-g="p"><th scope="row">惊喜</th><td class="tp">正面</td><td>81</td><td>2.1%</td><td>20px</td></tr>
+          <tr data-c="79" data-g="u"><th scope="row">房型</th><td class="tu">中性</td><td>79</td><td>2.0%</td><td>19px</td></tr>
+          <tr data-c="74" data-g="n"><th scope="row">加价</th><td class="tn">负面</td><td>74</td><td>1.9%</td><td>19px</td></tr>
+          <tr data-c="74" data-g="p"><th scope="row">猫咪</th><td class="tp">正面</td><td>74</td><td>1.9%</td><td>19px</td></tr>
+          <tr data-c="66" data-g="u"><th scope="row">山路</th><td class="tu">中性</td><td>66</td><td>1.7%</td><td>18px</td></tr>
+          <tr data-c="63" data-g="p"><th scope="row">贴心</th><td class="tp">正面</td><td>63</td><td>1.6%</td><td>18px</td></tr>
+          <tr data-c="61" data-g="n"><th scope="row">等位</th><td class="tn">负面</td><td>61</td><td>1.6%</td><td>18px</td></tr>
+          <tr data-c="58" data-g="p"><th scope="row">值得</th><td class="tp">正面</td><td>58</td><td>1.5%</td><td>17px</td></tr>
+          <tr data-c="57" data-g="n"><th scope="row">潮湿</th><td class="tn">负面</td><td>57</td><td>1.5%</td><td>17px</td></tr>
+          <tr data-c="55" data-g="u"><th scope="row">预订</th><td class="tu">中性</td><td>55</td><td>1.4%</td><td>17px</td></tr>
+          <tr data-c="49" data-g="n"><th scope="row">信号</th><td class="tn">负面</td><td>49</td><td>1.3%</td><td>16px</td></tr>
+          <tr data-c="47" data-g="p"><th scope="row">惊艳</th><td class="tp">正面</td><td>47</td><td>1.2%</td><td>16px</td></tr>
+          <tr data-c="44" data-g="n"><th scope="row">空调</th><td class="tn">负面</td><td>44</td><td>1.1%</td><td>15px</td></tr>
+          <tr data-c="43" data-g="u"><th scope="row">淡季</th><td class="tu">中性</td><td>43</td><td>1.1%</td><td>15px</td></tr>
+          <tr data-c="38" data-g="n"><th scope="row">退订</th><td class="tn">负面</td><td>38</td><td>1.0%</td><td>15px</td></tr>
+          <tr data-c="36" data-g="u"><th scope="row">接送</th><td class="tu">中性</td><td>36</td><td>0.9%</td><td>15px</td></tr>
+          <tr data-c="31" data-g="n"><th scope="row">插座</th><td class="tn">负面</td><td>31</td><td>0.8%</td><td>14px</td></tr>
+          <tr data-c="29" data-g="u"><th scope="row">环线</th><td class="tu">中性</td><td>29</td><td>0.7%</td><td>14px</td></tr>
+          <tr data-c="28" data-g="n"><th scope="row">爬坡</th><td class="tn">负面</td><td>28</td><td>0.7%</td><td>14px</td></tr>
+          <tr data-c="22" data-g="n"><th scope="row">断电</th><td class="tn">负面</td><td>22</td><td>0.6%</td><td>13px</td></tr>
+          <tr data-c="21" data-g="u"><th scope="row">夜路</th><td class="tu">中性</td><td>21</td><td>0.5%</td><td>13px</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">
+      情感摘要 / 40 词合计 3,873 次提及: 正面 2,495 次 (64.4%) / 负面 759 次 (19.6%) / 中性 619 次 (16.0%);
+      语料 4,126 条评价, 满足官方 50 条下限与 5000 词上限。最高频 干净 318 次, 最低频 夜路 21 次。
+    </p>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2><span class="idx">05</span>选型速查 / 官方数据</h2>
+      <p>来源 / charts.json 收录号 24 / Word Cloud with Sentiment</p>
+    </div>
+    <dl class="dossier">
+      <div class="kv"><dt>数据类型</dt><dd>Sentiment / Emotion</dd></div>
+      <div class="kv"><dt>首选图型</dt><dd>Word Cloud with Sentiment</dd></div>
+      <div class="kv"><dt>备选图型</dt><dd>Sentiment Arc / Radar Chart</dd></div>
+      <div class="kv"><dt>数据量阈值</dt><dd>50 到 5000 词最优 / 超过 5000 先 top-N 过滤 / 移动端避免使用</dd></div>
+      <div class="kv"><dt>适用场景</dt><dd>NLP 输出可视化 / 文本语料情感的探索式分析 / 频次加权的关键词总览</dd></div>
+      <div class="kv"><dt>不适用场景</dt><dd>需要精确数值 (字号天生不精确) / 读屏环境 / 语料少于 50 条</dd></div>
+      <div class="kv"><dt>色彩指南</dt><dd>正面 #22C55E / 负面 #EF4444 / 中性 #94A3B8 / 字号映射词频</dd></div>
+      <div class="kv"><dt>无障碍风险</dt><dd>risk:high (官方标注) / 后备给足才可用</dd></div>
+      <div class="kv"><dt>无障碍要求</dt><dd>每个词 / 频次 / 情感都以文本暴露 / 尺寸与颜色仅为补充</dd></div>
+      <div class="kv"><dt>无障碍后备</dt><dd>可排序词条表 + 情感摘要 / 键盘聚焦读词详情 / Space 与 Enter 过滤</dd></div>
+      <div class="kv"><dt>库推荐</dt><dd>D3-cloud / Highcharts / Nivo (本页为手工排布示范)</dd></div>
+      <div class="kv"><dt>交互级别</dt><dd>Hover + Filter</dd></div>
+      <div class="kv"><dt>关键词</dt><dd>sentiment / emotion / nlp / opinion / feeling / text-analysis / accessible chart / keyboard accessible chart</dd></div>
+    </dl>
+  </section>
+
+  <footer>
+    <span>UI 设计提示词库 / 图表图鉴 / 情感词云</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+<noscript><p style="text-align:center;color:#475569;padding:14px;">词云与数据表为纯 HTML 可直接阅读 / 情感过滤与表格排序需启用 JavaScript</p></noscript>
+<script>
+(function(){
+  'use strict';
+  var cloud = document.getElementById('cloud');
+  var status = document.getElementById('wcStatus');
+  var defaultMsg = status.textContent;
+
+  /* 悬停与键盘聚焦均在状态行读值: 词 / 情感 / 频次 / 占比 / 字号 */
+  function read(w){
+    status.textContent = w.dataset.t + ' / ' + w.dataset.s + ' / 提及 ' + w.dataset.c +
+      ' 次 / 占全部提及 ' + w.dataset.p + '% / 字号 ' + w.dataset.f + 'px';
+  }
+  cloud.addEventListener('mouseover', function(e){
+    var w = e.target.closest('.w');
+    if (w){ read(w); }
+  });
+  cloud.addEventListener('focusin', function(e){
+    var w = e.target.closest('.w');
+    if (w){ read(w); }
+  });
+  cloud.addEventListener('mouseleave', function(){
+    status.textContent = defaultMsg;
+  });
+
+  /* 情感过滤: 单选按钮组, aria-pressed, Space 与 Enter 均触发 click */
+  var fbtns = document.querySelectorAll('.fbtn');
+  Array.prototype.forEach.call(fbtns, function(btn){
+    btn.addEventListener('click', function(){
+      cloud.setAttribute('data-filter', btn.dataset.f);
+      Array.prototype.forEach.call(fbtns, function(b){
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+    });
+  });
+
+  /* 表格排序: 频次降序 / 情感分组 (正 -> 负 -> 中, 组内按频次) */
+  var tbody = document.querySelector('#dt tbody');
+  var rows = Array.prototype.slice.call(tbody.rows);
+  var gw = { p: 0, n: 1, u: 2 };
+  var sbtns = document.querySelectorAll('.sbtn');
+  Array.prototype.forEach.call(sbtns, function(btn){
+    btn.addEventListener('click', function(){
+      var mode = btn.dataset.mode;
+      rows.sort(function(a, b){
+        if (mode === 'group' && a.dataset.g !== b.dataset.g){
+          return gw[a.dataset.g] - gw[b.dataset.g];
+        }
+        return Number(b.dataset.c) - Number(a.dataset.c);
+      });
+      rows.forEach(function(r){ tbody.appendChild(r); });
+      Array.prototype.forEach.call(sbtns, function(b){
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

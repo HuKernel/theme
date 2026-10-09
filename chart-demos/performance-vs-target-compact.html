@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="图表图鉴第 18 号: Performance vs Target (Compact) 的子弹图设计规范, 五门店月度达成大图, 单条结构解析, 与仪表的取舍及数据表后备。">
+<title>图表图鉴 / 紧凑子弹 / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token: 纸面 #F5F7FA / 卡 #FFFFFF / 墨 #101828 / 次级 #475467 / 弱 #55677A / 线 #DEE5EE / 实测条 #1976D2 / 刻线 #111827 / 差带 #FFCDD2 / 达标带 #FFF9C4 / 优秀带 #C8E6C9 / 优秀文本 #166534 / 预警文本 #92400E / 未达标文本 #B3261E / 焦点 #1D4ED8 / 圆角 14 / 间距基数 8 / 字体 system-ui, PingFang SC, Microsoft YaHei */
+:root {
+  --paper: #F5F7FA;
+  --card: #FFFFFF;
+  --ink: #101828;
+  --sub: #475467;
+  --mute: #55677A;
+  --line: #DEE5EE;
+  --bar: #1976D2;
+  --mark: #111827;
+  --band-bad: #FFCDD2;
+  --band-ok: #FFF9C4;
+  --band-good: #C8E6C9;
+  --good: #166534;
+  --warn: #92400E;
+  --bad: #B3261E;
+  --focus: #1D4ED8;
+  --r: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+.vh {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.skip { position: absolute; left: -9999px; top: 8px; }
+.skip:focus-visible {
+  position: fixed; left: 16px; top: 12px; z-index: 10; background: #FFFFFF;
+  padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line);
+}
+a { color: #1D4ED8; text-decoration: none; border-bottom: 1px solid rgba(29,78,216,.35); }
+a:hover { border-bottom-color: #1D4ED8; }
+a:focus-visible, .b-row:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- 页头 ---------- */
+.page-head { background: var(--card); border-bottom: 1px solid var(--line); }
+.head-in { padding: 40px 0 30px; }
+.eyebrow { color: var(--sub); font-size: 13.5px; }
+.eyebrow b { color: var(--ink); font-weight: 650; }
+h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; letter-spacing: -.01em; margin: 8px 0 12px; }
+.lede { max-width: 780px; color: var(--sub); font-size: 15.5px; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.chip {
+  font-size: 13px; color: #334155; background: #EEF3F9;
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 13px;
+}
+.chip b { font-weight: 650; color: var(--ink); }
+.page-nav { display: flex; flex-wrap: wrap; gap: 4px 22px; padding: 12px 0 16px; }
+.page-nav a { font-size: 13.5px; border-bottom: none; color: var(--sub); }
+.page-nav a:hover { color: var(--focus); }
+
+/* ---------- 分节 ---------- */
+.sec { padding: 44px 0 8px; }
+.sec-head { margin-bottom: 22px; }
+.sec-no {
+  display: inline-block; font-size: 12.5px; font-weight: 700; color: var(--focus);
+  background: #EAF0FC; border-radius: 6px; padding: 2px 9px; margin-bottom: 10px;
+}
+h2 { font-size: 22px; font-weight: 750; letter-spacing: -.01em; }
+.sec-sub { color: var(--sub); max-width: 800px; margin-top: 6px; font-size: 14.5px; }
+
+/* ---------- 01 五店子弹阵列 ---------- */
+.b-panel {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 26px 26px 20px;
+}
+.b-title-row {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+  padding-bottom: 12px; border-bottom: 1px solid #EDF1F7; margin-bottom: 16px;
+}
+.b-title-row h3 { font-size: 16px; font-weight: 700; }
+.b-title-row .unit { font-size: 13px; color: var(--mute); }
+.b-row {
+  display: grid; grid-template-columns: 118px 1fr 168px; gap: 0 18px;
+  align-items: center; padding: 7px 10px; margin: 0 -10px; border-radius: 8px;
+}
+.b-row + .b-row { margin-top: 2px; }
+.b-head-row { padding-bottom: 2px; margin-bottom: 4px; }
+.b-head-row span { font-size: 12.5px; color: var(--mute); }
+.b-head-row .h-vals { text-align: right; }
+.b-name { font-size: 14.5px; font-weight: 650; }
+.b-track {
+  position: relative; height: 26px; border-radius: 4px;
+  border: 1px solid #D3DCE8; background: #FFFFFF;
+}
+.band { position: absolute; top: 0; bottom: 0; }
+.band-bad  { left: 0; width: 50%; background: var(--band-bad); }
+.band-ok   { left: 50%; width: 25%; background: var(--band-ok); }
+.band-good { left: 75%; width: 25%; background: var(--band-good); border-radius: 0 3px 3px 0; }
+.b-fill {
+  position: absolute; left: 0; top: 50%; height: 12px; margin-top: -6px;
+  width: var(--w); background: var(--bar); border-radius: 2px;
+  transform-origin: left center;
+}
+.b-target {
+  position: absolute; left: var(--t); top: -4px; bottom: -4px; width: 3px;
+  background: var(--mark); margin-left: -1.5px;
+}
+.b-vals { text-align: right; font-variant-numeric: tabular-nums; }
+.b-vals b { font-size: 15px; font-weight: 750; }
+.b-vals .u { font-size: 13px; color: var(--sub); }
+.b-rate {
+  display: inline-block; font-size: 12px; font-weight: 650; color: #334155;
+  background: #EEF3F9; border: 1px solid var(--line); border-radius: 6px;
+  padding: 1px 8px; margin-top: 3px;
+  visibility: hidden; opacity: 0; transition: opacity .15s ease;
+}
+.b-row:hover, .b-row:focus-visible { background: #F2F7FD; }
+.b-row:hover .b-rate, .b-row:focus-visible .b-rate { visibility: visible; opacity: 1; }
+.b-row:hover .b-target, .b-row:focus-visible .b-target { width: 5px; }
+/* 动效: 全页仅一次, 五条实测条一次生长, reduced-motion 降级为静态成品 */
+@media (prefers-reduced-motion: no-preference) {
+  .b-fill { transform: scaleX(0); animation: barGrow .95s cubic-bezier(.22,.68,.24,1) var(--d, 0s) forwards; }
+}
+@keyframes barGrow { to { transform: scaleX(1); } }
+.b-axis { margin-top: 6px; padding-top: 0; }
+.ax-track { position: relative; height: 22px; border-top: 1px solid #C9D4E0; }
+.ax-track span {
+  position: absolute; top: 4px; transform: translateX(-50%);
+  font-size: 12px; color: var(--mute); font-variant-numeric: tabular-nums;
+}
+.ax-track span::before {
+  content: ""; position: absolute; top: -6px; left: 50%; width: 1px; height: 5px;
+  background: #98A6B8;
+}
+.ax-track .ax-first { transform: none; }
+.ax-track .ax-first::before { left: 0; }
+.ax-track .ax-last { transform: translateX(-100%); }
+.ax-track .ax-last::before { left: auto; right: 0; }
+.b-legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px;
+  margin-top: 18px; padding-top: 14px; border-top: 1px solid #EDF1F7;
+  font-size: 13px; color: #334155;
+}
+.lg { display: inline-flex; align-items: center; gap: 7px; }
+.sw { display: inline-block; width: 16px; height: 12px; border-radius: 3px; border: 1px solid rgba(16,24,40,.14); }
+.sw-bad { background: var(--band-bad); }
+.sw-ok { background: var(--band-ok); }
+.sw-good { background: var(--band-good); }
+.sw-bar { background: var(--bar); border: none; height: 8px; }
+.sw-mk { background: var(--mark); border: none; width: 3px; height: 14px; border-radius: 1px; }
+.lg-unit { font-size: 12.5px; color: var(--mute); margin-left: auto; }
+
+/* ---------- 02 单条放大解析 ---------- */
+.anatomy-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 26px 26px 20px;
+}
+.anatomy-card svg { width: 100%; height: auto; display: block; font-family: inherit; }
+.an-title { font-size: 15px; font-weight: 700; fill: #101828; }
+.an-h { font-size: 14px; font-weight: 700; fill: #101828; }
+.an-s { font-size: 12px; fill: #475467; }
+.an-xs { font-size: 11.5px; fill: #55677A; }
+.an-zone { font-size: 13px; font-weight: 650; fill: #22303F; }
+.an-tick-lb { font-size: 12px; fill: #475467; font-variant-numeric: tabular-nums; }
+.an-bar-lb { font-size: 13px; font-weight: 700; fill: #155FA0; }
+.an-lead { stroke: #55677A; stroke-width: 1.2; fill: none; }
+.an-dot { fill: #55677A; }
+.an-caption { font-size: 13px; color: var(--sub); margin-top: 10px; }
+.an-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px;
+  margin-top: 18px; padding-top: 16px; border-top: 1px solid #EDF1F7;
+}
+.an-item { display: flex; gap: 10px; font-size: 13.5px; color: var(--sub); }
+.an-item i {
+  flex: none; width: 14px; height: 14px; margin-top: 4px; border-radius: 3px;
+  border: 1px solid rgba(16,24,40,.14);
+}
+.an-item b { color: var(--ink); font-weight: 700; }
+
+/* ---------- 03 子弹与仪表 ---------- */
+.vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
+.vs-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 22px 22px 18px;
+  display: flex; flex-direction: column;
+}
+.vs-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.vs-head h3 { font-size: 16px; font-weight: 750; }
+.vs-tag {
+  font-size: 12px; font-weight: 650; border-radius: 999px; padding: 2px 10px;
+}
+.vs-tag-win { color: #14532D; background: #E7F3EB; border: 1px solid #CBE4D4; }
+.vs-tag-yield { color: #334155; background: #EEF3F9; border: 1px solid var(--line); }
+.vs-mock { padding: 12px 0 10px; }
+.mb-row { display: grid; grid-template-columns: 52px 1fr; gap: 10px; align-items: center; }
+.mb-row + .mb-row { margin-top: 8px; }
+.mb-name { font-size: 12px; color: var(--sub); text-align: right; }
+.mb-track {
+  position: relative; height: 18px; border-radius: 3px;
+  border: 1px solid #D3DCE8; background: #FFFFFF; overflow: hidden;
+}
+.mb-track i { position: absolute; top: 0; bottom: 0; }
+.mb-track .mb-bad { left: 0; width: 50%; background: var(--band-bad); }
+.mb-track .mb-ok { left: 50%; width: 25%; background: var(--band-ok); }
+.mb-track .mb-good { left: 75%; width: 25%; background: var(--band-good); }
+.mb-track b { position: absolute; left: 0; top: 50%; height: 8px; margin-top: -4px; background: var(--bar); border-radius: 1px; }
+.mb-track u { position: absolute; top: -1px; bottom: -1px; width: 3px; background: var(--mark); margin-left: -1.5px; text-decoration: none; }
+.mg-row { display: flex; align-items: center; gap: 12px; }
+.mg-row + .mg-row { margin-top: 10px; }
+.mg-name { font-size: 12px; color: var(--sub); width: 40px; text-align: right; flex: none; }
+.mg-row svg { width: 64px; height: 40px; flex: none; }
+.mg-track { stroke: #E5EBF2; stroke-width: 9; fill: none; stroke-linecap: round; }
+.mg-val { stroke: var(--bar); stroke-width: 9; fill: none; stroke-linecap: round; }
+.mg-num { font-size: 12.5px; font-weight: 650; color: var(--ink); font-variant-numeric: tabular-nums; }
+.mg-num small { font-weight: 500; color: var(--mute); margin-left: 3px; }
+.vs-mock-cap { font-size: 12.5px; color: var(--mute); margin-top: 12px; }
+.vs-list { list-style: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EDF1F7; }
+.vs-list li {
+  position: relative; padding-left: 16px; font-size: 13.5px;
+  color: var(--sub); margin-top: 7px;
+}
+.vs-list li::before {
+  content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px;
+  border-radius: 50%; background: #98A6B8;
+}
+.vs-list li b { color: var(--ink); font-weight: 650; }
+.edge-note {
+  margin-top: 22px; background: #FBF6EA; border: 1px solid #EBDDBE;
+  border-radius: 10px; padding: 14px 18px; font-size: 13.5px; color: #5C4A21;
+}
+.edge-note b { color: #3F3113; font-weight: 700; }
+
+/* ---------- 04 数据表后备 ---------- */
+.tbl-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 24px 26px 20px;
+}
+.tbl-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 560px; }
+th, td { padding: 10px 8px; text-align: left; font-size: 13.5px; border-bottom: 1px solid #EDF1F7; }
+th {
+  font-size: 12.5px; font-weight: 650; color: var(--sub);
+  background: #F7FAFD; border-bottom: 1px solid var(--line);
+}
+tbody tr:last-child td { border-bottom: none; }
+td.name { font-weight: 650; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.st-cell { white-space: nowrap; }
+.st-chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px;
+  font-weight: 650; border-radius: 7px; padding: 2px 9px;
+}
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.st-good { color: var(--good); background: #E7F3EB; border: 1px solid #CBE4D4; }
+.st-good .dot { background: #1E7B44; }
+.st-warn { color: var(--warn); background: #FBF1E2; border: 1px solid #EAD9BC; }
+.st-warn .dot { background: #B45309; }
+.st-bad { color: var(--bad); background: #FBEAEA; border: 1px solid #EFCBCB; }
+.st-bad .dot { background: #C22B1E; }
+.summary {
+  margin-top: 16px; padding: 13px 16px; background: #F7FAFD;
+  border: 1px solid #E4EBF4; border-radius: 10px;
+  font-size: 13.5px; color: var(--sub); line-height: 1.7;
+}
+.summary b { color: var(--ink); font-weight: 700; }
+.foot-note { font-size: 12.5px; color: var(--mute); margin-top: 14px; }
+
+/* ---------- footer ---------- */
+.site-footer { border-top: 1px solid var(--line); margin-top: 48px; background: var(--card); }
+.footer-in {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 22px 22px; font-size: 13.5px; color: var(--sub);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .vs-grid { grid-template-columns: 1fr; }
+  .an-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .b-row { grid-template-columns: 1fr auto; grid-template-areas: "name vals" "track track"; row-gap: 6px; }
+  .b-name { grid-area: name; }
+  .b-vals { grid-area: vals; }
+  .b-track { grid-area: track; }
+  .b-head-row { display: none; }
+  .b-axis > span { display: none; }
+  .ax-track { grid-area: track; grid-column: 1 / -1; }
+  .b-panel, .anatomy-card, .vs-card, .tbl-card { padding: 18px 16px 14px; }
+  .lg-unit { margin-left: 0; width: 100%; }
+  .head-in { padding: 32px 0 24px; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="page-head">
+  <div class="wrap head-in">
+    <p class="eyebrow">图表图鉴 <b>第 18 号</b> / 数据形态 <b>Performance vs Target (Compact)</b></p>
+    <h1>紧凑子弹图: 一行一条, 五条排完一屏</h1>
+    <p class="lede">当看板需要同时盯住多个 KPI 的目标达成时, 子弹图用一行编码三层信息: 蓝色实测条给数值, 黑色刻线给目标, 三段底色给差 / 达标 / 优秀的定性区间。本页以五家门店 9 月销售额为样本, 与第 08 号的仪表主角页互补: 那页讲单一 KPI 的表情, 这页讲紧凑多行的纪律。</p>
+    <div class="meta-row">
+      <span class="chip"><b>最佳图表</b> 子弹图 Bullet Chart</span>
+      <span class="chip"><b>备选</b> 仪表 / 进度条</span>
+      <span class="chip"><b>理想量级</b> 3-10 条</span>
+      <span class="chip"><b>无障碍风险</b> 低</span>
+      <span class="chip"><b>交互层级</b> 悬停</span>
+      <span class="chip"><b>推荐实现</b> D3.js / Plotly / 手写 SVG</span>
+    </div>
+    <nav class="page-nav" aria-label="本页导航">
+      <a href="#s1">五店总览</a>
+      <a href="#s2">单条解析</a>
+      <a href="#s3">子弹与仪表</a>
+      <a href="#s4">数据后备</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="sec" id="s1">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>五店月度达成总览</h2>
+      <p class="sec-sub">同一把 0-120 万元的尺子上, 五家门店各占一行。区间带边界 60 / 90 对齐, 实测条与目标刻线可直接横向比大小。悬停或用 Tab 聚焦任一行, 会浮现该行达成率, 键盘与鼠标获得同样的信息。</p>
+    </div>
+    <div class="b-panel">
+      <div class="b-title-row">
+        <h3>门店月度销售额达成</h3>
+        <span class="unit">2026 年 9 月 / 尺度 0-120 万元 / 区间边界 60 与 90</span>
+      </div>
+      <div class="b-row b-head-row">
+        <span class="b-name">门店</span>
+        <span>区间带 / 实测条 / 目标刻线</span>
+        <span class="h-vals">实测 / 目标 (万元)</span>
+      </div>
+      <div class="b-row" tabindex="0" style="--w:80.33%; --t:76.67%; --d:.05s">
+        <div class="b-name">星澜广场店</div>
+        <div class="b-track" role="img" aria-label="星澜广场店: 实测条 96.4 万元, 目标刻线 92 万元, 实测落在优秀区间, 达成率 104.8%, 超额完成">
+          <span class="band band-bad"></span><span class="band band-ok"></span><span class="band band-good"></span>
+          <span class="b-fill"></span><span class="b-target"></span>
+        </div>
+        <div class="b-vals">
+          <div><b>96.4</b><span class="u"> / 目标 92</span></div>
+          <span class="b-rate">达成 104.8%</span>
+        </div>
+      </div>
+      <div class="b-row" tabindex="0" style="--w:73.50%; --t:75.00%; --d:.15s">
+        <div class="b-name">滨江天街店</div>
+        <div class="b-track" role="img" aria-label="滨江天街店: 实测条 88.2 万元, 目标刻线 90 万元, 实测落在达标区间, 达成率 98.0%, 未越过目标刻线">
+          <span class="band band-bad"></span><span class="band band-ok"></span><span class="band band-good"></span>
+          <span class="b-fill"></span><span class="b-target"></span>
+        </div>
+        <div class="b-vals">
+          <div><b>88.2</b><span class="u"> / 目标 90</span></div>
+          <span class="b-rate">达成 98.0%</span>
+        </div>
+      </div>
+      <div class="b-row" tabindex="0" style="--w:59.58%; --t:70.83%; --d:.25s">
+        <div class="b-name">云栖小镇店</div>
+        <div class="b-track" role="img" aria-label="云栖小镇店: 实测条 71.5 万元, 目标刻线 85 万元, 实测落在达标区间, 达成率 84.1%, 未越过目标刻线">
+          <span class="band band-bad"></span><span class="band band-ok"></span><span class="band band-good"></span>
+          <span class="b-fill"></span><span class="b-target"></span>
+        </div>
+        <div class="b-vals">
+          <div><b>71.5</b><span class="u"> / 目标 85</span></div>
+          <span class="b-rate">达成 84.1%</span>
+        </div>
+      </div>
+      <div class="b-row" tabindex="0" style="--w:45.67%; --t:66.67%; --d:.35s">
+        <div class="b-name">银泰城店</div>
+        <div class="b-track" role="img" aria-label="银泰城店: 实测条 54.8 万元, 目标刻线 80 万元, 实测落在差区间, 达成率 68.5%, 未达标">
+          <span class="band band-bad"></span><span class="band band-ok"></span><span class="band band-good"></span>
+          <span class="b-fill"></span><span class="b-target"></span>
+        </div>
+        <div class="b-vals">
+          <div><b>54.8</b><span class="u"> / 目标 80</span></div>
+          <span class="b-rate">达成 68.5%</span>
+        </div>
+      </div>
+      <div class="b-row" tabindex="0" style="--w:69.92%; --t:65.00%; --d:.45s">
+        <div class="b-name">老城南站店</div>
+        <div class="b-track" role="img" aria-label="老城南站店: 实测条 83.9 万元, 目标刻线 78 万元, 实测落在达标区间, 达成率 107.6%, 已越过目标刻线">
+          <span class="band band-bad"></span><span class="band band-ok"></span><span class="band band-good"></span>
+          <span class="b-fill"></span><span class="b-target"></span>
+        </div>
+        <div class="b-vals">
+          <div><b>83.9</b><span class="u"> / 目标 78</span></div>
+          <span class="b-rate">达成 107.6%</span>
+        </div>
+      </div>
+      <div class="b-row b-axis" aria-hidden="true">
+        <span></span>
+        <div class="ax-track">
+          <span class="ax-first" style="left:0">0</span>
+          <span style="left:25%">30</span>
+          <span style="left:50%">60</span>
+          <span style="left:75%">90</span>
+          <span class="ax-last" style="left:100%">120</span>
+        </div>
+        <span></span>
+      </div>
+      <div class="b-legend">
+        <span class="lg"><i class="sw sw-bad"></i>差区 0-60</span>
+        <span class="lg"><i class="sw sw-ok"></i>达标区 60-90</span>
+        <span class="lg"><i class="sw sw-good"></i>优秀区 90-120</span>
+        <span class="lg"><i class="sw sw-bar"></i>实测条</span>
+        <span class="lg"><i class="sw sw-mk"></i>目标刻线 3px</span>
+        <span class="lg-unit">单位: 万元 / 底部刻度与区间边界对齐</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s2">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>单条放大: 子弹图的结构词汇</h2>
+      <p class="sec-sub">取第 2 行滨江天街店放大。一条子弹图只有三样东西: 底色区间带定调, 蓝色实测条定量, 黑色刻线定目标。没有任何一项依赖纯色彩传达, 每层都有文字直标。</p>
+    </div>
+    <div class="anatomy-card">
+      <svg viewBox="0 0 780 320" role="img" aria-label="子弹图单条放大解析: 以滨江天街店为例, 蓝色实测条从 0 量至 88.2 万元, 黑色目标刻线立在 90 万元, 三段区间带分别为差区 0-60 / 达标区 60-90 / 优秀区 90-120, 底部刻度尺 0 至 120 万元">
+        <text x="50" y="34" class="an-title">滨江天街店 / 9 月销售额</text>
+        <text x="60" y="66" class="an-h">实测条</text>
+        <text x="60" y="86" class="an-s">蓝色 #1976D2 / 从 0 起量</text>
+        <text x="60" y="104" class="an-s">宽度编码实测值 88.2 万元</text>
+        <polyline class="an-lead" points="150,112 150,168"/>
+        <circle class="an-dot" cx="150" cy="168" r="2.6"/>
+        <text x="572" y="66" class="an-h">目标刻线</text>
+        <text x="572" y="86" class="an-s">黑色 3px 竖线 / 两端顶出区间带</text>
+        <text x="572" y="104" class="an-s">位置编码目标值 90 万元</text>
+        <polyline class="an-lead" points="580,112 564,124"/>
+        <rect x="50" y="140" width="340" height="56" fill="#FFCDD2"/>
+        <rect x="390" y="140" width="170" height="56" fill="#FFF9C4"/>
+        <rect x="560" y="140" width="170" height="56" fill="#C8E6C9"/>
+        <rect x="50" y="140" width="680" height="56" fill="none" stroke="#C9D4E0" stroke-width="1.5"/>
+        <rect x="50" y="155" width="500" height="26" rx="3" fill="#1976D2"/>
+        <text x="545" y="136" class="an-bar-lb" text-anchor="end">实测 88.2</text>
+        <line x1="560" y1="126" x2="560" y2="210" stroke="#111827" stroke-width="3.5"/>
+        <line x1="390" y1="198" x2="390" y2="208" class="an-lead"/>
+        <line x1="560" y1="198" x2="560" y2="208" class="an-lead"/>
+        <text x="50" y="230" class="an-h">区间带</text>
+        <text x="50" y="248" class="an-xs">三段定性底色</text>
+        <text x="220" y="230" class="an-zone" text-anchor="middle">差区 0-60</text>
+        <text x="220" y="248" class="an-xs" text-anchor="middle">#FFCDD2</text>
+        <text x="475" y="230" class="an-zone" text-anchor="middle">达标区 60-90</text>
+        <text x="475" y="248" class="an-xs" text-anchor="middle">#FFF9C4</text>
+        <text x="645" y="230" class="an-zone" text-anchor="middle">优秀区 90-120</text>
+        <text x="645" y="248" class="an-xs" text-anchor="middle">#C8E6C9</text>
+        <line x1="50" y1="266" x2="730" y2="266" stroke="#C9D4E0" stroke-width="1.5"/>
+        <line x1="50" y1="266" x2="50" y2="273" class="an-lead"/>
+        <line x1="390" y1="266" x2="390" y2="273" class="an-lead"/>
+        <line x1="560" y1="266" x2="560" y2="273" class="an-lead"/>
+        <line x1="730" y1="266" x2="730" y2="273" class="an-lead"/>
+        <text x="50" y="292" class="an-tick-lb" text-anchor="middle">0</text>
+        <text x="390" y="292" class="an-tick-lb" text-anchor="middle">60</text>
+        <text x="560" y="292" class="an-tick-lb" text-anchor="middle">90</text>
+        <text x="730" y="292" class="an-tick-lb" text-anchor="middle">120</text>
+        <text x="50" y="312" class="an-xs">刻度尺 / 单位: 万元 / 刻度 60 与 90 正是区间边界</text>
+      </svg>
+      <p class="an-caption">放大对象: 第 2 行滨江天街店。实测条终点 88.2 与刻线 90 之间只差 1.8 万元, 条未及线, 即未达目标; 但实测条大部分落在达标区底色上, 定性结论是达标区间的后半段。定量看刻线, 定性看区间, 两层互不替代。</p>
+      <div class="an-grid">
+        <div class="an-item"><i style="background:#1976D2; border:none;"></i><p><b>实测条</b>: 唯一的定量通道, 从 0 起量, 宽度即数值, 五行并列时靠它比大小。</p></div>
+        <div class="an-item"><i style="background:#111827; border:none; width:4px;"></i><p><b>目标刻线</b>: 黑色 3px 竖线, 两端顶出区间带, 与实测条终点直接对照。</p></div>
+        <div class="an-item"><i style="background:#FFF9C4;"></i><p><b>区间带</b>: 差 / 达标 / 优秀三段底色, 先回答落在哪一段, 再谈差多少。</p></div>
+        <div class="an-item"><i style="background:#F5F7FA;"></i><p><b>直标与刻度</b>: 名称 / 实测 / 目标全部直标, 刻度尺给换算基准, 色彩只是辅助。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="s3">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>子弹与仪表: 紧凑场景的取舍</h2>
+      <p class="sec-sub">同样是五个 KPI, 子弹图五行排完, 仪表却要吃掉约两倍纵向空间, 且原生不带区间带与目标刻线的对照。反过来, 单一 KPI 需要强调主角时, 仪表的表情感无可替代。</p>
+    </div>
+    <div class="vs-grid">
+      <div class="vs-card">
+        <div class="vs-head">
+          <h3>子弹图</h3>
+          <span class="vs-tag vs-tag-win">优势场景</span>
+        </div>
+        <div class="vs-mock" aria-hidden="true">
+          <div class="mb-row"><span class="mb-name">星澜</span><span class="mb-track"><i class="mb-bad"></i><i class="mb-ok"></i><i class="mb-good"></i><b style="width:80.3%"></b><u style="left:76.7%"></u></span></div>
+          <div class="mb-row"><span class="mb-name">滨江</span><span class="mb-track"><i class="mb-bad"></i><i class="mb-ok"></i><i class="mb-good"></i><b style="width:73.5%"></b><u style="left:75%"></u></span></div>
+          <div class="mb-row"><span class="mb-name">云栖</span><span class="mb-track"><i class="mb-bad"></i><i class="mb-ok"></i><i class="mb-good"></i><b style="width:59.6%"></b><u style="left:70.8%"></u></span></div>
+          <div class="mb-row"><span class="mb-name">银泰</span><span class="mb-track"><i class="mb-bad"></i><i class="mb-ok"></i><i class="mb-good"></i><b style="width:45.7%"></b><u style="left:66.7%"></u></span></div>
+          <div class="mb-row"><span class="mb-name">老城南</span><span class="mb-track"><i class="mb-bad"></i><i class="mb-ok"></i><i class="mb-good"></i><b style="width:69.9%"></b><u style="left:65%"></u></span></div>
+        </div>
+        <p class="vs-mock-cap">同样五个 KPI / 五行排完, 纵向约 140px</p>
+        <ul class="vs-list">
+          <li><b>多 KPI 并排</b>: 一页 3-10 个指标逐行排布, 高度只有仪表阵列的几分之一。</li>
+          <li><b>三层信息同屏</b>: 实测 / 目标 / 区间同时在场, 扫一眼即可排序与定位。</li>
+          <li><b>空间紧张</b>: 看板侧栏与移动端也能保住刻度可读性。</li>
+        </ul>
+      </div>
+      <div class="vs-card">
+        <div class="vs-head">
+          <h3>仪表</h3>
+          <span class="vs-tag vs-tag-yield">让位场景</span>
+        </div>
+        <div class="vs-mock" aria-hidden="true">
+          <div class="mg-row"><span class="mg-name">星澜</span><svg viewBox="0 0 64 40"><path class="mg-track" d="M6 36 A26 26 0 0 1 58 36"/><path class="mg-val" style="stroke-dasharray:81.7 999;" d="M6 36 A26 26 0 0 1 58 36"/></svg><span class="mg-num">105<small>达成率</small></span></div>
+          <div class="mg-row"><span class="mg-name">滨江</span><svg viewBox="0 0 64 40"><path class="mg-track" d="M6 36 A26 26 0 0 1 58 36"/><path class="mg-val" style="stroke-dasharray:80.0 999;" d="M6 36 A26 26 0 0 1 58 36"/></svg><span class="mg-num">98<small>达成率</small></span></div>
+          <div class="mg-row"><span class="mg-name">云栖</span><svg viewBox="0 0 64 40"><path class="mg-track" d="M6 36 A26 26 0 0 1 58 36"/><path class="mg-val" style="stroke-dasharray:68.6 999;" d="M6 36 A26 26 0 0 1 58 36"/></svg><span class="mg-num">84<small>达成率</small></span></div>
+          <div class="mg-row"><span class="mg-name">银泰</span><svg viewBox="0 0 64 40"><path class="mg-track" d="M6 36 A26 26 0 0 1 58 36"/><path class="mg-val" style="stroke-dasharray:56.4 999;" d="M6 36 A26 26 0 0 1 58 36"/></svg><span class="mg-num">69<small>达成率</small></span></div>
+          <div class="mg-row"><span class="mg-name">老城南</span><svg viewBox="0 0 64 40"><path class="mg-track" d="M6 36 A26 26 0 0 1 58 36"/><path class="mg-val" style="stroke-dasharray:81.7 999;" d="M6 36 A26 26 0 0 1 58 36"/></svg><span class="mg-num">108<small>达成率</small></span></div>
+        </div>
+        <p class="vs-mock-cap">同样五个 KPI / 纵向约 240px 起, 且区间信息缺失</p>
+        <ul class="vs-list">
+          <li><b>单一 KPI 强调</b>: 主角只有一个时, 半环的表情感比一行条更强。</li>
+          <li><b>无目标区间</b>: 数据没有明确区间划分时, 仪表去掉区间也不残缺。</li>
+          <li><b>空间充裕</b>: 高管概览页里, 仪表更适合当视觉锚点。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="edge-note">
+      <b>使用边界:</b> 官方口径为 一页并列多个 KPI / 仪表放不下的紧凑空间 / 3-10 条为理想量级时用子弹图; 单一 KPI 需要强调主角 / 数据没有明确目标区间 / KPI 少于 3 个时不要用, 改选仪表或进度条。无障碍风险评级为低, 前提是每条区间带与目标刻线都有文字直标, 色彩仅作辅助。
+    </div>
+  </section>
+
+  <section class="sec" id="s4">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>数据后备: 完整数值与状态摘要</h2>
+      <p class="sec-sub">图形之上的所有数值在此留档。屏幕阅读器与打印场景以此表为准, 表格与上方子弹阵列逐行对应。</p>
+    </div>
+    <div class="tbl-card">
+      <div class="tbl-scroll">
+        <table>
+          <caption class="vh">五家门店 2026 年 9 月销售额目标达成明细</caption>
+          <colgroup>
+            <col style="width:22%"><col style="width:14%"><col style="width:14%">
+            <col style="width:13%"><col style="width:17%"><col style="width:20%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">门店</th>
+              <th scope="col" style="text-align:right">实测 (万元)</th>
+              <th scope="col" style="text-align:right">目标 (万元)</th>
+              <th scope="col" style="text-align:right">达成率</th>
+              <th scope="col">所处区间</th>
+              <th scope="col">状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name">星澜广场店</td><td class="num">96.4</td><td class="num">92</td><td class="num">104.8%</td>
+              <td>优秀区 90-120</td>
+              <td class="st-cell"><span class="st-chip st-good"><i class="dot" aria-hidden="true"></i>超额完成</span></td>
+            </tr>
+            <tr>
+              <td class="name">滨江天街店</td><td class="num">88.2</td><td class="num">90</td><td class="num">98.0%</td>
+              <td>达标区 60-90</td>
+              <td class="st-cell"><span class="st-chip st-warn"><i class="dot" aria-hidden="true"></i>未达目标</span></td>
+            </tr>
+            <tr>
+              <td class="name">云栖小镇店</td><td class="num">71.5</td><td class="num">85</td><td class="num">84.1%</td>
+              <td>达标区 60-90</td>
+              <td class="st-cell"><span class="st-chip st-warn"><i class="dot" aria-hidden="true"></i>未达目标</span></td>
+            </tr>
+            <tr>
+              <td class="name">银泰城店</td><td class="num">54.8</td><td class="num">80</td><td class="num">68.5%</td>
+              <td>差区 0-60</td>
+              <td class="st-cell"><span class="st-chip st-bad"><i class="dot" aria-hidden="true"></i>未达标</span></td>
+            </tr>
+            <tr>
+              <td class="name">老城南站店</td><td class="num">83.9</td><td class="num">78</td><td class="num">107.6%</td>
+              <td>达标区 60-90</td>
+              <td class="st-cell"><span class="st-chip st-good"><i class="dot" aria-hidden="true"></i>超额完成</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="summary">状态摘要: 五家门店合计实测 <b>394.8 万元</b> / 合计目标 <b>425 万元</b>, 整体达成 <b>92.9%</b>; 其中 <b>2 家超额完成</b> / <b>2 家落在达标区但未越过目标刻线</b> / <b>1 家落入差区</b>, 达成率中位数 <b>98.0%</b>。注意: 落在达标区不等于未达目标, 老城南站实测 83.9 万元仍处达标区间, 却已越过 78 万元的目标刻线; 区间带负责定性, 目标刻线负责判定。</p>
+      <p class="foot-note">数据为演示样本; 推荐实现参考 D3.js / Plotly / 手写 SVG, 本页图形全部为手写 SVG 与 CSS, 未引入图表库。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-in">
+    <span>UI 设计提示词库 / 图表图鉴 / 紧凑子弹</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+</body>
+</html>

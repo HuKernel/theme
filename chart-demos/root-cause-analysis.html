@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>图表图鉴 / 根因分解 / UI 设计提示词库</title>
+<meta name="description" content="图表图鉴第 21 号：Root Cause Analysis 数据形态的最佳图形是 Decomposition Tree。以陶瓷厂废品率 8.2% 的三层分解树演示逐层追问方法论、鱼骨图对比与数据表后备。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=JetBrains+Mono:wght@500;700&display=swap');
+/* Design tokens: paper #FAF7F2 / card #FFFFFF / ink #22303A / slate #556570 / hairline #E3DACB / official blue #2563EB (regular bars) / deep #1E3A8A (root) / blue-ink #1E40AF / official red #EF4444 (hot bars, striped) / red-ink #B42318 / red-bg #FBEDEA / connectors #94A3B8 / conn-ink #64748B / track #EDF1F6 / serif Noto Serif SC + mono JetBrains Mono */
+:root {
+  --paper: #FAF7F2;
+  --card: #FFFFFF;
+  --ink: #22303A;
+  --slate: #556570;
+  --line: #E3DACB;
+  --blue: #2563EB;
+  --deep: #1E3A8A;
+  --blue-ink: #1E40AF;
+  --red: #EF4444;
+  --red-ink: #B42318;
+  --red-bg: #FBEDEA;
+  --conn: #94A3B8;
+  --conn-ink: #64748B;
+  --track: #EDF1F6;
+  --track-line: #DFE6EF;
+  --serif: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  --sans: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  background-image: radial-gradient(rgba(34,48,58,.07) 1.4px, transparent 1.4px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  line-height: 1.65;
+  padding: 40px 20px 56px;
+}
+.page { max-width: 1120px; margin: 0 auto; }
+
+a { color: var(--blue-ink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--red-ink); }
+:focus-visible { outline: 3px solid var(--red-ink); outline-offset: 3px; border-radius: 2px; }
+
+/* ============ 页眉 ============ */
+.crumb {
+  display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline;
+  font-size: 13.5px; color: var(--slate);
+  border-bottom: 1.5px solid var(--line); padding-bottom: 14px; margin-bottom: 34px;
+}
+.crumb .no {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  color: var(--paper); background: var(--deep);
+  padding: 2px 10px; border-radius: 3px; letter-spacing: .04em;
+}
+.crumb a { color: var(--slate); }
+.crumb .sep { color: var(--line); }
+
+/* ============ 标题区 ============ */
+.hero { margin-bottom: 36px; }
+.hero .kind {
+  font-family: var(--mono); font-size: 13.5px; color: var(--blue-ink);
+  margin-bottom: 10px;
+}
+h1 {
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(34px, 5.2vw, 56px); line-height: 1.15;
+  letter-spacing: .02em; margin-bottom: 14px;
+}
+h1 .alt { color: var(--blue); }
+.hero .latin {
+  font-family: var(--serif); font-style: italic; font-size: 17px;
+  color: var(--slate); margin-bottom: 18px;
+}
+.hero .latin b { color: var(--ink); font-style: normal; }
+.hero .lede { max-width: 740px; font-size: 15.5px; }
+.hero .lede b { background: linear-gradient(transparent 62%, #D7E2F5 62%, #D7E2F5 94%, transparent 94%); padding: 0 2px; }
+
+/* ============ 通用卡片 ============ */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 2px 0 rgba(34,48,58,.06);
+}
+.card-head {
+  display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline;
+  padding: 18px 24px 0;
+}
+.card-head h2 {
+  font-family: var(--serif); font-weight: 900; font-size: 21px; letter-spacing: .02em;
+}
+.card-head .sub { font-size: 13px; color: var(--slate); }
+.section-label {
+  font-family: var(--mono); font-size: 13px; color: var(--slate);
+  margin: 44px 0 14px; display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ""; flex: 1; height: 1.5px; background: var(--line); }
+
+/* ============ 主图：分解树 ============ */
+.hero-card { padding-bottom: 10px; }
+.expander { margin-left: auto; display: flex; gap: 8px; align-self: center; }
+.exp {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 600; color: var(--ink);
+  background: var(--card); border: 1.5px solid var(--line); border-radius: 6px;
+  padding: 4px 12px; cursor: pointer;
+}
+.exp:hover { border-color: var(--blue); color: var(--blue-ink); }
+.tm-meta {
+  display: flex; flex-wrap: wrap; gap: 10px 34px;
+  padding: 14px 24px 4px; font-size: 13.5px; color: var(--slate);
+}
+.tm-meta b { font-family: var(--mono); font-size: 16px; color: var(--ink); margin-right: 4px; }
+.tm-meta .hot b { color: var(--red-ink); }
+
+.tree-wrap { padding: 12px 18px 4px; }
+.ttree [hidden] { display: none !important; }
+.ttree ul.tlv { list-style: none; margin: 0; padding: 0; }
+.ttree ul.tlv:not(.root) {
+  margin-left: 14px; padding-left: 21px;
+  border-left: 2px solid var(--conn);
+}
+.ttree li { position: relative; }
+.ttree ul.tlv:not(.root) > li::before {
+  content: ''; position: absolute; left: -21px; top: 23px;
+  width: 19px; height: 2px; background: var(--conn);
+}
+.ttree ul.tlv:not(.root) > li:last-child::after {
+  content: ''; position: absolute; left: -23px; top: 24px; bottom: 0;
+  width: 2px; background: var(--card);
+}
+.tnode {
+  display: grid; grid-template-columns: minmax(150px, 208px) 1fr 62px;
+  gap: 12px; align-items: center; width: 100%; text-align: left;
+  background: none; border: 0; font: inherit; color: inherit;
+  padding: 7px 10px; margin-bottom: 7px; border-radius: 8px; cursor: pointer;
+}
+.tnode:hover { background: #F2F5FB; }
+.tnode.hot:hover { background: #FCF2EF; }
+.tt { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.tw {
+  position: relative; flex: 0 0 13px; width: 13px; height: 13px;
+  border: 1.5px solid var(--blue); border-radius: 3px;
+}
+.tw::before, .tw::after {
+  content: ''; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%); background: var(--blue);
+}
+.tw::before { width: 7px; height: 1.5px; }
+.tw::after { width: 1.5px; height: 7px; }
+.tnode[aria-expanded="true"] > .tt .tw::after { display: none; }
+.tnode.leaf .tw { border-color: var(--conn-ink); border-radius: 50%; }
+.tnode.leaf .tw::before { width: 5px; height: 5px; border-radius: 50%; background: var(--conn-ink); }
+.tnode.leaf .tw::after { display: none; }
+.tlabel { line-height: 1.35; font-weight: 600; font-size: 14.5px; min-width: 0; }
+.tsub {
+  display: block; font-style: normal; font-weight: 400;
+  font-size: 11.5px; color: var(--slate); margin-top: 1px;
+}
+.chip {
+  font-style: normal; font-size: 10.5px; font-weight: 700; white-space: nowrap;
+  color: var(--red-ink); border: 1px dashed var(--red-ink); border-radius: 3px;
+  padding: 0 4px; margin-left: 6px; vertical-align: 1px;
+}
+.track {
+  display: block; height: 16px;
+  background: var(--track); border: 1px solid var(--track-line);
+  border-radius: 4px; overflow: hidden;
+}
+.bar { display: block; height: 100%; background: var(--blue); }
+.tnode.hot .bar {
+  background-color: var(--red);
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.32) 0 4px, transparent 4px 9px);
+}
+.tnode.hot .tnum { color: var(--red-ink); }
+.tnode.hot .tw { border-color: var(--red-ink); }
+.tnode.hot .tw::before, .tnode.hot .tw::after { background: var(--red-ink); }
+.tnum {
+  font-family: var(--mono); font-weight: 700; font-size: 15.5px;
+  color: var(--blue-ink); text-align: right; white-space: nowrap;
+}
+.tnode.root { background: var(--deep); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+.tnode.root:hover { background: #1B3377; }
+.tnode.root .tlabel { font-family: var(--serif); font-weight: 900; font-size: 17px; color: #FFFFFF; }
+.tnode.root .tsub { color: rgba(255,255,255,.88); }
+.tnode.root .tnum { color: #FFFFFF; font-size: 19px; }
+.tnode.root .track { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.42); }
+.tnode.root .bar { background: #FFFFFF; }
+.tnode.root .tw { border-color: #FFFFFF; }
+.tnode.root .tw::before, .tnode.root .tw::after { background: #FFFFFF; }
+.tnode.root:focus-visible { outline-color: #FFFFFF; }
+
+/* 一次亮相：树逐层展开，播放一次 */
+@keyframes rowIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+.ttree .tnode { opacity: 0; animation: rowIn .5s cubic-bezier(.2,.75,.3,1) forwards; }
+.ttree .tnode.root { animation-delay: .05s; }
+.ttree .lv1 { animation-delay: .26s; }
+.ttree .lv2 { animation-delay: .46s; }
+.ttree .lv3 { animation-delay: .66s; }
+.ttree.settled .tnode { animation: none; opacity: 1; }
+
+/* 键盘读值详情条（A11y Fallback：聚焦读值 / Enter 与 空格 展开 / Back 收起上级） */
+.kbd-note { font-size: 12.5px; color: var(--slate); margin: 6px 24px 4px; }
+.kbd-note kbd {
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink);
+  border: 1px solid var(--line); border-bottom-width: 2.5px; border-radius: 4px;
+  padding: 0 5px; background: #fff; margin: 0 1px;
+}
+.detail {
+  margin: 10px 24px 16px;
+  border: 1.5px dashed var(--line); border-radius: 10px;
+  background: #FFFEFA;
+  padding: 12px 18px; font-size: 14px; min-height: 74px;
+}
+.detail .d-tag { font-family: var(--mono); font-size: 12px; color: var(--red-ink); margin-right: 8px; }
+.detail p { display: inline; }
+
+/* 图注：逐层追问方法论 */
+.m-cap { font-family: var(--mono); font-size: 12px; color: var(--slate); margin: 0 24px 10px; }
+.method {
+  list-style: none; display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 12px 16px; padding: 0 24px 20px;
+}
+.method li { border-top: 3px solid var(--blue); padding-top: 8px; }
+.method li.focus-step { border-top-color: var(--red); }
+.method b { display: block; font-size: 13.5px; margin-bottom: 4px; }
+.method b i {
+  font-style: normal; font-family: var(--mono); font-weight: 700; font-size: 12px;
+  color: var(--blue-ink); margin-right: 6px;
+}
+.method li.focus-step b i { color: var(--red-ink); }
+.method p { font-size: 12.5px; color: var(--slate); line-height: 1.6; }
+
+/* ============ 双栏：鱼骨迷你样 + 取舍 ============ */
+.duo { display: grid; grid-template-columns: 1.05fr 1fr; gap: 22px; align-items: stretch; }
+.duo .card { display: flex; flex-direction: column; padding-bottom: 18px; }
+.fb-note { padding: 10px 24px 4px; font-size: 13.5px; color: var(--slate); }
+.fb-wrap { padding: 2px 16px 8px; }
+.fb-wrap svg { width: 100%; height: auto; display: block; }
+.fb-cat { font-family: var(--sans); font-size: 13px; font-weight: 700; fill: #FFFFFF; }
+.fb-cat2 { font-family: var(--sans); font-size: 11.5px; fill: var(--slate); }
+.fb-cause { font-family: var(--sans); font-size: 11.5px; fill: var(--ink); }
+.fb-cap { font-family: var(--mono); font-size: 11.5px; fill: var(--slate); }
+.fb-head1 { font-family: var(--sans); font-size: 13px; font-weight: 700; fill: #FFFFFF; }
+.fb-head2 { font-family: var(--mono); font-size: 19px; font-weight: 700; fill: #FFFFFF; }
+
+.pick-list { list-style: none; padding: 6px 24px 8px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.pick-list li { border-left: 3px solid var(--blue); padding: 2px 0 2px 14px; }
+.pick-list li.fish { border-left-color: var(--conn-ink); }
+.pick-list li.dt { border-left-color: var(--deep); }
+.pick-list li.fc { border-left-color: #3E8FA6; }
+.pick-list li.no { border-left-color: var(--red); }
+.pick-list b { display: block; font-size: 15px; margin-bottom: 2px; }
+.pick-list b .en { font-family: var(--mono); font-size: 12px; color: var(--slate); font-weight: 500; margin-left: 6px; }
+.pick-list p { font-size: 13.5px; color: var(--slate); }
+.pick-final {
+  margin: 4px 24px 0; padding: 10px 16px;
+  background: #E9EEF9; border-radius: 8px;
+  font-family: var(--serif); font-weight: 600; font-size: 14.5px;
+}
+
+/* ============ 档案速查 ============ */
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 34px; padding: 10px 24px 16px; }
+.spec-grid > div {
+  display: grid; grid-template-columns: 108px 1fr; gap: 12px;
+  padding: 11px 0; border-bottom: 1px dashed var(--line);
+}
+.spec-grid > div:nth-last-child(-n+2) { border-bottom: 0; }
+.spec-grid dt { font-family: var(--mono); font-size: 12.5px; color: var(--blue-ink); padding-top: 2px; }
+.spec-grid dd { font-size: 13.5px; }
+.spec-grid dd .mono { font-family: var(--mono); font-size: 12.5px; }
+.spec-grid dd .risk {
+  display: inline-block; font-family: var(--mono); font-size: 12px;
+  color: var(--paper); background: #2F6B4F; border-radius: 3px; padding: 0 8px; margin-right: 6px;
+}
+
+/* ============ 数据表后备 ============ */
+.ftable { padding: 10px 16px 20px; }
+.frow {
+  display: grid;
+  grid-template-columns: 2.4em 1.5fr .75fr .95fr .75fr;
+  gap: 8px; align-items: baseline;
+  padding: 9px 12px;
+}
+.frow + .frow { border-top: 1px solid #F0E9DC; }
+.frow.head {
+  font-size: 12.5px; color: var(--slate);
+  border-bottom: 2px solid var(--ink); padding: 8px 12px;
+}
+.frow .c-lv { font-family: var(--mono); font-size: 13px; color: var(--slate); }
+.frow .c-node { font-weight: 600; font-size: 14.5px; }
+.frow .num { font-family: var(--mono); font-size: 14px; text-align: right; }
+.frow .c-share { font-family: var(--mono); font-size: 13.5px; color: var(--slate); text-align: right; }
+.frow.hot { background: var(--red-bg); border-radius: 6px; border-top: 0; margin-top: -1px; }
+.frow.hot + .frow { border-top: 0; }
+.frow.hot .c-node, .frow.hot .num { color: var(--red-ink); }
+.frow .flag {
+  display: inline-block; margin-left: 8px; font-size: 11.5px; font-weight: 700;
+  color: var(--red-ink); border: 1px dashed var(--red-ink); border-radius: 3px; padding: 0 5px;
+  vertical-align: 1px;
+}
+.tsum { padding: 0 24px 18px; font-size: 13.5px; color: var(--slate); }
+
+/* ============ 页脚 ============ */
+footer {
+  margin-top: 48px; padding-top: 20px;
+  border-top: 1.5px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: baseline; justify-content: space-between;
+  font-size: 13.5px; color: var(--slate);
+}
+footer .crumb-line { font-family: var(--mono); font-size: 12.5px; }
+footer a { font-weight: 600; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 900px) {
+  .duo { grid-template-columns: 1fr; }
+  .spec-grid { grid-template-columns: 1fr; }
+  .spec-grid > div:nth-last-child(-n+2) { border-bottom: 1px dashed var(--line); }
+  .spec-grid > div:last-child { border-bottom: 0; }
+  .method { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  body { padding: 28px 14px 44px; }
+  .tree-wrap { padding: 8px 10px 2px; }
+  .tnode { grid-template-columns: 1fr 56px; gap: 6px 10px; padding: 7px 8px; }
+  .tnode .track { grid-column: 1 / -1; grid-row: 2; margin-top: 3px; }
+  .tlabel { font-size: 14px; }
+  .frow { grid-template-columns: 2em 1.5fr .75fr .9fr; }
+  .frow .c-share { display: none; }
+  .frow.head .h-share { display: none; }
+  .method { grid-template-columns: 1fr; }
+  .hero .lede { font-size: 14.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .ttree .tnode { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="crumb" aria-label="面包屑">
+    <span class="no">No.21</span>
+    <span>数据形态 <b>Root Cause Analysis</b></span>
+    <span class="sep">/</span>
+    <span>最佳图形 <b>Decomposition Tree</b></span>
+    <span class="sep">/</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </nav>
+
+  <header class="hero">
+    <p class="kind">图表图鉴 / 归因与拆解卷 / 根因分解树</p>
+    <h1>根因分解<span class="alt">，把 8.2% 拆到能动手修的那一层</span></h1>
+    <p class="latin">学名：<b>Decomposition Tree</b> / 次选 Decision Tree / Flow Chart</p>
+    <p class="lede">
+      本页标本取自一家日用瓷工厂的月度质量例会：华澄陶瓷三厂 2026 年 3 月投产 250,000 件，
+      废品 20,500 件，<b>废品率 8.2%</b>。分解树按工序把这一个数字层层切开，
+      每个节点都直标件数与占父级比例，任何一层的子因相加都严格回到父节点；
+      节点可键盘聚焦读值，文末提供完整数据表后备。
+    </p>
+  </header>
+
+  <p class="section-label">主图标本 / 陶瓷废品率分解树 / 19 个节点逐层守恒</p>
+  <section class="card hero-card" aria-labelledby="treeTitle">
+    <div class="card-head">
+      <h2 id="treeTitle">陶瓷废品率分解树</h2>
+      <span class="sub">华澄陶瓷三厂 / 2026 年 3 月 / 三层钻取</span>
+      <div class="expander">
+        <button class="exp" id="expAll" type="button">全部展开</button>
+        <button class="exp" id="expNone" type="button">全部收起</button>
+      </div>
+    </div>
+    <div class="tm-meta">
+      <span><b>8.2%</b>废品率（20,500 / 250,000 件）</span>
+      <span><b>19</b>节点 / 3 层</span>
+      <span class="hot"><b>40.5%</b>最大支（成型）</span>
+      <span class="hot"><b>17.1%</b>最大单因（压制压力波动）</span>
+    </div>
+
+    <div class="tree-wrap">
+      <div class="ttree" role="group" aria-label="陶瓷废品率 8.2% 分解树，共 19 个节点。按 Enter 或空格展开与收起分支，按 Backspace 收起上级">
+        <ul class="tlv root">
+          <li>
+            <button class="tnode root" type="button" data-node="r" id="nd-r" aria-expanded="true" aria-controls="br-r">
+              <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">陶瓷废品率<i class="tsub">20,500 件 / 投产 250,000 件</i></span></span>
+              <span class="track"><span class="bar" style="width:100%"></span></span>
+              <span class="tnum">8.2%</span>
+            </button>
+            <ul class="tlv" id="br-r">
+              <li>
+                <button class="tnode lv1 hot" type="button" data-node="m" aria-expanded="true" aria-controls="br-m">
+                  <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">成型<em class="chip">主因线</em><i class="tsub">8,300 件 / 占全厂废品 40.5%</i></span></span>
+                  <span class="track"><span class="bar" style="width:40.5%"></span></span>
+                  <span class="tnum">3.3%</span>
+                </button>
+                <ul class="tlv" id="br-m">
+                  <li>
+                    <button class="tnode lv2 hot" type="button" data-node="m1" aria-expanded="true" aria-controls="br-m1">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">压制压力波动<em class="chip">主因线</em><i class="tsub">3,500 件 / 占成型支 42.2%</i></span></span>
+                      <span class="track"><span class="bar" style="width:17.1%"></span></span>
+                      <span class="tnum">1.4%</span>
+                    </button>
+                    <ul class="tlv" id="br-m1">
+                      <li>
+                        <button class="tnode lv3 hot leaf" type="button" data-node="m1a">
+                          <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">液压系统泄漏<em class="chip">主因线</em><i class="tsub">1,500 件 / 占压制压力波动 42.9%</i></span></span>
+                          <span class="track"><span class="bar" style="width:7.3%"></span></span>
+                          <span class="tnum">0.6%</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button class="tnode lv3 leaf" type="button" data-node="m1b">
+                          <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">压力传感器漂移<i class="tsub">1,100 件 / 占压制压力波动 31.4%</i></span></span>
+                          <span class="track"><span class="bar" style="width:5.4%"></span></span>
+                          <span class="tnum">0.4%</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button class="tnode lv3 leaf" type="button" data-node="m1c">
+                          <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">保压时间设置不统一<i class="tsub">900 件 / 占压制压力波动 25.7%</i></span></span>
+                          <span class="track"><span class="bar" style="width:4.4%"></span></span>
+                          <span class="tnum">0.4%</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="m2">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">模具磨损<i class="tsub">2,500 件 / 占成型支 30.1%</i></span></span>
+                      <span class="track"><span class="bar" style="width:12.2%"></span></span>
+                      <span class="tnum">1.0%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="m3">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">泥料含水波动<i class="tsub">1,500 件 / 占成型支 18.1%</i></span></span>
+                      <span class="track"><span class="bar" style="width:7.3%"></span></span>
+                      <span class="tnum">0.6%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="m4">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">脱模损伤<i class="tsub">800 件 / 占成型支 9.6%</i></span></span>
+                      <span class="track"><span class="bar" style="width:3.9%"></span></span>
+                      <span class="tnum">0.3%</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button class="tnode lv1" type="button" data-node="g" aria-expanded="true" aria-controls="br-g">
+                  <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">上釉<i class="tsub">3,950 件 / 占全厂废品 19.3%</i></span></span>
+                  <span class="track"><span class="bar" style="width:19.3%"></span></span>
+                  <span class="tnum">1.6%</span>
+                </button>
+                <ul class="tlv" id="br-g">
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="g1">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">釉层厚度不均<i class="tsub">1,750 件 / 占上釉支 44.3%</i></span></span>
+                      <span class="track"><span class="bar" style="width:8.5%"></span></span>
+                      <span class="tnum">0.7%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="g2">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">针孔<i class="tsub">1,250 件 / 占上釉支 31.6%</i></span></span>
+                      <span class="track"><span class="bar" style="width:6.1%"></span></span>
+                      <span class="tnum">0.5%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="g3">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">缺釉与釉污<i class="tsub">950 件 / 占上釉支 24.1%</i></span></span>
+                      <span class="track"><span class="bar" style="width:4.6%"></span></span>
+                      <span class="tnum">0.4%</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button class="tnode lv1" type="button" data-node="s" aria-expanded="true" aria-controls="br-s">
+                  <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">烧成<i class="tsub">6,750 件 / 占全厂废品 32.9%</i></span></span>
+                  <span class="track"><span class="bar" style="width:32.9%"></span></span>
+                  <span class="tnum">2.7%</span>
+                </button>
+                <ul class="tlv" id="br-s">
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="s1">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">温度曲线偏移<i class="tsub">3,050 件 / 占烧成支 45.2%</i></span></span>
+                      <span class="track"><span class="bar" style="width:14.9%"></span></span>
+                      <span class="tnum">1.2%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="s2">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">窑内温差<i class="tsub">2,000 件 / 占烧成支 29.6%</i></span></span>
+                      <span class="track"><span class="bar" style="width:9.8%"></span></span>
+                      <span class="tnum">0.8%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="s3">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">冷却阶段开裂<i class="tsub">1,000 件 / 占烧成支 14.8%</i></span></span>
+                      <span class="track"><span class="bar" style="width:4.9%"></span></span>
+                      <span class="tnum">0.4%</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button class="tnode lv2 leaf" type="button" data-node="s4">
+                      <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">装窑碰撞<i class="tsub">700 件 / 占烧成支 10.4%</i></span></span>
+                      <span class="track"><span class="bar" style="width:3.4%"></span></span>
+                      <span class="tnum">0.3%</span>
+                    </button>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button class="tnode lv1 leaf" type="button" data-node="o">
+                  <span class="tt"><span class="tw" aria-hidden="true"></span><span class="tlabel">其他<i class="tsub">1,500 件 / 占全厂废品 7.3% / 检验判定与转运破损等杂项</i></span></span>
+                  <span class="track"><span class="bar" style="width:7.3%"></span></span>
+                  <span class="tnum">0.6%</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="kbd-note">键盘读值：按 <kbd>Tab</kbd> 逐节点聚焦，<kbd>Enter</kbd> 或 <kbd>空格</kbd> 展开与收起该支，<kbd>Backspace</kbd> 收起上级并回到父节点，<kbd>Esc</kbd> 回总览。</p>
+    <div class="detail" role="status" aria-live="polite">
+      <span class="d-tag">总览</span><p id="detailText">3 月废品率 8.2%（20,500 / 250,000 件）。成型支贡献 40.5% 为最大支，其下压制压力波动为最大单因（3,500 件 / 占总废品 17.1%），主因线终点是液压系统泄漏。聚焦任意节点可读出该支明细。</p>
+    </div>
+
+    <p class="m-cap">图注 / 逐层追问方法论 / 五步把 8.2% 问到能动手</p>
+    <ol class="method" aria-label="逐层追问方法论五步">
+      <li>
+        <b><i>01</i>锁定口径</b>
+        <p>先钉死分子分母：废品率等于废品 20,500 件除以投产 250,000 件，得 8.2%。口径一变，整棵树作废。</p>
+      </li>
+      <li>
+        <b><i>02</i>第一刀切齐</b>
+        <p>按工序切成互斥且穷尽的四支：成型 / 上釉 / 烧成 / 其他。四支占比相加必须回到 100%，否则不许往下钻。</p>
+      </li>
+      <li class="focus-step">
+        <b><i>03</i>逐层追问</b>
+        <p>每层只问一句：这一支的差异从哪来。用停机记录与控制图选最大差异的一支继续切，其余支保持不动。</p>
+      </li>
+      <li>
+        <b><i>04</i>落到可控叶因</b>
+        <p>追到能指派责任人与参数为止：液压系统泄漏安排检修班组本周处理，能动手的深度就是树的终点。</p>
+      </li>
+      <li>
+        <b><i>05</i>守恒复核</b>
+        <p>每层子因件数与占比相加回到父节点，与文末数据表逐行对账，防止分解率对不上。</p>
+      </li>
+    </ol>
+  </section>
+
+  <p class="section-label">变体样张 / 鱼骨图对比 与 图形取舍</p>
+  <div class="duo">
+    <section class="card" aria-labelledby="fbTitle">
+      <div class="card-head">
+        <h2 id="fbTitle">鱼骨图迷你样：同一批原因词</h2>
+      </div>
+      <p class="fb-note">
+        同一场质量例会的另一块白板：按人 / 机 / 料 / 法四类穷举假设。
+        鱼骨图产出的是待验证的定性清单，不承载占比数值；主因线仍要回到分解树量化确认。
+      </p>
+      <div class="fb-wrap">
+        <svg viewBox="0 0 640 400" role="img" aria-label="鱼骨图迷你样：主骨右端为陶瓷废品率 8.2%。上侧两根鱼骨为机（设备）与料（材料），下侧两根为法（方法）与人（人员）。机骨上标液压泄漏、模具磨损、窑温漂移；料骨上标釉浆比重、泥料含水；法骨上标保压参数、装窑密度；人骨上标技能波动、交接漏检。">
+          <!-- 主骨与鱼头 -->
+          <line x1="46" y1="210" x2="494" y2="210" stroke="#22303A" stroke-width="3"/>
+          <rect x="496" y="178" width="118" height="64" rx="8" fill="#22303A"/>
+          <text class="fb-head1" x="555" y="204" text-anchor="middle">陶瓷废品率</text>
+          <text class="fb-head2" x="555" y="229" text-anchor="middle">8.2%</text>
+          <!-- 上侧骨：机 / 料 -->
+          <line x1="170" y1="210" x2="78" y2="96" stroke="#2563EB" stroke-width="2.5"/>
+          <line x1="350" y1="210" x2="258" y2="96" stroke="#2563EB" stroke-width="2.5"/>
+          <!-- 下侧骨：法 / 人 -->
+          <line x1="170" y1="210" x2="78" y2="324" stroke="#2563EB" stroke-width="2.5"/>
+          <line x1="350" y1="210" x2="258" y2="324" stroke="#2563EB" stroke-width="2.5"/>
+          <!-- 类别标签 -->
+          <rect x="55" y="66" width="46" height="26" rx="5" fill="#2563EB"/>
+          <text class="fb-cat" x="78" y="84" text-anchor="middle">机</text>
+          <text class="fb-cat2" x="108" y="84">设备</text>
+          <rect x="235" y="66" width="46" height="26" rx="5" fill="#2563EB"/>
+          <text class="fb-cat" x="258" y="84" text-anchor="middle">料</text>
+          <text class="fb-cat2" x="288" y="84">材料</text>
+          <rect x="55" y="330" width="46" height="26" rx="5" fill="#2563EB"/>
+          <text class="fb-cat" x="78" y="348" text-anchor="middle">法</text>
+          <text class="fb-cat2" x="108" y="348">方法</text>
+          <rect x="235" y="330" width="46" height="26" rx="5" fill="#2563EB"/>
+          <text class="fb-cat" x="258" y="348" text-anchor="middle">人</text>
+          <text class="fb-cat2" x="288" y="348">人员</text>
+          <!-- 机骨小刺 -->
+          <line x1="141" y1="177" x2="193" y2="177" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="143" y="171">液压泄漏</text>
+          <line x1="117" y1="150" x2="169" y2="150" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="119" y="144">模具磨损</text>
+          <line x1="93" y1="123" x2="145" y2="123" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="95" y="117">窑温漂移</text>
+          <!-- 料骨小刺 -->
+          <line x1="318" y1="174" x2="370" y2="174" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="320" y="168">釉浆比重</text>
+          <line x1="290" y1="142" x2="342" y2="142" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="292" y="136">泥料含水</text>
+          <!-- 法骨小刺 -->
+          <line x1="138" y1="250" x2="190" y2="250" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="140" y="244">保压参数</text>
+          <line x1="107" y1="288" x2="159" y2="288" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="109" y="282">装窑密度</text>
+          <!-- 人骨小刺 -->
+          <line x1="313" y1="256" x2="365" y2="256" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="315" y="250">技能波动</text>
+          <line x1="284" y1="292" x2="336" y2="292" stroke="#64748B" stroke-width="1.5"/>
+          <text class="fb-cause" x="286" y="286">交接漏检</text>
+          <!-- 注记 -->
+          <text class="fb-cap" x="320" y="386" text-anchor="middle">鱼骨图迷你样 / 定性穷举假设 / 原因词与主图同源 / 不承载占比数值</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="pickTitle">
+      <div class="card-head">
+        <h2 id="pickTitle">何时分解树，何时鱼骨</h2>
+      </div>
+      <ul class="pick-list">
+        <li>
+          <b>用分解树<span class="en">Decomposition Tree</span></b>
+          <p>指标可量化、父子因果明确，要逐层看占比并继续下钻；BI 演示与 AI 辅助拆解场景的默认答案。</p>
+        </li>
+        <li class="fish">
+          <b>用鱼骨图<span class="en">Fishbone</span></b>
+          <p>原因未明、要拉团队穷举假设的定性场合。产出是待验证的原因清单，不承载数值占比。</p>
+        </li>
+        <li class="dt">
+          <b>用决策树（次选）<span class="en">Decision Tree</span></b>
+          <p>目标是分类规则与预测：叶子是结论或类别，节点问的是判别条件，而非贡献多少。</p>
+        </li>
+        <li class="fc">
+          <b>用流程图（次选）<span class="en">Flow Chart</span></b>
+          <p>关心工序顺序与流转瓶颈，想看「先发生什么」而不是「谁贡献大」时改画流程。</p>
+        </li>
+        <li class="no">
+          <b>都不用时</b>
+          <p>没有明确父子因果（相关不等于因果），或听众只要一页结论摘要而非探索过程。</p>
+        </li>
+      </ul>
+      <p class="pick-final">判断口诀：量化下钻用分解树，穷举假设画鱼骨，规则预测上决策树，只看顺序走流程图。</p>
+    </section>
+  </div>
+
+  <p class="section-label">官方档案速查 / 选型依据 No.21</p>
+  <section class="card" aria-labelledby="specTitle">
+    <div class="card-head">
+      <h2 id="specTitle">选型档案</h2>
+      <span class="sub">依据站内图表选型数据第 21 条原文整理</span>
+    </div>
+    <dl class="spec-grid">
+      <div><dt>数据形态</dt><dd>Root Cause Analysis</dd></div>
+      <div><dt>关键词</dt><dd class="mono">root cause / decomposition / tree / drill-down / ai-split / attribution</dd></div>
+      <div><dt>最佳图形</dt><dd>Decomposition Tree</dd></div>
+      <div><dt>次选图形</dt><dd>Decision Tree / Flow Chart</dd></div>
+      <div><dt>适用场景</dt><dd>把一个指标拆成贡献因子；AI 辅助分析或 BI 下钻场景</dd></div>
+      <div><dt>不适用</dt><dd>没有清晰父子因果关系 / 听众要的是结论摘要而非探索</dd></div>
+      <div><dt>数据量阈值</dt><dd>最多 5 层；每层可见节点不超过 20 个；更深层用懒加载</dd></div>
+      <div><dt>颜色法则</dt><dd><span class="mono">正向节点 #2563EB / 负向节点 #EF4444 / 中性连接线 #94A3B8</span></dd></div>
+      <div><dt>识别冗余</dt><dd>每个节点同时标注名称与占比，另用形状与线型区分，不只靠颜色</dd></div>
+      <div><dt>无障碍风险</dt><dd><span class="risk">risk:low</span>低风险，但读屏仍需树表后备</dd></div>
+      <div><dt>交互层级</dt><dd>Drill + Expand</dd></div>
+      <div><dt>库推荐</dt><dd>Power BI（原生）/ React-Flow / Custom D3.js</dd></div>
+      <div><dt>键盘后备</dt><dd>可展开树表加根因摘要；Enter 或空格下钻展开，Back 收起；另设展开收起按钮暴露同样操作</dd></div>
+    </dl>
+  </section>
+
+  <p class="section-label">数据表后备 / 完整 19 节点数据与根因摘要</p>
+  <section class="card" aria-labelledby="tableTitle">
+    <div class="card-head">
+      <h2 id="tableTitle">分解树数据表</h2>
+      <span class="sub">树的线性文本后备，读屏与精确读数以此为准</span>
+    </div>
+    <div class="ftable" role="table" aria-label="陶瓷废品率分解树数据表，共 19 个节点">
+      <div class="frow head" role="row">
+        <span role="columnheader">层</span>
+        <span role="columnheader">节点</span>
+        <span class="num" role="columnheader">废品率</span>
+        <span class="num" role="columnheader">废品件数</span>
+        <span class="num c-share" role="columnheader">占父级</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">0</span>
+        <span class="c-node" role="cell">陶瓷废品率</span>
+        <span class="num" role="cell">8.2%</span>
+        <span class="num" role="cell">20,500</span>
+        <span class="c-share" role="cell">—</span>
+      </div>
+      <div class="frow hot" role="row">
+        <span class="c-lv" role="cell">1</span>
+        <span class="c-node" role="cell">成型<span class="flag">主因线</span></span>
+        <span class="num" role="cell">3.3%</span>
+        <span class="num" role="cell">8,300</span>
+        <span class="c-share" role="cell">40.5%</span>
+      </div>
+      <div class="frow hot" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">压制压力波动<span class="flag">主因线</span></span>
+        <span class="num" role="cell">1.4%</span>
+        <span class="num" role="cell">3,500</span>
+        <span class="c-share" role="cell">42.2%</span>
+      </div>
+      <div class="frow hot" role="row">
+        <span class="c-lv" role="cell">3</span>
+        <span class="c-node" role="cell" style="padding-left:32px">液压系统泄漏<span class="flag">主因线</span></span>
+        <span class="num" role="cell">0.6%</span>
+        <span class="num" role="cell">1,500</span>
+        <span class="c-share" role="cell">42.9%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">3</span>
+        <span class="c-node" role="cell" style="padding-left:32px">压力传感器漂移</span>
+        <span class="num" role="cell">0.4%</span>
+        <span class="num" role="cell">1,100</span>
+        <span class="c-share" role="cell">31.4%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">3</span>
+        <span class="c-node" role="cell" style="padding-left:32px">保压时间设置不统一</span>
+        <span class="num" role="cell">0.4%</span>
+        <span class="num" role="cell">900</span>
+        <span class="c-share" role="cell">25.7%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">模具磨损</span>
+        <span class="num" role="cell">1.0%</span>
+        <span class="num" role="cell">2,500</span>
+        <span class="c-share" role="cell">30.1%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">泥料含水波动</span>
+        <span class="num" role="cell">0.6%</span>
+        <span class="num" role="cell">1,500</span>
+        <span class="c-share" role="cell">18.1%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">脱模损伤</span>
+        <span class="num" role="cell">0.3%</span>
+        <span class="num" role="cell">800</span>
+        <span class="c-share" role="cell">9.6%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">1</span>
+        <span class="c-node" role="cell">上釉</span>
+        <span class="num" role="cell">1.6%</span>
+        <span class="num" role="cell">3,950</span>
+        <span class="c-share" role="cell">19.3%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">釉层厚度不均</span>
+        <span class="num" role="cell">0.7%</span>
+        <span class="num" role="cell">1,750</span>
+        <span class="c-share" role="cell">44.3%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">针孔</span>
+        <span class="num" role="cell">0.5%</span>
+        <span class="num" role="cell">1,250</span>
+        <span class="c-share" role="cell">31.6%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">缺釉与釉污</span>
+        <span class="num" role="cell">0.4%</span>
+        <span class="num" role="cell">950</span>
+        <span class="c-share" role="cell">24.1%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">1</span>
+        <span class="c-node" role="cell">烧成</span>
+        <span class="num" role="cell">2.7%</span>
+        <span class="num" role="cell">6,750</span>
+        <span class="c-share" role="cell">32.9%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">温度曲线偏移</span>
+        <span class="num" role="cell">1.2%</span>
+        <span class="num" role="cell">3,050</span>
+        <span class="c-share" role="cell">45.2%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">窑内温差</span>
+        <span class="num" role="cell">0.8%</span>
+        <span class="num" role="cell">2,000</span>
+        <span class="c-share" role="cell">29.6%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">冷却阶段开裂</span>
+        <span class="num" role="cell">0.4%</span>
+        <span class="num" role="cell">1,000</span>
+        <span class="c-share" role="cell">14.8%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">2</span>
+        <span class="c-node" role="cell" style="padding-left:16px">装窑碰撞</span>
+        <span class="num" role="cell">0.3%</span>
+        <span class="num" role="cell">700</span>
+        <span class="c-share" role="cell">10.4%</span>
+      </div>
+      <div class="frow" role="row">
+        <span class="c-lv" role="cell">1</span>
+        <span class="c-node" role="cell">其他</span>
+        <span class="num" role="cell">0.6%</span>
+        <span class="num" role="cell">1,500</span>
+        <span class="c-share" role="cell">7.3%</span>
+      </div>
+    </div>
+    <p class="tsum">
+      根因摘要：全厂 20,500 件废品中，成型支 8,300 件（40.5%）为最大支；其下压制压力波动 3,500 件
+      （占总废品 17.1%）为最大单因，继续分解为液压系统泄漏 1,500 件（7.3%）/ 压力传感器漂移 1,100 件（5.4%）/
+      保压时间设置不统一 900 件（4.4%）。本周整改以液压系统检修为第一优先级；
+      温度曲线偏移（3,050 件）列为下一轮钻取对象。各层子因件数与占比相加均回到父节点。
+    </p>
+  </section>
+
+  <footer>
+    <span class="crumb-line">UI 设计提示词库 / 图表图鉴 / 根因分解</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var OV = '3 月废品率 8.2%（20,500 / 250,000 件）。成型支贡献 40.5% 为最大支，其下压制压力波动为最大单因（3,500 件 / 占总废品 17.1%），主因线终点是液压系统泄漏。聚焦任意节点可读出该支明细。';
+  var D = {
+    r:   ['全厂口径 / 陶瓷废品率 8.2%', '投产 250,000 件，判废 20,500 件。按成型 / 上釉 / 烧成 / 其他四支分解，占全厂废品 40.5 / 19.3 / 32.9 / 7.3，合计 100%。'],
+    m:   ['第 1 层 / 成型 3.3%', '8,300 件，占全厂废品 40.5%，为最大支，略高于烧成（32.9%）。例会决定第一刀优先钻此支，四项子因合计回到 3.3%。'],
+    m1:  ['第 2 层 / 压制压力波动 1.4%', '3,500 件，占成型支 42.2%，全厂最大单因（占总废品 17.1%）。已继续钻取第三层，拆为设备侧三类原因。'],
+    m1a: ['第 3 层 / 液压系统泄漏 0.6%', '1,500 件，占压制压力波动 42.9%（占总废品 7.3%），主因线终点。检修班组本周更换 2 号压机密封件。'],
+    m1b: ['第 3 层 / 压力传感器漂移 0.4%', '1,100 件，占 31.4%。两台传感器超检定期，校准后预计可消除约六成。'],
+    m1c: ['第 3 层 / 保压时间设置不统一 0.4%', '900 件，占 25.7%。三班参数各异，统一为工艺卡锁定值后复核。'],
+    m2:  ['第 2 层 / 模具磨损 1.0%', '2,500 件，占成型支 30.1%。模龄超 8 万次的 3 套模具贡献其中六成，列入轮换计划。'],
+    m3:  ['第 2 层 / 泥料含水波动 0.6%', '1,500 件，占成型支 18.1%。练泥机出口含水率标准差由 0.4% 升至 0.9%（控制图观测）。'],
+    m4:  ['第 2 层 / 脱模损伤 0.3%', '800 件，占成型支 9.6%，该支最小子因，并入班组操作培训整改。'],
+    g:   ['第 1 层 / 上釉 1.6%', '3,950 件，占全厂废品 19.3%，第三大支。三项子因合计回到 1.6%。'],
+    g1:  ['第 2 层 / 釉层厚度不均 0.7%', '1,750 件，占上釉支 44.3%。喷釉往复速度与坯体转速不匹配，参数已重校。'],
+    g2:  ['第 2 层 / 针孔 0.5%', '1,250 件，占上釉支 31.6%。釉浆气泡未充分陈腐，延长陈腐至 48 小时的对照试验进行中。'],
+    g3:  ['第 2 层 / 缺釉与釉污 0.4%', '950 件，占上釉支 24.1%。多为釉前除尘不净，属可直接执行的操作叶因。'],
+    s:   ['第 1 层 / 烧成 2.7%', '6,750 件，占全厂废品 32.9%，仅次于成型支，为下一轮钻取候选。四项子因合计回到 2.7%。'],
+    s1:  ['第 2 层 / 温度曲线偏移 1.2%', '3,050 件，占烧成支 45.2%，与压制压力波动并为全厂两大单因，列入下轮钻取。'],
+    s2:  ['第 2 层 / 窑内温差 0.8%', '2,000 件，占烧成支 29.6%。2 号隧道窑上下温差超 12 摄氏度，挡火墙改造评估中。'],
+    s3:  ['第 2 层 / 冷却阶段开裂 0.4%', '1,000 件，占烧成支 14.8%。集中于急冷段前 40 分钟，冷却曲线待调。'],
+    s4:  ['第 2 层 / 装窑碰撞 0.3%', '700 件，占烧成支 10.4%，操作类叶因，并入装窑规程修订。'],
+    o:   ['第 1 层 / 其他 0.6%', '1,500 件，检验判定争议与转运破损等杂项。不再展开，把树深控制在 5 层阈值内。']
+  };
+  var tree = document.querySelector('.ttree');
+  var el = document.getElementById('detailText');
+  var tagEl = document.querySelector('.detail .d-tag');
+  function show(k) {
+    if (k && D[k]) { tagEl.textContent = D[k][0]; el.textContent = D[k][1]; }
+    else { tagEl.textContent = '总览'; el.textContent = OV; }
+  }
+  function setOpen(btn, open) {
+    var ul = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!ul) return;
+    ul.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  tree.querySelectorAll('.tnode').forEach(function (n) {
+    var k = n.getAttribute('data-node');
+    n.addEventListener('click', function () {
+      tree.classList.add('settled');
+      if (n.hasAttribute('aria-expanded')) { setOpen(n, n.getAttribute('aria-expanded') !== 'true'); }
+      show(k);
+    });
+    n.addEventListener('focus', function () { show(k); });
+    n.addEventListener('mouseenter', function () { show(k); });
+    n.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace') {
+        e.preventDefault();
+        var pli = n.closest('li').parentElement.closest('li');
+        if (pli) {
+          var pb = pli.querySelector(':scope > .tnode');
+          setOpen(pb, false);
+          pb.focus();
+          show(pb.getAttribute('data-node'));
+        }
+      }
+      if (e.key === 'Escape') { show(null); }
+    });
+  });
+  document.getElementById('expAll').addEventListener('click', function () {
+    tree.classList.add('settled');
+    tree.querySelectorAll('.tnode[aria-expanded]').forEach(function (b) { setOpen(b, true); });
+  });
+  document.getElementById('expNone').addEventListener('click', function () {
+    tree.classList.add('settled');
+    tree.querySelectorAll('.tnode[aria-expanded]').forEach(function (b) {
+      if (b.getAttribute('data-node') !== 'r') { setOpen(b, false); }
+    });
+  });
+  document.querySelector('.detail').addEventListener('click', function () { show(null); });
+  setTimeout(function () { tree.classList.add('settled'); }, 1600);
+})();
+</script>
+</body>
+</html>
