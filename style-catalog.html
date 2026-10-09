@@ -189,6 +189,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 
 /* 懒渲染占位 */
 .m-card.pending { content-visibility: auto; contain-intrinsic-size: auto 366px; }
+.m-card { min-width: 0; }  /* grid 1fr 轨道允许收缩到内容宽以下，防长词撑宽整页 */
 @media (max-width: 640px) { .deco { display: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
