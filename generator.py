@@ -2399,6 +2399,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
         'Bento Box Grid': 'bento.html', 'Memphis Design': 'memphis.html',
     }
     cards = []
+    cards.append('<div class="layer-head" id="layer-style"><h2>视觉风格</h2><span>79 个 · styles.csv</span></div>')
     for idx, (r, file, t) in enumerate(manifest):
         en = r['Style Category']
         zh = ZH_NAMES.get(en, en)
@@ -2423,8 +2424,12 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <div class="swatch">%s</div>
   <p class="best">%s</p>
   <div class="links">%s</div>
-  <pre class="prompt">%s</pre>
-  <button class="copy-btn" type="button">复制提示词</button>
+  <details class="prompt-box"><summary>查看提示词</summary>
+   <details class="prompt-box"><summary>查看提示词</summary>
+     <pre class="prompt">%s</pre>
+    <button class="copy-btn" type="button">复制提示词</button>
+  </details>
+  </details>
 </article>''' % ('abcd'[idx % 4], html.escape(r['Type']), status, search,
                   html.escape(zh), html.escape(en),
                   html.escape(TYPE_ZH.get(r['Type'], r['Type'])),
@@ -2448,8 +2453,12 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <div class="swatch">%s</div>
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="product-demos/%s">查看样张</a></div>
-  <pre class="prompt">%s</pre>
-  <button class="copy-btn" type="button">复制提示词</button>
+  <details class="prompt-box"><summary>查看提示词</summary>
+   <details class="prompt-box"><summary>查看提示词</summary>
+     <pre class="prompt">%s</pre>
+    <button class="copy-btn" type="button">复制提示词</button>
+  </details>
+  </details>
 </article>''' % ('abcd'[int(p['No']) % 4],
                   html.escape((p['Product Type'] + ' ' + p['Keywords'] + ' ' + p['Primary Style Recommendation'] + ' ' + LAYOUT_ZH[layout]).lower()),
                   html.escape(p['Product Type']), p['No'],
@@ -2460,6 +2469,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
                   file, html.escape(product_prompt(p, col, layout))))
 
     # 落地页结构卡（第三层：landing.csv 官方结构）
+    cards.append('<div class="layer-head" id="layer-pattern"><h2>落地页结构</h2><span>34 个 · landing.csv</span></div>')
     for l, s, file, fonts in (lentries or []):
         cards.append('''<article class="m-card s%s" data-type="pattern" data-status="pattern" data-search="%s">
   <div class="m-head">
@@ -2471,8 +2481,12 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   </div>
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="pattern-demos/%s">查看样张</a></div>
-  <pre class="prompt">%s</pre>
-  <button class="copy-btn" type="button">复制提示词</button>
+  <details class="prompt-box"><summary>查看提示词</summary>
+   <details class="prompt-box"><summary>查看提示词</summary>
+     <pre class="prompt">%s</pre>
+    <button class="copy-btn" type="button">复制提示词</button>
+  </details>
+  </details>
 </article>''' % ('abcd'[int(l['No']) % 4],
                   html.escape((l['Pattern Name'] + ' ' + l['Keywords'] + ' 落地页 结构 landing').lower()),
                   html.escape(l['Pattern Name']), l['No'],
@@ -2480,6 +2494,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
                   file, html.escape(pattern_prompt(l, s, fonts))))
 
     # 内容排版卡（第四层：html-anything 18 种内容排版风格，转写见 content_styles.py）
+    cards.append('<div class="layer-head" id="layer-content"><h2>内容排版</h2><span>18 个 · html-anything</span></div>')
     for ci, cs in enumerate(centries or []):
         cards.append('''<article class="m-card s%s" data-type="content" data-status="content" data-search="%s">
   <div class="m-head">
@@ -2491,14 +2506,19 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   </div>
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="content-demos/%s.html">查看样张</a></div>
-  <pre class="prompt">%s</pre>
-  <button class="copy-btn" type="button">复制提示词</button>
+  <details class="prompt-box"><summary>查看提示词</summary>
+   <details class="prompt-box"><summary>查看提示词</summary>
+     <pre class="prompt">%s</pre>
+    <button class="copy-btn" type="button">复制提示词</button>
+  </details>
+  </details>
 </article>''' % ('abcd'[ci % 4],
                   html.escape((cs['zh'] + ' ' + cs['en'] + ' ' + cs['use'] + ' 内容 排版 content').lower()),
                   html.escape(cs['zh']), html.escape(cs['en']),
                   html.escape(cs['use'][:110]),
                   cs['id'], html.escape(content_styles.content_prompt(cs))))
     # 产品模板卡（第五层：products.csv 官方推荐，样张手工精修，文件存在才显示）
+    cards.append('<div class="layer-head" id="layer-product"><h2>产品类型模板</h2><span>40 个 · products.csv</span></div>')
     for pi, (p, pfile) in enumerate(pentries or []):
         sw = ''.join('<i style="background:%s" title="%s"></i>' % (v, k) for k, v in p['palette'].items() if v.startswith('#'))
         cards.append('<article class="m-card s%s" data-type="product" data-status="product" data-search="%s">'
@@ -2507,8 +2527,9 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
           '<div class="swatch">%s</div>'
           '<p class="best">%s</p>'
           '<div class="links"><a class="demo-link" href="product-demos/%s">查看样张</a></div>'
-          '<pre class="prompt">%s</pre>'
-          '<button class="copy-btn" type="button">复制提示词</button></article>' % (
+          '<details class="prompt-box"><summary>查看提示词</summary>'
+          '  <pre class="prompt">%s</pre>'
+          '  <button class="copy-btn" type="button">复制提示词</button></details></article>' % (
           'abcd'[pi % 4],
           html.escape((p['name'] + ' ' + p['keywords'] + ' ' + p['primary_style'] + ' 产品 product').lower()),
           html.escape(p['name']), html.escape(p['primary_style'].split('+')[0].strip()[:22]),
@@ -2516,14 +2537,16 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
           pfile, html.escape(product_prompt(p))))
 
     # 图表图鉴卡（第六层：charts.csv 官方选型，样张手工精修，文件存在才显示）
+    cards.append('<div class="layer-head" id="layer-chart"><h2>图表图鉴</h2><span>25 个 · charts.csv</span></div>')
     for ci, (c, cfile) in enumerate(chentries or []):
         cards.append('<article class="m-card s%s" data-type="chart" data-status="chart" data-search="%s">'
           '<div class="m-head"><div><h2>%s</h2><span class="en">图表图鉴 / %s</span></div>'
           '<div class="badges"><span class="badge b-pat">图表</span></div></div>'
           '<p class="best">%s</p>'
           '<div class="links"><a class="demo-link" href="chart-demos/%s">查看样张</a></div>'
-          '<pre class="prompt">%s</pre>'
-          '<button class="copy-btn" type="button">复制提示词</button></article>' % (
+          '<details class="prompt-box"><summary>查看提示词</summary>'
+          '  <pre class="prompt">%s</pre>'
+          '  <button class="copy-btn" type="button">复制提示词</button></details></article>' % (
           'abcd'[ci % 4],
           html.escape((c['Data Type'] + ' ' + c['Keywords'] + ' ' + c['Best Chart Type'] + ' 图表 chart').lower()),
           html.escape(c['Data Type']), html.escape(c['Best Chart Type'][:24]),
@@ -2674,6 +2697,41 @@ h1 .u-teal { background: linear-gradient(transparent 60%, var(--memphis-teal) 60
 footer { margin-top: 36px; text-align: center; font-size: 13px; font-weight: 600; color: #6E6E78; }
 footer a { color: var(--memphis-purple); font-weight: 700; }
 @media (min-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* 分层锚点标题 */
+.layer-head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 14px;
+  margin: 34px 0 6px; padding-bottom: 10px; border-bottom: 4px solid var(--ink);
+  scroll-margin-top: 120px; }
+.layer-head h2 { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 26px; }
+.layer-head span { font-size: 13px; color: #6E6E78; font-weight: 500; }
+
+/* 提示词折叠盒 */
+.prompt-box { border: 2.5px dashed var(--ink); border-radius: 12px; padding: 10px 14px; margin: 12px 0; }
+.prompt-box summary { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13.5px;
+  cursor: pointer; color: var(--ink); user-select: none; }
+.prompt-box summary:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.prompt-box[open] summary { border-bottom: 2px dashed rgba(22,22,29,.25); padding-bottom: 8px; margin-bottom: 10px; }
+.prompt-box .prompt { max-height: 300px; }
+
+/* 返回顶部 */
+#to-top { position: fixed; right: 22px; bottom: 26px; z-index: 60;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--ink); color: #fff; border: 3px solid var(--ink);
+  cursor: pointer; display: none; align-items: center; justify-content: center;
+  box-shadow: 4px 4px 0 rgba(22,22,29,.25); }
+#to-top.show { display: flex; }
+#to-top:hover { transform: translate(-1px,-1px); }
+#to-top:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+
+/* 锚点导航条（sticky 工具栏内） */
+.anchor-nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
+.anchor-nav a { font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none;
+  border: 2px solid var(--ink); border-radius: 999px; padding: 4px 13px; background: #fff; }
+.anchor-nav a:hover { background: var(--memphis-yellow); }
+.anchor-nav a:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 2px; }
+
+/* 懒渲染占位 */
+.m-card.pending { content-visibility: auto; contain-intrinsic-size: auto 366px; }
 @media (max-width: 640px) { .deco { display: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
@@ -2693,6 +2751,13 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="toolbar">
     <input id="search" type="search" placeholder="搜索风格名 / 关键词 / 适用场景，如：仪表盘、glassmorphism、playful…" aria-label="搜索风格">
   </div>
+  <nav class="anchor-nav" aria-label="分区导航">
+    <a href="#layer-style">风格 79</a>
+    <a href="#layer-pattern">落地结构 34</a>
+    <a href="#layer-content">内容排版 18</a>
+    <a href="#layer-product">产品模板 40</a>
+    <a href="#layer-chart">图表图鉴 25</a>
+  </nav>
   <div class="chips" role="group" aria-label="类型筛选">
     <button class="chip on" data-f="all">全部</button>
     <button class="chip" data-f="General">通用</button>
@@ -2713,8 +2778,20 @@ __CARDS__
   </div>
   <footer>UI 设计提示词库 / Memphis Design 版 / 生成自 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max</a> 官方风格库 styles.csv（已剔除 9 个废弃风格）/ <a href="index.html">返回八版精修样张</a> / 友情链接 / <a href="https://www.lhxl.chat/" target="_blank" rel="noopener">lhxl.chat</a> / <a href="https://wordflow.lhxl.chat/download" target="_blank" rel="noopener">WordFlow 下载</a></footer>
 </div>
+<button id="to-top" type="button" aria-label="返回顶部">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 <script src="stats.js"></script>
 <script>
+// 返回顶部
+(function() {
+  var btn = document.getElementById('to-top');
+  var onScroll = function() { btn.classList.toggle('show', window.scrollY > window.innerHeight); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+// 懒渲染：卡片带 content-visibility，浏览器自动跳过屏外渲染（.pending 类在 apply() 里统一加）
 var cards = Array.prototype.slice.call(document.querySelectorAll('.m-card'));
 var searchEl = document.getElementById('search');
 var countEl = document.getElementById('count');
@@ -2727,6 +2804,7 @@ function apply() {
     var okQ = !q || c.getAttribute('data-search').indexOf(q) !== -1;
     var show = okF && okQ;
     c.classList.toggle('hidden', !show);
+    if (show) c.classList.add('pending');
     if (show) n++;
   });
   countEl.textContent = '显示 ' + n + ' / ' + cards.length + ' 个风格';
