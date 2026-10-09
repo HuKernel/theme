@@ -15,6 +15,7 @@ SESSIONS = {}  # ponytail: 在线会话存内存，进程重启即清零——�
 ONLINE_WINDOW = 300  # 5 分钟内心跳算在线
 
 
+
 def load():
     try:
         with open(DB, encoding='utf-8') as f:
@@ -30,6 +31,9 @@ def save(d):
     os.replace(tmp, DB)
 
 
+# 启动时预热内存缓存
+_cache = load()
+
 class Handler(BaseHTTPRequestHandler):
     protocol_version = 'HTTP/1.1'
 
@@ -44,7 +48,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/api/counts':
             with LOCK:
-                self._json(load())
+                self._json(_cache)
         elif self.path == '/api/online':
             with LOCK:
                 self._prune()
@@ -82,10 +86,9 @@ class Handler(BaseHTTPRequestHandler):
         if not name:
             return self._json({'error': 'bad request'}, 400)
         with LOCK:
-            d = load()
-            d[name] = d.get(name, 0) + 1
-            save(d)
-            count = d[name]
+            _cache[name] = _cache.get(name, 0) + 1
+            save(_cache)
+            count = _cache[name]
         self._json({'name': name, 'count': count})
 
     def log_message(self, *args):
