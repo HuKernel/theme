@@ -4,11 +4,15 @@
 # 存储：counts.json 文件；仅监听 127.0.0.1，由 Caddy 反代对外
 import json
 import os
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from threading import Lock
 
 DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'counts.json')
 LOCK = Lock()
+
+SESSIONS = {}  # ponytail: 在线会话存内存，进程重启即清零——“当前在线”本就是瞬时态
+ONLINE_WINDOW = 300  # 5 分钟内心跳算在线
 
 
 def load():
@@ -41,10 +45,33 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == '/api/counts':
             with LOCK:
                 self._json(load())
+        elif self.path == '/api/online':
+            with LOCK:
+                self._prune()
+                self._json({'online': len(SESSIONS)})
         else:
             self._json({'error': 'not found'}, 404)
 
+    @staticmethod
+    def _prune():
+        now = time.time()
+        for k in [k for k, v in SESSIONS.items() if now - v > ONLINE_WINDOW]:
+            SESSIONS.pop(k, None)
+
     def do_POST(self):
+        if self.path == '/api/heartbeat':
+            n = int(self.headers.get('Content-Length') or 0)
+            try:
+                sid = str(json.loads(self.rfile.read(n) or b'{}').get('sid', ''))[:64].strip()
+            except Exception:
+                sid = ''
+            if not sid:
+                return self._json({'error': 'bad request'}, 400)
+            with LOCK:
+                SESSIONS[sid] = time.time()
+                self._prune()
+                self._json({'online': len(SESSIONS)})
+            return
         if self.path != '/api/count':
             return self._json({'error': 'not found'}, 404)
         n = int(self.headers.get('Content-Length') or 0)

@@ -2612,6 +2612,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
     <a class="hero-tag" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max / 风格手册 ↗</a>
     <h1>UI 设计<span class="u-pink">提示词</span>库<br>× <span class="u-teal">一键</span>复刻</h1>
     <p class="desc">共 <b>79 种风格</b>（styles.csv）+ <b>34 种落地页结构</b>（landing.csv 官方分区顺序 / CTA 位置 / 转化建议）。用法：找模板 → <b>复制提示词</b> → 粘贴给 AI。</p>
+    <p class="online-row" style="margin-top:12px"><span class="ts-online" hidden></span></p>
   </section>
 
   <div class="toolbar">
