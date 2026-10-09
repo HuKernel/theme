@@ -142,6 +142,7 @@ h1 .u-teal { background: linear-gradient(transparent 60%, var(--memphis-teal) 60
 footer { margin-top: 36px; text-align: center; font-size: 13px; font-weight: 600; color: #6E6E78; }
 footer a { color: var(--memphis-purple); font-weight: 700; }
 @media (min-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1180px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* 分层锚点标题 */
 .layer-head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 14px;
@@ -168,12 +169,18 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 #to-top:hover { transform: translate(-1px,-1px); }
 #to-top:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
 
-/* 锚点导航条（sticky 工具栏内） */
-.anchor-nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
-.anchor-nav a { font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none;
-  border: 2px solid var(--ink); border-radius: 999px; padding: 4px 13px; background: #fff; }
-.anchor-nav a:hover { background: var(--memphis-yellow); }
-.anchor-nav a:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 2px; }
+/* 一级分区标签（横滑） */
+.tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch; padding: 4px 2px 8px; margin: 18px 0 10px; }
+.tab { flex: 0 0 auto; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14.5px;
+  border: 2.5px solid var(--ink); border-radius: 999px; padding: 8px 18px;
+  background: #fff; color: var(--ink); cursor: pointer; white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease; }
+.tab:hover { background: var(--memphis-yellow); }
+.tab.on { background: var(--ink); color: #fff; }
+.tab:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+
 
 /* 懒渲染占位 */
 .m-card.pending { content-visibility: auto; contain-intrinsic-size: auto 366px; }
@@ -196,28 +203,18 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="toolbar">
     <input id="search" type="search" placeholder="搜索风格名 / 关键词 / 适用场景，如：仪表盘、glassmorphism、playful…" aria-label="搜索风格">
   </div>
-  <nav class="anchor-nav" aria-label="分区导航">
-    <a href="#layer-style">风格 79</a>
-    <a href="#layer-pattern">落地结构 34</a>
-    <a href="#layer-content">内容排版 18</a>
-    <a href="#layer-product">产品模板 40</a>
-    <a href="#layer-chart">图表图鉴 25</a>
+
+  <nav class="tabs" id="layer-tabs" role="tablist" aria-label="模板分区">
+    <button class="tab on" data-layer="all" role="tab" aria-selected="true">全部 196</button>
+    <button class="tab" data-layer="style" role="tab" aria-selected="false">视觉风格 79</button>
+    <button class="tab" data-layer="pattern" role="tab" aria-selected="false">落地结构 34</button>
+    <button class="tab" data-layer="content" role="tab" aria-selected="false">内容排版 18</button>
+    <button class="tab" data-layer="product" role="tab" aria-selected="false">产品模板 40</button>
+    <button class="tab" data-layer="chart" role="tab" aria-selected="false">图表图鉴 25</button>
   </nav>
-  <div class="chips" role="group" aria-label="类型筛选">
-    <button class="chip on" data-f="all">全部</button>
-    <button class="chip" data-f="General">通用</button>
-    <button class="chip" data-f="Mobile">移动端</button>
-    <button class="chip" data-f="BI/Analytics">BI 分析</button>
-    <button class="chip" data-f="Platform/System">平台语言</button>
-    <button class="chip" data-f="Platform/Material">平台语言</button>
-    <button class="chip" data-f="active">仅活跃风格</button>
-    <button class="chip" data-f="pattern">落地结构</button>
-    <button class="chip" data-f="content">内容排版</button>
-    <button class="chip" data-f="product">产品模板</button>
-    <button class="chip" data-f="chart">图表图鉴</button>
-    <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
-  </div>
+  <div class="chips" id="sub-chips" role="group" aria-label="类型筛选"></div>
   <p class="count" id="count"></p>
+  <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
   <div class="grid" id="grid">
 <div class="layer-head" id="layer-style"><h2>视觉风格</h2><span>79 个 · styles.csv</span></div>
 <article class="m-card sa" data-type="BI/Analytics" data-status="active" data-search="data-dense dashboard 数据密集仪表盘 multiple charts/widgets, data tables, kpi cards, minimal padding, grid layout, space-efficient, maximum data visibility business intelligence dashboards, financial analytics, enterprise reporting, operational dashboards, data warehousing">
@@ -235,7 +232,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Business intelligence dashboards, financial analytics, enterprise reporting, operational dashboards, data warehousing</p>
   <div class="links"><a class="demo-link" href="data-dense-dashboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Data-Dense Dashboard」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -279,7 +275,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Gaming, product showcase, immersive experiences, high-end e-commerce, architectural viz, VR/AR</p>
   <div class="links"><a class="demo-link" href="3d-hyperrealism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「3D &amp; Hyperrealism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -323,7 +318,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">E-commerce, furniture, fashion, automotive, electronics, jewelry, product configurators</p>
   <div class="links"><a class="demo-link" href="3d-product-preview.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「3D Product Preview」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -367,7 +361,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">AI products, chatbots, voice assistants, copilots, AI-powered tools, conversational interfaces</p>
   <div class="links"><a class="demo-link" href="ai-native.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「AI-Native UI」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -411,7 +404,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Government, healthcare, education, inclusive products, large audience, legal compliance, public</p>
   <div class="links"><a class="demo-link" href="accessible-ethical.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Accessible &amp; Ethical」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -455,7 +447,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Creative portfolios, artist sites, indie brands, handmade products, authentic storytelling, editorial</p>
   <div class="links"><a class="demo-link" href="anti-polish-raw-aesthetic.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Anti-Polish / Raw Aesthetic」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -499,7 +490,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Modern SaaS, creative agencies, branding, music platforms, lifestyle, premium products, hero sections</p>
   <div class="links"><a class="demo-link" href="aurora.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Aurora UI」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -543,7 +533,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Dashboards, product pages, portfolios, Apple-style marketing, feature showcases, SaaS</p>
   <div class="links"><a class="demo-link" href="bento.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Bento Box Grid」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -587,7 +576,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Sustainability tech, biotech, advanced health, meditation, generative art platforms</p>
   <div class="links"><a class="demo-link" href="biomimetic-organic-2-0.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Biomimetic / Organic 2.0」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -631,7 +619,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Design portfolios, artistic projects, counter-culture brands, editorial/media sites, tech blogs</p>
   <div class="links"><a class="demo-link" href="brutalism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Brutalism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -675,7 +662,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Educational apps, children&#x27;s apps, SaaS platforms, creative tools, fun-focused, onboarding, casual games</p>
   <div class="links"><a class="demo-link" href="claymorphism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Claymorphism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -719,7 +705,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Gaming platforms, tech products, crypto apps, sci-fi applications, developer tools, entertainment</p>
   <div class="links"><a class="demo-link" href="cyberpunk-ui.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Cyberpunk UI」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -763,7 +748,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Night-mode apps, coding platforms, entertainment, eye-strain prevention, OLED devices, low-light</p>
   <div class="links"><a class="demo-link" href="dark-mode-oled.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Dark Mode (OLED)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -807,7 +791,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Dashboards, card layouts, modals, navigation, product showcases, SaaS interfaces</p>
   <div class="links"><a class="demo-link" href="dimensional-layering.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Dimensional Layering」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -851,7 +834,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Reading apps, digital newspapers, minimal journals, distraction-free writing, slow-living brands</p>
   <div class="links"><a class="demo-link" href="e-ink-paper.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「E-Ink / Paper」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -895,7 +877,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">News sites, blogs, magazines, editorial content, long-form articles, journalism, publishing</p>
   <div class="links"><a class="demo-link" href="editorial-grid-magazine.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Editorial Grid / Magazine」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -939,7 +920,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Fashion, architecture, portfolios, agency landing pages, luxury brands, editorial</p>
   <div class="links"><a class="demo-link" href="exaggerated-minimalism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Exaggerated Minimalism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -983,7 +963,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Web apps, mobile apps, cross-platform, startup MVPs, user-friendly, SaaS, dashboards, corporate</p>
   <div class="links"><a class="demo-link" href="flat-crm.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Flat Design」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1027,7 +1006,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Gen Z lifestyle brands, music artists, creative portfolios, viral marketing, fashion</p>
   <div class="links"><a class="demo-link" href="gen-z-chaos-maximalism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Gen Z Chaos / Maximalism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1071,7 +1049,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Modern SaaS, financial dashboards, high-end corporate, lifestyle apps, modal overlays, navigation</p>
   <div class="links"><a class="demo-link" href="glassmorphism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Glassmorphism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1115,7 +1092,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Sci-fi games, space tech, cybersecurity, movie props, immersive dashboards</p>
   <div class="links"><a class="demo-link" href="hud-sci-fi-fui.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「HUD / Sci-Fi FUI」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1159,7 +1135,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Public services, education, healthcare, finance, government, accessible consumer, inclusive</p>
   <div class="links"><a class="demo-link" href="inclusive-design.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Inclusive Design」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1203,7 +1178,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Creative portfolios, interactive experiences, agency sites, product showcases, gaming, entertainment</p>
   <div class="links"><a class="demo-link" href="interactive-cursor-design.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Interactive Cursor Design」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1247,7 +1221,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero sections, marketing sites, video platforms, storytelling, creative portfolios, landing pages</p>
   <div class="links"><a class="demo-link" href="kinetic-typography.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Kinetic Typography」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1291,7 +1264,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Creative agencies, music sites, youth brands, event promotion, artistic portfolios, entertainment</p>
   <div class="links"><a class="demo-link" href="memphis.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Memphis Design」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1335,7 +1307,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Mobile apps, touchscreen UIs, productivity tools, user-friendly, consumer apps, interactive components</p>
   <div class="links"><a class="demo-link" href="micro-interactions.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Micro-interactions」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1379,7 +1350,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Enterprise apps, dashboards, documentation sites, SaaS platforms, professional tools</p>
   <div class="links"><a class="demo-link" href="minimalism-swiss-style.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Minimalism &amp; Swiss Style」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1423,7 +1393,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Portfolio sites, storytelling platforms, interactive experiences, entertainment apps, creative, SaaS</p>
   <div class="links"><a class="demo-link" href="motion-driven.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Motion-Driven」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1467,7 +1436,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Wellness brands, sustainable products, artisan goods, organic food, spa/beauty, home decor</p>
   <div class="links"><a class="demo-link" href="nature-distilled.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Nature Distilled」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1511,7 +1479,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Gen Z brands, startups, creative agencies, Figma-style apps, Notion-style interfaces, tech blogs</p>
   <div class="links"><a class="demo-link" href="neubrutalism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Neubrutalism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1555,7 +1522,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Health/wellness apps, meditation platforms, fitness trackers, minimal interaction UIs</p>
   <div class="links"><a class="demo-link" href="neumorphism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Neumorphism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1599,7 +1565,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Wellness apps, sustainability brands, eco products, health apps, meditation, organic food brands</p>
   <div class="links"><a class="demo-link" href="organic-biophilic.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Organic Biophilic」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1643,7 +1608,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Brand storytelling, product launches, case studies, portfolios, annual reports, marketing campaigns</p>
   <div class="links"><a class="demo-link" href="parallax-storytelling.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Parallax Storytelling」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1687,7 +1651,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Indie games, retro tools, creative portfolios, nostalgia marketing, Web3/NFT</p>
   <div class="links"><a class="demo-link" href="pixel-art.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Pixel Art」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1731,7 +1694,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Gaming, entertainment, music platforms, tech brands, artistic projects, nostalgic, cyberpunk</p>
   <div class="links"><a class="demo-link" href="retro-futurism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Retro-Futurism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1775,7 +1737,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Legacy apps, gaming, immersive storytelling, premium products, luxury, realistic simulations, education</p>
   <div class="links"><a class="demo-link" href="skeuomorphism.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Skeuomorphism」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1819,7 +1780,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Modern enterprise apps, SaaS platforms, health/wellness, modern business tools, professional, hybrid</p>
   <div class="links"><a class="demo-link" href="soft-ui-evolution.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Soft UI Evolution」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1863,7 +1823,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Spatial computing apps, VR/AR interfaces, immersive media, futuristic dashboards</p>
   <div class="links"><a class="demo-link" href="spatial-ui-visionos.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Spatial UI (VisionOS)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1907,7 +1866,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Modern mobile apps, playful brands, entertainment, gaming UI, consumer products, interactive demos</p>
   <div class="links"><a class="demo-link" href="tactile-digital-deformable-ui.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Tactile Digital / Deformable UI」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1951,7 +1909,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Startups, creative agencies, gaming, social media, youth-focused, entertainment, consumer</p>
   <div class="links"><a class="demo-link" href="vibrant-block-based.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Vibrant &amp; Block-based」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -1995,7 +1952,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Photography portfolios, music/vinyl brands, vintage fashion, nostalgia marketing, film industry, cafes</p>
   <div class="links"><a class="demo-link" href="vintage-analog-retro-film.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Vintage Analog / Retro Film」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2039,7 +1995,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Voice assistants, accessibility apps, hands-free tools, smart home, automotive UI, cooking apps</p>
   <div class="links"><a class="demo-link" href="voice-first-multimodal.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Voice-First Multimodal」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2083,7 +2038,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Fashion brands, music platforms, Gen Z brands, nostalgia marketing, entertainment, youth-focused</p>
   <div class="links"><a class="demo-link" href="y2k-aesthetic.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Y2K Aesthetic」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2127,7 +2081,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Voice assistants, AI platforms, future-forward UX, smart home, contextual computing, ambient experiences</p>
   <div class="links"><a class="demo-link" href="zero-interface.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Zero Interface」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2171,7 +2124,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Mobile-first apps needing high personality, onboarding flows, branding-forward product screens, artisan/design brands, editorial mobile experiences</p>
   <div class="links"><a class="demo-link" href="bauhaus.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Bauhaus (包豪斯)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2215,7 +2167,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Android, Wear OS, and Pixel-aligned products using Material 3 components</p>
   <div class="links"><a class="demo-link" href="material-3-expressive-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Material 3 Expressive (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2259,7 +2210,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Apple-platform navigation, controls, and system-aligned app chrome</p>
   <div class="links"><a class="demo-link" href="liquid-glass.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Liquid Glass」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2303,7 +2253,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Creative tools, media workflows, document products, and Adobe-adjacent enterprise software</p>
   <div class="links"><a class="demo-link" href="adobe-spectrum.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Adobe Spectrum」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2347,7 +2296,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Microsoft 365, Windows, Copilot, and enterprise line-of-business tools</p>
   <div class="links"><a class="demo-link" href="fluent-2.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Fluent 2」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2391,7 +2339,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Shopify admin apps, merchant tools, checkout, customer accounts, POS, and extensions</p>
   <div class="links"><a class="demo-link" href="shopify-polaris.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Shopify Polaris」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2435,7 +2382,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Period-over-period reporting, A/B test dashboards, market comparison, competitive analysis, regional performance</p>
   <div class="links"><a class="demo-link" href="comparative-analysis-dashboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Comparative Analysis Dashboard」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2479,7 +2425,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Sales analytics, product analytics, funnel analysis, multi-dimensional data exploration, business intelligence</p>
   <div class="links"><a class="demo-link" href="drill-down-analytics.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Drill-Down Analytics」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2523,7 +2468,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">C-suite dashboards, business summary reports, decision-maker dashboards, strategic planning views</p>
   <div class="links"><a class="demo-link" href="executive-dashboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Executive Dashboard」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2567,7 +2511,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Financial reporting, accounting dashboards, portfolio tracking, budget monitoring, banking analytics</p>
   <div class="links"><a class="demo-link" href="financial-dashboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Financial Dashboard」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2611,7 +2554,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Geographical analysis, performance matrices, correlation analysis, user behavior heatmaps, temperature/intensity data</p>
   <div class="links"><a class="demo-link" href="heat-map-heatmap-style.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Heat Map &amp; Heatmap Style」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2655,7 +2597,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Forecasting dashboards, anomaly detection systems, trend prediction dashboards, AI-powered analytics, budget planning</p>
   <div class="links"><a class="demo-link" href="predictive-analytics.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Predictive Analytics」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2699,7 +2640,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">System monitoring dashboards, DevOps dashboards, real-time analytics, stock market dashboards, live event tracking</p>
   <div class="links"><a class="demo-link" href="real-time-monitoring.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Real-Time Monitoring」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2743,7 +2683,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">CRM dashboards, sales management, opportunity tracking, performance management, quota planning</p>
   <div class="links"><a class="demo-link" href="sales-intelligence-dashboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Sales Intelligence Dashboard」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2787,7 +2726,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Conversion funnel analysis, user journey tracking, engagement analytics, cohort analysis, retention tracking</p>
   <div class="links"><a class="demo-link" href="user-behavior-analytics.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「User Behavior Analytics」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2831,7 +2769,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Music platforms, gaming, tech brands, creative portfolios, nightlife, entertainment, video platforms</p>
   <div class="links"><a class="demo-link" href="chromatic-aberration-rgb-split.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Chromatic Aberration / RGB Split」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2875,7 +2812,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero sections, backgrounds, creative brands, music platforms, fashion, lifestyle, premium products</p>
   <div class="links"><a class="demo-link" href="gradient-mesh-aurora-evolved.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Gradient Mesh / Aurora Evolved」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2919,7 +2855,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Corporate sites, architecture, editorial, SaaS, museums, professional services, documentation</p>
   <div class="links"><a class="demo-link" href="swiss-modernism-2-0.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Swiss Modernism 2.0」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -2963,7 +2898,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Music platforms, gaming, creative portfolios, tech startups, entertainment, artistic projects</p>
   <div class="links"><a class="demo-link" href="vaporwave.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Vaporwave」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3007,7 +2941,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Knowledge management apps, deep reading tools, ritual-heavy personal brands, lore-heavy RPG/roleplay apps, culture-specific community platforms</p>
   <div class="links"><a class="demo-link" href="academia-scholarly-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Academia (Scholarly Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3051,7 +2984,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">DeFi dashboards, wallets, NFT marketplaces, Web3 social, metaverse utilities, high-tech fintech brands</p>
   <div class="links"><a class="demo-link" href="bitcoin-defi-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Bitcoin DeFi (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3095,7 +3027,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Creative brand heroes, reading-focused apps, event/exhibition pages, editorial mobile experiences, landing hero sections</p>
   <div class="links"><a class="demo-link" href="bold-typography-mobile-poster.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Bold Typography (Mobile Poster)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3139,7 +3070,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Children education apps, teen social products, crypto gamification, creative tools, brand mascot-led apps</p>
   <div class="links"><a class="demo-link" href="claymorphism-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Claymorphism (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3183,7 +3113,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Gaming dashboards, crypto/cyberpunk apps, sci-fi companion tools, hacker OS skins, data-heavy monitoring HUDs</p>
   <div class="links"><a class="demo-link" href="cyberpunk-mobile-hud.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Cyberpunk Mobile HUD」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3227,7 +3156,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">B2B backend management, productivity tools, government and finance mobile apps, SaaS companion apps, enterprise dashboards</p>
   <div class="links"><a class="demo-link" href="enterprise-saas-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Enterprise SaaS (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3271,7 +3199,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Cross-platform apps (iOS+Android parity), information-dense dashboards, system UI, brand illustration, onboarding flows, marketing pages, icon design</p>
   <div class="links"><a class="demo-link" href="flat-design-mobile-touch-first.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Flat Design Mobile (Touch-First)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3315,7 +3242,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Immersive storytelling apps, brand flagship mobile, music/culture platforms, sports apps, underground zines, limited-edition product drops, performance dashboards</p>
   <div class="links"><a class="demo-link" href="kinetic-brutalism-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Kinetic Brutalism (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3359,7 +3285,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Luxury fashion e-commerce mobile, editorial publications, high-end portfolio apps, experimental/avant-garde brands, digital exhibitions</p>
   <div class="links"><a class="demo-link" href="minimalist-monochrome.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Minimalist Monochrome」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3403,7 +3328,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Developer tools, pro productivity apps, fintech/trading dashboards, media/streaming platforms, AI tool interfaces, high-end gaming companion apps</p>
   <div class="links"><a class="demo-link" href="modern-dark-cinema-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Modern Dark (Cinema Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3447,7 +3371,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Creative tools, collab platforms, Gen Z marketing &amp; e-commerce, portfolio sites, sticker-book style content apps</p>
   <div class="links"><a class="demo-link" href="neo-brutalism-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Neo Brutalism (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3491,7 +3414,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Minimal hardware controls, smart home apps, aesthetic utility tools, health monitors, brand showcase pages</p>
   <div class="links"><a class="demo-link" href="neumorphism-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Neumorphism (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3535,7 +3457,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">B2B SaaS mobile dashboards, fintech apps, developer tool mobile companions, marketing analytics apps, HR/operations apps, modern business productivity</p>
   <div class="links"><a class="demo-link" href="saas-mobile-high-tech-boutique.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「SaaS Mobile (High-Tech Boutique)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3579,7 +3500,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Low-fidelity prototyping, creative brands, children/picturebook apps, education tools, journaling apps, gamified puzzles</p>
   <div class="links"><a class="demo-link" href="sketch-hand-drawn-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Sketch Hand-Drawn (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3623,7 +3543,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Developer tools, Web3/blockchain apps, geek-culture apps, ARG games, sci-fi/noir gaming companions, hacker/security tools, creative studio portfolios</p>
   <div class="links"><a class="demo-link" href="terminal-cli-mobile.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Terminal CLI (Mobile)」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3667,7 +3586,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">New Adobe-style creative and document surfaces adopting Spectrum 2</p>
   <div class="links"><a class="demo-link" href="spectrum-2.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「Spectrum 2」风格，设计实现：〔在这里写下你的页面需求与主题，主题由你确定〕
 
 ▍本页设计 token（实际使用值，直接可用）：
@@ -3708,7 +3626,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero with headline/image &gt; Value prop &gt; Key features (3-5) &gt; CTA section &gt; Footer</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l1-hero-features-cta.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Hero + Features + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -3753,7 +3670,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero &gt; Problem statement &gt; Solution overview &gt; Testimonials carousel &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l2-hero-testimonials-cta.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Hero + Testimonials + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -3799,7 +3715,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero &gt; Product video/mockup (center) &gt; Feature breakdown per section &gt; Comparison (optional) &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l3-product-demo-features.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Product Demo + Features」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -3845,7 +3760,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero headline &gt; Short description &gt; Benefit bullets (3 max) &gt; CTA &gt; Footer</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l4-minimal-single-column.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Minimal Single Column」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -3890,7 +3804,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero &gt; Step 1 (problem) &gt; Step 2 (solution) &gt; Step 3 (action) &gt; CTA progression</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l5-funnel-3-step-conversion.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Funnel (3-Step Conversion)」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -3936,7 +3849,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero &gt; Problem intro &gt; Comparison table (product vs competitors) &gt; Pricing (optional) &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l6-comparison-table-cta.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Comparison Table + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -3982,7 +3894,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (benefit headline) &gt; Lead magnet preview (ebook cover, checklist, etc) &gt; Form (minimal fields) &gt; CTA submit</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l7-lead-magnet-form.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Lead Magnet + Form」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4027,7 +3938,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (pricing headline) &gt; Price comparison cards &gt; Feature comparison table &gt; FAQ section &gt; Final CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l8-pricing-page-cta.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Pricing Page + CTA」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4073,7 +3983,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero with video background &gt; Key features overlay &gt; Benefits section &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l9-video-first-hero.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Video-First Hero」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4118,7 +4027,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Intro hook &gt; Chapter 1 (problem) &gt; Chapter 2 (journey) &gt; Chapter 3 (solution) &gt; Climax CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l10-scroll-triggered-storytelling.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Scroll-Triggered Storytelling」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4164,7 +4072,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Dynamic hero (personalized) &gt; Relevant features &gt; Tailored testimonials &gt; Smart CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l11-ai-personalization-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：AI Personalization Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4209,7 +4116,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero with countdown &gt; Product teaser/preview &gt; Email capture form &gt; Social proof (waitlist count)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l12-waitlist-coming-soon.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Waitlist/Coming Soon」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4254,7 +4160,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (problem statement) &gt; Comparison matrix (you vs competitors) &gt; Feature deep-dive &gt; Winner CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l13-comparison-table-focus.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Comparison Table Focus」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4299,7 +4204,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (value proposition) &gt; Pricing cards (3 tiers) &gt; Feature comparison &gt; FAQ &gt; Final CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l14-pricing-focused-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Pricing-Focused Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4345,7 +4249,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero with device mockup &gt; Screenshots carousel &gt; Features with icons &gt; Reviews/ratings &gt; Download CTAs</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l15-app-store-style-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：App Store Style Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4391,7 +4294,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero with search bar &gt; Popular categories &gt; FAQ accordion &gt; Contact/support CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l16-faq-documentation-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：FAQ/Documentation Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4436,7 +4338,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Full-screen interactive element &gt; Guided product tour &gt; Key benefits revealed &gt; CTA after completion</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l17-immersive-interactive-experience.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Immersive/Interactive Experience」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4481,7 +4382,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (date/location/countdown) &gt; Speakers grid &gt; Agenda/schedule &gt; Sponsors &gt; Register CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l18-event-conference-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Event/Conference Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4527,7 +4427,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (product + aggregate rating) &gt; Rating breakdown &gt; Individual reviews &gt; Buy/CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l19-product-review-ratings-focused.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Product Review/Ratings Focused」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4572,7 +4471,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (community value prop) &gt; Popular topics/categories &gt; Active members showcase &gt; Join CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l20-community-forum-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Community/Forum Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4617,7 +4515,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (problem state) &gt; Transformation slider/comparison &gt; How it works &gt; Results CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l21-before-after-transformation.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Before-After Transformation」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4662,7 +4559,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (Search focused) &gt; Categories &gt; Featured Listings &gt; Trust/Safety &gt; CTA (Become a host/seller)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l22-marketplace-directory.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Marketplace / Directory」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4708,7 +4604,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (Value Prop + Form) &gt; Recent Issues/Archives &gt; Social Proof (Subscriber count) &gt; About Author</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l23-newsletter-content-first.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Newsletter / Content First」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4753,7 +4648,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (Topic + Timer + Form) &gt; What you&#x27;ll learn &gt; Speaker Bio &gt; Urgency/Bonuses &gt; Form (again)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l24-webinar-registration.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Webinar Registration」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4799,7 +4693,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (Video/Mission) &gt; Solutions by Industry &gt; Solutions by Role &gt; Client Logos &gt; Contact Sales</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l25-enterprise-gateway.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Enterprise Gateway」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4845,7 +4738,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (Name/Role) &gt; Project Grid (Masonry) &gt; About/Philosophy &gt; Contact</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l26-portfolio-grid.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Portfolio Grid」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4890,7 +4782,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Intro (Vertical) &gt; The Journey (Horizontal Track) &gt; Detail Reveal &gt; Vertical Footer</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l27-horizontal-scroll-journey.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Horizontal Scroll Journey」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4934,7 +4825,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero &gt; Bento Grid (Key Features) &gt; Detail Cards &gt; Tech Specs &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l28-bento-grid-showcase.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Bento Grid Showcase」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -4980,7 +4870,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (Configurator) &gt; Feature Highlight (synced) &gt; Price/Specs &gt; Purchase</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l29-interactive-3d-configurator.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Interactive 3D Configurator」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -5025,7 +4914,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Prompt/Input Hero &gt; Generated Result Preview &gt; How it Works &gt; Value Prop</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l30-ai-driven-dynamic-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：AI-Driven Dynamic Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -5070,7 +4958,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (value prop) &gt; Feature grid/cards (4-6) &gt; Use cases or benefits &gt; Social proof or logos &gt; CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l31-feature-rich-showcase.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Feature-Rich Showcase」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -5116,7 +5003,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Full-bleed Hero (headline + visual) &gt; Single value prop strip &gt; Key benefit or proof &gt; Primary CTA</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l32-hero-centric-design.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Hero-Centric Design」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -5161,7 +5047,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (mission/credibility) &gt; Proof (logos, certs, stats) &gt; Solution overview &gt; Clear CTA path</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l33-trust-authority-conversion.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Trust &amp; Authority + Conversion」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -5206,7 +5091,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">Hero (product + live preview or status) &gt; Key metrics/indicators &gt; How it works &gt; CTA (Start trial / Contact)</p>
   <div class="links"><a class="demo-link" href="pattern-demos/l34-real-time-operations-landing.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请按「落地页结构：Real-Time / Operations Landing」官方模式实现落地页：〔在这里写下你的产品/需求与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列一份 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查哪一项像&quot;任何项目都会生成的默认&quot;，改掉再写码；hero 用你主题里最有特征的一个实物/场景开场，别用&quot;大数字+小标签+渐变强调&quot;的默认套路；大胆只花在一处，其余克制。
@@ -5252,7 +5136,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">个人历史与档案：购买记录、浏览/搜索历史、听歌观影、健康趋势、项目日记、年度回顾</p>
   <div class="links"><a class="demo-link" href="content-demos/timeline-story.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「时间线叙事 Timeline Story」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5286,7 +5169,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">教程、课程页、交互讲解、&quot;教我 X&quot;、任何需要引导式学习序列的页面</p>
   <div class="links"><a class="demo-link" href="content-demos/teaching.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「教学工作室 Teaching Studio」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5320,7 +5202,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">高亮摘录、个人随笔、思想笔记、文章合集、阅读清单——该被&quot;读&quot;而不是被&quot;操作&quot;的内容</p>
   <div class="links"><a class="demo-link" href="content-demos/living-essay.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「菌丝长文 Living Essay」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5354,7 +5235,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">CSV、表格、财务/后台数据、日志、工单、日历导出等结构化数据集</p>
   <div class="links"><a class="demo-link" href="content-demos/dashboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「运营控制台 Ops Dashboard」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5388,7 +5268,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">客服邮箱、邮件营销、客户成功队列、轻量产品分析——要&quot;好操作&quot;但别成重后台</p>
   <div class="links"><a class="demo-link" href="content-demos/soft-saas.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「轻软控制台 Soft SaaS」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5422,7 +5301,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">多参与者流：群聊活跃度、销售、客服、作者、玩家——&quot;谁做了多少、何时、效果如何&quot;</p>
   <div class="links"><a class="demo-link" href="content-demos/kinetic-scoreboard.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「动能计分板 Kinetic Scoreboard」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5456,7 +5334,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">收藏地点、GPX/KML 路线、旅行行程、照片地理数据、地点历史、房源清单</p>
   <div class="links"><a class="demo-link" href="content-demos/map-atlas.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「地图图集 Map Atlas」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5490,7 +5367,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">个人旅行史、网约车导出、行程日志、机场足迹——首读应是优雅的全球移动版面</p>
   <div class="links"><a class="demo-link" href="content-demos/global-travel.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「环球旅册 Global Travel」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5524,7 +5400,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">人、组织、发送者、社群、联系人、社付记录、邮件档案——关系比原始行更重要</p>
   <div class="links"><a class="demo-link" href="content-demos/network-map.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「关系图谱 Network Map」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5558,7 +5433,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">文章、阅读清单、研究合集、PDF/DOCX、法律/医疗/政策等高风险长文档</p>
   <div class="links"><a class="demo-link" href="content-demos/document.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「档案审阅 Document Review」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5592,7 +5466,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记</p>
   <div class="links"><a class="demo-link" href="content-demos/kami-reading.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「羊皮长读 Kami Reading」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5626,7 +5499,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">视觉主导的编辑页：长文、文化评论、概念笔记、设计宣言、物件档案</p>
   <div class="links"><a class="demo-link" href="content-demos/architectural-spread.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「建筑式跨页 Architectural Spread」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5660,7 +5532,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览</p>
   <div class="links"><a class="demo-link" href="content-demos/digital-eguide.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「电子指南册 Digital E-Guide」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5693,7 +5564,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">品牌策略文、创始人信、趋势解读、宣言、高管摘要、可分享的观点小卡组</p>
   <div class="links"><a class="demo-link" href="content-demos/editorial-carousel.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「编辑轮播 Editorial Carousel」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5727,7 +5597,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">用户明说终端/CLI/shell/主机/黑客/服务器控制台；CI 日志、堆栈、runbook、技术时间线</p>
   <div class="links"><a class="demo-link" href="content-demos/terminal-cli.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「终端命令行 Terminal CLI」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5761,7 +5630,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">GitHub 仓库、diff、PR 补丁、CI/构建/测试日志、堆栈跟踪等技术工件</p>
   <div class="links"><a class="demo-link" href="content-demos/developer.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「取证工作台 Developer Workbench」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5795,7 +5663,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">需求不明时的默认形态：仍要有设计感，不做文档倾倒</p>
   <div class="links"><a class="demo-link" href="content-demos/default.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「洞察简报 Insight Brief」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -5828,7 +5695,6 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <p class="best">情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3D 纪念品质感</p>
   <div class="links"><a class="demo-link" href="content-demos/love-romance-3d.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">请以「恋爱纪念 3D Keepsake 3D」内容排版风格，设计实现：〔在这里写下你的内容与主题，主题由你确定〕
 
 ▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否&quot;任何项目都会生成的默认&quot;，改掉再写码；大胆只花在这一风格最有特征的构件上，其余克制。
@@ -7051,31 +6917,86 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 })();
 // 懒渲染：卡片带 content-visibility，浏览器自动跳过屏外渲染（.pending 类在 apply() 里统一加）
 var cards = Array.prototype.slice.call(document.querySelectorAll('.m-card'));
+var heads = Array.prototype.slice.call(document.querySelectorAll('.layer-head'));
 var searchEl = document.getElementById('search');
 var countEl = document.getElementById('count');
-var curFilter = 'all';
+var tabsEl = document.getElementById('layer-tabs');
+var subEl = document.getElementById('sub-chips');
+var curLayer = 'all';
+var curSub = 'all';
+
+// 卡片所属层：风格卡 data-type 是 Type 细分，其余层直接对应
+function cardLayer(c) {
+  var t = c.getAttribute('data-type'), st = c.getAttribute('data-status');
+  if (t === 'pattern' || st === 'pattern') return 'pattern';
+  if (t === 'content' || st === 'content') return 'content';
+  if (t === 'product' || st === 'product') return 'product';
+  if (t === 'chart' || st === 'chart') return 'chart';
+  return 'style';
+}
+
+// 各层的二级筛选定义（只有风格层有子类）
+var SUBS = {
+  style: [['all', '全部'], ['General', '通用'], ['Mobile', '移动端'], ['BI/Analytics', 'BI 分析'], ['Platform/System', '平台系统'], ['Platform/Material', '平台材质'], ['active', '仅活跃']]
+};
+
+function renderSubs() {
+  var defs = SUBS[curLayer];
+  subEl.innerHTML = '';
+  if (!defs) { subEl.style.display = 'none'; return; }
+  subEl.style.display = 'flex';
+  defs.forEach(function(d, i) {
+    var b = document.createElement('button');
+    b.className = 'chip' + (curSub === d[0] ? ' on' : '');
+    b.setAttribute('data-f', d[0]);
+    b.setAttribute('type', 'button');
+    b.textContent = d[1];
+    b.addEventListener('click', function() {
+      curSub = d[0];
+      Array.prototype.forEach.call(subEl.children, function(x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      apply();
+    });
+    subEl.appendChild(b);
+  });
+}
+
 function apply() {
   var q = searchEl.value.trim().toLowerCase();
   var n = 0;
   cards.forEach(function(c) {
-    var okF = curFilter === 'all' || c.getAttribute('data-type') === curFilter || c.getAttribute('data-status') === curFilter;
+    var okLayer = curLayer === 'all' || cardLayer(c) === curLayer;
+    var okSub = curLayer !== 'style' || curSub === 'all' || c.getAttribute('data-type') === curSub || c.getAttribute('data-status') === curSub;
     var okQ = !q || c.getAttribute('data-search').indexOf(q) !== -1;
-    var show = okF && okQ;
+    var show = okLayer && okSub && okQ;
     c.classList.toggle('hidden', !show);
     if (show) c.classList.add('pending');
     if (show) n++;
   });
-  countEl.textContent = '显示 ' + n + ' / ' + cards.length + ' 个风格';
+  // 分区标题：全部层时显示全部，选中层时只留该层标题
+  heads.forEach(function(h) {
+    var id = h.id.replace('layer-', '');
+    h.classList.toggle('hidden', curLayer !== 'all' && curLayer !== id);
+  });
+  countEl.textContent = curLayer === 'all'
+    ? '显示 ' + n + ' / ' + cards.length + ' 个模板'
+    : '本区显示 ' + n + ' 个模板';
 }
 searchEl.addEventListener('input', apply);
-Array.prototype.forEach.call(document.querySelectorAll('.chip:not(.sort-chip)'), function(ch) {
-  ch.addEventListener('click', function() {
-    Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(x) { x.classList.remove('on'); });
-    ch.classList.add('on');
-    curFilter = ch.getAttribute('data-f');
+Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(t) {
+  t.addEventListener('click', function() {
+    Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(x) {
+      x.classList.remove('on'); x.setAttribute('aria-selected', 'false');
+    });
+    t.classList.add('on'); t.setAttribute('aria-selected', 'true');
+    curLayer = t.getAttribute('data-layer');
+    curSub = 'all';
+    renderSubs();
     apply();
+    window.scrollTo({ top: gridEl.getBoundingClientRect().top + window.scrollY - 140, behavior: 'auto' });
   });
 });
+renderSubs();
 Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(btn) {
   btn.addEventListener('click', function() {
     var text = btn.closest('.m-card').querySelector('.prompt').textContent;

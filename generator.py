@@ -2425,7 +2425,6 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <p class="best">%s</p>
   <div class="links">%s</div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">%s</pre>
     <button class="copy-btn" type="button">复制提示词</button>
   </details>
@@ -2454,7 +2453,6 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="product-demos/%s">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">%s</pre>
     <button class="copy-btn" type="button">复制提示词</button>
   </details>
@@ -2482,7 +2480,6 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="pattern-demos/%s">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">%s</pre>
     <button class="copy-btn" type="button">复制提示词</button>
   </details>
@@ -2507,7 +2504,6 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
   <p class="best">%s</p>
   <div class="links"><a class="demo-link" href="content-demos/%s.html">查看样张</a></div>
   <details class="prompt-box"><summary>查看提示词</summary>
-   <details class="prompt-box"><summary>查看提示词</summary>
      <pre class="prompt">%s</pre>
     <button class="copy-btn" type="button">复制提示词</button>
   </details>
@@ -2697,6 +2693,7 @@ h1 .u-teal { background: linear-gradient(transparent 60%, var(--memphis-teal) 60
 footer { margin-top: 36px; text-align: center; font-size: 13px; font-weight: 600; color: #6E6E78; }
 footer a { color: var(--memphis-purple); font-weight: 700; }
 @media (min-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1180px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* 分层锚点标题 */
 .layer-head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 14px;
@@ -2723,12 +2720,18 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 #to-top:hover { transform: translate(-1px,-1px); }
 #to-top:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
 
-/* 锚点导航条（sticky 工具栏内） */
-.anchor-nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
-.anchor-nav a { font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none;
-  border: 2px solid var(--ink); border-radius: 999px; padding: 4px 13px; background: #fff; }
-.anchor-nav a:hover { background: var(--memphis-yellow); }
-.anchor-nav a:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 2px; }
+/* 一级分区标签（横滑） */
+.tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch; padding: 4px 2px 8px; margin: 18px 0 10px; }
+.tab { flex: 0 0 auto; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14.5px;
+  border: 2.5px solid var(--ink); border-radius: 999px; padding: 8px 18px;
+  background: #fff; color: var(--ink); cursor: pointer; white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease; }
+.tab:hover { background: var(--memphis-yellow); }
+.tab.on { background: var(--ink); color: #fff; }
+.tab:focus-visible { outline: 3px solid var(--memphis-purple); outline-offset: 3px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+
 
 /* 懒渲染占位 */
 .m-card.pending { content-visibility: auto; contain-intrinsic-size: auto 366px; }
@@ -2751,28 +2754,18 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="toolbar">
     <input id="search" type="search" placeholder="搜索风格名 / 关键词 / 适用场景，如：仪表盘、glassmorphism、playful…" aria-label="搜索风格">
   </div>
-  <nav class="anchor-nav" aria-label="分区导航">
-    <a href="#layer-style">风格 79</a>
-    <a href="#layer-pattern">落地结构 34</a>
-    <a href="#layer-content">内容排版 18</a>
-    <a href="#layer-product">产品模板 40</a>
-    <a href="#layer-chart">图表图鉴 25</a>
+
+  <nav class="tabs" id="layer-tabs" role="tablist" aria-label="模板分区">
+    <button class="tab on" data-layer="all" role="tab" aria-selected="true">全部 196</button>
+    <button class="tab" data-layer="style" role="tab" aria-selected="false">视觉风格 79</button>
+    <button class="tab" data-layer="pattern" role="tab" aria-selected="false">落地结构 34</button>
+    <button class="tab" data-layer="content" role="tab" aria-selected="false">内容排版 18</button>
+    <button class="tab" data-layer="product" role="tab" aria-selected="false">产品模板 40</button>
+    <button class="tab" data-layer="chart" role="tab" aria-selected="false">图表图鉴 25</button>
   </nav>
-  <div class="chips" role="group" aria-label="类型筛选">
-    <button class="chip on" data-f="all">全部</button>
-    <button class="chip" data-f="General">通用</button>
-    <button class="chip" data-f="Mobile">移动端</button>
-    <button class="chip" data-f="BI/Analytics">BI 分析</button>
-    <button class="chip" data-f="Platform/System">平台语言</button>
-    <button class="chip" data-f="Platform/Material">平台语言</button>
-    <button class="chip" data-f="active">仅活跃风格</button>
-    <button class="chip" data-f="pattern">落地结构</button>
-    <button class="chip" data-f="content">内容排版</button>
-    <button class="chip" data-f="product">产品模板</button>
-    <button class="chip" data-f="chart">图表图鉴</button>
-    <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
-  </div>
+  <div class="chips" id="sub-chips" role="group" aria-label="类型筛选"></div>
   <p class="count" id="count"></p>
+  <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
   <div class="grid" id="grid">
 __CARDS__
   </div>
@@ -2793,31 +2786,86 @@ __CARDS__
 })();
 // 懒渲染：卡片带 content-visibility，浏览器自动跳过屏外渲染（.pending 类在 apply() 里统一加）
 var cards = Array.prototype.slice.call(document.querySelectorAll('.m-card'));
+var heads = Array.prototype.slice.call(document.querySelectorAll('.layer-head'));
 var searchEl = document.getElementById('search');
 var countEl = document.getElementById('count');
-var curFilter = 'all';
+var tabsEl = document.getElementById('layer-tabs');
+var subEl = document.getElementById('sub-chips');
+var curLayer = 'all';
+var curSub = 'all';
+
+// 卡片所属层：风格卡 data-type 是 Type 细分，其余层直接对应
+function cardLayer(c) {
+  var t = c.getAttribute('data-type'), st = c.getAttribute('data-status');
+  if (t === 'pattern' || st === 'pattern') return 'pattern';
+  if (t === 'content' || st === 'content') return 'content';
+  if (t === 'product' || st === 'product') return 'product';
+  if (t === 'chart' || st === 'chart') return 'chart';
+  return 'style';
+}
+
+// 各层的二级筛选定义（只有风格层有子类）
+var SUBS = {
+  style: [['all', '全部'], ['General', '通用'], ['Mobile', '移动端'], ['BI/Analytics', 'BI 分析'], ['Platform/System', '平台系统'], ['Platform/Material', '平台材质'], ['active', '仅活跃']]
+};
+
+function renderSubs() {
+  var defs = SUBS[curLayer];
+  subEl.innerHTML = '';
+  if (!defs) { subEl.style.display = 'none'; return; }
+  subEl.style.display = 'flex';
+  defs.forEach(function(d, i) {
+    var b = document.createElement('button');
+    b.className = 'chip' + (curSub === d[0] ? ' on' : '');
+    b.setAttribute('data-f', d[0]);
+    b.setAttribute('type', 'button');
+    b.textContent = d[1];
+    b.addEventListener('click', function() {
+      curSub = d[0];
+      Array.prototype.forEach.call(subEl.children, function(x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      apply();
+    });
+    subEl.appendChild(b);
+  });
+}
+
 function apply() {
   var q = searchEl.value.trim().toLowerCase();
   var n = 0;
   cards.forEach(function(c) {
-    var okF = curFilter === 'all' || c.getAttribute('data-type') === curFilter || c.getAttribute('data-status') === curFilter;
+    var okLayer = curLayer === 'all' || cardLayer(c) === curLayer;
+    var okSub = curLayer !== 'style' || curSub === 'all' || c.getAttribute('data-type') === curSub || c.getAttribute('data-status') === curSub;
     var okQ = !q || c.getAttribute('data-search').indexOf(q) !== -1;
-    var show = okF && okQ;
+    var show = okLayer && okSub && okQ;
     c.classList.toggle('hidden', !show);
     if (show) c.classList.add('pending');
     if (show) n++;
   });
-  countEl.textContent = '显示 ' + n + ' / ' + cards.length + ' 个风格';
+  // 分区标题：全部层时显示全部，选中层时只留该层标题
+  heads.forEach(function(h) {
+    var id = h.id.replace('layer-', '');
+    h.classList.toggle('hidden', curLayer !== 'all' && curLayer !== id);
+  });
+  countEl.textContent = curLayer === 'all'
+    ? '显示 ' + n + ' / ' + cards.length + ' 个模板'
+    : '本区显示 ' + n + ' 个模板';
 }
 searchEl.addEventListener('input', apply);
-Array.prototype.forEach.call(document.querySelectorAll('.chip:not(.sort-chip)'), function(ch) {
-  ch.addEventListener('click', function() {
-    Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(x) { x.classList.remove('on'); });
-    ch.classList.add('on');
-    curFilter = ch.getAttribute('data-f');
+Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(t) {
+  t.addEventListener('click', function() {
+    Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(x) {
+      x.classList.remove('on'); x.setAttribute('aria-selected', 'false');
+    });
+    t.classList.add('on'); t.setAttribute('aria-selected', 'true');
+    curLayer = t.getAttribute('data-layer');
+    curSub = 'all';
+    renderSubs();
     apply();
+    window.scrollTo({ top: gridEl.getBoundingClientRect().top + window.scrollY - 140, behavior: 'auto' });
   });
 });
+renderSubs();
 Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(btn) {
   btn.addEventListener('click', function() {
     var text = btn.closest('.m-card').querySelector('.prompt').textContent;
