@@ -2,139 +2,676 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Immersive/Interactive Experience — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Immersive Experience 结构 / UI 设计提示词库</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Nunito:ital,wght@0,700;0,800;0,900;1,700&display=swap');
-:root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(253,188,180,.28); --primary: #FDBCB4; --secondary: #ADD8E6;
-  --accent: #98FF98; --on-primary: #111;
-  --radius: 26px; --btn-radius: 16px;
+/* token 计划 / bg #0F1114 / panel #181C23 / line #2A303A / ink #EAF0F6 / mut #A9B2BF / dim #8B95A3 / acc #6FDDC7 / 轴色 红#FF7A70 茶#E3A857 青#7FB5FF 金粉#F49AC1 / focus #8FC1FF / 圆角 18-8px */
+:root{
+  --bg:#0F1114;
+  --panel:#181C23;
+  --panel2:#12161C;
+  --line:#2A303A;
+  --line2:#39414D;
+  --ink:#EAF0F6;
+  --mut:#A9B2BF;
+  --dim:#8B95A3;
+  --acc:#6FDDC7;
+  --f:#8FC1FF;
+  --sw-r:#FF7A70;
+  --sw-t:#E3A857;
+  --sw-b:#7FB5FF;
+  --sw-p:#F49AC1;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:radial-gradient(1100px 520px at 50% -8%,#1A2029 0%,var(--bg) 62%) no-repeat,var(--bg);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:15px;
+  line-height:1.75;
+  overflow-x:hidden;
 }
-h1, h2, h3, .num { font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 2px solid rgba(255,255,255,.65); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Nunito', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 2px solid rgba(255,255,255,.65);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+h1{font-size:clamp(28px,4vw,46px);line-height:1.25;font-weight:700}
+h2{font-size:clamp(23px,3vw,33px);line-height:1.35;font-weight:700}
+h3{font-size:17px;font-weight:700}
+p{color:var(--mut)}
+a{color:var(--acc);text-decoration:none}
+ul,ol{list-style:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--f);outline-offset:2px;border-radius:4px}
+section{scroll-margin-top:16px}
+.eyebrow{color:var(--acc);font-size:13px;font-weight:600}
+.sec-sub{max-width:640px;margin-top:10px}
+[hidden]{display:none !important}
+
+/* ---------- 首屏 / 全屏交互 ---------- */
+.hero{
+  position:relative;
+  min-height:100vh;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:24px;
+  padding:92px 0 44px;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 2px solid rgba(255,255,255,.65); border-radius: var(--radius);
-  box-shadow: inset 0 -6px 12px rgba(0,0,0,.07), inset 0 6px 12px rgba(255,255,255,.75), 0 14px 28px rgba(0,0,0,.16); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(253,188,180,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 2px solid rgba(255,255,255,.65); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.bar{position:absolute;top:20px;left:0;right:0;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700}
+.mark{width:18px;height:18px;border-radius:5px;border:2px solid var(--acc);display:inline-block;position:relative}
+.mark::after{content:"";position:absolute;left:4px;top:4px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.skip-link{
+  color:var(--mut);
+  font-size:13px;
+  border:1px solid var(--line2);
+  border-radius:999px;
+  padding:7px 16px;
+  transition:border-color .15s ease,color .15s ease;
+}
+.skip-link:hover,.skip-link:focus-visible{color:var(--ink);border-color:var(--acc)}
+.head .sub{max-width:720px;margin-top:12px}
 
+.stage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:22px;align-items:stretch}
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 2px solid rgba(255,255,255,.65); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+.kb-shell{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px 18px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  animation:rise .7s cubic-bezier(.22,.7,.25,1) both;
+}
+@keyframes rise{
+  from{opacity:0;transform:translateY(22px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+.kb-top{display:flex;justify-content:space-between;align-items:center}
+.kb-top p:first-child{font-size:12.5px;color:var(--dim)}
+.dots{display:flex;gap:6px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line2)}
+.dots i:first-child{background:#3E6A5F}
+.kb{display:grid;grid-template-columns:repeat(60,1fr);gap:4px;font-size:clamp(8px,1.32vw,13.5px)}
+.key{
+  grid-column:span calc(var(--u,1)*4);
+  height:4em;
+  border-radius:7px;
+  border:1px solid #303845;
+  background:linear-gradient(180deg,#262C36 0%,#1C212A 100%);
+  box-shadow:0 3px 0 -1px var(--c),inset 0 1px 0 rgba(255,255,255,.06);
+  color:#E7ECF3;
+  font-size:.95em;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
+}
+.key:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.14);
+  box-shadow:0 6px 0 -1px var(--c),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.key:active,.key.hit{
+  transform:translateY(2px);
+  box-shadow:0 1px 0 -1px var(--c);
+}
+.key:focus-visible{outline-offset:1px;z-index:1;position:relative}
+.key.wide{font-size:.72em}
+.key.space{font-size:.8em;letter-spacing:.35em;color:var(--dim)}
+.kb-zones{font-size:12.5px;color:var(--dim)}
 
+.rail{display:flex;flex-direction:column;gap:16px}
+.wave-panel,.panel,.dex{background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.wave-panel{padding:14px 16px}
+.p-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.p-head p:first-child{font-size:12.5px;color:var(--dim)}
+#wave-key{font-size:12.5px;color:var(--ink);font-weight:600}
+.wave{display:flex;gap:3px;height:62px;align-items:flex-end;padding:8px 10px;background:#101318;border:1px solid var(--line);border-radius:8px}
+.wave span{flex:1;min-height:4px;height:22%;border-radius:2px 2px 0 0;background:var(--c,#566070);transform-origin:bottom}
+.wave.run span{animation:wv .5s cubic-bezier(.2,.8,.25,1) both;animation-delay:calc(var(--i)*.012s)}
+@keyframes wv{0%{transform:scaleY(.12)}60%{transform:scaleY(1.06)}100%{transform:scaleY(1)}}
+.off .wave span{animation-play-state:paused}
+
+.panel{padding:16px}
+.p-kick{font-size:12.5px;color:var(--dim)}
+.spec-row1{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:2px 0 12px;flex-wrap:wrap}
+.spec-row1 h2{font-size:19px}
+#sw-type{font-size:12.5px;font-weight:600;border:1px solid var(--line2);border-radius:999px;padding:3px 10px}
+.specs{display:grid;grid-template-columns:6.4em 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.specs>*{padding:8px 12px;font-size:13.5px;background:var(--panel2)}
+.specs>*:nth-child(4n+3),.specs>*:nth-child(4n+4){background:#141922}
+.specs dt{color:var(--dim)}
+.specs dd{color:var(--ink);font-weight:600;text-align:right}
+.feel{margin-top:12px;font-size:13px;color:var(--mut)}
+.panel.spec{flex:1}
+
+/* ---------- 轴体图鉴 / 进度带 ---------- */
+.dex{
+  display:grid;
+  grid-template-columns:max-content minmax(120px,1fr) max-content max-content;
+  gap:18px;
+  align-items:center;
+  padding:14px 18px;
+}
+.dex-t{color:var(--ink);font-weight:700;font-size:13.5px;white-space:nowrap}
+.dex-bar{position:relative;height:6px;border-radius:99px;background:#20262F;overflow:hidden}
+.dex-bar b{position:absolute;top:0;bottom:0;left:0;width:0;border-radius:99px;background:linear-gradient(90deg,var(--sw-b),var(--sw-r),var(--sw-p),var(--sw-t));transition:width .4s ease}
+.dex.complete .dex-bar::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 32%,rgba(255,255,255,.4) 50%,transparent 68%);
+  animation:sweep .9s ease-out .1s 1 both;
+}
+@keyframes sweep{from{transform:translateX(-120%)}to{transform:translateX(120%)}}
+.segs{display:flex;gap:8px;flex-wrap:wrap}
+.segs li{display:grid;grid-template-columns:10px auto auto;gap:8px;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--dim);white-space:nowrap}
+.segs li i{width:8px;height:8px;border-radius:50%;background:var(--c);opacity:.4}
+.segs li em{font-style:normal}
+.segs li.on{color:var(--ink);border-color:var(--c)}
+.segs li.on i{opacity:1}
+.segs li[data-sw="b"]{--c:var(--sw-b)}
+.segs li[data-sw="r"]{--c:var(--sw-r)}
+.segs li[data-sw="p"]{--c:var(--sw-p)}
+.segs li[data-sw="t"]{--c:var(--sw-t)}
+.mini-cta{
+  color:#0C241F;background:var(--acc);border-radius:999px;
+  padding:8px 18px;font-size:13px;font-weight:700;white-space:nowrap;
+}
+.dex-hint{font-size:12.5px;color:var(--dim);margin-top:-14px;padding:0 4px}
+
+/* ---------- 引导导览 ---------- */
+#tour{padding:88px 0 64px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 18px}
+.tab{padding:10px 20px;border:1px solid var(--line2);border-radius:999px;background:#151A21;color:var(--mut);transition:color .15s ease,border-color .15s ease}
+.tab:hover{color:var(--ink);border-color:var(--acc)}
+.tab[aria-selected="true"]{background:var(--acc);border-color:var(--acc);color:#0C241F;font-weight:700}
+.tour-panel{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:30px;
+  padding:28px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+.tp-left h3{font-size:20px;margin-bottom:10px}
+.tp-left>p{margin-bottom:18px}
+.tp-right{border-left:1px solid var(--line);padding-left:30px;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.dg-cap{font-size:12.5px;color:var(--dim)}
+.dg{display:grid;gap:12px}
+.dg-row{display:grid;grid-template-columns:7.5em 1fr 5.2em;gap:12px;align-items:center;font-size:13px}
+.dg-l{color:var(--mut)}
+.dg-bar{height:14px;border-radius:4px;background:var(--g,#39414D)}
+.dg-v{color:var(--ink);text-align:right}
+.tour-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap;gap:10px}
+.tour-foot p{font-size:13px;color:var(--dim)}
+.pnav{display:flex;gap:10px}
+.btn-ghost{
+  display:inline-block;padding:10px 20px;border:1px solid var(--line2);border-radius:999px;
+  color:var(--ink);background:transparent;transition:border-color .15s ease;
+}
+.btn-ghost:hover,.btn-ghost:focus-visible{border-color:var(--acc)}
+
+/* ---------- 关键特性 ---------- */
+#benefits{padding:64px 0}
+.bn{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px}
+.bn article{display:flex;flex-direction:column;gap:10px;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.bn p{font-size:13.5px}
+.bn-meta{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line2);color:var(--ink);font-weight:600}
+
+/* ---------- CTA ---------- */
+#cta{padding:64px 0 96px}
+.offer{
+  max-width:780px;margin:0 auto;text-align:center;
+  padding:46px 34px;
+  background:linear-gradient(180deg,#1A212B,#141821);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+.inc{display:flex;flex-direction:column;gap:6px;margin:18px 0 6px}
+.inc li{color:var(--mut);font-size:14px}
+.inc li::before{content:"/ ";color:var(--line2)}
+.price{display:flex;justify-content:center;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:16px}
+.price b{font-size:38px;color:var(--acc);font-weight:700}
+.price s{color:var(--dim)}
+.price span{font-size:12.5px;color:var(--dim)}
+.cta-status{font-size:13.5px;margin-top:6px}
+.cta-status.unlocked{color:var(--acc);font-weight:600}
+.cta-btns{display:flex;justify-content:center;gap:14px;margin-top:22px;flex-wrap:wrap}
+.btn{
+  padding:13px 34px;border:none;border-radius:999px;
+  background:var(--acc);color:#0C241F;font-size:15px;font-weight:700;
+  transition:filter .15s ease;
+}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{cursor:default;filter:none;background:#3A4F49;color:#BFE8DF}
+.cta-note{margin-top:14px;font-size:13px;color:var(--acc)}
+.cta-ship{margin-top:10px;font-size:12.5px;color:var(--dim)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:34px 0;display:flex;flex-direction:column;gap:6px;align-items:center}
+footer p{color:var(--dim);font-size:13px}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1024px){
+  .stage{grid-template-columns:minmax(0,1.35fr) minmax(280px,1fr)}
+  .tp-right{padding-left:22px}
+}
+@media (max-width:900px){
+  .hero{min-height:0;padding-top:84px}
+  .stage{grid-template-columns:1fr}
+  .tour-panel{grid-template-columns:1fr}
+  .tp-right{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:22px}
+  .bn{grid-template-columns:1fr 1fr}
+  .dex{grid-template-columns:1fr auto;row-gap:10px}
+  .dex-bar{grid-column:1 / -1}
+}
+@media (max-width:480px){
+  .wrap{padding:0 18px}
+  .kb{gap:3px}
+  .key.wide{font-size:.6em}
+  .key.space{letter-spacing:.2em}
+  .bn{grid-template-columns:1fr}
+  .offer{padding:34px 22px}
+  .dex{grid-template-columns:1fr;justify-items:start}
+  .segs{width:100%}
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .kb-shell{animation:none}
+  .key{transition:none}
+  .wave span{animation:none !important}
+  .dex-bar b{transition:none}
+  .dex.complete .dex-bar::after{display:none}
+  .btn,.skip-link,.tab{transition:none}
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>弈园棋社</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">看本轮棋谱</a></div></header><main><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>本轮焦点</b><p>头名之争：飞相局对兵底炮，中盘弃马抢先。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>复盘室</b><p>对局结束直接进复盘室，棋盘摆着，谁都能插话。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>少儿班</b><p>周六上午启蒙班，先学输棋再学赢棋。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>看本轮棋谱，现在</h2><p>秋季联赛 / 第 6 轮 / 慢棋 90+30 / 直播间 3 号</p><a class="btn btn-primary" href="#">看本轮棋谱</a></div></section><footer>弈园棋社 / 秋季联赛 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<main>
+<section class="hero" id="lab" aria-label="KB-01 沉浸式试打台">
+  <div class="wrap bar">
+    <p class="brand"><i class="mark" aria-hidden="true"></i>轴研所 AXIS LAB</p>
+    <a class="skip-link" href="#cta">跳过体验,直达购买</a>
+  </div>
+  <div class="wrap head">
+    <p class="eyebrow">KB-01「灰阶」/ 沉浸式试打台</p>
+    <h1>按下去,才算认识一颗轴</h1>
+    <p class="sub">全键盘分区混装四种轴体:点击任意键帽查看参数与音浪示意,也可以直接敲击你的实体键盘。Tab 可遍历全部按键,Enter 与空格同样能触发试打。</p>
+  </div>
+  <div class="wrap stage">
+    <div class="kb-shell">
+      <div class="kb-top">
+        <p>KB-01 / 在线试打</p>
+        <p class="dots" aria-hidden="true"><i></i><i></i><i></i></p>
+      </div>
+      <div class="kb" id="kb" role="group" aria-label="虚拟试打键盘"></div>
+      <p class="kb-zones">分区 / 数字排与功能 / 青轴 / 上排字母 / 红轴 / 中排字母 / 金粉轴 / 下排与空格 / 茶轴</p>
+    </div>
+    <div class="rail">
+      <div class="wave-panel">
+        <div class="p-head">
+          <p>音浪示意</p>
+          <p id="wave-key">待命中</p>
+        </div>
+        <div class="wave" id="wave" aria-hidden="true"></div>
+      </div>
+      <div class="panel spec" aria-live="polite">
+        <p class="p-kick">轴体参数</p>
+        <div class="spec-row1">
+          <h2 id="sw-name">等待试打</h2>
+          <p id="sw-type">点击任意键帽</p>
+        </div>
+        <dl class="specs" id="sw-specs">
+          <dt>触发压力</dt><dd>--</dd>
+          <dt>触发行程</dt><dd>--</dd>
+          <dt>总行程</dt><dd>--</dd>
+        </dl>
+        <p class="feel" id="sw-feel">建议从数字排开始:青轴的两段式声响最容易被分辨出来。</p>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="dex" id="dex">
+      <p class="dex-t">轴体图鉴 <span id="dex-n">0</span>/4</p>
+      <div class="dex-bar" aria-hidden="true"><b></b></div>
+      <ol class="segs">
+        <li data-sw="b"><i aria-hidden="true"></i><span>CHERRY MX 青轴</span><em>60gf</em></li>
+        <li data-sw="r"><i aria-hidden="true"></i><span>CHERRY MX 红轴</span><em>45gf</em></li>
+        <li data-sw="p"><i aria-hidden="true"></i><span>TTC 金粉轴 V2</span><em>37gf</em></li>
+        <li data-sw="t"><i aria-hidden="true"></i><span>CHERRY MX 茶轴</span><em>55gf</em></li>
+      </ol>
+      <a class="mini-cta" id="mini-cta" href="#cta" hidden>图鉴完成,查看整套方案</a>
+    </div>
+    <p class="dex-hint" id="dex-hint">集齐四种轴体的试打记录,即可锁定早鸟价 / 悬停可预览分区,点击或按 Enter 试打</p>
+  </div>
+</section>
+
+<section id="tour" aria-labelledby="tour-h">
+  <div class="wrap">
+    <p class="eyebrow">引导导览 / 3 站</p>
+    <h2 id="tour-h">三个站点,看懂一块客制化键盘</h2>
+    <p class="sec-sub">从键帽到灯效,每一站只讲一层结构。看完这三站,你会清楚自己该选什么配置。</p>
+    <div class="tabs" role="tablist" aria-label="产品导览">
+      <button class="tab" role="tab" id="tab-0" aria-controls="tp-0" aria-selected="true">01 / 键帽工艺</button>
+      <button class="tab" role="tab" id="tab-1" aria-controls="tp-1" aria-selected="false" tabindex="-1">02 / 轴体结构</button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="tp-2" aria-selected="false" tabindex="-1">03 / 灯效系统</button>
+    </div>
+    <div class="tour-panel" role="tabpanel" id="tp-0" aria-labelledby="tab-0">
+      <div class="tp-left">
+        <h3>键帽 / PBT 双色注塑,热升华字符</h3>
+        <p>键帽决定一块键盘一半的观感与敲击声。灰阶配备的 PBT 键帽先注塑壳体、再二次注塑透光字符,正面字符以热升华工艺加深,常规模使用三年不明显打油。</p>
+        <dl class="specs">
+          <dt>材质</dt><dd>PBT 双色注塑</dd>
+          <dt>高度</dt><dd>Cherry 原厂高度</dd>
+          <dt>平均壁厚</dt><dd>约 1.5mm</dd>
+          <dt>字符工艺</dt><dd>正面热升华,侧刻可选</dd>
+          <dt>交付状态</dt><dd>出厂水洗去毛刺</dd>
+        </dl>
+      </div>
+      <div class="tp-right">
+        <p class="dg-cap">键帽剖面示意</p>
+        <div class="dg">
+          <div class="dg-row"><span class="dg-l">二色成型字符</span><span class="dg-bar" style="--g:linear-gradient(90deg,#E8E2D4,#CFC6B2)"></span><span class="dg-v">全透光</span></div>
+          <div class="dg-row"><span class="dg-l">PBT 键帽主体</span><span class="dg-bar" style="--g:linear-gradient(90deg,#4A5563,#39424E)"></span><span class="dg-v">1.5mm</span></div>
+          <div class="dg-row"><span class="dg-l">底部加强筋</span><span class="dg-bar" style="--g:repeating-linear-gradient(90deg,#39424E 0 10px,#2C333D 10px 14px)"></span><span class="dg-v">抗形变</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tour-panel" role="tabpanel" id="tp-1" aria-labelledby="tab-1" hidden>
+      <div class="tp-left">
+        <h3>轴体 / 出厂预润,免焊热插拔</h3>
+        <p>套件附赠的四种轴体均在无尘车间完成轴心柱与弹簧的双重预润,到手即用。凯华热插拔底座兼容三脚与五脚 MX 轴,拔轴器一拔一按,三分钟换完整盘。</p>
+        <dl class="specs">
+          <dt>轴心</dt><dd>POM 自润滑</dd>
+          <dt>弹簧</dt><dd>单段镀金 22mm</dd>
+          <dt>出厂润滑</dt><dd>轴心柱与弹簧预润</dd>
+          <dt>底座</dt><dd>凯华热插拔</dd>
+          <dt>单轴寿命</dt><dd>1 亿次</dd>
+        </dl>
+      </div>
+      <div class="tp-right">
+        <p class="dg-cap">轴体剖切示意</p>
+        <div class="dg">
+          <div class="dg-row"><span class="dg-l">上盖 / PA 尼龙</span><span class="dg-bar" style="--g:linear-gradient(90deg,#CBBFA6,#B3A98F)"></span><span class="dg-v">乳白</span></div>
+          <div class="dg-row"><span class="dg-l">轴心 / POM</span><span class="dg-bar" style="--g:linear-gradient(90deg,#E4DCC8,#D2C9B2)"></span><span class="dg-v">自润滑</span></div>
+          <div class="dg-row"><span class="dg-l">弹簧 / 镀金钢</span><span class="dg-bar" style="--g:repeating-linear-gradient(90deg,#9AA4B2 0 5px,#5B6470 5px 7px)"></span><span class="dg-v">22mm</span></div>
+          <div class="dg-row"><span class="dg-l">底座 / 热插拔</span><span class="dg-bar" style="--g:linear-gradient(90deg,#2E333B,#232830)"></span><span class="dg-v">免焊</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tour-panel" role="tabpanel" id="tp-2" aria-labelledby="tab-2" hidden>
+      <div class="tp-left">
+        <h3>灯效 / 南向灯位,均光不刺眼</h3>
+        <p>LED 全部朝南贴装,藏在定位板之下。光先穿过乳白 PC 均光层、再从键帽缝隙溢出,夜间使用不直射眼睛;每颗灯都可以在驱动里逐键改色。</p>
+        <dl class="specs">
+          <dt>灯珠</dt><dd>南向贴片 LED × 98</dd>
+          <dt>色彩</dt><dd>1680 万色 RGB</dd>
+          <dt>均光</dt><dd>乳白 PC 均光层</dd>
+          <dt>灯效</dt><dd>20 种预设,可自定义</dd>
+          <dt>亮度</dt><dd>8 级,四档呼吸速度</dd>
+        </dl>
+      </div>
+      <div class="tp-right">
+        <p class="dg-cap">灯效模式示意</p>
+        <div class="dg">
+          <div class="dg-row"><span class="dg-l">单色常亮</span><span class="dg-bar" style="--g:linear-gradient(90deg,#0F3B33,#3EB8A0)"></span><span class="dg-v">低耗</span></div>
+          <div class="dg-row"><span class="dg-l">波浪渐变</span><span class="dg-bar" style="--g:linear-gradient(90deg,#3EB8A0,#7FB5FF 40%,#F49AC1 75%,#E3A857)"></span><span class="dg-v">多色</span></div>
+          <div class="dg-row"><span class="dg-l">随键律动</span><span class="dg-bar" style="--g:linear-gradient(90deg,#1B2230 0 10%,#6FDDC7 16% 24%,#1B2230 30% 46%,#E3A857 52% 58%,#1B2230 66%)"></span><span class="dg-v">按键触发</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tour-foot">
+      <div class="pnav">
+        <button class="btn-ghost" id="prev" type="button">上一站</button>
+        <button class="btn-ghost" id="next" type="button">下一站</button>
+      </div>
+      <p id="tour-step">站点 1/3</p>
+    </div>
+  </div>
+</section>
+
+<section id="benefits" aria-labelledby="bn-h">
+  <div class="wrap">
+    <p class="eyebrow">关键特性</p>
+    <h2 id="bn-h">参数之外,这四件事决定日常手感</h2>
+    <div class="bn">
+      <article>
+        <h3>全键热插拔</h3>
+        <p>凯华热插拔底座兼容三脚与五脚 MX 轴体,附赠拔轴器,不需要焊台即可随时换轴。</p>
+        <p class="bn-meta">底座 / 凯华热插拔</p>
+      </article>
+      <article>
+        <h3>Gasket 悬浮结构</h3>
+        <p>定位板由八块缓冲垫悬浮承载,敲击形变吸收杂音,五层声学填充压低空腔音。</p>
+        <p class="bn-meta">缓冲垫 × 8 / 五层填充</p>
+      </article>
+      <article>
+        <h3>三模连接</h3>
+        <p>Type-C 有线、蓝牙 5.1 与 2.4GHz 三模切换,可同时保持四台设备配对记忆。</p>
+        <p class="bn-meta">蓝牙 5.1 / 2.4GHz / 有线</p>
+      </article>
+      <article>
+        <h3>8000mAh 续航</h3>
+        <p>2.4GHz 连接关闭灯效约 200 小时,中等亮度约 120 小时,Type-C 边充边用。</p>
+        <p class="bn-meta">电池 / 8000mAh</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="cta" aria-labelledby="cta-h">
+  <div class="wrap">
+    <div class="offer">
+      <p class="eyebrow">早鸟预售 / 首批套件</p>
+      <h2 id="cta-h">KB-01「灰阶」客制化套件</h2>
+      <ul class="inc">
+        <li>铝合金 CNC 阳极氧化外壳</li>
+        <li>Gasket 定位板与五层声学填充</li>
+        <li>全键热插拔 PCBA / 三模连接</li>
+        <li>PBT 双色键帽全套(含增补键)</li>
+        <li>轴体四选一:红轴 / 茶轴 / 青轴 / 金粉轴</li>
+      </ul>
+      <p class="price"><b>¥899</b><span>早鸟价</span><s>¥1,099</s><span>日常价</span></p>
+      <p class="cta-status" id="cta-status">完成首屏轴体图鉴,即可锁定早鸟价</p>
+      <div class="cta-btns">
+        <button class="btn" id="cta-btn" type="button">预约早鸟名额</button>
+        <a class="btn-ghost" href="#tour">回看导览</a>
+      </div>
+      <p class="cta-note" id="cta-note" hidden>已记录你的预约(演示页,不发送任何数据)</p>
+      <p class="cta-ship">预计 2026 年 12 月上旬发货 / 收货后 7 天无理由退换</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer>
+  <p>UI 设计提示词库 / 落地结构 No.17</p>
+  <p><a href="../style-catalog.html">返回风格目录</a></p>
+</footer>
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+
+/* 轴体数据 / 均为市售量产轴公开规格 */
+var SW={
+  b:{name:'CHERRY MX 青轴',type:'有声段落',c:'#7FB5FF',
+     feel:'两段式结构自带 Click 声,反馈最强,适合独处环境使用。',
+     specs:[['触发压力','60gf'],['触发行程','2.2mm'],['总行程','4.0mm'],['单轴寿命','1 亿次']]},
+  r:{name:'CHERRY MX 红轴',type:'线性',c:'#FF7A70',
+     feel:'直落到底没有确认点,回弹干脆,适合游戏与快速录入。',
+     specs:[['触发压力','45gf'],['触发行程','2.0mm'],['总行程','4.0mm'],['单轴寿命','1 亿次']]},
+  p:{name:'TTC 金粉轴 V2',type:'轻线性',c:'#F49AC1',
+     feel:'37gf 轻触发,长时间码字手指负担最小。',
+     specs:[['触发压力','37gf'],['触发行程','2.0mm'],['总行程','3.5mm'],['单轴寿命','1 亿次']]},
+  t:{name:'CHERRY MX 茶轴',type:'段落',c:'#E3A857',
+     feel:'轻微段落确认感,打字与游戏折中,办公室首选。',
+     specs:[['触发压力','55gf'],['触发行程','2.0mm'],['总行程','4.0mm'],['单轴寿命','1 亿次']]}
+};
+
+/* 音浪轮廓 / 线性=平滑正弦,段落=前段凸起,青轴=锯齿 */
+var WAVES={
+  r:function(i){return .32+.6*Math.pow(Math.sin((i+2)/26*Math.PI),1.15)},
+  p:function(i){return .16+.44*(.6+.4*Math.sin(i/26*Math.PI*2))},
+  t:function(i){var x=i/23;return x<.28?(.18+x*1.1):(.5+.44*Math.sin((x-.28)*3.3))},
+  b:function(i){return i%2?(.82+.16*Math.random()):( .34+.22*Math.random())}
+};
+
+/* 60% 配列 / [键帽,轴体,宽度u] */
+var ROWS=[
+  [['Esc','b'],['1','b'],['2','b'],['3','b'],['4','b'],['5','b'],['6','b'],['7','b'],['8','b'],['9','b'],['0','b'],['-','b'],['=','b'],['Backspace','b',2]],
+  [['Tab','r',1.5],['Q','r'],['W','r'],['E','r'],['R','r'],['T','r'],['Y','r'],['U','r'],['I','r'],['O','r'],['P','r'],['[','r'],[']','r'],['\\','r',1.5]],
+  [['Caps','p',1.75],['A','p'],['S','p'],['D','p'],['F','p'],['G','p'],['H','p'],['J','p'],['K','p'],['L','p'],[';','p'],["'",'p'],['Enter','p',2.25]],
+  [['Shift','t',2.25],['Z','t'],['X','t'],['C','t'],['V','t'],['B','t'],['N','t'],['M','t'],[',','t'],['.','t'],['/','t'],['Shift','t',2.75]],
+  [['Ctrl','t',1.25],['Win','t',1.25],['Alt','t',1.25],['轴研所','t',6.25],['Alt','t',1.25],['Fn','t',1.25],['Menu','t',1.25],['Ctrl','t',1.25]]
+];
+
+var kb=$('#kb'),keyMap={};
+ROWS.forEach(function(row){
+  row.forEach(function(def){
+    var label=def[0],sw=def[1],u=def[2]||1;
+    var b=document.createElement('button');
+    b.type='button';
+    b.className='key'+(label.length>1?' wide':'')+(label==='轴研所'?' space':'');
+    b.dataset.sw=sw;
+    b.dataset.k=(label==='轴研所'?'空格':label);
+    b.style.setProperty('--u',u);
+    b.style.setProperty('--c',SW[sw].c);
+    b.textContent=label;
+    b.setAttribute('aria-label',b.dataset.k+' / '+SW[sw].name);
+    kb.appendChild(b);
+    if(/^[0-9a-z]$/i.test(label)){keyMap[label.toLowerCase()]=b}
+  });
+});
+
+/* 音浪条 */
+var wave=$('#wave'),BARS=24,barEls=[];
+for(var i=0;i<BARS;i++){
+  var s=document.createElement('span');
+  s.style.setProperty('--i',i);
+  wave.appendChild(s);
+  barEls.push(s);
+}
+function drawWave(id){
+  barEls.forEach(function(s,j){
+    s.style.height=(12+Math.round(WAVES[id](j)*86))+'%';
+  });
+  wave.style.setProperty('--c',SW[id].c);
+  wave.classList.remove('run');
+  void wave.offsetWidth;
+  wave.classList.add('run');
+}
+
+/* 试打 / 更新参数面板 */
+function show(sw,key){
+  $('#wave-key').textContent=key+' / '+sw.name;
+  $('#sw-name').textContent=sw.name;
+  var tp=$('#sw-type');
+  tp.textContent=sw.type;
+  tp.style.borderColor=sw.c;
+  tp.style.color=sw.c;
+  $('#sw-feel').textContent=sw.feel;
+  var dl=$('#sw-specs');
+  dl.innerHTML='';
+  sw.specs.forEach(function(r){
+    var dt=document.createElement('dt');dt.textContent=r[0];
+    var dd=document.createElement('dd');dd.textContent=r[1];
+    dl.appendChild(dt);dl.appendChild(dd);
+  });
+}
+function trigger(b){
+  b.classList.add('hit');
+  clearTimeout(b._t);
+  b._t=setTimeout(function(){b.classList.remove('hit')},170);
+  show(SW[b.dataset.sw],b.dataset.k);
+  drawWave(b.dataset.sw);
+  discover(b.dataset.sw);
+}
+kb.addEventListener('click',function(e){
+  var b=e.target.closest('.key');
+  if(b){trigger(b)}
+});
+
+/* 实体键盘映射(仅首屏可见时) */
+var heroSeen=true;
+window.addEventListener('keydown',function(e){
+  if(e.repeat||e.ctrlKey||e.metaKey||e.altKey){return}
+  if(!heroSeen){return}
+  var b=keyMap[e.key.toLowerCase()];
+  if(b){trigger(b)}
+});
+
+/* 图鉴 / 进度 / 奖励 */
+var found={};
+function discover(id){
+  if(found[id]){return}
+  found[id]=1;
+  var n=Object.keys(found).length;
+  var li=document.querySelector('.segs li[data-sw="'+id+'"]');
+  if(li){li.classList.add('on')}
+  $('#dex-n').textContent=n;
+  var bar=document.querySelector('.dex-bar b');
+  if(bar){bar.style.width=(n/4*100)+'%'}
+  if(n===4){
+    $('#dex').classList.add('complete');
+    $('#dex-hint').textContent='图鉴完成 / 早鸟价已解锁';
+    var m=$('#mini-cta');
+    if(m){m.hidden=false}
+    var cs=$('#cta-status');
+    cs.textContent='轴体图鉴已完成,本单早鸟价已锁定';
+    cs.classList.add('unlocked');
+  }
+}
+
+/* 首屏离屏时暂停音浪动画 */
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      heroSeen=en.isIntersecting;
+      $('#lab').classList.toggle('off',!en.isIntersecting);
+    });
+  },{threshold:.12}).observe($('#lab'));
+}
+
+/* 导览选项卡 / 支持方向键 */
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+var panels=[].slice.call(document.querySelectorAll('.tour-panel'));
+function sel(i){
+  tabs.forEach(function(t,j){
+    t.setAttribute('aria-selected',j===i?'true':'false');
+    t.tabIndex=j===i?0:-1;
+  });
+  panels.forEach(function(p,j){p.hidden=j!==i});
+  $('#tour-step').textContent='站点 '+(i+1)+'/3';
+}
+tabs.forEach(function(t,i){
+  t.addEventListener('click',function(){sel(i)});
+  t.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+      e.preventDefault();
+      var n=(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length;
+      sel(n);
+      tabs[n].focus();
+    }
+  });
+});
+function cur(){return tabs.findIndex(function(t){return t.getAttribute('aria-selected')==='true'})}
+$('#prev').addEventListener('click',function(){sel((cur()+2)%3)});
+$('#next').addEventListener('click',function(){sel((cur()+1)%3)});
+sel(0);
+
+/* CTA 预约(演示) */
+$('#cta-btn').addEventListener('click',function(){
+  $('#cta-note').hidden=false;
+  this.disabled=true;
+  this.textContent='已预约';
+});
+})();
+</script>
 </body>
 </html>

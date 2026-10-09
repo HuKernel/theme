@@ -2,139 +2,734 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Webinar 结构 / UI 设计提示词库</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Webinar Registration — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
-:root {
-  --bg: #F8FAFC; --fg: #0F172A; --muted: #475569; --card: #FFFFFF;
-  --border: rgba(255,0,255,.28); --primary: #FF00FF; --secondary: #00FF00;
-  --accent: #FFFF00; --on-primary: #fff;
-  --radius: 14px; --btn-radius: 10px;
+/* token 计划（l24 Color：紧迫红橙 + 专业蓝海军 + 高对比白表单）: 底 #0C1524 / #0F1B2E，面板 #14243C，线 rgba(255,255,255,.14)，主文 #EDF3FB，次文 #B9C6D9，紧迫橙 #FF7A3D / 文本橙 #FFA26B，直播红 #FF5D5D，表单白 #FFFFFF / 墨 #1B2A40 */
+:root{
+  --bg:#0C1524;
+  --bg-2:#0F1B2E;
+  --bg-deep:#0A1120;
+  --panel:#14243C;
+  --line:rgba(255,255,255,.14);
+  --ink:#EDF3FB;
+  --ink-2:#B9C6D9;
+  --orange:#FF7A3D;
+  --orange-text:#FFA26B;
+  --orange-deep:#C2541B;
+  --red:#FF5D5D;
+  --blue:#9CC4FF;
+  --form-ink:#1B2A40;
+  --form-label:#33455F;
+  --form-line:#A9B7C9;
+  --form-err:#C02626;
+  --radius:14px;
+  --mono:ui-monospace,"Cascadia Code",Consolas,"SF Mono",monospace;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Source Sans 3', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+*,*::before,*::after{box-sizing:border-box}
+html{color-scheme:dark}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
 }
-h1, h2, h3, .num { font-family: 'Bebas Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 2.5px dashed var(--fg); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Bebas Neue', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 2.5px dashed var(--fg);
-  background: var(--card); color: var(--fg);
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-}
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 2.5px dashed var(--fg); border-radius: var(--radius);
-  box-shadow: 6px 8px 0 var(--accent); padding: 24px;
-  transition: transform 160ms ease, box-shadow 160ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 10px 12px 0 var(--secondary);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 2.5px dashed var(--fg); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-.card:nth-child(1){transform:rotate(-1.6deg)}.card:nth-child(2){transform:rotate(1.2deg);border-style:solid}.card:nth-child(3){transform:rotate(-.8deg)} .card:hover{transform:rotate(0) translateY(-6px)} h1{transform:rotate(-1deg)}
+::selection{background:rgba(255,122,61,.35)}
+img,svg{max-width:100%}
+.container{width:min(1120px,100% - 40px);margin-inline:auto}
+section{scroll-margin-top:76px}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:var(--blue)}
+.skip{position:absolute;left:-9999px;top:0;background:#FFFFFF;color:#1B2A40;padding:10px 16px;border-radius:8px;z-index:99;font-weight:700}
+.skip:focus{left:12px;top:12px}
+:focus-visible{outline:3px solid #FF8A50;outline-offset:2px;border-radius:4px}
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 2.5px dashed var(--fg); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* 顶部导航 */
+.nav{position:sticky;top:0;z-index:50;background:rgba(12,21,36,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:700;font-size:15.5px;text-decoration:none}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--orange);flex:none}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a:not(.btn-primary){color:var(--ink-2);text-decoration:none;font-size:14px}
+.nav-links a:not(.btn-primary):hover{color:var(--ink)}
 
+/* 按钮 */
+.btn-primary{
+  display:inline-block;
+  background:var(--orange);
+  color:#2B1405;
+  font-weight:700;
+  font-size:15px;
+  text-decoration:none;
+  text-align:center;
+  border:none;
+  cursor:pointer;
+  padding:13px 22px;
+  border-radius:12px;
+  transition:background .18s ease,transform .18s ease;
+  font-family:inherit;
+}
+.btn-primary:hover{background:#FF8B5A;transform:translateY(-1px)}
+.btn-primary:active{transform:none}
+.btn-sm{padding:8px 15px;font-size:13.5px;border-radius:10px}
+
+/* Hero：主题 + 倒计时 + 表单 */
+.hero{padding:64px 0 72px;background:radial-gradient(1100px 520px at 18% -10%,rgba(46,95,168,.22),transparent 60%),var(--bg)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .92fr;gap:46px;align-items:stretch}
+.kicker{color:var(--orange-text);font-size:13.5px;letter-spacing:.12em;font-weight:600}
+.hero h1{font-size:clamp(30px,4.2vw,46px);line-height:1.2;font-weight:800;margin:14px 0 16px;letter-spacing:.01em}
+.lede{color:var(--ink-2);font-size:16.5px;line-height:1.8;max-width:46ch}
+.meta-line{display:flex;align-items:center;gap:10px;color:var(--ink-2);font-size:14px;margin-top:14px}
+.meta-time{color:#D7E1EF;font-weight:600}
+.live-dot{position:relative;width:10px;height:10px;border-radius:50%;background:var(--red);flex:none}
+.meta-time .live-dot{background:var(--orange)}
+
+/* 倒计时 */
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px;max-width:420px}
+.cd-cell{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 0 10px;text-align:center}
+.cd-num{display:block;font-family:var(--mono);font-size:30px;font-weight:700;color:var(--orange-text);font-variant-numeric:tabular-nums}
+.cd-lab{display:block;font-size:12px;color:var(--ink-2);margin-top:2px;letter-spacing:.2em}
+.cd-note{grid-column:1 / -1;font-size:12.5px;color:var(--ink-2);margin-top:2px}
+
+/* 屏幕共享框（讲者演示界面） */
+.share{margin-top:36px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg-deep)}
+.share-bar{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+.dot-r{background:var(--red)}
+.dot-y{background:#FFB020}
+.dot-g{background:#3BCE7A}
+.share-title{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);margin-left:10px}
+.share-live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:#FFC0AC}
+.share-live .live-dot{width:8px;height:8px}
+.code{padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:2;color:#D5DEEB;tab-size:4}
+.c-p{color:var(--orange-text);font-weight:700}
+.c-o{color:#FFC79B}
+.c-g{color:#7ED9A3}
+.c-b{color:var(--blue)}
+.c-d{color:#8FA0B8}
+.share-cap{padding:10px 16px;font-size:12.5px;color:var(--ink-2);border-top:1px solid var(--line);background:var(--bg)}
+
+/* 紧迫滚动条（可暂停 / 可关闭） */
+.ticker{background:var(--orange);color:#2B1405}
+.ticker-in{display:flex;align-items:center;gap:14px;padding:8px 0}
+.ticker-view{overflow:hidden;flex:1;min-width:0}
+.ticker-track{display:flex;width:max-content}
+.ticker-run{white-space:nowrap;font-size:13.5px;font-weight:600}
+.ticker-ctl{display:flex;gap:8px;padding-right:4px}
+.ticker-ctl button{
+  font-family:inherit;
+  font-size:12.5px;
+  font-weight:600;
+  line-height:1;
+  color:#2B1405;
+  background:transparent;
+  border:1.5px solid rgba(43,20,5,.6);
+  border-radius:8px;
+  padding:5px 10px;
+  cursor:pointer;
+}
+.ticker-ctl button:hover{background:rgba(43,20,5,.14)}
+.ticker button:focus-visible{outline-color:#2B1405}
+.ticker.is-paused .ticker-track{animation-play-state:paused}
+
+/* 通用小节 */
+.sec{padding:72px 0}
+.sec-alt{background:var(--bg-2)}
+.sec-k{color:var(--orange-text);font-size:13px;letter-spacing:.1em;font-weight:600;margin-bottom:10px}
+.sec h2{font-size:clamp(24px,3vw,34px);font-weight:800;line-height:1.3;margin-bottom:10px}
+.sec-sub{color:var(--ink-2);font-size:15px;max-width:60ch}
+
+/* 学习收获（grid 对齐清单） */
+.learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+.learn-item{display:grid;grid-template-columns:46px 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.ln-num{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--orange-text);padding-top:3px}
+.learn-item h3{font-size:17px;font-weight:700;margin-bottom:6px}
+.learn-item p{font-size:14.5px;color:var(--ink-2);line-height:1.75}
+
+/* 讲者 */
+.speaker-grid{display:grid;grid-template-columns:300px 1fr;gap:44px;margin-top:34px;align-items:stretch}
+.avatar-panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:34px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
+.avatar{
+  width:168px;height:168px;border-radius:50%;
+  background:linear-gradient(145deg,#1E3B66,#2E5FA8);
+  border:3px solid rgba(255,255,255,.16);
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;font-weight:800;color:#F2F7FF;
+  margin-bottom:14px;
+}
+.avatar-panel h3{font-size:20px;font-weight:800}
+.avatar-panel p{font-size:13.5px;color:var(--ink-2)}
+.bio p{font-size:15px;color:var(--ink-2);line-height:1.85;margin-top:14px}
+.bio-prev{font-size:14px !important}
+.bio-prev b{color:var(--ink);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:24px}
+.stat{padding-left:18px;border-left:1px solid var(--line)}
+.stat:first-child{padding-left:0;border-left:none}
+.st-v{display:block;font-family:var(--mono);font-size:26px;font-weight:700;color:var(--orange-text)}
+.st-l{display:block;font-size:13px;color:var(--ink-2);margin-top:4px}
+
+/* 时间安排 / 回放（日程行 grid 对齐） */
+.agenda-list{margin-top:30px;border-top:1px solid var(--line)}
+.ag-row{display:grid;grid-template-columns:80px 1fr auto;gap:18px;align-items:start;padding:19px 4px;border-bottom:1px solid var(--line)}
+.ag-time{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--orange-text);padding-top:2px}
+.ag-body h3{font-size:16.5px;font-weight:700}
+.ag-body p{font-size:14px;color:var(--ink-2);margin-top:4px;line-height:1.7}
+.ag-tag{font-size:12px;font-weight:600;color:#FFC29E;border:1px solid rgba(255,162,107,.45);border-radius:999px;padding:3px 11px;white-space:nowrap;margin-top:2px}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin-top:28px}
+.note h3{font-size:15.5px;font-weight:700;margin-bottom:6px}
+.note p{font-size:14px;color:var(--ink-2);line-height:1.75}
+.capacity{font-size:13px;color:#D7E1EF;margin-top:10px}
+.capacity b{color:var(--orange-text);font-weight:700}
+
+/* 报名权益 */
+.bonus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+.bonus-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.bonus-k{font-family:var(--mono);font-size:12.5px;color:var(--orange-text);font-weight:700;letter-spacing:.08em}
+.bonus-card h3{font-size:16px;font-weight:700;margin:8px 0 6px}
+.bonus-card p{font-size:14px;color:var(--ink-2);line-height:1.75}
+
+/* 底部报名（第二次表单） */
+.enroll-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:34px}
+.pitch-list{margin-top:18px;display:grid;gap:12px}
+.pitch-list li{position:relative;padding-left:24px;font-size:15px;color:var(--ink-2);line-height:1.7}
+.pitch-list li::before{content:"/";position:absolute;left:2px;color:var(--orange-text);font-weight:800}
+.info-card{display:grid;grid-template-columns:96px 1fr;gap:8px 16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-top:26px;font-size:14px}
+.info-card dt{color:var(--ink-2);font-weight:600}
+.info-card dd{margin:0;color:#D7E1EF}
+.enroll-pitch .capacity{margin-top:26px;border-top:1px solid var(--line);padding-top:16px}
+
+/* 报名表单（高对比白卡） */
+.reg{background:#FFFFFF;color:var(--form-ink);border-radius:16px;padding:26px 26px 22px;box-shadow:0 24px 60px rgba(3,8,18,.55)}
+.form-head h2,.form-head h3{font-size:19px;font-weight:800;color:var(--form-ink)}
+.form-head p{font-size:13px;color:#55677F;margin-top:6px;line-height:1.6}
+.fields{display:grid;gap:15px;margin-top:18px}
+.field label{display:block;font-size:13.5px;font-weight:700;color:var(--form-label);margin-bottom:6px}
+.field input[type="text"],.field input[type="email"],.field select{
+  width:100%;
+  padding:11px 12px;
+  font-family:inherit;
+  font-size:15px;
+  line-height:1.3;
+  color:var(--form-ink);
+  background:#FBFCFE;
+  border:1.5px solid var(--form-line);
+  border-radius:10px;
+}
+.field input:focus,.field select:focus{border-color:var(--orange-deep);background:#FFFFFF}
+.field input::placeholder{color:#6B7E98}
+.field-check{display:flex;align-items:flex-start;gap:10px}
+.field-check label{margin:0;font-size:13px;font-weight:600;line-height:1.6}
+.field-check input{width:18px;height:18px;margin-top:2px;accent-color:var(--orange-deep);flex:none}
+.err{font-size:12.5px;color:var(--form-err);margin:5px 0 0;line-height:1.5}
+.field.invalid input{border-color:var(--form-err);background:#FFF6F5}
+.reg .btn-primary{width:100%;margin-top:4px}
+.fine{font-size:12.5px;color:#55677F;text-align:center;margin-top:12px}
+.form-ok{display:none;background:#F2FBF5;border:1.5px solid #2F9E5B;border-radius:12px;padding:18px 18px 16px}
+.reg.sent .form-ok{display:block}
+.reg.sent .fields{display:none}
+.form-ok h3{font-size:16px;color:#1D6B3C;margin-bottom:6px}
+.form-ok p{font-size:14px;color:#2A4A38;line-height:1.7}
+
+/* 页脚 */
+.footer{background:var(--bg-deep);border-top:1px solid var(--line);padding:30px 0 42px}
+.footer-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.foot-brand{font-size:14px;font-weight:700;color:var(--ink)}
+.foot-nav{display:flex;gap:22px}
+.foot-nav a{font-size:13.5px;color:var(--blue);text-decoration:none}
+.foot-nav a:hover{color:#C9DFFF}
+.foot-note{flex-basis:100%;font-size:12.5px;color:var(--ink-2)}
+
+/* 动效：全场仅一次亮相 + 官方效果（倒计时 / 讲者头像浮动 / 紧迫滚动条 / 直播灯脉冲） */
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+  .hero-grid{animation:debut .8s cubic-bezier(.22,.75,.25,1) both}
+  @keyframes debut{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  .avatar{animation:float 6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-9px)}}
+  .live-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,93,93,.55);animation:ping 2s ease-out infinite}
+  @keyframes ping{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.7);opacity:0}}
+  .ticker-track{animation:ticker 30s linear infinite}
+  @keyframes ticker{to{transform:translateX(-50%)}}
+}
+@media (prefers-reduced-motion: reduce){
+  .btn-primary{transition:none}
+}
+
+/* 响应式 */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .speaker-grid{grid-template-columns:240px 1fr;gap:28px}
+  .enroll-grid{grid-template-columns:1fr;gap:34px}
+}
+@media (max-width:760px){
+  .sec{padding:56px 0}
+  .hero{padding:44px 0 56px}
+  .learn-grid{grid-template-columns:1fr}
+  .speaker-grid{grid-template-columns:1fr}
+  .avatar-panel{padding:28px 20px}
+  .bonus-grid{grid-template-columns:1fr}
+  .ag-row{grid-template-columns:64px 1fr;gap:14px}
+  .ag-tag{display:none}
+  .nav-links a:not(.btn-primary){display:none}
+  .cd{max-width:none}
+  .stats{grid-template-columns:repeat(3,1fr);gap:10px}
+  .st-v{font-size:21px}
+  .ticker-ctl button{padding:4px 8px;font-size:12px}
+}
+@media (max-width:480px){
+  .container{width:min(1120px,100% - 32px)}
+  .cd{gap:8px}
+  .cd-num{font-size:25px}
+  .reg{padding:20px 18px 18px}
+  .ag-row{grid-template-columns:56px 1fr}
+  .stats{grid-template-columns:1fr;gap:14px}
+  .stat{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:12px}
+  .stat:first-child{border-top:none;padding-top:0}
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>松之本汤</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">查空房</a></div></header><main><section class="hero container"><p class="doc-meta">一泊二食 / 満室 8 间 / 泉质 单纯硫磺 42°C</p><h1>山把风挡在外面，汤把山还给你</h1><p class="sub">百年木造汤宿，一处内汤一处露天。泡完不要赶路，炉上有焙茶。</p><div class="cta-row"><a class="btn btn-primary" href="#">查空房</a><a class="btn" href="#">交通与接驳</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>岩风吕</b><p>母岩原样凿成，水位随山雨涨落，落款在石头上。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>炉边夜话</b><p>晚饭后炉边焙茶配腌梅干，老板娘讲这座山五十年的事。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>晨汤</b><p>六点半烧到七点整，硫磺味最正。冬季加雪见酒一盏。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>岩风吕</b><p>母岩原样凿成，水位随山雨涨落，落款在石头上。</p></div></section></section><footer>松之本汤 / 长野山间 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+<a class="skip" href="#hero">跳到主要内容</a>
+
+<header class="nav">
+  <div class="container nav-in">
+    <a class="brand" href="#hero"><span class="brand-dot" aria-hidden="true"></span>单人产品变现直播间</a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#learn">学习收获</a>
+      <a href="#agenda">时间安排</a>
+      <a class="btn-primary btn-sm" href="#enroll">立即报名</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 一区 / Hero：主题 + 倒计时 + 报名表单 -->
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="kicker">免费直播 / 单人产品变现 / 面向独立开发者</p>
+          <h1 id="heroTitle">一个人、一款产品，走通从 0 到月入 $8K 的变现路径</h1>
+          <p class="lede">90 分钟实战直播：不聊概念，只拆解选品、定价、获客与自动化交付这四件必须一个人做完的事，每一步都配真实经营数据。</p>
+          <p class="meta-line"><span class="live-dot" aria-hidden="true"></span><span>直播预约开启中 / 状态更新于 2026-10-08 12:00</span></p>
+          <p class="meta-line meta-time">2026 年 10 月 15 日（周四）20:00 – 21:30 / 北京时间（UTC+8）/ 含 30 分钟实时问答</p>
+          <div class="cd" role="timer" aria-label="距离 10 月 15 日 20:00（北京时间）开播的剩余时间">
+            <div class="cd-cell"><span class="cd-num" id="cdD">--</span><span class="cd-lab">天</span></div>
+            <div class="cd-cell"><span class="cd-num" id="cdH">--</span><span class="cd-lab">时</span></div>
+            <div class="cd-cell"><span class="cd-num" id="cdM">--</span><span class="cd-lab">分</span></div>
+            <div class="cd-cell"><span class="cd-num" id="cdS">--</span><span class="cd-lab">秒</span></div>
+            <p class="cd-note" id="cdNote">开播倒计时 / 2026-10-15 20:00（北京时间）</p>
+          </div>
+        </div>
+        <form class="reg" novalidate aria-label="直播报名表单">
+          <div class="form-head">
+            <h2>预留免费直播席位</h2>
+            <p>提交后立即收到确认邮件，开播前发送日历邀请与直播间链接。</p>
+          </div>
+          <div class="fields">
+            <div class="field">
+              <label for="f1-name">姓名</label>
+              <input type="text" id="f1-name" name="name" autocomplete="name" placeholder="怎么称呼你" required data-validate data-msg="请填写姓名（至少 2 个字符）" aria-describedby="f1-name-err">
+              <p class="err" id="f1-name-err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="f1-mail">邮箱</label>
+              <input type="email" id="f1-mail" name="email" autocomplete="email" placeholder="you@example.com" required data-validate data-msg="请输入有效邮箱，回放与清单将发送至此" aria-describedby="f1-mail-err">
+              <p class="err" id="f1-mail-err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="f1-stage">你目前的阶段（可选）</label>
+              <select id="f1-stage" name="stage">
+                <option value="none">请选择</option>
+                <option value="idea">还没有产品，想先验证点子</option>
+                <option value="built">已有产品，尚未收费</option>
+                <option value="revenue">已有收入，想放大规模</option>
+              </select>
+            </div>
+            <div class="field field-check">
+              <input type="checkbox" id="f1-agree" name="agree" required data-validate data-msg="需要你的同意才能发送开播提醒与回放邮件" aria-describedby="f1-agree-err">
+              <label for="f1-agree">同意接收开播提醒、直播间链接与回放邮件，可随时取消</label>
+            </div>
+            <p class="err" id="f1-agree-err" aria-live="polite" style="margin-top:-8px"></p>
+            <button type="submit" class="btn-primary">免费预留直播席位</button>
+            <p class="fine">直播免费 / 回放保留 7 天 / 不向第三方提供邮箱</p>
+          </div>
+          <div class="form-ok" tabindex="-1">
+            <h3>报名已确认</h3>
+            <p>确认邮件已发送至你填写的邮箱。开播前 1 小时会再次提醒，回放与自查清单将在直播结束后 24 小时内送达。</p>
+          </div>
+        </form>
+      </div>
+
+      <figure class="share">
+        <div class="share-bar">
+          <span class="dot dot-r" aria-hidden="true"></span>
+          <span class="dot dot-y" aria-hidden="true"></span>
+          <span class="dot dot-g" aria-hidden="true"></span>
+          <span class="share-title">soloship@live / 终端</span>
+          <span class="share-live"><span class="live-dot" aria-hidden="true"></span>屏幕共享中</span>
+        </div>
+        <pre class="code"><code><span class="c-p">$</span> soloship metrics --range 30d
+mrr          <span class="c-o">$8,412</span>    <span class="c-g">+12.4%</span>
+paid_users   <span class="c-o">217</span>       <span class="c-g">+18</span>
+churn        <span class="c-b">1.9%</span>     <span class="c-g">-0.3pt</span>
+top_channel  <span class="c-b">SEO / 专栏</span>
+
+<span class="c-p">$</span> soloship pricing set pro --monthly <span class="c-o">12</span>
+<span class="c-d">done in 1.2s / stripe webhook verified</span></code></pre>
+        <figcaption class="share-cap">直播中讲者的实时演示界面 / 上图数据为往期经营示例</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 紧迫滚动条：可暂停 / 可关闭，离屏与后台自动停止 -->
+  <div class="ticker" id="ticker">
+    <div class="container ticker-in">
+      <div class="ticker-view">
+        <div class="ticker-track">
+          <p class="ticker-run">直播间容量 500 席 / 截至 10-08 09:00 已确认 437 席 / 含 30 分钟实时问答 / 报名即赠变现自查清单 / 回放保留 7 天 / 10 月 15 日（周四）20:00 开播（北京时间）/ </p>
+          <p class="ticker-run" aria-hidden="true">直播间容量 500 席 / 截至 10-08 09:00 已确认 437 席 / 含 30 分钟实时问答 / 报名即赠变现自查清单 / 回放保留 7 天 / 10 月 15 日（周四）20:00 开播（北京时间）/ </p>
+        </div>
+      </div>
+      <div class="ticker-ctl">
+        <button type="button" id="tkPause" aria-pressed="false">暂停滚动</button>
+        <button type="button" id="tkHide">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 二区 / 你将学到 -->
+  <section class="sec" id="learn" aria-labelledby="learnTitle">
+    <div class="container">
+      <p class="sec-k">01 / 学习收获</p>
+      <h2 id="learnTitle">四个必须一个人做完的动作，逐一拆给你看</h2>
+      <p class="sec-sub">全部内容来自讲者自己产品的真实数据与踩坑记录，每个动作都附可复用的清单或模板。</p>
+      <ol class="learn-grid">
+        <li class="learn-item">
+          <span class="ln-num">01</span>
+          <div>
+            <h3>选品与验证</h3>
+            <p>用两个周末判断一个点子是否值得收费：需求信号在哪里找、竞品怎么拆、10 人预访谈问什么。</p>
+          </div>
+        </li>
+        <li class="learn-item">
+          <span class="ln-num">02</span>
+          <div>
+            <h3>定价与支付闭环</h3>
+            <p>买断还是订阅、第一档价格怎么定，以及 Stripe 与国内支付的接入清单与合规要点。</p>
+          </div>
+        </li>
+        <li class="learn-item">
+          <span class="ln-num">03</span>
+          <div>
+            <h3>单人获客系统</h3>
+            <p>SEO、内容专栏与社区分发的组合打法，每周只投入 6 小时也能维持稳定入站流量。</p>
+          </div>
+        </li>
+        <li class="learn-item">
+          <span class="ln-num">04</span>
+          <div>
+            <h3>自动化交付与复购</h3>
+            <p>用邮件序列和自助文档替代客服，把一次购买变成长期收入，同时守住每周交付时间上限。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 三区 / 讲者介绍 -->
+  <section class="sec sec-alt" id="speaker" aria-labelledby="speakerTitle">
+    <div class="container">
+      <p class="sec-k">02 / 讲者介绍</p>
+      <h2 id="speakerTitle">把副业产品做成主业的过来人</h2>
+      <div class="speaker-grid">
+        <div class="avatar-panel">
+          <div class="avatar" role="img" aria-label="讲者林一舟的头像">林</div>
+          <h3>林一舟</h3>
+          <p>独立开发者 / SoloShip 作者</p>
+        </div>
+        <div class="bio">
+          <p>林一舟做了 9 年独立开发，先后上线 4 款付费产品：密码托管工具 SubVault、期刊订阅聚合 ReadStack、开发者笔记 Flownote，以及现在的单人产品运营面板 SoloShip——一个人维护着 2000 余名付费用户，当前 MRR $8.6K。</p>
+          <p>这场直播的全部案例、数字与失败记录，都直接取自他自己的经营后台，不引用二手资料。</p>
+          <p class="bio-prev">往期专栏：<b>《一个人如何扛住 2000 名付费用户》</b> / <b>《定价实验：把 $5 抬到 $12 的三周记录》</b></p>
+          <div class="stats">
+            <div class="stat">
+              <span class="st-v">9 年</span>
+              <span class="st-l">独立开发经验</span>
+            </div>
+            <div class="stat">
+              <span class="st-v">4 款</span>
+              <span class="st-l">在售付费产品</span>
+            </div>
+            <div class="stat">
+              <span class="st-v">$8.6K</span>
+              <span class="st-l">当前 MRR / 截至 2026-09 末</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 四区 / 时间安排与回放说明（紧迫与权益） -->
+  <section class="sec" id="agenda" aria-labelledby="agendaTitle">
+    <div class="container">
+      <p class="sec-k">03 / 时间安排与回放说明</p>
+      <h2 id="agendaTitle">90 分钟怎么排，看完能带走什么</h2>
+      <ol class="agenda-list">
+        <li class="ag-row">
+          <span class="ag-time">20:00</span>
+          <div class="ag-body">
+            <h3>开场与参会者调研</h3>
+            <p>用 3 道选择题定位你在变现路径上的阶段，讲者按现场构成调整详略。</p>
+          </div>
+          <span class="ag-tag">开场</span>
+        </li>
+        <li class="ag-row">
+          <span class="ag-time">20:10</span>
+          <div class="ag-body">
+            <h3>单人产品变现四阶段拆解</h3>
+            <p>选品 / 定价 / 获客 / 自动化交付，每个阶段一个真实数据案例与一份执行清单。</p>
+          </div>
+          <span class="ag-tag">主讲</span>
+        </li>
+        <li class="ag-row">
+          <span class="ag-time">20:50</span>
+          <div class="ag-body">
+            <h3>实时问答</h3>
+            <p>直播间现场提问，报名者可提前提交问题并由讲者优先解答。</p>
+          </div>
+          <span class="ag-tag">互动</span>
+        </li>
+        <li class="ag-row">
+          <span class="ag-time">21:20</span>
+          <div class="ag-body">
+            <h3>资料与回放说明</h3>
+            <p>变现自查清单的发放方式、回放观看入口与保留时限说明。</p>
+          </div>
+          <span class="ag-tag">资料</span>
+        </li>
+        <li class="ag-row">
+          <span class="ag-time">21:30</span>
+          <div class="ag-body">
+            <h3>结束</h3>
+            <p>后续可在讲者专栏继续提问，报名邮箱会收到全部资料索引。</p>
+          </div>
+          <span class="ag-tag">收尾</span>
+        </li>
+      </ol>
+
+      <div class="note">
+        <h3>无法到场？</h3>
+        <p>报名即可在直播结束后 24 小时内收到回放链接（保留 7 天，含字幕与章节标记）与变现自查清单，无需任何额外操作，也不用担心错过实时问答的整理稿。</p>
+        <p class="capacity">直播间容量 <b>500 席</b> / 截至 2026-10-08 09:00 已确认 <b>437 席</b> / 该数据由报名系统每小时核验，报满即关闭表单</p>
+      </div>
+
+      <div class="bonus-grid">
+        <div class="bonus-card">
+          <p class="bonus-k">赠 01</p>
+          <h3>变现自查清单</h3>
+          <p>22 项自检表，覆盖从定价到复购的关键节点，直播后 24 小时内随邮件发送。</p>
+        </div>
+        <div class="bonus-card">
+          <p class="bonus-k">赠 02</p>
+          <h3>7 天回放</h3>
+          <p>含字幕与章节标记，错过直播或想逐段复盘都可以随时回看。</p>
+        </div>
+        <div class="bonus-card">
+          <p class="bonus-k">赠 03</p>
+          <h3>优先提问通道</h3>
+          <p>报名后即可通过确认邮件提交问题，讲者会在实时问答环节优先解答。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 五区 / 报名 CTA：第二次表单（底部锚点） -->
+  <section class="sec sec-alt" id="enroll" aria-labelledby="enrollTitle">
+    <div class="container">
+      <p class="sec-k">04 / 立即报名</p>
+      <div class="enroll-grid">
+        <div class="enroll-pitch">
+          <h2 id="enrollTitle">锁定你的直播席位</h2>
+          <p>提交后你将收到：确认邮件 / 开播前 1 小时提醒（附直播间链接）/ 直播结束 24 小时内的回放与清单邮件。</p>
+          <ul class="pitch-list">
+            <li>90 分钟直播免费参加，不设隐藏付费环节</li>
+            <li>可提前提交问题，讲者优先解答报名者提问</li>
+            <li>回复任意一封邮件即可取消后续提醒</li>
+          </ul>
+          <dl class="info-card">
+            <dt>开播时间</dt>
+            <dd>2026-10-15（周四）20:00 / 北京时间（UTC+8）</dd>
+            <dt>直播时长</dt>
+            <dd>90 分钟 / 含 30 分钟实时问答</dd>
+            <dt>回放权益</dt>
+            <dd>保留 7 天 / 含字幕，结束 24 小时内发送</dd>
+          </dl>
+          <p class="capacity">直播间容量 <b>500 席</b> / 截至 2026-10-08 09:00 已确认 <b>437 席</b> / 数据由报名系统每小时核验</p>
+        </div>
+        <form class="reg" novalidate aria-label="直播报名表单（底部）">
+          <div class="form-head">
+            <h2>预留免费直播席位</h2>
+            <p>与上方表单一致，填写一次即可，无需重复提交。</p>
+          </div>
+          <div class="fields">
+            <div class="field">
+              <label for="f2-name">姓名</label>
+              <input type="text" id="f2-name" name="name" autocomplete="name" placeholder="怎么称呼你" required data-validate data-msg="请填写姓名（至少 2 个字符）" aria-describedby="f2-name-err">
+              <p class="err" id="f2-name-err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="f2-mail">邮箱</label>
+              <input type="email" id="f2-mail" name="email" autocomplete="email" placeholder="you@example.com" required data-validate data-msg="请输入有效邮箱，回放与清单将发送至此" aria-describedby="f2-mail-err">
+              <p class="err" id="f2-mail-err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="f2-stage">你目前的阶段（可选）</label>
+              <select id="f2-stage" name="stage">
+                <option value="none">请选择</option>
+                <option value="idea">还没有产品，想先验证点子</option>
+                <option value="built">已有产品，尚未收费</option>
+                <option value="revenue">已有收入，想放大规模</option>
+              </select>
+            </div>
+            <div class="field field-check">
+              <input type="checkbox" id="f2-agree" name="agree" required data-validate data-msg="需要你的同意才能发送开播提醒与回放邮件" aria-describedby="f2-agree-err">
+              <label for="f2-agree">同意接收开播提醒、直播间链接与回放邮件，可随时取消</label>
+            </div>
+            <p class="err" id="f2-agree-err" aria-live="polite" style="margin-top:-8px"></p>
+            <button type="submit" class="btn-primary">免费预留直播席位</button>
+            <p class="fine">直播免费 / 回放保留 7 天 / 不向第三方提供邮箱</p>
+          </div>
+          <div class="form-ok" tabindex="-1">
+            <h3>报名已确认</h3>
+            <p>确认邮件已发送至你填写的邮箱。开播前 1 小时会再次提醒，回放与自查清单将在直播结束后 24 小时内送达。</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-in">
+    <p class="foot-brand">UI 设计提示词库 / 落地结构 No.24</p>
+    <nav class="foot-nav" aria-label="页脚导航">
+      <a href="../style-catalog.html">返回风格目录</a>
+      <a href="#hero">回到顶部</a>
+    </nav>
+    <p class="foot-note">结构依据 / Hero（主题 + 倒计时 + 表单） > 你将学到 > 讲者介绍 > 时间安排与回放（紧迫与权益） > 再次表单 / 本页为结构演示样张，人物与数据均为示例</p>
+  </div>
+</footer>
+
+<noscript><style>.cd,.ticker-ctl{display:none}</style></noscript>
+<script>
+(function () {
+  'use strict';
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 倒计时：reduced-motion 只静态渲染一次；页面隐藏或 hero 离屏时暂停 */
+  var target = new Date('2026-10-15T20:00:00+08:00').getTime();
+  var cells = {
+    d: document.getElementById('cdD'),
+    h: document.getElementById('cdH'),
+    m: document.getElementById('cdM'),
+    s: document.getElementById('cdS')
+  };
+  var note = document.getElementById('cdNote');
+  var hero = document.getElementById('hero');
+  var heroVisible = true;
+  if ('IntersectionObserver' in window && hero) {
+    new IntersectionObserver(function (entries) {
+      heroVisible = entries[0].isIntersecting;
+    }, { threshold: 0 }).observe(hero);
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function renderCd() {
+    var diff = target - Date.now();
+    if (diff <= 0) {
+      cells.d.textContent = cells.h.textContent = cells.m.textContent = cells.s.textContent = '00';
+      if (note) { note.textContent = '直播已开始 / 报名后可直接进入直播间并获取回放'; }
+      return;
+    }
+    cells.d.textContent = pad(Math.floor(diff / 86400000));
+    cells.h.textContent = pad(Math.floor(diff / 3600000) % 24);
+    cells.m.textContent = pad(Math.floor(diff / 60000) % 60);
+    cells.s.textContent = pad(Math.floor(diff / 1000) % 60);
+  }
+  renderCd();
+  if (!REDUCED) {
+    window.setInterval(function () {
+      if (!document.hidden && heroVisible) { renderCd(); }
+    }, 1000);
+  }
+
+  /* 紧迫滚动条：暂停 / 关闭按钮，离屏或页面隐藏时自动停 */
+  var ticker = document.getElementById('ticker');
+  if (ticker) {
+    var pauseBtn = document.getElementById('tkPause');
+    var hideBtn = document.getElementById('tkHide');
+    var pausedByUser = false;
+    var tickerVisible = true;
+    function applyTicker() {
+      var stop = pausedByUser || !tickerVisible || document.hidden;
+      ticker.classList.toggle('is-paused', stop);
+      if (pauseBtn) {
+        pauseBtn.textContent = pausedByUser ? '继续滚动' : '暂停滚动';
+        pauseBtn.setAttribute('aria-pressed', pausedByUser ? 'true' : 'false');
+      }
+    }
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', function () {
+        pausedByUser = !pausedByUser;
+        applyTicker();
+      });
+    }
+    if (hideBtn) {
+      hideBtn.addEventListener('click', function () { ticker.hidden = true; });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        tickerVisible = entries[0].isIntersecting;
+        applyTicker();
+      }, { threshold: 0 }).observe(ticker);
+    }
+    document.addEventListener('visibilitychange', applyTicker);
+    applyTicker();
+  }
+
+  /* 表单验证与成功态：两个表单共用同一逻辑 */
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  Array.prototype.forEach.call(document.querySelectorAll('form.reg'), function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var ok = true;
+      Array.prototype.forEach.call(form.querySelectorAll('[data-validate]'), function (el) {
+        var err = document.getElementById(el.id + '-err');
+        var good = el.type === 'checkbox'
+          ? el.checked
+          : (el.type === 'email' ? EMAIL.test(el.value.trim()) : el.value.trim().length >= 2);
+        var field = el.closest('.field');
+        if (field) { field.classList.toggle('invalid', !good); }
+        el.setAttribute('aria-invalid', good ? 'false' : 'true');
+        if (err) { err.textContent = good ? '' : el.getAttribute('data-msg'); }
+        if (!good) {
+          if (ok) { el.focus(); }
+          ok = false;
+        }
+      });
+      if (!ok) { return; }
+      form.classList.add('sent');
+      var done = form.querySelector('.form-ok');
+      if (done) { done.focus(); }
+    });
+  });
+})();
+</script>
 </body>
 </html>

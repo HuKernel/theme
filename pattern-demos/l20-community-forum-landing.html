@@ -4,137 +4,683 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>落地结构 / Community/Forum Landing — landing.csv 官方模式</title>
-<meta name="description" content="UI 设计提示词库 / 风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>Community 结构 / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 落地结构 No.20 Community/Forum Landing 观鸟社区演示样张。">
 <style>
-@import url('https://fonts.googleapis.com/css2?Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap');
+/* token 计划: 暖纸底 #FBF7EF / 墨棕 #2B211A / 松绿主 #1F5D45 / 锈红 #A3421F / 暮蓝 #33547A / 苇金 #8A6A1F / 活跃绿 #1D7A4B / 圆角 12px / 描边 1.5px —— 依据 l20 Color Strategy: warm welcoming + 品牌色版块徽章 + 绿色活跃指示 */
 :root {
-  --bg: #0D0F16; --fg: #EEF1F7; --muted: rgba(238,241,247,.68); --card: #161923;
-  --border: rgba(255,255,255,.14); --primary: #000000; --secondary: #121212;
-  --accent: #0A0E27; --on-primary: #fff;
-  --radius: 14px; --btn-radius: 10px;
+  --bg: #FBF7EF; --fg: #2B211A; --muted: #6B5B47; --card: #FFFFFF; --plate: #F2EAD6;
+  --line: #E3D6BC; --ink-line: #2B211A;
+  --pine: #1F5D45; --pine-deep: #16382B; --pine-soft: #C9DBCE;
+  --rust: #A3421F; --dusk: #33547A; --gold: #8A6A1F; --plum: #5E4675;
+  --green: #1D7A4B; --cream: #F5EFE3;
+  --radius: 12px; --btn-radius: 10px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg); color: var(--fg); line-height: 1.6;
-  
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  font-size: 16px;
 }
-h1, h2, h3, .num { font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.topbar { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid rgba(255,255,255,.14); }
-.topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-.logo { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--fg); font-family: 'Space Grotesk', sans-serif; }
-.logo-mark { width: 32px; height: 32px; border-radius: calc(var(--radius) * .6);
-  background: var(--primary); color: var(--on-primary); display: grid; place-items: center; }
-nav { display: flex; gap: 22px; }
-nav a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
-nav a:hover, nav a:focus-visible { color: var(--primary); }
+h1, h2, h3, .stat-num { font-family: "Songti SC", "SimSun", "Noto Serif SC", serif; }
+a { color: var(--pine); }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; border-radius: 4px; }
+.hero :focus-visible { outline-color: var(--cream); }
+
+/* 顶栏 */
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 2px solid var(--ink-line); }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; text-decoration: none; color: var(--fg); }
+.logo-mark { width: 34px; height: 34px; border-radius: 50%; background: var(--pine); display: grid; place-items: center; flex: none; }
+.nav-links { display: flex; gap: 22px; }
+.nav-links a { color: var(--fg); text-decoration: none; font-size: 14.5px; }
+.nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* 按钮 */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font: inherit; font-weight: 600; font-size: 14.5px;
-  padding: 11px 22px; border-radius: var(--btn-radius);
-  cursor: pointer; text-decoration: none; border: 1px solid rgba(255,255,255,.14);
-  background: var(--card); color: var(--fg);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: var(--btn-radius);
+  border: 1.5px solid var(--ink-line);
+  background: var(--card);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, color .15s ease;
 }
-.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
-.btn-primary:hover { transform: translateY(-2px);  }
-a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.card { background: var(--card); border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(0,0,0,.13); padding: 24px;
-  transition: transform 200ms ease, box-shadow 200ms ease; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,.2);  }
-.card-icon { width: 42px; height: 42px; border-radius: calc(var(--radius) * .7);
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin-bottom: 14px; }
-.card h3 { font-size: 16.5px; margin-bottom: 6px; }
-.card p { font-size: 13.5px; color: var(--muted); }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@keyframes gradflow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.btn:hover { transform: translateY(-1px); }
+.btn-primary {
+  background: var(--pine);
+  border-color: var(--pine);
+  color: #FFFFFF;
+}
+.btn-primary:hover { background: #17492F; border-color: #17492F; }
+.btn-ghost-dark {
+  background: transparent;
+  border-color: var(--cream);
+  color: var(--cream);
+}
+.btn-ghost-dark:hover { background: rgba(245, 239, 227, .12); }
 
+/* Hero: 社区价值 */
+.hero {
+  background: radial-gradient(1100px 500px at 82% 8%, rgba(31, 93, 69, .5), transparent 60%), var(--pine-deep);
+  color: var(--cream);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 56px;
+  align-items: center;
+  padding: 76px 0 60px;
+}
+.hero-kicker { font-size: 14px; color: var(--pine-soft); margin-bottom: 14px; }
+.hero h1 {
+  font-size: clamp(30px, 4.4vw, 46px);
+  line-height: 1.28;
+  margin-bottom: 18px;
+  letter-spacing: .5px;
+}
+.hero-sub { font-size: 16.5px; color: var(--pine-soft); max-width: 34em; margin-bottom: 28px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 26px; }
+.hero-proof { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--pine-soft); }
+.live-dot { width: 9px; height: 9px; border-radius: 50%; background: #3FAE6E; flex: none; }
 
-.hero { padding: 72px 0 48px; text-align: center; position: relative; }
-.doc-meta { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted);
-  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-h1 { font-size: clamp(32px, 5vw, 54px); font-weight: 800; line-height: 1.16; margin-bottom: 18px; }
-.sub { font-size: 17px; color: var(--muted); max-width: 560px; margin: 0 auto 34px; }
-.cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.sec { margin: 26px 0; }
-.section-h { font-size: 16px; font-weight: 800; margin-bottom: 14px;
-  display: flex; align-items: baseline; gap: 10px; }
-.section-h small { font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-  color: var(--muted); font-weight: 400; letter-spacing: .1em; }
-.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.stat { text-align: center; }
-.stat b { display: block; font-size: 34px; font-weight: 800; color: var(--primary); }
-.stat span { font-size: 13px; color: var(--muted); }
-.stats-row { margin: 10px 0; }
-.card-pad { padding: 26px; }
-.tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tst { padding: 20px; }
-.tst-ava { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.tst blockquote { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
-.tst figcaption { font-size: 12px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
-.vd { position: relative; height: 340px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); }
-.vd-play { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
-  background: var(--card); color: var(--fg); display: grid; place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-.vd-dur { position: absolute; right: 16px; bottom: 12px; font-size: 12px;
-  font-family: 'IBM Plex Mono', monospace; color: #fff; }
-.faq details { border-bottom: 1px solid var(--border); padding: 12px 4px; }
-.faq summary { cursor: pointer; font-weight: 600; font-size: 14.5px; }
-.faq p { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
-.faq { max-width: 640px; }
-.cp table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.cp th { text-align: left; font-size: 12.5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
-.cp td { padding: 10px; border-bottom: 1px dotted var(--border); }
-.cp-us { color: var(--primary); font-weight: 600; }
-.cp-old { color: var(--muted); }
-.gl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.gl-i { height: 140px; border-radius: calc(var(--radius) * .7);
-  background: linear-gradient(135deg, var(--secondary), var(--primary)); opacity: .85; }
-.gl-grid .gl-i:nth-child(2n) { background: linear-gradient(135deg, var(--accent), var(--secondary)); }
-.lg-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; opacity: .75; }
-.lg { font-weight: 800; font-size: 15px; padding: 8px 18px; border: 1.5px solid var(--border); border-radius: 8px; }
-.nl { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: 560px; }
-.nl input { flex: 1; min-width: 200px; font: inherit; padding: 11px 14px;
-  border: 1.5px solid var(--border); border-radius: calc(var(--btn-radius));
-  background: var(--bg); color: var(--fg); }
-.nl input:focus { outline: 3px solid var(--primary); outline-offset: 1px; }
-.nl small { width: 100%; font-size: 12px; color: var(--muted); }
-.st-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.st-ch { padding: 22px; display: grid; gap: 8px; }
-.st-no { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--primary); font-weight: 600; }
-.st-ch b { font-size: 16px; }
-.st-ch p { font-size: 13.5px; color: var(--muted); }
-.pb-big { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 14px; }
-.pb-list { list-style: none; display: grid; gap: 6px; }
-.pb-list li { font-size: 14px; color: var(--muted); }
-.pb-list li::before { content: "× "; color: var(--accent); font-weight: 800; }
-.val b { font-size: 17px; display: block; margin-bottom: 6px; }
-.val p { font-size: 14px; color: var(--muted); }
-.val { max-width: 640px; }
-.cta-full { text-align: center; margin: 30px 0 60px; }
-.cta-full h2 { font-size: clamp(22px, 3.4vw, 32px); margin-bottom: 8px; }
-.cta-full p { font-size: 14px; color: var(--muted); margin-bottom: 18px;
-  font-family: 'IBM Plex Mono', monospace; }
-footer { border-top: 1px solid rgba(255,255,255,.14); padding: 26px 0; text-align: center; font-size: 13px; color: var(--muted); }
-footer a { color: var(--primary); }
-@media (max-width: 860px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr 1fr; } nav { display: none; } }
-@media (max-width: 640px) { .grid3, .tst-grid, .gl-grid, .st-grid { grid-template-columns: 1fr; } }
+/* 望远镜视野圆框(签名组件) */
+.scope-wrap { text-align: center; }
+.scope {
+  position: relative;
+  width: min(400px, 82%);
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 10px solid #EDDFC2;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 6px rgba(43, 33, 26, .35), inset 0 0 46px rgba(22, 28, 20, .45), 0 18px 40px rgba(6, 18, 12, .45);
+}
+.scope::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(transparent 49.5%, rgba(43, 33, 26, .38) 49.5% 50.5%, transparent 50.5%), linear-gradient(90deg, transparent 49.5%, rgba(43, 33, 26, .38) 49.5% 50.5%, transparent 50.5%);
+  pointer-events: none;
+}
+.scope::after {
+  content: "";
+  position: absolute;
+  inset: -16px;
+  border: 1.5px dashed rgba(237, 223, 194, .55);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.scope svg { display: block; width: 100%; height: 100%; }
+.scope-meta { margin-top: 22px; font-size: 13px; color: var(--pine-soft); }
 
+/* 通用分节 */
+.sec { padding: 66px 0 10px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; margin-bottom: 26px; }
+.sec-head h2 { font-size: clamp(24px, 3vw, 32px); letter-spacing: .5px; }
+.sec-note { font-size: 13px; color: var(--muted); }
+
+/* 热门版块 */
+.boards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card);
+  border: 1.5px solid var(--ink-line);
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.board:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(43, 33, 26, .12);
+}
+.board-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.board-icon { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.icon-rust { background: #F6E3D8; color: var(--rust); }
+.icon-pine { background: #DFEDE4; color: var(--pine); }
+.icon-dusk { background: #E0E8F2; color: var(--dusk); }
+.chip { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #FFFFFF; letter-spacing: 1px; }
+.chip-rust { background: var(--rust); }
+.chip-pine { background: var(--pine); }
+.chip-dusk { background: var(--dusk); }
+.board h3 { font-size: 21px; }
+.board p { font-size: 14.5px; color: var(--muted); }
+.b-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; padding-top: 14px; border-top: 1.5px dashed var(--line); }
+.b-stat b { display: block; font-size: 17px; }
+.b-stat span { font-size: 12.5px; color: var(--muted); }
+.b-live { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--green); font-weight: 600; margin-top: 2px; }
+.b-last { font-size: 13px; color: var(--muted); background: var(--plate); border-radius: 8px; padding: 9px 12px; }
+.b-last b { color: var(--fg); }
+
+/* 活跃话题(行 grid 严格对齐) */
+.tlist { background: var(--card); border: 1.5px solid var(--ink-line); border-radius: var(--radius); overflow: hidden; }
+.trow {
+  --cols: minmax(0, 1fr) 112px 64px 64px 104px;
+  display: grid;
+  grid-template-columns: var(--cols);
+  gap: 14px;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1.5px solid var(--line);
+  position: relative;
+}
+.trow:last-child { border-bottom: none; }
+.trow:not(.trow-head):hover { background: #FAF4E6; }
+.trow-head {
+  background: var(--plate);
+  font-size: 12.5px;
+  color: var(--muted);
+  padding-top: 11px;
+  padding-bottom: 11px;
+  border-bottom: 1.5px solid var(--ink-line);
+}
+.t-main { min-width: 0; }
+.t-title { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 15.5px; display: inline-block; }
+.t-title:hover { text-decoration: underline; text-underline-offset: 4px; }
+.t-meta { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+.t-board { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #FFFFFF; white-space: nowrap; }
+.t-num, .t-time { font-size: 14px; color: var(--muted); }
+.t-num { text-align: right; font-variant-numeric: tabular-nums; }
+.t-head-num { text-align: right; }
+.tprev {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 20px;
+  z-index: 6;
+  width: min(460px, calc(100% - 40px));
+  background: var(--ink-line);
+  color: var(--cream);
+  font-size: 13px;
+  line-height: 1.55;
+  border-radius: 8px;
+  padding: 10px 14px;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 10px 22px rgba(43, 33, 26, .28);
+}
+.tprev b { color: #F3D9A8; }
+@media (hover: hover) {
+  .trow:not(.trow-head):hover .tprev, .trow:not(.trow-head):focus-within .tprev { opacity: 1; }
+}
+.t-more { display: inline-block; margin-top: 16px; font-size: 14.5px; font-weight: 600; }
+
+/* 成果与数据 */
+.stats-band { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 34px; }
+.stat { background: var(--card); border: 1.5px solid var(--ink-line); border-radius: var(--radius); padding: 20px 22px; }
+.stat-num { font-size: 34px; line-height: 1.2; }
+.stat-label { font-size: 14.5px; font-weight: 600; margin: 2px 0 4px; }
+.stat-note { font-size: 12.5px; color: var(--muted); }
+.show-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 22px; align-items: stretch; }
+.sighting {
+  background: var(--card);
+  border: 1.5px solid var(--ink-line);
+  border-radius: var(--radius);
+  padding: 26px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sight-tag { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gold); font-weight: 600; }
+.sighting h3 { font-size: 22px; line-height: 1.4; }
+.latin { font-style: italic; font-size: 13.5px; color: var(--muted); }
+.sight-plate { background: var(--plate); border: 1.5px solid var(--line); border-radius: 10px; padding: 14px 16px 8px; }
+.sight-plate svg { display: block; width: 100%; height: auto; }
+.sight-notes { display: grid; gap: 9px; margin-top: 2px; }
+.sight-notes li { list-style: none; font-size: 13.5px; color: var(--muted); padding-left: 16px; position: relative; }
+.sight-notes li::before { content: ""; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--pine); }
+.sight-notes b { color: var(--fg); }
+.members-col { display: flex; flex-direction: column; gap: 14px; }
+.members-col h3 { font-size: 19px; }
+.members-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; align-content: stretch; }
+.member { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.ava { width: 44px; height: 44px; border-radius: 50%; color: #FFFFFF; display: grid; place-items: center; font-size: 17px; font-weight: 700; flex: none; }
+.ava-rust { background: var(--rust); }
+.ava-pine { background: var(--pine); }
+.ava-dusk { background: var(--dusk); }
+.ava-gold { background: var(--gold); }
+.ava-plum { background: var(--plum); }
+.ava-green { background: #14532F; }
+.member b { display: block; font-size: 14.5px; }
+.member span { font-size: 12.5px; color: var(--muted); }
+.members-note { font-size: 12.5px; color: var(--muted); }
+
+/* 加入行动转化 */
+.join {
+  margin: 66px 0 70px;
+  background: var(--pine-deep);
+  border-radius: 16px;
+  color: var(--cream);
+  padding: 52px 54px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 44px;
+  align-items: center;
+}
+.join h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.35; margin-bottom: 14px; }
+.join-intro { color: var(--pine-soft); font-size: 15.5px; margin-bottom: 20px; }
+.join-list { display: grid; gap: 11px; }
+.join-list li { list-style: none; padding-left: 20px; position: relative; font-size: 14.5px; color: var(--pine-soft); }
+.join-list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: #F3D9A8; }
+.join-list b { color: var(--cream); }
+.join-form { background: var(--card); border-radius: 12px; padding: 26px; color: var(--fg); display: grid; gap: 14px; }
+.join-form .field { display: grid; gap: 6px; }
+.join-form label { font-size: 13.5px; font-weight: 600; }
+.join-form input {
+  font: inherit;
+  padding: 11px 13px;
+  border: 1.5px solid var(--ink-line);
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: var(--fg);
+}
+.join-form input::placeholder { color: #8A7A64; }
+.join-form .btn { width: 100%; margin-top: 4px; }
+.join-fine { font-size: 12.5px; color: var(--muted); }
+
+/* footer */
+footer { border-top: 2px solid var(--ink-line); padding: 26px 0 34px; text-align: center; font-size: 13.5px; color: var(--muted); }
+footer a { font-weight: 600; }
+
+/* 亮相动效(仅一次) */
+@keyframes scope-in { from { transform: scale(1.14); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.scope {
+  animation: scope-in .9s cubic-bezier(.22, .61, .36, 1) both;
+}
+.hero-copy > * { animation: rise .7s ease-out both; }
+.hero-copy > *:nth-child(2) { animation-delay: .08s; }
+.hero-copy > *:nth-child(3) { animation-delay: .16s; }
+.hero-copy > *:nth-child(4) { animation-delay: .24s; }
+.hero-copy > *:nth-child(5) { animation-delay: .3s; }
+
+/* 响应式 1440 / 768 / 375 */
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 44px; padding: 56px 0 48px; }
+  .scope { width: min(340px, 78%); }
+  .boards-grid { grid-template-columns: 1fr; }
+  .show-grid { grid-template-columns: 1fr; }
+  .join { grid-template-columns: 1fr; padding: 40px 30px; }
+}
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .stats-band { grid-template-columns: 1fr; gap: 14px; }
+  .trow { --cols: minmax(0, 1fr) 60px 92px; }
+  .t-board-cell, .t-view-cell { display: none; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 18px; }
+  .members-grid { grid-template-columns: 1fr; }
+  .trow { padding: 13px 14px; gap: 10px; }
+  .tprev { left: 14px; }
+  .hero h1 { font-size: 29px; }
+}
+
+/* reduced motion 降级 */
+@media (prefers-reduced-motion: reduce) {
+  .scope, .hero-copy > * { animation: none; opacity: 1; transform: none; }
+  .btn, .board { transition: none; }
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="container topbar-inner"><a class="logo" href="#"><span class="logo-mark"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 2-2 9h6l-9 11 2-9H4Z"/></svg></span>市轮渡 3 号线</a><nav aria-label="主导航"><a href="#features">功能</a><a href="#stats">成效</a><a href="../style-catalog.html">风格目录</a></nav><a class="btn btn-primary" href="#">查实时班次</a></div></header><main><section class="hero container"><p class="doc-meta">班次表 / 06:30-23:00 / 每 20 分钟 / 全程 12 分钟</p><h1>过江最快的，一直是最慢的这条</h1><p class="sub">轮渡 3 号线：六十年航线没改过。桥修了三座，赶时间的都走了，江还是给剩下的人。</p><div class="cta-row"><a class="btn btn-primary" href="#">查实时班次</a><a class="btn" href="#">航线图</a></div></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>票价</b><p>两块钱二十年没涨，自行车免费，电动车一块。</p></div></section></section><section class="container"><section class="sec value"><h2 class="section-h">为什么是它</h2><div class="val card card-pad"><b>顶层甲板</b><p>看日落最好的位置不要钱，带件外套。</p></div></section></section><section class="container"><div class="cta-full card card-pad"><h2>查实时班次，现在</h2><p>班次表 / 06:30-23:00 / 每 20 分钟 / 全程 12 分钟</p><a class="btn btn-primary" href="#">查实时班次</a></div></section><footer>市轮渡 3 号线 / 六十年航线 / 落地页结构样板 / <a href="../style-catalog.html">返回目录</a></footer></main>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="22" height="14" viewBox="0 0 40 26" fill="#FFFFFF"><path d="M20 2 C21.6 2 22.8 3.2 22.8 4.8 C22.8 5.6 22.5 6.3 22 6.8 C28 6.2 33.5 3.8 37.5 0.5 C34.8 6.6 29.6 10.6 23.4 11.9 C23 14.6 22 17.6 24.2 22 C21.9 20.6 20.6 18.6 20 16.4 C19.4 18.6 18.1 20.6 15.8 22 C18 17.6 17 14.6 16.6 11.9 C10.4 10.6 5.2 6.6 2.5 0.5 C6.5 3.8 12 6.2 18 6.8 C17.5 6.3 17.2 5.6 17.2 4.8 C17.2 3.2 18.4 2 20 2 Z"/></svg>
+      </span>
+      羽邻 / 观鸟者社区
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#boards">热门版块</a>
+      <a href="#topics">活跃话题</a>
+      <a href="#showcase">本周鸟讯</a>
+    </nav>
+    <a class="btn btn-primary" href="#join">注册加入</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- Section 1: 社区价值 hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker">羽邻 / 观鸟者互助社区 / 2016 年至今</p>
+        <h1>看到不认识的鸟,拍下来,发上来</h1>
+        <p class="hero-sub">鸟种辨识、器材选择、观鸟点情报,三个版块都在等你的下一帖。你只管抬头看鸟,定种、选镜、找鸟点这些事,交给 12,847 位同行者。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#join">免费加入羽邻</a>
+          <a class="btn btn-ghost-dark" href="#boards">先逛逛版块</a>
+        </div>
+        <p class="hero-proof">
+          <span class="live-dot" aria-hidden="true"></span>
+          近 30 天 936 位新人完成注册 / 数据截至 2026-09-30,经站方核验
+        </p>
+      </div>
+      <div class="scope-wrap">
+        <div class="scope" role="img" aria-label="望远镜圆视野中的秋迁景象:暮色天空、山脊剪影、芦苇与一群飞过的燕子剪影">
+          <svg viewBox="0 0 400 400" aria-hidden="true">
+            <defs>
+              <linearGradient id="dusk-sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F6E7C6"/>
+                <stop offset="1" stop-color="#E7CB9B"/>
+              </linearGradient>
+              <g id="sw">
+                <path fill="#2B211A" d="M20 2 C21.6 2 22.8 3.2 22.8 4.8 C22.8 5.6 22.5 6.3 22 6.8 C28 6.2 33.5 3.8 37.5 0.5 C34.8 6.6 29.6 10.6 23.4 11.9 C23 14.6 22 17.6 24.2 22 C21.9 20.6 20.6 18.6 20 16.4 C19.4 18.6 18.1 20.6 15.8 22 C18 17.6 17 14.6 16.6 11.9 C10.4 10.6 5.2 6.6 2.5 0.5 C6.5 3.8 12 6.2 18 6.8 C17.5 6.3 17.2 5.6 17.2 4.8 C17.2 3.2 18.4 2 20 2 Z"/>
+              </g>
+            </defs>
+            <rect width="400" height="400" fill="url(#dusk-sky)"/>
+            <circle cx="308" cy="128" r="30" fill="#F4D9A4"/>
+            <circle cx="308" cy="128" r="44" fill="#F4D9A4" opacity=".35"/>
+            <path d="M0 236 Q100 196 196 232 T400 222 V400 H0 Z" fill="#4C6B58" opacity=".6"/>
+            <path d="M0 272 Q120 236 236 268 T400 262 V400 H0 Z" fill="#2E4A3A"/>
+            <rect x="0" y="300" width="400" height="100" fill="#D8C08F"/>
+            <path d="M0 318 H400 M0 342 H400 M0 368 H400" stroke="#C4A874" stroke-width="3"/>
+            <use href="#sw" x="70" y="86" width="46" height="30"/>
+            <use href="#sw" x="150" y="60" width="34" height="22"/>
+            <use href="#sw" x="212" y="104" width="52" height="34"/>
+            <use href="#sw" x="286" y="70" width="28" height="18"/>
+            <use href="#sw" x="98" y="140" width="24" height="16"/>
+            <g stroke="#1C3A2C" stroke-width="4" stroke-linecap="round">
+              <path d="M52 400 V320"/>
+              <path d="M78 400 V338"/>
+              <path d="M318 400 V312"/>
+              <path d="M344 400 V332"/>
+            </g>
+            <g fill="#1C3A2C">
+              <ellipse cx="52" cy="312" rx="5" ry="14"/>
+              <ellipse cx="318" cy="302" rx="5" ry="15"/>
+              <ellipse cx="344" cy="324" rx="4" ry="11"/>
+            </g>
+          </svg>
+        </div>
+        <p class="scope-meta">目镜里的世界 / 8×42 / 秋迁季 / 老铁山</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: 热门版块 -->
+  <section class="sec container" id="boards">
+    <div class="sec-head">
+      <h2>热门版块</h2>
+      <p class="sec-note">三个版块 / 各有规矩 / 都欢迎新手</p>
+    </div>
+    <div class="boards-grid">
+      <article class="board">
+        <div class="board-top">
+          <span class="board-icon icon-rust" aria-hidden="true">
+            <svg width="24" height="16" viewBox="0 0 40 26" fill="currentColor"><path d="M20 2 C21.6 2 22.8 3.2 22.8 4.8 C22.8 5.6 22.5 6.3 22 6.8 C28 6.2 33.5 3.8 37.5 0.5 C34.8 6.6 29.6 10.6 23.4 11.9 C23 14.6 22 17.6 24.2 22 C21.9 20.6 20.6 18.6 20 16.4 C19.4 18.6 18.1 20.6 15.8 22 C18 17.6 17 14.6 16.6 11.9 C10.4 10.6 5.2 6.6 2.5 0.5 C6.5 3.8 12 6.2 18 6.8 C17.5 6.3 17.2 5.6 17.2 4.8 C17.2 3.2 18.4 2 20 2 Z"/></svg>
+          </span>
+          <span class="chip chip-rust">最热</span>
+        </div>
+        <h3>鸟种辨识</h3>
+        <p>柳莺、鹟、鹀傻傻分不清?把照片和地点发上来,站内定种采纳率 92%,鸣声录音同样有效。</p>
+        <p class="b-live"><span class="live-dot" aria-hidden="true"></span>近 7 日有新帖,版块活跃</p>
+        <div class="b-stats">
+          <div class="b-stat"><b>48,210</b><span>累计主题</span></div>
+          <div class="b-stat"><b>1,208</b><span>本周新帖</span></div>
+        </div>
+        <p class="b-last"><b>最新一帖</b> / 深圳湾白眼圈柳莺正脸求定种 / 3 小时前</p>
+      </article>
+      <article class="board">
+        <div class="board-top">
+          <span class="board-icon icon-pine" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="7.5" cy="15.5" r="4.5"/>
+              <circle cx="16.5" cy="15.5" r="4.5"/>
+              <path d="M5.8 11.4 7.4 4.5"/>
+              <path d="M18.2 11.4 16.6 4.5"/>
+              <path d="M7.4 4.5h3.4l1.2 4.6 1.2-4.6h3.4"/>
+            </svg>
+          </span>
+          <span class="chip chip-pine">实战</span>
+        </div>
+        <h3>观鸟器材</h3>
+        <p>不背参数,只讲实战:第一支长焦怎么选、单筒怎么架、目镜接手机拍记录照,都是鸟友踩过坑之后的结论。</p>
+        <p class="b-live"><span class="live-dot" aria-hidden="true"></span>近 7 日有新帖,版块活跃</p>
+        <div class="b-stats">
+          <div class="b-stat"><b>21,573</b><span>累计主题</span></div>
+          <div class="b-stat"><b>486</b><span>本周新帖</span></div>
+        </div>
+        <p class="b-last"><b>最新一帖</b> / 6 千预算第一支拍鸟镜求推荐 / 昨天 21:40</p>
+      </article>
+      <article class="board">
+        <div class="board-top">
+          <span class="board-icon icon-dusk" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s-7-5.8-7-11a7 7 0 1 1 14 0c0 5.2-7 11-7 11z"/>
+              <circle cx="12" cy="10" r="2.6"/>
+            </svg>
+          </span>
+          <span class="chip chip-dusk">时效</span>
+        </div>
+        <h3>观鸟点情报</h3>
+        <p>鸟点公开有争议,这里只收录已获许可的公共观测区:潮汐窗口、进入路线、近期鸟况,出发前必读。</p>
+        <p class="b-live"><span class="live-dot" aria-hidden="true"></span>近 7 日有新帖,版块活跃</p>
+        <div class="b-stats">
+          <div class="b-stat"><b>15,942</b><span>累计主题</span></div>
+          <div class="b-stat"><b>673</b><span>本周新帖</span></div>
+        </div>
+        <p class="b-last"><b>最新一帖</b> / 老铁山鹰河三天实录与计数 / 10-06</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Section 3: 活跃话题 -->
+  <section class="sec container" id="topics">
+    <div class="sec-head">
+      <h2>本周活跃话题</h2>
+      <p class="sec-note">统计周期 09/29 至 10/05 / 回复与浏览为站内计数</p>
+    </div>
+    <div class="tlist">
+      <div class="trow trow-head">
+        <div class="t-main">话题</div>
+        <div class="t-board-cell">版块</div>
+        <div class="t-head-num">回复</div>
+        <div class="t-head-num t-view-cell">浏览</div>
+        <div>最后活动</div>
+      </div>
+      <div class="trow">
+        <div class="t-main">
+          <a class="t-title" href="#">深圳湾白眼圈柳莺,拍到正脸了,求定种</a>
+          <p class="t-meta">楼主 @红树林散步 / 14 回复来自辨识组</p>
+          <p class="tprev"><b>悬赏定种</b> / 正脸与眼先特写在 3 楼,翼斑两条清晰,两位老师倾向黄眉柳莺,等鸣声录音定案。</p>
+        </div>
+        <div class="t-board-cell"><span class="t-board" style="background: var(--rust);">鸟种辨识</span></div>
+        <div class="t-num">214</div>
+        <div class="t-num t-view-cell">8,903</div>
+        <div class="t-time">3 小时前</div>
+      </div>
+      <div class="trow">
+        <div class="t-main">
+          <a class="t-title" href="#">6 千预算的第一支拍鸟镜:150-600 还是二手 200-500</a>
+          <p class="t-meta">楼主 @阳台观鵟 / 残幅机身</p>
+          <p class="tprev"><b>器材实战</b> / 主拍林鸟加少量水鸟,目前在两支镜之间纠结,27 楼起讨论三脚架承重与背负方案。</p>
+        </div>
+        <div class="t-board-cell"><span class="t-board" style="background: var(--pine);">观鸟器材</span></div>
+        <div class="t-num">187</div>
+        <div class="t-num t-view-cell">12,406</div>
+        <div class="t-time">昨天 21:40</div>
+      </div>
+      <div class="trow">
+        <div class="t-main">
+          <a class="t-title" href="#">老铁山鹰河实录:三天两万只猛禽过境</a>
+          <p class="t-meta">楼主 @岬角守鹰 / 附计数表</p>
+          <p class="tprev"><b>鸟点情报</b> / 10/04 至 10/06 计数灰脸鵟鹰 11,400 只、蜂鹰 7,900 只,附过境时段分布图与风向记录。</p>
+        </div>
+        <div class="t-board-cell"><span class="t-board" style="background: var(--dusk);">观鸟点情报</span></div>
+        <div class="t-num">156</div>
+        <div class="t-num t-view-cell">9,542</div>
+        <div class="t-time">10-06</div>
+      </div>
+      <div class="trow">
+        <div class="t-main">
+          <a class="t-title" href="#">黄眉柳莺与云南柳莺,鸣声录音能定种吗</a>
+          <p class="t-meta">楼主 @听声辨鸟 / 频谱图在 12 楼</p>
+          <p class="tprev"><b>辨识讨论</b> / 同一条林道两种叫声,一句下滑一句上扬,频谱对比图已贴,求各位的耳朵与经验验证。</p>
+        </div>
+        <div class="t-board-cell"><span class="t-board" style="background: var(--rust);">鸟种辨识</span></div>
+        <div class="t-num">121</div>
+        <div class="t-num t-view-cell">6,210</div>
+        <div class="t-time">10-05</div>
+      </div>
+      <div class="trow">
+        <div class="t-main">
+          <a class="t-title" href="#">单筒加手机拍目镜,记录照也能出片</a>
+          <p class="t-meta">楼主 @溪畔鸲 / 流程图解</p>
+          <p class="tprev"><b>器材实战</b> / 25-75×70 单筒加手机夹,记录照完全够用,分享一套不抖的架设与快门流程。</p>
+        </div>
+        <div class="t-board-cell"><span class="t-board" style="background: var(--pine);">观鸟器材</span></div>
+        <div class="t-num">98</div>
+        <div class="t-num t-view-cell">5,034</div>
+        <div class="t-time">10-04</div>
+      </div>
+      <div class="trow">
+        <div class="t-main">
+          <a class="t-title" href="#">洱海周边三天两夜路线:水禽加林鸟共 87 种</a>
+          <p class="t-meta">楼主 @苍山鹟客 / 路线图在首帖</p>
+          <p class="tprev"><b>鸟点情报</b> / 才村码头起,环海西线,水禽 54 种、林鸟 33 种,路线图、时刻表与包车建议都在首帖。</p>
+        </div>
+        <div class="t-board-cell"><span class="t-board" style="background: var(--dusk);">观鸟点情报</span></div>
+        <div class="t-num">87</div>
+        <div class="t-num t-view-cell">7,768</div>
+        <div class="t-time">10-03</div>
+      </div>
+    </div>
+    <a class="t-more" href="#">进入完整话题列表</a>
+  </section>
+
+  <!-- Section 4: 用户成果 / 数据 -->
+  <section class="sec container" id="showcase">
+    <div class="sec-head">
+      <h2>本周最佳鸟讯</h2>
+      <p class="sec-note">每周由站务组从合规鸟讯中评选 / 附核验信息</p>
+    </div>
+    <div class="stats-band">
+      <div class="stat">
+        <div class="stat-num">12,847</div>
+        <div class="stat-label">注册鸟友</div>
+        <div class="stat-note">截至 2026-09-30 / 经站方核验</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">386,520</div>
+        <div class="stat-label">累计鸟讯记录</div>
+        <div class="stat-note">含 2016 年以来的历史归档</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">11 分钟</div>
+        <div class="stat-label">定种求助平均首答</div>
+        <div class="stat-note">本周求助 3,142 条 / 快照非实时</div>
+      </div>
+    </div>
+    <div class="show-grid">
+      <article class="sighting">
+        <p class="sight-tag"><span class="live-dot" aria-hidden="true"></span>第 286 期 / 2026 年 10 月第 1 周</p>
+        <h3>中华秋沙鸭 23 只 / 头道白河越冬首记</h3>
+        <p class="latin">Mergus squamatus / 国家一级重点保护野生动物</p>
+        <div class="sight-plate">
+          <svg viewBox="0 0 120 64" role="img" aria-label="中华秋沙鸭侧面剪影:带羽冠的头、细长的喙、在水面上游弋">
+            <g fill="#2E4A3A">
+              <path d="M4 26 L18 29 L18 33 Z"/>
+              <circle cx="26" cy="27" r="9"/>
+              <path d="M33 20 L46 13 L38 25 Z"/>
+              <path d="M18 30 C18 36 22 40 28 42 L36 43 30 28 Z"/>
+              <ellipse cx="62" cy="42" rx="30" ry="13"/>
+              <path d="M88 36 L112 23 L104 43 Z"/>
+            </g>
+            <path d="M8 57h28 M50 57h32 M96 57h16 M20 61h22 M62 61h30" stroke="#9DBFA6" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <ul class="sight-notes">
+          <li><b>记录人</b> / @白河守鸭人 / 10-04 06:50 / 吉林长白山保护区内公共观测点</li>
+          <li><b>站务核验</b> / 照片 EXIF 与水纹连续性一致 / 三名本地鸟友补充目击</li>
+          <li><b>入选理由</b> / 越冬季首批记录,较去年提前 6 天,数量为近五年同期最高</li>
+        </ul>
+      </article>
+      <div class="members-col">
+        <h3>活跃鸟友</h3>
+        <div class="members-grid">
+          <div class="member">
+            <span class="ava ava-rust" aria-hidden="true">苇</span>
+            <div><b>@苇莺</b><span>年度记录 412 种 / 江苏</span></div>
+          </div>
+          <div class="member">
+            <span class="ava ava-pine" aria-hidden="true">岩</span>
+            <div><b>@岩隼</b><span>辨识采纳 1,204 答 / 四川</span></div>
+          </div>
+          <div class="member">
+            <span class="ava ava-dusk" aria-hidden="true">白</span>
+            <div><b>@白河守鸭人</b><span>秋沙鸭跟踪 3 年 / 吉林</span></div>
+          </div>
+          <div class="member">
+            <span class="ava ava-gold" aria-hidden="true">溪</span>
+            <div><b>@溪鸲</b><span>器材测评 38 篇 / 广东</span></div>
+          </div>
+          <div class="member">
+            <span class="ava ava-plum" aria-hidden="true">鹭</span>
+            <div><b>@鹭洲</b><span>新鸟讯 268 条 / 江西</span></div>
+          </div>
+          <div class="member">
+            <span class="ava ava-green" aria-hidden="true">山</span>
+            <div><b>@山鹧鸪</b><span>组织观鸟活动 41 场 / 云南</span></div>
+          </div>
+        </div>
+        <p class="members-note">头像与数据经本人授权展示 / 更新于 2026-09-30</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: 加入转化 -->
+  <section class="container" id="join">
+    <div class="join">
+      <div class="join-copy">
+        <h2>加入羽邻,下一个鸟讯由你来发</h2>
+        <p class="join-intro">注册免费。三天内完成新人任务(发一条自我介绍 / 认一个鸟种),即可解锁全部版块与地区小组。</p>
+        <ul class="join-list">
+          <li><b>新人辨识通道</b> / 发图必有人回,问题不会石沉大海</li>
+          <li><b>地区小组</b> / 已覆盖 61 个城市,周末观鸟总有人约</li>
+          <li><b>站内图鉴工具</b> / 照片一键比对 1,493 种中国鸟类</li>
+        </ul>
+      </div>
+      <form class="join-form" action="#" method="post">
+        <div class="field">
+          <label for="nick">昵称</label>
+          <input id="nick" name="nick" type="text" placeholder="比如:苇莺" autocomplete="nickname">
+        </div>
+        <div class="field">
+          <label for="mail">邮箱</label>
+          <input id="mail" name="mail" type="email" placeholder="用于接收账号与鸟讯通知" autocomplete="email">
+        </div>
+        <button class="btn btn-primary" type="submit">提交申请</button>
+        <p class="join-fine">注册即同意《羽邻社区公约》/ 邮箱仅用于账号与鸟讯通知 / 随时可注销</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>UI 设计提示词库 / 落地结构 No.20 / Community 结构 / 羽邻观鸟社区演示样张</p>
+  <p><a href="../style-catalog.html">返回风格目录</a></p>
+</footer>
+
 </body>
 </html>
