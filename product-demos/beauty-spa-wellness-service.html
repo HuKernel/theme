@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Beauty/Spa/Wellness / UI 设计提示词库</title>
+<meta name="description" content="Beauty/Spa/Wellness Service 产品模板演示页：城市温泉馆汤邑，柔和粉紫奶油色板、新拟物软面卡片、六泉四汤介绍、时段预约、疗程套餐与到店路线。">
+<style>
+/* token 计划: Primary #EC4899 / On-Primary #000 / Secondary #F9A8D4 / Accent #8B5CF6(深化 #6D28D9 保证正文对比) / BG #FDF2F8 / FG #831843 / Card #FFF / Border #FBCFE8 / Muted #F1EEF5 / Ring #EC4899, 辅助文本 #8A5A6E 对比度不低于 4.5:1 */
+:root {
+  --primary: #EC4899;
+  --primary-deep: #BE185D;
+  --on-primary: #000000;
+  --secondary: #F9A8D4;
+  --accent: #8B5CF6;
+  --accent-deep: #6D28D9;
+  --bg: #FDF2F8;
+  --fg: #831843;
+  --fg-soft: #8A5A6E;
+  --card: #FFFFFF;
+  --border: #FBCFE8;
+  --muted: #F1EEF5;
+  --ring: #EC4899;
+  --hot-bg: #FFEDD5;
+  --hot-fg: #9A3412;
+  --warm-bg: #FCE7F3;
+  --warm-fg: #BE185D;
+  --cold-bg: #CFFAFE;
+  --cold-fg: #0E7490;
+  --ok-bg: #D1FAE5;
+  --ok-fg: #047857;
+  --low-bg: #FEF3C7;
+  --low-fg: #92400E;
+  --full-bg: #FEE2E2;
+  --full-fg: #9F1239;
+  --gold: #A16207;
+  --shadow-d: rgba(131, 24, 67, 0.16);
+  --shadow-l: rgba(255, 255, 255, 0.9);
+  --r-lg: 26px;
+  --r-md: 18px;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", Georgia, serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; min-height: 100vh; }
+.wrap { width: min(1180px, 100% - 44px); margin-inline: auto; }
+a { color: var(--primary-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #9D124E; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 10px; }
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 8px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+h1, h2, h3, .price { font-family: var(--serif); font-weight: 600; }
+
+/* 顶部导航 */
+.topbar { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.72); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+.crumb { font-size: 16px; color: var(--fg-soft); }
+.topnav { display: flex; gap: 22px; font-size: 16px; flex-wrap: wrap; }
+.topnav a { text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+
+/* 首屏（Hero-Centric） */
+.hero { position: relative; padding: 64px 0 52px; text-align: center; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -40% -18% auto; height: 145%; background: radial-gradient(ellipse 430px 300px at 22% 30%, rgba(236, 72, 153, 0.14), transparent 70%), radial-gradient(ellipse 460px 320px at 78% 24%, rgba(139, 92, 246, 0.10), transparent 70%), radial-gradient(ellipse 380px 260px at 50% 88%, rgba(249, 168, 212, 0.18), transparent 72%); pointer-events: none; }
+.hero-inner { position: relative; animation: rise 0.7s ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hero-mark { width: 58px; height: 58px; margin: 0 auto 14px; border-radius: 50%; background: linear-gradient(145deg, #FFFFFF, #FBEFF6); border: 1px solid var(--border); box-shadow: inset 2px 2px 5px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); display: grid; place-items: center; color: var(--primary-deep); }
+.hero-kicker { font-size: 17px; color: var(--fg-soft); margin-bottom: 10px; }
+.hero h1 { font-size: clamp(44px, 6vw, 60px); letter-spacing: 0.14em; line-height: 1.12; }
+.hero-sub { max-width: 660px; margin: 16px auto 30px; font-size: 19px; color: var(--fg-soft); }
+.hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 28px; border-radius: 999px; font-size: 17px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; }
+.btn-primary { background: var(--primary); color: var(--on-primary); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 8px 8px 18px var(--shadow-d), -8px -8px 14px var(--shadow-l); }
+.btn-primary:active { transform: none; box-shadow: inset 3px 3px 7px rgba(131, 24, 67, 0.26), inset -2px -2px 5px rgba(255, 255, 255, 0.4); }
+.btn-ghost { background: linear-gradient(145deg, #FFFFFF, #FBEFF6); color: var(--fg); border-color: var(--border); box-shadow: 6px 6px 13px var(--shadow-d), -6px -6px 11px var(--shadow-l); }
+.btn-ghost:hover { background: #FBEFF6; }
+.glass { background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(251, 207, 232, 0.7); border-radius: var(--r-lg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 14px 34px rgba(131, 24, 67, 0.12); }
+.glass-stats { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 40px; padding: 18px 22px; }
+.stat { min-width: 150px; display: flex; flex-direction: column; gap: 2px; }
+.stat strong { font-size: 28px; color: var(--primary-deep); font-family: var(--serif); line-height: 1.25; }
+.stat span { font-size: 16px; color: var(--fg-soft); }
+.hero-note { margin-top: 16px; font-size: 16px; color: var(--fg-soft); }
+
+/* 汤池卡（Neumorphism 软面） */
+.sec { padding: 46px 0 10px; }
+.sec-head { text-align: center; margin-bottom: 34px; }
+.sec-head h2 { font-size: clamp(26px, 3.4vw, 34px); }
+.sec-head p { color: var(--fg-soft); margin-top: 8px; font-size: 17px; }
+.pool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: stretch; }
+.pool-card { background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 7px 7px 16px var(--shadow-d), -7px -7px 14px var(--shadow-l); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; }
+.pool-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pool-top h3 { font-size: 21px; }
+.temp { font-family: var(--serif); font-size: 15px; font-weight: 700; padding: 5px 13px; border-radius: 999px; box-shadow: inset 2px 2px 5px rgba(131, 24, 67, 0.12), inset -2px -2px 4px rgba(255, 255, 255, 0.6); white-space: nowrap; }
+.temp-hot { background: var(--hot-bg); color: var(--hot-fg); }
+.temp-warm { background: var(--warm-bg); color: var(--warm-fg); }
+.temp-cold { background: var(--cold-bg); color: var(--cold-fg); }
+.pool-card p { font-size: 16px; color: var(--fg-soft); }
+.pool-meta { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 15px; color: var(--fg); background: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; }
+
+/* 时段预约 */
+.book-card { background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 8px 8px 18px var(--shadow-d), -8px -8px 15px var(--shadow-l); padding: 30px clamp(18px, 4vw, 38px) 34px; margin-top: 34px; }
+.book-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.book-top h3 { font-size: 24px; }
+.book-top p { font-size: 16px; color: var(--fg-soft); }
+.day-tabs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+.day-tab { min-height: 46px; padding: 8px 20px; font-size: 16px; font-weight: 600; color: var(--fg); background: linear-gradient(145deg, #FFFFFF, #FBEFF6); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; box-shadow: 4px 4px 9px var(--shadow-d), -4px -4px 8px var(--shadow-l); transition: box-shadow 0.18s ease, background 0.18s ease; }
+.day-tab[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); box-shadow: inset 3px 3px 7px rgba(131, 24, 67, 0.3), inset -2px -2px 5px rgba(255, 255, 255, 0.35); }
+.slot-head, .slot-row { display: grid; grid-template-columns: 128px minmax(0, 1fr) 118px 122px; gap: 12px; align-items: center; }
+.slot-head { padding: 0 18px 10px; font-size: 15px; color: var(--fg-soft); border-bottom: 2px solid var(--border); }
+.slot-list { display: flex; flex-direction: column; gap: 12px; }
+.slot-row { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 18px; box-shadow: 4px 4px 10px var(--shadow-d), -4px -4px 9px var(--shadow-l); }
+.slot-row[aria-selected="true"] { border-color: var(--primary); box-shadow: inset 3px 3px 8px rgba(131, 24, 67, 0.16), inset -2px -2px 6px rgba(255, 255, 255, 0.6); background: #FFF7FB; }
+.slot-time { font-family: var(--serif); font-size: 18px; font-weight: 700; }
+.slot-area { font-size: 15px; color: var(--fg-soft); }
+.slot-left { font-size: 15px; color: var(--fg-soft); text-align: right; }
+.badge { display: inline-block; font-size: 15px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
+.badge-ok { background: var(--ok-bg); color: var(--ok-fg); }
+.badge-low { background: var(--low-bg); color: var(--low-fg); }
+.badge-full { background: var(--full-bg); color: var(--full-fg); }
+.slot-btn { min-height: 40px; width: 100%; padding: 6px 10px; font-size: 15px; font-weight: 700; color: var(--fg); background: linear-gradient(145deg, #FFFFFF, #FBEFF6); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; box-shadow: 3px 3px 7px var(--shadow-d), -3px -3px 6px var(--shadow-l); transition: background 0.18s ease; }
+.slot-btn:hover { background: #FBEFF6; }
+.slot-row[data-status="full"] .slot-btn, .slot-row[data-status="closed"] .slot-btn { background: var(--muted); color: var(--fg-soft); box-shadow: none; cursor: not-allowed; }
+.book-bar { margin-top: 24px; padding-top: 22px; border-top: 2px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.pick-label { font-size: 16px; color: var(--fg-soft); }
+.pick-value { font-size: 18px; font-weight: 700; }
+.stepper { display: inline-flex; align-items: center; gap: 12px; }
+.step-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: linear-gradient(145deg, #FFFFFF, #FBEFF6); color: var(--fg); font-size: 20px; font-weight: 700; cursor: pointer; box-shadow: 4px 4px 9px var(--shadow-d), -4px -4px 8px var(--shadow-l); }
+.step-btn:active { box-shadow: inset 2px 2px 5px rgba(131, 24, 67, 0.16), inset -2px -2px 4px rgba(255, 255, 255, 0.6); }
+.estimate { font-size: 16px; color: var(--fg-soft); }
+.estimate strong { font-family: var(--serif); font-size: 26px; color: var(--primary-deep); }
+.book-msg { margin-top: 18px; font-size: 17px; color: var(--ok-fg); background: var(--ok-bg); border: 1px solid #A7F3D0; border-radius: var(--r-md); padding: 12px 18px; }
+
+/* 疗程套餐 */
+.plan-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.plan-card { position: relative; background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 7px 7px 16px var(--shadow-d), -7px -7px 14px var(--shadow-l); padding: 26px 24px; display: flex; flex-direction: column; gap: 12px; }
+.plan-card h3 { font-size: 20px; }
+.plan-tag { align-self: flex-start; font-size: 15px; font-weight: 700; padding: 3px 12px; border-radius: 999px; background: var(--warm-bg); color: var(--warm-fg); }
+.price { font-size: 40px; color: var(--primary-deep); line-height: 1.1; }
+.price small { font-size: 16px; font-family: inherit; color: var(--fg-soft); font-weight: 400; }
+.plan-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
+.plan-card li { font-size: 15px; color: var(--fg-soft); padding-left: 20px; position: relative; }
+.plan-card li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--secondary); box-shadow: inset 1px 1px 2px rgba(131, 24, 67, 0.25); }
+.plan-card .btn { margin-top: auto; min-height: 44px; font-size: 16px; }
+.plan-card.featured { border: 2px solid var(--primary); background: linear-gradient(160deg, #FFF7FB, #FBEFF6); }
+.plan-note { text-align: center; margin-top: 18px; font-size: 15px; color: var(--fg-soft); }
+
+/* 社会证明 */
+.score-bar { display: flex; align-items: center; justify-content: center; gap: 34px; flex-wrap: wrap; padding: 22px 26px; margin-bottom: 24px; }
+.score-num { font-family: var(--serif); font-size: 52px; font-weight: 700; color: var(--primary-deep); line-height: 1; }
+.score-sub { font-size: 16px; color: var(--fg-soft); }
+.score-split { display: flex; gap: 26px; flex-wrap: wrap; }
+.score-split div { font-size: 16px; color: var(--fg-soft); }
+.score-split strong { display: block; font-size: 20px; color: var(--fg); }
+.proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.pcard { background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 24px 26px; display: flex; flex-direction: column; gap: 12px; }
+.stars { color: var(--gold); display: flex; gap: 3px; }
+.pcard blockquote { font-size: 16px; color: var(--fg); }
+.pcard footer { margin-top: auto; font-size: 15px; color: var(--fg-soft); }
+.pcard footer strong { display: block; font-size: 16px; color: var(--fg); }
+.rnote { text-align: center; margin-top: 20px; font-size: 15px; color: var(--fg-soft); }
+
+/* 到店路线 */
+.visit-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 22px; align-items: stretch; }
+.visit-left, .visit-right { display: flex; flex-direction: column; gap: 20px; }
+.trans-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.trans-card { background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); padding: 16px 18px; }
+.trans-card h3 { font-size: 17px; margin-bottom: 6px; color: var(--primary-deep); }
+.trans-card p { font-size: 15px; color: var(--fg-soft); }
+.steps { background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); padding: 20px 22px; }
+.steps h3 { font-size: 18px; margin-bottom: 10px; }
+.steps ol { list-style: none; counter-reset: step; display: flex; flex-direction: column; gap: 10px; }
+.steps li { counter-increment: step; font-size: 16px; color: var(--fg-soft); padding-left: 40px; position: relative; }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 1px; width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(145deg, #FFFFFF, #F7E3EE); border: 1px solid var(--border); box-shadow: inset 2px 2px 4px rgba(131, 24, 67, 0.14), inset -2px -2px 3px rgba(255, 255, 255, 0.7); display: grid; place-items: center; font-size: 15px; font-weight: 700; color: var(--primary-deep); }
+.hours { padding: 24px 26px; }
+.hours h3 { font-size: 19px; margin-bottom: 10px; }
+.hours dl { display: flex; flex-direction: column; gap: 8px; }
+.hours div { display: flex; justify-content: space-between; gap: 14px; font-size: 16px; }
+.hours dt { color: var(--fg-soft); }
+.hours dd { font-weight: 600; }
+.notice { background: linear-gradient(145deg, #FFFFFF, #FBF3F7); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); padding: 18px 20px; }
+.notice h3 { font-size: 17px; margin-bottom: 8px; color: var(--accent-deep); }
+.notice ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.notice li { font-size: 15px; color: var(--fg-soft); padding-left: 18px; position: relative; }
+.notice li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+/* 页脚 */
+.foot { margin-top: 56px; padding: 30px 0 38px; border-top: 1px solid var(--border); background: #FBF0F6; }
+.foot-crumb { font-size: 16px; color: var(--fg-soft); }
+.foot-note { margin-top: 8px; font-size: 15px; color: var(--fg-soft); }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .pool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .visit-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 768px) {
+  body { font-size: 16px; }
+  .pool-grid, .plan-grid, .proof-grid { grid-template-columns: minmax(0, 1fr); }
+  .slot-head { display: none; }
+  .slot-row { grid-template-columns: minmax(0, 1fr) 112px; }
+  .slot-area { grid-column: 1 / -1; order: 3; }
+  .slot-left { text-align: left; }
+  .book-bar { flex-direction: column; align-items: flex-start; }
+  .score-bar { gap: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-inner { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <p class="crumb">产品模板 / Beauty/Spa/Wellness Service</p>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#pools">汤池介绍</a>
+      <a href="#booking">时段预约</a>
+      <a href="#plans">疗程套餐</a>
+      <a href="#visit">到店路线</a>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-mark" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.7c2.9 3.6 6 7.6 6 11.1a6 6 0 0 1-12 0c0-3.5 3.1-7.5 6-11.1z"/><path d="M9.4 13.8a2.6 2.6 0 0 0 2.6 2.6" fill="#FFFFFF" opacity="0.7"/></svg>
+      </div>
+      <p class="hero-kicker">城市温泉馆 / 上海静安 / 每日 10:00 开汤</p>
+      <h1>汤邑</h1>
+      <p class="hero-sub">把一座山间汤宿搬进城市。六泉四汤、桧木香与一小时车程之外的安静，都在昌平路的地下一层等你落水。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#booking">预约今晚汤池</a>
+        <a class="btn btn-ghost" href="#pools">先看看六泉四汤</a>
+      </div>
+      <div class="glass glass-stats" role="group" aria-label="汤邑概览">
+        <div class="stat"><strong>4.9 分</strong><span>近半年 2,380 条评价</span></div>
+        <div class="stat"><strong>6 泉 4 汤</strong><span>碳酸 / 硫磺 / 草本蒸汽</span></div>
+        <div class="stat"><strong>pH 7.4</strong><span>水质每小时公示</span></div>
+        <div class="stat"><strong>38 位</strong><span>此刻实时余位</span></div>
+      </div>
+      <p class="hero-note">水质报告与前台电子屏同步 / 汤池每日三换 / 汤衣毛巾与储物柜均含在票内</p>
+    </div>
+  </section>
+
+  <section class="sec" id="pools">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>六泉四汤，各安其温</h2>
+        <p>每个汤池独立循环过滤，水温每两小时人工复核一次，下表温度为今晨实测。</p>
+      </div>
+      <div class="pool-grid">
+        <article class="pool-card">
+          <div class="pool-top"><h3>碳酸泉</h3><span class="temp temp-warm">39.5 度</span></div>
+          <p>细密气泡附着皮肤，像浸在一杯刚开瓶的气泡水里。入浴 15 分钟即见温热，适合不耐受高温的客人。</p>
+          <div class="pool-meta"><span class="chip">深 1.1 米</span><span class="chip">容纳 14 人</span><span class="chip">静音区</span></div>
+        </article>
+        <article class="pool-card">
+          <div class="pool-top"><h3>硫磺泉</h3><span class="temp temp-hot">42 度</span></div>
+          <p>取自深层地下水的矿物配方，微辛的气味之后是实打实的松快。建议单次不超过 10 分钟，起身缓行。</p>
+          <div class="pool-meta"><span class="chip">深 1.0 米</span><span class="chip">容纳 10 人</span><span class="chip">强心区</span></div>
+        </article>
+        <article class="pool-card">
+          <div class="pool-top"><h3>桧木风吕</h3><span class="temp temp-warm">40 度</span></div>
+          <p>整块桧木砌成的露天池，木质香气随热气上浮。夜里顶棚灯调至 10% 亮度，只留水声与呼吸声。</p>
+          <div class="pool-meta"><span class="chip">深 0.95 米</span><span class="chip">容纳 8 人</span><span class="chip">露天</span></div>
+        </article>
+        <article class="pool-card">
+          <div class="pool-top"><h3>冰镇冷泉</h3><span class="temp temp-cold">16 度</span></div>
+          <p>与热汤交替使用的大胆选项。三组「热三冷一」循环下来，毛孔与心情都会重新排一次序。</p>
+          <div class="pool-meta"><span class="chip">深 0.9 米</span><span class="chip">容纳 6 人</span><span class="chip">建议冷热交替</span></div>
+        </article>
+        <article class="pool-card">
+          <div class="pool-top"><h3>盐雾蒸汽房</h3><span class="temp temp-hot">45 度</span></div>
+          <p>喜马拉雅盐砖墙面，湿热盐雾对呼吸道友好。蒸汽导入时段加入枇杷与艾草配方，每周更换。</p>
+          <div class="pool-meta"><span class="chip">容纳 12 人</span><span class="chip">干湿双区</span><span class="chip">本草配方</span></div>
+        </article>
+        <article class="pool-card">
+          <div class="pool-top"><h3>芬兰桑拿</h3><span class="temp temp-hot">80 度</span></div>
+          <p>松木房配玄武岩炉，每半小时人工注水一次，热浪随洛福沙沙声铺开。出浴后请到静吧补给电解质水。</p>
+          <div class="pool-meta"><span class="chip">容纳 10 人</span><span class="chip">每 30 分钟注水</span><span class="chip">需着浴巾</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="booking">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>选一个时段，把安静占住</h2>
+        <p>时段余位与前台实时同步 / 预约保留 15 分钟 / 到店后扫码入场。</p>
+      </div>
+      <div class="book-card">
+        <div class="book-top">
+          <h3>今起三日可约</h3>
+          <p>入场含汤衣毛巾储物 / 平日 218 元一位 / 周末 248 元一位</p>
+        </div>
+        <div class="day-tabs" role="group" aria-label="选择日期">
+          <button type="button" class="day-tab" data-day="0" aria-pressed="true">10月9日 周五</button>
+          <button type="button" class="day-tab" data-day="1" aria-pressed="false">10月10日 周六</button>
+          <button type="button" class="day-tab" data-day="2" aria-pressed="false">10月11日 周日</button>
+        </div>
+        <div class="slot-head" aria-hidden="true">
+          <span>时段</span><span>汤池安排</span><span>余位</span><span>操作</span>
+        </div>
+        <div class="slot-list" id="slotList" aria-live="polite"></div>
+        <div class="book-bar">
+          <div>
+            <p class="pick-label">当前选择</p>
+            <p class="pick-value" id="pickValue">尚未选择时段</p>
+          </div>
+          <div class="stepper" aria-label="选择人数">
+            <span class="pick-label" id="peopleLabel">2 人</span>
+            <button type="button" class="step-btn" id="minus" aria-label="减少一人">−</button>
+            <button type="button" class="step-btn" id="plus" aria-label="增加一人">+</button>
+          </div>
+          <p class="estimate">预估合计 <strong id="estValue">436 元</strong></p>
+          <button type="button" class="btn btn-primary" id="submitBtn">提交预约</button>
+        </div>
+        <p class="book-msg" id="bookMsg" hidden></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="plans">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>疗程与套餐</h2>
+        <p>理疗师均持证上岗 / 套餐有效期自购买日起 90 天 / 可赠与他人使用。</p>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card">
+          <span class="plan-tag">平日限定</span>
+          <h3>平日夜汤票</h3>
+          <p class="price">168 元<small> / 位</small></p>
+          <ul>
+            <li>周一至周四 18:00 后入场</li>
+            <li>六泉四汤不限时畅浴</li>
+            <li>汤衣 / 毛巾 / 储物柜</li>
+            <li>静吧麦茶一杯</li>
+          </ul>
+          <a class="btn btn-ghost" href="#booking">预约此套餐</a>
+        </article>
+        <article class="plan-card">
+          <span class="plan-tag">单人首选</span>
+          <h3>全日通票</h3>
+          <p class="price">268 元<small> / 位</small></p>
+          <ul>
+            <li>开汤至闭馆不限时</li>
+            <li>六泉四汤全开放</li>
+            <li>自助轻食一餐</li>
+            <li>60 分钟休息舱</li>
+          </ul>
+          <a class="btn btn-ghost" href="#booking">预约此套餐</a>
+        </article>
+        <article class="plan-card featured">
+          <span class="plan-tag">本周推荐</span>
+          <h3>温泉理疗套餐</h3>
+          <p class="price">588 元<small> / 位</small></p>
+          <ul>
+            <li>全日通票全部权益</li>
+            <li>60 分钟瑞典式按摩或热石</li>
+            <li>草本蒸汽导入 20 分钟</li>
+            <li>理疗师手法评估与居家建议</li>
+          </ul>
+          <a class="btn btn-primary" href="#booking">预约此套餐</a>
+        </article>
+        <article class="plan-card">
+          <span class="plan-tag">常客之选</span>
+          <h3>季度畅浴卡</h3>
+          <p class="price">1,980 元<small> / 12 次</small></p>
+          <ul>
+            <li>合 165 元一次</li>
+            <li>有效期 90 天</li>
+            <li>每次可携一位同伴享 88 折</li>
+            <li>生日当月赠夜汤一次</li>
+          </ul>
+          <a class="btn btn-ghost" href="#booking">预约此套餐</a>
+        </article>
+      </div>
+      <p class="plan-note">周四上午 10:00 至 13:00 为女性专场 / 加购 60 分钟全身推拿 268 元，理疗套餐客人加购价 228 元。</p>
+    </div>
+  </section>
+
+  <section class="sec" id="proof">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>泡过的人怎么说</h2>
+        <p>以下评价摘自近半年消费客人自愿留言。</p>
+      </div>
+      <div class="glass score-bar">
+        <div><p class="score-num">4.9</p><p class="score-sub">综合评分 / 2,380 条</p></div>
+        <div class="score-split">
+          <div><strong>97%</strong>愿意再来</div>
+          <div><strong>89%</strong>提到「安静」</div>
+          <div><strong>92%</strong>好评理疗手法</div>
+        </div>
+      </div>
+      <div class="proof-grid">
+        <article class="pcard">
+          <p class="stars" aria-label="评分 5 分（满分 5 分）"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg></p>
+          <blockquote>加班到八点过去，夜汤几乎没人。碳酸泉泡完在静吧喝麦茶，四十分钟后觉得这一周就等这一刻。周二人最少，亲测。</blockquote>
+          <footer><strong>林女士</strong>互联网从业者 / 季度卡用户 / 第 9 次到店</footer>
+        </article>
+        <article class="pcard">
+          <p class="stars" aria-label="评分 5 分（满分 5 分）"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg></p>
+          <blockquote>理疗师评估很认真，先问了我肩颈的旧伤再决定用热石还是瑞典式。做完整个人轻了一公斤的错觉，睡到第二天十点。</blockquote>
+          <footer><strong>周先生</strong>教师 / 温泉理疗套餐 / 首次到店</footer>
+        </article>
+        <article class="pcard">
+          <p class="stars" aria-label="评分 4 分（满分 5 分）"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" opacity="0.35" aria-hidden="true"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z"/></svg></p>
+          <blockquote>桧木池的香气太值得。扣一分是周六下午人多，建议像我一样约周五的晚场，体验完全不同。停车也方便，直接从 B2 上来。</blockquote>
+          <footer><strong>周太太与周先生</strong>周末家庭客 / 第 3 次到店</footer>
+        </article>
+      </div>
+      <p class="rnote">评分与评价均为设计演示样例，用于展示社会证明版式。</p>
+    </div>
+  </section>
+
+  <section class="sec" id="visit">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>到店路线</h2>
+        <p>静安区昌平路 111 号静安庭院 B1 / 地铁七号线昌平路站步行约 6 分钟。</p>
+      </div>
+      <div class="visit-grid">
+        <div class="visit-left">
+          <div class="trans-grid">
+            <div class="trans-card">
+              <h3>地铁</h3>
+              <p>七号线昌平路站 2 号口出，沿昌平路东行 240 米，全程有遮蔽。</p>
+            </div>
+            <div class="trans-card">
+              <h3>公交</h3>
+              <p>19 路 / 36 路 / 112 路至昌平路江宁路站，下车即见静安庭院北门。</p>
+            </div>
+            <div class="trans-card">
+              <h3>自驾停车</h3>
+              <p>静安庭院地下车库 B2 层，10 元每小时 / 消费满 268 元免两小时。</p>
+            </div>
+            <div class="trans-card">
+              <h3>步行指引</h3>
+              <p>自 2 号口起全程约 380 米，轮椅与婴儿车可直达 B1 前台无台阶。</p>
+            </div>
+          </div>
+          <div class="steps">
+            <h3>从地铁口到汤池的五步</h3>
+            <ol>
+              <li>2 号口出站，左转沿昌平路向东走。</li>
+              <li>过江宁路路口后 120 米，见静安庭院北门灯箱。</li>
+              <li>乘庭内电梯至 B1，前台在桧木香的方向。</li>
+              <li>出示预约码换汤衣手环，更衣淋浴。</li>
+              <li>先从 39.5 度碳酸泉开始，身体同意了再升温。</li>
+            </ol>
+          </div>
+        </div>
+        <div class="visit-right">
+          <div class="glass hours">
+            <h3>营业时间</h3>
+            <dl>
+              <div><dt>周日至周四</dt><dd>10:00 至 23:00</dd></div>
+              <div><dt>周五至周六</dt><dd>10:00 至 24:00</dd></div>
+              <div><dt>周四上午</dt><dd>女性专场 10:00 至 13:00</dd></div>
+              <div><dt>每日水质公示</dt><dd>每小时更新于前台电子屏</dd></div>
+            </dl>
+          </div>
+          <div class="notice">
+            <h3>入汤须知</h3>
+            <ul>
+              <li>入水前请淋浴卸妆，长发请束起。</li>
+              <li>饮酒后、孕期与皮肤有创口者请勿入汤。</li>
+              <li>高血压与心脏病客人建议从碳酸泉开始。</li>
+              <li>馆内全域静音，交谈请移步静吧。</li>
+              <li>十二岁以下儿童请由成人陪同并在浅区活动。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot" id="foot">
+  <div class="wrap">
+    <p class="foot-crumb">UI 设计提示词库 / 产品模板 / Beauty/Spa/Wellness</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p class="foot-note">汤邑为虚构温泉品牌，本页价格、时段与评价均为设计演示样例。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  /* 时段数据: status ok 充足 / low 紧张 / full 已满 / closed 闭馆 */
+  var DAYS = [
+    {
+      label: "10月9日 周五", price: 218,
+      slots: [
+        { t: "10:00-12:00", area: "晨汤 / 全池开放", left: 31, s: "ok" },
+        { t: "12:00-14:00", area: "全池开放 / 静吧轻食", left: 24, s: "ok" },
+        { t: "14:00-16:00", area: "全池开放", left: 12, s: "low" },
+        { t: "16:00-18:00", area: "全池开放 / 理疗档期余 3", left: 18, s: "ok" },
+        { t: "18:00-20:00", area: "晚汤高峰 / 理疗档期已满", left: 5, s: "low" },
+        { t: "20:00-22:00", area: "夜汤 / 桧木池调暗灯光", left: 3, s: "low" },
+        { t: "22:00-24:00", area: "深夜汤 / 仅周五周六", left: 9, s: "ok" }
+      ]
+    },
+    {
+      label: "10月10日 周六", price: 248,
+      slots: [
+        { t: "10:00-12:00", area: "晨汤 / 全池开放", left: 18, s: "ok" },
+        { t: "12:00-14:00", area: "全池开放 / 静吧轻食", left: 9, s: "low" },
+        { t: "14:00-16:00", area: "下午高峰", left: 0, s: "full" },
+        { t: "16:00-18:00", area: "理疗档期余 2", left: 6, s: "low" },
+        { t: "18:00-20:00", area: "晚汤高峰", left: 0, s: "full" },
+        { t: "20:00-22:00", area: "夜汤", left: 4, s: "low" },
+        { t: "22:00-24:00", area: "深夜汤 / 仅周五周六", left: 12, s: "ok" }
+      ]
+    },
+    {
+      label: "10月11日 周日", price: 248,
+      slots: [
+        { t: "10:00-12:00", area: "晨汤 / 全池开放", left: 8, s: "low" },
+        { t: "12:00-14:00", area: "全池开放 / 静吧轻食", left: 14, s: "ok" },
+        { t: "14:00-16:00", area: "下午高峰", left: 2, s: "low" },
+        { t: "16:00-18:00", area: "理疗档期已满", left: 0, s: "full" },
+        { t: "18:00-18:45", area: "换水清场 / 暂停入场", left: 0, s: "closed" },
+        { t: "18:45-22:00", area: "晚汤 / 新水开放", left: 11, s: "ok" },
+        { t: "22:00-23:00", area: "闭馆前最后一汤", left: 16, s: "ok" }
+      ]
+    }
+  ];
+
+  var BADGE = { ok: ["badge-ok", "余位充足"], low: ["badge-low", "即将约满"], full: ["badge-full", "已约满"], closed: ["badge-full", "清场中"] };
+  var state = { day: 0, slot: -1, people: 2 };
+
+  var list = document.getElementById("slotList");
+  var pick = document.getElementById("pickValue");
+  var est = document.getElementById("estValue");
+  var peopleLabel = document.getElementById("peopleLabel");
+  var msg = document.getElementById("bookMsg");
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".day-tab"));
+
+  function slotLabel() {
+    var d = DAYS[state.day];
+    if (state.slot < 0) return "尚未选择时段";
+    return d.label + " / " + d.slots[state.slot].t + " / " + state.people + " 人";
+  }
+  function render() {
+    var d = DAYS[state.day];
+    list.innerHTML = "";
+    d.slots.forEach(function (s, i) {
+      var row = document.createElement("div");
+      row.className = "slot-row";
+      row.setAttribute("data-status", s.s);
+      row.setAttribute("role", "option");
+      row.setAttribute("aria-selected", i === state.slot ? "true" : "false");
+      var time = document.createElement("p");
+      time.className = "slot-time";
+      time.textContent = s.t;
+      var area = document.createElement("p");
+      area.className = "slot-area";
+      area.textContent = s.area;
+      var left = document.createElement("p");
+      left.className = "slot-left";
+      left.textContent = s.s === "closed" ? "暂停入场" : "余 " + s.left + " 位";
+      var act = document.createElement("button");
+      act.type = "button";
+      act.className = "slot-btn";
+      if (s.s === "full") { act.textContent = "已约满"; act.disabled = true; }
+      else if (s.s === "closed") { act.textContent = "闭馆"; act.disabled = true; }
+      else { act.textContent = i === state.slot ? "已选择" : "选择"; act.addEventListener("click", function () { select(i); }); }
+      row.appendChild(time);
+      row.appendChild(area);
+      row.appendChild(left);
+      row.appendChild(act);
+      list.appendChild(row);
+    });
+    pick.textContent = slotLabel();
+    est.textContent = d.price * state.people + " 元";
+    peopleLabel.textContent = state.people + " 人";
+  }
+  function select(i) {
+    state.slot = (state.slot === i) ? -1 : i;
+    msg.hidden = true;
+    render();
+  }
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      state.day = parseInt(tab.getAttribute("data-day"), 10);
+      state.slot = -1;
+      msg.hidden = true;
+      tabs.forEach(function (t) { t.setAttribute("aria-pressed", t === tab ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("plus").addEventListener("click", function () {
+    if (state.people < 6) { state.people += 1; render(); }
+  });
+  document.getElementById("minus").addEventListener("click", function () {
+    if (state.people > 1) { state.people -= 1; render(); }
+  });
+  document.getElementById("submitBtn").addEventListener("click", function () {
+    if (state.slot < 0) {
+      msg.hidden = false;
+      msg.textContent = "请先选择一个时段，再提交预约。";
+      return;
+    }
+    var d = DAYS[state.day];
+    msg.hidden = false;
+    msg.textContent = "已为您预留 " + slotLabel() + "，预约保留 15 分钟，请凭手机尾号到前台核销。";
+    if (!reduce.matches) {
+      msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品模板 / Travel/Tourism / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划：主 #0EA5E9(压字 #0F172A) / 副 #38BDF8(压字 #0F172A) / 强调 #EA580C(块面压字 #0F172A，文字用深档 #C2410C) / 底 #F0F9FF / 深字 #0C4A6E / 卡 #FFFFFF / 边 #BAE6FD / 弱底 #E8F2F8 / 环 #000000 / 夜空 #071A30(压 #BAE6FD 白字) / 极光装饰 #5EEAD4 至 #38BDF8 / 暖显 #FDBA74(仅夜底) / 玻璃 rgba(240,249,255,.10)+blur(12px) */
+:root{--primary:#0EA5E9;--on-primary:#0F172A;--secondary:#38BDF8;--accent:#EA580C;--accent-ink:#C2410C;--bg:#F0F9FF;--fg:#0C4A6E;--soft:#3A5F7A;--card:#FFFFFF;--line:#BAE6FD;--muted:#E8F2F8;--ring:#000000;--night:#071A30;--night-2:#0C2A4A;--aur:#5EEAD4;--warm:#FDBA74;--shadow:0 16px 36px rgba(12,74,110,.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.7;font-size:16px}
+a{color:var(--fg);text-decoration:none}a:hover{color:var(--accent-ink);text-decoration:underline}
+img,svg{display:block}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-9999px}.skip:focus-visible{left:12px;top:12px;z-index:99;background:var(--card);color:var(--fg);padding:8px 16px;border:2px solid var(--fg);border-radius:8px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+h2{font-size:clamp(26px,3vw,36px);line-height:1.3;color:var(--fg);font-weight:800}h2 em{font-style:normal;background:var(--line);padding:0 8px;border-radius:4px}
+.sec-head{max-width:46em;margin-bottom:32px}
+.sec-head p{margin-top:10px;color:var(--soft)}
+.kicker{display:inline-block;background:var(--muted);border:1px solid var(--line);color:var(--fg);padding:3px 14px;font-weight:600;font-size:14px;border-radius:99px}
+
+/* 头部 */
+header{background:rgba(240,249,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.navbar{display:flex;align-items:center;gap:30px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;color:var(--fg)}
+.brand svg{width:34px;height:34px}.brand small{font-size:12px;font-weight:500;color:var(--soft);border-left:1px solid var(--line);padding-left:10px}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{color:var(--soft);font-weight:500;padding:2px}.nav-links a:hover{color:var(--fg);text-decoration:none;border-bottom:3px solid var(--primary)}
+.nav-side{margin-left:auto;display:flex;align-items:center;gap:16px}
+.nav-tel{font-size:14px;color:var(--soft)}.nav-tel b{color:var(--fg)}
+.btn{display:inline-block;border:2px solid var(--fg);background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;padding:10px 22px;cursor:pointer;box-shadow:0 4px 0 rgba(12,74,110,.28);border-radius:12px;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 rgba(12,74,110,.28);text-decoration:none;color:var(--on-primary)}
+.btn:active{transform:translateY(2px);box-shadow:0 0 0 rgba(12,74,110,0)}
+.btn-accent{background:var(--accent)}.btn-dark{background:var(--night);color:#FFFFFF}.btn-dark:hover{color:#FFFFFF}.btn-outline{background:var(--card);color:var(--fg)}
+.menu-btn{display:none;border:2px solid var(--fg);background:var(--card);cursor:pointer;padding:8px 10px;border-radius:10px}
+.menu-btn svg{width:22px;height:22px;stroke:var(--fg)}
+
+/* 首屏（Hero-Centric） */
+.hero{position:relative;background:var(--night);color:#FFFFFF;overflow:hidden}
+.hero .sky{position:absolute;inset:0}.hero .sky svg{width:100%;height:100%}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-top:76px;padding-bottom:72px}
+.hero-kicker{background:rgba(240,249,255,.12);border:1px solid rgba(186,230,253,.45);color:#E8F2F8;margin-bottom:16px}
+.hero h1{font-size:clamp(32px,4.4vw,54px);line-height:1.22;font-weight:800;color:#FFFFFF}
+.hero h1 em{font-style:normal;color:var(--on-primary);background:var(--primary);padding:0 12px;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero-desc{margin-top:18px;font-size:17px;color:#BAE6FD;max-width:33em}
+.hero-desc b{color:#FFFFFF;font-weight:700}
+.hero-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.btn-ghost{background:transparent;color:#FFFFFF;border-color:#BAE6FD}.btn-ghost:hover{color:#FFFFFF}
+.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.stat{background:rgba(240,249,255,.10);border:1px solid rgba(186,230,253,.45);border-radius:14px;padding:16px 18px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.stat b{display:block;font-size:26px;font-weight:800;color:#FFFFFF}
+.stat b i{font-style:normal;font-size:15px;font-weight:600;color:#BAE6FD}.stat span{font-size:13.5px;color:#BAE6FD}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.stat{background:rgba(7,26,48,.86)}}
+/* 玻璃出团卡（Glassmorphism / 签名组件） */
+.glass{background:rgba(240,249,255,.10);border:1px solid rgba(186,230,253,.45);border-radius:18px;padding:24px 26px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:rgba(7,26,48,.88)}}
+.glass-tag{display:inline-block;background:var(--accent);color:#0F172A;font-weight:700;font-size:13px;padding:2px 12px;border-radius:99px}
+.glass h3{font-size:22px;margin-top:10px;font-weight:800}
+.glass-date{margin-top:4px;font-size:14px;color:#BAE6FD}.glass-rows{margin-top:14px;border-top:1px solid rgba(186,230,253,.35)}
+.glass-rows div{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid rgba(186,230,253,.35);font-size:14.5px}
+.glass-rows span{color:#BAE6FD}.glass-rows b{color:#FFFFFF;font-weight:600;text-align:right}
+.glass-price{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.glass-price b{font-size:28px;font-weight:800;color:var(--warm)}.glass-price b i{font-style:normal;font-size:14px;font-weight:600;color:#BAE6FD}
+.glass .btn{margin-top:14px;width:100%;text-align:center}
+
+/* 一次亮相动效（整团只此一次，随 prefers-reduced-motion 降级） */
+.hero-copy{animation:rise .8s ease both}
+.glass{animation:rise .8s ease .16s both}
+.stars{animation:fadeIn 1.2s ease .1s both}
+.aurA{animation:aurSweep 1.5s ease-out .1s both}.aurB{animation:aurSweep 1.5s ease-out .3s both}
+.shoot{animation:shoot 1.4s ease-in 1s both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes aurSweep{from{opacity:0;transform:translateX(-60px)}to{opacity:.9;transform:translateX(0)}}
+@keyframes shoot{0%{opacity:0;transform:translate(70px,-32px)}25%{opacity:1}100%{opacity:0;transform:translate(-320px,150px)}}
+
+/* 为什么是暗夜保护区 */
+.sec{padding-top:72px;padding-bottom:72px}
+.sec-alt{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.s-block{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--primary);border-radius:14px;padding:26px 24px}
+.s-block.c2{border-top-color:var(--secondary)}.s-block.c3{border-top-color:var(--accent)}
+.s-no{font-size:38px;font-weight:800;color:var(--primary);line-height:1.1}
+.s-block.c2 .s-no{color:var(--secondary)}.s-block.c3 .s-no{color:var(--accent-ink)}
+.s-block h3{font-size:19px;margin-top:8px}.s-block p{margin-top:10px;font-size:15px;color:var(--soft)}
+
+/* 路线（Vibrant & Block-based） */
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.route{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.r-banner{position:relative;height:126px}
+.r-banner svg{width:100%;height:100%}
+.r-tag{position:absolute;left:12px;top:12px;background:var(--card);color:var(--fg);font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid var(--line)}
+.r-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.r-body h3{font-size:21px}
+.r-sub{font-size:14px;color:var(--soft)}
+.r-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;font-size:14px}
+.r-meta span{display:block;font-size:12.5px;color:var(--soft)}.r-meta b{font-weight:600;color:var(--fg)}
+.r-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px}
+.r-price b{font-size:24px;font-weight:800}.r-price i{font-style:normal;font-size:13px;color:var(--soft)}
+.r-foot .btn{padding:8px 16px;font-size:14px}.r-btns{display:flex;gap:10px;flex-wrap:wrap}
+
+/* 行程表（网格对齐） */
+.it-box{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.it-head,.it-row{display:grid;grid-template-columns:118px 1fr 258px;gap:0 22px}
+.it-head{background:var(--night);color:#BAE6FD;font-weight:600;font-size:14px;padding:12px 24px}
+.it-row{padding:16px 24px;border-top:1px solid var(--line);align-items:start}
+.it-day b{display:block;font-size:17px;font-weight:800}.it-day span{font-size:13px;color:var(--soft)}
+.it-main p{font-size:15px;color:var(--fg)}
+.it-main p + p{margin-top:4px;font-size:14px;color:var(--soft)}
+.it-night{border-left:3px solid var(--secondary);background:var(--muted);border-radius:0 10px 10px 0;padding:8px 14px;font-size:14px}
+.it-night b{display:block;font-size:13px;color:var(--soft);font-weight:600}
+.inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px}
+.inc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.inc h3{font-size:17px;margin-bottom:10px}
+.inc ul{list-style:none}
+.inc li{display:flex;gap:10px;align-items:start;font-size:14.5px;color:var(--fg);padding:5px 0}
+.inc li svg{width:17px;height:17px;flex:none;margin-top:5px}
+
+/* 装备清单（网格对齐） */
+.g-box{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.g-head,.g-row{display:grid;grid-template-columns:168px 1fr 1fr;gap:0 22px}
+.g-head{background:var(--night-2);color:#E8F2F8;font-weight:600;font-size:14px;padding:12px 24px}
+.g-row{padding:14px 24px;border-top:1px solid var(--line);align-items:start;font-size:14.5px}
+.g-cat{font-weight:700}.g-cat span{display:block;font-size:12.5px;color:var(--soft);font-weight:400}
+.g-row .yes{color:var(--fg)}.g-row .no{color:var(--soft)}
+.g-note{margin-top:16px;font-size:14px;color:var(--soft);display:flex;gap:8px;align-items:start}
+.g-note svg{width:17px;height:17px;flex:none;margin-top:4px}
+
+/* 领队 */
+.guides{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.guide{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.g-top{display:flex;gap:14px;align-items:center}
+.g-avatar{width:56px;height:56px;border-radius:50%;background:var(--night);color:#BAE6FD;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex:none}
+.g-top h3{font-size:19px}.g-top span{font-size:13.5px;color:var(--accent-ink);font-weight:600}
+.guide ul{list-style:none;border-top:1px solid var(--line);padding-top:10px}
+.guide li{font-size:14px;color:var(--soft);padding:3px 0}
+.g-quote{background:var(--muted);border-left:3px solid var(--secondary);border-radius:0 10px 10px 0;padding:10px 14px;font-size:14px;color:var(--soft);margin-top:auto}
+.g-line{font-size:13.5px;color:var(--fg);background:var(--muted);border-radius:99px;padding:2px 12px;align-self:start}
+
+/* 报名 */
+.book-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start}
+.form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
+.f-row{margin-bottom:18px}
+.f-row label{display:block;font-weight:700;font-size:14.5px;margin-bottom:6px}
+.f-row select,.f-row input[type="number"]{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#FFFFFF;color:var(--fg);font-size:15px;font-family:inherit}
+.f-check{display:flex;gap:10px;align-items:start;font-size:14.5px}
+.f-check input{width:18px;height:18px;margin-top:3px;accent-color:var(--accent)}
+.f-check span{color:var(--soft)}.f-check b{color:var(--fg)}
+.f-note{margin-top:16px;font-size:13.5px;color:var(--soft);border-top:1px dashed var(--line);padding-top:12px}
+.sum{background:var(--night);color:#FFFFFF;border-radius:18px;padding:28px;box-shadow:var(--shadow)}
+.sum h3{font-size:20px;margin-bottom:6px}.sum > p{font-size:13.5px;color:#BAE6FD}
+.srow{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(186,230,253,.22);font-size:15px}
+.srow span{color:#BAE6FD}.srow b{font-weight:600;text-align:right}
+.sum-total{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:16px 0 4px}
+.sum-total span{font-size:15px;color:#BAE6FD}
+.sum-total b{font-size:34px;font-weight:800;color:var(--warm)}
+.sum .btn{margin-top:14px;width:100%;text-align:center}
+.sum-tel{margin-top:12px;text-align:center;font-size:13.5px;color:#BAE6FD}
+.sum-tel b{color:#FFFFFF}
+
+/* 常见问题 */
+.faq{max-width:820px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.faq summary{cursor:pointer;font-weight:700;padding:14px 20px;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}.faq summary::after{content:"+";font-size:22px;font-weight:600;color:var(--accent-ink);line-height:1}.faq details[open] summary::after{content:"−"}
+.faq details p{padding:0 20px 16px;font-size:15px;color:var(--soft)}
+
+/* 行动带 */
+.cta{background:var(--accent);color:#0F172A}
+.cta .wrap{display:flex;justify-content:space-between;align-items:center;gap:26px;flex-wrap:wrap;padding-top:52px;padding-bottom:52px}
+.cta h2{color:#0F172A}.cta p{margin-top:8px;font-weight:600}
+.cta-actions{display:flex;gap:14px;flex-wrap:wrap}
+
+/* 页脚 */
+footer.site{background:var(--night);color:#BAE6FD;padding-top:56px}
+.foot-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:34px;padding-bottom:36px;border-bottom:1px solid rgba(186,230,253,.18)}
+.foot-top .brand{color:#FFFFFF}
+.foot-top .brand small{border-color:rgba(186,230,253,.35);color:#BAE6FD}
+.foot-blurb{margin-top:12px;font-size:14px;max-width:30em}
+.foot-col h4{color:#FFFFFF;font-size:15px;margin-bottom:10px}
+.foot-col ul{list-style:none}
+.foot-col li{padding:3px 0}.foot-col a{color:#BAE6FD;font-size:14px}
+.foot-col a:hover{color:#FFFFFF;text-decoration:underline}
+.foot-note{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding-top:18px;padding-bottom:18px;font-size:13.5px}
+.foot-note a{color:#FFFFFF;text-decoration:underline}
+
+/* 响应式 */
+@media (max-width:1000px){
+.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:8px 24px 14px}
+.nav-links.open{display:flex}
+.nav-links a{display:block;padding:8px 0;border-bottom:none}.menu-btn{display:block}.nav-tel{display:none}
+.hero .wrap{grid-template-columns:1fr;gap:34px;padding-top:56px;padding-bottom:56px}
+.story-grid{grid-template-columns:1fr}.routes{grid-template-columns:1fr}
+.guides{grid-template-columns:1fr}.book-grid{grid-template-columns:1fr}
+.foot-top{grid-template-columns:1fr 1fr}
+}
+@media (max-width:860px){
+.it-head{display:none}.it-row{grid-template-columns:1fr;gap:8px}
+.g-head{display:none}.g-row{grid-template-columns:1fr;gap:6px}.inc-grid{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+.stats{grid-template-columns:1fr}.foot-top{grid-template-columns:1fr}
+.cta .wrap{padding-top:40px;padding-bottom:40px}
+.r-foot{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion: reduce){
+*{animation:none!important;transition:none!important}html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">跳到主内容</a>
+
+<header>
+  <div class="wrap">
+    <nav class="navbar" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="拾光旅行首页">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9-7.9-2.6 7.9-2.6z" fill="#0EA5E9" stroke="#0C4A6E" stroke-width="1"/><circle cx="18.5" cy="5" r="1.4" fill="#38BDF8"/></svg>
+        拾光旅行
+        <small>暗夜保护区观星团</small>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#routes">观星路线</a></li>
+        <li><a href="#itinerary">五日行程</a></li>
+        <li><a href="#gear">装备清单</a></li>
+        <li><a href="#guides">领队</a></li>
+        <li><a href="#faq">常见问题</a></li>
+      </ul>
+      <div class="nav-side">
+        <p class="nav-tel">咨询 <b>400-920-1120</b></p>
+        <a class="btn" href="#booking">锁定席位</a>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-label="打开菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="sky" aria-hidden="true">
+    <svg viewBox="0 0 1200 560" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="auGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#5EEAD4" stop-opacity="0"/>
+          <stop offset=".35" stop-color="#5EEAD4" stop-opacity=".5"/>
+          <stop offset=".7" stop-color="#38BDF8" stop-opacity=".42"/>
+          <stop offset="1" stop-color="#38BDF8" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="shootGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity=".95"/>
+        </linearGradient>
+        <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16"/></filter>
+      </defs>
+      <g class="stars" fill="#FFFFFF">
+        <circle cx="90" cy="80" r="1.6"/><circle cx="150" cy="190" r="1.1"/><circle cx="230" cy="60" r="1.9"/>
+        <circle cx="320" cy="150" r="1.2"/><circle cx="410" cy="40" r="1.5"/><circle cx="470" cy="210" r="1"/>
+        <circle cx="560" cy="100" r="1.7"/><circle cx="640" cy="30" r="1.2"/><circle cx="700" cy="180" r="1.4"/>
+        <circle cx="790" cy="90" r="1.1"/><circle cx="860" cy="220" r="1.5"/><circle cx="920" cy="140" r="1"/>
+        <circle cx="1030" cy="60" r="1.8"/><circle cx="1100" cy="200" r="1.2"/><circle cx="1160" cy="110" r="1.4"/>
+        <circle cx="60" cy="260" r="1.2"/><circle cx="1010" cy="290" r="1.1"/><circle cx="380" cy="250" r="1.2"/>
+        <path d="M960 130l5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/>
+        <path d="M250 130l3.4 9.6 9.6 3.4-9.6 3.4-3.4 9.6-3.4-9.6-9.6-3.4 9.6-3.4z" fill="#BAE6FD"/>
+      </g>
+      <g filter="url(#soft)" opacity=".55">
+        <path class="aurA" d="M60 170 C 300 70, 520 230, 760 130 C 900 76, 1080 140, 1180 96 L1180 0 L60 0 Z" fill="url(#auGrad)"/>
+        <path class="aurB" d="M0 290 C 260 200, 640 330, 900 220 C 1030 164, 1120 210, 1200 176 L1200 40 L0 40 Z" fill="url(#auGrad)" opacity=".6"/>
+      </g>
+      <g class="shoot">
+        <line x1="1120" y1="70" x2="1006" y2="122" stroke="url(#shootGrad)" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <path d="M0 480 L140 386 262 458 420 344 560 448 700 364 860 456 1010 384 1200 480 1200 560 0 560 Z" fill="#0A2140"/>
+      <path d="M0 524 L182 442 382 512 592 420 802 508 982 446 1200 524 1200 560 0 560 Z" fill="#04101F"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="kicker hero-kicker">暗夜保护区 / 观星旅行团 / 银河季报名中</span>
+      <h1>去海拔四千五，<br>把<em>银河</em>看清楚</h1>
+      <p class="hero-desc">拾光旅行只做一件事：把你送到几乎没有光的的地方。<b>高原、雅丹、海岸</b>三类暗夜目的地，随团八台望远镜与赤道仪，领队配比一比六，五年带队零严重高反记录。</p>
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="#booking">查看团期与价格</a>
+        <a class="btn btn-ghost" href="#routes">三条观星路线</a>
+      </div>
+    </div>
+    <div class="glass">
+      <span class="glass-tag">下一团 / 余 4 席</span>
+      <h3>阿里银河季 / 冈仁波齐与暗夜公园</h3>
+      <p class="glass-date">2026 年 11 月 14 日 至 11 月 18 日 / 拉萨集合</p>
+      <div class="glass-rows">
+        <div><span>行程</span><b>5 天 4 晚</b></div>
+        <div><span>海拔区间</span><b>3650 至 4588 米</b></div>
+        <div><span>观测夜</span><b>3 晚（含 1 晚备用）</b></div>
+        <div><span>随团光学</span><b>127 马卡望远镜 8 台</b></div>
+      </div>
+      <div class="glass-price">
+        <b>¥7,280 <i>起 / 人</i></b>
+        <span class="glass-date">含住宿交通与装备</span>
+      </div>
+      <a class="btn" href="#itinerary">看五日行程</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>6 <i>处</i></b><span>合作暗夜目的地，波特尔一至二级</span></div>
+      <div class="stat"><b>11 <i>个</i></b><span>自建零光害营地，通电且有热水的</span></div>
+      <div class="stat"><b>1 : 6</b><span>领队与团员配比，高原线配氧气与血氧仪</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">为什么跟团去暗夜保护区</span>
+      <h2>光害做减法，<em>光学做加法</em></h2>
+      <p>市区肉眼能看到的星星通常不超过二十颗。在国家认证的暗夜保护区，这个数字是三千起。剩下的，交给装备和领队。</p>
+    </div>
+    <div class="story-grid">
+      <div class="s-block">
+        <div class="s-no">01</div>
+        <h3>只去足够黑的地方</h3>
+        <p>全部目的地按波特尔暗夜等级筛过：裸眼极限星等六点五以上，银河在地面投出影子。不达标的网红点，再火也不去。</p>
+      </div>
+      <div class="s-block c2">
+        <div class="s-no">02</div>
+        <h3>望远镜不用自己背</h3>
+        <p>每团标配八台 127mm 马卡望远镜、10 乘 50 双筒与星野赤道仪全套，领队负责架好、对极轴、找到目标，你只管把眼睛凑上去。</p>
+      </div>
+      <div class="s-block c3">
+        <div class="s-no">03</div>
+        <h3>安全有人兜底</h3>
+        <p>高原线按海拔递进安排住宿，随队血氧仪、便携氧气与持证急救员。出发前健康问卷逐一筛查，不适合的线路我们会劝退。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="routes" class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">三条观星路线</span>
+      <h2>从入门海岸线到<em>阿里银河季</em></h2>
+      <p>按经验和预算选：第一次观星从西涌开始，想拍深空去冷湖，想把银河一次看够，上阿里。</p>
+    </div>
+    <div class="routes">
+      <article class="route">
+        <div class="r-banner">
+          <svg viewBox="0 0 400 126" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs><linearGradient id="skyAli" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C2A4A"/><stop offset="1" stop-color="#071A30"/></linearGradient></defs>
+            <rect width="400" height="126" fill="url(#skyAli)"/>
+            <g fill="#FFFFFF"><circle cx="46" cy="26" r="1.4"/><circle cx="120" cy="44" r="1"/><circle cx="200" cy="20" r="1.7"/><circle cx="268" cy="52" r="1.1"/><circle cx="330" cy="30" r="1.3"/><circle cx="372" cy="58" r="1"/></g>
+            <path d="M150 46l3 8.4 8.4 3-8.4 3-3 8.4-3-8.4-8.4-3 8.4-3z" fill="#BAE6FD"/>
+            <path d="M0 126 L110 42 L190 96 L260 54 L340 100 L400 70 L400 126 Z" fill="#04101F"/>
+            <path d="M110 42 L128 58 L92 58 Z" fill="#E8F2F8"/>
+          </svg>
+          <span class="r-tag">银河季主力线</span>
+        </div>
+        <div class="r-body">
+          <h3>阿里 / 冈仁波齐与暗夜公园</h3>
+          <p class="r-sub">中国首个以暗夜保护申报的星空目的地，秋季银河核心悬挂在神山之上。</p>
+          <div class="r-meta">
+            <div><span>行程</span><b>5 天 4 晚</b></div>
+            <div><span>海拔</span><b>3650 至 4588 米</b></div>
+            <div><span>最佳月份</span><b>4 至 5 月 / 10 至 11 月</b></div>
+            <div><span>集合地</span><b>拉萨</b></div>
+          </div>
+          <div class="r-foot">
+            <div class="r-price"><b>¥7,280</b> <i>起 / 人</i></div>
+            <div class="r-btns">
+              <a class="btn btn-outline" href="#itinerary">五日行程</a>
+              <a class="btn" href="#booking" data-pick="ali">选此线</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="route">
+        <div class="r-banner">
+          <svg viewBox="0 0 400 126" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs><linearGradient id="skyLh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#312E81"/><stop offset="1" stop-color="#9A3412"/></linearGradient></defs>
+            <rect width="400" height="126" fill="url(#skyLh)"/>
+            <circle cx="300" cy="40" r="16" fill="#FDBA74"/>
+            <circle cx="294" cy="36" r="16" fill="#7C2D12" opacity=".55"/>
+            <g fill="#FFFFFF"><circle cx="60" cy="24" r="1.2"/><circle cx="140" cy="36" r="1"/><circle cx="220" cy="18" r="1.4"/><circle cx="360" cy="20" r="1.1"/></g>
+            <path d="M0 96 Q 100 66 200 92 T 400 84 L400 126 0 126 Z" fill="#451A03"/>
+            <path d="M0 112 Q 120 84 240 108 T 400 104 L400 126 0 126 Z" fill="#1C0701"/>
+          </svg>
+          <span class="r-tag">深空进阶线</span>
+        </div>
+        <div class="r-body">
+          <h3>冷湖 / 雅丹与赛什腾山</h3>
+          <p class="r-sub">与世界级天文台同享一片天空，年均晴夜近三百天，深空观测的天花板。</p>
+          <div class="r-meta">
+            <div><span>行程</span><b>4 天 3 晚</b></div>
+            <div><span>海拔</span><b>2800 至 4200 米</b></div>
+            <div><span>最佳月份</span><b>4 至 10 月</b></div>
+            <div><span>集合地</span><b>敦煌</b></div>
+          </div>
+          <div class="r-foot">
+            <div class="r-price"><b>¥5,680</b> <i>起 / 人</i></div>
+            <div class="r-btns">
+              <a class="btn btn-outline" href="#gear">装备清单</a>
+              <a class="btn" href="#booking" data-pick="lenghu">选此线</a>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="route">
+        <div class="r-banner">
+          <svg viewBox="0 0 400 126" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs><linearGradient id="skyXc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#071A30"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient></defs>
+            <rect width="400" height="126" fill="url(#skyXc)"/>
+            <circle cx="86" cy="34" r="13" fill="#E8F2F8"/>
+            <g fill="#FFFFFF"><circle cx="180" cy="22" r="1.3"/><circle cx="250" cy="40" r="1"/><circle cx="330" cy="26" r="1.4"/></g>
+            <path d="M0 88 Q 30 80 60 88 T 120 88 T 180 88 T 240 88 T 300 88 T 360 88 L400 88 400 96 0 96 Z" fill="#38BDF8"/>
+            <path d="M0 104 L400 104" stroke="#38BDF8" stroke-width="2" opacity=".6"/>
+            <path d="M0 126 L400 126 L400 114 0 114 Z" fill="#0C4A6E"/>
+          </svg>
+          <span class="r-tag">入门首选</span>
+        </div>
+        <div class="r-body">
+          <h3>西涌 / 海岸暗夜社区</h3>
+          <p class="r-sub">深圳大鹏半岛的国际暗夜社区，不用请假不用高反，周末就能看到银河。</p>
+          <div class="r-meta">
+            <div><span>行程</span><b>2 天 1 晚</b></div>
+            <div><span>海拔</span><b>海滩平地</b></div>
+            <div><span>最佳月份</span><b>全年周末</b></div>
+            <div><span>集合地</span><b>深圳市内集合</b></div>
+          </div>
+          <div class="r-foot">
+            <div class="r-price"><b>¥1,280</b> <i>起 / 人</i></div>
+            <div class="r-btns">
+              <a class="btn btn-outline" href="#faq">行前疑问</a>
+              <a class="btn" href="#booking" data-pick="xichong">选此线</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="itinerary" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">主力线行程表</span>
+      <h2>阿里五天四晚，<em>三个观测夜</em>怎么排</h2>
+      <p>白天递进海拔适应，夜里在暗夜公园与圣湖湖畔观测。第三晚若天气不佳，自动启用备用观测夜，节奏不乱。</p>
+    </div>
+    <div class="it-box">
+      <div class="it-head">
+        <div>天数</div>
+        <div>白天行程</div>
+        <div>夜间安排</div>
+      </div>
+      <div class="it-row">
+        <div class="it-day"><b>第 1 天</b><span>拉萨 / 3650 米</span></div>
+        <div class="it-main">
+          <p>全天拉萨集合报到，酒店入住后集体装备核对：羽绒服、红光头灯、相机逐一过目。</p>
+          <p>晚间行前课一小时，讲月相窗口与本周天象预报，不达标就当场调整观测计划。</p>
+        </div>
+        <div class="it-night"><b>夜课（室内）</b>星野摄影参数入门，领队逐台帮团员设好相机菜单。</div>
+      </div>
+      <div class="it-row">
+        <div class="it-day"><b>第 2 天</b><span>浪卡子 / 4442 米</span></div>
+        <div class="it-main">
+          <p>沿拉亚公路南下，羊卓雍错湖畔日落散步，海拔递进适应，午后安排两小时午休。</p>
+          <p>晚餐提前到六点半，为夜观测留足体力，营地提供姜茶与氧气罐。</p>
+        </div>
+        <div class="it-night"><b>首夜观测</b>目视双星与月面环形山，熟悉望远镜操作，二十三点收工。</div>
+      </div>
+      <div class="it-row">
+        <div class="it-day"><b>第 3 天</b><span>狮泉河 / 4280 米</span></div>
+        <div class="it-main">
+          <p>穿越冈底斯山脉北上，途经公珠错湿地短停，傍晚抵达阿里暗夜公园营地。</p>
+          <p>下午踩点架设备：八台望远镜列阵，赤道仪对极轴，标定银河拱桥机位。</p>
+        </div>
+        <div class="it-night"><b>午夜实战</b>银河拱桥接片拍摄，气辉与黄道光目视讲解，凌晨一点半收。</div>
+      </div>
+      <div class="it-row">
+        <div class="it-day"><b>第 4 天</b><span>玛旁雍错 / 4588 米</span></div>
+        <div class="it-main">
+          <p>冈仁波齐日出晨拍，上午转山起点轻徒步两公里，午后抵圣湖湖畔营地。</p>
+          <p>白天强制补眠到四点，晚餐后湖边生火煮茶，等银河从纳木那尼峰后升起。</p>
+        </div>
+        <div class="it-night"><b>整夜观测</b>南天银河核心、暗星云与夏季大三角，通宵开放至日出。</div>
+      </div>
+      <div class="it-row">
+        <div class="it-day"><b>第 5 天</b><span>狮泉河散团</span></div>
+        <div class="it-main">
+          <p>纳木那尼晨拍收尾，上午返回狮泉河，午餐后送机或送站，行程结束。</p>
+          <p>返程路上领队现场修图，出团后七个工作日发送全团精修星野底片。</p>
+        </div>
+        <div class="it-night"><b>晨拍收工</b>无夜间安排，早休息赶航班。</div>
+      </div>
+    </div>
+    <div class="inc-grid">
+      <div class="inc">
+        <h3>费用包含</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12l5 5 11-11" stroke="#0C4A6E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>行程内全程住宿与包车，观星营地两至三人帐篷</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12l5 5 11-11" stroke="#0C4A6E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>八台 127 马卡望远镜与赤道仪全套的使用与教学</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12l5 5 11-11" stroke="#0C4A6E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>高原线随队氧气、血氧仪与持证急救员</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12l5 5 11-11" stroke="#0C4A6E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>旅行意外险与高原救援险，保额按高原线路配置</li>
+        </ul>
+      </div>
+      <div class="inc">
+        <h3>费用不含</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#C2410C" stroke-width="3" stroke-linecap="round"/></svg>往返集合地（拉萨 / 敦煌 / 深圳）的大交通费用</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#C2410C" stroke-width="3" stroke-linecap="round"/></svg>行程标注自理的三餐与个人消费、单房差 980 元</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#C2410C" stroke-width="3" stroke-linecap="round"/></svg>个人相机与衣物等私人物品（参见下方装备清单）</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#C2410C" stroke-width="3" stroke-linecap="round"/></svg>发票税点与可选加购的星空摄影位 680 元每人</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gear" class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">装备清单</span>
+      <h2>重的我们背，<em>轻的你来带</em></h2>
+      <p>按这张表收拾行李：左边是我们随车携带的，右边是你需要自备的。拿不准的直接问领队，别硬扛。</p>
+    </div>
+    <div class="g-box">
+      <div class="g-head">
+        <div>类别</div>
+        <div>我们提供</div>
+        <div>请自备</div>
+      </div>
+      <div class="g-row">
+        <div class="g-cat">光学观测<span>看星星用</span></div>
+        <div class="yes">127mm 马卡望远镜 8 台 / 10 乘 50 双筒 6 副 / 星图与红光指星笔</div>
+        <div class="no">一副愿意早睡早起的好脾气，观测时手机调至夜间模式</div>
+      </div>
+      <div class="g-row">
+        <div class="g-cat">摄影器材<span>拍照用</span></div>
+        <div class="yes">星野赤道仪 3 套 / 快门线与备用电池 / 现场修图指导</div>
+        <div class="no">全画幅机身与广角大光圈镜头（没有可加购摄影位共用设备）</div>
+      </div>
+      <div class="g-row">
+        <div class="g-cat">防寒保暖<span>夜里零下很常见</span></div>
+        <div class="yes">高山帐与防潮垫 / 睡袋舒适温标零下十五度 / 营地取暖炉</div>
+        <div class="no">羽绒服与抓绒 / 加厚羊毛袜两双 / 保暖帽与手套（红光头灯可领）</div>
+      </div>
+      <div class="g-row">
+        <div class="g-cat">电源网络<span>营地供电</span></div>
+        <div class="yes">营地发电机与照明 / 每帐篷两个插座 / 应急卫星电话</div>
+        <div class="no">充电宝两万毫安以上 / 车充线（部分路段无信号，提前交代行程）</div>
+      </div>
+      <div class="g-row">
+        <div class="g-cat">健康药品<span>高原线必读</span></div>
+        <div class="yes">便携氧气与血氧仪 / 高反常用药 / 持证急救员随队</div>
+        <div class="no">个人处方药 / 晕车药 / 隐形眼镜佩戴者备润眼液与框架眼镜</div>
+      </div>
+    </div>
+    <p class="g-note">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#C2410C" stroke-width="2"/><path d="M12 8v5" stroke="#C2410C" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1.2" fill="#C2410C"/></svg>
+      观星礼仪：营地内只许用红光照明，激光笔只由领队使用；夜间保持低声，别让手电毁了别人三十分钟的暗适应。
+    </p>
+  </div>
+</section>
+
+<section id="guides" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">领队</span>
+      <h2>会找星星的人，<em>也会照顾人</em></h2>
+      <p>每条线固定主领队加摄影或观测指导，全部持急救证上岗。报名后出发前，你会先在微信群认识他们。</p>
+    </div>
+    <div class="guides">
+      <article class="guide">
+        <div class="g-top">
+          <div class="g-avatar" aria-hidden="true">陈</div>
+          <div>
+            <h3>陈屿</h3>
+            <span>星空摄影指导 / 带队 12 年</span>
+          </div>
+        </div>
+        <ul>
+          <li>《中国国家天文》与两家旅行杂志长期供稿人</li>
+          <li>高原与雅丹线累计带队 140 余次</li>
+          <li>擅长把参数讲成人话，零基础也能出片</li>
+        </ul>
+        <span class="g-line">常驻：阿里线 / 冷湖线</span>
+        <p class="g-quote">先学会用眼睛看，再谈按快门。相机记得的，远不如你记得。</p>
+      </article>
+      <article class="guide">
+        <div class="g-top">
+          <div class="g-avatar" aria-hidden="true">卓</div>
+          <div>
+            <h3>卓玛措</h3>
+            <span>阿里线主领队 / 野外急救持证</span>
+          </div>
+        </div>
+        <ul>
+          <li>阿里本地人，汉藏双语讲解冈底斯山与圣湖人文</li>
+          <li>负责高原适应节奏与餐食安排，人称「移动血氧仪」</li>
+          <li>五年带队零严重高反记录的执行者</li>
+        </ul>
+        <span class="g-line">常驻：阿里线</span>
+        <p class="g-quote">山一直在，星星也一直在，慢慢走的人才看得全。</p>
+      </article>
+      <article class="guide">
+        <div class="g-top">
+          <div class="g-avatar" aria-hidden="true">周</div>
+          <div>
+            <h3>周明远</h3>
+            <span>深空观测指导 / 自磨镜片二十年</span>
+          </div>
+        </div>
+        <ul>
+          <li>自制望远镜十一台，最大一台口径 300 毫米</li>
+          <li>梅西耶马拉松完赛 110 比 110，冷湖晴夜纪录保持者</li>
+          <li>负责深空天体目视与望远镜维护教学</li>
+        </ul>
+        <span class="g-line">常驻：冷湖线 / 西涌线</span>
+        <p class="g-quote">望远镜是耐心造出来的，看星星这件事也是。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="booking" class="sec sec-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">报名</span>
+      <h2>选线路、选月份，<em>算好价再决定</em></h2>
+      <p>十二人封团，定金百分之三十锁席，出发前十五天可免费改期一次。下方价格实时计算，不含大交通。</p>
+    </div>
+    <div class="book-grid">
+      <form class="form" onsubmit="return false">
+        <div class="f-row">
+          <label for="bRoute">出发线路</label>
+          <select id="bRoute">
+            <option value="ali" data-price="7280" data-name="阿里 / 冈仁波齐与暗夜公园 / 5天4晚">阿里 5天4晚 / ¥7,280 起</option>
+            <option value="lenghu" data-price="5680" data-name="冷湖 / 雅丹与赛什腾山 / 4天3晚">冷湖 4天3晚 / ¥5,680 起</option>
+            <option value="xichong" data-price="1280" data-name="西涌 / 海岸暗夜社区 / 2天1晚">西涌 2天1晚 / ¥1,280 起</option>
+          </select>
+        </div>
+        <div class="f-row">
+          <label for="bMonth">出发月份</label>
+          <select id="bMonth">
+            <option>2026 年 11 月（银河季末班）</option>
+            <option>2026 年 12 月（冬季深空窗口）</option>
+            <option>2027 年 3 月（春季星系季）</option>
+            <option>2027 年 4 月（银河季开季）</option>
+            <option>2027 年 5 月（银河季正班）</option>
+          </select>
+        </div>
+        <div class="f-row">
+          <label for="bPeople">出发人数（12 人封团）</label>
+          <input type="number" id="bPeople" min="1" max="12" step="1" value="2" inputmode="numeric">
+        </div>
+        <div class="f-row">
+          <label class="f-check">
+            <input type="checkbox" id="bPhoto">
+            <span>加购<b>星空摄影位</b>（赤道仪专用机位与一对一指导）<b>680 元每人</b></span>
+          </label>
+        </div>
+        <p class="f-note">提交后领队在一个工作日内电话确认健康状况与航班建议，确认无误再付定金，不催单。</p>
+      </form>
+      <div class="sum" aria-live="polite">
+        <h3>费用预估</h3>
+        <p>以下金额按当前选择实时计算</p>
+        <div class="srow"><span>线路</span><b id="sumRoute">阿里 / 冈仁波齐与暗夜公园 / 5天4晚</b></div>
+        <div class="srow"><span>单团单价</span><b id="sumUnit">¥7,280 / 人</b></div>
+        <div class="srow"><span>人数</span><b id="sumPeople">2 人</b></div>
+        <div class="srow"><span>摄影位</span><b id="sumPhoto">未加购</b></div>
+        <div class="sum-total"><span>合计（不含大交通）</span><b id="sumTotal">¥14,560</b></div>
+        <div class="srow"><span>锁席定金（30%）</span><b id="sumDeposit">¥4,368</b></div>
+        <button class="btn btn-accent" type="button" id="bookBtn">提交报名意向</button>
+        <p class="sum-tel">拿不准选哪条线？电话我们 <b>400-920-1120</b>（每日 9 至 21 时）</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">常见问题</span>
+      <h2>出发前，<em>把担心说完</em></h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>上高原会不会高反？</summary>
+        <p>阿里线前两晚按 3650 与 4442 米递进安排，随队血氧仪每日两次监测，氧气常备。报名时填写健康问卷，有严重高反史的我们会建议改走冷湖或西涌线，不改也不硬劝。</p>
+      </details>
+      <details>
+        <summary>天气不好看不到星星怎么办？</summary>
+        <p>每团预留一晚备用观测夜，行程会自动把最佳目标挪到晴夜。若整团观测夜全部因天气取消，按每晚 380 元退还观测费，白天行程照常进行，不搞「看运气」那一套。</p>
+      </details>
+      <details>
+        <summary>没有相机、不懂天文能参加吗？</summary>
+        <p>完全可以，八成团员是第一次观星。望远镜由领队架好对好，你负责看；摄影位是可选加购，共用设备也够用。领队讲解从「怎么找到北」开始讲。</p>
+      </details>
+      <details>
+        <summary>退改规则是什么？</summary>
+        <p>出发前十五天以外全额定金退还；前七至十五天退定金七成；七天以内不退，但可免费改期一次至十二个月内任意团期，改期后仍可再转让给他人。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div>
+      <h2>十一月阿里团，还剩 <em>4 个席位</em></h2>
+      <p>银河季一年只有两班。今年想清楚的那件事，留到海拔四千五再决定。</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn-dark" href="#booking">现在锁定席位</a>
+      <a class="btn btn-outline" href="#itinerary">再看一遍行程</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a class="brand" href="#top" aria-label="拾光旅行首页">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9-7.9-2.6 7.9-2.6z" fill="#38BDF8"/></svg>
+          拾光旅行
+        </a>
+        <p class="foot-blurb">专注暗夜保护区的观星旅行团。把人送到足够黑的地方，把望远镜架好，剩下的交给银河。</p>
+      </div>
+      <div class="foot-col">
+        <h4>路线</h4>
+        <ul>
+          <li><a href="#routes">阿里银河季</a></li>
+          <li><a href="#routes">冷湖深空线</a></li>
+          <li><a href="#routes">西涌入门线</a></li>
+          <li><a href="#booking">团队与机构定制</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="#gear">装备与海拔说明</a></li>
+          <li><a href="#faq">退改与天气条款</a></li>
+          <li><a href="#faq">观星礼仪</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#guides">领队阵容</a></li>
+          <li><a href="#routes">合作暗夜目的地</a></li>
+          <li><a href="#booking">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>UI 设计提示词库 / 产品模板 / Travel/Tourism Agency</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
+  });
+  navLinks.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+  var route=document.getElementById('bRoute');
+  var people=document.getElementById('bPeople');
+  var photo=document.getElementById('bPhoto');
+  var sumRoute=document.getElementById('sumRoute');
+  var sumUnit=document.getElementById('sumUnit');
+  var sumPeople=document.getElementById('sumPeople');
+  var sumPhoto=document.getElementById('sumPhoto');
+  var sumTotal=document.getElementById('sumTotal');
+  var sumDeposit=document.getElementById('sumDeposit');
+  function fmt(n){return '¥'+n.toLocaleString('en-US')}
+  function calc(){
+    var opt=route.options[route.selectedIndex];
+    var base=parseInt(opt.getAttribute('data-price'),10);
+    var n=parseInt(people.value,10);
+    if(isNaN(n)){n=2}
+    n=Math.min(12,Math.max(1,n));
+    people.value=n;
+    var photoFee=photo.checked?680*n:0;
+    var total=base*n+photoFee;
+    sumRoute.textContent=opt.getAttribute('data-name');
+    sumUnit.textContent=fmt(base)+' / 人';
+    sumPeople.textContent=n+' 人';
+    sumPhoto.textContent=photo.checked?'已加购 '+fmt(photoFee):'未加购';
+    sumTotal.textContent=fmt(total);
+    sumDeposit.textContent=fmt(Math.round(total*0.3));
+  }
+  route.addEventListener('change',calc);
+  people.addEventListener('change',calc);
+  people.addEventListener('input',calc);
+  photo.addEventListener('change',calc);
+  calc();
+  var picks=[].slice.call(document.querySelectorAll('[data-pick]'));
+  picks.forEach(function(el){
+    el.addEventListener('click',function(){
+      route.value=el.getAttribute('data-pick');
+      calc();
+    });
+  });
+})();
+</script>
+</body>
+</html>

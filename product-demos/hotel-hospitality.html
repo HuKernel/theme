@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>产品模板 / Hotel/Hospitality / UI 设计提示词库</title>
+<meta name="description" content="雾隐山房 / 山间设计民宿样板页，房型与房价、山居体验、管家服务与房态日历。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划：底 #F8FAFC / 主藏蓝 #1E3A8A（题与钮）/ 正文蓝 #1E40AF / 弱文 #3A5494 / 卡 #FFFFFF / 线 #BFDBFE / 弱底 #E9EEF5 / 文字金 #A16207（浅底小字 #854D0E）/ 图形金 #D4AF37 / 蓝辅 #3B82F6 仅作图形 / 深段底 #1E3A8A 配 #E5C96B 浅金；衬线标题 + 无衬线正文；玻璃件 = 白透 + backdrop 折射 + 顶亮沿 */
+:root{
+  --bg:#F8FAFC; --navy:#1E3A8A; --ink:#1E40AF; --ink-2:#3A5494;
+  --card:#FFFFFF; --line:#BFDBFE; --wash:#E9EEF5;
+  --gold:#A16207; --gold-deep:#854D0E; --gold-bright:#D4AF37; --gold-pale:#E5C96B;
+  --blue:#3B82F6; --on-navy:#FFFFFF; --on-navy-2:#D6E2FF;
+  --glass:rgba(255,255,255,.58); --glass-strong:rgba(255,255,255,.78); --glass-edge:rgba(255,255,255,.85);
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",STSong,SimSun,Georgia,"Times New Roman",serif;
+  --sans:-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --r-lg:22px; --r-md:14px; --r-sm:9px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased}
+::selection{background:var(--wash);color:var(--navy)}
+:focus-visible{outline:2px solid var(--navy);outline-offset:3px;border-radius:3px}
+.on-navy :focus-visible{outline-color:var(--gold-pale)}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.skip{position:fixed;left:16px;top:-64px;z-index:99;background:var(--navy);color:var(--on-navy);padding:10px 20px;font-size:14px;transition:top .2s}
+.skip:focus-visible{top:16px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+section{padding:clamp(68px,8.5vw,118px) 0;scroll-margin-top:70px}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:400;letter-spacing:.02em}
+.eyebrow{font-size:13px;letter-spacing:.34em;color:var(--gold-deep);margin-bottom:14px}
+.sec-head{max-width:640px;margin-bottom:clamp(34px,4.5vw,54px)}
+.sec-head h2{font-size:clamp(27px,3.4vw,40px);line-height:1.32;color:var(--navy)}
+.sec-head .lede{margin-top:14px;color:var(--ink-2);font-size:16px}
+.sec-head-center{margin-left:auto;margin-right:auto;text-align:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 30px;font-size:15px;font-family:var(--sans);letter-spacing:.06em;border:1px solid transparent;border-radius:var(--r-sm);cursor:pointer;transition:background .25s,color .25s,border-color .25s,transform .25s,box-shadow .25s}
+.btn-navy{background:var(--navy);color:var(--on-navy)}
+.btn-navy:hover{background:#27479B;transform:translateY(-1px);box-shadow:0 10px 22px -12px rgba(30,58,138,.55)}
+.btn-ghost{background:transparent;color:var(--navy);border-color:rgba(30,58,138,.45)}
+.btn-ghost:hover{border-color:var(--navy);background:rgba(255,255,255,.6)}
+.btn-gold{background:var(--gold-bright);color:#172554}
+.btn-gold:hover{background:#E0BE4F;transform:translateY(-1px)}
+.text-note{font-size:14px;color:var(--ink-2)}
+
+/* ===== 顶栏（玻璃） ===== */
+.site-head{position:fixed;inset:0 0 auto;z-index:50;background:var(--glass);backdrop-filter:blur(16px) saturate(1.45);-webkit-backdrop-filter:blur(16px) saturate(1.45);border-bottom:1px solid var(--glass-edge);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 6px 24px -18px rgba(30,58,138,.35)}
+@supports not (backdrop-filter:blur(1px)){.site-head{background:rgba(255,255,255,.94)}}
+.head-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:70px}
+.brand{display:flex;align-items:center;gap:12px;color:var(--navy)}
+.brand svg{width:34px;height:34px}
+.brand b{font-family:var(--serif);font-size:21px;font-weight:400;letter-spacing:.12em}
+.brand small{font-size:11.5px;color:var(--ink-2);letter-spacing:.18em;display:block;line-height:1.3}
+.nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);font-size:14.5px}
+.nav a{color:var(--ink);border-bottom:1.5px solid transparent;padding:4px 2px;transition:border-color .2s,color .2s}
+.nav a:hover{color:var(--navy);border-color:var(--gold-bright)}
+.head-cta{display:flex;gap:10px}
+.head-cta .btn{padding:10px 22px;font-size:14px}
+.tel{color:var(--navy);font-size:14.5px;letter-spacing:.03em}
+.nav-toggle{display:none}
+
+/* ===== 主视觉（Hero-Centric） ===== */
+.hero{position:relative;min-height:min(94vh,880px);display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 clamp(48px,6vw,84px);overflow:hidden}
+.hero-art{position:absolute;inset:0;z-index:0}
+.hero-art svg{width:100%;height:100%;object-fit:cover}
+.hero-in{position:relative;z-index:2}
+.hero-copy{max-width:660px}
+.hero-copy .eyebrow{color:var(--gold-deep)}
+.hero h1{font-size:clamp(46px,7vw,84px);line-height:1.12;color:var(--navy);letter-spacing:.06em}
+.hero .sub{margin-top:14px;font-size:clamp(16px,1.8vw,19px);color:var(--ink);letter-spacing:.14em}
+.hero .desc{margin-top:18px;max-width:520px;color:var(--ink-2)}
+.hero-acts{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.hero-acts .btn{padding:15px 36px}
+.hero-rating{display:flex;align-items:center;gap:12px;margin-top:26px;font-size:14.5px;color:var(--ink-2)}
+.hero-rating .stars{display:flex;gap:2px}
+.hero-rating .stars svg{width:17px;height:17px}
+.hero-rating b{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--navy)}
+
+/* 玻璃预订吧台（签名组件） */
+.book-bar{position:relative;z-index:2;margin-top:clamp(34px,4.5vw,56px);background:var(--glass);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border:1px solid var(--glass-edge);border-radius:var(--r-lg);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 48px -28px rgba(30,58,138,.45);padding:22px clamp(18px,2.6vw,30px)}
+@supports not (backdrop-filter:blur(1px)){.book-bar{background:rgba(255,255,255,.93)}}
+.book-grid{display:grid;grid-template-columns:1.25fr 1.25fr .9fr 1.35fr auto;gap:16px;align-items:end}
+.field label{display:block;font-size:12.5px;letter-spacing:.14em;color:var(--ink-2);margin-bottom:7px}
+.field input,.field select{width:100%;font-family:var(--sans);font-size:15px;color:var(--navy);background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 12px}
+.field input:focus,.field select:focus{outline:none;border-color:var(--navy)}
+.field select{appearance:none;background-image:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%231E3A8A' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.book-grid .btn{white-space:nowrap;padding:13px 28px}
+.book-note{margin-top:12px;font-size:13px;color:var(--ink-2);letter-spacing:.04em}
+
+/* ===== 数据带（Social Proof 起步） ===== */
+.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,#FFFFFF,#F4F8FE)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:30px 18px;text-align:center;border-left:1px solid var(--line)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.4vw,42px);color:var(--gold-deep);line-height:1.2}
+.stat span{font-size:14px;color:var(--ink-2);letter-spacing:.08em}
+
+/* ===== 房型 ===== */
+.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,30px);align-items:stretch}
+.room-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.room-card:hover{transform:translateY(-4px);box-shadow:0 26px 44px -26px rgba(30,58,138,.38)}
+.room-art{position:relative;background:#EFF4FC}
+.room-art svg{width:100%;height:auto}
+.room-tag{position:absolute;top:14px;left:14px;font-size:12.5px;letter-spacing:.14em;color:#172554;background:var(--gold-bright);border-radius:999px;padding:4px 13px}
+.room-body{display:flex;flex-direction:column;flex:1;padding:24px 26px 26px}
+.room-body h3{font-size:24px;color:var(--navy)}
+.room-meta{margin-top:6px;font-size:13.5px;color:var(--ink-2);letter-spacing:.05em}
+.room-feats{margin:16px 0 18px;display:grid;gap:8px;font-size:14.5px;color:var(--ink)}
+.room-feats li{list-style:none;display:flex;align-items:center;gap:9px}
+.room-feats svg{width:15px;height:15px;flex:none;color:var(--gold)}
+.room-price{margin-top:auto;padding-top:16px;border-top:1px dashed var(--line);display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.room-price b{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--navy)}
+.room-price b i{font-style:normal;font-size:15px;color:var(--ink-2);margin-left:2px}
+.room-price .btn{padding:10px 20px;font-size:14px}
+
+/* ===== 山居体验 ===== */
+.stay{background:linear-gradient(180deg,#F4F8FE,#F8FAFC)}
+.stay-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(28px,4vw,56px);align-items:stretch}
+.stay-art{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:#EFF4FC;min-height:430px;display:flex}
+.stay-art svg{width:100%;height:100%;min-height:430px}
+.stay-list{display:flex;flex-direction:column;justify-content:center;gap:6px}
+.stay-item{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);align-items:start}
+.stay-item:last-child{border-bottom:none}
+.stay-item .ico{width:52px;height:52px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.stay-item .ico svg{width:25px;height:25px}
+.stay-item h3{font-size:19px;color:var(--navy)}
+.stay-item p{font-size:14.5px;color:var(--ink-2);margin-top:4px}
+.stay-note{margin-top:18px;font-size:14px;color:var(--gold-deep);letter-spacing:.05em}
+
+/* ===== 管家服务（服务行 grid 对齐） ===== */
+.butler-band{background:var(--navy);color:var(--on-navy)}
+.butler-band .eyebrow{color:var(--gold-pale)}
+.butler-band h2{color:var(--on-navy)}
+.butler-band .lede{color:var(--on-navy-2)}
+.butler-top{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;margin-bottom:clamp(28px,3.5vw,44px)}
+.butler-top .btn{border-color:rgba(230,201,107,.6);color:var(--gold-pale)}
+.butler-top .btn:hover{border-color:var(--gold-pale);background:rgba(255,255,255,.06)}
+.butler-rows{border-top:1px solid rgba(214,226,255,.28)}
+.butler-row{display:grid;grid-template-columns:110px 230px 1fr;gap:20px;align-items:baseline;padding:22px 4px;border-bottom:1px solid rgba(214,226,255,.28);transition:background .25s}
+.butler-row:hover{background:rgba(255,255,255,.05)}
+.butler-row time{font-family:var(--serif);font-size:21px;color:var(--gold-pale);letter-spacing:.04em}
+.butler-row h3{font-size:18.5px;font-weight:400;color:var(--on-navy)}
+.butler-row p{font-size:14.5px;color:var(--on-navy-2)}
+.butler-promise{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.promise{background:rgba(255,255,255,.07);border:1px solid rgba(214,226,255,.3);border-radius:var(--r-md);padding:16px 20px;font-size:14px;color:var(--on-navy-2)}
+.promise b{display:block;font-size:15px;color:var(--on-navy);font-weight:600;margin-bottom:3px}
+
+/* ===== 房态日历（静态演示） ===== */
+.book-grid-area{display:grid;grid-template-columns:340px 1fr;gap:clamp(24px,3.4vw,44px);align-items:start}
+.book-side{display:flex;flex-direction:column;gap:18px;position:sticky;top:96px}
+.room-tabs{display:flex;flex-direction:column;gap:10px}
+.room-tab{display:flex;align-items:baseline;justify-content:space-between;gap:12px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 18px;cursor:pointer;font-family:var(--sans);transition:border-color .2s,box-shadow .2s}
+.room-tab b{font-size:16px;font-weight:600;color:var(--ink)}
+.room-tab span{font-size:14px;color:var(--ink-2)}
+.room-tab[aria-pressed="true"]{border-color:var(--navy);box-shadow:0 0 0 1px var(--navy),inset 0 1px 0 #fff}.room-tab[aria-pressed="true"] b{color:var(--navy)}
+.legend{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:16px 18px;display:grid;gap:10px}
+.legend-row{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink)}
+.chip{width:15px;height:15px;border-radius:4px;flex:none}
+.chip-ok{background:#FFFFFF;border:1.5px solid var(--navy)}.chip-few{background:var(--gold-bright)}.chip-full{background:var(--wash);border:1px solid var(--line)}.chip-past{background:repeating-linear-gradient(45deg,#EFF3FA 0 4px,#E2E9F4 4px 8px)}
+.book-notes{font-size:13.5px;color:var(--ink-2);display:grid;gap:6px}
+.cal-card{background:var(--glass-strong);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border:1px solid var(--glass-edge);border-radius:var(--r-lg);box-shadow:inset 0 1px 0 #fff,0 20px 40px -30px rgba(30,58,138,.4);padding:clamp(18px,2.4vw,30px)}
+@supports not (backdrop-filter:blur(1px)){.cal-card{background:#FFFFFF}}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-head h3{font-size:23px;color:var(--navy)}
+.cal-nav{display:flex;gap:8px}
+.cal-nav button{width:40px;height:40px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card);color:var(--navy);font-size:17px;cursor:pointer;transition:border-color .2s,background .2s}
+.cal-nav button:hover:not(:disabled){border-color:var(--navy)}.cal-nav button:disabled{opacity:.35;cursor:not-allowed}
+.cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+.cal-week span{text-align:center;font-size:12.5px;letter-spacing:.1em;color:var(--ink-2)}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{position:relative;aspect-ratio:1/.86;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--sans);font-size:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:border-color .15s,transform .15s}
+.day b{font-weight:600;font-size:15.5px}
+.day small{font-size:10.5px;letter-spacing:.06em}
+.day-ok small{color:var(--gold-deep)}
+.day-few{background:var(--gold-bright);border-color:var(--gold-bright);color:#172554}
+.day-few small{color:#172554}
+.day-full{background:var(--wash);border-color:var(--wash);color:#8CA0C4;cursor:not-allowed}
+.day-past{background:repeating-linear-gradient(45deg,#EFF3FA 0 4px,#E2E9F4 4px 8px);border-color:transparent;color:#93A6C8;cursor:not-allowed}
+.day[aria-pressed="true"]{border-color:var(--navy);box-shadow:0 0 0 1.5px var(--navy);transform:translateY(-1px)}
+.day:not(:disabled):hover{border-color:var(--navy)}
+.cal-summary{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.cal-summary p{font-size:14.5px;color:var(--ink)}
+.cal-summary p b{color:var(--navy);font-family:var(--serif);font-weight:400;font-size:17px}
+.cal-summary .btn{padding:11px 24px;font-size:14px}
+
+/* ===== 住客评价（Social Proof） ===== */
+.reviews{background:linear-gradient(180deg,#F8FAFC,#F2F7FE)}
+.rev-grid{display:grid;grid-template-columns:300px 1fr;gap:clamp(24px,3.4vw,44px);align-items:stretch}
+.rev-score{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px;display:flex;flex-direction:column}
+.rev-score .big{font-family:var(--serif);font-size:64px;line-height:1;color:var(--navy)}
+.rev-score .big small{font-size:20px;color:var(--ink-2)}
+.rev-score .stars{display:flex;gap:3px;margin:12px 0 4px}
+.rev-score .stars svg{width:18px;height:18px}
+.rev-score .count{font-size:13.5px;color:var(--ink-2)}
+.bars{margin-top:20px;display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:34px 1fr 40px;gap:10px;align-items:center;font-size:12.5px;color:var(--ink-2)}
+.bar{height:7px;border-radius:99px;background:var(--wash);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--navy),var(--blue))}
+.rev-quote-src{margin-top:auto;padding-top:18px;font-size:13px;color:var(--gold-deep);letter-spacing:.06em}
+.rev-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,26px);align-items:stretch}
+.rev-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 24px 20px}
+.rev-card .stars{display:flex;gap:2px;margin-bottom:12px}
+.rev-card .stars svg{width:15px;height:15px}
+.rev-card blockquote{font-size:14.5px;color:var(--ink);line-height:1.9;flex:1}
+.rev-card blockquote::before{content:"“";font-family:var(--serif);font-size:30px;color:var(--gold-bright);line-height:0;vertical-align:-10px;margin-right:2px}
+.rev-card figcaption{margin-top:14px;padding-top:12px;border-top:1px solid var(--wash);font-size:13px;color:var(--ink-2)}
+.rev-card figcaption b{color:var(--navy);font-weight:600}
+
+/* ===== 尾部 CTA ===== */
+.cta{position:relative;background:var(--navy);overflow:hidden}
+.cta-art{position:absolute;inset:auto 0 0;opacity:.5}
+.cta-art svg{width:100%;height:210px}
+.cta-in{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;padding:clamp(20px,3vw,36px) 0 clamp(56px,6vw,80px)}
+.cta-in h2{color:var(--on-navy);font-size:clamp(26px,3.2vw,38px)}
+.cta-in p{color:var(--on-navy-2);margin-top:10px;max-width:520px}
+.cta-in p b{color:var(--gold-pale);font-family:var(--serif);font-weight:400;font-size:19px;letter-spacing:.06em}
+.cta-acts{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ===== 页脚 ===== */
+.footer{background:#16295F;color:var(--on-navy-2);padding:clamp(48px,6vw,72px) 0 34px}
+.footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px;padding-bottom:34px;border-bottom:1px solid rgba(214,226,255,.22)}
+.footer-brand .brand{color:var(--on-navy);margin-bottom:12px}
+.footer-brand p{font-size:14px;max-width:300px}
+.footer h3{font-size:15px;color:var(--on-navy);font-family:var(--sans);font-weight:600;letter-spacing:.14em;margin-bottom:14px}
+.footer-nav{display:grid;gap:9px;font-size:14.5px}
+.footer-nav a{transition:color .2s}
+.footer-nav a:hover{color:var(--gold-pale)}
+.footer-legal{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;font-size:13.5px}
+.footer-legal a{color:var(--gold-pale);border-bottom:1px solid rgba(229,201,107,.5);padding-bottom:2px}
+.footer-legal a:hover{border-color:var(--gold-pale)}
+.copyright{margin-top:14px;font-size:12.5px;color:#93A9DD}
+
+/* ===== 一次亮相动效 ===== */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes mist-in{from{opacity:0;transform:translateX(-46px)}to{opacity:1;transform:none}}
+.hero .rise{animation:rise .9s cubic-bezier(.22,.61,.36,1) both}
+.hero .rise-1{animation-delay:.05s}.hero .rise-2{animation-delay:.16s}.hero .rise-3{animation-delay:.28s}.hero .rise-4{animation-delay:.4s}.hero .rise-5{animation-delay:.55s}
+.hero-art .mist{animation:mist-in 1.3s ease-out both}.hero-art .mist-2{animation-delay:.3s}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero .rise,.hero-art .mist{animation:none;opacity:1;transform:none}
+  .btn,.room-card,.butler-row{transition:none}
+}
+
+/* ===== 响应式 ===== */
+@media (max-width:1023px){
+  .nav{display:none}
+  .book-grid-area{grid-template-columns:1fr}
+  .book-side{position:static}
+  .rev-grid{grid-template-columns:1fr}
+  .rev-score{flex-direction:row;align-items:center;gap:26px;flex-wrap:wrap}
+  .rev-quote-src{margin-top:0;padding-top:0}
+  .stay-grid{grid-template-columns:1fr}
+  .stay-art{min-height:340px}
+  .stay-art svg{min-height:340px}
+}
+@media (max-width:900px){
+  .rooms-grid{grid-template-columns:1fr 1fr}
+  .room-card:last-child{grid-column:1/-1}
+  .room-card:last-child .room-art svg{max-height:280px}
+  .rev-cards{grid-template-columns:1fr 1fr}
+  .rev-card:last-child{grid-column:1/-1}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat:nth-child(3){border-left:none}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .butler-row{grid-template-columns:88px 1fr;grid-template-rows:auto auto}
+  .butler-row p{grid-column:2}
+  .butler-promise{grid-template-columns:1fr}
+  .cta-in{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .rooms-grid,.rev-cards{grid-template-columns:1fr}
+  .room-card:last-child,.rev-card:last-child{grid-column:auto}
+  .room-card:last-child .room-art svg{max-height:none}
+  .book-grid{grid-template-columns:1fr 1fr}
+  .book-grid .field-narrow{grid-column:auto}
+  .book-grid .btn{grid-column:1/-1}
+  .head-cta .tel{display:none}.head-cta .btn{padding:10px 16px}
+  .butler-top{grid-template-columns:1fr}
+  .butler-row{grid-template-columns:1fr;gap:4px}
+  .butler-row p{grid-column:auto}
+  .cal-summary{flex-direction:column;align-items:flex-start}
+  .footer-top{grid-template-columns:1fr;gap:26px}
+  .hero{min-height:auto;padding-top:120px}
+  .day{aspect-ratio:1/.92;font-size:14px}.day small{display:none}.day-few small{display:block}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top" aria-label="雾隐山房 首页">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 30L15 10l7 12 4-6 10 14z" fill="#1E3A8A"/><path d="M4 30h32" stroke="#1E3A8A" stroke-width="2"/><circle cx="29" cy="10" r="3.4" fill="#D4AF37"/><path d="M10 18c3 0 3-2 6-2" stroke="#BFDBFE" stroke-width="1.6" fill="none"/></svg>
+      <span><b>雾隐山房</b><small>山间设计民宿 / 皖西大别山</small></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#rooms">房型与房价</a>
+      <a href="#stay">山居体验</a>
+      <a href="#butler">管家服务</a>
+      <a href="#booking">房态日历</a>
+      <a href="#reviews">住客评价</a>
+    </nav>
+    <div class="head-cta">
+      <span class="tel">管家直线 / 0564-608 8899</span>
+      <a class="btn btn-navy" href="#booking">预订房态</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 主视觉：山雾场景 + 玻璃预订吧台 -->
+<section class="hero" id="top" aria-label="雾隐山房主视觉">
+  <div class="hero-art" aria-hidden="true">
+    <svg viewBox="0 0 1440 860" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#E7F0FC"/><stop offset=".55" stop-color="#F2F7FE"/><stop offset="1" stop-color="#F8FAFC"/>
+        </linearGradient>
+        <linearGradient id="ridge-far" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#B9CFEF"/><stop offset="1" stop-color="#D4E3F8"/>
+        </linearGradient>
+        <linearGradient id="ridge-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8FAEE0"/><stop offset="1" stop-color="#B7CDEE"/>
+        </linearGradient>
+        <linearGradient id="ridge-near" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3B5CA6"/><stop offset="1" stop-color="#5D7FC4"/>
+        </linearGradient>
+        <radialGradient id="moon-glow"><stop offset="0" stop-color="#EAD9A0" stop-opacity=".9"/><stop offset="1" stop-color="#EAD9A0" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="1440" height="860" fill="url(#sky)"/>
+      <circle cx="1108" cy="176" r="120" fill="url(#moon-glow)"/>
+      <circle cx="1108" cy="176" r="38" fill="#D4AF37"/>
+      <path d="M0 560L150 430l120 78 108-128 190 180h272l96-150 128 122 150-96 226 174v250H0z" fill="url(#ridge-far)" opacity=".85"/>
+      <path d="M0 640l180-130 160 118 140-96 200 148 170-110 190 130 140-70 260 150v210H0z" fill="url(#ridge-mid)" opacity=".9"/>
+      <path d="M0 760l230-160 190 130 210-150 260 190 180-100 370 180v210H0z" fill="url(#ridge-near)"/>
+      <g class="mist">
+        <ellipse cx="340" cy="640" rx="330" ry="34" fill="#FFFFFF" opacity=".5"/>
+        <ellipse cx="820" cy="596" rx="280" ry="26" fill="#FFFFFF" opacity=".4"/>
+      </g>
+      <g class="mist mist-2">
+        <ellipse cx="1180" cy="668" rx="360" ry="30" fill="#FFFFFF" opacity=".45"/>
+        <ellipse cx="120" cy="700" rx="260" ry="24" fill="#FFFFFF" opacity=".4"/>
+      </g>
+      <g transform="translate(636,652)">
+        <path d="M0 78L62 8l62 70v100H0z" fill="#16295F"/>
+        <rect x="50" y="66" width="24" height="26" rx="2" fill="#D4AF37"/>
+        <path d="M88 44h30l6 10v26H88z" fill="#3B5CA6"/>
+        <rect x="96" y="52" width="10" height="10" fill="#D4AF37" opacity=".85"/>
+        <path d="M-8 40c14-10 26-10 40 0" stroke="#B9CFEF" stroke-width="2" fill="none"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow rise rise-1">海拔八百七十米 / 十二间房 / 引泉入池</p>
+      <h1 class="rise rise-2">雾隐山房</h1>
+      <p class="sub rise rise-3">皖西大别山 / 山间设计民宿</p>
+      <p class="desc rise rise-3">山把房子让给云，云把窗让给你。十二间山景客房、一汪引泉汤池、一份当季食单，与一位熟悉每条山径的管家。</p>
+      <div class="hero-acts rise rise-4">
+        <a class="btn btn-navy" href="#rooms">查看房型与房价</a>
+        <a class="btn btn-ghost" href="#stay">山居一日</a>
+      </div>
+      <p class="hero-rating rise rise-4">
+        <span class="stars" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg></span>
+        <b>4.9</b><span>综合评分 / 累计 1,286 条住后评价</span>
+      </p>
+    </div>
+    <form class="book-bar rise rise-5" aria-label="快速查询房态">
+      <div class="book-grid">
+        <div class="field">
+          <label for="in-date">入住日期</label>
+          <input id="in-date" type="date" value="2026-10-24" min="2026-10-10" max="2026-12-30">
+        </div>
+        <div class="field">
+          <label for="out-date">退房日期</label>
+          <input id="out-date" type="date" value="2026-10-26" min="2026-10-11" max="2026-12-31">
+        </div>
+        <div class="field">
+          <label for="guests">住客</label>
+          <select id="guests">
+            <option>2 位成人</option><option>1 位成人</option><option>2 大 1 小</option><option>2 大 2 小</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="room-pick">意向房型</label>
+          <select id="room-pick">
+            <option>云起大床房 / ¥1,280 起</option><option>松涛双床房 / ¥1,080 起</option><option>雾隐山景套房 / ¥2,280 起</option>
+          </select>
+        </div>
+        <a class="btn btn-navy" href="#booking">查询房态</a>
+      </div>
+      <p class="book-note">官方直订免服务费 / 含双人早餐与当日晚餐 / 连住两晚房费 95 折 / 周五周六每晚加收 15%</p>
+    </form>
+  </div>
+</section>
+
+<!-- 数据带 -->
+<section class="stats" aria-label="经营数据">
+  <div class="wrap stats-grid">
+    <div class="stat"><b>4.9</b><span>综合评分 / 满分 5</span></div>
+    <div class="stat"><b>1,286</b><span>住后评价 / 近三年</span></div>
+    <div class="stat"><b>12</b><span>山景客房 / 全部朝南</span></div>
+    <div class="stat"><b>98%</b><span>住客表示愿意再次入住</span></div>
+  </div>
+</section>
+
+<!-- 房型与房价 -->
+<section id="rooms" aria-labelledby="rooms-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">房型与房价</p>
+      <h2 id="rooms-title">三种住法，都在山的注视里</h2>
+      <p class="lede">全部房型朝南带观景窗台，配地暖、白茶与山泉直饮。价格为平日每晚价格，法定节假日另询管家。</p>
+    </div>
+    <div class="rooms-grid">
+      <article class="room-card">
+        <div class="room-art">
+          <svg viewBox="0 0 400 260" aria-hidden="true">
+            <rect width="400" height="260" fill="#EFF4FC"/>
+            <rect x="60" y="30" width="280" height="170" rx="10" fill="#F8FAFC" stroke="#1E3A8A" stroke-width="2.5"/>
+            <path d="M60 158l80-62 56 44 44-52 100 78" fill="none" stroke="#8FAEE0" stroke-width="2"/>
+            <circle cx="292" cy="62" r="14" fill="#D4AF37"/>
+            <path d="M96 214h208" stroke="#BFDBFE" stroke-width="2"/>
+            <g stroke="#1E3A8A" stroke-width="3" fill="none">
+              <path d="M140 214v-46a18 18 0 0 1 36 0v46" fill="#F8FAFC"/>
+              <path d="M158 168h44l12 14v32h-56"/>
+              <path d="M212 214v-52h58v52"/><path d="M212 190h58"/>
+            </g>
+          </svg>
+          <span class="room-tag">最多入住 2 人</span>
+        </div>
+        <div class="room-body">
+          <h3>云起大床房</h3>
+          <p class="room-meta">38 平方米 / 2 楼 / 1.8 米大床 / 观景浴缸</p>
+          <ul class="room-feats">
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>整面落地窗正对云海垭口</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>备品为白茶与山苍子洗护系列</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>赠手冲咖啡与晚安甜汤</li>
+          </ul>
+          <div class="room-price">
+            <p><b>¥1,280<i>/晚 起</i></b></p>
+            <a class="btn btn-ghost" href="#booking">选此房型</a>
+          </div>
+        </div>
+      </article>
+      <article class="room-card">
+        <div class="room-art">
+          <svg viewBox="0 0 400 260" aria-hidden="true">
+            <rect width="400" height="260" fill="#EFF4FC"/>
+            <rect x="60" y="30" width="280" height="170" rx="10" fill="#F8FAFC" stroke="#1E3A8A" stroke-width="2.5"/>
+            <path d="M60 150l70-54 48 38 52-60 110 76" fill="none" stroke="#8FAEE0" stroke-width="2"/>
+            <circle cx="110" cy="66" r="14" fill="#D4AF37"/>
+            <path d="M96 214h208" stroke="#BFDBFE" stroke-width="2"/>
+            <g stroke="#1E3A8A" stroke-width="3" fill="#F8FAFC">
+              <path d="M120 214v-40a16 16 0 0 1 32 0v40"/><path d="M136 174v40"/>
+              <path d="M240 214v-40a16 16 0 0 1 32 0v40"/><path d="M256 174v40"/>
+              <path d="M168 190h56" fill="none"/>
+            </g>
+          </svg>
+          <span class="room-tag">适合亲子 / 好友</span>
+        </div>
+        <div class="room-body">
+          <h3>松涛双床房</h3>
+          <p class="room-meta">42 平方米 / 1-3 楼 / 两张 1.35 米床 / 加床免费</p>
+          <ul class="room-feats">
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>侧窗正对松林与溪涧步道</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>可免费加一张儿童床与防撞围栏</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>亲子绘本与山野观察工具包</li>
+          </ul>
+          <div class="room-price">
+            <p><b>¥1,080<i>/晚 起</i></b></p>
+            <a class="btn btn-ghost" href="#booking">选此房型</a>
+          </div>
+        </div>
+      </article>
+      <article class="room-card">
+        <div class="room-art">
+          <svg viewBox="0 0 400 260" aria-hidden="true">
+            <rect width="400" height="260" fill="#EFF4FC"/>
+            <rect x="52" y="26" width="296" height="182" rx="10" fill="#F8FAFC" stroke="#1E3A8A" stroke-width="2.5"/>
+            <path d="M52 156l86-66 54 42 50-58 106 78" fill="none" stroke="#8FAEE0" stroke-width="2"/>
+            <circle cx="316" cy="58" r="14" fill="#D4AF37"/>
+            <path d="M96 214h208" stroke="#BFDBFE" stroke-width="2"/>
+            <g stroke="#1E3A8A" stroke-width="3" fill="none">
+              <path d="M124 214v-30c0-10 8-16 18-16h20c10 0 18 6 18 16v30"/>
+              <path d="M196 214v-30c0-10 8-16 18-16h20c10 0 18 6 18 16v30"/>
+              <path d="M150 168h-16l-6-16h44"/><path d="M206 168h30"/>
+            </g>
+            <g stroke="#D4AF37" stroke-width="2.4" fill="none">
+              <path d="M292 206c0-8 6-12 6-20 0 8 6 12 6 20 0 5-3 8-6 8s-6-3-6-8z" fill="#D4AF37" opacity=".35"/>
+            </g>
+          </svg>
+          <span class="room-tag">仅两间 / 顶层</span>
+        </div>
+        <div class="room-body">
+          <h3>雾隐山景套房</h3>
+          <p class="room-meta">66 平方米 / 3 楼 / 独立客厅 / 山泉私汤池</p>
+          <ul class="room-feats">
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>270 度转角窗与私汤露台</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>引活泉入池 / 恒温 41 度 / 夜可观星</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l5 5M3 7l5 5 5-5"/></svg>含管家定制两人当季晚餐</li>
+          </ul>
+          <div class="room-price">
+            <p><b>¥2,280<i>/晚 起</i></b></p>
+            <a class="btn btn-ghost" href="#booking">选此房型</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 山居体验 -->
+<section id="stay" class="stay" aria-labelledby="stay-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">山居体验</p>
+      <h2 id="stay-title">山不赶时间，你也别赶</h2>
+      <p class="lede">从晨雾到夜汤，山中一日被分成四段。公共空间全部开放，也随时允许你什么都不做。</p>
+    </div>
+    <div class="stay-grid">
+      <div class="stay-art">
+        <svg viewBox="0 0 560 430" aria-label="山中一日：晨雾、午后、暮色与夜汤示意图" role="img">
+          <rect width="560" height="430" fill="#EFF4FC"/>
+          <g font-family="Georgia,'Songti SC',serif" font-size="15" fill="#1E3A8A">
+            <rect x="26" y="30" width="240" height="170" rx="12" fill="#F8FAFC" stroke="#BFDBFE"/>
+            <path d="M26 142l66-52 42 32 40-42 92 66" fill="none" stroke="#B9CFEF" stroke-width="2"/>
+            <ellipse cx="146" cy="128" rx="76" ry="12" fill="#FFFFFF" opacity=".8"/>
+            <circle cx="216" cy="58" r="9" fill="#D4AF37"/>
+            <text x="42" y="178">晨 / 雾漫窗台与山脊</text>
+            <rect x="294" y="30" width="240" height="170" rx="12" fill="#F8FAFC" stroke="#BFDBFE"/>
+            <path d="M294 150l58-44 36 28 48-54 98 70" fill="none" stroke="#8FAEE0" stroke-width="2"/>
+            <circle cx="480" cy="56" r="13" fill="#D4AF37"/>
+            <text x="310" y="178">午 / 书房与山径并行</text>
+            <rect x="26" y="228" width="240" height="170" rx="12" fill="#F8FAFC" stroke="#BFDBFE"/>
+            <path d="M26 346l70-54 44 34 46-48 80 60" fill="none" stroke="#5D7FC4" stroke-width="2"/>
+            <circle cx="200" cy="270" r="12" fill="#D4AF37" opacity=".75"/>
+            <path d="M42 396h0" stroke="none"/>
+            <text x="42" y="376">暮 / 暮色落在食单上</text>
+            <rect x="294" y="228" width="240" height="170" rx="12" fill="#16295F"/>
+            <path d="M294 346l70-50 44 30 46-44 80 58" fill="none" stroke="#3B5CA6" stroke-width="2"/>
+            <circle cx="472" cy="268" r="11" fill="#E5C96B"/>
+            <path d="M356 330c10 0 12 8 22 8" stroke="#BFDBFE" stroke-width="2" fill="none"/>
+            <text x="310" y="376" fill="#FFFFFF">夜 / 引泉入池看星</text>
+          </g>
+        </svg>
+      </div>
+      <div class="stay-list">
+        <div class="stay-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 15c3-2 4 2 7 0s4 2 7 0"/><path d="M4 20c3-2 4 2 7 0s4 2 7 0"/><path d="M8 10c1.5-1.5 1.5-3.5 0-5M12 10c1.5-1.5 1.5-3.5 0-5M16 10c1.5-1.5 1.5-3.5 0-5"/></svg></span>
+          <div><h3>山泉汤池</h3><p>半露天池引的是后山活泉，水温常年 39 至 41 度，冬天落雪时照常开放。</p></div>
+        </div>
+        <div class="stay-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3c2 3-1 4 1 7 1.5 2.2 4 1.8 4-1 2 2 2 6-1 8.5-2 1.7-5 2.5-8 1.5-3.4-1.1-5-4.4-4-7.5.8-2.4 3-3 4.5-2 1.2.8 1.4 2.4.5 3.5 2.5.4 4-1.7 3-6z" stroke-linejoin="round"/></svg></span>
+          <div><h3>地暖与壁炉</h3><p>全屋地暖覆盖，公共客厅有一座真火壁炉，柴火与山核桃由管家每晚备好。</p></div>
+        </div>
+        <div class="stay-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 5h9l3 3v4H4z"/><path d="M7 12v4a2 2 0 0 0 2 2h1"/><path d="M16 8h4v6a2 2 0 0 1-2 2h-2"/><path d="M4 19h6"/></svg></span>
+          <div><h3>山中书房</h3><p>一千二百余册山岳与自然主题藏书，两台老望远镜，一张看得见山的长桌。</p></div>
+        </div>
+        <div class="stay-item">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 10h16v2a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6z"/><path d="M9 6c0-1.2 1-1.5 1-2.6M13 6c0-1.2 1-1.5 1-2.6"/><path d="M9 22h6"/></svg></span>
+          <div><h3>当季食单</h3><p>一桌四凉六热随山里出产更换，笋、菌、溪鱼与腊肉，餐后有柴火煨的甜汤。</p></div>
+        </div>
+        <p class="stay-note">以上设施与餐饮对全部住客开放 / 不另收费 / 食单每日 18 时开餐</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 管家服务 -->
+<section id="butler" class="butler-band on-navy" aria-labelledby="butler-title">
+  <div class="wrap">
+    <div class="butler-top">
+      <div class="sec-head" style="margin-bottom:0">
+        <p class="eyebrow">管家服务</p>
+        <h2 id="butler-title">一位管家的一天，就是你的山居日程</h2>
+        <p class="lede">三位常驻管家轮值，都生于这条山谷。你可以全程跟随，也可以只在需要时按下房间的铜铃。</p>
+      </div>
+      <a class="btn" href="#booking">和管家约一次山径</a>
+    </div>
+    <div class="butler-rows">
+      <div class="butler-row">
+        <time>07:30</time>
+        <h3>山径晨行</h3>
+        <p>雾未散时出发，管家带队走三公里环山步道，终点是看云海的垭口，回来正好赶上早餐。</p>
+      </div>
+      <div class="butler-row">
+        <time>10:00</time>
+        <h3>房间整理与茶事</h3>
+        <p>整理房间的同时换上当季茶品：春茶、野菊花或炒米茶，配一碟山里晒的果干。</p>
+      </div>
+      <div class="butler-row">
+        <time>14:00</time>
+        <h3>山谷手作</h3>
+        <p>按季节安排竹编、拓印山叶或手作豆腐，材料取自山中，成品随你带走。</p>
+      </div>
+      <div class="butler-row">
+        <time>16:30</time>
+        <h3>云海下午茶</h3>
+        <p>在观景台备一壶热茶与炉烤点心，晴天看山、雨雾天听雨，管家讲这座山的旧事。</p>
+      </div>
+      <div class="butler-row">
+        <time>21:00</time>
+        <h3>汤池夜汤</h3>
+        <p>提前一小时为私池放水调温，备浴巾、姜茶与星图，离池后房间暖炉已提前打开。</p>
+      </div>
+    </div>
+    <div class="butler-promise">
+      <div class="promise"><b>入住前</b>提前三天短信确认行程 / 按需代订上山接驳 / 记录忌口与起居习惯</div>
+      <div class="promise"><b>住店中</b>管家手机 24 小时开机 / 行程可随时调整 / 儿童全程有人照看陪同</div>
+      <div class="promise"><b>离店后</b>寄存遗忘物品免费寄回 / 回访收集意见 / 老住客直订永久 92 折</div>
+    </div>
+  </div>
+</section>
+
+<!-- 房态日历（静态演示） -->
+<section id="booking" aria-labelledby="booking-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">房态日历</p>
+      <h2 id="booking-title">先看山的日子，再定你的日子</h2>
+      <p class="lede">本页为静态演示数据，展示 2026 年 10 月与 11 月房态。金色为仅余一间，斜纹为不可预订。</p>
+    </div>
+    <div class="book-grid-area">
+      <aside class="book-side" aria-label="房型选择与图例">
+        <div class="room-tabs" role="group" aria-label="选择房型">
+          <button type="button" class="room-tab" data-room="yunqi" data-price="1280" aria-pressed="true"><b>云起大床房</b><span>¥1,280 / 晚起</span></button>
+          <button type="button" class="room-tab" data-room="songtao" data-price="1080" aria-pressed="false"><b>松涛双床房</b><span>¥1,080 / 晚起</span></button>
+          <button type="button" class="room-tab" data-room="suite" data-price="2280" aria-pressed="false"><b>雾隐山景套房</b><span>¥2,280 / 晚起</span></button>
+        </div>
+        <div class="legend" aria-label="房态图例">
+          <div class="legend-row"><span class="chip chip-ok"></span>可预订 / 当晚起住</div>
+          <div class="legend-row"><span class="chip chip-few"></span>仅余一间 / 建议尽快锁定</div>
+          <div class="legend-row"><span class="chip chip-full"></span>已订满</div>
+          <div class="legend-row"><span class="chip chip-past"></span>已过去 / 不可预订</div>
+        </div>
+        <div class="book-notes">
+          <p>周五周六每晚在所选房型基础上加收 15%</p>
+          <p>连住两晚及以上享房费 95 折 / 与早晚餐同价结算</p>
+          <p>确认订单后 18 点前可免费改期一次</p>
+        </div>
+      </aside>
+      <div class="cal-card">
+        <div class="cal-head">
+          <h3 id="cal-month">2026年10月</h3>
+          <div class="cal-nav">
+            <button type="button" id="cal-prev" aria-label="上一月">‹</button>
+            <button type="button" id="cal-next" aria-label="下一月">›</button>
+          </div>
+        </div>
+        <div class="cal-week" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+        <div class="cal-days" id="cal-days"></div>
+        <div class="cal-summary">
+          <p id="cal-pick">请选择入住日 / 当前房型为 云起大床房 / 平日参考价 ¥1,280 每晚</p>
+          <a class="btn btn-navy" href="mailto:stay@wuyin.example?subject=预订意向">锁定此日期</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 住客评价 -->
+<section id="reviews" class="reviews" aria-labelledby="reviews-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">住客评价</p>
+      <h2 id="reviews-title">他们把话说给了山，也留给了我们</h2>
+      <p class="lede">以下评价整理自离店后第七天的回访与官方直订渠道，未经删改。</p>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-score">
+        <div>
+          <p class="big">4.9<small> / 5</small></p>
+          <div class="stars" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg></div>
+          <p class="count">1,286 条住后评价 / 回访回收率 76%</p>
+        </div>
+        <div class="bars" aria-label="评分分布">
+          <div class="bar-row"><span>5 星</span><span class="bar"><i style="width:88%"></i></span><span>88%</span></div>
+          <div class="bar-row"><span>4 星</span><span class="bar"><i style="width:9%"></i></span><span>9%</span></div>
+          <div class="bar-row"><span>3 星</span><span class="bar"><i style="width:2%"></i></span><span>2%</span></div>
+          <div class="bar-row"><span>2 星</span><span class="bar"><i style="width:1%"></i></span><span>1%</span></div>
+          <div class="bar-row"><span>1 星</span><span class="bar"><i style="width:1%"></i></span><span>0.4%</span></div>
+        </div>
+        <p class="rev-quote-src">数据截至 2026 年 9 月 / 含直订与平台渠道</p>
+      </div>
+      <div class="rev-cards">
+        <figure class="rev-card">
+          <div class="stars" aria-label="5 星评价"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg></div>
+          <blockquote>住了三晚，雾起的清晨在窗台坐了一小时没动。管家记得我们不吃辣，第三天的食单单独做了清淡版。私池放好水时连星图都备好了。</blockquote>
+          <figcaption><b>林女士</b> / 上海 / 2026年9月 / 雾隐山景套房</figcaption>
+        </figure>
+        <figure class="rev-card">
+          <div class="stars" aria-label="5 星评价"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg></div>
+          <blockquote>带孩子住双床房，加床、绘本、防撞围栏都没额外收钱。山径晨行那段孩子到现在还在讲，说管家叔叔认识每一种鸟叫。</blockquote>
+          <figcaption><b>陈先生</b> / 杭州 / 2026年8月 / 松涛双床房</figcaption>
+        </figure>
+        <figure class="rev-card">
+          <div class="stars" aria-label="5 星评价"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6L10 14.2l-5.1 2.8 1.1-5.6L1.8 7.5l5.7-.7z" fill="#D4AF37"/></svg></div>
+          <blockquote>写作间歇来这里住了五天，书房那张长桌比家里的好用。下午茶时管家不闲聊，只是把茶续上就走，这种分寸感很难得。</blockquote>
+          <figcaption><b>许女士</b> / 南京 / 2026年7月 / 云起大床房</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 尾部 CTA -->
+<section class="cta on-navy" aria-label="预订联系">
+  <div class="wrap cta-in">
+    <div>
+      <h2>把下一个周末交给山</h2>
+      <p>管家直线 <b>0564-608 8899</b> / 或添加管家微信 <b>wuyin-butler</b> / 索要本周实拍云海与空房表</p>
+    </div>
+    <div class="cta-acts">
+      <a class="btn btn-gold" href="mailto:stay@wuyin.example?subject=预订意向">邮件预订</a>
+      <a class="btn" href="#booking" style="border-color:rgba(230,201,107,.6);color:var(--gold-pale)">再看一眼房态</a>
+    </div>
+  </div>
+  <div class="cta-art" aria-hidden="true">
+    <svg viewBox="0 0 1440 210" preserveAspectRatio="none">
+      <path d="M0 210V120l190-62 150 58 170-84 200 108 180-70 230 96 140-44 180 74v14z" fill="#16295F"/>
+      <path d="M0 210v-44l220-58 160 52 210-72 230 96 190-52 200 66 230-38v50z" fill="#3B5CA6" opacity=".55"/>
+    </svg>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer on-navy">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="#top">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 30L15 10l7 12 4-6 10 14z" fill="#E5C96B"/><path d="M4 30h32" stroke="#E5C96B" stroke-width="2"/><circle cx="29" cy="10" r="3.4" fill="#FFFFFF"/></svg>
+          <span><b>雾隐山房</b><small>山间设计民宿 / 皖西大别山</small></span>
+        </a>
+        <p>海拔 870 米 / 十二间山景房 / 引泉汤池与当季食单 / 全年除春节外开放</p>
+      </div>
+      <nav aria-label="页脚导航一">
+        <h3>入住指引</h3>
+        <div class="footer-nav">
+          <a href="#rooms">房型与房价</a>
+          <a href="#stay">山居体验</a>
+          <a href="#butler">管家服务</a>
+        </div>
+      </nav>
+      <nav aria-label="页脚导航二">
+        <h3>联系与预订</h3>
+        <div class="footer-nav">
+          <a href="tel:05646088899">管家直线 / 0564-608 8899</a>
+          <a href="mailto:stay@wuyin.example">stay@wuyin.example</a>
+          <a href="#booking">房态日历</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-legal">
+      <span>UI 设计提示词库 / 产品模板 / Hotel/Hospitality</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+    <p class="copyright">© 2026 雾隐山房 / 本页为设计样板，民宿名称、价格与评价均为示例</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var MONTHS=[
+    {label:"2026年10月",first:3,days:31,pastBefore:10,full:[16,17,23,24],few:[25]},
+    {label:"2026年11月",first:6,days:30,pastBefore:0,full:[1,7,8,14,15],few:[21,22]}
+  ];
+  var rooms={yunqi:{name:"云起大床房",price:1280},songtao:{name:"松涛双床房",price:1080},suite:{name:"雾隐山景套房",price:2280}};
+  var mi=0,cur="yunqi",sel=null;
+  var daysEl=document.getElementById("cal-days");
+  var monthEl=document.getElementById("cal-month");
+  var pickEl=document.getElementById("cal-pick");
+  var prevBtn=document.getElementById("cal-prev");
+  var nextBtn=document.getElementById("cal-next");
+  var tabs=[].slice.call(document.querySelectorAll(".room-tab"));
+  function status(m,d){
+    if(d<=m.pastBefore)return"past";
+    if(m.full.indexOf(d)>-1)return"full";
+    if(m.few.indexOf(d)>-1)return"few";
+    return"ok";
+  }
+  function weekendNote(d){
+    var wd=(MONTHS[mi].first+d-1)%7;
+    return(wd===4||wd===5||wd===6)?"/ 周末价 +15%":"/ 平日价";
+  }
+  function render(){
+    var m=MONTHS[mi],h=[],i;
+    for(i=0;i<m.first;i++)h.push('<span></span>');
+    for(var d=1;d<=m.days;d++){
+      var s=status(m,d);
+      var dis=(s==="past"||s==="full")?"disabled":"";
+      var lbl=s==="few"?"余一间":(s==="ok"?"可订":(s==="full"?"已满":"已过"));
+      var mark=(sel&&sel.m===mi&&sel.d===d&&s!=="past"&&s!=="full")?' aria-pressed="true"':' aria-pressed="false"';
+      h.push('<button type="button" class="day day-'+s+'" data-d="'+d+'"'+dis+mark+' aria-label="'+m.label+d+'日 '+lbl+'"><b>'+d+'</b><small>'+lbl+'</small></button>');
+    }
+    daysEl.innerHTML=h.join("");
+    monthEl.textContent=m.label;
+    prevBtn.disabled=(mi===0);
+    nextBtn.disabled=(mi===MONTHS.length-1);
+    if(sel&&sel.m!==mi)sel=null;
+    summary();
+  }
+  function summary(){
+    if(!sel){pickEl.innerHTML="请选择入住日 / 当前房型为 "+rooms[cur].name+" / 平日参考价 ¥"+rooms[cur].price.toLocaleString()+" 每晚";return;}
+    var m=MONTHS[sel.m];
+    pickEl.innerHTML="已选 <b>"+m.label+sel.d+"日</b> / "+rooms[cur].name+" / 参考价 ¥"+rooms[cur].price.toLocaleString()+" 每晚 "+weekendNote(sel.d);
+  }
+  daysEl.addEventListener("click",function(e){
+    var b=e.target.closest("button");
+    if(!b||b.disabled)return;
+    sel={m:mi,d:+b.dataset.d};
+    [].forEach.call(daysEl.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed","false");});
+    b.setAttribute("aria-pressed","true");
+    summary();
+  });
+  tabs.forEach(function(t){
+    t.addEventListener("click",function(){
+      tabs.forEach(function(x){x.setAttribute("aria-pressed","false");});
+      t.setAttribute("aria-pressed","true");
+      cur=t.dataset.room;
+      sel=null;
+      render();
+    });
+  });
+  prevBtn.addEventListener("click",function(){if(mi>0){mi--;render();}});
+  nextBtn.addEventListener("click",function(){if(mi<MONTHS.length-1){mi++;render();}});
+  render();
+})();
+</script>
+</body>
+</html>

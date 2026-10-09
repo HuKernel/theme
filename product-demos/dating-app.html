@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Dating App / UI 设计提示词库</title>
+<meta name="description" content="Dating App 产品模板演示页：慢节奏约会应用信屿，每日仅推荐 3 位实名认证用户，以书信式开场开始对话，官方暖粉红浪漫色板与社会证明优先布局。">
+<style>
+/* token 计划: Primary #E11D48 / On-Primary #FFF / Secondary #FB7185 / Accent #EA580C(文本用深化 #C2410C) / BG #FFF1F2 / FG #881337 / Card #FFF / Border #FECDD3 / Muted #F0ECF2 / Ring #E11D48, 文本安全色 #BE123C 与 #75535E 保证对比度不低于 4.5:1 */
+:root {
+  --primary: #E11D48;
+  --primary-deep: #BE123C;
+  --primary-ink: #9F1239;
+  --on-primary: #FFFFFF;
+  --secondary: #FB7185;
+  --accent: #EA580C;
+  --accent-deep: #C2410C;
+  --bg: #FFF1F2;
+  --fg: #881337;
+  --fg-soft: #75535E;
+  --card: #FFFFFF;
+  --border: #FECDD3;
+  --muted: #F0ECF2;
+  --ring: #E11D48;
+  --soft-rose: #FFE4E6;
+  --soft-rose-ink: #9F1239;
+  --shadow: 0 10px 26px rgba(190, 18, 60, 0.10);
+  --shadow-lg: 0 22px 48px rgba(190, 18, 60, 0.22);
+  --r-lg: 22px;
+  --r-md: 14px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; min-height: 100vh; }
+.wrap { width: min(1180px, 100% - 48px); margin-inline: auto; }
+a { color: var(--primary-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--primary-ink); }
+a:focus-visible, button:focus-visible, textarea:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 10px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 8px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+
+/* 顶部导航 */
+.topbar { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 50; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 0; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; letter-spacing: 0.06em; text-decoration: none; color: var(--fg); }
+.brand-mark { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--primary), var(--primary-ink)); display: grid; place-items: center; color: var(--on-primary); font-size: 15px; font-weight: 800; }
+.topnav { display: flex; gap: 24px; font-size: 16px; flex-wrap: wrap; }
+.topnav a { text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+
+/* 首屏与社会证明 */
+.hero { position: relative; padding: 64px 0 52px; text-align: center; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -30% -16% auto; height: 130%; background: radial-gradient(ellipse 520px 340px at 16% 30%, rgba(225, 29, 72, 0.14), transparent 70%), radial-gradient(ellipse 540px 360px at 84% 24%, rgba(251, 113, 133, 0.18), transparent 70%), radial-gradient(ellipse 420px 300px at 50% 88%, rgba(234, 88, 12, 0.07), transparent 70%); pointer-events: none; }
+.hero-inner { position: relative; animation: rise 0.7s ease-out both; }
+.hero-kicker { font-size: 17px; color: var(--fg-soft); margin-bottom: 10px; }
+.hero h1 { font-size: clamp(42px, 6vw, 60px); letter-spacing: 0.06em; line-height: 1.16; }
+.hero h1 em { font-style: normal; color: var(--primary-deep); }
+.hero-sub { max-width: 660px; margin: 16px auto 30px; font-size: 19px; color: var(--fg-soft); }
+.hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.stats { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 40px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); border-top: 4px solid var(--secondary); padding: 18px 24px; min-width: 200px; display: flex; flex-direction: column; gap: 2px; text-align: left; }
+.stat strong { font-size: 30px; color: var(--primary-deep); line-height: 1.25; }
+.stat span { font-size: 15px; color: var(--fg-soft); }
+
+/* 按钮 */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 12px 30px; border-radius: 999px; font-size: 17px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; }
+.btn-primary { background: var(--primary); color: var(--on-primary); box-shadow: var(--shadow); }
+.btn-primary:hover { background: var(--primary-deep); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-primary:active { transform: none; }
+.btn-ghost { background: var(--card); color: var(--primary-deep); border-color: var(--border); box-shadow: var(--shadow); }
+.btn-ghost:hover { background: var(--soft-rose); }
+.btn-light { background: var(--card); color: var(--primary-deep); box-shadow: 0 10px 22px rgba(88, 9, 31, 0.28); }
+.btn-light:hover { transform: translateY(-2px); }
+.btn-outline-light { background: transparent; color: var(--on-primary); border-color: rgba(255, 255, 255, 0.7); }
+.btn-outline-light:hover { background: rgba(255, 255, 255, 0.14); }
+.btn-mini { min-height: 44px; padding: 8px 20px; font-size: 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--primary-deep); font-weight: 700; cursor: pointer; box-shadow: var(--shadow); transition: background 0.18s ease, transform 0.18s ease; }
+.btn-mini:hover { background: var(--soft-rose); transform: translateY(-1px); }
+
+/* 区块标题 */
+.sec { padding: 64px 0 24px; }
+.sec-head { text-align: center; margin-bottom: 36px; }
+.sec-head h2 { font-size: clamp(26px, 3.4vw, 34px); letter-spacing: 0.04em; }
+.sec-head p { color: var(--fg-soft); margin-top: 8px; font-size: 17px; }
+
+/* 今日三封信 */
+.refresh { display: flex; justify-content: center; align-items: baseline; gap: 10px; flex-wrap: wrap; background: var(--soft-rose); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 20px; margin-bottom: 30px; font-size: 16px; color: var(--fg-soft); }
+.refresh strong { font-size: 24px; color: var(--primary-ink); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+.rec-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: stretch; }
+.rec { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 22px 22px 18px; display: flex; flex-direction: column; gap: 12px; }
+.rec-top { display: flex; align-items: center; gap: 12px; }
+.ava { flex: 0 0 52px; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 21px; font-weight: 800; border: 1px solid var(--border); }
+.ava-a { background: var(--soft-rose); color: var(--soft-rose-ink); }
+.ava-b { background: #FFEDD5; color: #9A3412; }
+.ava-c { background: #FCE7F3; color: #9D174D; }
+.rec-id { flex: 1; min-width: 0; }
+.rec-id h3 { font-size: 18px; line-height: 1.35; }
+.rec-role { font-size: 15px; color: var(--fg-soft); }
+.badge { flex: 0 0 auto; font-size: 14px; font-weight: 700; color: var(--soft-rose-ink); background: var(--soft-rose); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; }
+.rec-why { font-size: 16px; color: var(--fg-soft); }
+.rec-why strong { color: var(--fg); font-weight: 700; }
+.rec-quote { flex: 1; background: linear-gradient(180deg, #FFF8F9, var(--bg)); border-left: 4px solid var(--secondary); border-radius: 0 var(--r-md) var(--r-md) 0; padding: 14px 16px; font-size: 16px; color: var(--fg); }
+.rec-quote::before { content: "信件开头预览 / "; display: block; font-size: 14px; color: var(--fg-soft); margin-bottom: 4px; }
+.rec-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px dashed var(--border); padding-top: 12px; }
+.rec-tags { font-size: 15px; color: var(--fg-soft); }
+.rec-note { text-align: center; color: var(--fg-soft); font-size: 16px; margin-top: 26px; }
+
+/* 匹配机制 */
+.feat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.feat { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; }
+.feat-no { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--primary-deep)); color: var(--on-primary); display: grid; place-items: center; font-size: 17px; font-weight: 800; }
+.feat h3 { font-size: 19px; }
+.feat p { font-size: 16px; color: var(--fg-soft); }
+
+/* 写信体验与实名认证 */
+.letter-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; align-items: stretch; }
+.paper { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; background-image: repeating-linear-gradient(180deg, transparent 0 35px, rgba(254, 205, 211, 0.5) 35px 36px); }
+.paper-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; font-weight: 700; font-size: 17px; }
+.paper-head time { font-size: 15px; color: var(--fg-soft); font-weight: 600; }
+.paper textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--r-md); background: #FFFDFA; padding: 14px 16px; font: inherit; font-size: 17px; color: var(--fg); min-height: 176px; resize: vertical; line-height: 36px; }
+.paper textarea::placeholder { color: var(--fg-soft); }
+.paper-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 15px; color: var(--fg-soft); }
+.paper-foot strong { color: var(--fg); font-variant-numeric: tabular-nums; }
+.paper-hint { font-size: 15px; color: var(--accent-deep); font-weight: 600; }
+.paper-sent { display: flex; align-items: center; gap: 18px; border: 1px dashed var(--primary); border-radius: var(--r-md); padding: 18px 20px; background: #FFF7F8; }
+.paper-sent p { font-size: 16px; font-weight: 600; }
+.paper-sent span.sub { display: block; font-size: 15px; font-weight: 400; color: var(--fg-soft); }
+.seal { flex: 0 0 66px; width: 66px; height: 66px; border: 3px solid var(--primary); border-radius: 12px; display: grid; place-items: center; color: var(--primary-deep); font-size: 19px; font-weight: 800; letter-spacing: 0.1em; transform: rotate(-6deg); background: #FFFDFD; animation: stamp 0.4s ease-out both; }
+.safe { background: linear-gradient(160deg, #FFF9FA, var(--soft-rose)); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; }
+.safe h3 { font-size: 20px; }
+.steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.steps li { display: flex; gap: 12px; align-items: flex-start; }
+.steps b { flex: 0 0 auto; font-size: 15px; color: var(--on-primary); background: var(--primary-deep); border-radius: 8px; padding: 3px 10px; margin-top: 2px; }
+.steps span { font-size: 16px; color: var(--fg-soft); }
+.steps strong { color: var(--fg); font-size: 17px; }
+.promises { list-style: none; border-top: 1px solid var(--border); padding-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.promises li { font-size: 15px; color: var(--fg-soft); padding-left: 22px; position: relative; }
+.promises li::before { content: "—"; position: absolute; left: 0; color: var(--primary-deep); font-weight: 700; }
+
+/* 快与慢对比 */
+.cmp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.cmp-col { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 20px 22px; display: flex; flex-direction: column; }
+.cmp-col h3 { font-size: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+.cmp-cell { min-height: 78px; padding: 12px 0; border-bottom: 1px dashed var(--border); font-size: 16px; color: var(--fg-soft); display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+.cmp-cell:last-child { border-bottom: 0; }
+.cmp-cell b { font-size: 15px; color: var(--fg); font-weight: 700; }
+.cmp-dim { background: var(--muted); box-shadow: none; }
+.cmp-dim .cmp-cell { color: var(--fg); font-weight: 700; }
+.cmp-xinyu { border-top: 5px solid var(--primary); position: relative; }
+.cmp-xinyu .cmp-cell { color: var(--fg); }
+.cmp-flag { position: absolute; top: -16px; right: 18px; background: var(--primary); color: var(--on-primary); font-size: 14px; font-weight: 700; border-radius: 999px; padding: 4px 14px; box-shadow: var(--shadow); }
+
+/* 真实故事 */
+.story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: stretch; }
+.story { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.story blockquote { flex: 1; font-size: 17px; color: var(--fg); }
+.story blockquote p::before { content: "「"; color: var(--primary-deep); font-weight: 800; }
+.story blockquote p::after { content: "」"; color: var(--primary-deep); font-weight: 800; }
+.story-meta { border-top: 1px solid var(--border); padding-top: 12px; font-size: 15px; color: var(--fg-soft); }
+.story-meta strong { color: var(--fg); }
+.rating { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+.rating span { background: var(--card); border: 1px solid var(--border); border-radius: 999px; padding: 9px 20px; font-size: 15px; color: var(--fg-soft); box-shadow: var(--shadow); }
+.rating strong { color: var(--primary-deep); }
+
+/* 常见疑问 */
+.faq { max-width: 760px; margin-inline: auto; display: flex; flex-direction: column; gap: 14px; }
+.faq details { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow); padding: 2px 22px; }
+.faq summary { cursor: pointer; font-size: 18px; font-weight: 700; padding: 15px 0; list-style: none; position: relative; padding-right: 36px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--primary-deep); font-weight: 700; }
+.faq details[open] summary::after { content: "-"; }
+.faq summary:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 8px; }
+.faq details p { padding: 0 0 16px; font-size: 16px; color: var(--fg-soft); }
+
+/* 行动召唤 */
+.cta-sec { padding: 72px 0 68px; }
+.cta { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 55%, var(--primary-ink) 100%); border-radius: 28px; box-shadow: var(--shadow-lg); padding: 52px 40px; text-align: center; color: var(--on-primary); position: relative; overflow: hidden; }
+.cta::before { content: ""; position: absolute; inset: auto -10% -60% auto; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 68%); pointer-events: none; }
+.cta h2 { font-size: clamp(26px, 3.6vw, 36px); letter-spacing: 0.05em; position: relative; }
+.cta p { max-width: 560px; margin: 14px auto 28px; font-size: 18px; opacity: 0.96; position: relative; }
+.cta-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; }
+.cta-note { margin-top: 18px; font-size: 15px; opacity: 0.9; position: relative; }
+
+/* 页脚 */
+.foot { border-top: 1px solid var(--border); background: var(--card); }
+.foot .wrap { padding: 26px 0 34px; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+.foot p { font-size: 15px; color: var(--fg-soft); }
+.foot-nav { font-size: 16px; }
+
+/* 一次亮相动效 */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.5); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .rec-grid, .story-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
+  .letter-grid { grid-template-columns: 1fr; }
+  .cmp-grid { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
+  .cmp-dim { display: none; }
+  .sec { padding: 52px 0 20px; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .wrap { width: min(1180px, 100% - 32px); }
+  .feat-grid { grid-template-columns: 1fr; }
+  .stat { min-width: 148px; flex: 1 1 140px; }
+  .hero { padding: 46px 0 40px; }
+  .cta { padding: 40px 24px; }
+  .paper { padding: 20px 18px; }
+  .safe { padding: 22px 20px; }
+  .cmp-cell { min-height: 64px; }
+}
+
+/* 动效降级 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-inner { animation: none; }
+  .seal { animation: none; }
+  .btn, .btn-mini, .btn-light, .btn-outline-light { transition: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#daily">跳到今日推荐</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">信</span>信屿</a>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#daily">今日推荐</a>
+      <a href="#how">匹配机制</a>
+      <a href="#letter">写信体验</a>
+      <a href="#compare">快与慢</a>
+      <a href="#stories">真实故事</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <p class="hero-kicker">慢节奏约会应用 / 每日仅三位推荐 / 书信式开场 / 实名双认证</p>
+      <h1>把心动<em>慢</em>下来</h1>
+      <p class="hero-sub">信屿每天只推荐三位经过实名认证的人，你们以一封不少于 100 字的信开始，而不是一句「在吗」。没有无限右滑，没有已读不回的焦虑。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#cta">开启我的信箱</a>
+        <a class="btn btn-ghost" href="#daily">看看今天的三位</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>92%</strong><span>用户完成实名双认证</span></div>
+        <div class="stat"><strong>26 小时</strong><span>首封信平均回复时长</span></div>
+        <div class="stat"><strong>78%</strong><span>线下见面后仍长期联系</span></div>
+        <div class="stat"><strong>4.9 分</strong><span>App Store 近万条评分</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="daily">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>今日推荐 / 只有三封信</h2>
+        <p>每天早上 8 点，算法与人工审核共同选出三位高契合的人。24 小时内不写信，推荐自然过期，不做挽留。</p>
+      </div>
+      <div class="refresh">
+        <span>距下一次推荐刷新</span>
+        <strong id="countdown">--:--:--</strong>
+        <span>/ 明早 8:00 揭晓新的三位</span>
+      </div>
+      <div class="rec-grid">
+        <article class="rec">
+          <div class="rec-top">
+            <div class="ava ava-a" aria-hidden="true">沈</div>
+            <div class="rec-id">
+              <h3>沈之遥 / 29 岁 / 杭州</h3>
+              <p class="rec-role">图书编辑 / 从业 6 年</p>
+            </div>
+            <span class="badge">身份已核验</span>
+          </div>
+          <p class="rec-why"><strong>推荐理由:</strong> 你们都收集旧书店的火车票根，都相信慢一点的相处方式。</p>
+          <blockquote class="rec-quote">
+            <p>周末在晓风书屋躲雨，翻到你提过的那本《岛屿书》，忽然很想写信告诉你，第 43 页的批注和我写的是同一句话……</p>
+          </blockquote>
+          <div class="rec-foot">
+            <span class="rec-tags">共同点: 旧书店 / 独立杂志 / 绿皮火车</span>
+            <button class="btn-mini" type="button">写第一封信</button>
+          </div>
+        </article>
+        <article class="rec">
+          <div class="rec-top">
+            <div class="ava ava-b" aria-hidden="true">陆</div>
+            <div class="rec-id">
+              <h3>陆知行 / 31 岁 / 成都</h3>
+              <p class="rec-role">结构工程师 / 桥梁方向</p>
+            </div>
+            <span class="badge">身份已核验</span>
+          </div>
+          <p class="rec-why"><strong>推荐理由:</strong> 你们都坚持每周一次城市徒步，对老城区有同样的执念。</p>
+          <blockquote class="rec-quote">
+            <p>下午在人民公园的鹤鸣茶社坐了两个小时，看你列过想学的盖碗茶，特意替你问了老板收不收外行学生……</p>
+          </blockquote>
+          <div class="rec-foot">
+            <span class="rec-tags">共同点: 城市徒步 / 老茶馆 / 街头摄影</span>
+            <button class="btn-mini" type="button">写第一封信</button>
+          </div>
+        </article>
+        <article class="rec">
+          <div class="rec-top">
+            <div class="ava ava-c" aria-hidden="true">顾</div>
+            <div class="rec-id">
+              <h3>顾一帆 / 27 岁 / 上海</h3>
+              <p class="rec-role">纪录片剪辑 / 自由职业</p>
+            </div>
+            <span class="badge">身份已核验</span>
+          </div>
+          <p class="rec-why"><strong>推荐理由:</strong> 你们今年的片单重合了 12 部，都习惯把日子写下来。</p>
+          <blockquote class="rec-quote">
+            <p>刚剪完一条凌晨四点菜市场的片子，想起你说过的那句「热气是最早醒的」，把它剪进了结尾，先写信给你报个备……</p>
+          </blockquote>
+          <div class="rec-foot">
+            <span class="rec-tags">共同点: 纪录片 / 手写日记 / 早市</span>
+            <button class="btn-mini" type="button">写第一封信</button>
+          </div>
+        </article>
+      </div>
+      <p class="rec-note">推荐卡每日刷新 / 未写信的推荐 24 小时后自动过期 / 三位都不会再重复出现</p>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>匹配机制 / 为什么慢一点</h2>
+        <p>快，是滑不完的头像。慢，是读完一个人再决定要不要认识。</p>
+      </div>
+      <div class="feat-grid">
+        <article class="feat">
+          <span class="feat-no" aria-hidden="true">01</span>
+          <h3>每日仅三位</h3>
+          <p>每天早上 8 点收到三位高契合推荐，24 小时后未通信自动过期，把选择疲劳挡在信箱外。</p>
+        </article>
+        <article class="feat">
+          <span class="feat-no" aria-hidden="true">02</span>
+          <h3>书信式开场</h3>
+          <p>第一句话以信的形式抵达，不少于 100 字，不支持复制粘贴群发，认真从第一行开始。</p>
+        </article>
+        <article class="feat">
+          <span class="feat-no" aria-hidden="true">03</span>
+          <h3>实名双认证</h3>
+          <p>身份证与人脸活体双重核验，通过后才能进入推荐池，让每一封信都寄给真实的人。</p>
+        </article>
+        <article class="feat">
+          <span class="feat-no" aria-hidden="true">04</span>
+          <h3>72 小时慢窗口</h3>
+          <p>每天最多交换两封信，不催回复。通信满 14 天，才可以发起第一次线下见面邀请。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="letter">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>写信体验 / 一封信的分量</h2>
+        <p>左边试着写几句，右边是我们为「真实」做的全部事情。</p>
+      </div>
+      <div class="letter-grid">
+        <div class="paper">
+          <div class="paper-head">
+            <span>致 陆知行</span>
+            <time id="paperDate">2026 年 10 月 9 日</time>
+          </div>
+          <label class="sr-only" for="letterText">写下你的第一封信</label>
+          <textarea id="letterText" maxlength="300" placeholder="从今天的一件小事写起，比如下班路上遇到的一场雨，或者刚读完的最后一页……"></textarea>
+          <div class="paper-foot">
+            <span>已写 <strong id="letterCount">0</strong> / 300 字</span>
+            <span>首封信不少于 100 字 / 24 小时内送达</span>
+          </div>
+          <button class="btn btn-primary" id="letterSend" type="button">寄出这封信</button>
+          <p class="paper-hint" id="letterHint" hidden></p>
+          <div class="paper-sent" id="letterSent" hidden>
+            <span class="seal" aria-hidden="true">已寄</span>
+            <p>信已寄出，等待明天的回音<span class="sub">预计明早 8:00 送达对方信箱 / 回信将在 24 小时内提醒你</span></p>
+          </div>
+        </div>
+        <div class="safe">
+          <h3>实名认证怎么做</h3>
+          <ol class="steps">
+            <li>
+              <b>第一步</b>
+              <span><strong>提交材料</strong>拍摄身份证正反面并完成人脸活体检测，全程加密传输。</span>
+            </li>
+            <li>
+              <b>第二步</b>
+              <span><strong>人工复核</strong>风控团队 24 小时内复核材料，异常账号在进入推荐池前被拦截。</span>
+            </li>
+            <li>
+              <b>第三步</b>
+              <span><strong>亮出徽章</strong>通过后获得已核验徽章，写信的人一眼可见你的真实身份。</span>
+            </li>
+          </ol>
+          <ul class="promises">
+            <li>证件照片核验后 72 小时自动删除，仅保留通过结果</li>
+            <li>信件内容端到端加密，平台客服也无法读取</li>
+            <li>骚扰与营销账号一经核实，永久封禁设备</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="compare">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>快与慢 / 两种交友的差别</h2>
+        <p>我们把同一条路走慢了一点，你来看是否值得。</p>
+      </div>
+      <div class="cmp-grid">
+        <div class="cmp-col cmp-dim">
+          <h3>对比维度</h3>
+          <div class="cmp-cell">开始方式</div>
+          <div class="cmp-cell">每日推荐</div>
+          <div class="cmp-cell">身份真实</div>
+          <div class="cmp-cell">见面节奏</div>
+        </div>
+        <div class="cmp-col">
+          <h3>快滑式交友</h3>
+          <div class="cmp-cell"><b>一句「在吗」</b>或一个系统表情开场，聊三天就没了话题。</div>
+          <div class="cmp-cell"><b>几乎无限</b>滑不完的头像，越选越累，越聊越浅。</div>
+          <div class="cmp-cell"><b>无从核实</b>头像与资料全凭自述，照骗与营销号难辨。</div>
+          <div class="cmp-cell"><b>被催着见面</b>匹配即推约会，安全全靠自己判断。</div>
+        </div>
+        <div class="cmp-col cmp-xinyu">
+          <span class="cmp-flag">信屿</span>
+          <h3>慢节奏推荐</h3>
+          <div class="cmp-cell"><b>一封信开场</b>不少于 100 字，先把想说的话写完整。</div>
+          <div class="cmp-cell"><b>只有三位</b>认真读完只需要十分钟，回复也来得及。</div>
+          <div class="cmp-cell"><b>实名双认证</b>人人有已核验徽章，每封信都寄给真实的人。</div>
+          <div class="cmp-cell"><b>满 14 天邀约</b>通信足够了解后，才解锁见面邀请。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="stories">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>真实故事 / 信箱里长出的关系</h2>
+        <p>以下是三位用户授权刊登的来信摘录，人物与数据均为演示样例。</p>
+      </div>
+      <div class="story-grid">
+        <article class="story">
+          <blockquote><p>我们通信四十七天才第一次见面，现在在一起两年了。慢，是我们为这段关系做过最对的决定。</p></blockquote>
+          <p class="story-meta"><strong>林晚与程叙</strong> / 2024 年 6 月经信屿相识 / 通信 47 天后见面</p>
+        </article>
+        <article class="story">
+          <blockquote><p>每天只有三个人，我反而第一次认真读完一个陌生人的全部介绍，也第一次被认真读完。</p></blockquote>
+          <p class="story-meta"><strong>阿澈</strong> / 使用信屿 8 个月 / 目前在第七段通信中</p>
+        </article>
+        <article class="story">
+          <blockquote><p>实名认证让我敢把真实的生活写进信里，不用再扮演一个更轻松版本的自己。</p></blockquote>
+          <p class="story-meta"><strong>未晚</strong> / 使用信屿 1 年 / 已完成 63 封往来信件</p>
+        </article>
+      </div>
+      <div class="rating">
+        <span>App Store 评分 <strong>4.9 / 5</strong></span>
+        <span>累计评价 <strong>12,406</strong> 条</span>
+        <span>愿意推荐给朋友 <strong>89%</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>常见疑问 / 写信之前</h2>
+        <p>注册信屿之前，最常被问起的五个问题。</p>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>每天的三位推荐是怎么选出来的？</summary>
+          <p>先由算法根据兴趣标签、写信习惯与信用分筛出候选，再由人工审核剔除资料存疑的账号，最后按契合度排序取前三位。同一位推荐人不会在 90 天内重复出现。</p>
+        </details>
+        <details>
+          <summary>如果今天的三位都不合适怎么办？</summary>
+          <p>什么都不用做。24 小时后推荐自然过期，明早 8 点会有新的三位。你也可以主动开启静默日，暂停推荐，把时间留给自己，不会影响任何匹配权重。</p>
+        </details>
+        <details>
+          <summary>写信时可以发语音或图片吗？</summary>
+          <p>前 10 天只有文字，每天最多两封。通信满 10 天解锁一次三分钟语音信，满 14 天且双方都通过见面邀请后，才开放图片。节奏慢一点，意外就少一点。</p>
+        </details>
+        <details>
+          <summary>收到骚扰或者让我不舒服的信怎么办？</summary>
+          <p>每封信右上角都有挂起按钮，一点即停，对方不会再收到任何提示。风控团队 24 小时内复核，核实后封禁账号与设备，你的信箱记录也会同步留证。</p>
+        </details>
+        <details>
+          <summary>实名认证没有通过，还能继续使用吗？</summary>
+          <p>可以申诉一次，由人工重新复核材料。仍未通过的话，账号只能浏览产品理念与安全说明，无法进入推荐池，也不会被推荐给任何人。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-sec" id="cta">
+    <div class="wrap">
+      <div class="cta">
+        <h2>今天的三封信，明早就到</h2>
+        <p>下载信屿，完成实名认证，明早 8 点你会收到属于你的三位推荐人，和三段等待被读过的开场白。</p>
+        <div class="cta-btns">
+          <a class="btn btn-light" href="#daily">开启我的信箱</a>
+          <a class="btn btn-outline-light" href="#letter">先试写一封信</a>
+        </div>
+        <p class="cta-note">iOS / Android 双端可用 / 新用户前 30 天推荐免费</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>UI 设计提示词库 / 产品模板 / Dating App</p>
+    <p class="foot-nav"><a href="../style-catalog.html">返回风格目录</a></p>
+    <p>慢节奏约会应用「信屿」概念稿 / 页面数据与人物均为演示虚构</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* 推荐刷新倒计时: 下一个早上 8 点 */
+  var cd = document.getElementById('countdown');
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function nextEight() {
+    var now = new Date();
+    var t = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 0, 0);
+    if (t.getTime() <= now.getTime()) {
+      t.setDate(t.getDate() + 1);
+    }
+    return t;
+  }
+  function tick() {
+    var ms = nextEight().getTime() - Date.now();
+    if (ms < 0) { ms = 0; }
+    var h = Math.floor(ms / 3600000);
+    var m = Math.floor((ms % 3600000) / 60000);
+    var s = Math.floor((ms % 60000) / 1000);
+    cd.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
+  }
+  if (cd) {
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* 信纸日期 */
+  var paperDate = document.getElementById('paperDate');
+  if (paperDate) {
+    var d = new Date();
+    paperDate.textContent = d.getFullYear() + ' 年 ' + (d.getMonth() + 1) + ' 月 ' + d.getDate() + ' 日';
+  }
+
+  /* 写信: 字数统计与寄出状态 */
+  var letterText = document.getElementById('letterText');
+  var letterCount = document.getElementById('letterCount');
+  var letterSend = document.getElementById('letterSend');
+  var letterHint = document.getElementById('letterHint');
+  var letterSent = document.getElementById('letterSent');
+  var paperFoot = document.querySelector('.paper-foot');
+  var MIN = 100;
+
+  function lenOf(str) {
+    return str.replace(/\s/g, '').length;
+  }
+
+  if (letterText && letterSend) {
+    letterText.addEventListener('input', function () {
+      letterCount.textContent = lenOf(letterText.value);
+      if (!letterHint.hidden) { letterHint.hidden = true; }
+    });
+
+    letterSend.addEventListener('click', function () {
+      var n = lenOf(letterText.value);
+      if (n < MIN) {
+        letterHint.hidden = false;
+        letterHint.textContent = '还差 ' + (MIN - n) + ' 字就能寄出，再多写几句吧。';
+        letterText.focus();
+        return;
+      }
+      letterSend.hidden = true;
+      paperFoot.hidden = true;
+      letterText.readOnly = true;
+      letterSent.hidden = false;
+      letterHint.hidden = true;
+    });
+  }
+})();
+</script>
+</body>
+</html>

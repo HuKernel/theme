@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="产品模板：力量训练记录 App「铁账本」，Vibrant Block-based + Dark Mode OLED 风格，Feature-Rich Showcase 布局">
+<title>产品模板 / Fitness/Gym App / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #F97316 / OnPrimary #0F172A / Secondary #FB923C / Accent #22C55E / BG #1F2937 / FG #F8FAFC / Card #313742 / Border #374151 / Muted #37414F / Ring #F97316 / 图表蓝 #38BDF8 / 次级文字 #C6CDD9 / 弱化文字 #9AA3B2(卡上 4.7:1) */
+:root{--primary:#F97316;--on-primary:#0F172A;--secondary:#FB923C;--accent:#22C55E;--bg:#1F2937;--fg:#F8FAFC;--card:#313742;--border:#374151;--muted:#37414F;--ring:#F97316;--blue:#38BDF8;--ink-soft:#C6CDD9;--ink-dim:#9AA3B2}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.7;font-size:16px}
+a{color:var(--fg);text-decoration:none}
+a:hover{color:var(--secondary)}
+img,svg{display:block}
+[hidden]{display:none!important}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--primary);color:var(--on-primary);padding:10px 16px;font-weight:700;z-index:99}
+.skip:focus-visible{left:12px;top:12px}
+
+/* 头部 */
+header{position:sticky;top:0;z-index:50;background:rgba(31,41,55,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.navbar{display:flex;align-items:center;gap:26px;padding-top:13px;padding-bottom:13px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:1px}
+.brand:hover{color:var(--fg)}
+.brand svg{width:30px;height:30px}
+.brand small{font-weight:500;font-size:12px;color:var(--ink-dim);letter-spacing:2px}
+.nav-links{display:flex;gap:22px;list-style:none;margin-left:6px}
+.nav-links a{font-size:15px;color:var(--ink-soft);padding:4px 2px;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--fg);border-bottom-color:var(--primary)}
+.nav-side{margin-left:auto;display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;padding:10px 20px;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{background:var(--secondary);transform:translateY(-1px);color:var(--on-primary)}
+.btn:active{transform:translateY(0)}
+.btn-outline{background:transparent;color:var(--fg);border-color:var(--border)}
+.btn-outline:hover{background:var(--muted);border-color:var(--primary);color:var(--fg)}
+.btn-green{background:var(--accent);color:var(--on-primary)}
+.btn-green:hover{background:#16A34A;color:var(--on-primary)}
+.btn-sm{padding:8px 14px;font-size:14px}
+.menu-btn{display:none;background:transparent;border:1px solid var(--border);cursor:pointer;padding:8px}
+.menu-btn svg{width:20px;height:20px;stroke:var(--fg)}
+
+/* 首屏 */
+.hero{border-bottom:1px solid var(--border);background:radial-gradient(720px 420px at 90% 8%,rgba(249,115,22,.08),transparent 68%),radial-gradient(560px 340px at 2% 96%,rgba(34,197,94,.06),transparent 70%)}
+.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:52px;align-items:center;padding-top:68px;padding-bottom:68px}
+.hero-copy{animation:fadeUp .6s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.kicker{display:inline-block;font-size:14px;font-weight:600;color:var(--ink-soft);border:1px solid var(--border);padding:4px 12px;margin-bottom:20px}
+.hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.22;font-weight:800;letter-spacing:1px}
+.hero h1 em{font-style:normal;color:var(--secondary)}
+.hero-desc{margin-top:18px;font-size:17px;color:var(--ink-soft);max-width:32em}
+.hero-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+.stat{border-top:2px solid var(--border);padding-top:10px}
+.stat b{display:block;font-size:23px;font-weight:800;color:var(--secondary);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-soft)}
+
+/* 手机样机（训练入账屏） */
+.phone{width:308px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:30px;padding:12px;box-shadow:0 24px 50px rgba(0,0,0,.4)}
+.screen{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:16px 14px 14px}
+.screen-top{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-dim)}
+.screen-top b{font-size:15px;color:var(--fg)}
+.screen-tag{display:inline-block;background:var(--primary);color:var(--on-primary);font-size:12px;font-weight:700;padding:2px 8px;margin:8px 0 10px}
+.set-row{display:grid;grid-template-columns:44px 1fr 1fr 44px;gap:6px;font-size:13px;font-variant-numeric:tabular-nums;padding:5px 6px;border-radius:6px}
+.set-row.head{color:var(--ink-dim);font-size:12px}
+.set-row.body{background:var(--card);border:1px solid var(--border);margin-bottom:5px}
+.set-row .num{color:var(--ink-dim)}
+.set-row .val{font-weight:700}
+.set-row .rpe{color:var(--accent);font-weight:700;text-align:right}
+.set-row.done .val{color:var(--ink-dim)}
+.screen-sum{display:flex;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px dashed var(--border);font-size:12px;color:var(--ink-soft)}
+.screen-sum b{color:var(--primary)}
+.float-chip{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:10px;padding:10px 14px;margin-top:16px;font-size:14px}
+.float-chip b{color:var(--accent)}
+
+/* 章节通用 */
+section{border-bottom:1px solid var(--border);padding-top:64px;padding-bottom:64px}
+.sec-head{max-width:44em;margin-bottom:34px}
+.sec-head h2{font-size:clamp(26px,3vw,36px);font-weight:800;letter-spacing:.5px;line-height:1.3}
+.sec-head h2 em{font-style:normal;color:var(--primary)}
+.sec-head p{margin-top:10px;color:var(--ink-soft)}
+
+/* 功能方块 */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:var(--card);border:1px solid var(--border);border-top:4px solid var(--border);padding:24px 22px;transition:transform .15s ease,border-color .15s ease}
+.feat:hover{transform:translateY(-3px)}
+.feat.orange{border-top-color:var(--primary)}
+.feat.green{border-top-color:var(--accent)}
+.feat.blue{border-top-color:var(--blue)}
+.feat .fnum{font-size:13px;font-weight:700;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.feat h3{margin-top:6px;font-size:19px;font-weight:800}
+.feat p{margin-top:8px;font-size:14.5px;color:var(--ink-soft)}
+.feat b.hl{color:var(--secondary);font-weight:700}
+
+/* 超负荷曲线（签名组件） */
+.curve-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px}
+.curve-bar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{background:transparent;border:1px solid var(--border);color:var(--ink-soft);font-size:14px;font-weight:600;padding:7px 16px;cursor:pointer;transition:border-color .15s ease,color .15s ease}
+.tab[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.curve-note{font-size:13px;color:var(--ink-dim)}
+#curveSvg{width:100%;height:auto}
+.grid-line{stroke:var(--border);stroke-width:1}
+.axis-txt{fill:var(--ink-dim);font-size:12px}
+.curve-area{fill:rgba(249,115,22,.13)}
+.curve-line{fill:none;stroke:var(--primary);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.curve-dot{fill:var(--bg);stroke:var(--primary);stroke-width:2}
+.curve-last{fill:var(--primary);font-size:13px;font-weight:700}
+.curve-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.cstat{background:var(--bg);border:1px solid var(--border);padding:14px 16px}
+.cstat span{font-size:13px;color:var(--ink-dim);display:block}
+.cstat b{font-size:22px;font-weight:800;color:var(--secondary);font-variant-numeric:tabular-nums}
+
+/* 训练日 + 计时器 */
+.day-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:22px}
+.day-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:6px}
+.day-head h3{font-size:20px;font-weight:800}
+.day-head span{font-size:13px;color:var(--ink-dim)}
+.ex-block{margin-top:16px}
+.ex-head{display:grid;grid-template-columns:1.5fr 2fr 1fr;gap:8px;align-items:baseline;font-size:13px;color:var(--ink-dim);padding:0 8px 4px}
+.ex-head b{font-size:15.5px;color:var(--fg);font-weight:800}
+.ex-head .ex-target{color:var(--ink-dim)}
+.ex-head .ex-pr{text-align:right;color:var(--accent);font-weight:700}
+.work-row{display:grid;grid-template-columns:1.5fr 2fr 1fr;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 8px;margin-bottom:6px;font-size:14px;font-variant-numeric:tabular-nums}
+.work-row .w-name{font-weight:600}
+.work-row .w-sets{display:grid;gap:3px}
+.work-row .w-sets span{font-size:12.5px;color:var(--ink-dim)}
+.work-row .w-sets span i{font-style:normal;color:var(--fg);font-weight:700}
+.work-row .w-vol{text-align:right;font-weight:800;color:var(--secondary)}
+.day-sum{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--border);font-size:14px;color:var(--ink-soft)}
+.day-sum b{color:var(--secondary);font-variant-numeric:tabular-nums}
+.timer-card{background:linear-gradient(145deg,#353c49,#2d333e);border:1px solid var(--border);border-radius:14px;padding:26px 24px;box-shadow:inset 0 1px 0 rgba(248,250,252,.06),0 14px 30px rgba(0,0,0,.32)}
+.timer-card h3{font-size:19px;font-weight:800}
+.timer-card p{font-size:13.5px;color:var(--ink-soft);margin-top:4px}
+.timer-display{font-size:52px;font-weight:800;text-align:center;margin:18px 0 10px;font-variant-numeric:tabular-nums;letter-spacing:2px;color:var(--fg)}
+.timer-display.over{color:var(--accent)}
+.timer-bar{height:10px;background:var(--muted);border-radius:6px;overflow:hidden;margin-bottom:16px}
+.timer-fill{height:100%;width:0%;background:var(--primary);transition:width .3s linear}
+.timer-fill.done{background:var(--accent)}
+.timer-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.timer-adjust{display:flex;gap:10px;justify-content:center;margin-top:12px}
+.chip{background:var(--bg);border:1px solid var(--border);color:var(--ink-soft);font-size:14px;font-weight:600;padding:6px 14px;cursor:pointer}
+.chip:hover{border-color:var(--primary);color:var(--fg)}
+.timer-tip{margin-top:14px;font-size:13px;color:var(--ink-soft);text-align:center}
+
+/* 动作库 */
+.lib-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.lib-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lib-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .15s ease}
+.lib-card:hover{border-color:var(--primary)}
+.lib-cat{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-primary);background:var(--primary);padding:2px 10px}
+.lib-cat.back{background:var(--blue)}
+.lib-cat.leg{background:var(--accent)}
+.lib-card h3{margin-top:10px;font-size:18px;font-weight:800}
+.lib-card p{margin-top:6px;font-size:14px;color:var(--ink-soft)}
+.lib-data{display:flex;justify-content:space-between;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:13px;color:var(--ink-dim)}
+.lib-data b{color:var(--secondary);font-variant-numeric:tabular-nums}
+
+/* 教练课 */
+.coach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.coach{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px}
+.coach-top{display:flex;align-items:center;gap:14px}
+.avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;color:var(--on-primary);flex-shrink:0}
+.av-orange{background:var(--primary)}
+.av-green{background:var(--accent)}
+.av-blue{background:var(--blue)}
+.coach-top h3{font-size:18px;font-weight:800}
+.coach-top span{font-size:13px;color:var(--ink-dim)}
+.coach p{margin-top:14px;font-size:14px;color:var(--ink-soft)}
+.coach ul{list-style:none;margin-top:12px;display:grid;gap:6px}
+.coach li{font-size:13.5px;color:var(--ink-soft);padding-left:16px;position:relative}
+.coach li::before{content:"";position:absolute;left:0;top:10px;width:7px;height:7px;background:var(--primary)}
+.coach-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.price b{font-size:21px;font-weight:800;color:var(--secondary)}
+.price span{font-size:13px;color:var(--ink-dim)}
+
+/* 用户评价 */
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.review{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;display:flex;flex-direction:column}
+.review blockquote{font-size:14.5px;color:var(--ink-soft);flex:1}
+.review blockquote b{color:var(--fg)}
+.review-result{margin-top:14px;font-size:13.5px;color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+.review-who{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:13px;color:var(--ink-dim)}
+
+/* 结尾 CTA */
+.cta{border-bottom:1px solid var(--border);background:linear-gradient(120deg,rgba(249,115,22,.14),rgba(34,197,94,.08))}
+.cta .wrap{text-align:center;max-width:640px}
+.cta h2{font-size:clamp(28px,3.4vw,40px);font-weight:800}
+.cta p{margin-top:12px;color:var(--ink-soft)}
+.cta-form{display:flex;gap:10px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.cta-form input{background:var(--card);border:1px solid var(--border);color:var(--fg);font-size:15px;padding:11px 14px;width:min(300px,100%)}
+.cta-form input::placeholder{color:var(--ink-dim)}
+.cta-note{margin-top:14px;font-size:13px;color:var(--ink-soft)}
+#ctaOk{margin-top:16px;font-weight:700;color:#4ADE80}
+
+/* 页脚 */
+footer{padding-top:44px;padding-bottom:40px}
+.foot-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.foot-nav{display:flex;gap:18px;list-style:none;flex-wrap:wrap}
+.foot-nav a{font-size:14px;color:var(--ink-soft)}
+.foot-nav a:hover{color:var(--secondary)}
+.foot-bottom{margin-top:26px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13.5px;color:var(--ink-dim)}
+.foot-bottom a{color:var(--ink-soft);border-bottom:1px solid var(--border)}
+.foot-bottom a:hover{color:var(--secondary);border-bottom-color:var(--secondary)}
+
+/* 响应式 */
+@media (max-width:960px){
+ .hero .wrap{grid-template-columns:1fr;gap:40px}
+ .hero-copy{order:1}.phone{order:2}
+ .day-grid{grid-template-columns:1fr}
+ .feature-grid,.lib-grid,.coach-grid,.review-grid{grid-template-columns:repeat(2,1fr)}
+ .nav-links{display:none}
+ .menu-btn{display:block}
+ .nav-links.open{display:flex;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);flex-direction:column;gap:0;padding:8px 24px 14px}
+ .nav-links.open a{padding:10px 2px;border-bottom:none}
+}
+@media (max-width:600px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .feature-grid,.lib-grid,.coach-grid,.review-grid{grid-template-columns:1fr}
+ .curve-stats{grid-template-columns:1fr}
+ .work-row{grid-template-columns:1.2fr 1.6fr .9fr;font-size:13px}
+ .ex-head{grid-template-columns:1.2fr 1.6fr .9fr}
+ .ex-head .ex-target{display:none}
+ .work-row .w-sets span:nth-child(n+3){display:none}
+ .timer-display{font-size:44px}
+ section{padding-top:48px;padding-bottom:48px}
+}
+@media (prefers-reduced-motion:reduce){
+ *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header>
+ <div class="wrap navbar">
+  <a class="brand" href="#main" aria-label="铁账本 首页">
+   <svg viewBox="0 0 32 32" role="img" aria-hidden="true"><rect x="2" y="12" width="5" height="8" rx="1.5" fill="#F97316"/><rect x="7" y="14" width="18" height="4" rx="1" fill="#F8FAFC"/><rect x="25" y="12" width="5" height="8" rx="1.5" fill="#F97316"/></svg>
+   铁账本<small>力量训练记录</small>
+  </a>
+  <nav aria-label="主导航">
+   <ul class="nav-links" id="navLinks">
+    <li><a href="#features">功能</a></li>
+    <li><a href="#overload">超负荷曲线</a></li>
+    <li><a href="#workout">训练日</a></li>
+    <li><a href="#library">动作库</a></li>
+    <li><a href="#coaches">教练课</a></li>
+   </ul>
+  </nav>
+  <div class="nav-side">
+   <a class="btn btn-outline btn-sm" href="#cta">登录</a>
+   <a class="btn btn-sm" href="#cta">免费开始</a>
+   <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="展开导航">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+   </button>
+  </div>
+ </div>
+</header>
+
+<main id="main">
+
+ <!-- 首屏：产品价值 -->
+ <div class="hero">
+  <div class="wrap">
+   <div class="hero-copy">
+    <span class="kicker">力量训练记录 App / iOS 与 Android</span>
+    <h1>每一组都算数，<br>进步是一条<em>上扬的曲线</em></h1>
+    <p class="hero-desc">铁账本给认真练力量的人记账：组数、重量、次数、RPE 三十秒入账，自动算出容量与估计 1RM。什么时候该加重，曲线会告诉你，不用再靠感觉。</p>
+    <div class="hero-actions">
+     <a class="btn" href="#cta">免费开始记录</a>
+     <a class="btn btn-outline" href="#overload">看一条真实曲线</a>
+    </div>
+    <div class="stats">
+     <div class="stat"><b>42 万</b><span>累计训练者</span></div>
+     <div class="stat"><b>1.9 亿组</b><span>已记录训练组</span></div>
+     <div class="stat"><b>860+</b><span>动作要点讲解</span></div>
+     <div class="stat"><b>+11.5%</b><span>新用户 12 周卧推均值增幅</span></div>
+    </div>
+   </div>
+   <div>
+    <div class="phone">
+     <div class="screen">
+      <div class="screen-top"><b>周四 / 推力日</b><span>计划第 14 周</span></div>
+      <span class="screen-tag">平板卧推 / 第 4 组已入账</span>
+      <div class="set-row head"><span>组</span><span>重量 / 次数</span><span>容量</span><span>RPE</span></div>
+      <div class="set-row body"><span class="num">1</span><span class="val">80kg / 5</span><span>400</span><span class="rpe">7</span></div>
+      <div class="set-row body"><span class="num">2</span><span class="val">80kg / 5</span><span>400</span><span class="rpe">7.5</span></div>
+      <div class="set-row body"><span class="num">3</span><span class="val">82.5kg / 5</span><span>412</span><span class="rpe">8</span></div>
+      <div class="set-row body done"><span class="num">4</span><span class="val">82.5kg / 4</span><span>330</span><span class="rpe">9</span></div>
+      <div class="screen-sum"><span>本动作容量 1,542kg / 上一轮 1,460kg</span><b>+5.6%</b></div>
+     </div>
+    </div>
+    <div class="float-chip"><span>卧推估计 1RM / 8 周前 96.1kg</span><b>102.5kg</b></div>
+   </div>
+  </div>
+ </div>
+
+ <!-- 功能全景 -->
+ <section id="features">
+  <div class="wrap">
+   <div class="sec-head">
+    <h2>练与不练靠决心，<em>怎么加重靠数据</em></h2>
+    <p>六个模块串起一次完整的训练闭环：从入账、到趋势、到该谁上场，全部围绕渐进超负荷这一件事。</p>
+   </div>
+   <div class="feature-grid">
+    <div class="feat orange">
+     <span class="fnum">01</span>
+     <h3>训练入账</h3>
+     <p>组、次、重量、RPE 四个数字一组，<b class="hl">平均 31 秒</b>记完一个动作。上一轮的重量直接浮在输入框下面，照着冲或照着加。</p>
+    </div>
+    <div class="feat green">
+     <span class="fnum">02</span>
+     <h3>渐进超负荷</h3>
+     <p>每个动作的估计 1RM 与容量双曲线，连续两轮停滞就提醒你<b class="hl">换加重策略</b>，而不是硬顶。</p>
+    </div>
+    <div class="feat blue">
+     <span class="fnum">03</span>
+     <h3>动作库</h3>
+     <p>860+ 个动作的要点、常见错误与替代动作，附<b class="hl">力线示意</b>，练前扫一眼再上杠。</p>
+    </div>
+    <div class="feat green">
+     <span class="fnum">04</span>
+     <h3>组间计时</h3>
+     <p>按动作记忆休息时长，卧推 180 秒、深蹲 240 秒，到点震动提示，<b class="hl">不偷休息也不空耗</b>。</p>
+    </div>
+    <div class="feat orange">
+     <span class="fnum">05</span>
+     <h3>教练课</h3>
+     <p>教练按周排计划、直接改你的训练日，组间留言答疑，<b class="hl">改了什么一眼可查</b>，账本不混账。</p>
+    </div>
+    <div class="feat">
+     <span class="fnum">06</span>
+     <h3>数据报表</h3>
+     <p>周容量、分化均衡度、肌群频率一页看清，支持导出 CSV，<b class="hl">复盘不再翻聊天记录</b>。</p>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 签名组件：渐进超负荷曲线 -->
+ <section id="overload">
+  <div class="wrap">
+   <div class="sec-head">
+    <h2>十二周，三大项<em>各涨了多少</em></h2>
+    <p>切换动作查看估计 1RM 周曲线，数据取自平台匿名聚合的真实训练账本（Epley 公式估算）。</p>
+   </div>
+   <div class="curve-panel">
+    <div class="curve-bar">
+     <div class="tabs" role="group" aria-label="选择动作">
+      <button class="tab" data-ex="squat" aria-pressed="true">深蹲</button>
+      <button class="tab" data-ex="bench" aria-pressed="false">卧推</button>
+      <button class="tab" data-ex="deadlift" aria-pressed="false">硬拉</button>
+     </div>
+     <span class="curve-note">纵轴 / kg / 每点为一个训练周</span>
+    </div>
+    <svg id="curveSvg" viewBox="0 0 720 300" role="img" aria-label="估计 1RM 十二周变化曲线"></svg>
+    <div class="curve-stats">
+     <div class="cstat"><span>当前估计 1RM</span><b id="csNow">118.3 kg</b></div>
+     <div class="cstat"><span>十二周增幅</span><b id="csGain">+15.8 kg</b></div>
+     <div class="cstat"><span>本期总容量</span><b id="csVol">96.4 吨</b></div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 训练日视图 + 组间计时 -->
+ <section id="workout">
+  <div class="wrap">
+   <div class="sec-head">
+    <h2>一个训练日，<em>账目清清楚楚</em></h2>
+    <p>计划里的每个动作、每一组、每一次加重都有出处：上一轮是多少、这轮做了多少、容量涨没涨，同一张表对齐摆开。</p>
+   </div>
+   <div class="day-grid">
+    <div class="day-panel">
+     <div class="day-head">
+      <h3>周四 / 推力日</h3>
+      <span>计划第 14 周 / 教练版已同步</span>
+     </div>
+     <div class="ex-block">
+      <div class="ex-head"><b>平板卧推</b><span class="ex-target">目标 4 组 / 每组 5 次</span><span class="ex-pr">个人纪录 102.5kg</span></div>
+      <div class="work-row">
+       <span class="w-name">第 1 至 4 组</span>
+       <span class="w-sets"><span>80kg / 5 / RPE 7 与 80kg / 5 / RPE 7.5</span><span><i>82.5kg / 5 / RPE 8</i> 与 82.5kg / 4 / RPE 9</span></span>
+       <span class="w-vol">1,542kg</span>
+      </div>
+     </div>
+     <div class="ex-block">
+      <div class="ex-head"><b>上斜哑铃卧推</b><span class="ex-target">目标 3 组 / 每组 8 次</span><span class="ex-pr">较上轮 +2.5kg</span></div>
+      <div class="work-row">
+       <span class="w-name">第 1 至 3 组</span>
+       <span class="w-sets"><span>30kg / 8 / RPE 8 与 30kg / 8 / RPE 8</span><span><i>32.5kg / 7 / RPE 8.5</i>（加重成功）</span></span>
+       <span class="w-vol">747.5kg</span>
+      </div>
+     </div>
+     <div class="ex-block">
+      <div class="ex-head"><b>绳索下压</b><span class="ex-target">目标 3 组 / 每组 12 次</span><span class="ex-pr">容量持平</span></div>
+      <div class="work-row">
+       <span class="w-name">第 1 至 3 组</span>
+       <span class="w-sets"><span>35kg / 12 / RPE 7 与 35kg / 12 / RPE 8</span><span>35kg / 11 / RPE 8（最后一组差 1 次）</span></span>
+       <span class="w-vol">1,225kg</span>
+      </div>
+     </div>
+     <div class="day-sum">
+      <span>总容量 <b>3,514.5kg</b> / 用时 <b>54 分</b></span>
+      <span>完成 <b>10 / 10</b> 组 / 三动作均为计划内</span>
+     </div>
+    </div>
+    <div class="timer-card">
+     <h3>组间计时</h3>
+     <p>平板卧推 / 建议休息 180 秒</p>
+     <div class="timer-display" id="timerText" aria-live="polite">03:00</div>
+     <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+     <div class="timer-btns">
+      <button class="btn btn-sm" id="timerStart">开始休息</button>
+      <button class="btn btn-outline btn-sm" id="timerReset">重置</button>
+     </div>
+     <div class="timer-adjust">
+      <button class="chip" data-delta="-15">-15 秒</button>
+      <button class="chip" data-delta="15">+15 秒</button>
+     </div>
+     <p class="timer-tip">到点后手机震动并亮屏提示，锁屏状态也能收到。</p>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 动作库 -->
+ <section id="library">
+  <div class="wrap">
+   <div class="sec-head">
+    <h2>动作库 / <em>练前查一眼</em></h2>
+    <p>每个动作收录发力要点、常见错误与替代方案，并给出平台用户的真实数据作为参照。</p>
+   </div>
+   <div class="lib-filter" role="group" aria-label="按部位筛选动作">
+    <button class="tab" data-cat="all" aria-pressed="true">全部</button>
+    <button class="tab" data-cat="chest" aria-pressed="false">胸</button>
+    <button class="tab" data-cat="back" aria-pressed="false">背</button>
+    <button class="tab" data-cat="leg" aria-pressed="false">腿</button>
+    <button class="tab" data-cat="shoulder" aria-pressed="false">肩</button>
+   </div>
+   <div class="lib-grid" id="libGrid">
+    <div class="lib-card" data-cat="chest">
+     <span class="lib-cat">胸</span>
+     <h3>平板杠铃卧推</h3>
+     <p>肩胛后沉后夹，杠落到乳头线下沿，小臂全程垂直地面。常见错误：起杠时肩胛松开。</p>
+     <div class="lib-data"><span>平台记录组数 <b>2,140 万</b></span><span>中位 5rm <b>72.5kg</b></span></div>
+    </div>
+    <div class="lib-card" data-cat="back">
+     <span class="lib-cat back">背</span>
+     <h3>负重引体向上</h3>
+     <p>先沉肩再拉，下巴过杠即回放，不做半程摆荡。替代动作：高位下拉（重量递减法）。</p>
+     <div class="lib-data"><span>平台记录组数 <b>860 万</b></span><span>中位 5rm <b>+10kg</b></span></div>
+    </div>
+    <div class="lib-card" data-cat="leg">
+     <span class="lib-cat leg">腿</span>
+     <h3>低杠深蹲</h3>
+     <p>杠位压在后束，髋角更小，膝盖与脚尖同向，出杠前先吸满一口气顶住腹压。</p>
+     <div class="lib-data"><span>平台记录组数 <b>1,930 万</b></span><span>中位 5rm <b>95kg</b></span></div>
+    </div>
+    <div class="lib-card" data-cat="shoulder">
+     <span class="lib-cat">肩</span>
+     <h3>站姿推举</h3>
+     <p>杠从锁骨起推，头微微后让轨迹贴脸而过，锁定时肩胛上回旋。避免过度弓腰代偿。</p>
+     <div class="lib-data"><span>平台记录组数 <b>640 万</b></span><span>中位 5rm <b>45kg</b></span></div>
+    </div>
+    <div class="lib-card" data-cat="back">
+     <span class="lib-cat back">背</span>
+     <h3>杠铃划船</h3>
+     <p>俯身 45 度左右，杠拉至下腹，肘贴身走。常见错误：借腰的反弹把杠甩上来。</p>
+     <div class="lib-data"><span>平台记录组数 <b>970 万</b></span><span>中位 5rm <b>60kg</b></span></div>
+    </div>
+    <div class="lib-card" data-cat="leg">
+     <span class="lib-cat leg">腿</span>
+     <h3>罗马尼亚硬拉</h3>
+     <p>膝微屈固定，髋向后推，杠贴大腿下放至腘绳紧绷即回拉，全程脊柱中立。</p>
+     <div class="lib-data"><span>平台记录组数 <b>720 万</b></span><span>中位 5rm <b>80kg</b></span></div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 教练课 -->
+ <section id="coaches">
+  <div class="wrap">
+   <div class="sec-head">
+    <h2>教练课 / <em>计划交给更懂的人</em></h2>
+    <p>三位在架教练，全部持证并公示带训数据。第一节课只评估不收费，先看账本再谈计划。</p>
+   </div>
+   <div class="coach-grid">
+    <div class="coach">
+     <div class="coach-top">
+      <div class="avatar av-orange" aria-hidden="true">陈</div>
+      <div><h3>陈拓</h3><span>力量举方向 / 从业 9 年</span></div>
+     </div>
+     <p>带过 41 名首次参赛的力量举选手，专攻三大项技术与周期编排。</p>
+     <ul>
+      <li>NSCA-CPT / 中国健协教练员二级</li>
+      <li>带训 326 人 / 在架学员 18 人</li>
+      <li>学员 12 周深蹲平均 +21kg</li>
+     </ul>
+     <div class="coach-foot">
+      <div class="price"><b>¥299</b> <span>/ 月 / 周计划与答疑</span></div>
+      <a class="btn btn-outline btn-sm" href="#cta">约体验课</a>
+     </div>
+    </div>
+    <div class="coach">
+     <div class="coach-top">
+      <div class="avatar av-green" aria-hidden="true">刘</div>
+      <div><h3>刘一诺</h3><span>增肌方向 / 从业 6 年</span></div>
+     </div>
+     <p>细分化与容量周期方向，适合卡在平台期一年以上的中级训练者。</p>
+     <ul>
+      <li>ACE-CPT / 运动营养师</li>
+      <li>带训 208 人 / 在架学员 14 人</li>
+      <li>学员 12 周胸推容量平均 +19%</li>
+     </ul>
+     <div class="coach-foot">
+      <div class="price"><b>¥259</b> <span>/ 月 / 双周视频复盘</span></div>
+      <a class="btn btn-outline btn-sm" href="#cta">约体验课</a>
+     </div>
+    </div>
+    <div class="coach">
+     <div class="coach-top">
+      <div class="avatar av-blue" aria-hidden="true">周</div>
+      <div><h3>周牧</h3><span>康复过渡方向 / 从业 11 年</span></div>
+     </div>
+     <p>从腰膝伤后过渡回力量训练，先查动作模式，再谈重量。</p>
+     <ul>
+      <li>FMS 二级 / NSCA-CPT</li>
+      <li>带训 415 人 / 在架学员 20 人</li>
+      <li>伤后回归计划完成率 87%</li>
+     </ul>
+     <div class="coach-foot">
+      <div class="price"><b>¥349</b> <span>/ 月 / 含动作视频逐组批注</span></div>
+      <a class="btn btn-outline btn-sm" href="#cta">约体验课</a>
+     </div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 用户评价 -->
+ <section id="reviews">
+  <div class="wrap">
+   <div class="sec-head">
+    <h2>账本不会说谎 / <em>他们记了一年</em></h2>
+    <p>评价下方均附该用户授权公开的真实曲线摘要。</p>
+   </div>
+   <div class="review-grid">
+    <div class="review">
+     <blockquote>以前笔记本记完就丢，现在曲线明明白白告诉我哪周该加重。<b>卧推从 72.5 到 90，用了五个月</b>，每一步都对得上账。</blockquote>
+     <div class="review-result">卧推估计 1RM / 一年 +24.1%</div>
+     <div class="review-who">张帆 / 训练 2 年 / 记账 148 个训练日</div>
+    </div>
+    <div class="review">
+     <blockquote>备赛期强度和容量要分开盯，报表一页就能看清波浪，<b>不用再自己拿表格拼</b>。导出的数据教练直接用。</blockquote>
+     <div class="review-result">赛季总容量峰谷比稳定在 1.8 / 计划内</div>
+     <div class="review-who">林可 / 力量举备赛者 / 记账 11 个月</div>
+    </div>
+    <div class="review">
+     <blockquote>四十三岁不敢瞎冲，RPE 记录让教练看得出我哪天状态差。<b>腰伤一年没复发</b>，重量还在慢慢涨。</blockquote>
+     <div class="review-result">深蹲估计 1RM / 一年 +16.9% / 零伤病中断</div>
+     <div class="review-who">老白 / 训练 6 年 / 记账 203 个训练日</div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <!-- 结尾 CTA -->
+ <section class="cta" id="cta">
+  <div class="wrap">
+   <h2>记下第一组，剩下的交给曲线</h2>
+   <p>免费版永久可用，训练记录不设上限，数据随时导出带走。</p>
+   <form class="cta-form" id="ctaForm">
+    <label class="skip" for="ctaEmail">输入邮箱</label>
+    <input type="email" id="ctaEmail" placeholder="你的邮箱 / 用于接收下载链接" required>
+    <button class="btn btn-green" type="submit">免费开始</button>
+   </form>
+   <p class="cta-note" id="ctaOk" hidden>已收到，下载链接已发到你的邮箱，第一组就从今天练。</p>
+   <p class="cta-note">已有 42 万训练者在记账 / 三大项曲线合计绘制 9,700 万条</p>
+  </div>
+ </section>
+
+</main>
+
+<footer>
+ <div class="wrap">
+  <div class="foot-top">
+   <a class="brand" href="#main" aria-label="铁账本">
+    <svg viewBox="0 0 32 32" role="img" aria-hidden="true"><rect x="2" y="12" width="5" height="8" rx="1.5" fill="#F97316"/><rect x="7" y="14" width="18" height="4" rx="1" fill="#F8FAFC"/><rect x="25" y="12" width="5" height="8" rx="1.5" fill="#F97316"/></svg>
+    铁账本<small>力量训练记录</small>
+   </a>
+   <ul class="foot-nav">
+    <li><a href="#features">功能</a></li>
+    <li><a href="#overload">超负荷曲线</a></li>
+    <li><a href="#library">动作库</a></li>
+    <li><a href="#coaches">教练课</a></li>
+   </ul>
+  </div>
+  <div class="foot-bottom">
+   <p>UI 设计提示词库 / 产品模板 / Fitness/Gym App</p>
+   <p><a href="../style-catalog.html">返回风格目录</a></p>
+  </div>
+ </div>
+</footer>
+
+<script>
+(function(){
+ "use strict";
+ var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+ /* 移动导航 */
+ var menuBtn=document.getElementById("menuBtn");
+ var navLinks=document.getElementById("navLinks");
+ menuBtn.addEventListener("click",function(){
+  var open=navLinks.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded",open?"true":"false");
+ });
+ navLinks.addEventListener("click",function(e){
+  if(e.target.tagName==="A"){navLinks.classList.remove("open");menuBtn.setAttribute("aria-expanded","false");}
+ });
+
+ /* 渐进超负荷曲线 */
+ var data={
+  squat:{vals:[102.5,103.8,105.2,104.1,107.6,109.3,108.2,112.0,113.4,115.1,116.8,118.3],vol:"96.4 吨"},
+  bench:{vals:[72.5,73.1,74.0,73.6,75.2,76.1,75.8,77.4,78.2,79.0,79.6,80.3],vol:"58.2 吨"},
+  deadlift:{vals:[125.0,127.5,126.8,130.0,131.5,130.9,134.2,136.0,137.8,139.5,141.2,143.6],vol:"112.7 吨"}
+ };
+ var svg=document.getElementById("curveSvg");
+ var NS="http://www.w3.org/2000/svg";
+ function el(t,attrs){
+  var n=document.createElementNS(NS,t);
+  for(var k in attrs){n.setAttribute(k,attrs[k]);}
+  return n;
+ }
+ function render(key){
+  var d=data[key],vals=d.vals;
+  svg.innerHTML="";
+  var L=46,R=706,T=18,B=268,steps=4;
+  var lo=Math.floor((Math.min.apply(null,vals)-4)/5)*5;
+  var hi=Math.ceil((Math.max.apply(null,vals)+4)/5)*5;
+  var i,y;
+  for(i=0;i<=steps;i++){
+   y=T+(B-T)*i/steps;
+   svg.appendChild(el("line",{x1:L,x2:R,y1:y,y2:y,class:"grid-line"}));
+   var t=el("text",{x:L-8,y:y+4,"text-anchor":"end",class:"axis-txt"});
+   t.textContent=Math.round(hi-(hi-lo)*i/steps);
+   svg.appendChild(t);
+  }
+  var xStep=(R-L)/(vals.length-1);
+  function X(n){return L+xStep*n;}
+  function Y(v){return B-(B-T)*(v-lo)/(hi-lo);}
+  for(i=0;i<vals.length;i++){
+   var t2=el("text",{x:X(i),y:B+20,"text-anchor":"middle",class:"axis-txt"});
+   t2.textContent="W"+(i+1);
+   svg.appendChild(t2);
+  }
+  var dArea="M"+X(0)+","+B;
+  vals.forEach(function(v,n){dArea+=" L"+X(n)+","+Y(v);});
+  dArea+=" L"+X(vals.length-1)+","+B+" Z";
+  svg.appendChild(el("path",{d:dArea,class:"curve-area"}));
+  var dLine="M"+vals.map(function(v,n){return X(n)+","+Y(v);}).join(" L");
+  var line=el("path",{d:dLine,class:"curve-line"});
+  svg.appendChild(line);
+  if(!reduced){
+   try{
+    var len=line.getTotalLength();
+    line.style.strokeDasharray=len;
+    line.style.strokeDashoffset=len;
+    line.getBoundingClientRect();
+    line.style.transition="stroke-dashoffset .9s ease";
+    line.style.strokeDashoffset="0";
+   }catch(e){line.style.strokeDasharray="none";}
+  }
+  vals.forEach(function(v,n){
+   var c=el("circle",{cx:X(n),cy:Y(v),r:4,class:"curve-dot"});
+   var tt=el("title",{});
+   tt.textContent="第 "+(n+1)+" 周 / "+v.toFixed(1)+" kg";
+   c.appendChild(tt);
+   svg.appendChild(c);
+  });
+  var last=el("text",{x:X(vals.length-1)-8,y:Y(vals[vals.length-1])-12,"text-anchor":"end",class:"curve-last"});
+  last.textContent=vals[vals.length-1].toFixed(1);
+  svg.appendChild(last);
+  document.getElementById("csNow").textContent=vals[vals.length-1].toFixed(1)+" kg";
+  document.getElementById("csGain").textContent="+"+(vals[vals.length-1]-vals[0]).toFixed(1)+" kg";
+  document.getElementById("csVol").textContent=d.vol;
+ }
+ var tabs=[].slice.call(document.querySelectorAll(".tabs .tab"));
+ tabs.forEach(function(t){
+  t.addEventListener("click",function(){
+   tabs.forEach(function(o){o.setAttribute("aria-pressed",o===t?"true":"false");});
+   render(t.getAttribute("data-ex"));
+  });
+ });
+ render("squat");
+
+ /* 动作库筛选 */
+ var libBtns=[].slice.call(document.querySelectorAll(".lib-filter .tab"));
+ var libCards=[].slice.call(document.querySelectorAll(".lib-card"));
+ libBtns.forEach(function(t){
+  t.addEventListener("click",function(){
+   libBtns.forEach(function(o){o.setAttribute("aria-pressed",o===t?"true":"false");});
+   var cat=t.getAttribute("data-cat");
+   libCards.forEach(function(c){c.hidden=!(cat==="all"||c.getAttribute("data-cat")===cat);});
+  });
+ });
+
+ /* 组间计时 */
+ var total=180,left=total,running=null;
+ var text=document.getElementById("timerText");
+ var fill=document.getElementById("timerFill");
+ var startBtn=document.getElementById("timerStart");
+ function paint(){
+  var m=Math.floor(Math.max(left,0)/60),s=Math.max(left,0)%60;
+  text.textContent=(m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+  fill.style.width=Math.max(0,(total-left)/total*100)+"%";
+ }
+ function stop(){
+  if(running){clearInterval(running);running=null;}
+  startBtn.textContent="开始休息";
+ }
+ startBtn.addEventListener("click",function(){
+  if(running){stop();return;}
+  if(left<=0){left=total;fill.classList.remove("done");text.classList.remove("over");}
+  startBtn.textContent="暂停";
+  running=setInterval(function(){
+   left--;
+   paint();
+   if(left<=0){
+    stop();
+    fill.classList.add("done");
+    text.classList.add("over");
+    text.textContent="休息结束";
+   }
+  },1000);
+ });
+ document.getElementById("timerReset").addEventListener("click",function(){
+  stop();left=total;fill.classList.remove("done");text.classList.remove("over");paint();
+ });
+ [].slice.call(document.querySelectorAll(".timer-adjust .chip")).forEach(function(c){
+  c.addEventListener("click",function(){
+   total=Math.max(30,total+parseInt(c.getAttribute("data-delta"),10));
+   left=total;fill.classList.remove("done");text.classList.remove("over");stop();paint();
+  });
+ });
+ paint();
+
+ /* CTA 表单 */
+ var form=document.getElementById("ctaForm");
+ form.addEventListener("submit",function(e){
+  e.preventDefault();
+  document.getElementById("ctaOk").hidden=false;
+  form.reset();
+ });
+})();
+</script>
+</body>
+</html>

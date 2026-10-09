@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品模板 / Restaurant/Food / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #DC2626 / OnPrimary #FFF / Secondary #F87171 / Accent #A16207 / BG #FEF2F2 / FG #450A0A / Card #FFF / Border #FECACA / Muted #F0EDF1 / Ring #DC2626 / 软字 #7F1D1D（对白 9.2:1） */
+:root{--primary:#DC2626;--on-primary:#FFFFFF;--secondary:#F87171;--accent:#A16207;--bg:#FEF2F2;--fg:#450A0A;--card:#FFFFFF;--line:#FECACA;--muted:#F0EDF1;--ring:#DC2626;--ink:#450A0A;--ink-soft:#7F1D1D;--shadow:7px 7px 0 rgba(69,10,10,.16);--shadow-sm:4px 4px 0 rgba(69,10,10,.16)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+a{color:var(--fg);text-decoration:none}
+a:hover{text-decoration:underline}
+img,svg{display:block}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:2px}
+.on-dark a:focus-visible,.on-dark button:focus-visible{outline-color:#FFFFFF}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* 顶部通告 */
+.ticker{background:var(--fg);color:var(--line);font-size:14px}
+.ticker .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;flex-wrap:wrap}
+.ticker strong{color:#FFFFFF;font-weight:600}
+
+/* 头部 */
+header{background:var(--card);border-bottom:3px solid var(--fg);position:relative}
+.navbar{display:flex;align-items:center;gap:28px;padding-top:16px;padding-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--fg);white-space:nowrap}
+.brand svg{width:34px;height:34px}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{color:var(--ink);font-weight:500;padding:4px 2px}
+.nav-links a:hover{color:var(--primary);text-decoration:none;border-bottom:3px solid var(--primary)}
+.nav-side{margin-left:auto;display:flex;align-items:center;gap:14px}
+.nav-note{font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.btn{display:inline-block;border:2px solid var(--fg);background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;padding:10px 20px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(69,10,10,.16);text-decoration:none}
+.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 rgba(0,0,0,0)}
+.btn-accent{background:var(--accent)}
+.btn-outline{background:var(--card);color:var(--fg)}
+.menu-btn{display:none;border:2px solid var(--fg);background:var(--card);cursor:pointer;padding:8px 10px}
+.menu-btn svg{width:22px;height:22px;stroke:var(--fg)}
+
+/* 首屏 */
+.hero{border-bottom:3px solid var(--fg);background:radial-gradient(560px 300px at 85% 20%,rgba(248,113,113,.34),transparent 70%),radial-gradient(480px 280px at 6% 88%,rgba(161,98,7,.16),transparent 70%),var(--primary)}
+.hero .wrap{display:grid;grid-template-columns:1.12fr .88fr;gap:44px;align-items:center;padding-top:60px;padding-bottom:60px}
+.hero-kicker{font-size:15px;font-weight:600;color:var(--fg);background:var(--card);display:inline-block;padding:4px 12px;border:2px solid var(--fg);margin-bottom:18px}
+.hero h1{font-size:clamp(32px,4.2vw,52px);line-height:1.22;color:#FFFFFF;font-weight:800;letter-spacing:1px}
+.hero h1 em{font-style:normal;color:#FFFFFF;background:var(--fg);padding:0 10px}
+.hero-desc{margin-top:18px;font-size:17px;color:#FFFFFF;max-width:34em}
+.hero-desc strong{color:#FFFFFF;text-decoration:underline;text-decoration-color:var(--secondary);text-underline-offset:5px}
+.hero-actions{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap}
+.btn-dark{background:var(--fg);color:var(--line);border-color:#FFFFFF}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+.stat{background:var(--card);border:2px solid var(--fg);box-shadow:var(--shadow-sm);padding:14px 16px}
+.stat b{display:block;font-size:26px;color:var(--primary);font-weight:800;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-soft)}
+.hero-bowl{position:relative}
+.bowl-card{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow);padding:22px;position:relative}
+.bowl-media{aspect-ratio:4/3;background:linear-gradient(150deg,#7F1D1D 0%,#DC2626 62%,#F87171 100%);border:2px solid var(--fg);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bowl-media svg{width:64%;height:auto}
+.badge{position:absolute;top:10px;left:10px;background:var(--accent);color:#FFFFFF;font-size:13px;font-weight:600;padding:3px 10px;border:2px solid var(--fg)}
+.badge-hot{top:auto;bottom:10px;left:auto;right:10px;background:var(--fg);color:var(--line)}
+.bowl-caption{display:flex;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.bowl-caption b{color:var(--fg);font-size:17px}
+.bowl-caption span{font-size:14px;color:var(--ink-soft)}
+
+/* 承诺条 */
+.assure{background:var(--fg);border-bottom:3px solid var(--fg)}
+.assure .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.assure-item{display:flex;gap:14px;align-items:flex-start;padding:26px 26px 26px 0}
+.assure-item + .assure-item{border-left:2px solid rgba(254,202,202,.35);padding-left:26px}
+.assure-item svg{width:38px;height:38px;flex-shrink:0}
+.assure-item h3{font-size:16px;color:#FFFFFF;font-weight:700}
+.assure-item p{font-size:14px;color:var(--line);margin-top:4px}
+
+/* 区块通用 */
+section{padding:64px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+.sec-head h2{font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--fg);line-height:1.25}
+.sec-head p{color:var(--ink-soft);margin-top:8px;max-width:36em}
+.sec-head a{font-weight:600;white-space:nowrap}
+
+/* 招牌菜单 */
+.menu-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.tab{border:2px solid var(--fg);background:var(--card);color:var(--fg);font-weight:700;font-size:15px;padding:9px 18px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease}
+.tab:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 rgba(69,10,10,.16)}
+.tab[aria-selected="true"]{background:var(--primary);color:var(--on-primary)}
+.menu-board{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow);padding:26px 28px}
+.board-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:3px solid var(--fg);padding-bottom:14px}
+.board-head h3{font-size:22px;color:var(--fg)}
+.board-head span{font-size:14px;color:var(--ink-soft)}
+.mrow{display:grid;grid-template-columns:190px minmax(0,1fr) 84px;column-gap:18px;align-items:baseline;padding:13px 4px;border-bottom:2px dashed var(--line)}
+.mrow:last-of-type{border-bottom:0}
+.mrow-name{font-weight:700;color:var(--fg);font-size:17px}
+.mrow-desc{color:var(--ink-soft);font-size:14.5px}
+.mrow-price{font-weight:800;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums;font-size:17px;white-space:nowrap}
+.chip{display:inline-block;font-style:normal;font-size:12px;font-weight:600;background:var(--secondary);color:var(--fg);border:1px solid var(--fg);padding:0 6px;margin-left:8px;vertical-align:2px}
+.chip-new{background:var(--line);color:var(--fg)}
+.mnote{margin-top:16px;border-top:3px solid var(--fg);padding-top:12px;font-size:14px;color:var(--ink-soft)}
+
+/* 熬汤工艺（深色） */
+.craft{background:var(--fg);border-top:3px solid var(--fg);border-bottom:3px solid var(--fg)}
+.craft .sec-head h2{color:#FFFFFF}
+.craft .sec-head p{color:var(--line)}
+.soups{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:34px}
+.soup{background:var(--card);border:2px solid #FFFFFF;box-shadow:7px 7px 0 rgba(254,202,202,.18);padding:20px;display:flex;gap:16px;align-items:flex-start}
+.soup svg{width:52px;height:52px;flex-shrink:0}
+.soup h3{font-size:20px;color:var(--fg)}
+.soup p{font-size:14px;color:var(--ink-soft);margin-top:6px}
+.soup dl{margin-top:10px;font-size:13.5px;border-top:2px solid var(--line);padding-top:8px}
+.soup dl div{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
+.soup dt{color:var(--ink-soft)}
+.soup dd{font-weight:600;color:var(--fg)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.step{background:var(--card);border:2px solid #FFFFFF;display:flex;flex-direction:column}
+.step-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:2px solid var(--line);background:var(--muted)}
+.step-head svg{width:26px;height:26px;flex-shrink:0}
+.step-head b{font-size:18px;color:var(--fg)}
+.step-head span{margin-left:auto;font-size:13px;font-weight:700;color:var(--on-primary);background:var(--primary);padding:1px 8px;border:1px solid var(--fg)}
+.step-body{padding:14px;flex:1}
+.step-body p{font-size:14px;color:var(--ink-soft)}
+
+/* 门店故事 */
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:start}
+.story-quote{background:var(--fg);color:#FFFFFF;border:3px solid var(--fg);box-shadow:var(--shadow);padding:26px}
+.story-quote svg{width:40px;height:40px;margin-bottom:12px}
+.story-quote blockquote{font-size:20px;line-height:1.6;font-weight:600}
+.story-quote cite{display:block;margin-top:14px;font-style:normal;font-size:14px;color:var(--line)}
+.story-facts{margin-top:18px;background:var(--card);border:2px solid var(--fg);padding:16px}
+.story-facts dl div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;font-size:14px}
+.story-facts dt{color:var(--ink-soft)}
+.story-facts dd{font-weight:600;color:var(--fg)}
+.timeline{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.tl-item{background:var(--card);border:2px solid var(--fg);box-shadow:var(--shadow-sm);padding:18px;display:flex;flex-direction:column}
+.tl-year{display:inline-block;align-self:flex-start;font-size:15px;font-weight:800;color:var(--on-primary);background:var(--fg);padding:2px 10px;border:1px solid var(--fg)}
+.tl-item h3{font-size:18px;color:var(--fg);margin-top:12px}
+.tl-item p{font-size:14px;color:var(--ink-soft);margin-top:6px;flex:1}
+
+/* 订座与外带 */
+.order-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:stretch}
+.resv{background:var(--card);border:3px solid var(--fg);box-shadow:var(--shadow);padding:26px}
+.resv h3{font-size:22px;color:var(--fg)}
+.resv>p{font-size:14px;color:var(--ink-soft);margin-top:6px}
+.field{margin-top:14px}
+.field label{display:block;font-size:14px;font-weight:600;color:var(--fg);margin-bottom:6px}
+.field select,.field input{width:100%;border:2px solid var(--fg);background:var(--card);color:var(--ink);font-size:15px;padding:10px 12px;font-family:inherit}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.resv .btn{margin-top:18px;width:100%;font-size:16px;padding:12px 20px}
+.resv-note{margin-top:12px;font-size:13px;color:var(--ink-soft)}
+.resv-done{display:none;margin-top:14px;background:var(--bg);border:2px solid var(--primary);color:var(--fg);font-weight:600;font-size:14px;padding:10px 12px}
+.resv-done.show{display:block}
+.takeaway{background:var(--fg);border:3px solid var(--fg);box-shadow:var(--shadow);padding:26px;display:flex;flex-direction:column;color:var(--line)}
+.takeaway h3{font-size:22px;color:#FFFFFF}
+.takeaway>p{font-size:14px;margin-top:6px}
+.takeaway ul{list-style:none;margin-top:18px;flex:1}
+.takeaway li{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:2px dashed rgba(254,202,202,.3)}
+.takeaway li:last-child{border-bottom:0}
+.takeaway li svg{width:24px;height:24px;flex-shrink:0;margin-top:2px}
+.takeaway li b{color:#FFFFFF;font-size:15px;display:block}
+.takeaway li span{font-size:13.5px}
+.takeaway .phone{margin-top:16px;background:var(--primary);color:#FFFFFF;border:2px solid #FFFFFF;font-size:24px;font-weight:800;text-align:center;padding:12px;font-variant-numeric:tabular-nums;letter-spacing:1px}
+
+/* 页脚 */
+footer{background:var(--fg);border-top:3px solid var(--fg);padding-top:52px}
+.foot-main{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;padding-bottom:40px}
+.foot-brand h4{color:#FFFFFF;font-size:19px;margin-bottom:10px}
+.foot-brand p{font-size:14px;color:var(--line);max-width:30em}
+.foot-main h4{color:#FFFFFF;font-size:16px;margin-bottom:12px}
+.foot-main ul{list-style:none}
+.foot-main li{margin-bottom:8px}
+.foot-main ul a{color:var(--line);font-size:14px}
+.foot-main ul a:hover{color:#FFFFFF;text-decoration:underline}
+.foot-note{border-top:2px solid rgba(254,202,202,.3);padding-top:18px;padding-bottom:24px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13.5px;color:var(--line)}
+.foot-note a{color:#FFFFFF;font-weight:600}
+
+/* 亮相动效：首屏整组一次进入 */
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.hero-copy{animation:rise .7s cubic-bezier(.22,.9,.3,1) both}
+.hero-bowl{animation:rise .7s .18s cubic-bezier(.22,.9,.3,1) both}
+@keyframes steam{0%{transform:translateY(8px);opacity:0}35%{opacity:.85}100%{transform:translateY(-18px);opacity:0}}
+.steam path{animation:steam 3.4s ease-in-out infinite}
+.steam path:nth-child(2){animation-delay:1.2s}
+.steam path:nth-child(3){animation-delay:2.3s}
+
+/* 响应式 */
+@media (max-width:960px){
+ .hero .wrap{grid-template-columns:1fr;gap:36px}
+ .hero-bowl{max-width:520px}
+ .soups{grid-template-columns:1fr}
+ .steps{grid-template-columns:repeat(2,1fr)}
+ .story-grid{grid-template-columns:1fr;gap:30px}
+ .order-grid{grid-template-columns:1fr}
+ .foot-main{grid-template-columns:1fr 1fr}
+ .foot-brand{grid-column:1/-1}
+}
+@media (max-width:640px){
+ section{padding:48px 0}
+ .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);border-bottom:3px solid var(--fg);flex-direction:column;gap:0;padding:8px 24px 16px}
+ .nav-links.open{display:flex}
+ .nav-links a{display:block;padding:10px 2px;border-bottom:2px solid var(--line)}
+ .menu-btn{display:block}
+ .nav-note{display:none}
+ .stats{grid-template-columns:repeat(3,1fr);gap:10px}
+ .stat b{font-size:20px}
+ .steps{grid-template-columns:1fr}
+ .timeline{grid-template-columns:1fr}
+ .mrow{grid-template-columns:1fr auto;row-gap:2px}
+ .mrow-desc{grid-column:1/-1}
+ .mrow-price{grid-row:1;grid-column:2}
+ .menu-board{padding:18px 16px}
+ .field-row{grid-template-columns:1fr}
+ .assure .wrap{grid-template-columns:1fr}
+ .assure-item{padding:18px 0}
+ .assure-item + .assure-item{border-left:0;border-top:2px solid rgba(254,202,202,.35);padding-left:0;padding-top:18px}
+ .takeaway .phone{font-size:20px}
+}
+@media (prefers-reduced-motion: reduce){
+ *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部通告 -->
+<div class="ticker">
+  <div class="wrap">
+    <span>今日汤底 / <strong>清炖与红烧双锅现熬</strong> / 每日限量 200 碗，售完即止</span>
+    <span>堂食 <strong>11:00 至 21:30</strong> / 周三公休 / 外带 30 分钟自提</span>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header>
+  <div class="wrap">
+    <nav class="navbar" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="一碗牛肉面 首页">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24h36l-4 14a6 6 0 0 1-6 5H16a6 6 0 0 1-6-5L6 24z" fill="#DC2626" stroke="#450A0A" stroke-width="3"/><path d="M10 20h28" stroke="#450A0A" stroke-width="3"/><path d="M14 12c0-3 3-3 3-6M24 10c0-3 3-3 3-6M33 12c0-3 3-3 3-6" stroke="#A16207" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="18" cy="24" r="3" fill="#F87171" stroke="#450A0A" stroke-width="2"/><circle cx="29" cy="23" r="2.5" fill="#F87171" stroke="#450A0A" stroke-width="2"/></svg>
+        一碗牛肉面
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#menu">招牌菜单</a></li>
+        <li><a href="#craft">熬汤工艺</a></li>
+        <li><a href="#story">门店故事</a></li>
+        <li><a href="#order">订座外带</a></li>
+      </ul>
+      <div class="nav-side">
+        <span class="nav-note">老城巷口 17 号 / 11:00 至 21:30</span>
+        <a class="btn" href="#order">今日订座</a>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-label="打开菜单" aria-controls="navLinks">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- 首屏 -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="hero-kicker">巷口老店 / 自 1998 年推车起家</span>
+      <h1>牛骨熬足六小时，<em>一碗</em>才敢端上桌</h1>
+      <p class="hero-desc">「一碗牛肉面」只做牛肉面。每日清晨四点牛筒骨下锅，清炖红烧两锅同熬；牛肉当日卤、面条现抻，<strong>不加浓汤宝，汤喝得见底</strong>。坐下吃也好，打包带走也好，都是这一锅。</p>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#order">订座或外带</a>
+        <a class="btn btn-outline" href="#menu">先看菜单</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>6 小时</b><span>文火现熬，不隔夜汤</span></div>
+        <div class="stat"><b>2 种</b><span>清炖与红烧双汤底</span></div>
+        <div class="stat"><b>28 年</b><span>巷口老灶，配方未改</span></div>
+      </div>
+    </div>
+    <div class="hero-bowl">
+      <div class="bowl-card">
+        <span class="badge">本店招牌</span>
+        <span class="badge badge-hot">每日限量 200 碗</span>
+        <div class="bowl-media">
+          <svg viewBox="0 0 200 150" aria-label="一碗牛肉面的插画">
+            <g class="steam" fill="none" stroke="#FFE9E6" stroke-width="4" stroke-linecap="round" opacity=".9">
+              <path d="M70 46c-5-8 5-12 0-20"/>
+              <path d="M100 40c-5-8 5-12 0-20"/>
+              <path d="M130 46c-5-8 5-12 0-20"/>
+            </g>
+            <path d="M30 78h140l-12 44a18 18 0 0 1-18 14H60a18 18 0 0 1-18-14L30 78z" fill="#DC2626" stroke="#450A0A" stroke-width="5"/>
+            <path d="M24 78h152" stroke="#450A0A" stroke-width="6" stroke-linecap="round"/>
+            <path d="M42 72q10-10 20 0t20 0 20 0 20 0 20 0 16 0" fill="none" stroke="#FEF2F2" stroke-width="7" stroke-linecap="round"/>
+            <circle cx="70" cy="64" r="9" fill="#A16207" stroke="#450A0A" stroke-width="3"/>
+            <circle cx="102" cy="60" r="10" fill="#7F1D1D" stroke="#450A0A" stroke-width="3"/>
+            <circle cx="132" cy="65" r="7" fill="#A16207" stroke="#450A0A" stroke-width="3"/>
+            <path d="M88 52l24-14" stroke="#450A0A" stroke-width="4" stroke-linecap="round"/>
+            <path d="M148 86h24M152 96h14" stroke="#F87171" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="bowl-caption">
+          <b>红烧牛肉面</b>
+          <span>牛腩牛筋同卤 / 微辣 / 大碗加面 3 元</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 承诺条 -->
+<div class="assure">
+  <div class="wrap">
+    <div class="assure-item">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19" fill="#F87171" stroke="#FEF2F2" stroke-width="3"/><path d="M15 27c3 3 6 3 9 0s6-3 9 0" fill="none" stroke="#450A0A" stroke-width="3" stroke-linecap="round"/><path d="M17 33c2.5 2.5 5 2.5 7.5 0s5-2.5 7.5 0" fill="none" stroke="#450A0A" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div>
+        <h3>当日鲜牛不过夜</h3>
+        <p>牛筒骨与牛腱清晨四点到店，当天熬完当天卖，剩汤直接倒掉。</p>
+      </div>
+    </div>
+    <div class="assure-item">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6l12 5v10c0 9-5 15-12 21-7-6-12-12-12-21V11l12-5z" fill="#DC2626" stroke="#FEF2F2" stroke-width="3"/><path d="M24 14v16M18 22h12" stroke="#FEF2F2" stroke-width="3" stroke-linecap="round"/></svg>
+      <div>
+        <h3>明厨亮灶看得见</h3>
+        <p>两口熬汤锅就放在进门左手边，路过就能看见火、闻见汤香。</p>
+      </div>
+    </div>
+    <div class="assure-item">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="19" fill="#A16207" stroke="#FEF2F2" stroke-width="3"/><circle cx="24" cy="24" r="12" fill="none" stroke="#FEF2F2" stroke-width="3"/><path d="M24 16v8l6 4" fill="none" stroke="#FEF2F2" stroke-width="3" stroke-linecap="round"/></svg>
+      <div>
+        <h3>外带 30 分钟自提</h3>
+        <p>电话下单汤面分盒装，到店即取不排队，回家拌开面不坨。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 招牌菜单 -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>招牌菜单</h2>
+        <p>面分大小碗，价格均为大碗。所有汤底当日现熬，卖完就收灶，不隔夜。</p>
+      </div>
+      <a href="#order">订座后到店即点</a>
+    </div>
+    <div class="menu-tabs" role="tablist" aria-label="菜单分类">
+      <button class="tab" id="tab-noodles" role="tab" aria-selected="true" aria-controls="panel-noodles">招牌面</button>
+      <button class="tab" id="tab-sides" role="tab" aria-selected="false" aria-controls="panel-sides">小食卤味</button>
+      <button class="tab" id="tab-drinks" role="tab" aria-selected="false" aria-controls="panel-drinks">饮品</button>
+    </div>
+    <div class="menu-board">
+      <div id="panel-noodles" role="tabpanel" aria-labelledby="tab-noodles">
+        <div class="board-head">
+          <h3>招牌面</h3>
+          <span>大碗价 / 小碗减 4 元</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">清炖牛肉面</span>
+          <span class="mrow-desc">牛筒骨清汤，牛腱切薄片，撒芹珠提香</span>
+          <span class="mrow-price">¥28</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">红烧牛肉面<i class="chip">招牌</i></span>
+          <span class="mrow-desc">牛腩与牛筋同卤，汤浓微辣，老客首选</span>
+          <span class="mrow-price">¥32</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">半筋半肉面</span>
+          <span class="mrow-desc">一半牛筋一半牛腱，胶质厚，嚼劲足</span>
+          <span class="mrow-price">¥38</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">麻辣牛杂面<i class="chip">辣</i></span>
+          <span class="mrow-desc">牛肚牛心加花椒红油，重口过瘾</span>
+          <span class="mrow-price">¥36</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">番茄牛腩面</span>
+          <span class="mrow-desc">熟番茄炒蓉入汤，酸甜开胃，小孩也爱吃</span>
+          <span class="mrow-price">¥30</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">葱油干拌面<i class="chip chip-new">新</i></span>
+          <span class="mrow-desc">现炸牛油葱油拌面，附一小碗牛肉汤</span>
+          <span class="mrow-price">¥22</span>
+        </div>
+        <p class="mnote">加面 3 元 / 加肉 10 元 / 加卤蛋 3 元，结账时跟收银说一声即可。</p>
+      </div>
+      <div id="panel-sides" role="tabpanel" aria-labelledby="tab-sides" hidden>
+        <div class="board-head">
+          <h3>小食卤味</h3>
+          <span>卤味每日限量 / 售完即止</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">卤牛腱拼盘</span>
+          <span class="mrow-desc">当日老卤卤制，切厚片，附辣椒蘸料</span>
+          <span class="mrow-price">¥26</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">现烙葱油饼</span>
+          <span class="mrow-desc">猪油现烙，外脆内软，配汤吃</span>
+          <span class="mrow-price">¥10</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">泡菜双拼</span>
+          <span class="mrow-desc">白菜与白萝卜，自家坛子泡的，解腻</span>
+          <span class="mrow-price">¥6</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">烫时蔬</span>
+          <span class="mrow-desc">当季青菜，清烫淋蒜蓉酱油</span>
+          <span class="mrow-price">¥12</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">卤蛋豆干</span>
+          <span class="mrow-desc">老卤浸泡过夜，蛋香豆香都足</span>
+          <span class="mrow-price">¥8</span>
+        </div>
+        <p class="mnote">拼盘可半份起点 / 小食与面同点可并单，外带不另收打包费。</p>
+      </div>
+      <div id="panel-drinks" role="tabpanel" aria-labelledby="tab-drinks" hidden>
+        <div class="board-head">
+          <h3>饮品</h3>
+          <span>皆可去冰 / 堂食大杯续杯半价</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">冰镇酸梅汤</span>
+          <span class="mrow-desc">乌梅山楂自熬，配麻辣面正好</span>
+          <span class="mrow-price">¥8</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">冬瓜柠檬饮</span>
+          <span class="mrow-desc">冬瓜茶砖现冲，鲜柠角一片</span>
+          <span class="mrow-price">¥9</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">洛神花茶</span>
+          <span class="mrow-desc">酸甜温润，可做热饮</span>
+          <span class="mrow-price">¥9</span>
+        </div>
+        <div class="mrow">
+          <span class="mrow-name">大麦茶</span>
+          <span class="mrow-desc">烘焙麦香，解油去腻</span>
+          <span class="mrow-price">¥6</span>
+        </div>
+        <p class="mnote">大杯加 2 元 / 堂食免费提供温开水，跟店员说一声就好。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 熬汤工艺 -->
+<section class="craft" id="craft">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>熬汤工艺</h2>
+        <p>一碗面的骨架是汤。从选骨到出汤，六小时只做一件事。</p>
+      </div>
+    </div>
+    <div class="soups">
+      <div class="soup">
+        <svg viewBox="0 0 52 52" aria-hidden="true"><path d="M8 22h36l-4 16a8 8 0 0 1-8 7H20a8 8 0 0 1-8-7l-4-16z" fill="#DC2626" stroke="#450A0A" stroke-width="3"/><ellipse cx="26" cy="22" rx="18" ry="5" fill="#FEF2F2" stroke="#450A0A" stroke-width="3"/><circle cx="20" cy="21" r="2.5" fill="#F87171"/><circle cx="31" cy="22" r="2" fill="#A16207"/></svg>
+        <div>
+          <h3>清炖汤底</h3>
+          <p>牛筒骨与鸡架同熬，汤色清亮，咸鲜里带一点白胡椒的暖。</p>
+          <dl>
+            <div><dt>熬制时间</dt><dd>6 小时文火</dd></div>
+            <div><dt>配料</dt><dd>姜 / 葱 / 白胡椒</dd></div>
+            <div><dt>适合</dt><dd>第一次来的客人</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="soup">
+        <svg viewBox="0 0 52 52" aria-hidden="true"><path d="M8 22h36l-4 16a8 8 0 0 1-8 7H20a8 8 0 0 1-8-7l-4-16z" fill="#7F1D1D" stroke="#450A0A" stroke-width="3"/><ellipse cx="26" cy="22" rx="18" ry="5" fill="#A16207" stroke="#450A0A" stroke-width="3"/><circle cx="19" cy="21" r="2.5" fill="#DC2626"/><circle cx="32" cy="21.5" r="2" fill="#DC2626"/><path d="M14 30h24" stroke="#F87171" stroke-width="3" stroke-linecap="round"/></svg>
+        <div>
+          <h3>红烧汤底</h3>
+          <p>牛腩牛筋入汤同卤，豆瓣酱炒出红油，浓郁微辣，越喝越有味。</p>
+          <dl>
+            <div><dt>熬制时间</dt><dd>6 小时文火</dd></div>
+            <div><dt>配料</dt><dd>豆瓣酱 / 冰糖 / 十三香</dd></div>
+            <div><dt>适合</dt><dd>重口老客与冬夜</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#450A0A" stroke-width="2.2" aria-hidden="true"><path d="M4 13c2-6 5-8 4-11 3 2 4 5 4 7 2-1 2-3 2-5 4 3 6 7 6 11a8 8 0 0 1-16 0z" stroke="#DC2626"/></svg>
+          <b>选骨</b><span>04:00</span>
+        </div>
+        <div class="step-body"><p>牛筒骨清晨到店，敲开露髓才够味，牛腱整条修去筋膜备用。</p></div>
+      </div>
+      <div class="step">
+        <div class="step-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#450A0A" stroke-width="2.2" aria-hidden="true"><path d="M12 3c3.5 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 2.5-6.5 6-11z" stroke="#DC2626"/><circle cx="10" cy="15" r="1.4" fill="#A16207" stroke="none"/></svg>
+          <b>焯洗</b><span>05:30</span>
+        </div>
+        <div class="step-body"><p>骨肉冷水下锅，烧开撇净血沫，冲净后重新入锅，只留干净底味。</p></div>
+      </div>
+      <div class="step">
+        <div class="step-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#450A0A" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="14" r="6" stroke="#A16207"/><path d="M12 3v3M5.6 6.6l2 2M18.4 6.6l-2 2" stroke="#DC2626" stroke-linecap="round"/></svg>
+          <b>慢熬</b><span>06:00</span>
+        </div>
+        <div class="step-body"><p>文火六小时，只加姜、葱与白胡椒，期间人工撇油三次，不加一滴浓汤宝。</p></div>
+      </div>
+      <div class="step">
+        <div class="step-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#450A0A" stroke-width="2.2" aria-hidden="true"><path d="M20 14A8 8 0 1 1 10 4a7 7 0 0 0 10 10z" stroke="#DC2626"/><path d="M17 5l1.5 2M19 3.5L20.5 5" stroke="#A16207" stroke-linecap="round"/></svg>
+          <b>沉清</b><span>12:00</span>
+        </div>
+        <div class="step-body"><p>关火静置两小时，撇净浮油，汤清到能看见碗底的青花。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 门店故事 -->
+<section id="story">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>门店故事</h2>
+        <p>从巷口一辆三轮车，到今天这口没换过的熬汤锅。</p>
+      </div>
+    </div>
+    <div class="story-grid">
+      <div>
+        <div class="story-quote">
+          <svg viewBox="0 0 40 32" aria-hidden="true"><path d="M4 28V16C4 8 9 3 17 2v6c-4 1-6 3-6 7h6v13H4zm19 0V16c0-8 5-13 13-14v6c-4 1-6 3-6 7h6v13h-13z" fill="#F87171"/></svg>
+          <blockquote>汤要熬够钟，面要现抻，肉要切得厚。这三样急不来，也省不得。</blockquote>
+          <cite>创始人 老陈，1998 年冬</cite>
+        </div>
+        <div class="story-facts">
+          <dl>
+            <div><dt>门店地址</dt><dd>老城巷口 17 号</dd></div>
+            <div><dt>营业时间</dt><dd>11:00 至 21:30 / 周三公休</dd></div>
+            <div><dt>堂食座位</dt><dd>28 座 / 不接受拼桌加位</dd></div>
+            <div><dt>外带窗口</dt><dd>临街东侧 / 11:00 起开放</dd></div>
+          </dl>
+        </div>
+      </div>
+      <ul class="timeline">
+        <li class="tl-item">
+          <span class="tl-year">1998</span>
+          <h3>巷口的三轮车</h3>
+          <p>老陈蹬着三轮在巷口摆摊，一锅汤、一箱面、四张小凳，冬天风大就围着锅吃。</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-year">2005</span>
+          <h3>八平米的小店</h3>
+          <p>攒了七年，租下巷口八平米门面，挂上「一碗牛肉面」的灯箱，锅还是那口锅。</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-year">2016</span>
+          <h3>儿子接了手</h3>
+          <p>小陈辞了城东的工作回来接店，老汤配方一个字没改，加了外带窗口和记账本。</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-year">今天</span>
+          <h3>还是 200 碗</h3>
+          <p>每天限量 200 碗，卖完收灶。有人问为什么不扩张，老陈说汤只有一锅。</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 订座与外带 -->
+<section class="order" id="order">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>订座与外带</h2>
+        <p>小店只有 28 个座位，饭点建议提前订座；赶时间的走外带窗口，30 分钟自提。</p>
+      </div>
+    </div>
+    <div class="order-grid">
+      <form class="resv" id="resvForm">
+        <h3>今日订座</h3>
+        <p>填好人数和时间，收到短信确认即算订成功，保留 15 分钟。</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="partySize">用餐人数</label>
+            <select id="partySize" name="partySize">
+              <option value="2">2 人</option>
+              <option value="4">4 人</option>
+              <option value="6">6 人</option>
+              <option value="8">8 人以上</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="resvTime">到店时间</label>
+            <select id="resvTime" name="resvTime">
+              <option value="1730">今天 17:30</option>
+              <option value="1800">今天 18:00</option>
+              <option value="1830">今天 18:30</option>
+              <option value="1900">今天 19:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="phone">手机号码</label>
+          <input type="tel" id="phone" name="phone" inputmode="tel" placeholder="用于接收订座确认短信" required>
+        </div>
+        <button class="btn" type="submit">提交订座</button>
+        <p class="resv-done" id="resvDone" role="status">订座申请已收到，我们会尽快短信回复确认，请留意手机。</p>
+        <p class="resv-note">周五与周六只留到 19:00 / 6 人以上建议提前一天电话洽询。</p>
+      </form>
+      <div class="takeaway on-dark">
+        <h3>外带自提</h3>
+        <p>不想等位，电话下单最省事。</p>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FECACA" stroke-width="2.2" aria-hidden="true"><path d="M6 3h12l1 5H5l1-5zM4 8h16v4a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8zM8 16v5h8v-5"/></svg>
+            <div><b>汤面分盒装</b><span>汤、面、肉三盒分装，到家拌开照样筋道。</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FECACA" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.5"/></svg>
+            <div><b>30 分钟自提</b><span>电话下单后半小时，到临街外带窗口报手机尾号即取。</span></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FECACA" stroke-width="2.2" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a7 7 0 0 1 14 0c0 5.5-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/></svg>
+            <div><b>三公里内可送</b><span>满 88 元免费配送，高峰期请提前一小时下单。</span></div>
+          </li>
+        </ul>
+        <div class="phone">021-6688-1998</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="on-dark">
+  <div class="wrap">
+    <div class="foot-main">
+      <div class="foot-brand">
+        <h4>一碗牛肉面</h4>
+        <p>老城巷口 17 号的牛肉面老店。当日鲜牛现熬汤底 / 明厨亮灶 / 每日限量 200 碗，卖完收灶。</p>
+      </div>
+      <div>
+        <h4>堂食</h4>
+        <ul>
+          <li><a href="#menu">招牌面</a></li>
+          <li><a href="#menu">小食卤味</a></li>
+          <li><a href="#craft">汤底说明</a></li>
+          <li><a href="#order">今日订座</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>外带</h4>
+        <ul>
+          <li><a href="#order">电话下单</a></li>
+          <li><a href="#order">自提时间</a></li>
+          <li><a href="#story">门店地址</a></li>
+          <li><a href="#story">营业时间</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>UI 设计提示词库 / 产品模板 / Restaurant/Food Service</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
+  });
+  navLinks.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      tabs.forEach(function(t){
+        var sel=t===tab;
+        t.setAttribute('aria-selected',sel?'true':'false');
+        document.getElementById(t.getAttribute('aria-controls')).hidden=!sel;
+      });
+    });
+  });
+  var form=document.getElementById('resvForm');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('resvDone').classList.add('show');
+  });
+})();
+</script>
+</body>
+</html>

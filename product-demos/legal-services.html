@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Legal Services / UI 设计提示词库</title>
+<meta name="description" content="Legal Services 产品模板演示页：劳动法咨询事务所「法度劳动」服务官网，藏青加金色权威色板、严谨条款式信息架构、服务范围、案例结果台账、律师团队与咨询预约流程。">
+<style>
+/* token 计划: Primary #1E3A8A / On-Primary #FFFFFF / Secondary #1E40AF / Accent #B45309(文字用 #92400E 加深保证 4.5:1) / BG #F8FAFC / FG #0F172A / Card #FFFFFF / Border #CBD5E1 / Muted #E9EEF5 / Ring #1E3A8A，辅助墨色 #334155、状态绿 #14532D/#DCFCE7 */
+:root {
+  --primary: #1E3A8A;
+  --on-primary: #FFFFFF;
+  --secondary: #1E40AF;
+  --accent: #B45309;
+  --accent-deep: #92400E;
+  --bg: #F8FAFC;
+  --fg: #0F172A;
+  --card: #FFFFFF;
+  --border: #CBD5E1;
+  --muted: #E9EEF5;
+  --ring: #1E3A8A;
+  --ink-soft: #334155;
+  --ok-bg: #DCFCE7;
+  --ok-fg: #14532D;
+  --ok-line: #BBF7D0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 17px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+.wrap { width: min(1180px, 100% - 40px); margin-inline: auto; }
+a { color: var(--secondary); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--primary); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 6px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+
+/* 顶部辅助条 */
+.topbar { background: var(--muted); border-bottom: 1px solid var(--border); font-size: 14px; color: var(--ink-soft); }
+.topbar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 7px 0; flex-wrap: wrap; }
+.topbar a { color: var(--ink-soft); text-decoration: none; padding: 2px 10px; border-right: 1px solid var(--border); }
+.topbar a:last-child { border-right: 0; }
+.topbar a:hover { color: var(--fg); text-decoration: underline; }
+
+/* 品牌栏 */
+.mast { background: var(--card); border-bottom: 1px solid var(--border); }
+.mast .wrap { display: flex; align-items: center; gap: 28px; padding: 16px 0; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 12px; margin-right: auto; }
+.seal { width: 46px; height: 46px; background: var(--primary); color: var(--on-primary); border-radius: 8px; display: grid; place-items: center; font-size: 24px; font-weight: 700; letter-spacing: 0; flex: none; }
+.brand-name { font-size: 21px; font-weight: 700; color: var(--fg); line-height: 1.2; }
+.brand-sub { font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; }
+.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
+.mainnav a { color: var(--fg); text-decoration: none; font-size: 15px; padding: 6px 12px; border-radius: 6px; }
+.mainnav a:hover { background: var(--muted); color: var(--primary); }
+.mast-tel { font-size: 14px; color: var(--ink-soft); }
+.mast-tel strong { color: var(--primary); font-size: 16px; }
+
+/* 英雄区 */
+.hero { background: linear-gradient(180deg, #EFF4FB 0%, var(--bg) 100%); border-bottom: 1px solid var(--border); }
+.hero .wrap { padding: 64px 0 56px; display: grid; gap: 36px; }
+.eyebrow { display: inline-block; font-size: 14px; font-weight: 600; color: var(--accent-deep); border-left: 3px solid var(--accent); padding-left: 10px; letter-spacing: 0.08em; margin-bottom: 18px; }
+.hero h1 { font-size: clamp(30px, 4.2vw, 44px); line-height: 1.28; font-weight: 700; max-width: 15em; }
+.hero .lead { margin-top: 18px; font-size: 18px; color: var(--ink-soft); max-width: 36em; }
+.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+.btn { display: inline-block; background: var(--primary); color: var(--on-primary); border: 2px solid var(--primary); padding: 12px 28px; border-radius: 6px; font-size: 16px; font-weight: 600; text-decoration: none; cursor: pointer; }
+.btn:hover { background: var(--secondary); border-color: var(--secondary); color: var(--on-primary); }
+.btn.ghost { background: transparent; color: var(--primary); }
+.btn.ghost:hover { background: var(--muted); color: var(--primary); }
+.hero-points { list-style: none; margin-top: 30px; display: grid; gap: 10px; }
+.hero-points li { position: relative; padding-left: 22px; color: var(--ink-soft); font-size: 16px; }
+.hero-points li::before { content: ""; position: absolute; left: 0; top: 9px; width: 9px; height: 9px; background: var(--accent); }
+.hero-side { background: var(--primary); color: var(--on-primary); border-radius: 10px; padding: 28px 26px; }
+.side-title { font-size: 17px; font-weight: 700; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.3); }
+.hero-side dl { display: grid; gap: 14px; margin-top: 16px; }
+.hero-side dt { font-size: 13px; color: #C7D4F2; }
+.hero-side dd { font-size: 15px; font-weight: 600; margin-top: 2px; }
+.hero-side-note { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 13px; color: #DCE4F6; }
+
+/* 数据条 */
+.stats { background: var(--card); border-bottom: 1px solid var(--border); }
+.stats .wrap { display: grid; grid-template-columns: repeat(2, 1fr); }
+.stat { padding: 26px 18px; text-align: center; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stat:nth-child(2n) { border-right: 0; }
+.stat:nth-child(n+3) { border-bottom: 0; }
+.stat-num { font-size: clamp(26px, 3vw, 34px); font-weight: 700; color: var(--primary); line-height: 1.2; }
+.stat-label { font-size: 14px; color: var(--ink-soft); margin-top: 6px; }
+::placeholder { color: #64748B; opacity: 1; }
+
+/* 区块通用 */
+section.block { padding: 72px 0; }
+section.block.alt { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sec-head { max-width: 760px; margin-bottom: 40px; }
+.sec-head h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.35; margin-top: 10px; }
+.sec-note { color: var(--ink-soft); margin-top: 12px; font-size: 16px; }
+.sec-eyebrow { font-size: 14px; font-weight: 600; color: var(--accent-deep); letter-spacing: 0.08em; }
+
+/* 服务范围 */
+.svc-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+.svc { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 8px; padding: 26px 24px; display: flex; flex-direction: column; }
+.svc-tag { align-self: flex-start; font-size: 13px; font-weight: 600; color: var(--primary); background: var(--muted); padding: 3px 12px; border-radius: 999px; }
+.svc h3 { font-size: 19px; margin-top: 14px; }
+.svc-desc { font-size: 15px; color: var(--ink-soft); margin-top: 8px; }
+.svc ul { list-style: none; margin-top: 16px; display: grid; gap: 0; }
+.svc li { font-size: 15px; padding: 9px 0 9px 16px; border-top: 1px dashed var(--border); position: relative; }
+.svc li::before { content: ""; position: absolute; left: 0; top: 18px; width: 6px; height: 6px; background: var(--accent); }
+.svc-foot { margin-top: auto; padding-top: 16px; font-size: 13px; color: var(--ink-soft); }
+
+/* 案例结果台账 */
+.ledger { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--card); }
+.lrow { display: grid; grid-template-columns: 1fr; gap: 6px 16px; padding: 16px 18px; border-top: 1px solid var(--border); align-items: start; }
+.ledger-head { background: var(--muted); font-weight: 700; font-size: 14px; color: var(--fg); border-top: 0; }
+.cell { font-size: 15px; color: var(--ink-soft); }
+.cell strong { color: var(--fg); font-weight: 600; }
+.cause strong { font-size: 15.5px; }
+.amt { font-weight: 700; color: var(--accent-deep); font-variant-numeric: tabular-nums; }
+.badge { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 2px 10px; border-radius: 999px; margin-right: 8px; vertical-align: 1px; }
+.badge.win { background: var(--ok-bg); color: var(--ok-fg); border: 1px solid var(--ok-line); }
+.badge.plan { background: var(--muted); color: var(--primary); border: 1px solid var(--border); }
+.ledger-note { margin-top: 16px; font-size: 14px; color: var(--ink-soft); }
+.ledger-note strong { color: var(--accent-deep); }
+
+/* 律师团队 */
+.team-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+.lawyer { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 26px 24px; }
+.lawyer-top { display: flex; align-items: center; gap: 16px; }
+.ava { width: 62px; height: 62px; flex: none; background: var(--primary); color: var(--on-primary); border-radius: 8px; display: grid; place-items: center; font-size: 26px; font-weight: 700; }
+.lawyer-name { font-size: 20px; font-weight: 700; line-height: 1.3; }
+.lawyer-meta { font-size: 13.5px; color: var(--ink-soft); margin-top: 2px; }
+.lawyer-bio { margin-top: 16px; font-size: 15px; color: var(--ink-soft); }
+.lawyer ul { list-style: none; margin-top: 14px; display: grid; gap: 8px; }
+.lawyer li { font-size: 14.5px; padding-left: 16px; position: relative; }
+.lawyer li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 2px; background: var(--accent); }
+.team-note { margin-top: 26px; font-size: 14px; color: var(--ink-soft); }
+
+/* 收费与常见问题 */
+.fee-grid { display: grid; grid-template-columns: 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--card); overflow: hidden; }
+.fee-row { display: grid; grid-template-columns: 1fr; gap: 4px 16px; padding: 16px 18px; border-top: 1px solid var(--border); align-items: start; }
+.fee-row:first-child { border-top: 0; }
+.fee-name { font-weight: 700; font-size: 16px; }
+.fee-price { font-weight: 700; color: var(--accent-deep); font-size: 15.5px; }
+.faq { margin-top: 44px; max-width: 760px; }
+.faq h3 { font-size: 20px; margin-bottom: 14px; }
+.faq details { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0 18px; }
+.faq details + details { margin-top: 12px; }
+.faq summary { cursor: pointer; font-weight: 600; font-size: 16px; padding: 15px 0; list-style: none; position: relative; padding-right: 30px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-size: 20px; color: var(--accent-deep); font-weight: 700; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 0 16px; font-size: 15px; color: var(--ink-soft); }
+
+/* 咨询预约 */
+.book-grid { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: stretch; }
+.book-form { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 30px 28px; }
+.f-row { margin-bottom: 18px; }
+.f-row label { display: block; font-size: 14.5px; font-weight: 600; margin-bottom: 7px; }
+.f-row label .req { color: var(--accent-deep); }
+.f-row input[type="text"], .f-row input[type="tel"], .f-row select, .f-row textarea {
+  width: 100%; padding: 11px 13px; font: inherit; font-size: 16px; color: var(--fg);
+  background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+}
+.f-row textarea { min-height: 110px; resize: vertical; }
+.f-row input:focus, .f-row select:focus, .f-row textarea:focus { border-color: var(--primary); outline: 2px solid var(--ring); outline-offset: 1px; }
+.f-hint { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+.radio-group { display: flex; gap: 12px; flex-wrap: wrap; }
+.radio-group label { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; font-size: 15px; margin: 0; cursor: pointer; }
+.radio-group input { width: 18px; height: 18px; accent-color: var(--primary); }
+.check-row { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; color: var(--ink-soft); }
+.check-row input { width: 18px; height: 18px; accent-color: var(--primary); margin-top: 3px; flex: none; }
+.form-err { margin: 4px 0 16px; padding: 10px 14px; background: #FEF3C7; border: 1px solid #FDE68A; color: #92400E; border-radius: 6px; font-size: 14.5px; }
+.form-done { margin-top: 6px; padding: 16px 18px; background: var(--ok-bg); border: 1px solid var(--ok-line); color: var(--ok-fg); border-radius: 6px; font-size: 15px; }
+.form-done strong { font-size: 17px; }
+.book-side { display: grid; grid-template-rows: auto 1fr; gap: 22px; }
+.side-card { background: var(--muted); border: 1px solid var(--border); border-radius: 10px; padding: 24px 22px; }
+.side-card h3 { font-size: 17px; margin-bottom: 12px; }
+.side-card ul { list-style: none; display: grid; gap: 10px; }
+.side-card li { font-size: 15px; color: var(--ink-soft); }
+.side-card li strong { color: var(--fg); }
+.side-card ol { margin-left: 20px; display: grid; gap: 10px; }
+.side-card ol li { font-size: 15px; color: var(--ink-soft); margin: 0; }
+.side-card ol li::marker { color: var(--accent-deep); font-weight: 700; }
+
+/* 页脚 */
+.foot { background: var(--fg); color: #CBD5E1; padding: 44px 0 40px; font-size: 14.5px; }
+.foot .wrap { display: grid; gap: 10px; }
+.foot-crumb { font-size: 15px; font-weight: 600; color: #FFFFFF; }
+.foot a { color: #BFDBFE; }
+.foot a:hover { color: #FFFFFF; }
+.foot-note { color: #94A3B8; font-size: 13.5px; }
+
+/* 亮相动效（仅英雄区一次，无逐卡动画） */
+.reveal { animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { animation: none; }
+}
+
+/* 响应式 768 起 */
+@media (min-width: 768px) {
+  .stats .wrap { grid-template-columns: repeat(4, 1fr); }
+  .stat { border-bottom: 0; border-right: 1px solid var(--border); }
+  .stat:nth-child(2n) { border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: 0; }
+  .svc-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+  .lrow { grid-template-columns: minmax(0, 1.05fr) 112px minmax(0, 1fr) minmax(0, 1.5fr) 128px; }
+  .fee-row { grid-template-columns: 200px minmax(0, 1fr) 170px; }
+}
+/* 768 以下台账与收费表降级为卡片，行内显示字段名 */
+@media (max-width: 767px) {
+  .ledger-head { display: none; }
+  .cell::before { content: attr(data-k); display: block; font-size: 12.5px; color: var(--ink-soft); font-weight: 600; margin-bottom: 2px; }
+}
+/* 桌面 1080 起 */
+@media (min-width: 1080px) {
+  .hero .wrap { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: stretch; }
+  .book-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <p>产品模板 / Legal Services</p>
+    <nav aria-label="辅助导航">
+      <a href="#services">服务范围</a>
+      <a href="#cases">案例结果</a>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </nav>
+  </div>
+</header>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brand">
+      <div class="seal" aria-hidden="true">法</div>
+      <div>
+        <p class="brand-name">法度劳动</p>
+        <p class="brand-sub">劳动法专业咨询事务所</p>
+      </div>
+    </div>
+    <nav class="mainnav" aria-label="主导航">
+      <a href="#services">服务范围</a>
+      <a href="#cases">案例结果</a>
+      <a href="#team">律师团队</a>
+      <a href="#fees">收费与流程</a>
+      <a href="#book">咨询预约</a>
+    </nav>
+    <p class="mast-tel">咨询电话 <strong>021-5388-0612</strong>（工作日 09:00 至 18:00）</p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 英雄区 -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-main reveal">
+        <p class="eyebrow">劳动法 / 专项事务所</p>
+        <h1 id="hero-title">争议先理条款，主张要有依据。</h1>
+        <p class="lead">法度劳动自 2012 年起只做劳动法一件事：为劳动者核算每一项应得，为企业把好每一道程序。从合同审查到仲裁诉讼，收费与流程均在委托前书面确认。</p>
+        <div class="hero-cta">
+          <a class="btn" href="#book">预约首次咨询</a>
+          <a class="btn ghost" href="#services">查看服务范围</a>
+        </div>
+        <ul class="hero-points">
+          <li>只做劳动法：不接无关案件，路径判断更准，不做万金油式代理。</li>
+          <li>首次咨询 30 分钟 200 元，委托后全额抵扣，不设隐性收费。</li>
+          <li>办案重大节点书面通报，仲裁与开庭进度随时可查。</li>
+        </ul>
+      </div>
+      <aside class="hero-side" aria-label="执业信息">
+        <p class="side-title">执业信息</p>
+        <dl>
+          <div>
+            <dt>机构名称</dt>
+            <dd>上海法度劳动咨询事务所</dd>
+          </div>
+          <div>
+            <dt>执业许可</dt>
+            <dd>沪司许审字〔2012〕第 0387 号</dd>
+          </div>
+          <div>
+            <dt>人员构成</dt>
+            <dd>专职律师 9 名，其中合伙人 3 名</dd>
+          </div>
+          <div>
+            <dt>服务范围</dt>
+            <dd>上海 / 苏州 / 杭州，线上咨询覆盖全国</dd>
+          </div>
+        </dl>
+        <p class="hero-side-note">委托范围与收费在签署书面协议前逐项确认，任何口头承诺不发生效力。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 数据条 -->
+  <section class="stats" aria-label="事务所数据">
+    <div class="wrap">
+      <div class="stat">
+        <p class="stat-num">14 年</p>
+        <p class="stat-label">专注劳动法单一领域</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num">2,830 件</p>
+        <p class="stat-label">办结劳动争议案件</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num">71%</p>
+        <p class="stat-label">仲裁与诉讼阶段调解结案率</p>
+      </div>
+      <div class="stat">
+        <p class="stat-num">2.4 亿元</p>
+        <p class="stat-label">累计追回薪酬与赔偿合计</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 服务范围 -->
+  <section id="services" class="block" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-eyebrow">服务范围</p>
+        <h2 id="services-title">六项执业范围，覆盖个人委托与企业顾问</h2>
+        <p class="sec-note">首次咨询会先判断您的争议属于哪一类、处在哪个阶段，再给出路径、周期与费用预估，不诱导提起没有胜算的程序。</p>
+      </div>
+      <div class="svc-grid">
+        <article class="svc">
+          <span class="svc-tag">个人与企业</span>
+          <h3>劳动合同与入职审查</h3>
+          <p class="svc-desc">从签合同的第一天起固定证据、排除条款陷阱。</p>
+          <ul>
+            <li>合同条款风险逐条审查</li>
+            <li>试用期约定与转正条件合规</li>
+            <li>竞业限制与保密协议谈判</li>
+            <li>劳动关系与劳务关系性质认定</li>
+          </ul>
+          <p class="svc-foot">常见场景：入职前合同把关 / 试用期被不合理辞退</p>
+        </article>
+        <article class="svc">
+          <span class="svc-tag">个人委托为主</span>
+          <h3>薪酬与工时追索</h3>
+          <p class="svc-desc">把加班费、年假折算与拖欠工资算到每一分。</p>
+          <ul>
+            <li>加班费与未休年假折算主张</li>
+            <li>拖欠工资催讨与支付令申请</li>
+            <li>绩效奖金与提成认定</li>
+            <li>最低工资与同工同酬争议</li>
+          </ul>
+          <p class="svc-foot">常见场景：长期加班无补偿 / 离职后提成被扣</p>
+        </article>
+        <article class="svc">
+          <span class="svc-tag">个人委托</span>
+          <h3>违法解除与裁员应对</h3>
+          <p class="svc-desc">解除通知送达之日，就是答辩准备开始之时。</p>
+          <ul>
+            <li>解除通知审查与答辩策略</li>
+            <li>经济补偿金与赔偿金核算</li>
+            <li>裁员程序合规性评估</li>
+            <li>仲裁与一审二审全程代理</li>
+          </ul>
+          <p class="svc-foot">常见场景：口头辞退不给出书面理由 / 协商离职条件过低</p>
+        </article>
+        <article class="svc">
+          <span class="svc-tag">个人委托</span>
+          <h3>工伤与职业病</h3>
+          <p class="svc-desc">从认定申请到等级复查，全程盯住每一个期限。</p>
+          <ul>
+            <li>工伤认定申请与材料准备</li>
+            <li>劳动能力鉴定异议与复查</li>
+            <li>赔偿项目与标准核算</li>
+            <li>用人单位与第三人责任划分</li>
+          </ul>
+          <p class="svc-foot">常见场景：单位未在 30 日内申报工伤 / 对鉴定等级有异议</p>
+        </article>
+        <article class="svc">
+          <span class="svc-tag">个人与企业</span>
+          <h3>社保与公积金</h3>
+          <p class="svc-desc">未缴漏缴不是小事，补缴路径与待遇损失索赔并行。</p>
+          <ul>
+            <li>未缴漏缴的补缴路径设计</li>
+            <li>缴费基数核定争议处理</li>
+            <li>社保待遇损失索赔诉讼</li>
+            <li>稽核投诉与强制执行程序</li>
+          </ul>
+          <p class="svc-foot">常见场景：按最低基数缴纳 / 离职发现社保断缴</p>
+        </article>
+        <article class="svc">
+          <span class="svc-tag">企业委托</span>
+          <h3>企业劳动合规顾问</h3>
+          <p class="svc-desc">把争议挡在发生之前，制度合规成本远低于败诉成本。</p>
+          <ul>
+            <li>规章制度合法性审查</li>
+            <li>员工手册与流程体系重建</li>
+            <li>裁员与组织调整方案设计</li>
+            <li>年度用工风险体检与培训</li>
+          </ul>
+          <p class="svc-foot">常见场景：快速增长期补齐用工制度 / 批量调整前合规评估</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 案例结果 -->
+  <section id="cases" class="block alt" aria-labelledby="cases-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-eyebrow">案例结果</p>
+        <h2 id="cases-title">近三年代表性结果台账</h2>
+        <p class="sec-note">以下案例均经脱敏处理，金额为该案实际结果；个案结论取决于事实认定与证据情况，本页内容不构成对特定结果的承诺。</p>
+      </div>
+      <div class="ledger">
+        <div class="lrow ledger-head">
+          <p class="cell">案由</p>
+          <p class="cell">阶段</p>
+          <p class="cell">委托方</p>
+          <p class="cell">处理结果</p>
+          <p class="cell">金额或规模</p>
+        </div>
+        <div class="lrow">
+          <p class="cell cause" data-k="案由"><strong>违法解除争议</strong></p>
+          <p class="cell" data-k="阶段">仲裁及一审</p>
+          <p class="cell" data-k="委托方">某互联网公司运营专员</p>
+          <p class="cell" data-k="处理结果"><span class="badge win">调解结案</span>恢复劳动关系并补发争议期间工资</p>
+          <p class="cell amt" data-k="金额或规模">补发 18.6 万元</p>
+        </div>
+        <div class="lrow">
+          <p class="cell cause" data-k="案由"><strong>加班费与年假折算</strong></p>
+          <p class="cell" data-k="阶段">仲裁</p>
+          <p class="cell" data-k="委托方">某制造企业产线技工</p>
+          <p class="cell" data-k="处理结果"><span class="badge win">裁决支持</span>两年内加班费与未休年假折算请求获支持</p>
+          <p class="cell amt" data-k="金额或规模">追回 7.4 万元</p>
+        </div>
+        <div class="lrow">
+          <p class="cell cause" data-k="案由"><strong>工伤等级异议</strong></p>
+          <p class="cell" data-k="阶段">鉴定复查</p>
+          <p class="cell" data-k="委托方">某物流公司配送员</p>
+          <p class="cell" data-k="处理结果"><span class="badge win">复查改判</span>伤残等级由十级改判八级，赔偿标准相应上调</p>
+          <p class="cell amt" data-k="金额或规模">增赔 21.3 万元</p>
+        </div>
+        <div class="lrow">
+          <p class="cell cause" data-k="案由"><strong>社保未缴待遇损失</strong></p>
+          <p class="cell" data-k="阶段">一审</p>
+          <p class="cell" data-k="委托方">某餐饮企业前厅主管</p>
+          <p class="cell" data-k="处理结果"><span class="badge win">判决支持</span>养老保险与医疗保险待遇损失由单位赔偿</p>
+          <p class="cell amt" data-k="金额或规模">赔偿 9.8 万元</p>
+        </div>
+        <div class="lrow">
+          <p class="cell cause" data-k="案由"><strong>区域裁员分流方案</strong></p>
+          <p class="cell" data-k="阶段">非诉顾问</p>
+          <p class="cell" data-k="委托方">某零售企业华东区域</p>
+          <p class="cell" data-k="处理结果"><span class="badge plan">非诉项目</span>分流方案通过人社部门备案，未发生一起仲裁</p>
+          <p class="cell amt" data-k="金额或规模">涉及 86 人</p>
+        </div>
+        <div class="lrow">
+          <p class="cell cause" data-k="案由"><strong>竞业限制违约金争议</strong></p>
+          <p class="cell" data-k="阶段">仲裁</p>
+          <p class="cell" data-k="委托方">某科技公司算法工程师</p>
+          <p class="cell" data-k="处理结果"><span class="badge win">条款无效</span>限制条款因未支付补偿被确认无效，无需支付违约金</p>
+          <p class="cell amt" data-k="金额或规模">免责 50 万元</p>
+        </div>
+      </div>
+      <p class="ledger-note"><strong>时效提醒：</strong>劳动争议申请仲裁的时效期间为一年，自知道或应当知道权利被侵害之日起算；拖欠劳动报酬争议在劳动关系存续期间不受一年限制。</p>
+    </div>
+  </section>
+
+  <!-- 律师团队 -->
+  <section id="team" class="block" aria-labelledby="team-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-eyebrow">律师团队</p>
+        <h2 id="team-title">三位主办律师，亲自办案不转手</h2>
+        <p class="sec-note">每位案件由主办律师全程跟进，会见、开庭与谈判均由主办律师本人出席，不转手助理或合作律师。</p>
+      </div>
+      <div class="team-grid">
+        <article class="lawyer">
+          <div class="lawyer-top">
+            <div class="ava" aria-hidden="true">沈</div>
+            <div>
+              <p class="lawyer-name">沈其昌</p>
+              <p class="lawyer-meta">主任 / 创始合伙人 / 执业 18 年</p>
+            </div>
+          </div>
+          <p class="lawyer-bio">曾任某市劳动人事争议仲裁院兼职仲裁员六年，2012 年创办本所。代理争议案件 600 余件，主张先算清账、再谈和解。</p>
+          <ul>
+            <li>违法解除与群体性劳动争议</li>
+            <li>仲裁、一审、二审全程代理</li>
+            <li>企业裁员方案合规设计</li>
+          </ul>
+        </article>
+        <article class="lawyer">
+          <div class="lawyer-top">
+            <div class="ava" aria-hidden="true">顾</div>
+            <div>
+              <p class="lawyer-name">顾晚舟</p>
+              <p class="lawyer-meta">合伙人 / 执业 12 年</p>
+            </div>
+          </div>
+          <p class="lawyer-bio">曾任某上市互联网公司人力资源法务负责人，熟悉企业侧决策流程与谈判底线，擅长在协商阶段实质化解争议。</p>
+          <ul>
+            <li>竞业限制与保密协议争议</li>
+            <li>薪酬体系与奖金提成争议</li>
+            <li>高管离职与协商解除谈判</li>
+          </ul>
+        </article>
+        <article class="lawyer">
+          <div class="lawyer-top">
+            <div class="ava" aria-hidden="true">陆</div>
+            <div>
+              <p class="lawyer-name">陆之衡</p>
+              <p class="lawyer-meta">专职律师 / 执业 7 年</p>
+            </div>
+          </div>
+          <p class="lawyer-bio">法学硕士，累计办理劳动能力鉴定异议与复查案件 140 余件，注重从就诊记录与用工台账中搭建完整证据链。</p>
+          <ul>
+            <li>工伤认定与劳动能力鉴定</li>
+            <li>职业病诊断与待遇索赔</li>
+            <li>新业态用工关系认定</li>
+          </ul>
+        </article>
+      </div>
+      <p class="team-note">本所另配有专职律师助理团队负责证据整理与文书校核，不单独计费。</p>
+    </div>
+  </section>
+
+  <!-- 收费与常见问题 -->
+  <section id="fees" class="block alt" aria-labelledby="fees-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-eyebrow">收费与流程</p>
+        <h2 id="fees-title">收费明码列示，委托前书面确认</h2>
+        <p class="sec-note">以下为常用项目标准。风险代理、群体性案件与跨地区差旅另行书面约定，未经确认的费用不发生效力。</p>
+      </div>
+      <div class="fee-grid">
+        <div class="fee-row">
+          <p class="cell fee-name fee-cell" data-k="项目">首次咨询</p>
+          <p class="cell fee-cell" data-k="说明">30 分钟电话或视频，梳理事实与证据，给出路径建议</p>
+          <p class="cell fee-price fee-cell" data-k="收费">200 元，委托后抵扣</p>
+        </div>
+        <div class="fee-row">
+          <p class="cell fee-name fee-cell" data-k="项目">案件评估意见</p>
+          <p class="cell fee-cell" data-k="说明">书面审查合同与证据，出具仲裁或诉讼可行性分析</p>
+          <p class="cell fee-price fee-cell" data-k="收费">1,500 元起</p>
+        </div>
+        <div class="fee-row">
+          <p class="cell fee-name fee-cell" data-k="项目">仲裁与一审代理</p>
+          <p class="cell fee-cell" data-k="说明">全程代理，含证据组织、开庭与调解谈判</p>
+          <p class="cell fee-price fee-cell" data-k="收费">按标的额 8% 至 12%</p>
+        </div>
+        <div class="fee-row">
+          <p class="cell fee-name fee-cell" data-k="项目">企业常年顾问</p>
+          <p class="cell fee-cell" data-k="说明">年度用工合规体检、制度审查与突发事件响应</p>
+          <p class="cell fee-price fee-cell" data-k="收费">36,000 元每年起</p>
+        </div>
+      </div>
+      <div class="faq">
+        <h3>常见问题</h3>
+        <details>
+          <summary>仲裁时效到底怎么算？</summary>
+          <p>一般为一年，自知道或应当知道权利被侵害之日起算。拖欠劳动报酬的争议在劳动关系存续期间不受一年限制，但劳动关系终止的，应当自终止之日起一年内提出。时效存在中断情形，具体以证据判断为准。</p>
+        </details>
+        <details>
+          <summary>咨询前需要准备哪些材料？</summary>
+          <p>劳动合同、工资流水、考勤或排班记录、解除通知或聊天记录等。材料不全也可以先咨询，由律师判断哪些证据需要补充、还能不能补。</p>
+        </details>
+        <details>
+          <summary>咨询内容会被泄露给对方或单位吗？</summary>
+          <p>不会。咨询信息仅用于评估是否接受委托，正式委托后受律师执业保密义务约束。本所在接受委托前会进行利益冲突检索，存在冲突的案件不予受理。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 咨询预约 -->
+  <section id="book" class="block" aria-labelledby="book-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-eyebrow">咨询预约</p>
+        <h2 id="book-title">提交预约，一个工作日内回复</h2>
+        <p class="sec-note">提交后由值班律师电话确认时段。首次咨询 30 分钟 200 元，委托后全额抵扣；不确定属于哪类争议的，选相近事项即可。</p>
+      </div>
+      <div class="book-grid">
+        <form class="book-form" id="book-form" novalidate>
+          <div class="f-row">
+            <label>委托人类型</label>
+            <div class="radio-group">
+              <label><input type="radio" name="b-type" value="个人" checked>劳动者个人</label>
+              <label><input type="radio" name="b-type" value="企业">企业客户</label>
+            </div>
+          </div>
+          <div class="f-row">
+            <label for="b-name">您的称呼 <span class="req">必填</span></label>
+            <input type="text" id="b-name" name="b-name" autocomplete="name" placeholder="如：王先生 / 李女士">
+          </div>
+          <div class="f-row">
+            <label for="b-tel">联系手机 <span class="req">必填</span></label>
+            <input type="tel" id="b-tel" name="b-tel" autocomplete="tel" inputmode="numeric" placeholder="11 位手机号">
+            <p class="f-hint">仅用于确认咨询时段，不作他用。</p>
+          </div>
+          <div class="f-row">
+            <label for="b-topic">咨询事项</label>
+            <select id="b-topic" name="b-topic">
+              <option>劳动合同与入职</option>
+              <option>薪酬与工时</option>
+              <option>解除与裁员</option>
+              <option>工伤与职业病</option>
+              <option>社保与公积金</option>
+              <option>企业合规顾问</option>
+            </select>
+          </div>
+          <div class="f-row">
+            <label for="b-detail">情况简述 <span class="req">必填</span></label>
+            <textarea id="b-detail" name="b-detail" placeholder="请写明入职时间、岗位、争议发生时间与目前进展，例如：2023 年 6 月入职，2026 年 8 月底被口头辞退，未出具书面通知。"></textarea>
+          </div>
+          <div class="f-row">
+            <label for="b-slot">期望时段</label>
+            <select id="b-slot" name="b-slot">
+              <option>工作日上午 09:00 至 12:00</option>
+              <option>工作日下午 13:00 至 18:00</option>
+              <option>工作日晚间 19:00 至 21:00</option>
+              <option>周六上午 09:00 至 12:00</option>
+            </select>
+          </div>
+          <div class="f-row check-row">
+            <input type="checkbox" id="b-agree" name="b-agree">
+            <label for="b-agree">我已阅读委托咨询须知，知晓咨询信息仅用于评估委托，且页面内容不构成正式法律意见。</label>
+          </div>
+          <p class="form-err" id="book-err" role="alert" hidden></p>
+          <button class="btn" type="submit">提交预约申请</button>
+          <div class="form-done" id="book-done" tabindex="-1" hidden>
+            <p><strong>预约已提交</strong></p>
+            <p>咨询编号 <strong id="ref-no"></strong>，值班律师将在 1 个工作日内与您电话确认时段。首次咨询费用在通话确认后收取。</p>
+          </div>
+        </form>
+        <div class="book-side">
+          <div class="side-card">
+            <h3>联系方式</h3>
+            <ul>
+              <li><strong>咨询电话：</strong>021-5388-0612（工作日 09:00 至 18:00）</li>
+              <li><strong>事务所地址：</strong>上海市黄浦区九江路 399 号 1408 室</li>
+              <li><strong>邮箱：</strong>consult@fadulabor.cn</li>
+              <li><strong>紧急工伤事项：</strong>可说明情况加急安排当日回电</li>
+            </ul>
+          </div>
+          <div class="side-card">
+            <h3>委托流程</h3>
+            <ol>
+              <li>提交预约，律师 1 个工作日内电话初谈。</li>
+              <li>首次咨询确认事实、路径与费用预估。</li>
+              <li>签署委托协议与收费确认书。</li>
+              <li>办案过程中重大节点书面通报。</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-crumb">UI 设计提示词库 / 产品模板 / Legal Services</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p class="foot-note">法度劳动为虚构演示品牌，页面所涉机构、人员、案例与数据均为设计样例，不构成法律意见。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var form = document.getElementById("book-form");
+  if (!form) { return; }
+  var errBox = document.getElementById("book-err");
+  var doneBox = document.getElementById("book-done");
+  var refNo = document.getElementById("ref-no");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("b-name").value.trim();
+    var tel = document.getElementById("b-tel").value.trim();
+    var detail = document.getElementById("b-detail").value.trim();
+    var agree = document.getElementById("b-agree").checked;
+    var msg = "";
+    if (name.length < 2) {
+      msg = "请填写您的称呼，便于律师与您联系。";
+    } else if (!/^1[3-9]\d{9}$/.test(tel)) {
+      msg = "请填写 11 位手机号，作为回访联系方式。";
+    } else if (detail.length < 15) {
+      msg = "请至少用一句话描述情况（不少于 15 字），写明岗位与争议事项。";
+    } else if (!agree) {
+      msg = "请先阅读并勾选委托咨询须知。";
+    }
+    if (msg) {
+      errBox.textContent = msg;
+      errBox.hidden = false;
+      doneBox.hidden = true;
+      return;
+    }
+    errBox.hidden = true;
+    var d = new Date();
+    var mm = String(d.getMonth() + 1).padStart(2, "0");
+    var seq = String(Math.floor(1000 + Math.random() * 9000));
+    refNo.textContent = "FD-" + d.getFullYear() + mm + "-" + seq;
+    form.reset();
+    doneBox.hidden = false;
+    doneBox.focus();
+  });
+})();
+</script>
+</body>
+</html>

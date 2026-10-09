@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>产品模板 / Real Estate / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划: 取官方色板 Primary #0F766E / On-Primary #FFF / Secondary #14B8A6(仅装饰) / Accent #0369A1 / BG #F0FDFA / FG #134E4A / Card #FFF / Border #99F6E4 / Muted #E8F0F3 / Ring #0F766E，金色点缀 #B45309(正文安全)与 #D97706(装饰)，玻璃卡 rgba(255,255,255,.66)+blur(14px)，字阶 12/14/16/18/22/28/40/56，间距 8px 栅格，圆角 12/20 */
+:root {
+  --primary: #0F766E; --on-primary: #FFFFFF; --secondary: #14B8A6; --accent: #0369A1;
+  --bg: #F0FDFA; --fg: #134E4A; --card: #FFFFFF; --border: #99F6E4; --muted: #E8F0F3;
+  --ring: #0F766E; --gold: #B45309; --gold-decor: #D97706; --ink-soft: #2F6B64; --line-strong: #3C7A72;
+  --glass: rgba(255, 255, 255, 0.66); --shadow: 0 18px 40px -18px rgba(19, 78, 74, 0.28);
+  --r-s: 12px; --r-l: 20px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg); color: var(--fg); font-size: 16px; line-height: 1.65;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--primary); }
+img, svg { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 100;
+  background: var(--primary); color: var(--on-primary); padding: 10px 16px;
+  border-radius: var(--r-s); transition: top .2s;
+}
+.skip:focus-visible { top: 12px; color: var(--on-primary); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* 头部 */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(240, 253, 250, 0.82);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner { display: flex; align-items: center; gap: 32px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+.brand-name { font-size: 20px; font-weight: 700; color: var(--fg); letter-spacing: 2px; }
+.brand-sub { font-size: 12px; color: var(--ink-soft); border-left: 1px solid var(--border); padding-left: 10px; }
+.site-nav { display: flex; gap: 26px; margin-left: auto; }
+.site-nav a { color: var(--fg); text-decoration: none; font-size: 15px; font-weight: 500; }
+.site-nav a:hover { color: var(--primary); text-decoration: underline; }
+.header-cta {
+  background: var(--primary); color: var(--on-primary); text-decoration: none;
+  padding: 9px 20px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--primary);
+}
+.header-cta:hover { background: #0B5D57; color: var(--on-primary); }
+
+/* 主视觉 */
+.hero {
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(900px 480px at 88% 10%, rgba(20, 184, 166, 0.16), transparent 60%),
+    radial-gradient(700px 420px at 8% 90%, rgba(3, 105, 161, 0.10), transparent 60%),
+    linear-gradient(180deg, #FFFFFF 0%, var(--bg) 100%);
+}
+.hero-grid-lines {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(90deg, rgba(15, 118, 110, 0.05) 0 1px, transparent 1px 96px);
+}
+.hero-art { position: absolute; right: 0; bottom: 0; width: 46%; max-width: 640px; }
+.hero-inner {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 40px; align-items: center; padding: 84px 24px 72px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+  font-size: 14px; font-weight: 600; color: var(--accent);
+  background: rgba(255, 255, 255, 0.7); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 999px;
+}
+.hero-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold-decor); }
+.hero h1 { font-size: clamp(36px, 4.6vw, 56px); line-height: 1.18; font-weight: 800; letter-spacing: 1px; margin-bottom: 18px; }
+.hero h1 em { font-style: normal; color: var(--primary); position: relative; }
+.hero h1 em::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 8px;
+  background: var(--gold-decor); opacity: 0.35; border-radius: 4px; z-index: -1;
+}
+.hero-lead { font-size: 17px; color: var(--ink-soft); max-width: 34em; margin-bottom: 30px; }
+.hero-panel {
+  background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(153, 246, 228, 0.8); border-radius: var(--r-l);
+  box-shadow: var(--shadow); padding: 24px;
+}
+.hero-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field-label { display: block; font-size: 13px; font-weight: 600; color: var(--fg); margin-bottom: 6px; }
+.field-input, .field-select {
+  width: 100%; padding: 11px 12px; font-size: 15px; color: var(--fg); font-family: inherit;
+  background: #FFFFFF; border: 1.5px solid var(--line-strong); border-radius: var(--r-s);
+}
+.field-input::placeholder { color: var(--ink-soft); }
+.hero-form .btn-primary { grid-column: 1 / -1; }
+.btn-primary {
+  display: inline-block; background: var(--primary); color: var(--on-primary);
+  border: 1.5px solid var(--primary); border-radius: var(--r-s);
+  padding: 13px 26px; font-size: 16px; font-weight: 700; cursor: pointer;
+  text-decoration: none; text-align: center; font-family: inherit;
+}
+.btn-primary:hover { background: #0B5D57; color: var(--on-primary); }
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--border);
+}
+.stat-num { font-size: 22px; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+.stat-num small { font-size: 13px; color: var(--gold); font-weight: 700; margin-left: 2px; }
+.stat-label { font-size: 12.5px; color: var(--ink-soft); }
+
+/* 区块骨架 */
+.section { padding: 84px 0; }
+.section + .section { border-top: 1px solid var(--border); }
+.sec-head { max-width: 640px; margin-bottom: 40px; }
+.sec-no {
+  font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: 1px;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+}
+.sec-no::after { content: ""; height: 2px; width: 56px; background: var(--gold-decor); border-radius: 2px; }
+.sec-title { font-size: clamp(26px, 3vw, 40px); font-weight: 800; line-height: 1.25; margin-bottom: 12px; }
+.sec-desc { color: var(--ink-soft); font-size: 16px; }
+
+/* 户型 */
+.plan-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+.plan-tabs {
+  display: inline-flex; gap: 6px; background: #FFFFFF;
+  border: 1px solid var(--border); border-radius: 999px; padding: 5px;
+}
+.plan-tab {
+  border: 1.5px solid transparent; background: transparent; color: var(--fg);
+  padding: 8px 18px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.plan-tab[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
+.plan-note { font-size: 13.5px; color: var(--ink-soft); }
+.plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.plan-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l);
+  overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow);
+}
+.plan-fig { background: #F7FEFB; border-bottom: 1px solid var(--border); padding: 14px; }
+.fp { width: 100%; height: auto; }
+.fp .w { fill: #FFFFFF; stroke: #0F766E; stroke-width: 3.5; }
+.fp .i { fill: none; stroke: #0F766E; stroke-width: 2; }
+.fp .f { fill: none; stroke: #0F766E; stroke-width: 1.4; opacity: 0.9; }
+.fp .d { fill: none; stroke: #0369A1; stroke-width: 1.6; }
+.fp .win { fill: none; stroke: #0369A1; stroke-width: 1.6; }
+.fp .x { fill: none; stroke: #0369A1; stroke-width: 1.4; stroke-dasharray: 5 5; opacity: 0.55; }
+.fp text { fill: #134E4A; font-size: 10px; font-weight: 600; font-family: inherit; }
+.plan-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.plan-name { font-size: 18px; font-weight: 700; }
+.plan-meta { font-size: 13.5px; color: var(--ink-soft); }
+.plan-price { font-size: 22px; font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; }
+.plan-price small { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.plan-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; color: var(--fg); background: var(--muted); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; }
+.btn-ghost {
+  margin-top: auto; display: inline-block; text-align: center; text-decoration: none;
+  border: 1.5px solid var(--primary); color: var(--primary); background: #FFFFFF;
+  border-radius: var(--r-s); padding: 10px 18px; font-size: 14px; font-weight: 700;
+}
+.btn-ghost:hover { background: var(--primary); color: var(--on-primary); }
+
+/* 社区配套 */
+.amenity-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border: 1px solid var(--border); border-radius: var(--r-l); overflow: hidden; background: var(--card);
+}
+.amenity {
+  display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto auto; column-gap: 14px;
+  padding: 24px 22px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.amenity-icon {
+  grid-row: 1 / 3; width: 44px; height: 44px; border-radius: var(--r-s); display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.16), rgba(15, 118, 110, 0.10));
+}
+.amenity-icon svg { width: 24px; height: 24px; stroke: #0F766E; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.amenity-name { font-size: 16px; font-weight: 700; }
+.amenity-desc { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+
+/* 租约透明 */
+#lease { background: linear-gradient(180deg, #FFFFFF, var(--bg)); }
+.lease-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 26px; align-items: start; }
+.fee-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l); overflow: hidden; box-shadow: var(--shadow); }
+.fee-table { width: 100%; border-collapse: collapse; }
+.fee-table th {
+  text-align: left; font-size: 13px; color: var(--ink-soft); font-weight: 600;
+  padding: 14px 20px; background: var(--muted); border-bottom: 1.5px solid var(--border);
+}
+.fee-table td { padding: 15px 20px; border-bottom: 1px solid var(--border); font-size: 15px; vertical-align: top; }
+.fee-table tr:last-child td { border-bottom: none; }
+.fee-item { font-weight: 700; }
+.fee-std { color: var(--gold); font-weight: 700; font-variant-numeric: tabular-nums; }
+.fee-note { color: var(--ink-soft); font-size: 13.5px; }
+.policy-card {
+  background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(153, 246, 228, 0.8); border-radius: var(--r-l); padding: 26px;
+}
+.policy-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+.policy-list { list-style: none; display: grid; gap: 14px; }
+.policy-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; }
+.policy-check { flex: none; width: 22px; height: 22px; border-radius: 50%; margin-top: 2px; background: var(--primary); display: grid; place-items: center; }
+.policy-check svg { width: 12px; height: 12px; stroke: #FFFFFF; stroke-width: 2.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.policy-gold {
+  margin-top: 18px; border-left: 4px solid var(--gold-decor); background: #FFF9F2;
+  border-radius: 0 var(--r-s) var(--r-s) 0; padding: 12px 16px; font-size: 13.5px; color: var(--fg);
+}
+.policy-gold strong { color: var(--gold); }
+
+/* 看房预约 */
+.book-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; align-items: start; }
+.book-form-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l); box-shadow: var(--shadow); padding: 28px; }
+.book-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.book-form .field-full { grid-column: 1 / -1; }
+.form-status { grid-column: 1 / -1; font-size: 14px; min-height: 22px; font-weight: 600; }
+.form-status.is-ok { color: var(--primary); }
+.form-status.is-error { color: #A63A1B; }
+.book-aside { display: grid; gap: 20px; }
+.book-steps { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l); padding: 24px; }
+.book-steps h3, .book-promise h3 { font-size: 17px; font-weight: 800; margin-bottom: 14px; }
+.step { display: flex; gap: 14px; padding: 10px 0; }
+.step + .step { border-top: 1px dashed var(--border); }
+.step-no {
+  flex: none; width: 26px; height: 26px; border-radius: 8px; margin-top: 2px; display: grid; place-items: center;
+  background: var(--muted); border: 1px solid var(--border); color: var(--accent); font-size: 13px; font-weight: 800;
+}
+.step-text b { display: block; font-size: 15px; }
+.step-text span { font-size: 13px; color: var(--ink-soft); }
+.book-promise {
+  background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(153, 246, 228, 0.8); border-radius: var(--r-l); padding: 24px;
+}
+.book-promise ul { list-style: none; display: grid; gap: 10px; font-size: 14px; color: var(--fg); }
+.book-promise li { display: flex; gap: 10px; align-items: baseline; }
+.book-promise li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--gold-decor); align-self: center; }
+
+/* 页脚 */
+.site-footer { background: var(--fg); color: #FFFFFF; padding: 44px 0 36px; }
+.footer-inner { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+.footer-brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; letter-spacing: 2px; }
+.footer-brand .brand-mark { width: 30px; height: 30px; }
+.footer-meta { font-size: 14px; color: var(--border); }
+.footer-meta a { color: #FFFFFF; font-weight: 600; margin-left: 14px; }
+.footer-meta a:hover { color: var(--border); }
+.footer-line { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(153, 246, 228, 0.25); font-size: 13px; color: var(--border); }
+
+/* 亮相动效：仅一次，只作用于主视觉面板 */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-panel { animation: reveal 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) 0.1s both; }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+@media (prefers-reduced-motion: reduce) { .hero-panel { animation: none; } }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .plan-grid { grid-template-columns: repeat(2, 1fr); }
+  .amenity-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-inner { grid-template-columns: 1fr; padding-top: 64px; }
+  .hero-art { opacity: 0.5; width: 62%; }
+  .lease-grid, .book-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .site-nav { display: none; }
+  .header-cta { margin-left: auto; }
+  .brand-sub { display: none; }
+  .section { padding: 60px 0; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero-form, .book-form { grid-template-columns: 1fr; }
+  .amenity-grid, .plan-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="栖里 首页">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>
+        </svg>
+      </span>
+      <span class="brand-name">栖里</span>
+      <span class="brand-sub">青年长租公寓</span>
+    </a>
+    <nav class="site-nav" aria-label="页面导航">
+      <a href="#floorplans">户型</a>
+      <a href="#amenities">社区配套</a>
+      <a href="#lease">租约透明</a>
+      <a href="#booking">看房预约</a>
+    </nav>
+    <a class="header-cta" href="#booking">预约看房</a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 主视觉：Hero-Centric，玻璃面板加建筑插画 -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-grid-lines" aria-hidden="true"></div>
+    <svg class="hero-art" viewBox="0 0 440 380" aria-hidden="true" preserveAspectRatio="xMaxYMax meet">
+      <circle cx="368" cy="70" r="26" fill="#D97706" opacity="0.75"/>
+      <rect x="36" y="70" width="118" height="300" rx="6" fill="#14B8A6" opacity="0.10"/>
+      <rect x="150" y="26" width="128" height="344" rx="6" fill="#0F766E" opacity="0.09"/>
+      <rect x="268" y="118" width="132" height="282" rx="6" fill="#0369A1" opacity="0.10"/>
+      <path d="M46 104h86M46 148h86M46 192h86M46 236h86M46 280h86" stroke="#0F766E" stroke-width="9" stroke-dasharray="7 10" opacity="0.28"/>
+      <path d="M160 56h108M160 100h108M160 144h108M160 188h108M160 232h108M160 276h108" stroke="#0F766E" stroke-width="9" stroke-dasharray="7 10" opacity="0.34"/>
+      <path d="M278 150h112M278 194h112M278 238h112M278 282h112" stroke="#0369A1" stroke-width="9" stroke-dasharray="7 10" opacity="0.30"/>
+      <line x1="12" y1="370" x2="428" y2="370" stroke="#0F766E" stroke-width="3" opacity="0.45"/>
+    </svg>
+    <div class="container hero-inner">
+      <div>
+        <p class="hero-eyebrow">杭州 / 滨江与拱墅两店新房源上线</p>
+        <h1 id="hero-title">把城市租成<em>家的样子</em></h1>
+        <p class="hero-lead">栖里是面向都市青年的长租公寓品牌。户型真实可查，价格写进合同，押一付一可选，看房十五分钟内响应。签约前后，你看到的和住到的保持一致。</p>
+      </div>
+      <div class="hero-panel">
+        <form class="hero-form" aria-label="快速找房">
+          <div>
+            <label class="field-label" for="city">意向门店</label>
+            <select class="field-select" id="city" name="city">
+              <option>滨江 / 江陵路店</option>
+              <option>拱墅 / 大运河店</option>
+              <option>西湖 / 翠苑店</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="movein">计划入住</label>
+            <select class="field-select" id="movein" name="movein">
+              <option>一周内</option>
+              <option>半月内</option>
+              <option>一月内</option>
+            </select>
+          </div>
+          <a class="btn-primary" href="#floorplans">查看在租户型</a>
+        </form>
+        <div class="hero-stats">
+          <div class="stat">
+            <p class="stat-num">2,600<small>间</small></p>
+            <p class="stat-label">在管直营房源</p>
+          </div>
+          <div class="stat">
+            <p class="stat-num">15<small>分钟</small></p>
+            <p class="stat-label">看房预约平均响应</p>
+          </div>
+          <div class="stat">
+            <p class="stat-num">78<small>%</small></p>
+            <p class="stat-label">一年内续租率</p>
+          </div>
+          <div class="stat">
+            <p class="stat-num">0<small>元</small></p>
+            <p class="stat-label">中介费与隐形收费</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 户型 -->
+  <section class="section container" id="floorplans" aria-labelledby="plan-title">
+    <div class="sec-head">
+      <p class="sec-no">01 / 户型</p>
+      <h2 class="sec-title" id="plan-title">真实户型，按图施工的房间</h2>
+      <p class="sec-desc">每间房按下图实景测绘，家具尺寸与交付一致。面积均为套内实测，虚线为合租户型中的共享区域。</p>
+    </div>
+    <div class="plan-toolbar">
+      <div class="plan-tabs" role="group" aria-label="户型筛选">
+        <button class="plan-tab" type="button" data-filter="all" aria-pressed="true">全部户型</button>
+        <button class="plan-tab" type="button" data-filter="solo" aria-pressed="false">整租</button>
+        <button class="plan-tab" type="button" data-filter="share" aria-pressed="false">合租</button>
+      </div>
+      <p class="plan-note">价格为当前在租楼层实价，含物业与每周一次公区保洁</p>
+    </div>
+    <div class="plan-grid">
+
+      <article class="plan-card" data-kind="solo">
+        <div class="plan-fig">
+          <svg class="fp" viewBox="0 0 220 150" role="img" aria-label="云栖一居户型图，套内 45 平方米">
+            <rect class="w" x="8" y="8" width="204" height="134" rx="2"/>
+            <path class="win" d="M34 6h56 M34 10h56"/>
+            <path class="i" d="M140 8v26 M140 60h72 M140 96h72"/>
+            <path class="d" d="M140 34 A26 26 0 0 1 166 60 M140 112 A24 24 0 0 1 164 136"/>
+            <rect class="f" x="20" y="18" width="58" height="72" rx="2"/>
+            <path class="f" d="M26 26H72 M20 66H78"/>
+            <rect class="f" x="84" y="18" width="20" height="20"/>
+            <rect class="f" x="22" y="102" width="58" height="22" rx="3"/>
+            <rect class="f" x="178" y="14" width="28" height="26"/>
+            <path class="f" d="M178 14 206 40"/>
+            <ellipse class="f" cx="152" cy="44" rx="9" ry="11"/>
+            <circle class="f" cx="196" cy="46" r="7"/>
+            <path class="f" d="M144 142 V104 H208"/>
+            <circle class="f" cx="156" cy="120" r="5"/>
+            <circle class="f" cx="172" cy="120" r="5"/>
+            <rect class="f" x="186" y="114" width="16" height="12" rx="2"/>
+            <text x="92" y="56">卧室</text>
+            <text x="44" y="138">客厅</text>
+            <text x="160" y="56">卫浴</text>
+            <text x="164" y="134">厨房</text>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3 class="plan-name">云栖一居</h3>
+          <p class="plan-meta">45㎡ / 南向 / 4 层 / 一室一卫</p>
+          <p class="plan-price">¥3,290 <small>/ 月 押一付一可选</small></p>
+          <div class="plan-tags">
+            <span class="tag">独立卫浴</span>
+            <span class="tag">开放式厨房</span>
+            <span class="tag">距地铁 400 米</span>
+          </div>
+          <a class="btn-ghost" href="#booking">预约此户型</a>
+        </div>
+      </article>
+
+      <article class="plan-card" data-kind="solo">
+        <div class="plan-fig">
+          <svg class="fp" viewBox="0 0 220 150" role="img" aria-label="山栖两居户型图，套内 68 平方米">
+            <rect class="w" x="8" y="8" width="204" height="134" rx="2"/>
+            <path class="win" d="M22 6h50 M140 6h50"/>
+            <path class="i" d="M112 8v56 M8 64h204 M150 64v78 M8 108h62 M70 64v44"/>
+            <path class="d" d="M56 64 A22 22 0 0 1 78 42 M166 64 A22 22 0 0 1 188 42 M100 142 A24 24 0 0 1 124 118"/>
+            <rect class="f" x="18" y="16" width="60" height="36" rx="2"/>
+            <path class="f" d="M28 24H44 M50 24H66"/>
+            <rect class="f" x="122" y="16" width="54" height="36" rx="2"/>
+            <path class="f" d="M130 24H144 M150 24H168"/>
+            <rect class="f" x="184" y="16" width="20" height="36"/>
+            <rect class="f" x="12" y="70" width="26" height="26"/>
+            <path class="f" d="M12 70 38 96"/>
+            <ellipse class="f" cx="50" cy="92" rx="8" ry="10"/>
+            <rect class="f" x="86" y="96" width="56" height="22" rx="3"/>
+            <circle class="f" cx="76" cy="122" r="10"/>
+            <path class="f" d="M154 142 V100 H208"/>
+            <circle class="f" cx="166" cy="118" r="5"/>
+            <circle class="f" cx="182" cy="118" r="5"/>
+            <rect class="f" x="190" y="108" width="14" height="12" rx="2"/>
+            <text x="30" y="60">主卧</text>
+            <text x="138" y="60">次卧</text>
+            <text x="100" y="138">客厅</text>
+            <text x="30" y="104">卫浴</text>
+            <text x="172" y="136">厨房</text>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3 class="plan-name">山栖两居</h3>
+          <p class="plan-meta">68㎡ / 南北通透 / 6 层 / 两室一卫</p>
+          <p class="plan-price">¥4,980 <small>/ 月 押一付三可谈</small></p>
+          <div class="plan-tags">
+            <span class="tag">双阳台</span>
+            <span class="tag">适合好友合住</span>
+            <span class="tag">拎包入住</span>
+          </div>
+          <a class="btn-ghost" href="#booking">预约此户型</a>
+        </div>
+      </article>
+
+      <article class="plan-card" data-kind="share">
+        <div class="plan-fig">
+          <svg class="fp" viewBox="0 0 220 150" role="img" aria-label="里巷合租主卧户型图，套内 22 平方米，含共享区域">
+            <rect class="x" x="8" y="8" width="204" height="134" rx="2"/>
+            <rect class="w" x="36" y="8" width="148" height="134" rx="2"/>
+            <path class="win" d="M60 6h52"/>
+            <path class="i" d="M120 92v50 M120 92h64"/>
+            <path class="d" d="M120 116 A22 22 0 0 1 142 94"/>
+            <rect class="f" x="44" y="16" width="58" height="72" rx="2"/>
+            <path class="f" d="M52 24H94 M44 64H102"/>
+            <rect class="f" x="44" y="96" width="46" height="18" rx="2"/>
+            <circle class="f" cx="67" cy="122" r="8"/>
+            <rect class="f" x="150" y="16" width="26" height="60"/>
+            <path class="f" d="M150 34H176 M150 52H176"/>
+            <rect class="f" x="156" y="120" width="24" height="18" rx="2"/>
+            <circle class="f" cx="132" cy="104" r="7"/>
+            <text x="98" y="86">主卧</text>
+            <text x="138" y="138">独卫浴</text>
+            <text x="14" y="136">公区共享</text>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3 class="plan-name">里巷合租主卧</h3>
+          <p class="plan-meta">22㎡ / 南向 / 3 层 / 带独立卫浴</p>
+          <p class="plan-price">¥2,180 <small>/ 月 含公区保洁</small></p>
+          <div class="plan-tags">
+            <span class="tag">独立卫浴</span>
+            <span class="tag">书桌衣柜齐配</span>
+            <span class="tag">三户合住</span>
+          </div>
+          <a class="btn-ghost" href="#booking">预约此户型</a>
+        </div>
+      </article>
+
+      <article class="plan-card" data-kind="solo">
+        <div class="plan-fig">
+          <svg class="fp" viewBox="0 0 220 150" role="img" aria-label="檐下大床一居户型图，套内 38 平方米">
+            <rect class="w" x="8" y="8" width="204" height="134" rx="2"/>
+            <path class="win" d="M120 6h56 M132 142h48"/>
+            <path class="i" d="M8 52h56 M64 8v44 M116 100v42"/>
+            <path class="d" d="M64 30 A22 22 0 0 0 42 52"/>
+            <rect class="f" x="120" y="20" width="64" height="72" rx="2"/>
+            <path class="f" d="M130 28H152 M158 28H174 M120 62H184"/>
+            <rect class="f" x="14" y="60" width="14" height="62"/>
+            <rect class="f" x="22" y="96" width="56" height="22" rx="3"/>
+            <circle class="f" cx="50" cy="76" r="11"/>
+            <rect class="f" x="14" y="16" width="22" height="22" rx="2"/>
+            <path class="f" d="M14 16 36 38"/>
+            <ellipse class="f" cx="48" cy="34" rx="8" ry="10"/>
+            <path class="f" d="M120 142 V104 H208"/>
+            <circle class="f" cx="134" cy="122" r="5"/>
+            <circle class="f" cx="150" cy="122" r="5"/>
+            <rect class="f" x="186" y="114" width="16" height="12" rx="2"/>
+            <text x="140" y="112">卧室</text>
+            <text x="18" y="48">卫浴</text>
+            <text x="42" y="94">起居</text>
+            <text x="158" y="136">厨房</text>
+          </svg>
+        </div>
+        <div class="plan-body">
+          <h3 class="plan-name">檐下大床一居</h3>
+          <p class="plan-meta">38㎡ / 南向 / 9 层 / 一室一卫</p>
+          <p class="plan-price">¥2,960 <small>/ 月 押一付一可选</small></p>
+          <div class="plan-tags">
+            <span class="tag">1.8 米大床</span>
+            <span class="tag">高层安静</span>
+            <span class="tag">近产业园区</span>
+          </div>
+          <a class="btn-ghost" href="#booking">预约此户型</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 02 社区配套 -->
+  <section class="section container" id="amenities" aria-labelledby="amenity-title">
+    <div class="sec-head">
+      <p class="sec-no">02 / 社区配套</p>
+      <h2 class="sec-title" id="amenity-title">公区不是售楼处，是日常</h2>
+      <p class="sec-desc">每层每栋都有的基础配置，写进物业服务清单，坏了 48 小时内响应维修。</p>
+    </div>
+    <div class="amenity-grid">
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 10v4M6 7v10M18 7v10M21 10v4M6 12h12"/></svg>
+        </span>
+        <h3 class="amenity-name">24h 健身房</h3>
+        <p class="amenity-desc">刷卡进入，跑步机与力量区各半，每周设备巡检。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1zM12 6v13"/></svg>
+        </span>
+        <h3 class="amenity-name">安静自习室</h3>
+        <p class="amenity-desc">48 个座位可预约，护眼灯与白噪音，通宵开放。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M8 6h.5M11 6h.5"/></svg>
+        </span>
+        <h3 class="amenity-name">智能洗衣房</h3>
+        <p class="amenity-desc">洗烘一体机 12 台，手机查空闲，晚十点后半价。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 10h14v7a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3zM3 10h2M19 10h2M9 7c0-1.5 1-2 1-3M13 7c0-1.5 1-2 1-3"/></svg>
+        </span>
+        <h3 class="amenity-name">共享厨房</h3>
+        <p class="amenity-desc">六个灶位分时预约，油烟机每季度深度清洗。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h8M15 9h.5M18 15h.5"/></svg>
+        </span>
+        <h3 class="amenity-name">智能快递柜</h3>
+        <p class="amenity-desc">大件进保管室，冷鲜有冷藏柜，取件码短信直达。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
+        </span>
+        <h3 class="amenity-name">屋顶露台</h3>
+        <p class="amenity-desc">晾晒区与休憩区分开，周末有社群观影与市集。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 11.5l2 2 3.5-3.5"/></svg>
+        </span>
+        <h3 class="amenity-name">全天候安保</h3>
+        <p class="amenity-desc">人脸门禁与夜班巡逻双轨，访客需住户确认放行。</p>
+      </div>
+      <div class="amenity">
+        <span class="amenity-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 4l1.8 4.6L18 10l-4.2 1.6L12 16l-1.8-4.4L6 10l4.2-1.4zM18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9z"/></svg>
+        </span>
+        <h3 class="amenity-name">周期保洁</h3>
+        <p class="amenity-desc">公区每日清扫，入户保洁按月一次，可加购频次。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 租约透明 -->
+  <section class="section" id="lease" aria-labelledby="lease-title">
+    <div class="container">
+      <div class="sec-head">
+        <p class="sec-no">03 / 租约透明</p>
+        <h2 class="sec-title" id="lease-title">合同价，就是到手价</h2>
+        <p class="sec-desc">所有费用列在同一张表里，签约前可逐项核对。任何表外收费，你可以直接拒付并投诉到店长。</p>
+      </div>
+      <div class="lease-grid">
+        <div class="fee-card">
+          <table class="fee-table" aria-label="费用明细表">
+            <thead>
+              <tr>
+                <th scope="col">费用项目</th>
+                <th scope="col">收费标准</th>
+                <th scope="col">收取方式</th>
+                <th scope="col">备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fee-item">房租</td>
+                <td class="fee-std">按所选户型实价</td>
+                <td>月付 / 季付</td>
+                <td class="fee-note">签约即锁定，年内不调价</td>
+              </tr>
+              <tr>
+                <td class="fee-item">押金</td>
+                <td class="fee-std">押一付一可选</td>
+                <td>签约时</td>
+                <td class="fee-note">退租验收后 7 个工作日原路退回</td>
+              </tr>
+              <tr>
+                <td class="fee-item">水费</td>
+                <td class="fee-std">4.40 元 / 吨</td>
+                <td>按户分摊</td>
+                <td class="fee-note">每月账单同步到手机</td>
+              </tr>
+              <tr>
+                <td class="fee-item">电费</td>
+                <td class="fee-std">0.56 元 / 度</td>
+                <td>智能电表</td>
+                <td class="fee-note">分时电价，谷段更省</td>
+              </tr>
+              <tr>
+                <td class="fee-item">宽带</td>
+                <td class="fee-std">300M 已含</td>
+                <td>无需另付</td>
+                <td class="fee-note">每个房间独立带宽</td>
+              </tr>
+              <tr>
+                <td class="fee-item">物业与保洁</td>
+                <td class="fee-std">已含在房租</td>
+                <td>无需另付</td>
+                <td class="fee-note">公区保洁每周一次</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="policy-card">
+          <h3>写进合同的四条承诺</h3>
+          <ul class="policy-list">
+            <li>
+              <span class="policy-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 7"/></svg></span>
+              <span>无中介费与隐形收费，公示价即成交价</span>
+            </li>
+            <li>
+              <span class="policy-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 7"/></svg></span>
+              <span>提前 30 天通知可无责退租，不扣违约金</span>
+            </li>
+            <li>
+              <span class="policy-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 7"/></svg></span>
+              <span>续约年度调价上限 5%，幅度写进补充条款</span>
+            </li>
+            <li>
+              <span class="policy-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 7"/></svg></span>
+              <span>维修 48 小时响应，超时可申请房租抵扣</span>
+            </li>
+          </ul>
+          <div class="policy-gold">
+            <strong>押一付一说明：</strong>信用分达标即可选择押一付一，不收取任何分期手续费，与全款客户享受同一价格。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 看房预约 -->
+  <section class="section container" id="booking" aria-labelledby="book-title">
+    <div class="sec-head">
+      <p class="sec-no">04 / 看房预约</p>
+      <h2 class="sec-title" id="book-title">十五分钟内，和你确认时间</h2>
+      <p class="sec-desc">留下联系方式和意向户型，专属顾问会与你确认到店或视频看房的时间，不打电话推销。</p>
+    </div>
+    <div class="book-grid">
+      <div class="book-form-card">
+        <form class="book-form" id="bookForm" novalidate>
+          <div>
+            <label class="field-label" for="bkName">称呼</label>
+            <input class="field-input" id="bkName" name="name" type="text" placeholder="怎么称呼您" autocomplete="name" required>
+          </div>
+          <div>
+            <label class="field-label" for="bkPhone">手机号</label>
+            <input class="field-input" id="bkPhone" name="phone" type="tel" placeholder="11 位手机号" autocomplete="tel" inputmode="numeric" required>
+          </div>
+          <div>
+            <label class="field-label" for="bkDate">期望日期</label>
+            <input class="field-input" id="bkDate" name="date" type="date" required>
+          </div>
+          <div>
+            <label class="field-label" for="bkSlot">时段</label>
+            <select class="field-select" id="bkSlot" name="slot">
+              <option>上午 10:00 至 12:00</option>
+              <option>下午 14:00 至 17:00</option>
+              <option>傍晚 18:00 至 20:00</option>
+            </select>
+          </div>
+          <div class="field-full">
+            <label class="field-label" for="bkPlan">意向户型</label>
+            <select class="field-select" id="bkPlan" name="plan">
+              <option>云栖一居 / 45㎡ / ¥3,290 每月</option>
+              <option>山栖两居 / 68㎡ / ¥4,980 每月</option>
+              <option>里巷合租主卧 / 22㎡ / ¥2,180 每月</option>
+              <option>檐下大床一居 / 38㎡ / ¥2,960 每月</option>
+              <option>还没想好，想多看几间</option>
+            </select>
+          </div>
+          <button class="btn-primary field-full" type="submit">提交看房预约</button>
+          <p class="form-status" id="bookStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="book-aside">
+        <div class="book-steps">
+          <h3>看房三步走</h3>
+          <div class="step">
+            <span class="step-no" aria-hidden="true">1</span>
+            <p class="step-text"><b>在线提交</b><span>选好意向户型与时段，一分钟填完</span></p>
+          </div>
+          <div class="step">
+            <span class="step-no" aria-hidden="true">2</span>
+            <p class="step-text"><b>顾问确认</b><span>十五分钟内短信加电话双重确认</span></p>
+          </div>
+          <div class="step">
+            <span class="step-no" aria-hidden="true">3</span>
+            <p class="step-text"><b>到店看房</b><span>专人陪同讲解，水电燃气当场核验</span></p>
+          </div>
+        </div>
+        <div class="book-promise">
+          <h3>看房服务承诺</h3>
+          <ul>
+            <li>晚间与周末均可看房，钥匙即取即看</li>
+            <li>外地可视频看房，顾问实景直播讲解</li>
+            <li>一次可连看三间，通勤路线帮你规划</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <p class="footer-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>
+          </svg>
+        </span>
+        栖里 / 青年长租公寓
+      </p>
+      <p class="footer-meta">
+        UI 设计提示词库 / 产品模板 / Real Estate/Property
+        <a href="../style-catalog.html">返回风格目录</a>
+      </p>
+    </div>
+    <p class="footer-line">本页为产品类型样板演示，户型、价格与配套均为示例数据，供设计参考使用。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.plan-tab');
+  var cards = document.querySelectorAll('.plan-card');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) {
+        t.setAttribute('aria-pressed', t === tab ? 'true' : 'false');
+      });
+      var filter = tab.dataset.filter;
+      cards.forEach(function (card) {
+        card.hidden = filter !== 'all' && card.dataset.kind !== filter;
+      });
+    });
+  });
+
+  var form = document.getElementById('bookForm');
+  var status = document.getElementById('bookStatus');
+  var dateInput = document.getElementById('bkDate');
+  if (dateInput) {
+    dateInput.min = new Date().toISOString().slice(0, 10);
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var phone = document.getElementById('bkPhone').value.trim();
+    var name = document.getElementById('bkName').value.trim();
+    if (!name) {
+      status.textContent = '请填写称呼，方便顾问联系您。';
+      status.className = 'form-status is-error';
+      return;
+    }
+    if (!/^1\d{10}$/.test(phone)) {
+      status.textContent = '手机号需为 11 位数字，请检查后重试。';
+      status.className = 'form-status is-error';
+      return;
+    }
+    status.textContent = '已收到预约，顾问将在 15 分钟内与您确认看房时间。';
+    status.className = 'form-status is-ok';
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>
