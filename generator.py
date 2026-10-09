@@ -2771,7 +2771,7 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
   <div class="chips" id="sub-chips" role="group" aria-label="类型筛选"></div>
   <p class="count" id="count"></p>
   <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
-  <div class="grid" id="grid">
+  <div class="grid" id="grid" style="margin-top:26px">
 __CARDS__
   </div>
   <footer>UI 设计提示词库 / Memphis Design 版 / 生成自 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">ui-ux-pro-max</a> 官方风格库 styles.csv（已剔除 9 个废弃风格）/ <a href="index.html">返回八版精修样张</a> / 友情链接 / <a href="https://www.lhxl.chat/" target="_blank" rel="noopener">lhxl.chat</a> / <a href="https://wordflow.lhxl.chat/download" target="_blank" rel="noopener">WordFlow 下载</a></footer>
