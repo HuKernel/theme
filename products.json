@@ -1,0 +1,1042 @@
+[
+ {
+  "name": "E-commerce",
+  "keywords": "buy, commerce, e, ecommerce, products, retail, sell, shop, store",
+  "primary_style": "Vibrant & Block-based",
+  "secondary": "Aurora UI , Motion-Driven",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Brand primary + success green",
+  "palette": {
+   "Primary": "#059669",
+   "On Primary": "#000000",
+   "Secondary": "#10B981",
+   "Accent": "#EA580C",
+   "Background": "#ECFDF5",
+   "Foreground": "#064E3B",
+   "Card": "#FFFFFF",
+   "Border": "#A7F3D0",
+   "Muted": "#E8F1F3",
+   "Ring": "#059669"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase",
+   "Style_Priority": "Vibrant & Block-based",
+   "Color_Mood": "Brand primary + Success green",
+   "Typography_Mood": "Engaging + Clear hierarchy"
+  }
+ },
+ {
+  "name": "E-commerce Luxury",
+  "keywords": "buy, commerce, e, ecommerce, elegant, exclusive, high-end, luxury, premium, products, retail, sell, shop, store",
+  "primary_style": "Liquid Glass + Glassmorphism",
+  "secondary": "3D & Hyperrealism , Aurora UI",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Premium colors + minimal accent",
+  "palette": {
+   "Primary": "#1C1917",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#44403C",
+   "Accent": "#A16207",
+   "Background": "#FAFAF9",
+   "Foreground": "#0C0A09",
+   "Card": "#FFFFFF",
+   "Border": "#D6D3D1",
+   "Muted": "#E8ECF0",
+   "Ring": "#1C1917"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase",
+   "Style_Priority": "Liquid Glass + Glassmorphism",
+   "Color_Mood": "Premium colors + Minimal accent",
+   "Typography_Mood": "Elegant + Refined typography"
+  }
+ },
+ {
+  "name": "Fintech/Crypto",
+  "keywords": "banking, blockchain, crypto, defi, finance, fintech, money, nft, payment, web3",
+  "primary_style": "Glassmorphism + Dark Mode (OLED)",
+  "secondary": "Retro-Futurism , Motion-Driven",
+  "pattern": "Conversion-Optimized",
+  "palette_focus": "Dark tech colors + trust + vibrant accents",
+  "palette": {
+   "Primary": "#F59E0B",
+   "On Primary": "#0F172A",
+   "Secondary": "#FBBF24",
+   "Accent": "#8B5CF6",
+   "Background": "#0F172A",
+   "Foreground": "#F8FAFC",
+   "Card": "#222735",
+   "Border": "#334155",
+   "Muted": "#272F42",
+   "Ring": "#F59E0B"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Trust & Authority",
+   "Style_Priority": "Minimalism & Swiss Style + Accessible & Ethical",
+   "Color_Mood": "Navy + Trust Blue + Gold",
+   "Typography_Mood": "Professional + Trustworthy"
+  }
+ },
+ {
+  "name": "Healthcare App",
+  "keywords": "app, clinic, health, healthcare, medical, patient",
+  "primary_style": "Neumorphism + Accessible & Ethical",
+  "secondary": "Soft UI Evolution , Claymorphism",
+  "pattern": "Social Proof-Focused",
+  "palette_focus": "Calm blue + health green + trust",
+  "palette": {
+   "Primary": "#0891B2",
+   "On Primary": "#000000",
+   "Secondary": "#22D3EE",
+   "Accent": "#059669",
+   "Background": "#ECFEFF",
+   "Foreground": "#164E63",
+   "Card": "#FFFFFF",
+   "Border": "#A5F3FC",
+   "Muted": "#E8F1F6",
+   "Ring": "#0891B2"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Social Proof-Focused",
+   "Style_Priority": "Neumorphism + Accessible & Ethical",
+   "Color_Mood": "Calm blue + Health green",
+   "Typography_Mood": "Readable + Large type (16px+)"
+  }
+ },
+ {
+  "name": "Educational App",
+  "keywords": "app, course, education, educational, learning, school, training",
+  "primary_style": "Claymorphism + Micro-interactions",
+  "secondary": "Vibrant & Block-based , Flat Design",
+  "pattern": "Storytelling-Driven",
+  "palette_focus": "Playful colors + clear hierarchy",
+  "palette": {
+   "Primary": "#4F46E5",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#818CF8",
+   "Accent": "#EA580C",
+   "Background": "#EEF2FF",
+   "Foreground": "#1E1B4B",
+   "Card": "#FFFFFF",
+   "Border": "#C7D2FE",
+   "Muted": "#EBEEF8",
+   "Ring": "#4F46E5"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase",
+   "Style_Priority": "Claymorphism + Micro-interactions",
+   "Color_Mood": "Playful colors + Clear hierarchy",
+   "Typography_Mood": "Friendly + Engaging typography"
+  }
+ },
+ {
+  "name": "Creative Agency",
+  "keywords": "branding, identity, portfolio, logo, visual, rebrand, creative-director, campaign, awards, award-winning, showreel",
+  "primary_style": "Brutalism + Motion-Driven",
+  "secondary": "Retro-Futurism , Editorial Grid / Magazine",
+  "pattern": "Storytelling-Driven",
+  "palette_focus": "Bold primaries + artistic freedom",
+  "palette": {
+   "Primary": "#EC4899",
+   "On Primary": "#000000",
+   "Secondary": "#F472B6",
+   "Accent": "#0891B2",
+   "Background": "#FDF2F8",
+   "Foreground": "#831843",
+   "Card": "#FFFFFF",
+   "Border": "#FBCFE8",
+   "Muted": "#F1EEF5",
+   "Ring": "#EC4899"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling-Driven",
+   "Style_Priority": "Brutalism + Motion-Driven",
+   "Color_Mood": "Bold primaries + Artistic freedom",
+   "Typography_Mood": "Bold + Expressive typography"
+  }
+ },
+ {
+  "name": "Portfolio/Personal",
+  "keywords": "creative, personal, portfolio, projects, showcase, work",
+  "primary_style": "Motion-Driven + Minimalism & Swiss Style",
+  "secondary": "Brutalism , Aurora UI",
+  "pattern": "Storytelling-Driven",
+  "palette_focus": "Brand primary + artistic interpretation",
+  "palette": {
+   "Primary": "#18181B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#3F3F46",
+   "Accent": "#2563EB",
+   "Background": "#FAFAFA",
+   "Foreground": "#09090B",
+   "Card": "#FFFFFF",
+   "Border": "#E4E4E7",
+   "Muted": "#E8ECF0",
+   "Ring": "#18181B"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling-Driven",
+   "Style_Priority": "Motion-Driven + Minimalism & Swiss Style",
+   "Color_Mood": "Brand primary + Artistic",
+   "Typography_Mood": "Expressive + Variable typography"
+  }
+ },
+ {
+  "name": "Gaming",
+  "keywords": "entertainment, esports, game, gaming, play",
+  "primary_style": "3D & Hyperrealism + Retro-Futurism",
+  "secondary": "Motion-Driven , Vibrant & Block-based",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Vibrant + neon + immersive colors",
+  "palette": {
+   "Primary": "#7C3AED",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#A78BFA",
+   "Accent": "#F43F5E",
+   "Background": "#0F0F23",
+   "Foreground": "#E2E8F0",
+   "Card": "#1E1C35",
+   "Border": "#4C1D95",
+   "Muted": "#27273B",
+   "Ring": "#7C3AED"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase",
+   "Style_Priority": "3D & Hyperrealism + Retro-Futurism",
+   "Color_Mood": "Vibrant + Neon + Immersive",
+   "Typography_Mood": "Bold + Impactful typography"
+  }
+ },
+ {
+  "name": "Government/Public Service",
+  "keywords": "government, civic, municipal, federal, citizen, public, administration, permit, tax, voter, transparency, regulation",
+  "primary_style": "Accessible & Ethical + Minimalism & Swiss Style",
+  "secondary": "Flat Design , Inclusive Design",
+  "pattern": "Minimal & Direct",
+  "palette_focus": "Professional blue + high contrast",
+  "palette": {
+   "Primary": "#0F172A",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#334155",
+   "Accent": "#0369A1",
+   "Background": "#F8FAFC",
+   "Foreground": "#020617",
+   "Card": "#FFFFFF",
+   "Border": "#E2E8F0",
+   "Muted": "#E8ECF1",
+   "Ring": "#0F172A"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Minimal & Direct",
+   "Style_Priority": "Accessible & Ethical + Minimalism & Swiss Style",
+   "Color_Mood": "Professional blue + High contrast",
+   "Typography_Mood": "Clear + Large typography"
+  }
+ },
+ {
+  "name": "AI/Chatbot Platform",
+  "keywords": "ai, artificial-intelligence, automation, chatbot, machine-learning, ml, platform",
+  "primary_style": "AI-Native UI + Minimalism & Swiss Style",
+  "secondary": "Zero Interface , Glassmorphism",
+  "pattern": "Interactive Product Demo",
+  "palette_focus": "Neutral + AI Purple (#6366F1)",
+  "palette": {
+   "Primary": "#7C3AED",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#A78BFA",
+   "Accent": "#0891B2",
+   "Background": "#FAF5FF",
+   "Foreground": "#1E1B4B",
+   "Card": "#FFFFFF",
+   "Border": "#DDD6FE",
+   "Muted": "#ECEEF9",
+   "Ring": "#7C3AED"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Interactive Demo + Minimal",
+   "Style_Priority": "AI-Native UI + Minimalism & Swiss Style",
+   "Color_Mood": "Neutral + AI Purple (#6366F1)",
+   "Typography_Mood": "Modern + Clear typography"
+  }
+ },
+ {
+  "name": "Remote Work/Collaboration Tool",
+  "keywords": "collaboration, remote, tool, work",
+  "primary_style": "Soft UI Evolution + Minimalism & Swiss Style",
+  "secondary": "Glassmorphism , Micro-interactions",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Calm Blue + Neutral grey",
+  "palette": {
+   "Primary": "#6366F1",
+   "On Primary": "#000000",
+   "Secondary": "#818CF8",
+   "Accent": "#059669",
+   "Background": "#F5F3FF",
+   "Foreground": "#312E81",
+   "Card": "#FFFFFF",
+   "Border": "#E0E7FF",
+   "Muted": "#EBEFF9",
+   "Ring": "#6366F1"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich + Real-Time",
+   "Style_Priority": "Soft UI Evolution + Minimalism & Swiss Style",
+   "Color_Mood": "Calm Blue + Neutral grey",
+   "Typography_Mood": "Clean + Readable typography"
+  }
+ },
+ {
+  "name": "Mental Health App",
+  "keywords": "app, health, mental",
+  "primary_style": "Neumorphism + Accessible & Ethical",
+  "secondary": "Claymorphism , Soft UI Evolution",
+  "pattern": "Social Proof-Focused",
+  "palette_focus": "Calm Pastels + Trust colors",
+  "palette": {
+   "Primary": "#8B5CF6",
+   "On Primary": "#000000",
+   "Secondary": "#C4B5FD",
+   "Accent": "#059669",
+   "Background": "#FAF5FF",
+   "Foreground": "#4C1D95",
+   "Card": "#FFFFFF",
+   "Border": "#EDE9FE",
+   "Muted": "#EDEFF9",
+   "Ring": "#8B5CF6"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Social Proof-Focused",
+   "Style_Priority": "Neumorphism + Accessible & Ethical",
+   "Color_Mood": "Calm Pastels + Trust colors",
+   "Typography_Mood": "Calming + Readable typography"
+  }
+ },
+ {
+  "name": "Smart Home/IoT Dashboard",
+  "keywords": "admin, analytics, dashboard, data, home, iot, panel, smart",
+  "primary_style": "Glassmorphism + Dark Mode (OLED)",
+  "secondary": "Minimalism & Swiss Style , AI-Native UI",
+  "pattern": "Interactive Product Demo",
+  "palette_focus": "Dark + Status indicator colors",
+  "palette": {
+   "Primary": "#1E293B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#334155",
+   "Accent": "#22C55E",
+   "Background": "#0F172A",
+   "Foreground": "#F8FAFC",
+   "Card": "#1B2336",
+   "Border": "#475569",
+   "Muted": "#272F42",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Real-Time Monitoring",
+   "Style_Priority": "Glassmorphism + Dark Mode (OLED)",
+   "Color_Mood": "Dark + Status indicator colors",
+   "Typography_Mood": "Clear + Functional typography"
+  }
+ },
+ {
+  "name": "EV/Charging Ecosystem",
+  "keywords": "charging, ecosystem, ev",
+  "primary_style": "Minimalism & Swiss Style + Aurora UI",
+  "secondary": "Glassmorphism , Organic Biophilic",
+  "pattern": "Hero-Centric Design",
+  "palette_focus": "Electric Blue (#009CD1) + Green",
+  "palette": {
+   "Primary": "#0891B2",
+   "On Primary": "#000000",
+   "Secondary": "#22D3EE",
+   "Accent": "#16A34A",
+   "Background": "#ECFEFF",
+   "Foreground": "#164E63",
+   "Card": "#FFFFFF",
+   "Border": "#A5F3FC",
+   "Muted": "#E8F1F6",
+   "Ring": "#0891B2"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Feature-Rich",
+   "Style_Priority": "Minimalism & Swiss Style + Aurora UI",
+   "Color_Mood": "Electric Blue (#009CD1) + Green",
+   "Typography_Mood": "Modern + Clear typography"
+  }
+ },
+ {
+  "name": "Subscription Box Service",
+  "keywords": "subscription, box, recurring, membership, unboxing, curated, plan, monthly, surprise, product-box",
+  "primary_style": "Vibrant & Block-based + Motion-Driven",
+  "secondary": "Claymorphism , Aurora UI",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Brand + Excitement colors",
+  "palette": {
+   "Primary": "#D946EF",
+   "On Primary": "#000000",
+   "Secondary": "#E879F9",
+   "Accent": "#EA580C",
+   "Background": "#FDF4FF",
+   "Foreground": "#86198F",
+   "Card": "#FFFFFF",
+   "Border": "#F5D0FE",
+   "Muted": "#F0EEF9",
+   "Ring": "#D946EF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich + Conversion",
+   "Style_Priority": "Vibrant & Block-based + Motion-Driven",
+   "Color_Mood": "Brand + Excitement colors",
+   "Typography_Mood": "Engaging + Clear typography"
+  }
+ },
+ {
+  "name": "Podcast Platform",
+  "keywords": "platform, podcast",
+  "primary_style": "Dark Mode (OLED) + Minimalism & Swiss Style",
+  "secondary": "Motion-Driven , Vibrant & Block-based",
+  "pattern": "Storytelling-Driven",
+  "palette_focus": "Dark + Audio waveform accents",
+  "palette": {
+   "Primary": "#1E1B4B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#312E81",
+   "Accent": "#F97316",
+   "Background": "#0F0F23",
+   "Foreground": "#F8FAFC",
+   "Card": "#1B1B30",
+   "Border": "#4338CA",
+   "Muted": "#27273B",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling + Feature-Rich",
+   "Style_Priority": "Dark Mode (OLED) + Minimalism & Swiss Style",
+   "Color_Mood": "Dark + Audio waveform accents",
+   "Typography_Mood": "Modern + Clear typography"
+  }
+ },
+ {
+  "name": "Dating App",
+  "keywords": "app, dating",
+  "primary_style": "Vibrant & Block-based + Motion-Driven",
+  "secondary": "Aurora UI , Glassmorphism",
+  "pattern": "Social Proof-Focused",
+  "palette_focus": "Warm + Romantic (Pink/Red gradients)",
+  "palette": {
+   "Primary": "#E11D48",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#FB7185",
+   "Accent": "#EA580C",
+   "Background": "#FFF1F2",
+   "Foreground": "#881337",
+   "Card": "#FFFFFF",
+   "Border": "#FECDD3",
+   "Muted": "#F0ECF2",
+   "Ring": "#E11D48"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Social Proof + Feature-Rich",
+   "Style_Priority": "Vibrant & Block-based + Motion-Driven",
+   "Color_Mood": "Warm + Romantic (Pink/Red gradients)",
+   "Typography_Mood": "Modern + Friendly typography"
+  }
+ },
+ {
+  "name": "Beauty/Spa/Wellness Service",
+  "keywords": "spa, beauty, salon, wellness, treatment, relaxation, massage, skincare, facial, aesthetic, self-care, pamper",
+  "primary_style": "Soft UI Evolution + Neumorphism",
+  "secondary": "Glassmorphism , Minimalism & Swiss Style",
+  "pattern": "Hero-Centric Design + Social Proof",
+  "palette_focus": "Soft pastels (Pink #FFB6C1 Sage #90EE90) + Cream + Gold accents",
+  "palette": {
+   "Primary": "#EC4899",
+   "On Primary": "#000000",
+   "Secondary": "#F9A8D4",
+   "Accent": "#8B5CF6",
+   "Background": "#FDF2F8",
+   "Foreground": "#831843",
+   "Card": "#FFFFFF",
+   "Border": "#FBCFE8",
+   "Muted": "#F1EEF5",
+   "Ring": "#EC4899"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Social Proof",
+   "Style_Priority": "Soft UI Evolution + Neumorphism",
+   "Color_Mood": "Soft pastels (Pink Sage Cream) + Gold accents",
+   "Typography_Mood": "Elegant + Calming typography"
+  }
+ },
+ {
+  "name": "Restaurant/Food Service",
+  "keywords": "restaurant, menu, order, food, dining, reservation, delivery, cuisine, chef, table, takeaway, eatery",
+  "primary_style": "Vibrant & Block-based + Motion-Driven",
+  "secondary": "Claymorphism , Flat Design",
+  "pattern": "Hero-Centric Design + Conversion",
+  "palette_focus": "Warm colors (Orange Red Brown) + appetizing imagery",
+  "palette": {
+   "Primary": "#DC2626",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#F87171",
+   "Accent": "#A16207",
+   "Background": "#FEF2F2",
+   "Foreground": "#450A0A",
+   "Card": "#FFFFFF",
+   "Border": "#FECACA",
+   "Muted": "#F0EDF1",
+   "Ring": "#DC2626"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Conversion",
+   "Style_Priority": "Vibrant & Block-based + Motion-Driven",
+   "Color_Mood": "Warm colors (Orange Red Brown)",
+   "Typography_Mood": "Appetizing + Clear typography"
+  }
+ },
+ {
+  "name": "Fitness/Gym App",
+  "keywords": "app, exercise, fitness, gym, health, workout",
+  "primary_style": "Vibrant & Block-based + Dark Mode (OLED)",
+  "secondary": "Motion-Driven , Neumorphism",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Energetic (Orange #FF6B35 Electric Blue) + Dark bg",
+  "palette": {
+   "Primary": "#F97316",
+   "On Primary": "#0F172A",
+   "Secondary": "#FB923C",
+   "Accent": "#22C55E",
+   "Background": "#1F2937",
+   "Foreground": "#F8FAFC",
+   "Card": "#313742",
+   "Border": "#374151",
+   "Muted": "#37414F",
+   "Ring": "#F97316"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich + Data",
+   "Style_Priority": "Vibrant & Block-based + Dark Mode (OLED)",
+   "Color_Mood": "Energetic (Orange #FF6B35) + Dark bg",
+   "Typography_Mood": "Bold + Motivational typography"
+  }
+ },
+ {
+  "name": "Real Estate/Property",
+  "keywords": "buy, estate, housing, property, real, real-estate, rent",
+  "primary_style": "Glassmorphism + Minimalism & Swiss Style",
+  "secondary": "Motion-Driven , 3D & Hyperrealism",
+  "pattern": "Hero-Centric Design + Feature-Rich",
+  "palette_focus": "Trust Blue (#0077B6) + Gold accents + White",
+  "palette": {
+   "Primary": "#0F766E",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#14B8A6",
+   "Accent": "#0369A1",
+   "Background": "#F0FDFA",
+   "Foreground": "#134E4A",
+   "Card": "#FFFFFF",
+   "Border": "#99F6E4",
+   "Muted": "#E8F0F3",
+   "Ring": "#0F766E"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Feature-Rich",
+   "Style_Priority": "Glassmorphism + Minimalism & Swiss Style",
+   "Color_Mood": "Trust Blue + Gold + White",
+   "Typography_Mood": "Professional + Confident"
+  }
+ },
+ {
+  "name": "Travel/Tourism Agency",
+  "keywords": "travel, tourism, vacation, flight, hotel, destination, adventure, cruise, safari, backpacking, guided-tour, holiday-package",
+  "primary_style": "Aurora UI + Motion-Driven",
+  "secondary": "Vibrant & Block-based , Glassmorphism",
+  "pattern": "Storytelling-Driven + Hero-Centric",
+  "palette_focus": "Vibrant destination colors + Sky Blue + Warm accents",
+  "palette": {
+   "Primary": "#0EA5E9",
+   "On Primary": "#0F172A",
+   "Secondary": "#38BDF8",
+   "Accent": "#EA580C",
+   "Background": "#F0F9FF",
+   "Foreground": "#0C4A6E",
+   "Card": "#FFFFFF",
+   "Border": "#BAE6FD",
+   "Muted": "#E8F2F8",
+   "Ring": "#000000"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling-Driven + Hero",
+   "Style_Priority": "Aurora UI + Motion-Driven",
+   "Color_Mood": "Vibrant destination + Sky Blue",
+   "Typography_Mood": "Inspirational + Engaging"
+  }
+ },
+ {
+  "name": "Hotel/Hospitality",
+  "keywords": "hospitality, hotel",
+  "primary_style": "Liquid Glass + Minimalism & Swiss Style",
+  "secondary": "Glassmorphism , Soft UI Evolution",
+  "pattern": "Hero-Centric Design + Social Proof",
+  "palette_focus": "Warm neutrals + Gold (#D4AF37) + Brand accent",
+  "palette": {
+   "Primary": "#1E3A8A",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#3B82F6",
+   "Accent": "#A16207",
+   "Background": "#F8FAFC",
+   "Foreground": "#1E40AF",
+   "Card": "#FFFFFF",
+   "Border": "#BFDBFE",
+   "Muted": "#E9EEF5",
+   "Ring": "#1E3A8A"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Social Proof",
+   "Style_Priority": "Liquid Glass + Minimalism & Swiss Style",
+   "Color_Mood": "Warm neutrals + Gold (#D4AF37)",
+   "Typography_Mood": "Elegant + Welcoming typography"
+  }
+ },
+ {
+  "name": "Legal Services",
+  "keywords": "law, attorney, legal, case, compliance, contract, court, firm, counsel, litigation, practice-area, jurisdiction",
+  "primary_style": "Accessible & Ethical + Minimalism & Swiss Style",
+  "secondary": "Accessible & Ethical , Swiss Modernism 2.0",
+  "pattern": "Trust & Authority + Minimal",
+  "palette_focus": "Navy Blue (#1E3A5F) + Gold + White",
+  "palette": {
+   "Primary": "#1E3A8A",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#1E40AF",
+   "Accent": "#B45309",
+   "Background": "#F8FAFC",
+   "Foreground": "#0F172A",
+   "Card": "#FFFFFF",
+   "Border": "#CBD5E1",
+   "Muted": "#E9EEF5",
+   "Ring": "#1E3A8A"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Trust & Authority + Minimal",
+   "Style_Priority": "Accessible & Ethical + Minimalism & Swiss Style",
+   "Color_Mood": "Navy Blue (#1E3A5F) + Gold + White",
+   "Typography_Mood": "Professional + Authoritative typography"
+  }
+ },
+ {
+  "name": "Insurance Platform",
+  "keywords": "insurance, platform",
+  "primary_style": "Minimalism & Swiss Style + Flat Design",
+  "secondary": "Accessible & Ethical , Minimalism & Swiss Style",
+  "pattern": "Conversion-Optimized + Trust",
+  "palette_focus": "Trust Blue (#0066CC) + Green (security) + Neutral",
+  "palette": {
+   "Primary": "#0369A1",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#0EA5E9",
+   "Accent": "#16A34A",
+   "Background": "#F0F9FF",
+   "Foreground": "#0C4A6E",
+   "Card": "#FFFFFF",
+   "Border": "#BAE6FD",
+   "Muted": "#E7EFF5",
+   "Ring": "#0369A1"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Conversion + Trust",
+   "Style_Priority": "Accessible & Ethical + Flat Design",
+   "Color_Mood": "Trust Blue (#0066CC) + Green + Neutral",
+   "Typography_Mood": "Clear + Professional typography"
+  }
+ },
+ {
+  "name": "Online Course/E-learning",
+  "keywords": "course, e, learning, online",
+  "primary_style": "Claymorphism + Vibrant & Block-based",
+  "secondary": "Motion-Driven , Flat Design",
+  "pattern": "Feature-Rich Showcase + Social Proof",
+  "palette_focus": "Vibrant learning colors + Progress green",
+  "palette": {
+   "Primary": "#0D9488",
+   "On Primary": "#000000",
+   "Secondary": "#2DD4BF",
+   "Accent": "#EA580C",
+   "Background": "#F0FDFA",
+   "Foreground": "#134E4A",
+   "Card": "#FFFFFF",
+   "Border": "#5EEAD4",
+   "Muted": "#E8F1F4",
+   "Ring": "#0D9488"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich + Social Proof",
+   "Style_Priority": "Claymorphism + Vibrant & Block-based",
+   "Color_Mood": "Vibrant learning colors + Progress green",
+   "Typography_Mood": "Friendly + Engaging typography"
+  }
+ },
+ {
+  "name": "Non-profit/Charity",
+  "keywords": "charity, non, profit",
+  "primary_style": "Accessible & Ethical + Organic Biophilic",
+  "secondary": "Minimalism & Swiss Style , Editorial Grid / Magazine",
+  "pattern": "Storytelling-Driven + Trust",
+  "palette_focus": "Cause-related colors + Trust + Warm",
+  "palette": {
+   "Primary": "#0891B2",
+   "On Primary": "#000000",
+   "Secondary": "#22D3EE",
+   "Accent": "#EA580C",
+   "Background": "#ECFEFF",
+   "Foreground": "#164E63",
+   "Card": "#FFFFFF",
+   "Border": "#A5F3FC",
+   "Muted": "#E8F1F6",
+   "Ring": "#0891B2"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling + Trust",
+   "Style_Priority": "Accessible & Ethical + Organic Biophilic",
+   "Color_Mood": "Cause-related colors + Trust + Warm",
+   "Typography_Mood": "Heartfelt + Readable typography"
+  }
+ },
+ {
+  "name": "Music Streaming",
+  "keywords": "music, streaming",
+  "primary_style": "Dark Mode (OLED) + Vibrant & Block-based",
+  "secondary": "Motion-Driven , Aurora UI",
+  "pattern": "Feature-Rich Showcase",
+  "palette_focus": "Dark (#121212) + Vibrant accents + Album art colors",
+  "palette": {
+   "Primary": "#1E1B4B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#4338CA",
+   "Accent": "#22C55E",
+   "Background": "#0F0F23",
+   "Foreground": "#F8FAFC",
+   "Card": "#1B1B30",
+   "Border": "#312E81",
+   "Muted": "#27273B",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase",
+   "Style_Priority": "Dark Mode (OLED) + Vibrant & Block-based",
+   "Color_Mood": "Dark (#121212) + Vibrant accents + Album art colors",
+   "Typography_Mood": "Modern + Bold typography"
+  }
+ },
+ {
+  "name": "Video Streaming/OTT",
+  "keywords": "ott, streaming, video",
+  "primary_style": "Dark Mode (OLED) + Motion-Driven",
+  "secondary": "Glassmorphism , Vibrant & Block-based",
+  "pattern": "Hero-Centric Design + Feature-Rich",
+  "palette_focus": "Dark bg + Content poster colors + Brand accent",
+  "palette": {
+   "Primary": "#0F0F23",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#1E1B4B",
+   "Accent": "#E11D48",
+   "Background": "#000000",
+   "Foreground": "#F8FAFC",
+   "Card": "#0C0C0D",
+   "Border": "#312E81",
+   "Muted": "#181818",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Feature-Rich",
+   "Style_Priority": "Dark Mode (OLED) + Motion-Driven",
+   "Color_Mood": "Dark bg + Poster colors + Brand accent",
+   "Typography_Mood": "Bold + Engaging typography"
+  }
+ },
+ {
+  "name": "Job Board/Recruitment",
+  "keywords": "board, job, recruitment",
+  "primary_style": "Flat Design + Minimalism & Swiss Style",
+  "secondary": "Vibrant & Block-based , Accessible & Ethical",
+  "pattern": "Conversion-Optimized + Feature-Rich",
+  "palette_focus": "Professional Blue + Success Green + Neutral",
+  "palette": {
+   "Primary": "#0369A1",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#0EA5E9",
+   "Accent": "#16A34A",
+   "Background": "#F0F9FF",
+   "Foreground": "#0C4A6E",
+   "Card": "#FFFFFF",
+   "Border": "#BAE6FD",
+   "Muted": "#E7EFF5",
+   "Ring": "#0369A1"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Conversion-Optimized + Feature-Rich",
+   "Style_Priority": "Flat Design + Minimalism & Swiss Style",
+   "Color_Mood": "Professional Blue + Success Green + Neutral",
+   "Typography_Mood": "Clear + Professional typography"
+  }
+ },
+ {
+  "name": "Marketplace (P2P)",
+  "keywords": "buyers, listings, marketplace, p, platform, sellers",
+  "primary_style": "Vibrant & Block-based + Flat Design",
+  "secondary": "Micro-interactions , Bento Box Grid",
+  "pattern": "Feature-Rich Showcase + Social Proof",
+  "palette_focus": "Trust colors + Category colors + Success green",
+  "palette": {
+   "Primary": "#7C3AED",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#A78BFA",
+   "Accent": "#16A34A",
+   "Background": "#FAF5FF",
+   "Foreground": "#4C1D95",
+   "Card": "#FFFFFF",
+   "Border": "#DDD6FE",
+   "Muted": "#ECEEF9",
+   "Ring": "#7C3AED"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase + Social Proof",
+   "Style_Priority": "Vibrant & Block-based + Flat Design",
+   "Color_Mood": "Trust colors + Category colors + Success green",
+   "Typography_Mood": "Modern + Engaging typography"
+  }
+ },
+ {
+  "name": "Logistics/Delivery",
+  "keywords": "delivery, logistics",
+  "primary_style": "Minimalism & Swiss Style + Flat Design",
+  "secondary": "Dark Mode (OLED) , Micro-interactions",
+  "pattern": "Feature-Rich Showcase + Conversion",
+  "palette_focus": "Blue (#2563EB) + Orange (tracking) + Green (delivered)",
+  "palette": {
+   "Primary": "#2563EB",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#3B82F6",
+   "Accent": "#EA580C",
+   "Background": "#EFF6FF",
+   "Foreground": "#1E40AF",
+   "Card": "#FFFFFF",
+   "Border": "#BFDBFE",
+   "Muted": "#E9EFF8",
+   "Ring": "#2563EB"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Feature-Rich Showcase + Real-Time",
+   "Style_Priority": "Minimalism & Swiss Style + Flat Design",
+   "Color_Mood": "Blue (#2563EB) + Orange (tracking) + Green",
+   "Typography_Mood": "Clear + Functional typography"
+  }
+ },
+ {
+  "name": "Automotive/Car Dealership",
+  "keywords": "automotive, car, dealership",
+  "primary_style": "Motion-Driven + 3D & Hyperrealism",
+  "secondary": "Dark Mode (OLED) , Glassmorphism",
+  "pattern": "Hero-Centric Design + Feature-Rich",
+  "palette_focus": "Brand colors + Metallic accents + Dark/Light",
+  "palette": {
+   "Primary": "#1E293B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#334155",
+   "Accent": "#DC2626",
+   "Background": "#F8FAFC",
+   "Foreground": "#0F172A",
+   "Card": "#FFFFFF",
+   "Border": "#E2E8F0",
+   "Muted": "#E9EDF1",
+   "Ring": "#1E293B"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Feature-Rich",
+   "Style_Priority": "Motion-Driven + 3D & Hyperrealism",
+   "Color_Mood": "Brand colors + Metallic + Dark/Light",
+   "Typography_Mood": "Bold + Confident typography"
+  }
+ },
+ {
+  "name": "Photography Studio",
+  "keywords": "photography, studio",
+  "primary_style": "Motion-Driven + Minimalism & Swiss Style",
+  "secondary": "Aurora UI , Glassmorphism",
+  "pattern": "Storytelling-Driven + Hero-Centric",
+  "palette_focus": "Black + White + Minimal accent",
+  "palette": {
+   "Primary": "#18181B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#27272A",
+   "Accent": "#F8FAFC",
+   "Background": "#000000",
+   "Foreground": "#FAFAFA",
+   "Card": "#0C0C0C",
+   "Border": "#3F3F46",
+   "Muted": "#181818",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling-Driven + Hero-Centric",
+   "Style_Priority": "Motion-Driven + Minimalism & Swiss Style",
+   "Color_Mood": "Black + White + Minimal accent",
+   "Typography_Mood": "Elegant + Minimal typography"
+  }
+ },
+ {
+  "name": "Bakery/Cafe",
+  "keywords": "bakery, cafe",
+  "primary_style": "Vibrant & Block-based + Soft UI Evolution",
+  "secondary": "Claymorphism , Motion-Driven",
+  "pattern": "Hero-Centric Design + Conversion",
+  "palette_focus": "Warm Brown + Cream + Appetizing accents",
+  "palette": {
+   "Primary": "#92400E",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#B45309",
+   "Accent": "#92400E",
+   "Background": "#FEF3C7",
+   "Foreground": "#78350F",
+   "Card": "#FFFFFF",
+   "Border": "#FDE68A",
+   "Muted": "#EDEEF0",
+   "Ring": "#92400E"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Conversion",
+   "Style_Priority": "Vibrant & Block-based + Soft UI Evolution",
+   "Color_Mood": "Warm Brown + Cream + Appetizing accents",
+   "Typography_Mood": "Warm + Inviting typography"
+  }
+ },
+ {
+  "name": "Brewery/Winery",
+  "keywords": "brewery, winery",
+  "primary_style": "Motion-Driven + Vintage Analog / Retro Film",
+  "secondary": "Dark Mode (OLED) , Organic Biophilic",
+  "pattern": "Storytelling-Driven + Hero-Centric",
+  "palette_focus": "Deep amber/burgundy + Gold + Craft aesthetic",
+  "palette": {
+   "Primary": "#7C2D12",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#B91C1C",
+   "Accent": "#A16207",
+   "Background": "#FEF2F2",
+   "Foreground": "#450A0A",
+   "Card": "#FFFFFF",
+   "Border": "#FECACA",
+   "Muted": "#ECEDF0",
+   "Ring": "#7C2D12"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Storytelling + Hero-Centric",
+   "Style_Priority": "Motion-Driven + Vintage Analog / Retro Film",
+   "Color_Mood": "Deep amber/burgundy + Gold + Craft",
+   "Typography_Mood": "Artisanal + Heritage typography"
+  }
+ },
+ {
+  "name": "News/Media Platform",
+  "keywords": "content, entertainment, media, news, platform, streaming, video",
+  "primary_style": "Minimalism & Swiss Style + Flat Design",
+  "secondary": "Dark Mode (OLED) , Accessible & Ethical",
+  "pattern": "Hero-Centric Design + Feature-Rich",
+  "palette_focus": "Brand colors + High contrast + Category colors",
+  "palette": {
+   "Primary": "#DC2626",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#EF4444",
+   "Accent": "#1E40AF",
+   "Background": "#FEF2F2",
+   "Foreground": "#450A0A",
+   "Card": "#FFFFFF",
+   "Border": "#FECACA",
+   "Muted": "#F0EDF1",
+   "Ring": "#DC2626"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Hero-Centric + Feature-Rich",
+   "Style_Priority": "Minimalism & Swiss Style + Flat Design",
+   "Color_Mood": "Brand colors + High contrast",
+   "Typography_Mood": "Clear + Readable typography"
+  }
+ },
+ {
+  "name": "Cybersecurity Platform",
+  "keywords": "cyber, security, platform",
+  "primary_style": "Cyberpunk UI + Dark Mode (OLED)",
+  "secondary": "Neubrutalism , Minimalism & Swiss Style",
+  "pattern": "Trust & Authority + Real-Time",
+  "palette_focus": "Matrix Green + Deep Black + Terminal feel",
+  "palette": {
+   "Primary": "#00FF41",
+   "On Primary": "#0F172A",
+   "Secondary": "#0D0D0D",
+   "Accent": "#FF3333",
+   "Background": "#000000",
+   "Foreground": "#E0E0E0",
+   "Card": "#0C130E",
+   "Border": "#1F1F1F",
+   "Muted": "#181818",
+   "Ring": "#00FF41"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Trust & Authority + Real-Time",
+   "Style_Priority": "Cyberpunk UI + Dark Mode (OLED)",
+   "Color_Mood": "Matrix Green (#00FF00) + Deep Black",
+   "Typography_Mood": "Technical + Clear typography"
+  }
+ },
+ {
+  "name": "Developer Tool / IDE",
+  "keywords": "dev, developer, tool, ide",
+  "primary_style": "Dark Mode (OLED) + Minimalism & Swiss Style",
+  "secondary": "Flat Design , Bento Box Grid",
+  "pattern": "Minimal & Direct + Documentation",
+  "palette_focus": "Dark syntax theme colors + Blue focus",
+  "palette": {
+   "Primary": "#1E293B",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#334155",
+   "Accent": "#22C55E",
+   "Background": "#0F172A",
+   "Foreground": "#F8FAFC",
+   "Card": "#1B2336",
+   "Border": "#475569",
+   "Muted": "#272F42",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Minimal + Documentation",
+   "Style_Priority": "Dark Mode (OLED) + Minimalism & Swiss Style",
+   "Color_Mood": "Dark syntax theme + Blue focus",
+   "Typography_Mood": "Monospace + Functional typography"
+  }
+ },
+ {
+  "name": "Personal Finance Tracker",
+  "keywords": "budget, expense, money, finance, spending, savings, tracker, personal, wallet",
+  "primary_style": "Glassmorphism + Dark Mode (OLED)",
+  "secondary": "Minimalism & Swiss Style , Flat Design",
+  "pattern": "Interactive Product Demo",
+  "palette_focus": "Calm blue + success green + alert red + chart accents",
+  "palette": {
+   "Primary": "#1E40AF",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#3B82F6",
+   "Accent": "#059669",
+   "Background": "#0F172A",
+   "Foreground": "#FFFFFF",
+   "Card": "#192134",
+   "Border": "rgba(255,255,255,0.08)",
+   "Muted": "#101A34",
+   "Ring": "#FFFFFF"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Interactive Product Demo",
+   "Style_Priority": "Glassmorphism + Dark Mode (OLED)",
+   "Color_Mood": "Calm blue + success green + alert red + chart accents",
+   "Typography_Mood": "Modern + Clear hierarchy"
+  }
+ }
+]

@@ -8,7 +8,7 @@
 本脚本只做「翻译」：把官方字段转成 CSS；不自行发明配色与参数。
 CSV 更新后直接重跑: python generator.py
 """
-import csv, re, html, os, colorsys, hashlib
+import csv, re, html, os, colorsys, hashlib, json
 import content_styles
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -2346,8 +2346,52 @@ def pattern_prompt(l, s, fonts):
         '▍验收：区块顺序严格按官方 Section Order；正文对比度 ≥4.5:1；:focus-visible 可见焦点；prefers-reduced-motion 降级；响应式 375/768/1440；标题行长 ≤80 字符',
     ])
 
+def _load_json(fname):
+    fp = os.path.join(BASE, fname)
+    return json.load(open(fp, encoding='utf-8')) if os.path.exists(fp) else []
+
+def product_prompt(p):
+    pal = ' / '.join('%s %s' % (k, v) for k, v in p['palette'].items() if v.startswith('#'))
+    rea = ' / '.join('%s：%s' % (k, v) for k, v in p['reasoning'].items())
+    return '\n'.join([
+        '请按「%s」官方产品方案实现页面：〔在这里写下你的产品名与需求，产品由你确定〕' % p['name'],
+        '',
+        '▍工作法（frontend-design 官方原则）：先列 token 计划（色 4-6 个 hex / 字体及角色 / 一句布局概念 / 一条独特性原则），自查是否"任何项目都会生成的默认"，改掉再写码；视觉必须从你的产品主题本身找依据。',
+        '',
+        '▍官方推荐（products.csv 原文，零改写）：',
+        '- Primary Style Recommendation: %s' % p['primary_style'],
+        '- Secondary Styles: %s' % p['secondary'],
+        '- Landing Page Pattern: %s' % p['pattern'],
+        '- Color Palette Focus: %s' % p['palette_focus'],
+        '- Keywords: %s' % p['keywords'],
+        '',
+        '▍官方专属色板（colors.csv，直接可用）：%s' % pal,
+        '▍官方推理（ui-reasoning.csv）：%s' % rea,
+        '',
+        '▍动效：全页只允许一次亮相动效，禁止逐区块 fade-in',
+        '▍必须避开（AI 指纹清单）：ALL-CAPS 装饰性眉标；按钮尾部箭头 →；带空格中点分隔 meta 串；无语义 01/02/03 编号；emoji 图标（一律内联 SVG）',
+        '▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440',
+    ])
+
+def chart_prompt(c):
+    rows = ['%s: %s' % (k, c[k]) for k in (
+        'Best Chart Type', 'Secondary Options', 'When to Use', 'When NOT to Use',
+        'Data Volume Threshold', 'Color Guidance', 'Accessibility Grade', 'Accessibility Risk',
+        'Accessibility Notes', 'A11y Fallback', 'Library Recommendation', 'Interactive Level') if c.get(k)]
+    return '\n'.join([
+        '请按「%s」图表选型实现数据展示：〔在这里写下你的数据与场景〕' % c['Data Type'],
+        '',
+        '▍官方选型（charts.csv 原文，零改写）：',
+    ] + ['- %s' % r for r in rows] + [
+        '',
+        '▍实现要求：图表手写内联 SVG（禁图表库）；数字 tabular-nums；不能只靠颜色区分系列（直接标注/线型差异）；数据真实感且口径自洽',
+        '▍动效：图表一次生长/描边亮相即可，reduced-motion 降级',
+        '▍必须避开（AI 指纹清单）：ALL-CAPS 装饰眉标；按钮尾箭头 →；带空格中点分隔；emoji',
+        '▍验收：对比度 ≥4.5:1；:focus-visible；prefers-reduced-motion；响应式 375/768/1440',
+    ])
+
 # ---------- Memphis Design 目录页（官方四色 #FF71CE/#FFCE5C/#86CCCA/#6A7BB4） ----------
-def build_catalog(manifest, entries, lentries=None, centries=None):
+def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None, chentries=None):
     handmade = {
         'AI-Native UI': 'ai-native.html', 'Liquid Glass': 'liquid-glass.html',
         'Brutalism': 'brutalism.html', 'Flat Design': 'flat-crm.html',
@@ -2454,6 +2498,37 @@ def build_catalog(manifest, entries, lentries=None, centries=None):
                   html.escape(cs['zh']), html.escape(cs['en']),
                   html.escape(cs['use'][:110]),
                   cs['id'], html.escape(content_styles.content_prompt(cs))))
+    # 产品模板卡（第五层：products.csv 官方推荐，样张手工精修，文件存在才显示）
+    for pi, (p, pfile) in enumerate(pentries or []):
+        sw = ''.join('<i style="background:%s" title="%s"></i>' % (v, k) for k, v in p['palette'].items() if v.startswith('#'))
+        cards.append('<article class="m-card s%s" data-type="product" data-status="product" data-search="%s">'
+          '<div class="m-head"><div><h2>%s</h2><span class="en">产品模板 / %s</span></div>'
+          '<div class="badges"><span class="badge b-prod">产品</span></div></div>'
+          '<div class="swatch">%s</div>'
+          '<p class="best">%s</p>'
+          '<div class="links"><a class="demo-link" href="product-demos/%s">查看样张</a></div>'
+          '<pre class="prompt">%s</pre>'
+          '<button class="copy-btn" type="button">复制提示词</button></article>' % (
+          'abcd'[pi % 4],
+          html.escape((p['name'] + ' ' + p['keywords'] + ' ' + p['primary_style'] + ' 产品 product').lower()),
+          html.escape(p['name']), html.escape(p['primary_style'].split('+')[0].strip()[:22]),
+          sw, html.escape('官方推荐：' + p['primary_style'][:100]),
+          pfile, html.escape(product_prompt(p))))
+
+    # 图表图鉴卡（第六层：charts.csv 官方选型，样张手工精修，文件存在才显示）
+    for ci, (c, cfile) in enumerate(chentries or []):
+        cards.append('<article class="m-card s%s" data-type="chart" data-status="chart" data-search="%s">'
+          '<div class="m-head"><div><h2>%s</h2><span class="en">图表图鉴 / %s</span></div>'
+          '<div class="badges"><span class="badge b-pat">图表</span></div></div>'
+          '<p class="best">%s</p>'
+          '<div class="links"><a class="demo-link" href="chart-demos/%s">查看样张</a></div>'
+          '<pre class="prompt">%s</pre>'
+          '<button class="copy-btn" type="button">复制提示词</button></article>' % (
+          'abcd'[ci % 4],
+          html.escape((c['Data Type'] + ' ' + c['Keywords'] + ' ' + c['Best Chart Type'] + ' 图表 chart').lower()),
+          html.escape(c['Data Type']), html.escape(c['Best Chart Type'][:24]),
+          html.escape('首选：' + c['Best Chart Type']),
+          cfile, html.escape(chart_prompt(c))))
 
     page = '''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -2628,6 +2703,8 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
     <button class="chip" data-f="active">仅活跃风格</button>
     <button class="chip" data-f="pattern">落地结构</button>
     <button class="chip" data-f="content">内容排版</button>
+    <button class="chip" data-f="product">产品模板</button>
+    <button class="chip" data-f="chart">图表图鉴</button>
     <button class="chip sort-chip" id="sort-hot" type="button" aria-pressed="false">热度排序</button>
   </div>
   <p class="count" id="count"></p>
@@ -2841,7 +2918,10 @@ def main():
     print('落地结构样板: %d（手工精修版，生成器不再覆盖）' % len(lentries))
 
     # ---- 目录页：Memphis Design 版完整重建（风格 + 落地结构） ----
-    open(CATALOG, 'w', encoding='utf-8').write(build_catalog(manifest, [], lentries, content_styles.CONTENT_STYLES))
+    pent = [(p, slug(p['name']) + '.html') for p in _load_json('products.json') if os.path.exists(os.path.join(BASE, 'product-demos', slug(p['name']) + '.html'))]
+    chent = [(c, slug(c['Data Type']) + '.html') for c in _load_json('charts.json') if os.path.exists(os.path.join(BASE, 'chart-demos', slug(c['Data Type']) + '.html'))]
+    open(CATALOG, 'w', encoding='utf-8').write(build_catalog(manifest, [], lentries, content_styles.CONTENT_STYLES, pent, chent))
+    print('产品模板卡:', len(pent), '/ 40 | 图表卡:', len(chent), '/ 25')
 
     # ---- 内容排版风格样张：html-anything 18 种 → 独立模板 ----
     # 内容排版样张已全部手工精修（见 content-demos/*.html），重跑不再覆盖；
