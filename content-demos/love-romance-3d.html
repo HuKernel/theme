@@ -4,167 +4,750 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>恋爱纪念 3D / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>恋爱纪念 3D Keepsake / UI 设计提示词库</title>
+<meta name="description" content="阿澄与小满的 2026 年度恋爱纪念页：软 3D 爱心舞台封面、立体纪念币指标块、圆糖果格热力月历、双人节奏对比泳道与匿名化隐私抽屉。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono+family=Noto+Sans+SC+family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/* token 计划：底 #fdf0f3 到 #fadce8 粉渐变 / 面板 #ffffff / 墨 #3a2530 / 次要文字 #7d5a69（token muted #9c7a87 仅作装饰）/ 图形强调 #e85d8a / 文字强调 #b0325f / 金饰 #c9962e / 线 #f2dce3 / 圆角 20px / 标题 Quicksand / 正文 Noto Sans SC */
 
 :root {
-  --bg: #FDF0F3; --panel: #FFFFFF; --ink: #3A2530; --muted: #9C7A87;
-  --accent: #E85D8A; --line: #F2DCE3; --radius: 20px;
-  --fh: 'Quicksand', 'PingFang SC', 'Microsoft YaHei', serif;
+  --bg: #fdf0f3; --panel: #ffffff; --ink: #3a2530; --soft: #7d5a69; --muted: #9c7a87;
+  --accent: #e85d8a; --accent-ink: #b0325f; --gold: #c9962e; --line: #f2dce3; --radius: 20px;
+  --fh: 'Quicksand', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --fb: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
+html { -webkit-text-size-adjust: 100%; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--fb);
+  color: var(--ink);
+  line-height: 1.7;
+  min-height: 100vh;
+  background: linear-gradient(168deg, #fdf0f3 0%, #fce7ee 46%, #fadce8 100%);
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
+::selection { background: #f7c2d6; }
+a { color: var(--accent-ink); }
+a:focus-visible, button:focus-visible { outline: 3px solid #b0325f; outline-offset: 3px; border-radius: 10px; }
+
+/* ---------- 顶栏 ---------- */
+
+.topbar {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 22px clamp(18px, 4vw, 40px) 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--fh); font-weight: 700; font-size: 15px; }
+.brand svg { width: 20px; height: 20px; filter: drop-shadow(0 2px 3px rgba(220, 63, 114, .35)); }
+.topbar > a {
+  font-size: 13px; font-weight: 600; text-decoration: none; color: var(--ink);
+  border: 1.5px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 15px;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 3px 8px -3px rgba(214, 90, 134, .25);
+}
+.topbar > a:hover { border-color: #e9c3d2; }
+
+/* ---------- 页面骨架 ---------- */
+
+.page {
+  max-width: 1120px; margin: 0 auto;
+  padding: 10px clamp(18px, 4vw, 40px) 26px;
+  display: grid; gap: clamp(48px, 7vw, 76px);
+}
+
+.sec-head { display: grid; gap: 5px; margin-bottom: 20px; }
+.sec-head h2 { font-family: var(--fh); font-size: clamp(22px, 3vw, 26px); font-weight: 700; line-height: 1.3; }
+.sec-head p { font-size: 14px; color: var(--soft); }
+
+/* ---------- 一区 / 3D 纪念品封面 ---------- */
+
+.keepsake-cover {
+  display: grid; grid-template-columns: minmax(280px, 5fr) 6fr;
+  align-items: center; gap: clamp(26px, 5vw, 60px);
+  padding-top: clamp(6px, 3vw, 24px);
+}
+
+.stage-wrap { max-width: 430px; width: 100%; margin: 0 auto; animation: rise-in .9s cubic-bezier(.2, .7, .3, 1) both; }
+.stage-svg { display: block; width: 100%; height: auto; }
+.cover-copy { animation: rise-in .8s cubic-bezier(.2, .7, .3, 1) .12s both; }
+.cover-kicker { font-family: var(--fh); font-size: 13.5px; font-weight: 700; color: var(--accent-ink); letter-spacing: .1em; }
+h1 { font-family: var(--fh); font-size: clamp(42px, 7vw, 64px); line-height: 1.12; font-weight: 700; margin: 6px 0 14px; }
+.cover-dek { font-size: 16px; line-height: 1.9; color: var(--soft); max-width: 34em; }
+
+.safe-stats { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 12px; }
+.safe-stats li {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 4px 10px -4px rgba(214, 90, 134, .25);
+}
+.safe-stats svg { width: 14px; height: 14px; flex: none; }
+.cover-note { font-size: 12.5px; color: var(--soft); }
+
+/* 漂浮小饰物：随封面一次入场，此后静止 */
+
+.stage-svg .trinket {
+  opacity: 0; animation: float-in .65s cubic-bezier(.2, .7, .3, 1) forwards;
+  transform-box: fill-box; transform-origin: center;
+}
+.t1 { animation-delay: .55s; }
+.t2 { animation-delay: .68s; }
+.t3 { animation-delay: .81s; }
+.t4 { animation-delay: .94s; }
+.t5 { animation-delay: 1.07s; }
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(16px) rotate(-10deg) scale(.5); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- 二区 / 图标舞台指标：立体纪念币 ---------- */
+
+.coin-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  animation: rise-in .8s cubic-bezier(.2, .7, .3, 1) .3s both;
+}
+
+.coin {
+  position: relative; display: flex; flex-direction: column; gap: 5px;
+  background: linear-gradient(180deg, #ffffff, #fdf0f5);
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 18px;
+  box-shadow: 0 14px 26px -14px rgba(214, 90, 134, .35), 0 3px 8px rgba(214, 90, 134, .08),
+    inset 0 2px 0 #ffffff, inset 0 -10px 16px -12px rgba(232, 93, 138, .28);
+}
+.coin::after {
+  content: ""; position: absolute; top: 15px; right: 15px; width: 8px; height: 8px;
+  border-radius: 50%; background: linear-gradient(180deg, #e9c277, #c08a2e);
+  box-shadow: 0 1px 2px rgba(160, 110, 40, .4);
+}
+.coin-icon {
+  width: 46px; height: 46px; border-radius: 15px; display: flex; align-items: center;
+  justify-content: center; background: linear-gradient(180deg, #fde7ef, #f8cddd);
+  border: 1px solid #f2dce3; margin-bottom: 7px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .8), 0 3px 6px rgba(214, 90, 134, .18);
+}
+.coin-icon svg { width: 23px; height: 23px; }
+.coin .num { font-family: var(--fh); font-weight: 700; font-size: clamp(30px, 3.6vw, 40px); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.coin-label { font-size: 14px; font-weight: 600; }
+.coin-note { font-size: 12.5px; line-height: 1.7; color: var(--soft); min-height: 44px; }
+
+/* ---------- 三区 / 消息脉冲板：圆糖果格热力月历 ---------- */
+
+.board { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.month {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 12px 13px 13px;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 6px 14px -10px rgba(214, 90, 134, .3);
+}
+.month-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; min-height: 20px; }
+.month-head b { font-family: var(--fh); font-size: 13px; font-weight: 700; }
+.month-head span { font-size: 11.5px; color: var(--soft); font-variant-numeric: tabular-nums; }
+.month-cells { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+
+.candy { width: 100%; aspect-ratio: 1; border-radius: 50%; transition: transform .12s ease; }
+.candy[data-tip]:hover { transform: scale(1.3); }
+.candy.lv0 { background: #f8d9e5; }
+.candy.lv1 { background: #f5bcd1; box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .5); }
+.candy.lv2 { background: #ee8fb2; box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .5); }
+.candy.lv3 { background: #e4649a; box-shadow: inset 0 2px 0 rgba(255, 255, 255, .4); }
+.candy.lv4 { background: #d23c6f; box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35), 0 2px 5px rgba(210, 60, 111, .35); }
+.candy.empty { background: transparent; border: 1.5px dashed #e9c3d2; }
+.candy.blank { background: transparent; }
+
+.board-area { position: relative; }
+.candy-tip {
+  position: absolute; z-index: 6; transform: translate(-50%, -100%);
+  background: #3a2530; color: #ffffff; font-size: 12px; line-height: 1; padding: 7px 12px;
+  border-radius: 999px; white-space: nowrap; pointer-events: none; opacity: 0;
+  transition: opacity .15s ease; box-shadow: 0 6px 16px -6px rgba(58, 37, 48, .5);
+}
+.candy-tip.on { opacity: 1; }
+
+.board-foot { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 26px; }
+.legend { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--soft); flex-wrap: wrap; }
+.legend i { width: 13px; height: 13px; border-radius: 50%; box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .5); }
+.legend .lg0 { background: #f8d9e5; }
+.legend .lg1 { background: #f5bcd1; }
+.legend .lg2 { background: #ee8fb2; }
+.legend .lg3 { background: #e4649a; }
+.legend .lg4 { background: #d23c6f; }
+.legend .lg-empty { background: transparent; border: 1.5px dashed #e9c3d2; box-shadow: none; }
+.board-notable { font-size: 13px; color: var(--soft); }
+.board-notable b { color: var(--ink); font-family: var(--fh); }
+
+/* ---------- 四区 / 软对比泳道 ---------- */
+
+.lane-head { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 18px; }
+.who { display: inline-flex; align-items: center; gap: 9px; font-family: var(--fh); font-weight: 700; font-size: 15px; }
+.who .ava {
+  width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center;
+  justify-content: center; font-size: 14px;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .45), 0 4px 9px -3px rgba(214, 90, 134, .4);
+}
+.who-a .ava { background: #b0325f; color: #ffffff; }
+.who-b .ava { background: #e3b45c; color: #3a2530; }
+.who-b { flex-direction: row-reverse; }
+.vs-heart { width: 22px; height: 22px; filter: drop-shadow(0 2px 3px rgba(201, 150, 46, .45)); }
+
+.lanes { display: grid; gap: 14px; }
+.lane {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px 22px 20px; display: grid; gap: 13px;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 10px 22px -14px rgba(214, 90, 134, .35);
+}
+.lane-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
+.lane-top b { font-family: var(--fh); font-size: 16px; font-weight: 700; }
+.lane-top span { font-size: 12.5px; color: var(--soft); }
+.lane-bar { display: grid; grid-template-columns: 1fr 30px 1fr; gap: 10px; align-items: center; }
+.side { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.side-a { justify-content: flex-end; }
+.pct { font-family: var(--fh); font-weight: 700; font-size: 15px; min-width: 42px; }
+.side-a .pct { text-align: right; }
+.bar { flex: 1; height: 20px; border-radius: 999px; background: #f9e8ee; position: relative; overflow: hidden; box-shadow: inset 0 2px 4px rgba(190, 110, 140, .2); }
+.bar i { position: absolute; top: 0; bottom: 0; border-radius: 999px; }
+.side-a .bar i { right: 0; background: linear-gradient(180deg, #f1789f, #de4a7c); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .4); }
+.side-b .bar i { left: 0; background: linear-gradient(180deg, #e9c277, #c08a2e); box-shadow: inset 0 2px 0 rgba(255, 255, 255, .45); }
+.lane-mid { display: flex; justify-content: center; }
+.lane-mid svg { width: 17px; height: 17px; filter: drop-shadow(0 2px 2px rgba(201, 150, 46, .4)); }
+
+.lane-extra { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.mini-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px 20px; display: grid; gap: 10px; align-content: start;
+  box-shadow: inset 0 1.5px 0 #ffffff, 0 10px 22px -14px rgba(214, 90, 134, .3);
+}
+.mini-title { font-family: var(--fh); font-size: 15px; font-weight: 700; }
+.rhythm-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; border-bottom: 1.5px dashed var(--line); padding-bottom: 8px; }
+.rhythm-row span { font-size: 13px; color: var(--soft); }
+.rhythm-row b { font-family: var(--fh); font-size: 21px; font-weight: 700; white-space: nowrap; }
+.mini-note { font-size: 12.5px; color: var(--soft); }
+.word-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.wchip {
+  display: inline-flex; align-items: baseline; gap: 6px; font-size: 13px; font-weight: 600;
+  background: #fbe7ee; border: 1px solid #f2dce3; border-radius: 999px; padding: 5px 12px;
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, .7);
+}
+.wchip b { font-family: var(--fh); font-size: 12px; color: #b0325f; font-variant-numeric: tabular-nums; }
+
+/* ---------- 五区 / 隐私证据抽屉 ---------- */
+
+.drawer-btn {
+  display: inline-flex; align-items: center; gap: 10px; font-family: var(--fh);
+  font-weight: 700; font-size: 15px; color: var(--ink); background: var(--panel);
+  border: 2px solid var(--accent); border-radius: 999px; padding: 12px 26px; cursor: pointer;
+  box-shadow: 0 8px 18px -8px rgba(214, 90, 134, .45), inset 0 2px 0 #ffffff;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.drawer-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -8px rgba(214, 90, 134, .55), inset 0 2px 0 #ffffff; }
+.drawer-btn svg { width: 19px; height: 19px; }
+.drawer-btn .lock-open { display: none; }
+.drawer-btn[aria-expanded="true"] .lock-shut { display: none; }
+.drawer-btn[aria-expanded="true"] .lock-open { display: block; }
+
+.drawer-body { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.3, .7, .3, 1); }
+.drawer-inner {
+  margin-top: 16px; background: #fdf6f9; border: 1.5px dashed #e9c3d2;
+  border-radius: var(--radius); padding: 20px 22px;
+}
+.memo-grid { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+.memo { display: grid; gap: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; align-content: start; }
+.memo-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.m-date { font-family: var(--fh); font-weight: 700; font-size: 12px; color: var(--accent-ink); }
+.m-tag { font-size: 11.5px; color: #7d5a69; background: #fbe7ee; border-radius: 999px; padding: 1px 9px; }
+.memo p { font-size: 12.5px; line-height: 1.7; color: #7d5a69; }
+.drawer-note { margin-top: 14px; font-size: 12px; color: #7d5a69; }
+
+/* ---------- 页脚 ---------- */
+
+.page-foot {
+  max-width: 1120px; margin: 0 auto; padding: 22px clamp(18px, 4vw, 40px) 34px;
+  border-top: 1.5px solid #e9c3d2; display: flex; flex-wrap: wrap; align-items: baseline;
+  justify-content: space-between; gap: 8px 24px; font-size: 13px; color: var(--soft);
+}
+.page-foot a { font-weight: 700; text-decoration: none; }
+.page-foot a:hover { text-decoration: underline; }
+
+/* ---------- 响应式：375 / 768 / 1440 ---------- */
+
+@media (max-width: 879px) {
+  .keepsake-cover { grid-template-columns: 1fr; }
+  .stage-wrap { max-width: 330px; }
+}
+
+@media (max-width: 759px) {
+  .lane-extra { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 639px) {
+  .coin-grid { grid-template-columns: 1fr; }
+  .memo-grid { grid-template-columns: 1fr; }
+  .lane { padding: 15px 16px 17px; }
+  .lane-bar { gap: 6px; }
+  .pct { min-width: 36px; font-size: 14px; }
+  .drawer-btn { width: 100%; justify-content: center; }
+}
+
+@media (min-width: 700px) {
+  .board { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1080px) {
+  .board { grid-template-columns: repeat(6, 1fr); }
+}
+
+/* ---------- 减少动态偏好：一次亮相全部降级为静止 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-wrap, .cover-copy, .coin-grid { animation: none; }
+  .stage-svg .trinket { animation: none; opacity: 1; }
+  .drawer-body, .drawer-btn, .candy { transition: none; }
+  .candy[data-tip]:hover { transform: none; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Keepsake 3D</p>
-  <h1>恋爱纪念 3D</h1>
-  <p class="sub">关系节奏的纪念品界面：圆润形体、透明高光、粉红渐变、小金饰。情侣聊天导出、情人节年度回顾、浪漫消息汇总——软 3D 纪念品质感。</p>
-  <p class="meta">本页 token：<code>底 #FDF0F3</code> <code>面板 #FFFFFF</code> <code>主字 #3A2530</code> <code>强调 #E85D8A</code> <code>圆角 20px</code> / 标题 <code>Quicksand</code> / 正文 <code>Noto Sans SC</code> / 动效：漂浮物件一次入场</p>
 
-  <h2>结构示意</h2>
-  <div class="hx keeph" style="--a:#E85D8A">
-  <svg viewBox="0 0 60 54" aria-hidden="true" class="heart"><path d="M30 48 C 6 32, 8 10, 22 10 c 5 0 8 4 8 4 s 3-4 8-4 c 14 0 16 22-8 38z" fill="#E85D8A"/></svg>
-  <div class="kt"><b>1,204 条</b><span>这一年的对话</span></div>
-  <div class="kt"><b>386 天</b><span>有记录的日子</span></div>
-</div>
+<header class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#e85d8a" d="M12 21C4.8 16 2.6 11.4 5 8.2 6.7 6 10 6.4 12 9c2-2.6 5.3-3 7-.8 2.4 3.2.2 7.8-7 12.8z"/><ellipse cx="8.2" cy="9.8" rx="2.6" ry="1.3" fill="#ffffff" opacity=".5" transform="rotate(-24 8.2 9.8)"/></svg>
+    <span>恋爱纪念 3D / Keepsake</span>
+  </div>
+  <a href="../style-catalog.html">风格目录</a>
+</header>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>3D 纪念品封面：关系主题句 + 图标舞台 + 最安全的聚合统计</span></li><li><b>02</b><span>图标舞台指标：带高光与软影的立体小方块承载指标</span></li><li><b>03</b><span>消息脉冲板：圆糖果格热力图，不做企业图表</span></li><li><b>04</b><span>软对比泳道：A/B 双人经均衡泳道、共同词、回应节奏</span></li><li><b>05</b><span>隐私证据抽屉：证据匿名化且极小，不做原始聊天回放器</span></li></ol>
+<main class="page">
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.keepsake-cover .icon-stage .pulse-board .compare-lane .privacy-drawer</p>
+  <!-- 一 / 3D 纪念品封面：关系主题句 + 爱心图标舞台 + 最安全的聚合统计 -->
+  <section class="keepsake-cover" aria-label="我们的 2026 封面">
+    <div class="stage-wrap">
+      <svg class="stage-svg" viewBox="0 0 360 332" role="img" aria-label="一枚悬浮在柔光舞台上的粉色爱心纪念品，旁边点缀金戒指、星星、小礼物与两颗迷你爱心">
+        <defs>
+          <radialGradient id="gGlow">
+            <stop offset="0" stop-color="#ffd3e3" stop-opacity=".95"/>
+            <stop offset="1" stop-color="#ffd3e3" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="gHeart" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#f585ab"/>
+            <stop offset="1" stop-color="#de4a7c"/>
+          </linearGradient>
+          <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e9c277"/>
+            <stop offset="1" stop-color="#c08a2e"/>
+          </linearGradient>
+          <filter id="fDrop" x="-30%" y="-30%" width="160%" height="170%">
+            <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#c43a6b" flood-opacity=".32"/>
+          </filter>
+          <filter id="fBlur2"><feGaussianBlur stdDeviation="2.2"/></filter>
+          <filter id="fBlur6"><feGaussianBlur stdDeviation="5"/></filter>
+        </defs>
+        <circle cx="180" cy="150" r="126" fill="url(#gGlow)"/>
+        <ellipse cx="180" cy="298" rx="94" ry="15" fill="#e2a6bc" opacity=".5" filter="url(#fBlur6)"/>
+        <ellipse cx="180" cy="302" rx="56" ry="9" fill="#d791ae" opacity=".55" filter="url(#fBlur6)"/>
+        <g filter="url(#fDrop)">
+          <path d="M180 274 C 96 218 56 142 98 99 C 127 70 166 80 180 109 C 194 80 233 70 262 99 C 304 142 264 218 180 274 Z" fill="url(#gHeart)"/>
+          <path d="M180 274 C 96 218 56 142 98 99 C 127 70 166 80 180 109 C 194 80 233 70 262 99 C 304 142 264 218 180 274 Z" fill="none" stroke="#fba8c5" stroke-width="2" opacity=".65"/>
+          <ellipse cx="136" cy="118" rx="27" ry="13" fill="#ffffff" opacity=".55" transform="rotate(-24 136 118)" filter="url(#fBlur2)"/>
+          <circle cx="118" cy="140" r="4.5" fill="#ffffff" opacity=".5"/>
+          <path d="M112 230 C 132 256 158 270 180 274" fill="none" stroke="#ffc2d7" stroke-width="5" stroke-linecap="round" opacity=".4" filter="url(#fBlur2)"/>
+        </g>
+        <g>
+          <rect x="126" y="152" width="108" height="46" rx="23" fill="#ffffff" opacity=".95"/>
+          <rect x="126" y="152" width="108" height="46" rx="23" fill="none" stroke="url(#gGold)" stroke-width="2.5"/>
+          <text x="180" y="184" text-anchor="middle" font-family="Quicksand, sans-serif" font-size="26" font-weight="700" fill="#b0325f">2026</text>
+        </g>
+        <g transform="translate(300 74)"><g class="trinket t1">
+          <circle r="15" fill="none" stroke="url(#gGold)" stroke-width="6"/>
+          <circle cx="11" cy="-11" r="2.6" fill="#f6e3b4"/>
+        </g></g>
+        <g transform="translate(58 64)"><g class="trinket t2">
+          <path d="M0 -16 L4 -4 16 0 4 4 0 16 -4 4 -16 0 -4 -4 Z" fill="url(#gGold)"/>
+        </g></g>
+        <g transform="translate(320 196)"><g class="trinket t3">
+          <path d="M0 100 C -70 55 -84 -8 -45 -30 C -20 -44 0 -30 0 -8 C 0 -30 20 -44 45 -30 C 84 -8 70 55 0 100 Z" fill="#f585ab"/>
+          <ellipse cx="-22" cy="-8" rx="15" ry="7" fill="#ffffff" opacity=".5" transform="rotate(-24 -22 -8)"/>
+        </g></g>
+        <g transform="translate(40 210)"><g class="trinket t4">
+          <path d="M0 100 C -70 55 -84 -8 -45 -30 C -20 -44 0 -30 0 -8 C 0 -30 20 -44 45 -30 C 84 -8 70 55 0 100 Z" fill="#f9a8c2"/>
+        </g></g>
+        <g transform="translate(52 258)"><g class="trinket t5">
+          <rect x="-19" y="-8" width="38" height="28" rx="7" fill="#e8719b"/>
+          <rect x="-23" y="-19" width="46" height="12" rx="6" fill="#dc3f72"/>
+          <rect x="-3.5" y="-19" width="7" height="39" fill="url(#gGold)"/>
+          <ellipse cx="-10" cy="-22" rx="8" ry="4.2" fill="url(#gGold)" transform="rotate(-24 -10 -22)"/>
+          <ellipse cx="10" cy="-22" rx="8" ry="4.2" fill="url(#gGold)" transform="rotate(24 10 -22)"/>
+          <rect x="-23" y="-18" width="46" height="3" rx="1.5" fill="#ffffff" opacity=".28"/>
+        </g></g>
+      </svg>
+    </div>
+    <div class="cover-copy">
+      <p class="cover-kicker">阿澄与小满的年度纪念 / 第四年</p>
+      <h1>我们的 2026</h1>
+      <p class="cover-dek">把一整年的碎碎念压成一枚纪念品：它不重，拿在手里却是压手的。
+      这一年的话没有一句丢掉，全都化成了糖、金币和一颗舍不得放下的大爱心。</p>
+      <ul class="safe-stats">
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#e85d8a" d="M12 21C4.8 16 2.6 11.4 5 8.2 6.7 6 10 6.4 12 9c2-2.6 5.3-3 7-.8 2.4 3.2.2 7.8-7 12.8z"/></svg>
+          在一起 1,657 天
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#b0325f" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3.5"/><path d="M8 3v4M16 3v4M3.5 10.5h17"/></svg>
+          纪念日 6 月 18 日
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#c9962e" d="M9 19a2.5 2.5 0 1 1-1.5-2.3V6.2L19 3.8v10a2.5 2.5 0 1 1-1.5-2.3V7.4L9 9.4z"/></svg>
+          共同歌单 214 首
+        </li>
+      </ul>
+      <p class="cover-note">以上均为两人共同授权的聊天记录聚合 / 本页不出现任何一句原文</p>
+    </div>
+  </section>
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  <!-- 二 / 图标舞台指标：带高光与软影的立体小方块 -->
+  <section class="icon-stage" aria-label="这一年的分量">
+    <header class="sec-head">
+      <h2>这一年的分量</h2>
+      <p>三枚压手的纪念币 / 每一枚都是一整年攒出来的</p>
+    </header>
+    <div class="coin-grid">
+      <article class="coin">
+        <span class="coin-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#de4a7c" d="M12 4c5.2 0 9 3 9 6.8s-3.8 6.8-9 6.8c-.9 0-1.8-.1-2.6-.3L5 20l1.2-3.4C4.4 15.2 3 13.1 3 10.8 3 7 6.8 4 12 4z"/><circle cx="8.4" cy="10.6" r="1.3" fill="#ffffff"/><circle cx="12" cy="10.6" r="1.3" fill="#ffffff"/><circle cx="15.6" cy="10.6" r="1.3" fill="#ffffff"/></svg>
+        </span>
+        <b class="num" data-count="128406">128,406</b>
+        <span class="coin-label">对话条数</span>
+        <p class="coin-note">平均每天 355 条，最长的一次连聊从晚饭后说到凌晨两点</p>
+      </article>
+      <article class="coin">
+        <span class="coin-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#b0325f" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3.5"/><path d="M8 3v4M16 3v4M3.5 10.5h17"/><path fill="#e85d8a" stroke="none" d="M12 17.8c-1.9-1.2-2.8-2.5-2.5-3.7.3-1 1.6-1.3 2.5-.5.9-.8 2.2-.5 2.5.5.3 1.2-.6 2.5-2.5 3.7z"/></svg>
+        </span>
+        <b class="num" data-count="361">361</b>
+        <span class="coin-label">有记录的日子</span>
+        <p class="coin-note">366 天里只漏掉 4 天，都在 10 月的第二个星期</p>
+      </article>
+      <article class="coin">
+        <span class="coin-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#b0325f" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="3.5"/><path d="M7.5 4.5v15M16.5 4.5v15M3.5 9h4M3.5 15h4M16.5 9h4M16.5 15h4"/></svg>
+        </span>
+        <b class="num" data-count="23">23</b>
+        <span class="coin-label">一起看的电影</span>
+        <p class="coin-note">最爱的一部已经三刷，票根都收在同一个铁盒里</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 三 / 消息脉冲板：圆糖果格热力月历 -->
+  <section class="pulse-board" aria-label="糖果月历">
+    <header class="sec-head">
+      <h2>一年的糖罐</h2>
+      <p>每颗糖是一天 / 越甜说明那天的话越多，指针停在糖上可以看当天</p>
+    </header>
+    <div class="board-area">
+      <div class="board" id="candyBoard" role="list" aria-label="2026 年圆糖果格热力月历 / 每颗糖代表一天的消息量"></div>
+      <div class="candy-tip" id="candyTip" aria-hidden="true"></div>
+    </div>
+    <div class="board-foot">
+      <p class="legend">
+        <span>少</span>
+        <i class="lg0"></i><i class="lg1"></i><i class="lg2"></i><i class="lg3"></i><i class="lg4"></i>
+        <i class="lg-empty"></i>
+        <span>多 / 虚线圈是没说话的日子</span>
+      </p>
+      <p class="board-notable">最热的一天 <b>5 月 20 日 / 1,032 条</b> / 最长连胜 <b>61 天</b>（3 月 4 日到 5 月 3 日）/ 最安静的一周 <b>10 月第二周</b></p>
+    </div>
+  </section>
+
+  <!-- 四 / 软对比泳道：两人均衡对比、共同词、回应节奏 -->
+  <section class="compare-lane" aria-label="两个人的节奏">
+    <header class="sec-head">
+      <h2>两个人的节奏</h2>
+      <p>阿澄与小满 / 泳道永远两边一样宽，谁也不压过谁</p>
+    </header>
+    <div class="lane-head">
+      <span class="who who-a"><i class="ava">澄</i>阿澄</span>
+      <svg class="vs-heart" viewBox="0 0 24 24" aria-hidden="true"><path fill="#c9962e" d="M12 21C4.8 16 2.6 11.4 5 8.2 6.7 6 10 6.4 12 9c2-2.6 5.3-3 7-.8 2.4 3.2.2 7.8-7 12.8z"/></svg>
+      <span class="who who-b"><i class="ava">满</i>小满</span>
+    </div>
+    <div class="lanes">
+      <div class="lane">
+        <div class="lane-top"><b>谁先开口</b><span>全年每个早晨第一句话的归属</span></div>
+        <div class="lane-bar">
+          <div class="side side-a"><span class="pct">54%</span><span class="bar"><i style="width:54%"></i></span></div>
+          <span class="lane-mid"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#c9962e" d="M12 21C4.8 16 2.6 11.4 5 8.2 6.7 6 10 6.4 12 9c2-2.6 5.3-3 7-.8 2.4 3.2.2 7.8-7 12.8z"/></svg></span>
+          <div class="side side-b"><span class="bar"><i style="width:46%"></i></span><span class="pct">46%</span></div>
+        </div>
+      </div>
+      <div class="lane">
+        <div class="lane-top"><b>表情包大战</b><span>全年共发出 12,480 张，双方差距始终不大</span></div>
+        <div class="lane-bar">
+          <div class="side side-a"><span class="pct">41%</span><span class="bar"><i style="width:41%"></i></span></div>
+          <span class="lane-mid"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#c9962e" d="M12 21C4.8 16 2.6 11.4 5 8.2 6.7 6 10 6.4 12 9c2-2.6 5.3-3 7-.8 2.4 3.2.2 7.8-7 12.8z"/></svg></span>
+          <div class="side side-b"><span class="bar"><i style="width:59%"></i></span><span class="pct">59%</span></div>
+        </div>
+      </div>
+      <div class="lane">
+        <div class="lane-top"><b>谁先说晚安</b><span>先闭眼的人负责收尾，这是今年的收尾榜</span></div>
+        <div class="lane-bar">
+          <div class="side side-a"><span class="pct">63%</span><span class="bar"><i style="width:63%"></i></span></div>
+          <span class="lane-mid"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#c9962e" d="M12 21C4.8 16 2.6 11.4 5 8.2 6.7 6 10 6.4 12 9c2-2.6 5.3-3 7-.8 2.4 3.2.2 7.8-7 12.8z"/></svg></span>
+          <div class="side side-b"><span class="bar"><i style="width:37%"></i></span><span class="pct">37%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="lane-extra">
+      <div class="mini-card">
+        <b class="mini-title">回应节奏</b>
+        <div class="rhythm-row"><span>阿澄的中位回复</span><b>6 分钟</b></div>
+        <div class="rhythm-row"><span>小满的中位回复</span><b>14 分钟</b></div>
+        <p class="mini-note">深夜十点以后小满回得更快 / 两人在工作时间都不爱看手机</p>
+      </div>
+      <div class="mini-card">
+        <b class="mini-title">共同词 / 今年说得最多的六句</b>
+        <div class="word-chips">
+          <span class="wchip">晚安<b>2,061</b></span>
+          <span class="wchip">哈哈哈<b>2,314</b></span>
+          <span class="wchip">吃饭了吗<b>1,088</b></span>
+          <span class="wchip">抱抱<b>755</b></span>
+          <span class="wchip">到家说一声<b>612</b></span>
+          <span class="wchip">周末去哪<b>486</b></span>
+        </div>
+        <p class="mini-note">只统计两人今年都用过的词 / 按合并次数排序</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 五 / 隐私证据抽屉：匿名化小条目，不做聊天回放器 -->
+  <section class="privacy-drawer" aria-label="隐私抽屉">
+    <header class="sec-head">
+      <h2>隐私抽屉</h2>
+      <p>只放匿名化的小纪念 / 原文一句也不会放进来</p>
+    </header>
+    <button class="drawer-btn" id="drawerBtn" type="button" aria-expanded="false" aria-controls="drawerBody">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#b0325f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="4.5" y="10.5" width="15" height="10" rx="3" fill="#fbe7ee"/>
+        <path class="lock-shut" d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>
+        <path class="lock-open" d="M8 10.5V7.5a4 4 0 0 1 7.6-1.7"/>
+      </svg>
+      <span id="drawerBtnText">打开抽屉 / 六件小物</span>
+    </button>
+    <div class="drawer-body" id="drawerBody">
+      <div class="drawer-inner">
+        <ul class="memo-grid">
+          <li class="memo">
+            <div class="memo-meta"><span class="m-date">2 月 14 日</span><span class="m-tag">纪念日</span></div>
+            <p>一段 46 字的晚安被封存，仅本人可见，转入抽屉后不再计数</p>
+          </li>
+          <li class="memo">
+            <div class="memo-meta"><span class="m-date">4 月 2 日</span><span class="m-tag">和好</span></div>
+            <p>冷战 3 小时 41 分后，第一条消息由对方发出，内容已脱敏</p>
+          </li>
+          <li class="memo">
+            <div class="memo-meta"><span class="m-date">5 月 20 日</span><span class="m-tag">红包</span></div>
+            <p>两个 5.20 的红包在同一分钟发出，附言以圆点代替显示</p>
+          </li>
+          <li class="memo">
+            <div class="memo-meta"><span class="m-date">7 月 19 日</span><span class="m-tag">第一次看海</span></div>
+            <p>定位仅保留到城市：青岛，照片缩略图不随条目展示</p>
+          </li>
+          <li class="memo">
+            <div class="memo-meta"><span class="m-date">10 月 31 日</span><span class="m-tag">深夜电台</span></div>
+            <p>一条 1 分钟语音按约定保留 30 天，到期自动删除且不转文字</p>
+          </li>
+          <li class="memo">
+            <div class="memo-meta"><span class="m-date">12 月 31 日</span><span class="m-tag">跨年</span></div>
+            <p>零点整两人同时发出了同一个字，该字已隐藏，只留时间戳</p>
+          </li>
+        </ul>
+        <p class="drawer-note">以上条目均已匿名化 / 原始消息永不出现在本页 / 抽屉合上后不留任何展开状态</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page-foot">
+  <p>UI 设计提示词库 / 内容排版 / 恋爱纪念 3D</p>
+  <a href="../style-catalog.html">返回风格目录</a>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- 圆糖果格热力月历 ---------- */
+  var YEAR = 2026;
+  var NAMES = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+  var SPECIAL = {
+    '1-1': 812, '2-14': 986, '3-8': 634, '5-20': 1032, '6-18': 995,
+    '7-19': 745, '10-1': 588, '12-24': 651, '12-25': 673, '12-31': 908
+  };
+  var EMPTY = { '10-6': 1, '10-7': 1, '10-8': 1, '10-9': 1 };
+
+  function seed(m, d) {
+    var x = Math.sin(m * 127.1 + d * 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  }
+
+  function countOf(m, d) {
+    if (EMPTY[m + '-' + d]) { return 0; }
+    if (SPECIAL[m + '-' + d]) { return SPECIAL[m + '-' + d]; }
+    var base = 40 + Math.round(seed(m, d) * 606);
+    /* 5 月 1 日 +64 校准：全年总和精确等于纪念币上的 128,406 条 */
+    return (m === 5 && d === 1) ? base + 64 : base;
+  }
+
+  function levelOf(c) {
+    if (c === 0) { return -1; }
+    if (c > 760) { return 4; }
+    if (c > 520) { return 3; }
+    if (c > 300) { return 2; }
+    if (c > 140) { return 1; }
+    return 0;
+  }
+
+  var board = document.getElementById('candyBoard');
+  if (board) {
+    var frag = document.createDocumentFragment();
+    for (var m = 1; m <= 12; m++) {
+      var days = new Date(YEAR, m, 0).getDate();
+      var offset = (new Date(YEAR, m - 1, 1).getDay() + 6) % 7;
+      var total = 0;
+      var dd;
+      for (dd = 1; dd <= days; dd++) { total += countOf(m, dd); }
+
+      var card = document.createElement('div');
+      card.className = 'month';
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('aria-label', NAMES[m - 1] + ' / 共 ' + total.toLocaleString() + ' 条');
+
+      var head = document.createElement('div');
+      head.className = 'month-head';
+      var hb = document.createElement('b');
+      hb.textContent = NAMES[m - 1];
+      var hs = document.createElement('span');
+      hs.textContent = total.toLocaleString();
+      head.appendChild(hb);
+      head.appendChild(hs);
+
+      var cells = document.createElement('div');
+      cells.className = 'month-cells';
+      var bd;
+      for (bd = 0; bd < offset; bd++) {
+        var blank = document.createElement('i');
+        blank.className = 'candy blank';
+        blank.setAttribute('aria-hidden', 'true');
+        cells.appendChild(blank);
+      }
+      for (dd = 1; dd <= days; dd++) {
+        var c = countOf(m, dd);
+        var lv = levelOf(c);
+        var cell = document.createElement('i');
+        cell.className = 'candy' + (lv < 0 ? ' empty' : ' lv' + lv);
+        cell.setAttribute('aria-hidden', 'true');
+        cell.setAttribute('data-tip', m + ' 月 ' + dd + ' 日 / ' +
+          (c === 0 ? '各自安静的一天' : c.toLocaleString() + ' 条'));
+        cells.appendChild(cell);
+      }
+
+      card.appendChild(head);
+      card.appendChild(cells);
+      frag.appendChild(card);
+    }
+    board.appendChild(frag);
+  }
+
+  /* ---------- 糖果悬浮提示 ---------- */
+  var area = document.querySelector('.board-area');
+  var tip = document.getElementById('candyTip');
+  if (area && tip && board) {
+    board.addEventListener('mouseover', function (e) {
+      var t = e.target;
+      if (!t.getAttribute || !t.getAttribute('data-tip')) { return; }
+      tip.textContent = t.getAttribute('data-tip');
+      tip.classList.add('on');
+      var at = area.getBoundingClientRect();
+      var dt = t.getBoundingClientRect();
+      var x = dt.left - at.left + dt.width / 2;
+      var y = dt.top - at.top - 8;
+      x = Math.max(56, Math.min(at.width - 56, x));
+      y = Math.max(30, y);
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    });
+    board.addEventListener('mouseout', function (e) {
+      if (e.target.getAttribute && e.target.getAttribute('data-tip')) {
+        tip.classList.remove('on');
+      }
+    });
+  }
+
+  /* ---------- 纪念币数字：随一次亮相滚动到终值 ---------- */
+  var nums = document.querySelectorAll('.num[data-count]');
+  function fmt(n) { return n.toLocaleString('en-US'); }
+  for (var i = 0; i < nums.length; i++) {
+    (function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      if (reduce || !window.requestAnimationFrame) {
+        el.textContent = fmt(target);
+        return;
+      }
+      var t0 = null;
+      var dur = 1100;
+      el.textContent = fmt(0);
+      function step(ts) {
+        if (t0 === null) { t0 = ts; }
+        var p = Math.min(1, (ts - t0) / dur);
+        var ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(target * ease));
+        if (p < 1) { requestAnimationFrame(step); }
+      }
+      requestAnimationFrame(step);
+    })(nums[i]);
+  }
+
+  /* ---------- 隐私抽屉开合 ---------- */
+  var btn = document.getElementById('drawerBtn');
+  var bodyBox = document.getElementById('drawerBody');
+  var btnText = document.getElementById('drawerBtnText');
+  if (btn && bodyBox && btnText) {
+    bodyBox.addEventListener('transitionend', function (ev) {
+      if (ev.propertyName === 'max-height' && bodyBox.classList.contains('open')) {
+        bodyBox.style.maxHeight = 'none';
+      }
+    });
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      if (open) {
+        if (bodyBox.style.maxHeight === 'none' || bodyBox.style.maxHeight === '') {
+          bodyBox.style.maxHeight = bodyBox.scrollHeight + 'px';
+        }
+        requestAnimationFrame(function () {
+          bodyBox.classList.remove('open');
+          bodyBox.style.maxHeight = '0px';
+        });
+        btn.setAttribute('aria-expanded', 'false');
+        btnText.textContent = '打开抽屉 / 六件小物';
+      } else {
+        bodyBox.classList.add('open');
+        bodyBox.style.maxHeight = bodyBox.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+        btnText.textContent = '合上抽屉';
+      }
+    });
+  }
+})();
+</script>
+
 </body>
 </html>

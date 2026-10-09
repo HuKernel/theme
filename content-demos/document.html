@@ -4,167 +4,825 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>档案审阅 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>档案审阅 Document Review / UI 设计提示词库</title>
+<meta name="description" content="项目南屿并购法律尽职调查报告审阅页样张：刊头与警示、速览/大纲/证据三态读者栏、备忘录式主张章节、事实表、证据摊开与审查脚注。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+family=JetBrains+Mono+family=Source+Serif+4&display=swap');
+/* token 计划：底 #FBFAF7 / 纸 #FFFFFF / 墨 #26282B / 弱文 #6B675C（自 #7D7A72 加深至 5.4:1）/ 强调 #7A4E2D 用于刊头粗底线、主张与证据栏（6.8:1）/ 线 #E0DCD0 / 风险色 高 #A03A26 中 #8F6118 低 #47633F / 标题 Source Serif 4 + Noto Serif SC / 正文 IBM Plex Sans / 圆角 6px */
 
 :root {
-  --bg: #FBFAF7; --panel: #FFFFFF; --ink: #26282B; --muted: #7D7A72;
-  --accent: #7A4E2D; --line: #E0DCD0; --radius: 6px;
-  --fh: 'Source Serif 4', 'PingFang SC', 'Microsoft YaHei', serif;
+  --bg: #FBFAF7;
+  --panel: #FFFFFF;
+  --ink: #26282B;
+  --muted: #6B675C;
+  --accent: #7A4E2D;
+  --accent-ink: #6E4526;
+  --line: #E0DCD0;
+  --tint: #F6F0E8;
+  --hi: #A03A26;
+  --mid: #8F6118;
+  --low: #47633F;
+  --radius: 6px;
+  --fh: 'Source Serif 4', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
   --fb: 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
+[hidden] { display: none !important; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  padding: 40px 20px 64px;
+  -webkit-font-smoothing: antialiased;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
 
+::selection { background: var(--accent); color: #FFFFFF; }
+
+a, button { font-family: inherit; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+.sheet-shell { max-width: 920px; margin: 0 auto; }
+
+/* ── 刊头 masthead ───────────────────────── */
+
+.masthead { border-top: 3px solid var(--ink); padding-top: 14px; }
+
+.docket {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+.docket span + span::before { content: "/"; margin: 0 10px; color: var(--muted); }
+
+.mast-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(230px, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.project {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  margin-bottom: 8px;
+}
+
+.mast-main h1 {
+  font-family: var(--fh);
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 700;
+  line-height: 1.22;
+  margin-bottom: 10px;
+}
+
+.target { font-size: 13.5px; color: var(--ink); max-width: 34em; }
+
+.mast-rule {
+  height: 3px;
+  background: var(--accent);
+  margin: 16px 0 18px;
+  max-width: 34em;
+}
+
+.abstract h2,
+.mast-dox h2 {
+  font-family: var(--fh);
+  font-size: 16.5px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.abstract p { font-size: 14.5px; line-height: 1.85; max-width: 36em; }
+.abstract p + p { margin-top: 8px; }
+
+.mast-dox {
+  border-left: 1.5px solid var(--line);
+  padding-left: 22px;
+}
+.mast-dox h2 { color: var(--accent-ink); }
+.mast-dox dl div {
+  display: grid;
+  grid-template-columns: 4.5em 1fr;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 13px;
+}
+.mast-dox dt { color: var(--muted); }
+.mast-dox dd { font-weight: 500; }
+
+.warn {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 22px;
+  padding: 12px 16px;
+  border: 1.5px solid var(--accent);
+  border-left-width: 5px;
+  border-radius: var(--radius);
+  background: var(--tint);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.warn svg { flex: 0 0 auto; color: var(--accent); margin-top: 3px; }
+.warn b { margin-right: 8px; }
+
+/* ── 读者栏 reader rail ──────────────────── */
+
+.reader-rail {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  border-bottom: 1.5px solid var(--line);
+  margin-top: 30px;
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  animation: toc-slide .55s cubic-bezier(.2, .7, .2, 1) both;
+}
+@keyframes toc-slide {
+  from { transform: translateX(-18px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.toc-label { font-size: 12.5px; color: var(--muted); }
+.toc a {
+  font-size: 13.5px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  padding-bottom: 1px;
+}
+.toc a:hover { color: var(--accent-ink); border-bottom-color: var(--accent); }
+
+.rail-tools { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+
+.modes {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.modes button {
+  font-size: 13px;
+  padding: 5px 14px;
+  border: none;
+  border-right: 1.5px solid var(--ink);
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.modes button:last-child { border-right: none; }
+.modes button.on { background: var(--ink); color: #FFFFFF; }
+
+.topics { display: flex; flex-wrap: wrap; gap: 6px; }
+.topics button {
+  font-size: 12.5px;
+  padding: 4px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+.topics button.on { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+
+/* ── 正文纸 body sheet ───────────────────── */
+
+.body-sheet { margin-top: 28px; }
+
+.chapter {
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 26px 20px;
+  margin-bottom: 16px;
+}
+
+.ch-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+.ch-no {
+  font-family: var(--fh);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.ch-head h2 {
+  font-family: var(--fh);
+  font-size: 21px;
+  font-weight: 700;
+}
+.ch-risk {
+  margin-left: auto;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  padding: 2px 12px;
+}
+
+.claim {
+  font-family: var(--fh);
+  font-size: 15.5px;
+  line-height: 1.95;
+}
+.claim::before {
+  content: "主张";
+  display: block;
+  font-family: var(--fb);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  letter-spacing: .08em;
+  margin-bottom: 2px;
+}
+
+.ch-note { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+
+/* 事实表（grid，同表共用列模板保证对齐） */
+
+.fact-wrap {
+  overflow-x: auto;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.fg { display: block; font-variant-numeric: tabular-nums; }
+.fg-row { display: grid; grid-template-columns: var(--fc); }
+.fg-row > span {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  min-width: 0;
+}
+.fg-row:last-child > span { border-bottom: none; }
+.fg-head > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: #F7F4EC;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.ft-subject { --fc: 1.5fr 4.6em .8fr 1.7fr; min-width: 560px; }
+.ft-contract { --fc: 3.4em 1.35fr 1.05fr 1fr 1.6fr 2.6em; min-width: 760px; }
+.ft-liability { --fc: 3.4em 1fr 1.15fr 1fr 1fr 2.6em; min-width: 660px; }
+.ft-labor { --fc: 3.4em 1.2fr 1fr 1.3fr 2.6em; min-width: 600px; }
+
+.risk { font-style: normal; font-weight: 600; white-space: nowrap; }
+.risk::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+  background: currentColor;
+}
+.risk.hi { color: var(--hi); }
+.risk.mid { color: var(--mid); }
+.risk.low { color: var(--low); }
+
+/* §6 交割先决条件 */
+
+.cond-list { margin: 14px 0 0 0; padding-left: 0; list-style: none; counter-reset: cond; }
+.cond-list li {
+  counter-increment: cond;
+  display: grid;
+  grid-template-columns: 2.4em 1fr;
+  gap: 10px;
+  padding: 9px 2px;
+  border-bottom: 1px dashed var(--line);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.cond-list li::before {
+  content: "(" counter(cond) ")";
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+/* ── 证据摊开 evidence spread ────────────── */
+
+.evidence-spread { margin-top: 36px; border-top: 3px solid var(--ink); padding-top: 18px; }
+
+.ev-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; margin-bottom: 16px; }
+.ev-head h2 { font-family: var(--fh); font-size: 23px; font-weight: 700; }
+.ev-head p { font-size: 13px; color: var(--muted); }
+.ev-count { font-weight: 600; color: var(--accent-ink); }
+
+.ev-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 236px;
+  gap: 24px;
+  align-items: start;
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+
+.ev-tag { font-size: 13px; font-weight: 600; color: var(--accent-ink); margin-bottom: 8px; }
+
+.ev-item blockquote {
+  font-family: var(--fh);
+  font-size: 15px;
+  line-height: 1.9;
+  border-left: 3px solid var(--line);
+  padding-left: 14px;
+}
+
+.ev-note { font-size: 12.5px; color: var(--muted); line-height: 1.7; margin-top: 10px; }
+.ev-note b { color: var(--ink); font-weight: 600; }
+
+.ev-meta dl div {
+  display: grid;
+  grid-template-columns: 3.4em 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 12.5px;
+}
+.ev-meta dt { color: var(--muted); }
+.ev-meta dd { font-weight: 500; }
+
+.ev-empty {
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ── 审查脚注 caveat ─────────────────────── */
+
+.caveat { margin-top: 40px; border-top: 1.5px solid var(--line); padding-top: 18px; }
+.caveat h2 {
+  font-family: var(--fh);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  margin-bottom: 10px;
+}
+.defs dl div {
+  display: grid;
+  grid-template-columns: 7.5em 1fr;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 13px;
+}
+.defs dt { color: var(--muted); font-weight: 600; }
+.defs dd { line-height: 1.7; }
+
+.cav-warn { font-size: 12.5px; color: var(--muted); margin-top: 14px; line-height: 1.7; }
+
+.ver-grid { margin-top: 6px; border: 1px solid var(--line); border-radius: var(--radius); overflow-x: auto; }
+.ver-grid .fg-row { --fc: 4em 7em 1fr 5em; min-width: 520px; }
+
+.sig {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+}
+.sig span + span::before { content: "/"; margin: 0 10px; }
+
+.foot {
+  margin-top: 44px;
+  border-top: 2px solid var(--ink);
+  padding-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+}
+.foot a { color: var(--accent-ink); font-weight: 600; }
+
+/* ── 三态阅读模式 ────────────────────────── */
+
+[data-mode="outline"] .fact-wrap,
+[data-mode="outline"] .cond-list,
+[data-mode="outline"] .ch-note,
+[data-mode="outline"] .evidence-spread { display: none; }
+[data-mode="outline"] .body-sheet { margin-top: 22px; }
+[data-mode="outline"] .chapter {
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid var(--line);
+  border-radius: 0;
+  padding: 12px 2px;
+  margin-bottom: 0;
+}
+[data-mode="outline"] .ch-head { border-bottom: none; padding-bottom: 0; margin-bottom: 6px; }
+[data-mode="outline"] .ch-head h2 { font-size: 18px; }
+[data-mode="outline"] .claim { font-size: 14px; line-height: 1.8; }
+
+[data-mode="evidence"] .body-sheet { display: none; }
+[data-mode="evidence"] .evidence-spread { border-top-color: var(--accent); }
+
+/* ── 响应式 ─────────────────────────────── */
+
+@media (max-width: 900px) {
+  .mast-cols { grid-template-columns: 1fr; }
+  .mast-dox { border-left: none; padding-left: 0; border-top: 1.5px solid var(--line); padding-top: 14px; }
+}
+@media (max-width: 820px) {
+  .ev-item { grid-template-columns: 1fr; gap: 12px; }
+  .ev-meta { border-top: 1px dashed var(--line); padding-top: 4px; }
+  .ev-meta dl { display: flex; flex-wrap: wrap; gap: 0 22px; }
+  .ev-meta dl div { border-bottom: none; padding: 3px 0; }
+}
+@media (max-width: 768px) {
+  body { padding: 28px 14px 52px; }
+  .reader-rail { position: static; }
+  .chapter { padding: 18px 16px 16px; }
+  .ch-risk { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .docket { flex-direction: column; gap: 2px; }
+  .docket span + span::before { content: none; margin: 0; }
+  .modes button { padding: 5px 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc { animation: none; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Document Review</p>
-  <h1>档案审阅</h1>
-  <p class="sub">阅读与审阅系统：有主张、有证据、可追溯的结构化文档。文章、阅读清单、研究合集、PDF/DOCX、法律/医疗/政策等高风险长文档。</p>
-  <p class="meta">本页 token：<code>底 #FBFAF7</code> <code>面板 #FFFFFF</code> <code>主字 #26282B</code> <code>强调 #7A4E2D</code> <code>圆角 6px</code> / 标题 <code>Source Serif 4</code> / 正文 <code>IBM Plex Sans</code> / 动效：目录条一次滑入</p>
+<div class="sheet-shell" id="doc" data-mode="skim" data-topic="all">
 
-  <h2>结构示意</h2>
-  <div class="hx doch" style="--a:#7A4E2D;--l:#E0DCD0">
-  <div class="mast"><b>2026 阅读档案 / 审阅版</b><span>范围：全年 / 来源：Kindle 导出</span></div>
-  <div class="rail">速览 | 大纲 | 证据</div>
-  <p>主张：长篇胜过碎片——证据见第 3 节。</p>
+  <header class="masthead">
+    <p class="docket">
+      <span>报告编号 FD-2026-0311</span>
+      <span>版本 v1.0 终稿</span>
+      <span>密级 仅供委托方内部使用</span>
+    </p>
+    <div class="mast-cols">
+      <div class="mast-main">
+        <p class="project">交易代号 项目南屿 / Project South Isle</p>
+        <h1>并购法律尽职调查报告</h1>
+        <p class="target">委托方 华澜产业控股有限公司 / 目标公司 南方精工传动股份有限公司 / 交易标的 100% 股权</p>
+        <div class="mast-rule" aria-hidden="true"></div>
+        <section class="abstract" aria-label="中立摘要">
+          <h2>中立摘要</h2>
+          <p>目标公司主体资格与核心资产权属基本清晰，具备持续经营基础。本次交易的法律障碍集中于三项可控事项：与主要客户东汽重装的独家供货协议载有控制权变更条款，未经其书面同意交割可能触发解约权；2024 年 8 月一笔 4,300 万元对外担保未在管理层清单中披露；33 名核心工艺人员中 9 人的竞业限制约定不完整。</p>
+          <p>综合风险评级为中高。若将第 6 节所列五项交割先决条件写入最终协议，本项目法律风险可收敛至可接受水平。</p>
+        </section>
+      </div>
+      <aside class="mast-dox" aria-label="档案事实">
+        <h2>档案事实</h2>
+        <dl>
+          <div><dt>出具机构</dt><dd>衡诚律师事务所</dd></div>
+          <div><dt>出具日</dt><dd>2026-09-30</dd></div>
+          <div><dt>基准日</dt><dd>2026-06-30</dd></div>
+          <div><dt>审阅期间</dt><dd>2023-01-01 至 2026-06-30</dd></div>
+          <div><dt>专项范围</dt><dd>主体资格 / 重大合同 / 或有负债 / 劳动用工 / 诉讼合规</dd></div>
+          <div><dt>来源</dt><dd>数据室文件 412 份 / 管理层访谈 9 次 / 公开检索 3 轮</dd></div>
+        </dl>
+      </aside>
+    </div>
+    <p class="warn">
+      <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M10 2.4 19 17.4H1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><line x1="10" y1="7.6" x2="10" y2="12.2" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="14.8" r="1.1" fill="currentColor"/></svg>
+      <span><b>审阅警示</b>本报告基于基准日前数据室可获得之文件与管理层陈述作出，未对文件真实性执行独立鉴证；未经出具机构书面同意，不得向任何第三方披露或引用。</span>
+    </p>
+  </header>
+
+  <nav class="reader-rail" aria-label="读者栏">
+    <div class="toc" id="toc">
+      <span class="toc-label">章节</span>
+      <a href="#c1">§1 执行摘要</a>
+      <a href="#c2">§2 主体资格</a>
+      <a href="#c3">§3 重大合同</a>
+      <a href="#c4">§4 或有负债</a>
+      <a href="#c5">§5 劳动用工</a>
+      <a href="#c6">§6 结论与条件</a>
+      <a href="#evidence">证据摊开</a>
+    </div>
+    <div class="rail-tools">
+      <div class="modes" role="group" aria-label="阅读模式">
+        <button type="button" class="on" data-m="skim" aria-pressed="true">速览</button>
+        <button type="button" data-m="outline" aria-pressed="false">大纲</button>
+        <button type="button" data-m="evidence" aria-pressed="false">证据</button>
+      </div>
+      <div class="topics" role="group" aria-label="主题筛选">
+        <button type="button" class="on" data-t="all" aria-pressed="true">全部</button>
+        <button type="button" data-t="subject" aria-pressed="false">主体资格</button>
+        <button type="button" data-t="contract" aria-pressed="false">重大合同</button>
+        <button type="button" data-t="liability" aria-pressed="false">或有负债</button>
+        <button type="button" data-t="labor" aria-pressed="false">劳动用工</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="body-sheet" aria-label="正文纸">
+
+    <section class="chapter" id="c1">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">§1</span>
+        <h2>执行摘要与总体结论</h2>
+        <span class="ch-risk">综合风险 中高</span>
+      </header>
+      <p class="claim">目标公司具备持续经营基础，交易障碍主要来自三项可控事项：独家供货协议的控制权变更条款、一笔未披露对外担保、核心人员竞业安排的覆盖缺口。将第 6 节所列五项先决条件落实后，本项目法律风险可收敛至可接受水平。</p>
+      <p class="ch-note">事实支撑见第 2 至 5 节的事实表；逐字摘录见文末证据摊开（EV-01 至 EV-04）。</p>
+    </section>
+
+    <section class="chapter" id="c2">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">§2</span>
+        <h2>主体资格与股权结构</h2>
+        <span class="ch-risk">风险 低</span>
+      </header>
+      <p class="claim">目标公司系依法设立并有效存续的股份有限公司，注册资本 8,600 万元已全部实缴；现有登记股东 26 名，未发现股权代持、质押或其他权利负担。2023 年 3 月增资所涉资产评估备案手续曾缺失，已于 2024 年 1 月补正，对本次交易不构成实质障碍。</p>
+      <div class="fact-wrap" data-topic="subject" role="region" aria-label="股权结构事实表" tabindex="0">
+        <div class="fg ft-subject" role="table">
+          <div class="fg-row fg-head" role="row"><span role="columnheader">股东</span><span role="columnheader">持股比例</span><span role="columnheader">性质</span><span role="columnheader">审阅注记</span></div>
+          <div class="fg-row" role="row"><span role="cell">陈岫南（创始人、董事长）</span><span role="cell">46.20%</span><span role="cell">自然人</span><span role="cell">已取得无质押、无代持声明</span></div>
+          <div class="fg-row" role="row"><span role="cell">南合伙企业（员工持股平台）</span><span role="cell">12.80%</span><span role="cell">有限合伙</span><span role="cell">合伙人 33 人，含 9 名核心工艺人员</span></div>
+          <div class="fg-row" role="row"><span role="cell">其余 24 名自然人</span><span role="cell">41.00%</span><span role="cell">自然人</span><span role="cell">22 份放弃优先购买权承诺已取得，余 2 份补件中</span></div>
+          <div class="fg-row" role="row"><span role="cell">合计</span><span role="cell">100.00%</span><span role="cell">—</span><span role="cell">与工商登记及股权底稿一致</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="c3">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">§3</span>
+        <h2>重大合同审阅</h2>
+        <span class="ch-risk">风险 中高</span>
+      </header>
+      <p class="claim">审阅识别重大合同 8 份，合计在履约金额约 2.87 亿元。其中与东汽重装签署的独家供货协议载有控制权变更限制条款，构成本次交易最主要的合同障碍；其余 7 份的风险可通过惯常陈述保证与过渡期承诺覆盖。</p>
+      <div class="fact-wrap" data-topic="contract" role="region" aria-label="重大合同事实表" tabindex="0">
+        <div class="fg ft-contract" role="table">
+          <div class="fg-row fg-head" role="row"><span role="columnheader">编号</span><span role="columnheader">相对方</span><span role="columnheader">事项</span><span role="columnheader">金额或期限</span><span role="columnheader">风险点</span><span role="columnheader">等级</span></div>
+          <div class="fg-row" role="row"><span role="cell">C-01</span><span role="cell">东汽重装</span><span role="cell">独家供货协议</span><span role="cell">至 2027-12-31</span><span role="cell">控制权变更未经书面同意可解约并追违约金</span><span role="cell"><em class="risk hi">高</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-02</span><span role="cell">恒达热处理</span><span role="cell">委外加工框架协议</span><span role="cell">约 2,900 万元每年</span><span role="cell">供货逾期罚则不对称，我方责任上限缺失</span><span role="cell"><em class="risk mid">中</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-03</span><span role="cell">中船第七一二研究所</span><span role="cell">技术开发合同</span><span role="cell">1,180 万元</span><span role="cell">成果知识产权约定为双方共有</span><span role="cell"><em class="risk mid">中</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-04</span><span role="cell">广新租赁</span><span role="cell">厂房租赁合同</span><span role="cell">至 2030-06-30</span><span role="cell">租金重估条款可被提前触发</span><span role="cell"><em class="risk low">低</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-05</span><span role="cell">华南理工大学</span><span role="cell">联合实验室协议</span><span role="cell">至 2027-12-31</span><span role="cell">排他合作范围限于现有产品线</span><span role="cell"><em class="risk low">低</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-06</span><span role="cell">德马克（上海）</span><span role="cell">设备采购合同尾款</span><span role="cell">640 万元</span><span role="cell">质保金释放条件存在争议</span><span role="cell"><em class="risk mid">中</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-07</span><span role="cell">南合伙企业（持股平台）</span><span role="cell">增资协议</span><span role="cell">2023-03 签署</span><span role="cell">回购触发条款涉及本次交易安排</span><span role="cell"><em class="risk mid">中</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">C-08</span><span role="cell">出口信用保险公司</span><span role="cell">统保保单</span><span role="cell">年度续保</span><span role="cell">赊销业务未纳入承保范围</span><span role="cell"><em class="risk low">低</em></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="c4">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">§4</span>
+        <h2>或有负债与对外担保</h2>
+        <span class="ch-risk">风险 高</span>
+      </header>
+      <p class="claim">发现未披露对外担保一项、未决诉讼两起、税务遗留事项一项。对南屿精密铸造 4,300 万元连带责任保证未列入管理层或有事项清单，建议作为交割前解除事项或专项赔偿安排处理。</p>
+      <div class="fact-wrap" data-topic="liability" role="region" aria-label="或有负债事实表" tabindex="0">
+        <div class="fg ft-liability" role="table">
+          <div class="fg-row fg-head" role="row"><span role="columnheader">编号</span><span role="columnheader">事项</span><span role="columnheader">相对方</span><span role="columnheader">金额或标的</span><span role="columnheader">状态</span><span role="columnheader">等级</span></div>
+          <div class="fg-row" role="row"><span role="cell">L-01</span><span role="cell">连带责任保证</span><span role="cell">南屿精密铸造</span><span role="cell">4,300 万元</span><span role="cell">存续，未披露</span><span role="cell"><em class="risk hi">高</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">L-02</span><span role="cell">买卖合同纠纷</span><span role="cell">恒达热处理</span><span role="cell">约 380 万元</span><span role="cell">一审已开庭待判</span><span role="cell"><em class="risk mid">中</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">L-03</span><span role="cell">工伤赔偿争议</span><span role="cell">前员工陈某</span><span role="cell">约 232 万元</span><span role="cell">调解阶段</span><span role="cell"><em class="risk mid">中</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">L-04</span><span role="cell">增值税加计抵减遗留</span><span role="cell">主管税务机关</span><span role="cell">约 89 万元</span><span role="cell">补正中</span><span role="cell"><em class="risk low">低</em></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="c5">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">§5</span>
+        <h2>劳动用工与核心人员</h2>
+        <span class="ch-risk">风险 中</span>
+      </header>
+      <p class="claim">在册员工 486 人，劳动合同签署与社保缴纳基本合规，历史社保补缴金额约 21 万元。主要缺口在核心人员绑定：33 名核心工艺人员中 9 人的竞业限制协议在期限或地域范围上约定不完整，应于交割前完成补签或以留任安排替代覆盖。</p>
+      <div class="fact-wrap" data-topic="labor" role="region" aria-label="劳动用工事实表" tabindex="0">
+        <div class="fg ft-labor" role="table">
+          <div class="fg-row fg-head" role="row"><span role="columnheader">编号</span><span role="columnheader">事项</span><span role="columnheader">数量或范围</span><span role="columnheader">缺口或金额</span><span role="columnheader">等级</span></div>
+          <div class="fg-row" role="row"><span role="cell">T-01</span><span role="cell">劳动合同与社保</span><span role="cell">在册 486 人</span><span role="cell">历史社保补缴约 21 万元</span><span role="cell"><em class="risk low">低</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">T-02</span><span role="cell">核心工艺人员竞业限制</span><span role="cell">33 人中 9 人</span><span role="cell">期限或地域约定不完整</span><span role="cell"><em class="risk hi">高</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">T-03</span><span role="cell">劳务派遣用工</span><span role="cell">12 人</span><span role="cell">占比未超法定 10% 上限</span><span role="cell"><em class="risk low">低</em></span></div>
+          <div class="fg-row" role="row"><span role="cell">T-04</span><span role="cell">年度绩效奖金计提</span><span role="cell">2025 年度</span><span role="cell">或有支付约 460 万元</span><span role="cell"><em class="risk mid">中</em></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="c6">
+      <header class="ch-head">
+        <span class="ch-no" aria-hidden="true">§6</span>
+        <h2>结论与交割先决条件</h2>
+        <span class="ch-risk">附条件推进</span>
+      </header>
+      <p class="claim">综合评估结论为附条件推进。建议将下列五项列入最终协议的签署先决条件或交割条件，并就第 1、2 项设置专项赔偿。</p>
+      <ol class="cond-list">
+        <li>取得东汽重装就控制权变更事项出具的书面同意或弃权函</li>
+        <li>解除或置换对南屿精密铸造的 4,300 万元连带责任保证</li>
+        <li>就两起未决诉讼取得和解协议或计提足额拨备</li>
+        <li>完成 9 名核心工艺人员的竞业限制补签与留任安排</li>
+        <li>完成社保历史补缴并取得主管部门无重大违规证明</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <section class="evidence-spread" id="evidence" aria-label="证据摊开">
+    <header class="ev-head">
+      <h2>证据摊开</h2>
+      <p>以下摘录逐字转录自数据室原件，省略处以〔……〕标示</p>
+      <p class="ev-count" id="evCount" aria-live="polite">共 4 条证据 / 覆盖第 3 至 5 节</p>
+    </header>
+
+    <article class="ev-item" data-topic="contract">
+      <div class="ev-body">
+        <p class="ev-tag">EV-01 / 独家供货协议 第 12.2 条 / 关联 §3</p>
+        <blockquote>「未经甲方事先书面同意，乙方之控股股东发生变更的，甲方有权单方解除本协议，并要求乙方支付相当于过去十二个月采购额百分之二十的违约金。〔……〕本条不因本协议其他条款失效而失效。」</blockquote>
+        <p class="ev-note"><b>审阅注记</b>过去十二个月对东汽重装销售额 1.06 亿元，违约金敞口约 2,120 万元；条款未设交割除外情形。</p>
+      </div>
+      <div class="ev-meta">
+        <dl>
+          <div><dt>来源</dt><dd>数据室 VDR-07-113</dd></div>
+          <div><dt>日期</dt><dd>2022-11-08 签署</dd></div>
+          <div><dt>当事方</dt><dd>精工传动 / 东汽重装</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="ev-item" data-topic="liability">
+      <div class="ev-body">
+        <p class="ev-tag">EV-02 / 第五届董事会第六次会议决议 / 关联 §4</p>
+        <blockquote>「全体与会董事一致同意：公司为南屿精密铸造有限公司向城南商业银行申请的 4,300 万元流动资金借款提供连带责任保证，保证期间为借款到期日起三年。〔……〕决议自表决通过之日起生效。」</blockquote>
+        <p class="ev-note"><b>审阅注记</b>该担保未出现在管理层提供的或有事项清单；相应信息披露义务的履行情况待确认。</p>
+      </div>
+      <div class="ev-meta">
+        <dl>
+          <div><dt>来源</dt><dd>数据室 VDR-11-042</dd></div>
+          <div><dt>日期</dt><dd>2024-08-15 决议</dd></div>
+          <div><dt>当事方</dt><dd>精工传动 / 南屿精密铸造 / 城南商业银行</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="ev-item" data-topic="labor">
+      <div class="ev-body">
+        <p class="ev-tag">EV-03 / 竞业限制协议批签版摘录 / 关联 §5</p>
+        <blockquote>「乙方离职后 12 个月内不得自营或为他人经营与甲方相同或相近的业务。〔……〕其中 9 份批签文本将期限改为 6 个月，或删除地域范围约定。」</blockquote>
+        <p class="ev-note"><b>审阅注记</b>补偿金统一按月薪 30% 执行，未随期限与地域差异调整，个别文本的可执行性存疑。</p>
+      </div>
+      <div class="ev-meta">
+        <dl>
+          <div><dt>来源</dt><dd>数据室 VDR-13-008</dd></div>
+          <div><dt>日期</dt><dd>2025-03-01 至 2025-04-30 批签</dd></div>
+          <div><dt>当事方</dt><dd>精工传动 / 9 名核心工艺人员</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="ev-item" data-topic="liability">
+      <div class="ev-body">
+        <p class="ev-tag">EV-04 / 应诉通知书（2026）粤 01 民初 4472 号 / 关联 §4</p>
+        <blockquote>「本院定于 2026 年 10 月 27 日上午 9 时公开开庭审理原告恒达热处理有限公司诉被告南方精工传动股份有限公司买卖合同纠纷一案。〔……〕被告应于开庭前提交答辩状及证据材料。」</blockquote>
+        <p class="ev-note"><b>审阅注记</b>原告诉请货款及违约金合计约 380 万元；被告已提出质量反诉，反诉标的约 96 万元。</p>
+      </div>
+      <div class="ev-meta">
+        <dl>
+          <div><dt>来源</dt><dd>数据室 VDR-09-021 / 公开检索第二轮</dd></div>
+          <div><dt>日期</dt><dd>2026-07-22 送达</dd></div>
+          <div><dt>当事方</dt><dd>恒达热处理（原告） / 精工传动（被告）</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <p class="ev-empty" id="evEmpty" hidden>当前主题下暂无证据条目 / 切回「全部」查看完整证据</p>
+  </section>
+
+  <footer class="caveat" aria-label="审查脚注">
+    <section class="defs">
+      <h2>定义</h2>
+      <dl>
+        <div><dt>重大合同</dt><dd>指单项金额 500 万元以上或剩余期限超过 3 年的合同</dd></div>
+        <div><dt>核心工艺人员</dt><dd>指掌握渗碳淬火工艺参数及验收标准的 33 名技术员工</dd></div>
+        <div><dt>基准日</dt><dd>指 2026 年 6 月 30 日，本报告事实以此日为限</dd></div>
+        <div><dt>数据室</dt><dd>指委托方与目标公司共同确认的虚拟数据室（VDR）</dd></div>
+      </dl>
+    </section>
+    <section class="ver">
+      <h2>版本与变更记录</h2>
+      <div class="ver-grid">
+        <div class="fg" role="table" aria-label="版本记录">
+          <div class="fg-row fg-head" role="row"><span role="columnheader">版本</span><span role="columnheader">日期</span><span role="columnheader">变更内容</span><span role="columnheader">复核</span></div>
+          <div class="fg-row" role="row"><span role="cell">v0.7</span><span role="cell">2026-09-12</span><span role="cell">初稿，覆盖第 1 至 4 节</span><span role="cell">沈青</span></div>
+          <div class="fg-row" role="row"><span role="cell">v0.9</span><span role="cell">2026-09-24</span><span role="cell">增补第二轮司法检索与第 5 节劳动专项</span><span role="cell">沈青、周衍</span></div>
+          <div class="fg-row" role="row"><span role="cell">v1.0</span><span role="cell">2026-09-30</span><span role="cell">终稿，补入证据摊开与交割条件清单</span><span role="cell">沈青</span></div>
+        </div>
+      </div>
+    </section>
+    <p class="cav-warn">本报告不构成对交易商业价值的判断；摘录如与数据室原件不一致，以原件为准。</p>
+    <p class="sig">
+      <span>衡诚律师事务所</span>
+      <span>负责合伙人 沈青</span>
+      <span>经办律师 周衍</span>
+      <span>本册 42 页</span>
+    </p>
+  </footer>
+
+  <footer class="foot">
+    <p>UI 设计提示词库 / 内容排版 / 档案审阅</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>封面/刊头：标题、范围、来源、中立摘要或论点、必要警示</span></li><li><b>02</b><span>读者栏：章节导航、阅读模式（速览/大纲/证据）、主题筛选</span></li><li><b>03</b><span>正文纸：章节按备忘录排布；叙事调性用引文，正式调性用事实表</span></li><li><b>04</b><span>证据摊开：摘录、来源标签、日期、当事方</span></li><li><b>05</b><span>审查脚注：定义、警示、版本与变更记录</span></li></ol>
+<script>
+(function () {
+  'use strict';
+  var doc = document.getElementById('doc');
+  var modeBtns = Array.prototype.slice.call(document.querySelectorAll('.modes button'));
+  var topicBtns = Array.prototype.slice.call(document.querySelectorAll('.topics button'));
+  var wraps = Array.prototype.slice.call(document.querySelectorAll('.fact-wrap'));
+  var items = Array.prototype.slice.call(document.querySelectorAll('.ev-item'));
+  var count = document.getElementById('evCount');
+  var empty = document.getElementById('evEmpty');
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.masthead .reader-rail .body-sheet .evidence-spread .caveat</p>
+  modeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      doc.setAttribute('data-mode', b.getAttribute('data-m'));
+      modeBtns.forEach(function (o) {
+        var on = o === b;
+        o.classList.toggle('on', on);
+        o.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    });
+  });
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  function apply() {
+    var t = doc.getAttribute('data-topic');
+    wraps.forEach(function (w) {
+      w.hidden = t !== 'all' && w.getAttribute('data-topic') !== t;
+    });
+    var shown = 0;
+    items.forEach(function (it) {
+      var ok = t === 'all' || it.getAttribute('data-topic') === t;
+      it.hidden = !ok;
+      if (ok) { shown++; }
+    });
+    empty.hidden = shown !== 0;
+    count.textContent = t === 'all'
+      ? '共 ' + items.length + ' 条证据 / 覆盖第 3 至 5 节'
+      : '当前主题 ' + shown + ' 条证据';
+  }
+
+  topicBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      doc.setAttribute('data-topic', b.getAttribute('data-t'));
+      topicBtns.forEach(function (o) {
+        var on = o === b;
+        o.classList.toggle('on', on);
+        o.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      apply();
+    });
+  });
+
+  apply();
+})();
+</script>
 </body>
 </html>

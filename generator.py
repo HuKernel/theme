@@ -2843,11 +2843,9 @@ def main():
     open(CATALOG, 'w', encoding='utf-8').write(build_catalog(manifest, [], lentries, content_styles.CONTENT_STYLES))
 
     # ---- 内容排版风格样张：html-anything 18 种 → 独立模板 ----
-    os.makedirs(os.path.join(BASE, content_styles.CONTENT_OUT), exist_ok=True)
-    for cs in content_styles.CONTENT_STYLES:
-        fn = os.path.join(BASE, content_styles.CONTENT_OUT, cs['id'] + '.html')
-        open(fn, 'w', encoding='utf-8').write(content_styles.content_page(cs))
-    print('内容排版样张:', len(content_styles.CONTENT_STYLES))
+    # 内容排版样张已全部手工精修（见 content-demos/*.html），重跑不再覆盖；
+    # content_styles.py 仍保留数据（目录卡提示词的数据源）
+    print('内容排版样张: %d（手工精修版，生成器不再覆盖）' % len(content_styles.CONTENT_STYLES))
 
     print('样张生成数:', len(manifest))
     print('皮肤族分布:', dict(sorted(fam_count.items(), key=lambda x: -x[1])))

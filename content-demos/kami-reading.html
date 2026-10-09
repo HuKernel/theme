@@ -4,168 +4,603 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>羊皮长读 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>羊皮长读 Kami Reading / UI 设计提示词库</title>
+<meta name="description" content="一篇书册气质的长篇随笔《巷口修表匠的四十年》：暖羊皮底、衬线封面、细目录条、如可打印页的章节。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono+family=Noto+Serif+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+
+/* token 计划：bg #F5F4ED / panel #FAF9F5 / ink #3A3631 / muted #8C8677（仅作非文字装饰，小字一律用 --soft #6E6858 保 4.5:1）/ accent #8A5A2B / line #E4E0D2 / radius 2px / fh fb 均为 Noto Serif SC */
 
 :root {
-  --bg: #F5F4ED; --panel: #FAF9F5; --ink: #3A3631; --muted: #8C8677;
-  --accent: #8A5A2B; --line: #E4E0D2; --radius: 2px;
-  --fh: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
-  --fb: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --bg: #F5F4ED;
+  --panel: #FAF9F5;
+  --ink: #3A3631;
+  --muted: #8C8677;
+  --soft: #6E6858;
+  --accent: #8A5A2B;
+  --line: #E4E0D2;
+  --dots: #B8B19C;
+  --radius: 2px;
+  --fh: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --fb: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--fb);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 2.08;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: rgba(138, 90, 43, 0.18);
+}
+
+a {
+  color: var(--accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+section[id] {
+  scroll-margin-top: 28px;
+}
+
+/* ---------- 羊皮画布：暖底居中一册书，无任何应用壳 ---------- */
+
+.parchment {
+  max-width: 70ch;
+  margin: 0 auto;
+  padding: 0 26px;
+}
+
+/* ---------- 衬线封面：小眉标 / 大标题 / 短导语 / 一条墨线 / 紧凑元数据 ---------- */
+
+.cover {
+  padding-top: 96px;
+}
+
+.kicker {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.34em;
+  margin-bottom: 26px;
+}
+
+.cover h1 {
+  font-family: var(--fh);
+  font-size: clamp(34px, 6.4vw, 50px);
+  font-weight: 900;
+  line-height: 1.32;
+  letter-spacing: 0.04em;
+}
+
+.lede {
+  margin-top: 22px;
+  font-size: 16px;
+  line-height: 2;
+  color: var(--soft);
+}
+
+.ink-line {
+  width: 76px;
+  height: 3px;
+  background: var(--ink);
+  margin: 30px 0 26px;
+  transform-origin: left center;
+  animation: ink-sweep 1s cubic-bezier(0.22, 0.61, 0.21, 1) 0.35s both;
+}
+
+@keyframes ink-sweep {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 22px;
+  row-gap: 7px;
+  font-size: 13px;
+  line-height: 1.9;
+  padding-bottom: 4px;
+}
+
+.meta dt {
+  color: var(--soft);
+  font-weight: 400;
+  min-width: 3.5em;
+}
+
+.meta dd {
+  color: var(--soft);
+}
+
+.epigraph {
+  margin-top: 30px;
+  padding-left: 3em;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--soft);
+}
+
+/* ---------- 细目录条：点线引导，章号与页码两端对齐 ---------- */
+
+.contents-strip {
+  margin-top: 58px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 22px 2px 26px;
+}
+
+.cs-head {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  color: var(--soft);
+  margin-bottom: 12px;
+}
+
+.cs-list {
+  list-style: none;
+}
+
+.cs-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 15px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.cs-no {
+  flex: 0 0 2.4em;
+  color: var(--soft);
+  font-size: 14px;
+}
+
+.cs-title {
+  flex: 0 1 auto;
+}
+
+.cs-dots {
+  flex: 1 1 14px;
+  border-bottom: 1px dotted var(--dots);
+  transform: translateY(-5px);
+}
+
+.cs-folio {
+  flex: none;
+  color: var(--soft);
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+a.cs-row:hover .cs-title {
+  color: var(--accent);
+}
+
+a.cs-row:hover .cs-no {
+  color: var(--accent);
+}
+
+/* ---------- 章节如可打印页：眉标 / 题 / 导语 / 正文 / 版心页码 ---------- */
+
+.chapters {
+  margin-top: 24px;
+}
+
+.chapter {
+  padding-top: 62px;
+}
+
+.chapter + .chapter {
+  margin-top: 46px;
+  border-top: 1px solid var(--line);
+}
+
+.running {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  margin-bottom: 16px;
+}
+
+.chapter h2 {
+  font-family: var(--fh);
+  font-size: clamp(23px, 3.2vw, 27px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+}
+
+.ch-lede {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.95;
+  color: var(--soft);
+  padding-bottom: 24px;
+}
+
+.chapter p {
+  text-indent: 2em;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  margin-bottom: 0.4em;
+  orphans: 2;
+  widows: 2;
+}
+
+.beat {
+  width: 34px;
+  height: 1px;
+  background: var(--dots);
+  margin: 30px auto 26px;
+}
+
+.ch-head + p {
+  text-indent: 0;
+}
+
+.dc {
+  float: left;
+  font-size: 3.05em;
+  line-height: 1.04;
+  font-weight: 700;
+  color: var(--accent);
+  padding: 0.03em 0.14em 0 0;
+}
+
+.pull {
+  margin: 30px 0 32px;
+  padding: 20px 24px;
+  background: var(--panel);
+  border-left: 2px solid var(--ink);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.pull p {
+  text-indent: 0;
+  font-size: 15.5px;
+  line-height: 2;
+  margin-bottom: 0;
+}
+
+.pull .attrib {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--soft);
+  text-align: right;
+}
+
+.folio {
+  margin-top: 34px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: var(--soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 跋：书末小字 ---------- */
+
+.postscript {
+  padding-top: 54px;
+}
+
+.ps-body {
+  font-size: 14.5px;
+  line-height: 2.05;
+  color: var(--soft);
+  max-width: 62ch;
+}
+
+.ps-body p {
+  margin-bottom: 0.5em;
+}
+
+.sign {
+  margin-top: 26px;
+  text-align: right;
+  font-size: 14px;
+  color: var(--soft);
+}
+
+/* ---------- 库页脚 ---------- */
+
+.foot {
+  max-width: 70ch;
+  margin: 96px auto 0;
+  padding: 30px 26px 56px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.foot p {
+  font-size: 13px;
+  color: var(--soft);
+  letter-spacing: 0.08em;
+}
+
+.foot a {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13.5px;
+  text-decoration: none;
+  color: var(--accent);
+  border-bottom: 1px solid var(--dots);
+  padding-bottom: 2px;
+}
+
+.foot a:hover {
+  border-bottom-color: var(--accent);
+}
+
+@media (min-width: 1440px) {
+  .parchment {
+    padding: 0 32px;
+  }
+  .cover {
+    padding-top: 110px;
+  }
+  .chapter {
+    padding-top: 68px;
+  }
+  .foot {
+    padding: 34px 26px 64px;
+  }
+}
+
+/* ---------- 打印：这一册本来就该被印出来 ---------- */
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .foot {
+    display: none;
+  }
+  .cs-row {
+    color: #000;
+  }
+  .chapter {
+    break-inside: auto;
+  }
+  .pull {
+    background: #fff;
+  }
+}
+
+/* ---------- 响应式 ---------- */
+
+@media (max-width: 768px) {
+  .parchment {
+    padding: 0 20px;
+  }
+  .cover {
+    padding-top: 64px;
+  }
+  .chapter {
+    padding-top: 52px;
+  }
+  .foot {
+    margin-top: 76px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 16.5px;
+  }
+  .parchment {
+    padding: 0 18px;
+  }
+  .cover {
+    padding-top: 48px;
+  }
+  .kicker {
+    letter-spacing: 0.24em;
+  }
+  .lede {
+    font-size: 15.5px;
+  }
+  .ink-line {
+    margin: 26px 0 22px;
+  }
+  .meta {
+    font-size: 12.5px;
+  }
+  .cs-row {
+    font-size: 14.5px;
+    gap: 10px;
+  }
+  .cs-no {
+    flex-basis: 2em;
+  }
+  .pull {
+    padding: 16px 18px;
+    margin: 24px 0 26px;
+  }
+  .chapter {
+    padding-top: 44px;
+  }
+  .dc {
+    font-size: 2.7em;
+  }
+}
+
+/* ---------- 动效降级：墨线直接呈全宽 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-line {
+    animation: none;
+  }
+}
 
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Kami Reading</p>
-  <h1>羊皮长读</h1>
-  <p class="sub">温暖的印刷页面搬进浏览器：克制的文档系统，不是应用 UI。该被读、翻、打印、回访的长文：随笔、备忘、长文、信件、研究笔记。</p>
-  <p class="meta">本页 token：<code>底 #F5F4ED</code> <code>面板 #FAF9F5</code> <code>主字 #3A3631</code> <code>强调 #8A5A2B</code> <code>圆角 2px</code> / 标题 <code>Noto Serif SC</code> / 正文 <code>Noto Serif SC</code> / 动效：墨线一次展开</p>
 
-  <h2>结构示意</h2>
-  <div class="hx kamih" style="--a:#8A5A2B">
-  <small>READINGS / 2026</small>
-  <b>一年，三十八本书</b>
-  <i class="inkline"></i>
-  <span>目录：春读三卷 / 夏夜长谈 / 秋收与冬藏</span>
+<div class="parchment">
+
+  <header class="cover">
+    <p class="kicker">羊皮长读 / 手艺志 / 第柒册</p>
+    <h1>巷口修表匠的四十年</h1>
+    <p class="lede">巷口的铺子只放得下一张柜台、一盏绿罩灯和一个人。四十年里，陈师傅把别人的时间拆开、洗净、上油，再原样还回去——只有他自己那一份，留在了柜台里面。</p>
+    <div class="ink-line" aria-hidden="true"></div>
+    <dl class="meta">
+      <dt>文字</dt><dd>沈书白</dd>
+      <dt>体裁</dt><dd>长读随笔</dd>
+      <dt>篇幅</dt><dd>约三千字 / 读毕约一刻钟</dd>
+      <dt>记</dt><dd>一九八四 / 二〇二四 / 南方某城</dd>
+    </dl>
+    <p class="epigraph">时间不修理我们，是我们修理时间。—— 题记</p>
+  </header>
+
+  <nav class="contents-strip" aria-label="目录">
+    <h2 class="cs-head">目录</h2>
+    <ol class="cs-list">
+      <li><a class="cs-row" href="#c1"><span class="cs-no">壹</span><span class="cs-title">柜台之内</span><span class="cs-dots" aria-hidden="true"></span><span class="cs-folio">001</span></a></li>
+      <li><a class="cs-row" href="#c2"><span class="cs-no">贰</span><span class="cs-title">一枚游丝</span><span class="cs-dots" aria-hidden="true"></span><span class="cs-folio">007</span></a></li>
+      <li><a class="cs-row" href="#c3"><span class="cs-no">叁</span><span class="cs-title">电子表来的那年</span><span class="cs-dots" aria-hidden="true"></span><span class="cs-folio">013</span></a></li>
+      <li><a class="cs-row" href="#c4"><span class="cs-no">肆</span><span class="cs-title">没有主人的表</span><span class="cs-dots" aria-hidden="true"></span><span class="cs-folio">019</span></a></li>
+      <li><a class="cs-row" href="#c5"><span class="cs-no">伍</span><span class="cs-title">收摊</span><span class="cs-dots" aria-hidden="true"></span><span class="cs-folio">025</span></a></li>
+      <li><a class="cs-row" href="#c6"><span class="cs-no">跋</span><span class="cs-title">灯罩内侧的一行字</span><span class="cs-dots" aria-hidden="true"></span><span class="cs-folio">030</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="chapters">
+
+    <section class="chapter" id="c1" aria-labelledby="h-c1">
+      <header class="ch-head">
+        <p class="running">卷一 / 柜台之内</p>
+        <h2 id="h-c1">柜台之内</h2>
+        <p class="ch-lede">铺子小得像一枚表壳。柜台之内，就是他全部的世界。</p>
+      </header>
+      <p><span class="dc">巷</span>口往里数第三个门脸，卷帘门锈得最厉害的那间，就是陈师傅的铺子。门脸上没有招牌，玻璃柜台里立着一块手写的纸牌：修表，配电池，换表带。纸牌黄了一层又一层，字是他自己的，笔画收得很紧，像怕吵着谁。</p>
+      <p>我第一次进去是十四岁，攥着父亲留下的一块上海牌。表停在四点十七分，停了三年，母亲总说回头去修，回头就是一直没去。柜台后的老人抬起眼皮，右眼扣着一只单筒放大镜，镜圈把眼眶压出一道红印。他没问表从哪儿来，只把表耳掰开，凑到耳边摇了摇，再静静听一阵，像医生按住病人的手腕。</p>
+      <p>"机芯没坏，"他说，"是脏了，油也干了。跟人一样，年纪到了。"</p>
+      <p>铺子里的气味我到现在都记得：汽油、旧皮革、铜锈，混成一种很安静的气味。靠墙一排小抽屉，抽屉上贴着纸条，写着凭票取表的人名和日期。柜台下压一块深绿绒布，绒布上别着几十枚镊子和螺丝刀，按尺寸排开，刀口一律朝里。他说，工具跟人一样，站要有站相。</p>
+      <p>铺里还挂着三面钟：一面看日子，一面看钟点，一面不走了，挂着看。他说不走的也是钟，提醒人有的时间过去了就是过去了。下午日头斜进来，照见空气里浮着的细灰，钟摆声一下一下，把整条巷子衬得很慢。</p>
+      <p>铺子早上九点开门。他到得早，先擦柜台，再擦那盏绿罩灯，最后才开张；下午五点收，雷打不动。有一回我问为什么不趁夜里多干一点，他说，夜里的手是借来的，不听使唤；表是人家的时间，不能拿不听使唤的手去碰。</p>
+      <p>那天我在铺子里坐了一个下午。绿罩灯下，他把一百多个零件依次拆下，摆进一只分格的白瓷盘，像一屉极小的中药柜。摆轮取出来的时候，他用镊子尖挑着，对着灯看了一眼，说：呼吸还在。</p>
+      <p>我后来才知道，那一圈亮闪闪的东西叫游丝。整个行当里，最细的一样东西。</p>
+      <p class="folio">— 001 —</p>
+    </section>
+
+    <section class="chapter" id="c2" aria-labelledby="h-c2">
+      <header class="ch-head">
+        <p class="running">卷二 / 一枚游丝</p>
+        <h2 id="h-c2">一枚游丝</h2>
+        <p class="ch-lede">他说，游丝是表的呼吸。呼吸乱了，日子就数不对。</p>
+      </header>
+      <p>机械表的心脏不在表盘上，在那一圈比头发还细的合金丝里。摆轮转过去，游丝收紧；摆轮荡回来，游丝松开。一紧一松，是六十分之一秒。陈师傅说，人走路凭心跳，表走路凭这一紧一松；乱了，走得再快也是白走。</p>
+      <p>他修表有个规矩：进门先洗油。什么表都一样，拆散，泡进汽油缸，一道一道工序过。有人嫌慢，说巷子那头新开的店半小时就能取。他不争，只说：表在我这儿睡几天，回去能多走几年。</p>
+      <p>洗油要过三道汽油：一道去油泥，一道去浮灰，最后一道是新的，只做漂洗。零件从缸里夹出来，先在灯下照，再在绒布上滚一遍水汽，才许进瓷盘。装的时候倒过来：先轮系，再擒纵，最后才轮到游丝。他说，越细的东西越要最后放，跟家里最小的孩子一样，得让着走。</p>
+      <blockquote class="pull">
+        <p>表没有坏的，只有累的。让它歇够了，它自己会接着走。</p>
+        <p class="attrib">—— 陈师傅</p>
+      </blockquote>
+      <p>他看病不靠仪器，靠耳朵。表贴上去，先听走针，再听摆轮。声音发涩，是油干了；声音发飘，是游丝蹭了圈；一阵紧一阵慢的，他就把表翻过来，在底盖上轻轻磕两下，像给噎着的人拍背。我见过他隔着一张报纸判断走时快慢，误差不过几秒——那是耳朵在几十年的滴答声里泡出来的分寸。</p>
+      <p>游丝最怕手抖。他六十岁以后只在上午干活，下午只配电池、换表带。他说不是眼花，是手上有了岁数；岁数这东西，瞒不过镊子。有年冬天他感冒歇了半个月，来取表的人在门缝里夹条子，没有一家换店。巷子里的人认他这双手，认了四十年。</p>
+      <p>我问他收不收徒弟。收过两个：一个去卖手机了，一个自己开了钟表行，卖石英表，门脸还是他帮着盘下来的。说完他把镊子放回绒布，插好，又补一句：站要有站相。</p>
+      <p class="folio">— 007 —</p>
+    </section>
+
+    <section class="chapter" id="c3" aria-labelledby="h-c3">
+      <header class="ch-head">
+        <p class="running">卷三 / 电子表来的那年</p>
+        <h2 id="h-c3">电子表来的那年</h2>
+        <p class="ch-lede">十块钱的电子表，走时比柜台里任何一块都准。</p>
+      </header>
+      <p>八十年代末，电子表涌进巷子。十块钱一块，按一下灯就亮，月误差不过几秒，比柜台里任何一块机械表都准。头两年，铺子冷清得能听见墙上挂钟走针。同行关的关、改的改，有人劝他转手卖电子表，说柜台位置好，转手就是钱。</p>
+      <p>他不转。白天没人，他就修那些没人来取的旧表，修好，包进牛皮纸，写上日期，收进抽屉。他跟我算过一笔账：电子表准是准，可它不用养。不用养的东西，人跟它没交情；没交情，坏了就扔。机械表不一样，要洗油，要上弦，要记着它。记着，就是过日子。</p>
+      <p>那几年他靠配电池、换表带、给电子表换防水圈过活。玻璃柜台下压着一张价目表，末尾有一行小字：石英表也修，能修就修。写这行字的那阵，巷口正时兴一种会唱歌的贺卡，喇叭里叮叮咚咚，他的绿罩灯夹在中间，显得非常旧，也非常稳。</p>
+      <p>冷清归冷清，巷子里的人有个老习惯没断：来对时。家里的闹钟不准了，就揣到巷口，跟柜台后那台航海钟对一对。航海钟是他师傅留下的，每晚跟电台报时校一回。他说，一条街的钟准不准不打紧，可大家愿意来对一对——这个愿意，比准本身要紧。</p>
+      <p>前几年儿子给他买了只电波钟，说永远准，不用对。他把它挂在门边，客人来了先看它一眼，校完还是回头看他那台航海钟。我问他信哪个。他说，都信。一个是天上的准，一个是人的准；天上的管天气，人的管日子。</p>
+      <div class="beat" aria-hidden="true"></div>
+      <p>后来贺卡不唱了，音乐车开走了，他的灯还亮着。</p>
+      <p class="folio">— 013 —</p>
+    </section>
+
+    <section class="chapter" id="c4" aria-labelledby="h-c4">
+      <header class="ch-head">
+        <p class="running">卷四 / 没有主人的表</p>
+        <h2 id="h-c4">没有主人的表</h2>
+        <p class="ch-lede">抽屉最底层，睡着一些再没人来取的时间。</p>
+      </header>
+      <p>靠墙最底下那只抽屉，他轻易不开。有一回帮我找表带，拉开了：一排排纸包，牛皮纸都黄透了，每只包上两行字，姓名，日期。最早的一包，写着一九八七。</p>
+      <p>有的表主搬了家，有的忘了，有的不在了。九三年，一个年轻人南下前来送修一块梅花，说年底回来取，一去没有音信。陈师傅修好了它，每年取出来上一遍油，让它空走一天，再包回去。他说，表不能停太久；停久了，里头的油就死透了。</p>
+      <p>前年秋天，一个中年女人走进铺子，报了个名字。他从抽屉深处摸出那只纸包，包上的字已经淡得快看不见。女人捧着表走到巷口，又折回来问他多少钱。他说，按九三年的价，八块。女人愣了半天，眼圈红了。</p>
+      <div class="beat" aria-hidden="true"></div>
+      <p>我问他，放这么久没人来取的，想过怎么处理没有。他想了想，说，再等等。又说，等哪天真关门了，就按纸包上的地址一家一家找过去；找不到人的，留给儿女，让他们接着等。他说这话时语气很平，像在交代明天上午要拆哪几只表。</p>
+      <p>他跟我说这些的时候，正低头给一只怀表上弦，头也没抬：表这东西，说到底是信。人家信你，把时间放在你这儿；到了日子，你得原样还给人家。</p>
+      <p class="folio">— 019 —</p>
+    </section>
+
+    <section class="chapter" id="c5" aria-labelledby="h-c5">
+      <header class="ch-head">
+        <p class="running">卷五 / 收摊</p>
+        <h2 id="h-c5">收摊</h2>
+        <p class="ch-lede">卷帘门落下的那天，巷口第一次没有滴答声。</p>
+      </header>
+      <p>去年旧改的通知贴到巷口，这排门脸年底要拆。陈师傅七十一了，儿女早劝他歇。最后一个月，他只接熟人的活，柜台里的纸牌换了张新的，还是那六个字：修表，配电池，换表带。</p>
+      <p>关门那天上午，他还接了最后一单：巷尾豆腐坊的闹钟，发条断了，凌晨三点停的。老板娘说，这只钟一停，摸黑磨浆就总差一炷香的工夫。他把发条配上，走时校准，收了五块钱，又抹了零头。那是柜台上做成的最后一场生意，进出都是熟人，像四十年的一场缩影。</p>
+      <p>下午我去看他。他把工具一件件从绒布上取下来，棉布擦过，插进木匣，绿罩灯最后关。他腕上戴着师傅传给他的旧表，停在四点十七分——和我父亲那块，停的分秒不差。我问他怎么不修。他说，师傅走的那天停的，就不修了。</p>
+      <p>临走他送我到门口，指了指墙上：看日子的那面钟给了居委会，看钟点的那面留给儿子，不走了的那面，他自己带走。他说，不走的贴身放，正好。</p>
+      <blockquote class="pull">
+        <p>表跟人一样，有些日子得留着，不能就这么走过去。</p>
+        <p class="attrib">—— 陈师傅</p>
+      </blockquote>
+      <p>卷帘门哗啦一声落到底，巷子忽然静了，静得能听见我自己腕上的表在走。我站了一会儿才明白：这四十年，巷口一直有一种极轻的、集体的滴答声，从那个小门脸里传出来。往后人照旧来来往往，只是这条街，再没有人替它看时间了。</p>
+      <p class="folio">— 025 —</p>
+    </section>
+
+    <section class="chapter postscript" id="c6" aria-labelledby="h-c6">
+      <header class="ch-head">
+        <p class="running">跋 / 灯罩内侧的一行字</p>
+        <h2 id="h-c6">灯罩内侧的一行字</h2>
+      </header>
+      <div class="ps-body">
+        <p>写这篇东西的时候，巷口已经围起了施工挡板。我绕进去看过一眼：卷帘门卸了，柜台还在原处，绿罩灯蒙了一层灰。灯罩内侧有一行铅笔字，是我没来得及问的一句：歇够了，接着走。谨以此文，记巷口四十年。</p>
+        <p class="sign">沈书白 / 记于二〇二四年冬</p>
+      </div>
+      <p class="folio">— 030 —</p>
+    </section>
+
+  </article>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>羊皮画布：#f5f4ed 系暖底，永远不用纯白</span></li><li><b>02</b><span>衬线封面：顶部小标签、大标题、短导语、一条墨线、紧凑元数据</span></li><li><b>03</b><span>细目录条：封面下方一列章节</span></li><li><b>04</b><span>章节如可打印页：眉标、题、导语、正文</span></li><li><b>05</b><span>无粘性侧栏、无应用顶栏、无营销 hero</span></li></ol>
+<footer class="foot">
+  <p>UI 设计提示词库 / 内容排版 / 羊皮长读</p>
+  <a href="../style-catalog.html">返回风格目录</a>
+</footer>
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.parchment .cover .contents-strip .chapter .folio</p>
-
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
 </body>
 </html>

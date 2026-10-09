@@ -3,167 +3,597 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E9E2D6">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<title>电子指南册 / 内容排版风格 — UI 设计提示词库</title>
-<meta name="description" content="UI 设计提示词库 / 内容排版风格样张与官方提示词，复制后交给 AI 复刻同款网页。">
+<title>电子指南册 E-Guide / UI 设计提示词库</title>
+<meta name="description" content="暖色桌面上并排两张 3:4 纸页的电子指南册预览：左封面与双栏点线目录 / 右章节试读页 / 极小 mono 工具层。">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono+family=Noto+Serif+SC+family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+/* token 计划：桌面 #E9E2D6 / 纸页 #FBF8F1 / 主字 #2E2A22 / 弱文 #675E4C（原 #8A8172 加深保 4.5:1）/ 强调 #B0483B / 小字强调 #963A2F / 线 #D8CFBE / 圆角 6px / 标题 Playfair Display / 正文 Noto Serif SC / 工具层与数字 JetBrains Mono / 布局：暖桌面双 3:4 纸页，页内用容器查询等比缩放 */
 
 :root {
-  --bg: #E9E2D6; --panel: #FBF8F1; --ink: #2E2A22; --muted: #8A8172;
-  --accent: #B0483B; --line: #D8CFBE; --radius: 6px;
-  --fh: 'Playfair Display', 'PingFang SC', 'Microsoft YaHei', serif;
-  --fb: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --bg: #E9E2D6; --panel: #FBF8F1; --ink: #2E2A22; --muted: #675E4C;
+  --accent: #B0483B; --accent-ink: #963A2F; --line: #D8CFBE; --dot: #C9BCA2;
+  --radius: 6px;
+  --fh: 'Playfair Display', 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+  --fb: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+  --fm: 'JetBrains Mono', Consolas, 'Noto Serif SC', 'PingFang SC', monospace;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--fb); background: var(--bg); color: var(--ink); line-height: 1.65; padding: 44px 22px 70px; }
-.wrap { max-width: 860px; margin: 0 auto; }
-.back { display: inline-block; font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 16px; margin-bottom: 26px; background: var(--panel); box-shadow: 3px 3px 0 var(--ink); }
-.back:hover { transform: translate(-1px,-1px); }
-.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.kicker { font-size: 13px; font-weight: 600; color: var(--accent); }
-h1 { font-family: var(--fh); font-size: clamp(30px, 6vw, 44px); line-height: 1.15; margin: 4px 0 10px; }
-.sub { color: var(--muted); font-size: 15px; max-width: 640px; }
-.meta { margin: 14px 0 6px; font-size: 13px; color: var(--muted); border-top: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line); padding: 10px 2px; }
-.meta code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: var(--ink); }
-h2 { font-family: var(--fh); font-size: 19px; margin: 34px 0 12px; }
-.steps { list-style: none; display: grid; gap: 10px; }
-.steps li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline; }
-.steps b { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.steps span { font-size: 14.5px; }
-.vocab { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12.5px; color: var(--muted); background: var(--panel); border: 1.5px dashed var(--line); border-radius: 8px; padding: 10px 14px; word-break: break-word; }
-.note { margin-top: 40px; font-size: 13px; color: var(--muted); }
-.note a { color: var(--accent); font-weight: 600; }
+::selection { background: var(--accent); color: var(--panel); }
 
-.hx { border: 2.5px solid var(--ink); border-radius: var(--radius); background: var(--panel); padding: clamp(26px, 5vw, 46px); margin: 4px 0 30px; box-shadow: 6px 6px 0 rgba(0,0,0,.06); }
-.hx b { font-size: 1.06em; }
-.hx b { font-family: var(--fh); }
-.tl { border-left: 3px solid var(--a); padding-left: 18px; display: grid; gap: 14px; }
-.tl-node { position: relative; }
-.tl-node i { position: absolute; left: -24.5px; top: 5px; width: 11px; height: 11px; border-radius: 50%; background: var(--a); border: 2.5px solid var(--ink); }
-.tl-card b { display: block; font-size: 15px; }
-.tl-card span { color: var(--muted); font-size: 13px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1.6fr 1fr; gap: 12px; }
-.grid3 .p { border: 1.5px solid var(--l); border-radius: 8px; padding: 12px; display: grid; gap: 6px; align-content: start; }
-.grid3 .mini span, .grid3 .stage b { font-size: 12.5px; color: var(--muted); }
-.grid3 .stage { align-items: center; justify-items: center; }
-.essayh { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; }
-.capsule { writing-mode: vertical-rl; font-size: 12.5px; letter-spacing: .35em; color: var(--a); border: 1.5px solid var(--a); border-radius: 999px; padding: 14px 8px; }
-.essayh p { font-size: 16.5px; line-height: 2; margin: 0; }
-.spore { border-bottom: 2px solid var(--a); font-weight: 700; }
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-.kpi { border: 1.5px solid var(--l); border-radius: 8px; padding: 10px 12px; }
-.kpi b { font-size: 24px; font-variant-numeric: tabular-nums; display: block; }
-.kpi span { font-size: 12px; color: var(--muted); }
-.bars { display: flex; align-items: flex-end; gap: 8px; height: 64px; }
-.bars i { flex: 1; background: var(--a); border-radius: 3px 3px 0 0; opacity: .85; }
-.saash { display: grid; grid-template-columns: 1fr 1.8fr 1fr; gap: 12px; }
-.saash .p { border: 1.5px solid var(--l); border-radius: 14px; padding: 12px; font-size: 13px; display: grid; gap: 8px; align-content: start; }
-.saash .big svg { width: 100%; height: 48px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--a); display: inline-block; margin-right: 6px; }
-.dot.ok { background: #2FA463; }
-.saash .p b { font-variant-numeric: tabular-nums; }
-.lanes { display: grid; gap: 10px; }
-.lane { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; border: 2px solid var(--ink); border-radius: 6px; padding: 10px 14px; gap: 10px; }
-.lane .rank { font-size: 22px; font-weight: 800; }
-.lane em { font-size: 20px; font-style: normal; font-weight: 800; color: var(--a); font-variant-numeric: tabular-nums; }
-.atlas svg { width: 100%; height: auto; }
-.atlas .drawer { border: 1.5px solid var(--l); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--muted); margin-top: 10px; }
-.travel .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 5px; }
-.travel .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--a); opacity: .3; }
-.travel .dots i:nth-child(3n) { opacity: .8; }
-.runway { display: flex; gap: 26px; margin-top: 14px; }
-.runway b { font-size: 26px; display: block; font-variant-numeric: tabular-nums; }
-.runway span { font-size: 12px; color: var(--muted); }
-.net svg { width: 100%; height: auto; }
-.doch .mast { border-bottom: 2.5px solid var(--a); padding-bottom: 8px; }
-.doch .mast b { font-size: 17px; display: block; }
-.doch .mast span { font-size: 12.5px; color: var(--muted); }
-.doch .rail { margin: 10px 0; font-size: 13px; color: var(--a); }
-.doch p { margin: 0; font-size: 15px; }
-.kamih { text-align: center; }
-.kamih small { letter-spacing: .3em; font-size: 11px; color: var(--muted); }
-.kamih b { display: block; font-size: clamp(24px, 5vw, 34px); margin: 6px 0; }
-.inkline { display: block; width: 56px; height: 3px; background: var(--a); margin: 10px auto 12px; }
-.kamih span { font-size: 13px; color: var(--muted); }
-.spreadh { display: grid; grid-template-columns: 1fr 1fr; min-height: 220px; border: none; padding: 0; background: none; }
-.spreadh .bay, .spreadh .panel { display: grid; place-items: center; border: 2.5px solid var(--ink); }
-.spreadh .bay { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-.spreadh .panel { border-radius: 0 var(--radius) var(--radius) 0; text-align: left; align-content: center; gap: 8px; padding: 20px; }
-.spreadh .panel small { font-size: 11px; letter-spacing: .25em; color: var(--muted); }
-.spreadh .panel b { font-size: clamp(20px, 4vw, 30px); font-style: italic; }
-.spreadh .panel span { font-size: 12px; }
-.eguideh { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.eguideh .pg { border: 1.5px solid var(--l); border-radius: 4px; padding: 16px; display: grid; gap: 8px; align-content: start; aspect-ratio: 3/4; }
-.eguideh small { font-size: 10.5px; letter-spacing: .2em; color: var(--muted); }
-.eguideh .cover b { font-size: clamp(18px, 3.4vw, 26px); line-height: 1.2; }
-.eguideh span { font-size: 12px; color: var(--muted); }
-.carouselh { display: flex; gap: 12px; overflow: hidden; }
-.carouselh .sl { flex: 0 0 31%; aspect-ratio: 4/5; border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: grid; align-content: end; gap: 8px; }
-.carouselh .sl em { font-size: 34px; font-style: normal; font-weight: 800; color: var(--a); align-self: start; }
-.carouselh .sl span { font-size: 13px; font-weight: 600; }
-.carouselh .ghost { opacity: .35; }
-.termh { font-family: 'JetBrains Mono', Consolas, monospace; background: var(--p); color: #C8E6C9; border-color: var(--l); font-size: 13px; }
-.termh .prompt b, .termh b { color: inherit; font-family: inherit; }
-.termh .prompt { color: #9FE8B0; }
-.termh .cur { animation: blink 1.1s steps(1) infinite; color: var(--a); }
-@keyframes blink { 50% { opacity: 0; } }
-.termh .rail2 { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; color: #8FB99A; }
-.termh .pane { border: 1px solid var(--a); padding: 10px 12px; line-height: 1.7; }
-.briefh .chips { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.briefh .chips i { font-style: normal; font-size: 12px; border: 1.5px solid var(--l); border-radius: 999px; padding: 4px 12px; color: var(--muted); }
-.briefh .main { border: 1.5px solid var(--l); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
-.briefh .main b { font-size: 16px; }
-.briefh .main span { font-size: 12.5px; color: var(--muted); }
-.keeph { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 14px; align-items: center; }
-.keeph .heart { width: 100%; filter: drop-shadow(0 6px 12px rgba(232,93,138,.35)); }
-.keeph .kt b { font-size: 22px; display: block; }
-.keeph .kt span { font-size: 12.5px; color: var(--muted); }
-@media (max-width: 640px) {
-  .grid3, .saash, .spreadh, .eguideh { grid-template-columns: 1fr; }
-  .keeph { grid-template-columns: 56px 1fr 1fr; }
+body {
+  font-family: var(--fb); background: var(--bg); color: var(--ink);
+  line-height: 1.7; padding: clamp(34px, 5vw, 58px) clamp(16px, 3vw, 32px) 60px;
 }
-.lens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
-.lens b { font-size: clamp(26px, 5vw, 40px); display: block; font-variant-numeric: tabular-nums; }
-.lens span { font-size: 12.5px; color: var(--muted); }
-.rhythm { display: flex; align-items: flex-end; gap: 6px; height: 44px; margin-top: 22px; }
-.rhythm i { flex: 1; background: var(--a); opacity: .75; border-radius: 3px 3px 0 0; }
-.flags { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); }
-.fl { display: inline-flex; align-items: center; gap: 6px; }
-.fdot { width: 9px; height: 9px; border-radius: 50%; background: var(--a); }
-.fdot.warn { background: #C77D2B; }
-.fdot.ok { background: #2FA463; }
-.panes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.termh .pane { margin: 0; }
-.tl-grow { animation: tl-grow 900ms ease-out both; transform-origin: top; }
-@keyframes tl-grow { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.hx { animation: hx-rise 700ms ease-out both; }
-@keyframes hx-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .termh .cur, .tl-grow, .hx { animation: none; } }
+.wrap { max-width: 1100px; margin: 0 auto; }
 
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent-ink); outline-offset: 2px;
+}
+
+/* ---------- 页眉 ---------- */
+.masthead { max-width: 720px; }
+.kicker { font-family: var(--fm); font-size: 12px; letter-spacing: .12em; color: var(--accent-ink); }
+.masthead h1 { font-family: var(--fh); font-size: clamp(30px, 5vw, 46px); font-weight: 700; line-height: 1.2; margin: 8px 0 10px; }
+.sub { font-size: 15px; color: var(--muted); max-width: 640px; }
+.meta { margin-top: 16px; font-family: var(--fm); font-size: 12px; color: var(--muted); border-block: 1px solid var(--line); padding: 9px 2px; letter-spacing: .02em; }
+
+/* ---------- 指南桌面 ---------- */
+.eguide-desk {
+  margin-top: 34px; border: 1px solid var(--line); border-radius: 14px;
+  background:
+    radial-gradient(130% 90% at 50% -10%, #F0EADF 0%, #E9E2D6 52%, #DED4C1 100%);
+  padding: clamp(20px, 4vw, 46px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), 0 24px 48px -32px rgba(46, 42, 34, .35);
+  animation: desk-in .7s ease both;
+}
+@keyframes desk-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---------- 工具层：极小 mono 标签页 ---------- */
+.tools { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; justify-content: flex-end; margin-bottom: 12px; }
+.tools-tag {
+  font-family: var(--fm); font-size: 10.5px; letter-spacing: .14em; color: var(--muted);
+  background: var(--panel); border: 1px solid var(--line); border-bottom: none;
+  border-radius: 5px 5px 0 0; padding: 3px 10px;
+}
+.t-search { font-family: var(--fm); font-size: 11px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+.t-search input {
+  font-family: var(--fm); font-size: 11px; color: var(--ink); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 4px; padding: 4px 8px; width: 11ch;
+}
+.t-search input::placeholder { color: var(--muted); }
+.t-search input:focus { border-color: var(--accent-ink); }
+.t-btn {
+  font-family: var(--fm); font-size: 11px; color: var(--ink); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 4px; padding: 4px 10px; cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.t-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--panel); }
+.t-btn:active { transform: translateY(1px); }
+.t-now { font-family: var(--fm); font-size: 11px; font-weight: 500; color: var(--accent-ink); }
+.t-note { font-family: var(--fm); font-size: 11px; color: var(--muted); }
+
+/* ---------- 双页：3:4 纸页 ---------- */
+.spread { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.6vw, 24px); perspective: 2400px; align-items: stretch; }
+.guide-page {
+  aspect-ratio: 3 / 4; container-type: inline-size; position: relative; overflow: hidden;
+  background: var(--panel); border: 1px solid #E5DCC9; border-radius: var(--radius);
+  padding: 6cqw 6.5cqw; display: flex; flex-direction: column;
+  /* 首段 inset 阴影为书沟，后两段偏移为纸叠边，末段为落桌投影 */
+  box-shadow: inset 6px 0 8px -6px rgba(46, 42, 34, .16), 4px 4px 0 -1px #F2ECDD, 8px 8px 0 -2px #EDE4D1, 0 26px 46px -22px rgba(46, 42, 34, .35);
+}
+/* 纸面颗粒：细点阵贴一层印刷纸质感 */
+.guide-page::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background-image: radial-gradient(rgba(46, 42, 34, .028) 1px, transparent 1px);
+  background-size: 5px 5px;
+}
+.cover-page { z-index: 1; box-shadow: inset -6px 0 8px -6px rgba(46, 42, 34, .16), 4px 4px 0 -1px #F2ECDD, 8px 8px 0 -2px #EDE4D1, 0 26px 46px -22px rgba(46, 42, 34, .35); }
+
+/* 一次翻开动效：右内页绕左书脊转正，纸面投影同步退去 */
+.inside-spread { z-index: 2; transform-origin: left center; animation: page-open 1.05s cubic-bezier(.2, .7, .25, 1) .2s both; }
+.inside-spread::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(100deg, rgba(46, 42, 34, .38), rgba(46, 42, 34, 0) 58%);
+  opacity: 0; animation: page-shade 1.05s ease .2s both;
+}
+@keyframes page-open { from { transform: rotateY(-82deg); } to { transform: rotateY(0deg); } }
+@keyframes page-shade { from { opacity: 1; } to { opacity: 0; } }
+.inside-spread.turn { animation: turn-swap .45s ease; }
+@keyframes turn-swap { 0% { transform: rotateY(0deg); } 45% { transform: rotateY(-9deg); } 100% { transform: rotateY(0deg); } }
+
+/* ---------- 封面页 ---------- */
+.c-top { border-bottom: 1px solid var(--line); padding-bottom: 2.2cqw; }
+.c-eyebrow { font-family: var(--fm); font-size: 2.45cqw; letter-spacing: .1em; color: var(--accent-ink); }
+.c-eyebrow-zh { font-family: var(--fm); font-size: 2.2cqw; letter-spacing: .14em; color: var(--muted); margin-top: .5cqw; }
+
+.c-title { font-family: var(--fh); font-size: 12.5cqw; font-weight: 700; line-height: 1.06; letter-spacing: .01em; margin-top: 3.6cqw; }
+.c-title em { display: block; font-style: italic; color: var(--accent); }
+
+.c-deck { margin-top: 2.2cqw; font-size: 2.95cqw; line-height: 1.75; color: var(--muted); }
+.c-deck em { font-style: italic; }
+
+.c-sign { margin-top: 2.8cqw; position: relative; }
+.c-author { font-size: 3.3cqw; font-weight: 600; line-height: 1.4; }
+.c-author span { font-size: 2.2cqw; font-weight: 400; color: var(--muted); }
+.c-sign-sub { font-size: 2.3cqw; color: var(--muted); margin-top: .3cqw; padding-right: 14cqw; }
+/* 署名旁的试读印章 */
+.c-seal {
+  position: absolute; right: 0; top: 0; width: 9.5cqw; height: 9.5cqw;
+  border: 1.5px solid var(--accent); border-radius: 3px; transform: rotate(-6deg);
+  color: var(--accent-ink); writing-mode: vertical-rl; display: grid; place-items: center;
+  font-size: 2.35cqw; font-weight: 600; letter-spacing: .18em; opacity: .85;
+}
+
+.c-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--line); margin-top: 2.6cqw; }
+.c-stat { padding: 1.9cqw 0 1.7cqw 2.4cqw; border-left: 1px solid var(--line); }
+.c-stat:first-child { border-left: none; padding-left: 0; }
+.c-stat b { display: block; font-family: var(--fh); font-size: 5cqw; font-weight: 600; line-height: 1.15; }
+.c-stat span { font-size: 2.2cqw; color: var(--muted); }
+
+.c-inside { margin-top: 2.6cqw; }
+.c-inside-h { font-family: var(--fm); font-size: 2.3cqw; font-weight: 500; letter-spacing: .16em; color: var(--muted); }
+.toc { list-style: none; display: grid; grid-template-columns: 1fr 1fr; column-gap: 5cqw; row-gap: 1.25cqw; margin-top: 1.6cqw; }
+.toc li { display: block; }
+.toc li.hide { display: none; }
+.t-row {
+  display: grid; grid-template-columns: auto auto 1fr auto auto; column-gap: 1cqw; align-items: end;
+  width: 100%; background: none; border: none; padding: 0 0 .3cqw; font: inherit; color: inherit;
+  text-align: left; cursor: pointer;
+}
+p.t-row, .t-locked { cursor: default; }
+.t-row[data-ch]:hover .t-t { color: var(--accent-ink); text-decoration: underline dotted var(--accent-ink); text-underline-offset: .5cqw; }
+.t-row.on .t-t { color: var(--accent-ink); font-weight: 600; }
+.t-locked .t-t { color: var(--muted); }
+.t-lock { font-family: var(--fm); font-size: 1.9cqw; color: var(--muted); border: 1px solid var(--dot); border-radius: 3px; padding: .1cqw .7cqw .15cqw; margin-bottom: .25cqw; white-space: nowrap; }
+.t-no { font-family: var(--fm); font-size: 2.35cqw; color: var(--accent-ink); padding-bottom: .3cqw; }
+.t-t { font-size: 2.65cqw; line-height: 1.4; padding-bottom: .3cqw; }
+.t-l { border-bottom: 2px dotted var(--dot); margin-bottom: 1.15cqw; min-width: 3cqw; }
+.t-p { font-family: var(--fm); font-size: 2.35cqw; color: var(--muted); padding-bottom: .3cqw; }
+.t-empty { font-family: var(--fm); font-size: 2.4cqw; color: var(--muted); margin-top: 1.4cqw; }
+
+.c-sticker {
+  position: absolute; top: 4cqw; right: 4cqw; width: 19cqw; aspect-ratio: 1;
+  border-radius: 50%; border: 1.5px solid var(--accent); transform: rotate(8deg);
+  background: rgba(176, 72, 59, .05); color: var(--accent-ink);
+  display: grid; place-items: center; text-align: center;
+  box-shadow: inset 0 0 0 4px var(--panel), inset 0 0 0 5px rgba(176, 72, 59, .4), 0 6px 14px -8px rgba(46, 42, 34, .4);
+}
+.c-sticker span { font-family: var(--fm); font-size: 2.1cqw; line-height: 1.6; letter-spacing: .04em; }
+
+.c-folio { margin-top: auto; display: flex; justify-content: space-between; gap: 2cqw; border-top: 1px solid var(--line); padding-top: 1.8cqw; font-family: var(--fm); font-size: 2.25cqw; color: var(--muted); }
+
+/* ---------- 内页 ---------- */
+.i-head { display: flex; justify-content: space-between; align-items: baseline; gap: 2cqw; border-bottom: 1.5px solid var(--ink); padding-bottom: 1.7cqw; }
+.i-crumb { font-family: var(--fm); font-size: 2.4cqw; color: var(--muted); }
+.i-crumb b { font-weight: 500; color: var(--accent-ink); }
+.i-pages { font-family: var(--fm); font-size: 2.3cqw; color: var(--muted); }
+
+.i-title { font-family: var(--fh); font-size: 6.8cqw; font-weight: 600; line-height: 1.18; margin-top: 2.6cqw; }
+.i-title em { font-style: italic; color: var(--accent); }
+.i-deck { margin-top: 1.4cqw; font-size: 2.8cqw; line-height: 1.65; color: var(--muted); }
+
+.i-steps { list-style: none; margin-top: 2.4cqw; border-top: 1px solid var(--line); }
+.i-steps li { display: grid; grid-template-columns: 5cqw 1fr auto; column-gap: 2cqw; align-items: start; padding: 1.2cqw 0; border-bottom: 1px solid var(--line); }
+.s-no { font-family: var(--fh); font-style: italic; font-size: 3.4cqw; line-height: 1.25; color: var(--accent-ink); }
+.s-b b { display: block; font-size: 2.8cqw; font-weight: 600; line-height: 1.4; }
+.s-b span { display: block; font-size: 2.4cqw; line-height: 1.5; color: var(--muted); }
+.s-t { font-family: var(--fm); font-size: 2.3cqw; color: var(--muted); white-space: nowrap; padding-top: .7cqw; }
+.s-total { display: flex; justify-content: space-between; gap: 2cqw; font-family: var(--fm); font-size: 2.3cqw; color: var(--muted); padding: 1.1cqw 0 0; }
+
+.i-quote { margin-top: 2.2cqw; border-left: .8cqw solid var(--accent); padding: .2cqw 0 .2cqw 3cqw; }
+.i-quote p { font-family: var(--fh); font-style: italic; font-size: 3cqw; line-height: 1.55; }
+.i-quote cite { display: block; font-style: normal; font-family: var(--fm); font-size: 2.2cqw; color: var(--muted); margin-top: .9cqw; }
+
+.exercise-strip { margin-top: auto; background: rgba(176, 72, 59, .07); border: 1.5px dashed var(--accent); border-radius: var(--radius); padding: 2.2cqw 2.8cqw 2.4cqw; }
+.ex-tag { font-family: var(--fm); font-size: 2.25cqw; letter-spacing: .04em; color: var(--accent-ink); }
+.ex-text { margin-top: .7cqw; font-size: 2.6cqw; line-height: 1.65; }
+
+.i-folio { margin-top: 2.2cqw; display: flex; justify-content: space-between; gap: 2cqw; border-top: 1px solid var(--line); padding-top: 1.7cqw; font-family: var(--fm); font-size: 2.25cqw; color: var(--muted); }
+
+/* ---------- 桌面注脚 ---------- */
+.desk-note { margin-top: 18px; font-family: var(--fm); font-size: 11px; letter-spacing: .04em; color: var(--muted); text-align: center; }
+
+/* ---------- 完整版行动条 ---------- */
+.cta {
+  margin-top: 20px; display: flex; justify-content: space-between; align-items: center; gap: 18px;
+  flex-wrap: wrap; background: var(--panel); border: 1px solid #E5DCC9; border-radius: var(--radius);
+  padding: 18px 22px; box-shadow: 0 14px 30px -20px rgba(46, 42, 34, .3);
+}
+.cta-t { font-family: var(--fh); font-size: 17px; font-weight: 600; }
+.cta-d { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.cta-act { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.cta-price { font-family: var(--fm); font-size: 11.5px; color: var(--muted); }
+.cta-btn {
+  font-family: var(--fb); font-size: 14px; font-weight: 600; color: var(--panel);
+  background: var(--accent); border: 1px solid var(--accent); border-radius: 5px;
+  padding: 10px 20px; cursor: pointer; transition: background .15s ease, border-color .15s ease;
+}
+.cta-btn:hover { background: var(--accent-ink); border-color: var(--accent-ink); }
+.cta-btn:active { transform: translateY(1px); }
+
+/* ---------- 跳转链接 ---------- */
+.skip { position: absolute; left: -9999px; top: 0; background: var(--ink); color: var(--panel); font-size: 13px; padding: 8px 14px; border-radius: 4px; z-index: 9; }
+.skip:focus-visible { left: 12px; top: 12px; outline: 3px solid var(--accent-ink); }
+
+/* ---------- 页脚 ---------- */
+.foot { margin-top: 42px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 18px; font-size: 13px; color: var(--muted); }
+.foot a { color: var(--accent-ink); font-weight: 600; text-decoration: none; border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+.foot a:hover { color: var(--accent); }
+
+/* ---------- 降级与响应式 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .eguide-desk, .inside-spread, .inside-spread.turn { animation: none; }
+  .inside-spread::before { animation: none; opacity: 0; }
+  .t-btn { transition: none; }
+}
+
+@media (max-width: 980px) {
+  .spread { grid-template-columns: min(100%, 480px); justify-content: center; }
+  .guide-page { aspect-ratio: auto; }
+  .tools { justify-content: flex-start; }
+  /* 纵叠后放开等比缩放，给小字号加像素下限保可读 */
+  .c-eyebrow { font-size: max(2.45cqw, 10.5px); }
+  .c-eyebrow-zh { font-size: max(2.2cqw, 10px); }
+  .c-title { font-size: max(12.5cqw, 40px); }
+  .c-deck { font-size: max(2.95cqw, 12px); }
+  .c-author { font-size: max(3.3cqw, 14px); }
+  .c-sign-sub { font-size: max(2.3cqw, 11px); }
+  .c-stat b { font-size: max(5cqw, 22px); }
+  .c-stat span { font-size: max(2.2cqw, 10.5px); }
+  .c-inside-h { font-size: max(2.3cqw, 10.5px); }
+  .t-no, .t-p { font-size: max(2.35cqw, 10.5px); }
+  .t-t { font-size: max(2.65cqw, 11.5px); }
+  .t-lock { font-size: max(1.9cqw, 9.5px); }
+  .t-empty { font-size: max(2.4cqw, 11px); }
+  .c-folio, .i-folio { font-size: max(2.25cqw, 10px); }
+  .c-seal { width: max(9.5cqw, 42px); height: max(9.5cqw, 42px); font-size: max(2.35cqw, 10px); }
+  .i-crumb { font-size: max(2.4cqw, 10.5px); }
+  .i-pages { font-size: max(2.3cqw, 10.5px); }
+  .i-title { font-size: max(6.8cqw, 25px); }
+  .i-deck { font-size: max(2.8cqw, 12px); }
+  .s-no { font-size: max(3.4cqw, 15px); }
+  .s-b b { font-size: max(2.8cqw, 12.5px); }
+  .s-b span { font-size: max(2.4cqw, 11px); }
+  .s-t { font-size: max(2.3cqw, 10px); }
+  .s-total { font-size: max(2.3cqw, 10px); }
+  .i-quote p { font-size: max(3cqw, 13px); }
+  .i-quote cite { font-size: max(2.2cqw, 10px); }
+  .ex-tag { font-size: max(2.25cqw, 10px); }
+  .ex-text { font-size: max(2.6cqw, 11.5px); }
+}
+
+@media (max-width: 560px) {
+  body { padding: 26px 12px 46px; }
+  .eguide-desk { padding: 16px 12px 20px; border-radius: 10px; }
+  .tools { gap: 8px; }
+  .t-search { flex: 1 1 100%; }
+  .t-search input { flex: 1; width: auto; }
+  .desk-note { text-align: left; }
+  .cta { flex-direction: column; align-items: flex-start; padding: 16px; }
+  .foot { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+@media (min-width: 1440px) {
+  .wrap { max-width: 1160px; }
+  .masthead h1 { font-size: 50px; }
+  .spread { gap: 26px; }
+}
 </style>
 </head>
 <body>
+<a class="skip" href="#insideRoot">跳到试读内页</a>
 <div class="wrap">
-  <a class="back" href="../style-catalog.html">← 返回风格目录</a>
-  <p class="kicker">内容排版风格 / Digital E-Guide</p>
-  <h1>电子指南册</h1>
-  <p class="sub">暖桌上的两页 PDF 预览：纸页、衬线大字、目录、练习条。电子书/指南/lead magnet/创作者手册/课程预览——把长报告变成可分享的精美指南预览。</p>
-  <p class="meta">本页 token：<code>底 #E9E2D6</code> <code>面板 #FBF8F1</code> <code>主字 #2E2A22</code> <code>强调 #B0483B</code> <code>圆角 6px</code> / 标题 <code>Playfair Display</code> / 正文 <code>Noto Serif SC</code> / 动效：书页一次翻开</p>
 
-  <h2>结构示意</h2>
-  <div class="hx eguideh" style="--a:#B0483B">
-  <div class="pg cover"><small>Reading Guide</small><b>怎样读完<br>一本书</b><span>3 格统计 / 目录 / 作者</span></div>
-  <div class="pg"><small>第 1 章</small><span>步骤列表 / 引文 / 练习条</span></div>
+  <header class="masthead">
+    <p class="kicker">家庭烘焙教研组 / 入门指南 第 2 版 / 试读预览</p>
+    <h1>家庭烘焙第一本</h1>
+    <p class="sub">一本 128 页的家用烤箱入门指南：左边封面带完整点线目录，右边是可翻换的章节试读页。全部温度与时间数据来自教研组 2026 年重新校订的 14 轮家用烤箱实测。</p>
+    <p class="meta">规格 a5 148×210mm / 页数 128 页 / 记录卡 14 张 / 格式 pdf + epub / 修订 2026 年 3 月</p>
+  </header>
+
+  <main>
+    <section class="eguide-desk" aria-label="电子指南册预览桌面">
+
+      <div class="tools" role="toolbar" aria-label="指南工具层">
+        <span class="tools-tag">tools</span>
+        <label class="t-search">搜索目录
+          <input type="search" id="tocSearch" placeholder="如：发酵" aria-label="搜索封面目录">
+        </label>
+        <span class="t-note" id="searchNote" aria-live="polite">目录 8 章</span>
+        <button type="button" class="t-btn" id="copyCh">复制本章</button>
+        <button type="button" class="t-btn" id="chPrev">上一章</button>
+        <span class="t-now" id="chNow" aria-live="polite">chapter 02</span>
+        <button type="button" class="t-btn" id="chNext">下一章</button>
+      </div>
+
+      <noscript><p class="desk-note">未启用脚本 / 章节翻换与目录搜索不可用 / 两页试读内容仍可阅读</p></noscript>
+
+      <div class="spread">
+
+        <article class="guide-page cover-page" aria-label="指南封面与目录">
+          <div class="c-sticker" aria-hidden="true"><span>附赠 14 张<br>烘焙记录卡</span></div>
+
+          <header class="c-top">
+            <p class="c-eyebrow">the home baking field guide / vol.02</p>
+            <p class="c-eyebrow-zh">家庭烘焙教学手册 / 2026 修订</p>
+          </header>
+
+          <h2 class="c-title">家庭烘焙<em>第一本</em></h2>
+          <p class="c-deck">家用烤箱 / 9 寸吐司模 / 每个周末两小时——写给<em>第一次买面粉</em>的人。</p>
+
+          <div class="c-sign">
+            <p class="c-author">沈砚舟 <span>著</span></p>
+            <p class="c-sign-sub">家庭烘焙教研组 审校 / 云朵厨房工作室 出品</p>
+            <span class="c-seal" aria-hidden="true">试读版</span>
+          </div>
+
+          <div class="c-stats">
+            <div class="c-stat"><b>8</b><span>章图文</span></div>
+            <div class="c-stat"><b>46</b><span>节练习</span></div>
+            <div class="c-stat"><b>128</b><span>页排版</span></div>
+          </div>
+
+          <section class="c-inside">
+            <h3 class="c-inside-h">目录 / contents</h3>
+            <ol class="toc" id="toc">
+              <li><p class="t-row t-locked"><span class="t-no">01</span><span class="t-t">器具与温度</span><span class="t-l" aria-hidden="true"></span><span class="t-p">06</span><span class="t-lock">完整版</span></p></li>
+              <li><button type="button" class="t-row on" data-ch="0" aria-pressed="true"><span class="t-no">02</span><span class="t-t">面团的第一个小时</span><span class="t-l" aria-hidden="true"></span><span class="t-p">15</span></button></li>
+              <li><button type="button" class="t-row" data-ch="1"><span class="t-no">03</span><span class="t-t">发酵的窗口</span><span class="t-l" aria-hidden="true"></span><span class="t-p">27</span></button></li>
+              <li><button type="button" class="t-row" data-ch="2"><span class="t-no">04</span><span class="t-t">家用烤箱的脾气</span><span class="t-l" aria-hidden="true"></span><span class="t-p">39</span></button></li>
+              <li><p class="t-row t-locked"><span class="t-no">05</span><span class="t-t">揉面与手套膜</span><span class="t-l" aria-hidden="true"></span><span class="t-p">53</span><span class="t-lock">完整版</span></p></li>
+              <li><p class="t-row t-locked"><span class="t-no">06</span><span class="t-t">烘烤与上色</span><span class="t-l" aria-hidden="true"></span><span class="t-p">71</span><span class="t-lock">完整版</span></p></li>
+              <li><p class="t-row t-locked"><span class="t-no">07</span><span class="t-t">常见失败图鉴</span><span class="t-l" aria-hidden="true"></span><span class="t-p">89</span><span class="t-lock">完整版</span></p></li>
+              <li><p class="t-row t-locked"><span class="t-no">08</span><span class="t-t">记录卡与配方表</span><span class="t-l" aria-hidden="true"></span><span class="t-p">105</span><span class="t-lock">完整版</span></p></li>
+            </ol>
+            <p class="t-empty" id="tocEmpty" hidden>无匹配章节 / 换个词再试</p>
+          </section>
+
+          <footer class="c-folio"><span>家庭烘焙第一本 / 第 2 版</span><span>cover / 01</span></footer>
+        </article>
+
+        <article class="guide-page inside-spread" aria-label="章节试读内页" id="insideRoot">
+          <div class="i-head">
+            <p class="i-crumb">chapter <b>02</b> / 面团的第一个小时</p>
+            <p class="i-pages">pp.15-26</p>
+          </div>
+
+          <h3 class="i-title">揉面的尽头是<em>一支温度计</em></h3>
+          <p class="i-deck">水温决定面团这一小时的一切：出缸温度高于 26°C，发酵飞快却风味寡淡；低于 22°C，等一晚也等不来窗口。这一节只教你算对一件事——把每一缸面团都送进 24°C。</p>
+
+          <ol class="i-steps">
+            <li><span class="s-no">1</span><div class="s-b"><b>量粉温</b><span>面粉室温静置两小时后，探针插入袋中心读数，记为粉温。</span></div><span class="s-t">3 min</span></li>
+            <li><span class="s-no">2</span><div class="s-b"><b>取摩擦热</b><span>厨师机中速取 12°C，手揉取 8°C，夏天在低值上再减 2°C。</span></div><span class="s-t">1 min</span></li>
+            <li><span class="s-no">3</span><div class="s-b"><b>反推水温</b><span>水温 = 24×3 −（粉温 + 室温 + 摩擦热），结果写在配方旁。</span></div><span class="s-t">3 min</span></li>
+            <li><span class="s-no">4</span><div class="s-b"><b>冰水勾兑</b><span>冰块按 0°C 折算，与常温水混到目标值，误差控制在 ±1°C。</span></div><span class="s-t">4 min</span></li>
+            <li><span class="s-no">5</span><div class="s-b"><b>出缸复测</b><span>揉毕立刻复测面团中心，超 26°C 则下一缸把水温再压低 2°C。</span></div><span class="s-t">1 min</span></li>
+          </ol>
+          <p class="s-total"><span>本章步骤合计</span><span>12 min</span></p>
+
+          <blockquote class="i-quote">
+            <p>配方只给时间表，温度才给答案——面团进了 24°C，时间表才开始成立。</p>
+            <cite>教研组课堂笔记 no.17</cite>
+          </blockquote>
+
+          <section class="exercise-strip" aria-label="本节练习">
+            <p class="ex-tag">练习 2-1 / 水温计算 / 写进记录卡 no.3</p>
+            <p class="ex-text">用你家今天的室温和粉温，反推一缸 450g 吐司的目标水温，抄在记录卡 no.3 第一栏。</p>
+          </section>
+
+          <footer class="i-folio"><span>家庭烘焙第一本 / 试读</span><span>15</span></footer>
+        </article>
+
+      </div>
+
+      <p class="desk-note">试读范围 / 封面 + 第 2-4 章首页 / 完整版 8 章 128 页 / 翻章用上方 tools 层或左右方向键 / 目录里点第 2-4 章直达</p>
+    </section>
+
+    <section class="cta" aria-label="获取完整版">
+      <div class="cta-info">
+        <p class="cta-t">完整版 / 8 章 128 页 / 46 节练习</p>
+        <p class="cta-d">pdf + epub 双格式 / 附 14 张可打印烘焙记录卡 / 2026 年 3 月修订 / 后续修订免费更新</p>
+      </div>
+      <div class="cta-act">
+        <span class="cta-price" id="ctaMsg" aria-live="polite">免费 / 订阅教研组月刊后获取</span>
+        <button type="button" class="cta-btn" id="getBtn">获取完整指南</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>UI 设计提示词库 / 内容排版 / 电子指南册</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </footer>
+
 </div>
 
-  <h2>页面骨架（官方定义，逐条落实）</h2>
-  <ol class="steps"><li><b>01</b><span>指南桌面：暖色桌面居中放两页纸，宽屏并排窄屏叠放</span></li><li><b>02</b><span>封面页：等宽小眉标、超大衬线标题、斜体强调词、署名、3 格统计、What's inside、双栏点线目录、页脚 folio</span></li><li><b>03</b><span>内页跨页：章节眉标、编辑体标题、deck 段、双栏正文或步骤列表、置顶引文、行动条</span></li><li><b>04</b><span>工具层：搜索/复制/章节控件做成极小的 mono TOOLS 标签页</span></li></ol>
+<script>
+(function () {
+  'use strict';
 
-  <h2>组件词汇</h2>
-  <p class="vocab">.eguide-desk .guide-page .cover-page .inside-spread .exercise-strip</p>
+  /* 三章试读数据：no 章号 / name 章名 / pages 页码段 / title 编辑体标题（含斜体词标记）/ deck 导语
+     steps [步骤名, 说明, 用时] / quote 置顶引文 / ex 练习条 */
+  var CH = [
+    {
+      no: '02', name: '面团的第一个小时', pages: 'pp.15-26',
+      title: '揉面的尽头是<em>一支温度计</em>',
+      deck: '水温决定面团这一小时的一切：出缸温度高于 26°C，发酵飞快却风味寡淡；低于 22°C，等一晚也等不来窗口。这一节只教你算对一件事——把每一缸面团都送进 24°C。',
+      steps: [
+        ['量粉温', '面粉室温静置两小时后，探针插入袋中心读数，记为粉温。', '3 min'],
+        ['取摩擦热', '厨师机中速取 12°C，手揉取 8°C，夏天在低值上再减 2°C。', '1 min'],
+        ['反推水温', '水温 = 24×3 −（粉温 + 室温 + 摩擦热），结果写在配方旁。', '3 min'],
+        ['冰水勾兑', '冰块按 0°C 折算，与常温水混到目标值，误差控制在 ±1°C。', '4 min'],
+        ['出缸复测', '揉毕立刻复测面团中心，超 26°C 则下一缸把水温再压低 2°C。', '1 min']
+      ],
+      quote: '配方只给时间表，温度才给答案——面团进了 24°C，时间表才开始成立。',
+      cite: '教研组课堂笔记 no.17',
+      total: '12 min',
+      exTag: '练习 2-1 / 水温计算 / 写进记录卡 no.3',
+      exText: '用你家今天的室温和粉温，反推一缸 450g 吐司的目标水温，抄在记录卡 no.3 第一栏。',
+      folio: '15'
+    },
+    {
+      no: '03', name: '发酵的窗口', pages: 'pp.27-38',
+      title: '两次发酵之间的<em>观察课</em>',
+      deck: '判断一发到位不看钟，看面团：体积到两倍只是及格线，指痕回弹一半才是窗口。这一节把观察动作拆成四拍，教你在家用一根手指读出面团的进度。',
+      steps: [
+        ['目测体积', '拍照记录起点，一发目标 1.8-2.0 倍，超出后面包组织开始变粗。', '全程'],
+        ['指腹探面', '手指蘸粉插入第二指节，回弹一半留一半，就是分割的时机。', '30 s'],
+        ['温度补偿', '室温低于 20°C 时移入关闭的烤箱，放一杯 40°C 热水垫底。', '10 min'],
+        ['松弛二发', '分割滚圆后松弛 15 分钟，二发到模具八分满再进炉。', '65 min']
+      ],
+      quote: '钟表给的是参考值，指痕给的是决定——学会读面团，比记住所有数字加起来都重要。',
+      cite: '教研组课堂笔记 no.31',
+      total: '约 115 min',
+      exTag: '练习 3-2 / 指痕判断 / 写进记录卡 no.6',
+      exText: '同一团面在 60、90、120 分钟各拍一张指痕照片，贴在记录卡 no.6，标出你认为的最佳窗口。',
+      folio: '27'
+    },
+    {
+      no: '04', name: '家用烤箱的脾气', pages: 'pp.39-52',
+      title: '上色之前先摸清<em>你的炉</em>',
+      deck: '同一个配方在不同家用烤箱里能差出十分钟。这一节带你做一次空炉测绘：找到真实炉温、热点方向和最稳的一层，之后所有配方的时间才谈得上准。',
+      steps: [
+        ['空炉校温', '烤箱计误差普遍 10-20°C，探针放中层，设定 180°C 记录真实读数。', '20 min'],
+        ['找出热点', '一张吐司边角料烤 10 分钟，哪侧上色深，热点就在哪侧。', '10 min'],
+        ['定层转盘', '常规放中下层，上色过快中途转 180°，测绘过的炉才敢省这一步。', '2 min'],
+        ['记入炉表', '把实测温度、热点方向、常用层写进记录卡 no.9 的炉况栏。', '5 min']
+      ],
+      quote: '先测绘，再烘烤——家用烤箱的第一炉永远是给温度计烤的。',
+      cite: '教研组课堂笔记 no.44',
+      total: '37 min',
+      exTag: '练习 4-1 / 空炉测绘 / 写进记录卡 no.9',
+      exText: '完成一次 180°C 空炉校温与热点定位，把三个数据填进记录卡 no.9，下次开炉前先看它。',
+      folio: '39'
+    }
+  ];
 
-  <p class="note">提示词在<a href="../style-catalog.html">风格目录</a>对应卡片中一键复制 / 主题由使用者确定，本页演示内容仅为排版示意。</p>
-</div>
+  var root = document.getElementById('insideRoot');
+  var chNow = document.getElementById('chNow');
+  var tocBtns = document.querySelectorAll('#toc .t-row[data-ch]');
+  var idx = 0;
+
+  function render(i) {
+    var c = CH[i];
+    var h = '';
+    h += '<div class="i-head"><p class="i-crumb">chapter <b>' + c.no + '</b> / ' + c.name + '</p><p class="i-pages">' + c.pages + '</p></div>';
+    h += '<h3 class="i-title">' + c.title + '</h3>';
+    h += '<p class="i-deck">' + c.deck + '</p>';
+    h += '<ol class="i-steps">';
+    for (var s = 0; s < c.steps.length; s++) {
+      h += '<li><span class="s-no">' + (s + 1) + '</span><div class="s-b"><b>' + c.steps[s][0] + '</b><span>' + c.steps[s][1] + '</span></div><span class="s-t">' + c.steps[s][2] + '</span></li>';
+    }
+    h += '</ol>';
+    h += '<p class="s-total"><span>本章步骤合计</span><span>' + c.total + '</span></p>';
+    h += '<blockquote class="i-quote"><p>' + c.quote + '</p><cite>' + c.cite + '</cite></blockquote>';
+    h += '<section class="exercise-strip" aria-label="本节练习"><p class="ex-tag">' + c.exTag + '</p><p class="ex-text">' + c.exText + '</p></section>';
+    h += '<footer class="i-folio"><span>家庭烘焙第一本 / 试读</span><span>' + c.folio + '</span></footer>';
+    root.innerHTML = h;
+    chNow.textContent = 'chapter ' + c.no;
+    for (var t = 0; t < tocBtns.length; t++) {
+      var on = parseInt(tocBtns[t].getAttribute('data-ch'), 10) === i;
+      tocBtns[t].classList.toggle('on', on);
+      tocBtns[t].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+  }
+
+  function turnPage() {
+    root.classList.remove('turn');
+    void root.offsetWidth;
+    root.classList.add('turn');
+  }
+
+  function go(step) {
+    idx = (idx + step + CH.length) % CH.length;
+    render(idx);
+    turnPage();
+  }
+
+  document.getElementById('chPrev').addEventListener('click', function () { go(-1); });
+  document.getElementById('chNext').addEventListener('click', function () { go(1); });
+
+  /* 左右方向键翻章（输入框内不拦截） */
+  document.addEventListener('keydown', function (e) {
+    var tag = e.target && e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (e.key === 'ArrowLeft') go(-1);
+    if (e.key === 'ArrowRight') go(1);
+  });
+
+  /* 封面目录：第 2-4 章可点击直达，窄屏顺带滚到内页 */
+  var smoothOk = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  for (var tb = 0; tb < tocBtns.length; tb++) {
+    (function (btn) {
+      btn.addEventListener('click', function () {
+        idx = parseInt(btn.getAttribute('data-ch'), 10);
+        render(idx);
+        turnPage();
+        if (matchMedia('(max-width: 980px)').matches) {
+          root.scrollIntoView({ behavior: smoothOk ? 'smooth' : 'auto', block: 'nearest' });
+        }
+      });
+    })(tocBtns[tb]);
+  }
+
+  /* 复制本章：拼出章名、标题、步骤与引文的纯文本 */
+  var copyBtn = document.getElementById('copyCh');
+  copyBtn.addEventListener('click', function () {
+    var c = CH[idx];
+    var lines = ['家庭烘焙第一本 / chapter ' + c.no + ' ' + c.name + ' / ' + c.title.replace(/<[^>]+>/g, '')];
+    for (var s = 0; s < c.steps.length; s++) {
+      lines.push((s + 1) + '. ' + c.steps[s][0] + '（' + c.steps[s][2] + '）' + c.steps[s][1]);
+    }
+    lines.push(c.quote + ' —— ' + c.cite);
+    var text = lines.join('\n');
+    function done() {
+      copyBtn.textContent = '已复制本章';
+      setTimeout(function () { copyBtn.textContent = '复制本章'; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+    } else {
+      fallback(text, done);
+    }
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { copyBtn.textContent = '复制失败'; }
+    document.body.removeChild(ta);
+  }
+
+  /* 完整版行动条：点击给出领取反馈（演示） */
+  var getBtn = document.getElementById('getBtn');
+  var ctaMsg = document.getElementById('ctaMsg');
+  getBtn.addEventListener('click', function () {
+    ctaMsg.textContent = '领取链接已发送 / 演示样张仅作提示';
+    setTimeout(function () { ctaMsg.textContent = '免费 / 订阅教研组月刊后获取'; }, 2200);
+  });
+
+  /* 目录搜索：按章号或章名过滤封面目录行 */
+  var search = document.getElementById('tocSearch');
+  var note = document.getElementById('searchNote');
+  var empty = document.getElementById('tocEmpty');
+  var rows = document.querySelectorAll('#toc li');
+  search.addEventListener('input', function () {
+    var q = search.value.trim().toLowerCase();
+    var hit = 0;
+    for (var r = 0; r < rows.length; r++) {
+      var ok = !q || rows[r].textContent.toLowerCase().indexOf(q) !== -1;
+      rows[r].classList.toggle('hide', !ok);
+      if (ok) hit++;
+    }
+    empty.hidden = hit !== 0;
+    note.textContent = !q ? '目录 8 章' : (hit === 0 ? '无匹配' : '命中 ' + hit + ' 章');
+  });
+})();
+</script>
 </body>
 </html>
