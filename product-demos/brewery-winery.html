@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="野麦酿造 / 城市精酿啤酒厂样板页 / 酒款列表、酿造流程、酒厂参观与零售点">
+<title>产品模板 / Brewery/Winery / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token: 主色 #7C2D12 / 副色 #B91C1C / 金 #A16207 / 背景 #FEF2F2 / 前景 #450A0A / 卡 #FFFFFF / 边框 #FECACA / 灰 #ECEDF0 / 焦点环 #7C2D12 / 深底 #1E0806 / 深底亮金 #D9A441 / 深金字 #7A4A06 */
+:root{
+  --primary:#7C2D12; --on-primary:#FFFFFF; --secondary:#B91C1C; --accent:#A16207;
+  --bg:#FEF2F2; --fg:#450A0A; --card:#FFFFFF; --line:#FECACA; --muted:#ECEDF0; --ring:#7C2D12;
+  --dark:#1E0806; --dark-2:#2B0F0A; --dark-ink:#F6EBE2; --dark-sub:#E4C9B8;
+  --gold-bright:#D9A441; --gold-deep:#7A4A06;
+  --serif:Georgia,"Times New Roman","Songti SC","SimSun",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);font-size:16px;line-height:1.7}
+/* 胶片颗粒 / Vintage Analog 质感，全页低透明度叠加 */
+body::after{content:"";position:fixed;inset:0;z-index:120;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.6'/></svg>")}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-999px;top:12px;z-index:200;background:var(--card);color:var(--fg);padding:10px 18px;border:2px solid var(--primary)}
+.skip:focus{left:12px}
+a{color:var(--primary)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+.site-header :focus-visible,.process :focus-visible,.site-footer :focus-visible{outline-color:var(--gold-bright)}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.25;color:inherit}
+
+/* 顶部导航 / 与 hero 同属深色区 */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(30,8,6,.94);border-bottom:1px solid rgba(217,164,65,.28);backdrop-filter:blur(8px)}
+.header-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--dark-ink)}
+.brand-mark{width:26px;height:26px;color:var(--gold-bright);flex:none}
+.brand-txt{display:flex;flex-direction:column;line-height:1.2}
+.brand-txt b{font-family:var(--serif);font-size:19px;letter-spacing:2px}
+.brand-txt small{font-size:11px;color:var(--gold-bright);letter-spacing:.4px}
+.site-nav{display:flex;align-items:center;gap:28px}
+.site-nav a{color:var(--dark-ink);text-decoration:none;font-size:15px;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{border-bottom-color:var(--gold-bright)}
+.nav-cta{border:1px solid var(--gold-bright);color:var(--gold-bright) !important;padding:8px 18px !important;border-radius:2px}
+.nav-cta:hover{background:var(--gold-bright);color:var(--dark) !important;border-bottom-color:var(--gold-bright) !important}
+.menu-btn{display:none;background:none;border:1px solid rgba(246,235,226,.4);border-radius:2px;color:var(--dark-ink);font-size:13px;padding:8px 12px;cursor:pointer;align-items:center;gap:8px}
+.bars{display:inline-flex;flex-direction:column;gap:4px}
+.menu-btn .bar{width:18px;height:2px;background:var(--dark-ink);display:block}
+
+/* 按钮 / 复古描边矩形，无尾箭头 */
+.btn{display:inline-block;font-size:15px;text-decoration:none;padding:12px 26px;border-radius:2px;border:1.5px solid var(--primary);cursor:pointer;font-family:var(--sans);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.btn-solid{background:var(--primary);color:var(--on-primary)}
+.btn-solid:hover{background:var(--secondary);border-color:var(--secondary);transform:translateY(-2px);box-shadow:0 8px 18px rgba(124,45,18,.22)}
+.btn-line{background:transparent;color:var(--primary)}
+.btn-line:hover{background:var(--card);transform:translateY(-2px);box-shadow:0 8px 18px rgba(124,45,18,.14)}
+.btn-sm{padding:8px 20px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:default;transform:none;box-shadow:none}
+
+/* Hero / 深色 OLED 首屏 + 有机弧形下缘 + 一次亮相动效 */
+.hero{position:relative;background:var(--dark);color:var(--dark-ink);padding:96px 0 150px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-220px;right:-180px;width:560px;height:560px;border-radius:50%;border:1px solid rgba(217,164,65,.22);box-shadow:0 0 0 60px rgba(217,164,65,.045)}
+.hero::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:150%;height:120px;background:var(--bg);border-radius:100% 100% 0 0}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:center}
+.hero-tag{color:var(--gold-bright);font-size:14px;letter-spacing:3px;margin-bottom:18px}
+.hero h1{font-size:clamp(34px,5.2vw,58px);letter-spacing:1px;margin-bottom:20px}
+.hero-sub{color:var(--dark-sub);font-size:17px;max-width:34em;margin-bottom:32px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:26px}
+.hero .btn-line{border-color:var(--gold-bright);color:var(--gold-bright)}
+.hero .btn-line:hover{background:rgba(217,164,65,.14);box-shadow:none;color:var(--gold-bright)}
+.hero-note{display:inline-block;font-size:13px;color:var(--dark-sub);border-top:1px solid rgba(217,164,65,.35);border-bottom:1px solid rgba(217,164,65,.35);padding:7px 2px}
+.hero-art{position:relative;display:flex;justify-content:center}
+.wheat-frame{width:210px;height:300px;border:1px solid rgba(217,164,65,.55);border-radius:105px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 6px var(--dark),inset 0 0 0 7px rgba(217,164,65,.4)}
+.wheat{width:96px;height:224px;color:var(--gold-bright)}
+.hero-year{position:absolute;bottom:-6px;right:-34px;transform:rotate(-90deg);transform-origin:right bottom;font-family:var(--serif);font-size:13px;letter-spacing:6px;color:rgba(217,164,65,.75)}
+
+/* 一次亮相动效 / 仅 hero 首屏播放一次，reduced-motion 降级为直接显示 */
+@media (prefers-reduced-motion: no-preference){
+  .rv-1,.rv-2,.rv-3,.rv-4{opacity:0;animation:rise .85s cubic-bezier(.22,.61,.36,1) forwards}
+  .rv-2{animation-delay:.14s}
+  .rv-3{animation-delay:.3s}
+  .rv-4{animation-delay:.42s}
+  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .rv-1,.rv-2,.rv-3,.rv-4{animation:none;opacity:1}
+  .btn{transition:none}
+}
+
+/* 通用段落壳 */
+.sec{padding:84px 0}
+.sec-head{max-width:640px;margin-bottom:44px}
+.kicker{display:flex;align-items:center;gap:10px;color:var(--gold-deep);font-size:13.5px;letter-spacing:2px;margin-bottom:14px}
+.kicker::before{content:"";width:34px;height:2px;background:var(--accent)}
+.sec-head h2{font-size:clamp(26px,3.4vw,36px);margin-bottom:12px}
+.sec-head p{color:var(--primary);font-size:15.5px}
+
+/* 品牌故事 / 叙事排版，首字下沉 */
+.story-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:56px;align-items:start}
+.story-copy p{font-size:16px;color:var(--fg);margin-bottom:16px;text-align:justify}
+.story-copy p:first-child::first-letter{font-family:var(--serif);font-size:58px;line-height:.9;float:left;padding:8px 10px 2px 0;color:var(--secondary)}
+.story-sign{font-family:var(--serif);color:var(--secondary);font-size:15px;border-top:2px solid var(--line);display:inline-block;padding-top:10px;margin-top:6px}
+.facts{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);background:var(--card)}
+.fact{padding:26px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact:nth-child(2n){border-right:none}
+.fact:nth-child(n+3){border-bottom:none}
+.fact strong{display:block;font-family:var(--serif);font-size:38px;color:var(--secondary);line-height:1.1}
+.fact span{font-size:13.5px;color:var(--primary)}
+
+/* 酒款列表 / 签名组件：三列参数格 + 酒液色度标尺 */
+.beer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.beer-card{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:24px 24px 20px;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
+.beer-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(69,10,10,.12)}
+.beer-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px double var(--line);padding-bottom:10px;margin-bottom:14px}
+.beer-no{font-family:var(--serif);color:var(--accent);font-size:14px}
+.beer-style{font-size:13px;color:var(--primary)}
+.beer-card h3{font-size:22px;margin-bottom:8px;letter-spacing:.5px}
+.beer-desc{font-size:14px;color:var(--primary);min-height:48px;margin-bottom:16px}
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:2px;margin-bottom:12px}
+.spec{padding:9px 4px;text-align:center;border-right:1px solid var(--line)}
+.spec:last-child{border-right:none}
+.spec-k{display:block;font-size:11.5px;color:var(--gold-deep);letter-spacing:.5px}
+.spec-v{display:block;font-family:var(--serif);font-size:20px;color:var(--fg);line-height:1.3}
+.srm-scale{position:relative;height:10px;border-radius:2px;margin-bottom:14px;border:1px solid var(--line);background:linear-gradient(90deg,#F7E7B9 0%,#D9A94E 35%,#8A4A20 70%,#2E1A10 100%)}
+.srm-scale i{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:var(--card);border:2.5px solid var(--secondary);transform:translate(-50%,-50%)}
+.beer-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;font-size:12.5px}
+.beer-status{color:var(--gold-deep);background:#F7EBD3;padding:3px 10px;border-radius:2px}
+.beer-foot .beer-batch{color:var(--primary)}
+
+/* 酿造流程 / 深色 OLED 段落呼应次风格 */
+.process{background:var(--dark);color:var(--dark-ink);padding:88px 0 96px;position:relative}
+.process .kicker{color:var(--gold-bright)}
+.process .kicker::before{background:var(--gold-bright)}
+.process .sec-head p{color:var(--dark-sub)}
+.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(217,164,65,.3)}
+.step{padding:30px 24px 8px 0;border-left:1px solid rgba(217,164,65,.18);padding-left:24px}
+.step:first-child{border-left:none;padding-left:0}
+.step-no{font-family:var(--serif);font-size:44px;color:var(--gold-bright);line-height:1;display:block;margin-bottom:14px}
+.step h3{font-size:20px;margin-bottom:8px;letter-spacing:1px}
+.step-chip{display:inline-block;font-size:13px;color:var(--gold-bright);border:1px solid rgba(217,164,65,.5);padding:3px 12px;border-radius:20px;margin-bottom:12px}
+.step-desc{font-size:14px;color:var(--dark-sub)}
+.process-note{margin-top:44px;padding-top:20px;border-top:1px solid rgba(217,164,65,.3);font-size:14px;color:var(--dark-sub);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.process-note b{color:var(--gold-bright);font-weight:600}
+
+/* 酒厂参观 */
+.tour-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tour-card{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:26px;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease}
+.tour-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(69,10,10,.12)}
+.tour-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.tour-head h3{font-size:21px;letter-spacing:.5px}
+.tour-len{font-size:13px;color:var(--gold-deep)}
+.tour-when{font-size:13.5px;color:var(--primary);border-bottom:1px double var(--line);padding-bottom:12px;margin-bottom:14px}
+.tour-list{list-style:none;margin-bottom:20px;flex:1}
+.tour-list li{font-size:14px;color:var(--fg);padding:7px 0 7px 22px;position:relative;border-bottom:1px dashed var(--muted)}
+.tour-list li::before{content:"";position:absolute;left:2px;top:14px;width:8px;height:8px;background:var(--accent);border-radius:50%}
+.tour-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.tour-price{font-family:var(--serif);font-size:20px;color:var(--secondary)}
+.book-tip{margin-top:18px;font-size:14px;color:var(--gold-deep);min-height:22px}
+
+/* 寻找零售点 */
+.filter-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.filter-row button{font-family:var(--sans);font-size:14px;padding:8px 22px;border-radius:20px;border:1.5px solid var(--line);background:var(--card);color:var(--primary);cursor:pointer;transition:border-color .18s ease,background .18s ease,color .18s ease}
+.filter-row button:hover{border-color:var(--primary)}
+.filter-row button.active{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.shop-count{font-size:13.5px;color:var(--primary);margin-bottom:22px}
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.shop{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:2px;padding:18px 22px;transition:transform .18s ease,box-shadow .18s ease}
+.shop:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(69,10,10,.1)}
+.shop h3{font-size:18px;margin-bottom:4px}
+.shop-addr{font-size:13.5px;color:var(--primary);margin-bottom:8px}
+.shop-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--gold-deep)}
+
+/* Footer */
+.site-footer{background:var(--dark);color:var(--dark-sub);padding:56px 0 28px}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.foot-brand b{font-family:var(--serif);font-size:22px;color:var(--dark-ink);letter-spacing:2px;display:block;margin-bottom:8px}
+.foot-brand p{font-size:13.5px;line-height:2}
+.site-footer h4{font-family:var(--serif);color:var(--gold-bright);font-size:15px;letter-spacing:2px;margin-bottom:12px;font-weight:600}
+.foot-links{list-style:none}
+.foot-links li{margin-bottom:8px}
+.foot-links a{color:var(--dark-sub);text-decoration:none;font-size:14px}
+.foot-links a:hover{color:var(--gold-bright)}
+.foot-baseline{border-top:1px solid rgba(217,164,65,.28);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px}
+.foot-baseline a{color:var(--gold-bright);text-decoration:none;border-bottom:1px solid rgba(217,164,65,.5);padding-bottom:1px}
+.foot-baseline a:hover{border-bottom-color:var(--gold-bright)}
+
+/* 响应式 / 900 与 600 与 1440 断点 */
+@media (max-width: 900px){
+  .menu-btn{display:inline-flex}
+  .site-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--dark-2);flex-direction:column;align-items:flex-start;gap:0;padding:10px 24px 20px;border-bottom:1px solid rgba(217,164,65,.28)}
+  .site-nav.open{display:flex}
+  .site-nav a{width:100%;padding:12px 0;border-bottom:1px solid rgba(217,164,65,.15)}
+  .nav-cta{border:none;padding:12px 0 !important;color:var(--gold-bright) !important}
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .hero{padding:72px 0 130px}
+  .hero-art{justify-content:flex-start}
+  .hero-year{right:auto;left:-30px;transform:rotate(90deg);transform-origin:left bottom}
+  .story-grid{grid-template-columns:1fr;gap:36px}
+  .beer-grid{grid-template-columns:repeat(2,1fr)}
+  .step-grid{grid-template-columns:repeat(2,1fr);border-top:none}
+  .step{border-left:none;border-top:1px solid rgba(217,164,65,.3);padding:24px 0 8px}
+  .step:first-child{border-top:none}
+  .tour-grid{grid-template-columns:1fr;max-width:560px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 600px){
+  .beer-grid{grid-template-columns:1fr}
+  .shop-grid{grid-template-columns:1fr}
+  .step-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr;gap:28px}
+  .hero-actions .btn{width:100%;text-align:center}
+  .facts{grid-template-columns:1fr 1fr}
+  .sec{padding:64px 0}
+  .wheat-frame{width:170px;height:244px}
+}
+@media (min-width: 1440px){
+  .wrap{max-width:1280px}
+  .hero{padding:110px 0 160px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="site-header">
+  <div class="wrap header-in">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+        <path d="M12 23 C12 16 12 10 12 5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+        <path d="M12 6 C10.6 4.4 10.6 2.4 12 .6 C13.4 2.4 13.4 4.4 12 6Z"/>
+        <path d="M11.4 9.6 C9.4 9.2 7.8 9.9 7 11.5 C8.8 12 10.6 11.3 11.4 9.6Z"/>
+        <path d="M12.6 9.6 C14.6 9.2 16.2 9.9 17 11.5 C15.2 12 13.4 11.3 12.6 9.6Z"/>
+        <path d="M11.4 14.6 C9.4 14.2 7.8 14.9 7 16.5 C8.8 17 10.6 16.3 11.4 14.6Z"/>
+        <path d="M12.6 14.6 C14.6 14.2 16.2 14.9 17 16.5 C15.2 17 13.4 16.3 12.6 14.6Z"/>
+      </svg>
+      <span class="brand-txt"><b>野麦酿造</b><small>Wild Wheat Brewing Co. / est. 2016</small></span>
+    </a>
+    <nav class="site-nav" id="siteNav" aria-label="主导航">
+      <a href="#beers">酒款</a>
+      <a href="#process">酿造</a>
+      <a href="#tour">参观</a>
+      <a href="#retail">零售点</a>
+      <a class="nav-cta" href="#tour">预约参观</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="siteNav">
+      <span class="bars" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      菜单
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top" aria-label="酒厂首屏">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hero-tag rv-1">城市精酿啤酒厂 / 北京五道营</p>
+        <h1 class="rv-1">在老厂房里，<br>酿一杯有麦香的啤酒</h1>
+        <p class="hero-sub rv-2">野麦酿造自 2016 年起在城市中心坚持小批量酿造，全麦芽配方与开放式发酵记录。每一批酒的糖化曲线、投花记录与品评笔记，都可在本站查证。</p>
+        <div class="hero-actions rv-2">
+          <a class="btn btn-solid" href="#beers">查看本季酒款</a>
+          <a class="btn btn-line" href="#tour">预约酒厂参观</a>
+        </div>
+        <p class="hero-note rv-3">本季在酿 / 第 41 批 / 信号旗 IPA</p>
+      </div>
+      <div class="hero-art rv-4" aria-hidden="true">
+        <div class="wheat-frame">
+          <svg class="wheat" viewBox="0 0 60 120">
+            <g fill="currentColor" stroke="currentColor" stroke-width="1.6">
+              <path d="M30 118 C30 82 30 58 30 34" fill="none"/>
+              <path d="M30 36 C25 27 25 14 30 3 C35 14 35 27 30 36Z" stroke="none"/>
+              <path id="grain" d="M29.5 47 C20.5 45 13.5 49 11.5 57.5 C20 59.5 27.5 55 29.5 47Z" stroke="none"/>
+              <use href="#grain" transform="translate(60 0) scale(-1 1)"/>
+              <path id="grain2" d="M29.5 63 C20.5 61 13.5 65 11.5 73.5 C20 75.5 27.5 71 29.5 63Z" stroke="none"/>
+              <use href="#grain2" transform="translate(60 0) scale(-1 1)"/>
+              <path id="grain3" d="M29.5 79 C21 77.5 15 81 13.5 88 C21 89.5 27.5 85.5 29.5 79Z" stroke="none"/>
+              <use href="#grain3" transform="translate(60 0) scale(-1 1)"/>
+              <path d="M31 96 C37 99 40 104 40.5 110 C35 109 31.5 104 31 96Z" stroke="none"/>
+              <path d="M29 96 C23 99 20 104 19.5 110 C25 109 28.5 104 29 96Z" stroke="none"/>
+            </g>
+          </svg>
+        </div>
+        <span class="hero-year">since 2016</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-label="品牌故事">
+    <div class="wrap story-grid">
+      <div class="story-copy">
+        <div class="sec-head">
+          <p class="kicker">品牌故事</p>
+          <h2>从一台 500 升糖化锅开始</h2>
+        </div>
+        <p>2016 年冬天，我们在五道营胡同尽头的旧纺织厂房里架起了第一套 500 升糖化设备。没有招牌，只有一盏挂在门口的暖灯，和一桶桶正在发酵的麦汁。八年过去，厂房还是那座厂房，发酵罐从 4 只增加到 22 只，但做事的方式没有变：小批量、全麦芽、不追风口，只酿我们自己想喝的酒。</p>
+        <p>每一批酒出厂前，都要在品评台上过三道关：外观、香气、口感。任何一道不过关，整批酒都不会贴上野麦的标签。我们相信，城市里的啤酒厂不该只是喝酒的地方，而是一座敞开的车间，欢迎你来看麦汁如何变成杯中的金色。</p>
+        <p class="story-sign">主酿 / 陈野麦 与 全体车间伙伴</p>
+      </div>
+      <aside class="facts" aria-label="酒厂数据">
+        <p class="fact"><strong>1200</strong><span>千升 / 年产量</span></p>
+        <p class="fact"><strong>22</strong><span>只锥形发酵罐</span></p>
+        <p class="fact"><strong>38</strong><span>家合作门店</span></p>
+        <p class="fact"><strong>41</strong><span>批 / 本年度批次</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec" id="beers" aria-label="酒款列表" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">酒款列表</p>
+        <h2>本季在售的六款酒</h2>
+        <p>参数为最近一批次的实测均值 / 色度标尺指示该酒款在浅色至烘焙色谱中的位置</p>
+      </div>
+      <div class="beer-grid">
+
+        <article class="beer-card">
+          <div class="beer-top"><span class="beer-no">No.01</span><span class="beer-style">捷克式皮尔森</span></div>
+          <h3>车间皮尔森</h3>
+          <p class="beer-desc">全麦芽底配萨兹酒花，低温冷储三周，干爽利落的收口，是车间周五罐装日的固定款。</p>
+          <div class="spec-grid">
+            <div class="spec"><span class="spec-k">ABV 酒精度</span><span class="spec-v">4.8%</span></div>
+            <div class="spec"><span class="spec-k">IBU 苦度</span><span class="spec-v">32</span></div>
+            <div class="spec"><span class="spec-k">SRM 色度</span><span class="spec-v">4</span></div>
+          </div>
+          <div class="srm-scale" aria-hidden="true"><i style="left:10%"></i></div>
+          <div class="beer-foot"><span class="beer-status">常年在售</span><span class="beer-batch">批号 B-24-110</span></div>
+        </article>
+
+        <article class="beer-card">
+          <div class="beer-top"><span class="beer-no">No.02</span><span class="beer-style">德式小麦艾尔</span></div>
+          <h3>河岸小麦</h3>
+          <p class="beer-desc">巴伐利亚酵母带来丁香与熟香蕉的酯香，酒体浑浊柔顺，适合配亮马河边的傍晚。</p>
+          <div class="spec-grid">
+            <div class="spec"><span class="spec-k">ABV 酒精度</span><span class="spec-v">5.2%</span></div>
+            <div class="spec"><span class="spec-k">IBU 苦度</span><span class="spec-v">14</span></div>
+            <div class="spec"><span class="spec-k">SRM 色度</span><span class="spec-v">6</span></div>
+          </div>
+          <div class="srm-scale" aria-hidden="true"><i style="left:15%"></i></div>
+          <div class="beer-foot"><span class="beer-status">常年在售</span><span class="beer-batch">批号 B-24-112</span></div>
+        </article>
+
+        <article class="beer-card">
+          <div class="beer-top"><span class="beer-no">No.03</span><span class="beer-style">美式琥珀艾尔</span></div>
+          <h3>鼓楼琥珀</h3>
+          <p class="beer-desc">焦糖与烤面包的麦芽骨架，卡斯卡特酒花轻柔收尾，老主顾带新朋友来的入门推荐。</p>
+          <div class="spec-grid">
+            <div class="spec"><span class="spec-k">ABV 酒精度</span><span class="spec-v">5.6%</span></div>
+            <div class="spec"><span class="spec-k">IBU 苦度</span><span class="spec-v">28</span></div>
+            <div class="spec"><span class="spec-k">SRM 色度</span><span class="spec-v">14</span></div>
+          </div>
+          <div class="srm-scale" aria-hidden="true"><i style="left:36%"></i></div>
+          <div class="beer-foot"><span class="beer-status">常年在售</span><span class="beer-batch">批号 B-24-108</span></div>
+        </article>
+
+        <article class="beer-card">
+          <div class="beer-top"><span class="beer-no">No.04</span><span class="beer-style">西海岸印度淡色艾尔</span></div>
+          <h3>信号旗 IPA</h3>
+          <p class="beer-desc">单批六次投花，松脂与西柚皮的风味主导，苦度干净利落，是罐装线上的招牌酒款。</p>
+          <div class="spec-grid">
+            <div class="spec"><span class="spec-k">ABV 酒精度</span><span class="spec-v">6.8%</span></div>
+            <div class="spec"><span class="spec-k">IBU 苦度</span><span class="spec-v">65</span></div>
+            <div class="spec"><span class="spec-k">SRM 色度</span><span class="spec-v">8</span></div>
+          </div>
+          <div class="srm-scale" aria-hidden="true"><i style="left:21%"></i></div>
+          <div class="beer-foot"><span class="beer-status">常年在售</span><span class="beer-batch">批号 B-24-109</span></div>
+        </article>
+
+        <article class="beer-card">
+          <div class="beer-top"><span class="beer-no">No.05</span><span class="beer-style">干性世涛</span></div>
+          <h3>午夜航线世涛</h3>
+          <p class="beer-desc">细腻氮气气泡托起烘焙咖啡与 72% 黑巧的风味，深色麦芽的甜感克制而绵长。</p>
+          <div class="spec-grid">
+            <div class="spec"><span class="spec-k">ABV 酒精度</span><span class="spec-v">7.2%</span></div>
+            <div class="spec"><span class="spec-k">IBU 苦度</span><span class="spec-v">45</span></div>
+            <div class="spec"><span class="spec-k">SRM 色度</span><span class="spec-v">38</span></div>
+          </div>
+          <div class="srm-scale" aria-hidden="true"><i style="left:95%"></i></div>
+          <div class="beer-foot"><span class="beer-status">冬季限定</span><span class="beer-batch">批号 B-24-104</span></div>
+        </article>
+
+        <article class="beer-card">
+          <div class="beer-top"><span class="beer-no">No.06</span><span class="beer-style">水果酸艾尔</span></div>
+          <h3>果园酸艾尔</h3>
+          <p class="beer-desc">接入酒厂环境菌种发酵，配海棠与杏子二次熟成，酸度明快，果香饱满多汁。</p>
+          <div class="spec-grid">
+            <div class="spec"><span class="spec-k">ABV 酒精度</span><span class="spec-v">5.0%</span></div>
+            <div class="spec"><span class="spec-k">IBU 苦度</span><span class="spec-v">8</span></div>
+            <div class="spec"><span class="spec-k">SRM 色度</span><span class="spec-v">10</span></div>
+          </div>
+          <div class="srm-scale" aria-hidden="true"><i style="left:26%"></i></div>
+          <div class="beer-foot"><span class="beer-status">季节限定</span><span class="beer-batch">批号 B-24-107</span></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="process" id="process" aria-label="酿造流程">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">酿造流程</p>
+        <h2>从麦粒到酒杯的四步</h2>
+        <p>以下为车间当季标准工艺 / 不同酒款会在投料与温控曲线上各有调整</p>
+      </div>
+      <div class="step-grid">
+        <article class="step">
+          <span class="step-no">01</span>
+          <h3>糖化</h3>
+          <p class="step-chip">65.5 摄氏度 / 60 分钟</p>
+          <p class="step-desc">破碎后的澳洲二棱大麦与本地小麦按配方比例入锅，分两段控温，析出可发酵糖与麦芽体感。</p>
+        </article>
+        <article class="step">
+          <span class="step-no">02</span>
+          <h3>煮沸</h3>
+          <p class="step-chip">100 摄氏度 / 75 分钟</p>
+          <p class="step-desc">麦汁满锅沸腾后分三次投花：早期给苦度，中期给风味，末期锁住酒花香气。</p>
+        </article>
+        <article class="step">
+          <span class="step-no">03</span>
+          <h3>发酵</h3>
+          <p class="step-chip">19 摄氏度 / 7 天</p>
+          <p class="step-desc">回旋沉淀后的麦汁打入锥形罐，接种自有保藏酵母，第七天封罐升压，锁定风味。</p>
+        </article>
+        <article class="step">
+          <span class="step-no">04</span>
+          <h3>冷陈与罐装</h3>
+          <p class="step-chip">2 摄氏度 / 14 天</p>
+          <p class="step-desc">低温冷陈让酒体澄清、口感圆润，每周五在无菌罐装线上完成出厂前的最后一环。</p>
+        </article>
+      </div>
+      <p class="process-note">
+        <span>每批酒保留留样 12 个月 / 批次记录随罐身码公开可查</span>
+        <span><b>下一批罐装日 / 本周五 14:00</b></span>
+      </p>
+    </div>
+  </section>
+
+  <section class="sec" id="tour" aria-label="酒厂参观">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">酒厂参观</p>
+        <h2>三种打开车间的方式</h2>
+        <p>预约后请穿平底鞋到场 / 全程在酿酒师带领下进行 / 未成年人与宠物恕不接待</p>
+      </div>
+      <div class="tour-grid">
+        <article class="tour-card">
+          <div class="tour-head"><h3>车间速览</h3><span class="tour-len">45 分钟</span></div>
+          <p class="tour-when">每周四 18:30 / 周日 15:00</p>
+          <ul class="tour-list">
+            <li>糖化车间与发酵罐区参观</li>
+            <li>试饮当季酒款 2 杯</li>
+            <li>酿酒师现场答疑</li>
+            <li>附车间纪念杯贴 1 枚</li>
+          </ul>
+          <div class="tour-foot"><span class="tour-price">68 元 / 人</span><button class="btn btn-solid btn-sm book-btn" type="button">预约</button></div>
+        </article>
+        <article class="tour-card">
+          <div class="tour-head"><h3>全程酿造之旅</h3><span class="tour-len">90 分钟</span></div>
+          <p class="tour-when">每周六 14:00 / 周六 16:00</p>
+          <ul class="tour-list">
+            <li>从投料到罐装的完整动线</li>
+            <li>桶陈库与试验批开放参观</li>
+            <li>试饮 4 款酒款含桶陈限定</li>
+            <li>伴手礼罐装啤酒一组</li>
+          </ul>
+          <div class="tour-foot"><span class="tour-price">158 元 / 人</span><button class="btn btn-solid btn-sm book-btn" type="button">预约</button></div>
+        </article>
+        <article class="tour-card">
+          <div class="tour-head"><h3>酿造师同桌</h3><span class="tour-len">半天</span></div>
+          <p class="tour-when">每月首个周日 13:00</p>
+          <ul class="tour-list">
+            <li>亲手参与一批酒的部分投料</li>
+            <li>桶边直取试饮与品评记录</li>
+            <li>酿造师晚宴四道配餐</li>
+            <li>带走亲手参与罐装的一组酒</li>
+          </ul>
+          <div class="tour-foot"><span class="tour-price">468 元 / 人</span><button class="btn btn-solid btn-sm book-btn" type="button">预约</button></div>
+        </article>
+      </div>
+      <p class="book-tip" id="bookTip" role="status"></p>
+    </div>
+  </section>
+
+  <section class="sec" id="retail" aria-label="寻找零售点" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">寻找零售点</p>
+        <h2>在哪里能喝到野麦</h2>
+        <p>以下门店均有本季酒款在售 / 库存以各门店当日酒单为准</p>
+      </div>
+      <div class="filter-row" id="cityFilter" role="group" aria-label="按城市筛选门店">
+        <button type="button" data-city="all" class="active" aria-pressed="true">全部</button>
+        <button type="button" data-city="bj" aria-pressed="false">北京</button>
+        <button type="button" data-city="tj" aria-pressed="false">天津</button>
+        <button type="button" data-city="sh" aria-pressed="false">上海</button>
+      </div>
+      <p class="shop-count" id="shopCount" aria-live="polite">共 8 家门店</p>
+      <div class="shop-grid">
+        <article class="shop" data-city="bj">
+          <h3>野麦酿造 五道营 Taproom</h3>
+          <p class="shop-addr">北京市东城区五道营胡同 47 号 / 酒厂门口直达</p>
+          <p class="shop-meta"><span>堂饮 / 罐装外带</span><span>在售 6 款</span></p>
+        </article>
+        <article class="shop" data-city="bj">
+          <h3>野麦酿造 首钢园店</h3>
+          <p class="shop-addr">北京市石景山区首钢园六工汇 C2 栋</p>
+          <p class="shop-meta"><span>堂饮 / 罐装外带</span><span>在售 5 款</span></p>
+        </article>
+        <article class="shop" data-city="bj">
+          <h3>麦子胡同 Bistro</h3>
+          <p class="shop-addr">北京市朝阳区麦子店街 39 号</p>
+          <p class="shop-meta"><span>堂饮</span><span>在售 4 款</span></p>
+        </article>
+        <article class="shop" data-city="bj">
+          <h3>河岸酒屋</h3>
+          <p class="shop-addr">北京市朝阳区亮马河畔 27 号院</p>
+          <p class="shop-meta"><span>堂饮 / 罐装外带</span><span>在售 4 款</span></p>
+        </article>
+        <article class="shop" data-city="tj">
+          <h3>海河小馆</h3>
+          <p class="shop-addr">天津市和平区赤峰道 116 号</p>
+          <p class="shop-meta"><span>堂饮</span><span>在售 3 款</span></p>
+        </article>
+        <article class="shop" data-city="tj">
+          <h3>五大道酒肆</h3>
+          <p class="shop-addr">天津市和平区大理道 48 号</p>
+          <p class="shop-meta"><span>堂饮 / 罐装外带</span><span>在售 3 款</span></p>
+        </article>
+        <article class="shop" data-city="sh">
+          <h3>苏州河畔吧</h3>
+          <p class="shop-addr">上海市普陀区莫干山路 88 号</p>
+          <p class="shop-meta"><span>堂饮</span><span>在售 4 款</span></p>
+        </article>
+        <article class="shop" data-city="sh">
+          <h3>愚园路酒馆</h3>
+          <p class="shop-addr">上海市长宁区愚园路 1088 弄</p>
+          <p class="shop-meta"><span>堂饮 / 罐装外带</span><span>在售 5 款</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>野麦酿造</b>
+        <p>Wild Wheat Brewing Co.<br>北京市东城区五道营胡同 47 号<br>周四至周日 14:00 至 23:00 / 010-8400 2016</p>
+      </div>
+      <div>
+        <h4>逛逛</h4>
+        <ul class="foot-links">
+          <li><a href="#beers">酒款列表</a></li>
+          <li><a href="#process">酿造流程</a></li>
+          <li><a href="#tour">酒厂参观</a></li>
+          <li><a href="#retail">寻找零售点</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>约定</h4>
+        <ul class="foot-links">
+          <li><a href="#top">只在法定渠道向成年人售酒</a></li>
+          <li><a href="#top">孕妇与驾驶人请勿饮酒</a></li>
+          <li><a href="#top">理性饮酒 / 拒绝酒驾</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-baseline">
+      <span>© 2026 野麦酿造 / 样板页演示内容 / 非真实商家 / UI 设计提示词库 / 产品模板 / Brewery/Winery</span>
+      <span><a href="../style-catalog.html">返回风格目录</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var nav=document.getElementById('siteNav');
+  menuBtn.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+  });
+  nav.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      nav.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+
+  var filter=document.getElementById('cityFilter');
+  var shops=document.querySelectorAll('.shop');
+  var count=document.getElementById('shopCount');
+  filter.addEventListener('click',function(e){
+    var btn=e.target.closest('button[data-city]');
+    if(!btn){return;}
+    var buttons=filter.querySelectorAll('button');
+    for(var i=0;i<buttons.length;i++){
+      buttons[i].classList.toggle('active',buttons[i]===btn);
+      buttons[i].setAttribute('aria-pressed',buttons[i]===btn?'true':'false');
+    }
+    var city=btn.getAttribute('data-city');
+    var shown=0;
+    for(var j=0;j<shops.length;j++){
+      var hit=(city==='all')||shops[j].getAttribute('data-city')===city;
+      shops[j].hidden=!hit;
+      if(hit){shown++;}
+    }
+    count.textContent='共 '+shown+' 家门店';
+  });
+
+  var tip=document.getElementById('bookTip');
+  var bookBtns=document.querySelectorAll('.book-btn');
+  for(var k=0;k<bookBtns.length;k++){
+    bookBtns[k].addEventListener('click',function(){
+      if(this.disabled){return;}
+      this.disabled=true;
+      this.textContent='已登记';
+      tip.textContent='预约已登记 / 我们将在一个工作日内邮件确认场次';
+    });
+  }
+})();
+</script>
+</body>
+</html>

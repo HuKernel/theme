@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>产品模板 / Automotive/Car Dealership / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* token 计划: 官方色板 Primary #1E293B(深板岩/主按钮与深色 Hero) / On-Primary #FFF / Secondary #334155 / Accent #DC2626(价格与行动按钮, 深化 #B91C1C) / BG #F8FAFC / FG #0F172A / Card #FFF / Border #E2E8F0 / Muted #E9EDF1 / Ring #1E293B, 金属质感渐变 #F8FAFC 至 #94A3B8 用于车漆面与铭牌, 字阶 12/13/15/17/20/26/34/48, 8px 栅格, 圆角 10/14/20, 数字 tabular-nums 保证行对齐 */
+:root {
+  --primary: #1E293B; --on-primary: #FFFFFF; --secondary: #334155; --accent: #DC2626;
+  --accent-deep: #B91C1C; --bg: #F8FAFC; --fg: #0F172A; --card: #FFFFFF;
+  --border: #E2E8F0; --muted: #E9EDF1; --ring: #1E293B;
+  --ink-soft: #475569; --ink-faint: #64748B; --ok: #15803D;
+  --metal: linear-gradient(160deg, #F8FAFC 0%, #CBD5E1 48%, #94A3B8 100%);
+  --metal-plate: linear-gradient(150deg, #F8FAFC 0%, #E2E8F0 55%, #CBD5E1 100%);
+  --sheen: linear-gradient(125deg, rgba(248, 250, 252, 0.14), rgba(148, 163, 184, 0.05));
+  --shadow-l: 0 24px 48px -24px rgba(15, 23, 42, 0.38);
+  --shadow-m: 0 12px 28px -14px rgba(15, 23, 42, 0.22);
+  --r-s: 10px; --r-m: 14px; --r-l: 20px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  background: var(--bg); color: var(--fg); font-size: 16px; line-height: 1.65;
+  font-variant-numeric: tabular-nums;
+}
+a { color: var(--accent-deep); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+img, svg { display: block; max-width: 100%; }
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 100;
+  background: var(--primary); color: var(--on-primary); padding: 10px 16px;
+  border-radius: var(--r-s); transition: top 0.2s;
+}
+.skip:focus-visible { top: 12px; color: var(--on-primary); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+/* 头部 */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(248, 250, 252, 0.86);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner { display: flex; align-items: center; gap: 28px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  background: var(--primary); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+.brand-name { font-size: 20px; font-weight: 800; color: var(--fg); letter-spacing: 2px; }
+.brand-sub { font-size: 12px; color: var(--ink-soft); border-left: 1px solid var(--border); padding-left: 10px; }
+.site-nav { display: flex; gap: 26px; margin-left: auto; }
+.site-nav a { color: var(--fg); text-decoration: none; font-size: 15px; font-weight: 500; }
+.site-nav a:hover { color: var(--accent-deep); text-decoration: underline; }
+.header-cta {
+  background: var(--accent); color: var(--on-primary); text-decoration: none;
+  padding: 9px 20px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  border: 1.5px solid var(--accent);
+}
+.header-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--on-primary); }
+/* 主视觉：Hero-Centric，深色展台 + 金属漆面 */
+.hero {
+  position: relative; overflow: hidden; color: var(--on-primary);
+  background: radial-gradient(900px 420px at 82% -10%, rgba(148, 163, 184, 0.28), transparent 62%), radial-gradient(700px 380px at 8% 108%, rgba(220, 37, 38, 0.16), transparent 58%), var(--primary);
+}
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: var(--sheen); }
+.hero-inner {
+  position: relative; z-index: 1; display: grid; grid-template-columns: 1.02fr 0.98fr;
+  gap: 48px; align-items: stretch; padding: 72px 0 56px;
+}
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #E2E8F0; letter-spacing: 1px;
+  padding: 6px 14px; border: 1px solid rgba(148, 163, 184, 0.45); border-radius: 999px; background: rgba(15, 23, 42, 0.25);
+}
+.hero-kicker i {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(220, 37, 38, 0.28); font-style: normal;
+}
+.hero h1 { margin: 20px 0 16px; font-size: 48px; line-height: 1.18; font-weight: 800; letter-spacing: 1px; }
+.hero h1 em { font-style: normal; color: #FDE68A; }
+.hero-sub { max-width: 520px; font-size: 17px; color: #CBD5E1; }
+.hero-sub strong { color: #FFFFFF; font-weight: 700; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.btn-solid, .btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; padding: 13px 30px;
+  border-radius: var(--r-m); font-size: 16px; font-weight: 700; text-decoration: none;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+.btn-solid { background: var(--accent); color: var(--on-primary); border: 1.5px solid var(--accent); }
+.btn-solid:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--on-primary); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: #FFFFFF; border: 1.5px solid rgba(148, 163, 184, 0.6); }
+.btn-ghost:hover { border-color: #E2E8F0; color: #FFFFFF; transform: translateY(-2px); }
+.hero-note { margin-top: 18px; font-size: 13px; color: #94A3B8; }
+/* 主推车面板：金属展台 */
+.hero-panel {
+  position: relative; display: flex; flex-direction: column;
+  border: 1px solid rgba(148, 163, 184, 0.38); border-radius: var(--r-l);
+  background: linear-gradient(175deg, rgba(51, 65, 85, 0.72), rgba(15, 23, 42, 0.55));
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-l), inset 0 1px 0 rgba(248, 250, 252, 0.14);
+  padding: 26px 28px 24px;
+}
+.hero-panel-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.panel-tag {
+  font-size: 13px; font-weight: 700; color: #0F172A;
+  padding: 5px 12px; border-radius: 6px; background: var(--metal-plate);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+}
+.panel-code { font-size: 12px; color: #94A3B8; letter-spacing: 1px; }
+.hero-art {
+  margin: 10px 0 6px; border-radius: var(--r-m);
+  background: radial-gradient(340px 120px at 50% 88%, rgba(148, 163, 184, 0.30), transparent 70%), linear-gradient(180deg, rgba(248, 250, 252, 0.06), rgba(15, 23, 42, 0.24));
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  overflow: hidden;
+}
+.hero-art svg { width: 100%; height: auto; }
+.hero-car-name { font-size: 20px; font-weight: 700; color: #FFFFFF; }
+.hero-car-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 8px; font-size: 13.5px; color: #CBD5E1; }
+.hero-panel-foot {
+  margin-top: auto; padding-top: 18px; border-top: 1px dashed rgba(148, 163, 184, 0.4);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+}
+.hero-price { font-size: 15px; color: #94A3B8; }
+.hero-price strong { display: block; font-size: 38px; line-height: 1.1; font-weight: 800; color: #FFFFFF; }
+.hero-price strong span { font-size: 16px; font-weight: 700; margin-left: 2px; }
+.hero-price em { font-style: normal; color: #E2E8F0; }
+.hero-mini { text-align: right; font-size: 13px; color: #94A3B8; line-height: 1.9; }
+.hero-mini b { color: #E2E8F0; font-weight: 700; }
+/* 数据带 */
+.hero-stats {
+  position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(148, 163, 184, 0.35); border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: var(--r-m); overflow: hidden; margin-bottom: 64px;
+}
+.stat { background: rgba(30, 41, 59, 0.92); padding: 18px 22px; }
+.stat b { display: block; font-size: 26px; font-weight: 800; color: #FFFFFF; }
+.stat b i { font-style: normal; font-size: 14px; font-weight: 700; color: #94A3B8; margin-left: 3px; }
+.stat span { font-size: 13px; color: #94A3B8; }
+/* 章节骨架 */
+.section { padding: 68px 0; }
+.section-head { max-width: 640px; margin-bottom: 32px; }
+.section-kicker { display: inline-block; font-size: 13px; font-weight: 700; color: var(--accent-deep); padding: 4px 12px; border-radius: 6px; background: var(--muted); }
+.section h2 { margin: 12px 0 10px; font-size: 34px; line-height: 1.25; font-weight: 800; letter-spacing: 0.5px; }
+.section-desc { color: var(--ink-soft); font-size: 16px; }
+/* 车源总览：Feature-Rich 筛选 + 车源网格 */
+.filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 18px; }
+.filter-btn {
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; padding: 8px 18px; border-radius: 999px;
+  color: var(--ink-soft); background: var(--card); border: 1.5px solid var(--border);
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.filter-btn:hover { border-color: var(--secondary); color: var(--fg); }
+.filter-btn.is-active { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.filter-count { margin-left: auto; font-size: 13px; color: var(--ink-faint); }
+.car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.car-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l);
+  box-shadow: var(--shadow-m); transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.car-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-l); }
+.car-card.is-hidden { display: none; }
+.car-art {
+  position: relative; padding: 18px 14px 8px;
+  background: linear-gradient(180deg, #F1F5F9, #E2E8F0);
+  border-bottom: 1px solid var(--border);
+}
+.car-art svg { width: 100%; height: auto; }
+.car-grade {
+  position: absolute; left: 14px; top: 14px;
+  font-size: 12.5px; font-weight: 800; color: #0F172A; letter-spacing: 1px;
+  padding: 4px 10px; border-radius: 6px; background: var(--metal-plate);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.22);
+}
+.car-ev { position: absolute; right: 14px; top: 14px; font-size: 12.5px; font-weight: 700; color: #FFFFFF; padding: 4px 10px; border-radius: 6px; background: var(--secondary); }
+.car-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
+.car-name { font-size: 17px; font-weight: 700; line-height: 1.45; min-height: 50px; }
+.car-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.car-tags span { font-size: 12px; font-weight: 600; color: var(--ok); padding: 3px 10px; border-radius: 999px; border: 1px solid #BBF7D0; background: #F0FDF4; }
+.car-tags span.warranty { color: #B45309; border-color: #FDE68A; background: #FFFBEB; }
+.car-specs {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.spec { min-width: 0; }
+.spec-k { display: block; font-size: 12px; color: var(--ink-faint); }
+.spec-v { display: block; font-size: 13.5px; font-weight: 700; color: var(--fg); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.car-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 16px; }
+.car-price { font-size: 12.5px; color: var(--ink-faint); }
+.car-price strong { font-size: 28px; font-weight: 800; color: var(--accent-deep); margin-right: 2px; }
+.car-price span { font-size: 14px; font-weight: 700; color: var(--accent-deep); }
+.car-price em { display: block; font-style: normal; margin-top: 1px; }
+.btn-book {
+  flex-shrink: 0; font-size: 14px; font-weight: 700; text-decoration: none;
+  padding: 9px 18px; border-radius: var(--r-s); color: var(--on-primary);
+  background: var(--primary); border: 1.5px solid var(--primary);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-book:hover { background: var(--secondary); border-color: var(--secondary); color: var(--on-primary); transform: translateY(-2px); }
+/* 三方检测报告 */
+.report-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l); box-shadow: var(--shadow-m); padding: 34px; }
+.report-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 36px; align-items: stretch; }
+.report-aside { display: flex; flex-direction: column; gap: 16px; padding-right: 36px; border-right: 1px dashed var(--border); }
+.report-vehicle { font-size: 19px; font-weight: 800; line-height: 1.4; }
+.report-vehicle span { display: block; font-size: 13px; font-weight: 500; color: var(--ink-faint); margin-top: 4px; }
+.report-list { display: grid; gap: 9px; font-size: 14px; }
+.report-list div { display: flex; justify-content: space-between; gap: 16px; }
+.report-list dt { color: var(--ink-soft); }
+.report-list dd { font-weight: 700; text-align: right; }
+.report-verdicts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.report-verdicts span {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--ok);
+  padding: 5px 12px; border-radius: 999px; background: #F0FDF4; border: 1px solid #BBF7D0;
+}
+.report-verdicts i {
+  width: 14px; height: 14px; flex: none; border-radius: 50%;
+  background: var(--ok); color: #FFFFFF; font-size: 10px; font-weight: 800;
+  display: inline-grid; place-items: center; font-style: normal;
+}
+.report-seal { margin-top: auto; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: var(--r-m); background: var(--muted); }
+.seal-badge {
+  width: 64px; height: 64px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  background: var(--metal); border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25), inset 0 0 0 4px rgba(255, 255, 255, 0.55);
+  font-size: 22px; font-weight: 800; color: #0F172A; transform: rotate(-8deg);
+}
+.seal-text b { display: block; font-size: 15px; font-weight: 800; }
+.seal-text span { font-size: 12.5px; color: var(--ink-soft); }
+.report-checks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.check-item {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px;
+  padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--r-m); background: var(--bg);
+}
+.check-name { font-size: 15px; font-weight: 700; }
+.check-sub { grid-column: 1; font-size: 12.5px; color: var(--ink-faint); }
+.check-state {
+  grid-row: 1 / span 2; font-size: 12.5px; font-weight: 700; color: var(--ok);
+  padding: 4px 10px; border-radius: 999px; background: #F0FDF4; border: 1px solid #BBF7D0;
+}
+.report-total {
+  margin-top: 12px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px;
+  padding: 14px 16px; border-radius: var(--r-m);
+  background: var(--primary); color: #E2E8F0; font-size: 13.5px;
+}
+.report-total b { font-size: 18px; font-weight: 800; color: #FFFFFF; }
+/* 整备流程 */
+.process-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.step {
+  position: relative; display: flex; flex-direction: column;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r-l);
+  padding: 20px 18px; box-shadow: var(--shadow-m);
+}
+.step-no {
+  width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+  background: var(--metal); color: #0F172A; font-size: 17px; font-weight: 800;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.18);
+}
+.step h3 { margin: 14px 0 8px; font-size: 16.5px; font-weight: 800; }
+.step p { font-size: 13.5px; color: var(--ink-soft); flex: 1; }
+.step-time { margin-top: 14px; align-self: flex-start; font-size: 12px; font-weight: 700; color: var(--secondary); padding: 3px 10px; border-radius: 999px; background: var(--muted); }
+/* 到店试驾 */
+.book-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 36px; align-items: stretch; }
+.book-info { display: flex; flex-direction: column; gap: 18px; }
+.book-facts { display: grid; gap: 10px; font-size: 14.5px; }
+.book-facts div { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
+.book-facts dt { color: var(--ink-soft); }
+.book-facts dd { font-weight: 700; text-align: right; }
+.book-tips { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-m); padding: 16px 18px; }
+.book-tips h3 { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+.book-tips ul { list-style: none; display: grid; gap: 6px; }
+.book-tips li { position: relative; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
+.book-tips li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.book-card { background: var(--primary); border-radius: var(--r-l); padding: 30px; box-shadow: var(--shadow-l); color: #E2E8F0; }
+.book-card h3 { color: #FFFFFF; font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.book-card > p { font-size: 13.5px; color: #94A3B8; margin-bottom: 20px; }
+.book-form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 13px; font-weight: 600; color: #CBD5E1; }
+.field input, .field select {
+  font: inherit; font-size: 14.5px; color: #FFFFFF;
+  background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(148, 163, 184, 0.5);
+  border-radius: var(--r-s); padding: 11px 13px;
+}
+.field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #CBD5E1 50%), linear-gradient(135deg, #CBD5E1 50%, transparent 50%); background-position: calc(100% - 19px) 50%, calc(100% - 14px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+.field input::placeholder { color: #64748B; }
+.field input:focus-visible, .field select:focus-visible { outline: 3px solid #E2E8F0; outline-offset: 1px; border-color: #CBD5E1; }
+.field-full { grid-column: 1 / -1; }
+.form-submit {
+  font: inherit; font-size: 16px; font-weight: 800; cursor: pointer;
+  padding: 13px 20px; border-radius: var(--r-m); color: var(--on-primary);
+  background: var(--accent); border: 1.5px solid var(--accent);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.form-submit:hover { background: var(--accent-deep); border-color: var(--accent-deep); transform: translateY(-2px); }
+.form-status { grid-column: 1 / -1; min-height: 22px; font-size: 13.5px; font-weight: 600; }
+.form-status.is-ok { color: #86EFAC; }
+.form-status.is-error { color: #FCA5A5; }
+/* 页脚 */
+.site-footer { background: var(--fg); color: #CBD5E1; padding: 46px 0 34px; }
+.footer-inner { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+.footer-brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; letter-spacing: 2px; color: #FFFFFF; }
+.footer-brand .brand-mark { width: 30px; height: 30px; border-radius: 8px; }
+.footer-meta { font-size: 14px; }
+.footer-meta a { color: #FFFFFF; font-weight: 700; margin-left: 14px; }
+.footer-meta a:hover { color: #94A3B8; }
+.footer-line {
+  margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(148, 163, 184, 0.28);
+  font-size: 13px; color: #94A3B8; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+}
+/* 亮相动效：仅一次，只作用于主推车面板 */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-panel { animation: reveal 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) 0.1s both; }
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(22px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-panel { animation: none; }
+  .car-card, .btn-solid, .btn-ghost, .btn-book, .form-submit { transition: none; }
+}
+/* 响应式 */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 34px; padding: 56px 0 44px; }
+  .hero h1 { font-size: 40px; }
+  .car-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid { grid-template-columns: repeat(3, 1fr); }
+  .report-grid { grid-template-columns: 1fr; }
+  .report-aside { padding-right: 0; border-right: 0; border-bottom: 1px dashed var(--border); padding-bottom: 24px; }
+  .book-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .site-nav { display: none; }
+  .header-cta { margin-left: auto; }
+  .brand-sub { display: none; }
+  .section { padding: 52px 0; }
+  .section h2 { font-size: 28px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); margin-bottom: 44px; }
+  .filter-count { margin-left: 0; width: 100%; }
+}
+@media (max-width: 520px) {
+  .container { padding: 0 16px; }
+  .hero h1 { font-size: 32px; }
+  .hero-panel { padding: 20px; }
+  .hero-price strong { font-size: 32px; }
+  .car-grid { grid-template-columns: 1fr; }
+  .car-name { min-height: 0; }
+  .process-grid { grid-template-columns: 1fr; }
+  .report-checks { grid-template-columns: 1fr; }
+  .book-form { grid-template-columns: 1fr; }
+  .book-card { padding: 22px; }
+  .report-wrap { padding: 22px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+<svg aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="bodyMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F8FAFC"/><stop offset="0.52" stop-color="#CBD5E1"/><stop offset="1" stop-color="#94A3B8"/>
+    </linearGradient>
+    <linearGradient id="glassMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#475569"/><stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <radialGradient id="floorShadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="rgba(15,23,42,0.38)"/><stop offset="1" stop-color="rgba(15,23,42,0)"/>
+    </radialGradient>
+    <symbol id="car-sedan" viewBox="0 0 320 150">
+      <ellipse cx="160" cy="133" rx="126" ry="10" fill="url(#floorShadow)"/>
+      <path d="M100 84 C112 58 134 46 164 46 C194 46 216 56 232 72 L242 84 Z" fill="url(#glassMetal)"/>
+      <path d="M110 78 C120 62 139 53 164 53 C188 53 207 61 221 74 L110 78 Z" fill="rgba(248,250,252,0.22)"/>
+      <rect x="14" y="82" width="292" height="33" rx="15" fill="url(#bodyMetal)"/>
+      <path d="M26 92 H292" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+      <rect x="290" y="88" width="15" height="7" rx="3.5" fill="#FDE68A"/>
+      <rect x="15" y="88" width="12" height="7" rx="3.5" fill="#DC2626"/>
+      <circle cx="78" cy="113" r="18" fill="#0F172A"/><circle cx="78" cy="113" r="7.5" fill="#94A3B8"/>
+      <circle cx="242" cy="113" r="18" fill="#0F172A"/><circle cx="242" cy="113" r="7.5" fill="#94A3B8"/>
+    </symbol>
+    <symbol id="car-suv" viewBox="0 0 320 150">
+      <ellipse cx="160" cy="133" rx="132" ry="10" fill="url(#floorShadow)"/>
+      <path d="M88 86 C94 56 106 42 130 38 L214 38 C236 40 248 50 256 64 L264 86 Z" fill="url(#glassMetal)"/>
+      <path d="M98 80 C104 60 114 50 132 47 L210 47 C228 49 240 58 246 70 L98 80 Z" fill="rgba(248,250,252,0.22)"/>
+      <rect x="86" y="30" width="128" height="4" rx="2" fill="#64748B"/>
+      <rect x="12" y="84" width="296" height="32" rx="12" fill="url(#bodyMetal)"/>
+      <path d="M24 94 H296" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+      <rect x="294" y="90" width="14" height="7" rx="3.5" fill="#FDE68A"/>
+      <rect x="13" y="90" width="12" height="7" rx="3.5" fill="#DC2626"/>
+      <circle cx="76" cy="114" r="19" fill="#0F172A"/><circle cx="76" cy="114" r="8" fill="#94A3B8"/>
+      <circle cx="246" cy="114" r="19" fill="#0F172A"/><circle cx="246" cy="114" r="8" fill="#94A3B8"/>
+    </symbol>
+    <symbol id="car-mpv" viewBox="0 0 320 150">
+      <ellipse cx="160" cy="133" rx="130" ry="10" fill="url(#floorShadow)"/>
+      <path d="M76 86 C84 54 98 40 124 35 L226 35 C244 37 253 46 259 58 L266 86 Z" fill="url(#glassMetal)"/>
+      <path d="M86 80 C94 58 106 48 126 44 L222 44 C238 46 248 54 252 64 L86 80 Z" fill="rgba(248,250,252,0.22)"/>
+      <rect x="13" y="84" width="294" height="32" rx="13" fill="url(#bodyMetal)"/>
+      <path d="M25 94 H295" stroke="rgba(255,255,255,0.55)" stroke-width="2" stroke-linecap="round"/>
+      <rect x="292" y="90" width="14" height="7" rx="3.5" fill="#FDE68A"/>
+      <rect x="14" y="90" width="12" height="7" rx="3.5" fill="#DC2626"/>
+      <circle cx="74" cy="114" r="19" fill="#0F172A"/><circle cx="74" cy="114" r="8" fill="#94A3B8"/>
+      <circle cx="250" cy="114" r="19" fill="#0F172A"/><circle cx="250" cy="114" r="8" fill="#94A3B8"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="靠谱车况 首页">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 14l2-6a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 8l2 6"/><path d="M3 14h18v4h-2.5"/><path d="M5.5 18H3v-4"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="16.5" cy="18" r="1.8"/>
+        </svg>
+      </span>
+      <span class="brand-name">靠谱车况</span>
+      <span class="brand-sub">三方检测二手车行</span>
+    </a>
+    <nav class="site-nav" aria-label="页面导航">
+      <a href="#inventory">在售车源</a>
+      <a href="#report">检测报告</a>
+      <a href="#process">整备流程</a>
+      <a href="#booking">到店试驾</a>
+    </nav>
+    <a class="header-cta" href="#booking">预约试驾</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="hero-kicker"><i aria-hidden="true"></i>每台车 217 项三方检测 / 报告随车可查</p>
+          <h1>车况全透明，<br>买二手车才敢谈<em>靠谱</em></h1>
+          <p class="hero-sub">靠谱车况只收 <strong>无重大事故、无泡水、无火烧、非调表</strong> 的车源，交付前完成 36 道整备终检，价格一口报清，到店免费试驾。</p>
+          <div class="hero-actions">
+            <a class="btn-solid" href="#inventory">查看在售车源</a>
+            <a class="btn-ghost" href="#report">查看检测报告样例</a>
+          </div>
+          <p class="hero-note">已交付 4260 台 / 复购与转介绍占比 38% / 支持第三方机构复检</p>
+        </div>
+        <aside class="hero-panel" aria-label="本周主推车源">
+          <div class="hero-panel-top">
+            <span class="panel-tag">本周主推</span>
+            <span class="panel-code">编号 SC-261009</span>
+          </div>
+          <div class="hero-art">
+            <svg viewBox="0 0 320 150" role="img" aria-label="丰田汉兰达侧视轮廓示意图"><use href="#car-suv"/></svg>
+          </div>
+          <p class="hero-car-name">丰田汉兰达 2021款 2.0T 四驱豪华版 7座</p>
+          <p class="hero-car-meta"><span>2021年3月上牌</span><span>表显 5.9万公里</span><span>6AT手自一体</span><span>国六排放</span></p>
+          <div class="hero-panel-foot">
+            <p class="hero-price">一口价<strong>21.80<span>万</span></strong><em>首付约 4.4万 / 36期免手续费</em></p>
+            <p class="hero-mini"><b>检测评级 S 级</b><br>217项全通过 / 原版原漆 82%</p>
+          </div>
+        </aside>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b>128<i>台</i></b><span>在售车源实时更新</span></div>
+        <div class="stat"><b>217<i>项</i></b><span>三方检测逐项留档</span></div>
+        <div class="stat"><b>36<i>道</i></b><span>交付前整备终检</span></div>
+        <div class="stat"><b>90<i>天</i></b><span>三大系统质保兜底</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="inventory">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">在售车源</span>
+        <h2>每台车都有编号可查的检测档案</h2>
+        <p class="section-desc">按车身形式快速筛选，价格为一口价，包含过户服务费，无隐藏加价项目。</p>
+      </div>
+      <div class="filter-bar" role="group" aria-label="车身形式筛选">
+        <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
+        <button class="filter-btn" type="button" data-filter="sedan" aria-pressed="false">轿车</button>
+        <button class="filter-btn" type="button" data-filter="suv" aria-pressed="false">SUV</button>
+        <button class="filter-btn" type="button" data-filter="mpv" aria-pressed="false">MPV</button>
+        <button class="filter-btn" type="button" data-filter="ev" aria-pressed="false">新能源</button>
+        <p class="filter-count" id="filterCount" aria-live="polite">当前展示 9 台 / 共 9 台</p>
+      </div>
+      <div class="car-grid" id="carGrid">
+        <article class="car-card" data-cat="sedan">
+          <div class="car-art"><span class="car-grade">S级</span><svg viewBox="0 0 320 150" role="img" aria-label="本田雅阁侧视轮廓示意图"><use href="#car-sedan"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">本田雅阁 2021款 260TURBO 精英版</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>无重大事故</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2021年6月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">4.2万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">CVT无级</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>12.98</strong><span>万</span><em>首付约 2.6万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="ev">
+          <div class="car-art"><span class="car-grade">S级</span><span class="car-ev">纯电</span><svg viewBox="0 0 320 150" role="img" aria-label="特斯拉 Model 3 侧视轮廓示意图"><use href="#car-sedan"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">特斯拉 Model 3 2022款 后驱版</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>电池健康 93%</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2022年4月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">3.1万公里</span></div>
+              <div class="spec"><span class="spec-k">续航</span><span class="spec-v">CLTC 556km</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>17.60</strong><span>万</span><em>首付约 3.5万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="sedan">
+          <div class="car-art"><span class="car-grade">A级</span><svg viewBox="0 0 320 150" role="img" aria-label="宝马3系侧视轮廓示意图"><use href="#car-sedan"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">宝马3系 2020款 325Li M运动套装</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>无重大事故</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2020年9月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">6.2万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">8AT手自一体</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>19.80</strong><span>万</span><em>首付约 4.0万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="suv">
+          <div class="car-art"><span class="car-grade">A级</span><svg viewBox="0 0 320 150" role="img" aria-label="大众途观L侧视轮廓示意图"><use href="#car-suv"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">大众途观L 2019款 330TSI 两驱豪华版</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>无重大事故</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2019年11月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">8.5万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">7DCT双离合</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>11.80</strong><span>万</span><em>首付约 2.4万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="suv">
+          <div class="car-art"><span class="car-grade">S级</span><svg viewBox="0 0 320 150" role="img" aria-label="丰田汉兰达侧视轮廓示意图"><use href="#car-suv"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">丰田汉兰达 2021款 2.0T 四驱豪华版 7座</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>原版原漆 82%</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2021年3月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">5.9万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">6AT手自一体</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>21.80</strong><span>万</span><em>首付约 4.4万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="mpv">
+          <div class="car-art"><span class="car-grade">A级</span><svg viewBox="0 0 320 150" role="img" aria-label="别克GL8侧视轮廓示意图"><use href="#car-mpv"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">别克GL8 2020款 ES 陆尊 653T 尊贵型</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>无重大事故</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2020年7月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">9.1万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">9AT手自一体</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>16.90</strong><span>万</span><em>首付约 3.4万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="ev">
+          <div class="car-art"><span class="car-grade">S级</span><span class="car-ev">插混</span><svg viewBox="0 0 320 150" role="img" aria-label="比亚迪秦PLUS侧视轮廓示意图"><use href="#car-sedan"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">比亚迪秦PLUS 2022款 DM-i 55KM 旗舰版</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>无重大事故</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2022年10月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">2.8万公里</span></div>
+              <div class="spec"><span class="spec-k">能耗</span><span class="spec-v">亏电 3.8L/100km</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>7.98</strong><span>万</span><em>首付约 1.6万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="sedan">
+          <div class="car-art"><span class="car-grade">S级</span><svg viewBox="0 0 320 150" role="img" aria-label="奥迪A4L侧视轮廓示意图"><use href="#car-sedan"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">奥迪A4L 2021款 40 TFSI 时尚动感型</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>无重大事故</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2021年1月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">5.4万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">7DCT双离合</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>18.60</strong><span>万</span><em>首付约 3.7万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+        <article class="car-card" data-cat="suv">
+          <div class="car-art"><span class="car-grade">S级</span><svg viewBox="0 0 320 150" role="img" aria-label="吉利星越L侧视轮廓示意图"><use href="#car-suv"/></svg></div>
+          <div class="car-body">
+            <h3 class="car-name">吉利星越L 2023款 2.0T 旗舰型</h3>
+            <div class="car-tags"><span>三方检测通过</span><span>准新车况</span><span class="warranty">90天质保</span></div>
+            <div class="car-specs">
+              <div class="spec"><span class="spec-k">上牌</span><span class="spec-v">2023年5月</span></div>
+              <div class="spec"><span class="spec-k">里程</span><span class="spec-v">1.6万公里</span></div>
+              <div class="spec"><span class="spec-k">变速</span><span class="spec-v">8AT手自一体</span></div>
+            </div>
+            <div class="car-foot"><p class="car-price"><strong>13.20</strong><span>万</span><em>首付约 2.6万</em></p><a class="btn-book" href="#booking">预约看车</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="report" style="background: var(--muted);">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">三方检测报告</span>
+        <h2>检测机构与车行利益隔离，报告不可修改</h2>
+        <p class="section-desc">收车前由第三方机构华辰车维独立上门检测，报告编号可在机构官网验真，下面是一台在售车的真实报告摘要。</p>
+      </div>
+      <div class="report-wrap">
+        <div class="report-grid">
+          <div class="report-aside">
+            <p class="report-vehicle">奥迪A4L 2021款 40 TFSI 时尚动感型<span>车架号后六位 K42816 / 检测地 杭州西湖区门店</span></p>
+            <dl class="report-list">
+              <div><dt>报告编号</dt><dd>HC-2026-08817</dd></div>
+              <div><dt>检测机构</dt><dd>华辰车维（第三方）</dd></div>
+              <div><dt>出报告时间</dt><dd>2026年9月28日</dd></div>
+              <div><dt>表显里程核验</dt><dd>5.4万公里 / 非调表</dd></div>
+              <div><dt>维修出险记录</dt><dd>1次外观钣金 / 无结构件伤</dd></div>
+            </dl>
+            <div class="report-verdicts">
+              <span><i aria-hidden="true">1</i>无重大事故</span>
+              <span><i aria-hidden="true">1</i>无泡水</span>
+              <span><i aria-hidden="true">1</i>无火烧</span>
+              <span><i aria-hidden="true">1</i>非调表</span>
+            </div>
+            <div class="report-seal">
+              <span class="seal-badge" aria-hidden="true">S</span>
+              <p class="seal-text"><b>综合车况评级 S 级</b><span>六大系统无影响安全与价值的项目，可直接交付</span></p>
+            </div>
+          </div>
+          <div class="report-main">
+            <div class="report-checks">
+              <div class="check-item">
+                <p class="check-name">外观漆面</p><p class="check-state">62项通过</p>
+                <p class="check-sub">漆面厚度逐面测量 / 覆盖件更换记录核对</p>
+              </div>
+              <div class="check-item">
+                <p class="check-name">结构件与骨架</p><p class="check-state">24项通过</p>
+                <p class="check-sub">纵横梁 / ABC柱 / 后围板 / 减震器座</p>
+              </div>
+              <div class="check-item">
+                <p class="check-name">发动机舱</p><p class="check-state">31项通过</p>
+                <p class="check-sub">气缸压力 / 渗漏 / 机脚 / 附件皮带</p>
+              </div>
+              <div class="check-item">
+                <p class="check-name">底盘悬挂</p><p class="check-state">26项通过</p>
+                <p class="check-sub">举升检查 / 四轮定位 / 制动盘片厚度</p>
+              </div>
+              <div class="check-item">
+                <p class="check-name">电子电气</p><p class="check-state">40项通过</p>
+                <p class="check-sub">OBD 故障码 / ADAS 标定 / 全车灯光</p>
+              </div>
+              <div class="check-item">
+                <p class="check-name">内饰功能</p><p class="check-state">34项通过</p>
+                <p class="check-sub">座椅加热 / 空调 / 车机 / 气囊自检</p>
+              </div>
+            </div>
+            <p class="report-total"><b>217 / 217</b>项检测通过<span>影响安全项目 0 项 / 建议整备项目 3 项已完工</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">交付前整备</span>
+        <h2>五道整备流程，完工清单随车交付</h2>
+        <p class="section-desc">检测只发现问题，整备负责解决问题。每一道流程都有工单留档，交车时连同检测报告一并移交。</p>
+      </div>
+      <ol class="process-grid">
+        <li class="step">
+          <span class="step-no">01</span><h3>全车复检</h3>
+          <p>按收车检测报告复核 217 项，确认无新增问题后进入整备队列。</p>
+          <span class="step-time">约 4 小时</span>
+        </li>
+        <li class="step">
+          <span class="step-no">02</span><h3>机械整备</h3>
+          <p>更换机油机滤、空气滤芯、刹车油与火花塞等易损件，轮胎按磨损差配对。</p>
+          <span class="step-time">约 1 天</span>
+        </li>
+        <li class="step">
+          <span class="step-no">03</span><h3>底盘安全复核</h3>
+          <p>悬挂、转向、制动系统上举升台复检，四轮定位与动平衡重新标定。</p>
+          <span class="step-time">约半天</span>
+        </li>
+        <li class="step">
+          <span class="step-no">04</span><h3>深度清洁消毒</h3>
+          <p>内饰蒸汽除菌、皮质养护、空调风道清洗与整车臭氧净化。</p>
+          <span class="step-time">约半天</span>
+        </li>
+        <li class="step">
+          <span class="step-no">05</span><h3>36 道终检挂签</h3>
+          <p>双技师交叉复核 36 道终检单，签字挂签后车辆方可上架销售。</p>
+          <span class="step-time">约 2 小时</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="booking" style="background: var(--muted);">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">到店试驾</span>
+        <h2>先试驾再谈价，试驾不收费</h2>
+        <p class="section-desc">提交后顾问在 15 分钟内回电确认时段，到店可现场调取任意车源的完整检测档案。</p>
+      </div>
+      <div class="book-grid">
+        <div class="book-info">
+          <dl class="book-facts">
+            <div><dt>门店地址</dt><dd>杭州市西湖区文一西路 522 号</dd></div>
+            <div><dt>营业时间</dt><dd>周一至周日 9:00 至 20:00</dd></div>
+            <div><dt>咨询电话</dt><dd>0571-8866-2026</dd></div>
+            <div><dt>试驾时长</dt><dd>静态讲解 + 动态路试约 40 分钟</dd></div>
+          </dl>
+          <div class="book-tips">
+            <h3>到店前需要知道</h3>
+            <ul>
+              <li>携带驾驶证即可路试，车辆已投保试驾专项保险</li>
+              <li>可指定第三方机构现场复检，费用车行承担</li>
+              <li>过户服务费已含在一口价内，无手续费加项</li>
+            </ul>
+          </div>
+        </div>
+        <form class="book-card" id="bookForm" novalidate>
+          <h3>预约到店试驾</h3>
+          <p>留下联系方式与意向车型，顾问会为您预留车源 48 小时</p>
+          <div class="book-form">
+            <div class="field">
+              <label for="bkName">怎么称呼您</label>
+              <input id="bkName" name="name" type="text" placeholder="例如 王先生" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="bkPhone">联系手机号</label>
+              <input id="bkPhone" name="phone" type="tel" placeholder="11 位手机号" maxlength="11" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="bkCar">意向车型</label>
+              <select id="bkCar" name="car">
+                <option value="">请选择</option>
+                <option>丰田汉兰达 2021款 四驱豪华版</option>
+                <option>本田雅阁 2021款 260TURBO</option>
+                <option>特斯拉 Model 3 2022款 后驱版</option>
+                <option>宝马3系 2020款 325Li</option>
+                <option>奥迪A4L 2021款 40 TFSI</option>
+                <option>比亚迪秦PLUS 2022款 DM-i</option>
+                <option>别克GL8 2020款 ES 陆尊</option>
+                <option>先不指定 / 到店再看</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="bkDate">到店日期</label>
+              <input id="bkDate" name="date" type="date">
+            </div>
+            <div class="field field-full">
+              <button class="form-submit" type="submit">提交预约</button>
+            </div>
+            <p class="form-status" id="bookStatus" role="status"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <p class="footer-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 14l2-6a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 8l2 6"/><path d="M3 14h18v4h-2.5"/><path d="M5.5 18H3v-4"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="16.5" cy="18" r="1.8"/>
+          </svg>
+        </span>
+        靠谱车况
+      </p>
+      <p class="footer-meta">UI 设计提示词库 / 产品模板 / Automotive/Car Dealership<a href="../style-catalog.html">返回风格目录</a></p>
+    </div>
+    <div class="footer-line">
+      <span>二手车行样例页面 / 车源与价格为演示数据</span>
+      <span>三方检测报告为演示样式 / 以实际机构出具为准</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var buttons = document.querySelectorAll(".filter-btn");
+  var cards = document.querySelectorAll(".car-card");
+  var count = document.getElementById("filterCount");
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      buttons.forEach(function (b) {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-pressed", "true");
+      var key = btn.getAttribute("data-filter");
+      var shown = 0;
+      cards.forEach(function (card) {
+        var match = key === "all" || card.getAttribute("data-cat") === key;
+        card.classList.toggle("is-hidden", !match);
+        if (match) { shown += 1; }
+      });
+      count.textContent = "当前展示 " + shown + " 台 / 共 " + cards.length + " 台";
+    });
+  });
+
+  var form = document.getElementById("bookForm");
+  var status = document.getElementById("bookStatus");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var name = document.getElementById("bkName").value.trim();
+    var phone = document.getElementById("bkPhone").value.trim();
+    var car = document.getElementById("bkCar").value;
+    if (!name) {
+      status.textContent = "请填写称呼，方便顾问联系您。";
+      status.className = "form-status is-error";
+      return;
+    }
+    if (!/^1\d{10}$/.test(phone)) {
+      status.textContent = "手机号需为 11 位数字，请检查后重试。";
+      status.className = "form-status is-error";
+      return;
+    }
+    if (!car) {
+      status.textContent = "请选择意向车型，或选择到店再看。";
+      status.className = "form-status is-error";
+      return;
+    }
+    status.textContent = "预约已提交，顾问将在 15 分钟内致电确认试驾时段。";
+    status.className = "form-status is-ok";
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>

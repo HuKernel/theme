@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="极简记账 app「一笔」/ 三秒记账 / 月度结构 / 预算信封 / 数据本地化承诺 / 产品类型样板 Personal Finance Tracker">
+<title>产品模板 / Personal Finance Tracker / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* token 计划：底 #0F172A / 卡 #192134 / 弱底 #101A34 / 边 rgba(255,255,255,.08) / 主 #1E40AF(白字，hover #1D4ED8) / 副 #3B82F6(小字用 #60A5FA 保 4.5:1) / 强调 #059669(文字/近超支用 #34D399/#3B82F6，超支 #F87171) / 字 #FFFFFF / 次字 #94A3B8 / 玻璃 rgba(35,49,84,.72)+blur18 / 数字 IBM Plex Mono tabular / 圆角 12-20 */
+:root {
+  --bg:#0F172A; --card:#192134; --muted-bg:#101A34; --line:rgba(255,255,255,.08);
+  --primary:#1E40AF; --primary-hi:#1D4ED8; --on-primary:#FFFFFF;
+  --secondary:#3B82F6; --blue-text:#60A5FA; --blue-soft:#93C5FD;
+  --accent:#059669; --green-text:#34D399; --red-text:#F87171;
+  --ink:#FFFFFF; --tint:#94A3B8; --ring:#FFFFFF;
+  --glass:linear-gradient(160deg, rgba(35,49,84,.74), rgba(16,26,52,.66));
+  --glass-line:rgba(96,165,250,.22);
+  --r-lg:20px; --r-md:14px; --r-sm:10px; --r-pill:999px;
+  --mono:'IBM Plex Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --head:'Manrope','PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+  --body:'PingFang SC','Microsoft YaHei','Segoe UI','Manrope',sans-serif;
+  --wrap:1200px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; color-scheme:dark; }
+body {
+  font-family:var(--body); color:var(--ink); background:var(--bg);
+  background-image:
+    radial-gradient(760px 520px at 84% -8%, rgba(59,130,246,.14), transparent 66%),
+    radial-gradient(680px 460px at -6% 14%, rgba(5,150,105,.09), transparent 64%),
+    linear-gradient(rgba(148,163,184,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148,163,184,.045) 1px, transparent 1px);
+  background-size:auto, auto, 52px 52px, 52px 52px;
+  font-size:16px; line-height:1.65;
+}
+a { color:var(--blue-soft); text-decoration:none; }
+a:hover { text-decoration:underline; }
+:focus-visible { outline:2px solid var(--ring); outline-offset:2px; border-radius:6px; }
+.num { font-family:var(--mono); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+.wrap { max-width:var(--wrap); margin:0 auto; padding:0 24px; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.good { color:var(--green-text); }
+.bad { color:var(--red-text); }
+
+/* ---------- 顶部导航 ---------- */
+.topbar { position:sticky; top:0; z-index:20; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); background:rgba(15,23,42,.78); border-bottom:1px solid var(--line); }
+.topbar-in { display:flex; align-items:center; gap:26px; height:64px; }
+.brand { display:flex; align-items:center; gap:10px; font-family:var(--head); font-weight:800; font-size:18px; color:var(--ink); }
+.brand:hover { text-decoration:none; }
+.brand svg { width:26px; height:26px; flex:none; }
+.brand small { font-family:var(--mono); font-weight:400; font-size:11px; color:var(--tint); margin-left:2px; }
+.nav-links { display:none; gap:22px; margin-left:auto; font-size:14px; }
+.nav-links a { color:var(--tint); }
+.nav-links a:hover { color:var(--ink); text-decoration:none; }
+.nav-cta { margin-left:auto; }
+.nav-links + .nav-cta { margin-left:0; }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--body); font-weight:600; font-size:14px; line-height:1;
+  border-radius:var(--r-pill); padding:13px 24px; min-height:44px; cursor:pointer;
+  border:1px solid transparent; text-decoration:none;
+  transition:background-color .15s ease, border-color .15s ease;
+}
+.btn:hover { text-decoration:none; }
+.btn-primary { background:var(--primary); color:var(--on-primary); border-color:rgba(96,165,250,.35); }
+.btn-primary:hover { background:var(--primary-hi); }
+.btn-ghost { background:transparent; color:var(--blue-soft); border-color:rgba(147,197,253,.38); }
+.btn-ghost:hover { border-color:var(--blue-soft); background:rgba(59,130,246,.08); }
+.btn-sm { padding:10px 18px; min-height:40px; font-size:13px; }
+
+/* ---------- Hero ---------- */
+.hero { padding:64px 0 60px; }
+.hero-grid { display:grid; grid-template-columns:1fr; gap:44px; align-items:center; }
+.kicker { font-size:13px; color:var(--tint); display:flex; flex-wrap:wrap; gap:6px 0; align-items:center; }
+.kicker b { color:var(--blue-text); font-weight:700; }
+.kicker .sep { margin:0 10px; color:rgba(148,163,184,.4); }
+.hero h1 {
+  margin:16px 0 16px; font-family:var(--head); font-weight:800;
+  font-size:clamp(30px, 4vw, 44px); line-height:1.24; letter-spacing:.01em;
+}
+.hero h1 em { font-style:normal; color:var(--blue-text); }
+.hero .lede { color:var(--tint); font-size:16.5px; max-width:34em; }
+.hero-actions { display:flex; flex-wrap:wrap; gap:14px; margin-top:28px; }
+.hero-trust { margin-top:24px; font-size:13px; color:var(--tint); display:flex; flex-wrap:wrap; gap:6px 0; align-items:center; }
+.hero-trust .sep { margin:0 10px; color:rgba(148,163,184,.4); }
+
+/* ---------- 签名组件：三秒记账演示面板（玻璃） ---------- */
+.demo {
+  position:relative; width:100%; max-width:430px; margin:0 auto; overflow:hidden;
+  border-radius:var(--r-lg); padding:22px 22px 18px;
+  background:var(--glass); border:1px solid var(--glass-line);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 26px 64px rgba(2,6,23,.52), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.demo::before {
+  content:""; position:absolute; inset:0 0 auto 0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(96,165,250,.6), transparent);
+}
+.demo-head { display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+.demo-title { font-family:var(--head); font-weight:700; font-size:15px; }
+.demo-date { font-size:11.5px; color:var(--tint); }
+.demo-amount { margin:12px 0 2px; padding:12px 14px; border-radius:var(--r-md); background:rgba(16,26,52,.72); border:1px solid var(--line); }
+.da-label { font-size:11.5px; color:var(--tint); }
+.da-val { margin-top:2px; font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; font-size:clamp(30px, 3vw, 38px); line-height:1.15; }
+.da-val span:first-child { font-size:.62em; color:var(--blue-text); margin-right:4px; }
+.da-month { margin-top:6px; font-size:12.5px; color:var(--tint); }
+.da-month b { font-weight:600; color:var(--ink); }
+.demo-cats { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:10px; }
+.chip {
+  font-family:var(--body); font-size:13px; font-weight:600; min-height:44px;
+  border-radius:var(--r-sm); border:1px solid var(--line); cursor:pointer;
+  background:rgba(16,26,52,.5); color:var(--tint);
+  transition:background-color .12s ease, color .12s ease, border-color .12s ease;
+}
+.chip:hover { color:var(--ink); border-color:rgba(96,165,250,.4); }
+.chip[aria-pressed="true"] { background:var(--primary); border-color:rgba(96,165,250,.5); color:var(--on-primary); }
+.demo-pad { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:6px; }
+.key {
+  font-family:var(--mono); font-variant-numeric:tabular-nums; font-size:17px; font-weight:500;
+  min-height:52px; border-radius:var(--r-sm); border:1px solid var(--line); cursor:pointer;
+  background:var(--muted-bg); color:var(--ink);
+  transition:background-color .1s ease, transform .06s ease;
+}
+.key:hover { background:#1A2647; }
+.key:active { transform:translateY(1px); background:var(--primary); }
+.key-wide { font-family:var(--body); font-size:13px; font-weight:600; }
+.demo-add { width:100%; margin-top:10px; font-size:15px; }
+.demo-hint { margin-top:8px; font-size:12.5px; color:var(--tint); min-height:1.6em; }
+.demo-recent { margin-top:10px; border-top:1px solid var(--line); padding-top:4px; }
+.rc { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+.rc:last-child { border-bottom:none; }
+.rc-note { flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13.5px; color:var(--ink); }
+.rc-meta { flex:none; font-size:11.5px; color:var(--tint); }
+.rc-amt { flex:none; font-size:14px; font-weight:600; color:var(--ink); }
+
+/* ---------- Hero 内数据条 ---------- */
+.hero-stats { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:26px; }
+.hstat { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:12px 12px 10px; }
+.hs-val { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; font-size:20px; line-height:1.25; }
+.hs-val small { font-size:12px; font-weight:400; color:var(--tint); margin-left:1px; }
+.hs-lbl { margin-top:2px; font-size:11.5px; color:var(--tint); }
+
+/* ---------- 通用小节 ---------- */
+.sec { padding:68px 0 60px; }
+.sec.alt { background:rgba(16,26,52,.35); border-block:1px solid var(--line); }
+.eyebrow { display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--blue-text); }
+.eyebrow::before { content:""; width:22px; height:2px; background:var(--secondary); flex:none; }
+.sec h2 { margin:12px 0 10px; font-family:var(--head); font-weight:800; font-size:clamp(23px, 2.6vw, 30px); line-height:1.3; }
+.sec-lede { color:var(--tint); max-width:44em; font-size:15.5px; }
+
+/* ---------- 功能矩阵 ---------- */
+.feats { display:grid; grid-template-columns:1fr; gap:14px; margin-top:30px; }
+.feat {
+  background:var(--card); border:1px solid var(--line); border-radius:var(--r-md);
+  padding:22px 22px 20px; display:flex; flex-direction:column;
+}
+.feat-no { font-family:var(--mono); font-size:12px; color:var(--blue-text); }
+.feat h3 { margin:8px 0 8px; font-family:var(--head); font-weight:700; font-size:17px; }
+.feat p { font-size:13.5px; color:var(--tint); line-height:1.7; }
+.feat .num { color:var(--ink); }
+
+/* ---------- 月度结构 ---------- */
+.struct-grid { display:grid; grid-template-columns:1fr; gap:36px; align-items:center; }
+.struct-stats { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-top:26px; }
+.sstat { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:16px 14px; }
+.s-val { font-family:var(--mono); font-variant-numeric:tabular-nums; font-weight:600; font-size:clamp(17px, 1.8vw, 21px); line-height:1.25; }
+.s-lbl { margin-top:3px; font-size:12px; color:var(--tint); }
+.chart { background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px; }
+.chart-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+.chart-title { font-family:var(--head); font-weight:700; font-size:15px; }
+.tabs { display:flex; gap:6px; }
+.tab {
+  font-family:var(--body); font-size:12.5px; font-weight:600; min-height:40px;
+  padding:0 16px; border-radius:var(--r-pill); cursor:pointer;
+  border:1px solid var(--line); background:transparent; color:var(--tint);
+  transition:background-color .12s ease, color .12s ease;
+}
+.tab:hover { color:var(--ink); }
+.tab[aria-pressed="true"] { background:var(--primary); border-color:rgba(96,165,250,.5); color:var(--on-primary); }
+.bars { margin-top:16px; display:grid; gap:14px; }
+.bar-row { display:grid; gap:6px; }
+.bar-meta { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+.bar-name { font-size:13px; font-weight:600; }
+.bar-val { font-size:12px; color:var(--tint); }
+.bar-track { height:10px; border-radius:var(--r-pill); background:var(--muted-bg); overflow:hidden; }
+.bar-fill { height:100%; border-radius:var(--r-pill); transition:width .4s ease; }
+.chart-note { margin-top:16px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--tint); }
+
+/* ---------- 预算信封 ---------- */
+.envs { display:grid; grid-template-columns:1fr; gap:14px; margin-top:30px; }
+.env { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:18px; }
+.env-top { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+.env-name { font-family:var(--head); font-weight:700; font-size:15.5px; }
+.env-remain { font-size:13px; font-weight:600; color:var(--green-text); }
+.env-remain.over { color:var(--red-text); }
+.env-bar { margin-top:12px; height:10px; border-radius:var(--r-pill); background:var(--muted-bg); overflow:hidden; }
+.env-fill { height:100%; border-radius:var(--r-pill); background:var(--accent); transition:width .3s ease; }
+.env-meta { margin-top:9px; font-size:12px; color:var(--tint); }
+
+/* ---------- 对比 ---------- */
+.cmp { display:grid; grid-template-columns:1fr; margin-top:30px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:var(--card); }
+.cmp-c { padding:15px 18px; border-bottom:1px solid var(--line); font-size:13.5px; color:var(--tint); }
+.cmp-c strong { color:var(--ink); font-weight:600; }
+.cmp-c.win { color:var(--green-text); }
+.cmp-h { font-family:var(--head); font-weight:700; font-size:13.5px; color:var(--ink); background:var(--muted-bg); }
+.cmp-note { margin-top:14px; font-size:12.5px; color:var(--tint); }
+
+/* ---------- 数据本地化承诺 ---------- */
+.priv-copy { max-width:40em; }
+.priv-list { display:grid; grid-template-columns:1fr; gap:14px; }
+.priv-item { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:20px; }
+.priv-item h3 { font-family:var(--head); font-weight:700; font-size:16px; margin-bottom:6px; }
+.priv-item h3 span { font-family:var(--mono); font-weight:500; font-size:12px; color:var(--blue-text); margin-right:8px; }
+.priv-item p { font-size:13.5px; color:var(--tint); line-height:1.7; }
+
+/* ---------- CTA ---------- */
+.cta { padding:76px 0; border-top:1px solid var(--line); text-align:center;
+  background:radial-gradient(560px 320px at 50% 110%, rgba(59,130,246,.14), transparent 70%); }
+.cta h2 { font-family:var(--head); font-weight:800; font-size:clamp(24px, 2.8vw, 32px); }
+.cta p { margin:10px auto 0; color:var(--tint); font-size:14px; }
+.cta-actions { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-top:26px; }
+.cta-note { margin-top:18px; font-size:12px; color:var(--tint); }
+
+/* ---------- 页脚 ---------- */
+footer { border-top:1px solid var(--line); background:rgba(15,23,42,.6); padding:26px 0 30px; }
+.foot-in { display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap; }
+.foot-crumb { font-size:13px; color:var(--tint); }
+.foot-in a { font-size:13px; }
+.foot-legal { margin-top:12px; font-size:12px; color:var(--tint); line-height:1.7; max-width:64em; }
+
+/* ---------- 一次亮相动效（reduced-motion 降级） ---------- */
+.reveal { opacity:0; transform:translateY(16px); animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards; }
+.demo.reveal { animation-delay:.12s; }
+@keyframes rise { to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  .reveal { animation:none; opacity:1; transform:none; }
+  .bar-fill, .env-fill, .key, .chip, .btn, .tab { transition:none; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (min-width:560px) {
+  .envs { grid-template-columns:repeat(2, 1fr); }
+  .feats { grid-template-columns:repeat(2, 1fr); }
+}
+@media (min-width:720px) {
+  .priv-list { grid-template-columns:repeat(3, 1fr); }
+  .priv-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:40px; align-items:center; }
+}
+@media (min-width:820px) {
+  .cmp { grid-template-columns:.8fr 1fr 1fr; }
+  .cmp-c:nth-child(3n) { border-right:none; }
+  .cmp-h { border-bottom:2px solid rgba(96,165,250,.35); }
+}
+@media (min-width:900px) {
+  .nav-links { display:flex; }
+}
+@media (min-width:1024px) {
+  .hero { padding:84px 0 76px; }
+  .hero-grid { grid-template-columns:1.02fr .98fr; gap:52px; }
+  .demo { margin:0; }
+  .struct-grid { grid-template-columns:.92fr 1.08fr; gap:48px; }
+  .feats { grid-template-columns:repeat(3, 1fr); }
+  .envs { grid-template-columns:repeat(4, 1fr); }
+}
+</style>
+</head>
+<body id="top">
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top" aria-label="一笔 首页">
+      <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="25" height="25" rx="7" fill="#1E40AF" stroke="#3B82F6" stroke-width="1.5"/>
+        <path d="M8 14h12" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+      一笔<small>YIBI</small>
+    </a>
+    <nav class="nav-links" aria-label="页面导航">
+      <a href="#features">功能</a>
+      <a href="#structure">月度结构</a>
+      <a href="#envelopes">预算信封</a>
+      <a href="#privacy">数据承诺</a>
+    </nav>
+    <a class="btn btn-primary btn-sm nav-cta" href="#download">下载体验</a>
+  </div>
+</header>
+
+<main>
+  <!-- Hero：左侧文案 / 右侧签名交互演示 -->
+  <section class="hero" aria-label="产品概览">
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <p class="kicker"><b>一笔 YIBI</b><span class="sep">/</span>极简记账 app<span class="sep">/</span>数据本地化</p>
+        <h1>记账这件小事，<em>三秒</em>就够了</h1>
+        <p class="lede">「一笔」把记账压缩到两步：选分类、按金额。没有账号，没有云端，账本只存在你的手机里。月度结构、预算信封、离线导出，全部在本机完成。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#download">下载一笔</a>
+          <a class="btn btn-ghost" href="#structure">看月度结构</a>
+        </div>
+        <p class="hero-trust">离线优先<span class="sep">/</span>免费无广告<span class="sep">/</span>支持一键导出</p>
+        <div class="hero-stats">
+          <div class="hstat">
+            <p class="hs-val num">2.8<small>秒</small></p>
+            <p class="hs-lbl">单笔平均录入</p>
+          </div>
+          <div class="hstat">
+            <p class="hs-val num">0<small>台</small></p>
+            <p class="hs-lbl">外部服务器</p>
+          </div>
+          <div class="hstat">
+            <p class="hs-val num">12<small>万+</small></p>
+            <p class="hs-lbl">本地累计账目</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo reveal" aria-label="三秒记账交互演示">
+        <div class="demo-head">
+          <p class="demo-title">三秒记一笔</p>
+          <p class="demo-date num">10 月 9 日</p>
+        </div>
+        <div class="demo-amount">
+          <p class="da-label">金额（元）</p>
+          <p class="da-val"><span>¥</span><span id="amtDisp">0.00</span></p>
+          <p class="da-month">本月已支出 <b class="num" data-total>3,648.60</b></p>
+        </div>
+        <div class="demo-cats" role="group" aria-label="选择分类">
+          <button type="button" class="chip" data-cat="dining" aria-pressed="true">餐饮</button>
+          <button type="button" class="chip" data-cat="transport" aria-pressed="false">交通</button>
+          <button type="button" class="chip" data-cat="shopping" aria-pressed="false">购物</button>
+          <button type="button" class="chip" data-cat="fun" aria-pressed="false">娱乐</button>
+        </div>
+        <div class="demo-pad" aria-label="数字键盘">
+          <button type="button" class="key" data-k="1">1</button>
+          <button type="button" class="key" data-k="2">2</button>
+          <button type="button" class="key" data-k="3">3</button>
+          <button type="button" class="key" data-k="4">4</button>
+          <button type="button" class="key" data-k="5">5</button>
+          <button type="button" class="key" data-k="6">6</button>
+          <button type="button" class="key" data-k="7">7</button>
+          <button type="button" class="key" data-k="8">8</button>
+          <button type="button" class="key" data-k="9">9</button>
+          <button type="button" class="key" data-k=".">.</button>
+          <button type="button" class="key" data-k="0">0</button>
+          <button type="button" class="key key-wide" data-k="back" aria-label="退格删除一位">退格</button>
+        </div>
+        <button type="button" class="btn btn-primary demo-add" id="addBtn">记一笔</button>
+        <p class="demo-hint" id="demoHint" aria-live="polite">先选分类，再按数字键盘，试试记一笔</p>
+        <div class="demo-recent" aria-label="最近记录">
+          <div class="rc">
+            <p class="rc-note">早餐 豆浆油条</p>
+            <p class="rc-meta">10-09 / 餐饮</p>
+            <p class="rc-amt num">-8.50</p>
+          </div>
+          <div class="rc">
+            <p class="rc-note">地铁通勤</p>
+            <p class="rc-meta">10-08 / 交通</p>
+            <p class="rc-amt num">-4.00</p>
+          </div>
+          <div class="rc">
+            <p class="rc-note">超市采购 洗护与纸品</p>
+            <p class="rc-meta">10-08 / 日用</p>
+            <p class="rc-amt num">-62.40</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 功能矩阵 -->
+  <section class="sec" id="features" aria-label="核心功能">
+    <div class="wrap">
+      <p class="eyebrow">核心能力</p>
+      <h2>为「随手记一笔」设计的六个决定</h2>
+      <p class="sec-lede">每一项功能都围绕同一个目标：让记一笔的路径更短，让留下的数据只属于你。</p>
+      <div class="feats">
+        <article class="feat">
+          <p class="feat-no">01</p>
+          <h3>三秒记账</h3>
+          <p>打开即数字键盘，选分类、按金额两步完成，无需进入二级页面。常用分类可长按桌面图标直达。</p>
+        </article>
+        <article class="feat">
+          <p class="feat-no">02</p>
+          <h3>月度结构</h3>
+          <p>餐饮 / 交通 / 购物 / 日用 / 娱乐自动归类，每月支出结构与环比变化一屏看清，钱去哪了不再模糊。</p>
+        </article>
+        <article class="feat">
+          <p class="feat-no">03</p>
+          <h3>预算信封</h3>
+          <p>按分类设置月度额度，余额随每一笔实时更新。使用率超过 <span class="num">90%</span> 时变色提醒，超支即刻可见。</p>
+        </article>
+        <article class="feat">
+          <p class="feat-no">04</p>
+          <h3>数据本地化</h3>
+          <p>账本仅写入本机数据库，无账号体系、无云端备份，卸载或换机前可一键导出带走。</p>
+        </article>
+        <article class="feat">
+          <p class="feat-no">05</p>
+          <h3>离线完整可用</h3>
+          <p>不申请网络权限也能记录、统计与导出，通勤、出差、飞行模式都不中断。</p>
+        </article>
+        <article class="feat">
+          <p class="feat-no">06</p>
+          <h3>轻量克制</h3>
+          <p>安装包 <span class="num">4.8MB</span>，无启动页广告、无消息推送、无社区模块，打开就是键盘。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 月度结构 -->
+  <section class="sec alt" id="structure" aria-label="月度结构">
+    <div class="wrap struct-grid">
+      <div class="struct-copy">
+        <p class="eyebrow">月度结构</p>
+        <h2>每个月的钱去哪了，一屏看清</h2>
+        <p class="sec-lede">记录只是开始。「一笔」按分类汇总每月支出，自动计算日均与环比，让结构变化自己说话。切换月份，观察消费习惯的迁移。</p>
+        <div class="struct-stats">
+          <div class="sstat">
+            <p class="s-val num" data-total>3,648.60</p>
+            <p class="s-lbl">本月支出（元）</p>
+          </div>
+          <div class="sstat">
+            <p class="s-val num" id="statAvg">405.40</p>
+            <p class="s-lbl">日均支出（元）</p>
+          </div>
+          <div class="sstat">
+            <p class="s-val num good" id="statDelta">-23.8%</p>
+            <p class="s-lbl">较上月支出</p>
+          </div>
+        </div>
+      </div>
+      <div class="chart" aria-label="支出结构图">
+        <div class="chart-head">
+          <p class="chart-title">支出结构 / 按分类</p>
+          <div class="tabs" role="group" aria-label="选择月份">
+            <button type="button" class="tab" data-m="sep" aria-pressed="false">9 月</button>
+            <button type="button" class="tab" data-m="oct" aria-pressed="true">10 月</button>
+          </div>
+        </div>
+        <div class="bars" id="bars"></div>
+        <p class="chart-note">10 月为进行中月份，数据截至 10 月 9 日 / 上方演示面板记一笔后，此处与信封同步更新</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 预算信封 -->
+  <section class="sec" id="envelopes" aria-label="预算信封">
+    <div class="wrap">
+      <p class="eyebrow">预算信封</p>
+      <h2>先装信封，再花钱</h2>
+      <p class="sec-lede">月初给每个分类一只信封，余额随每一笔实时扣减。在上方演示面板记一笔，这里的信封会同步变化。</p>
+      <div class="envs">
+        <article class="env" data-env="dining">
+          <div class="env-top">
+            <p class="env-name">餐饮</p>
+            <p class="env-remain num">剩 157.50</p>
+          </div>
+          <div class="env-bar" role="progressbar" aria-label="餐饮预算使用率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="92">
+            <div class="env-fill"></div>
+          </div>
+          <p class="env-meta num">1,842.50 / 2,000.00</p>
+        </article>
+        <article class="env" data-env="transport">
+          <div class="env-top">
+            <p class="env-name">交通</p>
+            <p class="env-remain num">剩 74.00</p>
+          </div>
+          <div class="env-bar" role="progressbar" aria-label="交通预算使用率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82">
+            <div class="env-fill"></div>
+          </div>
+          <p class="env-meta num">326.00 / 400.00</p>
+        </article>
+        <article class="env" data-env="shopping">
+          <div class="env-top">
+            <p class="env-name">购物</p>
+            <p class="env-remain num">剩 130.70</p>
+          </div>
+          <div class="env-bar" role="progressbar" aria-label="购物预算使用率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="87">
+            <div class="env-fill"></div>
+          </div>
+          <p class="env-meta num">869.30 / 1,000.00</p>
+        </article>
+        <article class="env" data-env="fun">
+          <div class="env-top">
+            <p class="env-name">娱乐</p>
+            <p class="env-remain num">剩 102.00</p>
+          </div>
+          <div class="env-bar" role="progressbar" aria-label="娱乐预算使用率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="66">
+            <div class="env-fill"></div>
+          </div>
+          <p class="env-meta num">198.00 / 300.00</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 对比 -->
+  <section class="sec alt" id="compare" aria-label="方案对比">
+    <div class="wrap">
+      <p class="eyebrow">方案对比</p>
+      <h2>和传统记账 app 比，省下的是什么</h2>
+      <p class="sec-lede">同样的账目，「一笔」换来的不只是速度，还有对数据主权的确定感。</p>
+      <div class="cmp" role="table" aria-label="一笔与传统记账 app 对比">
+        <div class="cmp-c cmp-h" role="columnheader">对比维度</div>
+        <div class="cmp-c cmp-h" role="columnheader">一笔</div>
+        <div class="cmp-c cmp-h" role="columnheader">传统记账 app</div>
+        <div class="cmp-c" role="cell"><strong>记一笔耗时</strong></div>
+        <div class="cmp-c win" role="cell">约 2.8 秒，两步完成</div>
+        <div class="cmp-c" role="cell">20 秒以上，多层表单</div>
+        <div class="cmp-c" role="cell"><strong>数据存储</strong></div>
+        <div class="cmp-c win" role="cell">仅本机数据库</div>
+        <div class="cmp-c" role="cell">云端同步与留存</div>
+        <div class="cmp-c" role="cell"><strong>注册要求</strong></div>
+        <div class="cmp-c win" role="cell">无需注册，无账号</div>
+        <div class="cmp-c" role="cell">手机号与第三方授权</div>
+        <div class="cmp-c" role="cell"><strong>离线记录</strong></div>
+        <div class="cmp-c win" role="cell">全部功能离线可用</div>
+        <div class="cmp-c" role="cell">部分功能依赖网络</div>
+        <div class="cmp-c" role="cell"><strong>费用与广告</strong></div>
+        <div class="cmp-c win" role="cell">免费，无广告无订阅</div>
+        <div class="cmp-c" role="cell">高级功能内购解锁</div>
+      </div>
+      <p class="cmp-note">对比基于公开页面常见的通用记账流程，具体产品以其实际说明为准。</p>
+    </div>
+  </section>
+
+  <!-- 数据本地化承诺 -->
+  <section class="sec" id="privacy" aria-label="数据本地化承诺">
+    <div class="wrap priv-grid">
+      <div class="priv-copy">
+        <p class="eyebrow">数据本地化承诺</p>
+        <h2>你的账本，只属于你的手机</h2>
+        <p class="sec-lede">「一笔」不做数据生意。没有账号可以注册，没有云端可以上传，账本从生成的那一刻起就只存在于一台设备。</p>
+      </div>
+      <div class="priv-list">
+        <article class="priv-item">
+          <h3><span>01</span>本机存储</h3>
+          <p>所有账目写入手机内置数据库，应用卸载即数据随卸载清除，不留副本。</p>
+        </article>
+        <article class="priv-item">
+          <h3><span>02</span>无埋点</h3>
+          <p>不集成统计 SDK 与第三方追踪，页面内无行为上报，使用痕迹不出设备。</p>
+        </article>
+        <article class="priv-item">
+          <h3><span>03</span>随时带走</h3>
+          <p>一键导出 CSV 与 JSON 两种格式，换机或归档时账目完整可迁移。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="download" aria-label="下载">
+    <div class="wrap">
+      <h2>从下一笔开始，三秒记完</h2>
+      <p>免费下载 / 无广告 / 无订阅</p>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="#download">下载一笔</a>
+        <a class="btn btn-ghost" href="#privacy">了解数据方案</a>
+      </div>
+      <p class="cta-note">本页为设计样板，「下载」按钮不指向真实商店</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <p class="foot-crumb">UI 设计提示词库 / 产品模板 / Personal Finance Tracker</p>
+      <p><a href="../style-catalog.html">返回风格目录</a></p>
+    </div>
+    <p class="foot-legal">「一笔」为本库虚构演示品牌，页面中的账目、预算与统计均为设计示意，不构成任何理财建议。样板用途：Personal Finance Tracker / Glassmorphism + Dark Mode (OLED) / Interactive Product Demo。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 演示状态（金额单位：元） */
+  var CATS = { dining: '餐饮', transport: '交通', shopping: '购物', fun: '娱乐' };
+  var SEP_TOTAL = 4788.90;
+  var spent = 3648.60;
+  var ENV = {
+    dining: { used: 1842.50, budget: 2000 },
+    transport: { used: 326.00, budget: 400 },
+    shopping: { used: 869.30, budget: 1000 },
+    fun: { used: 198.00, budget: 300 }
+  };
+  var MONTHS = {
+    oct: { total: 3648.60, rows: [
+      ['餐饮', 1842.50, '#3B82F6'], ['购物', 869.30, '#A78BFA'],
+      ['日用', 412.80, '#FBBF24'], ['交通', 326.00, '#34D399'],
+      ['娱乐', 198.00, '#F87171']
+    ] },
+    sep: { total: 4788.90, rows: [
+      ['餐饮', 2105.80, '#3B82F6'], ['购物', 1542.20, '#A78BFA'],
+      ['娱乐', 465.00, '#F87171'], ['日用', 386.40, '#FBBF24'],
+      ['交通', 289.50, '#34D399']
+    ] }
+  };
+  var cur = 'oct';
+
+  function fmt(v) { return v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function $(s) { return document.querySelector(s); }
+
+  /* 三秒记账：金额键盘 */
+  var amt = '0';
+  var cat = 'dining';
+  var disp = $('#amtDisp');
+  var hint = $('#demoHint');
+  var list = $('#recentList');
+
+  function paintAmt() { disp.textContent = amt === '0' ? '0.00' : amt; }
+
+  function press(k) {
+    if (k === 'back') {
+      amt = amt.length > 1 ? amt.slice(0, -1) : '0';
+    } else if (k === '.') {
+      if (amt.indexOf('.') < 0) { amt += '.'; }
+    } else {
+      var dot = amt.indexOf('.');
+      if (dot > -1 && amt.length - dot > 2) { return; }
+      if (dot < 0 && amt.replace('.', '').length >= 5) { return; }
+      amt = amt === '0' ? k : amt + k;
+    }
+    paintAmt();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.key'), function (b) {
+    b.addEventListener('click', function () { press(b.getAttribute('data-k')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (b) {
+    b.addEventListener('click', function () {
+      cat = b.getAttribute('data-cat');
+      Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (c) {
+        c.setAttribute('aria-pressed', c === b ? 'true' : 'false');
+      });
+    });
+  });
+
+  function addRecent(catName, v) {
+    var row = document.createElement('div');
+    row.className = 'rc';
+    var n = document.createElement('p');
+    n.className = 'rc-note'; n.textContent = '手动快记';
+    var m = document.createElement('p');
+    m.className = 'rc-meta'; m.textContent = '10-09 / ' + catName;
+    var a = document.createElement('p');
+    a.className = 'rc-amt num'; a.textContent = '-' + fmt(v);
+    row.appendChild(n); row.appendChild(m); row.appendChild(a);
+    list.insertBefore(row, list.firstChild);
+    while (list.children.length > 3) { list.removeChild(list.lastChild); }
+  }
+
+  /* 汇总渲染：总额 / 日均 / 环比 / 信封 / 结构图 */
+  var statAvg = $('#statAvg');
+  var statDelta = $('#statDelta');
+  var barsEl = $('#bars');
+
+  function paintTotals() {
+    var t = fmt(spent);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-total]'), function (el) {
+      el.textContent = t;
+    });
+    statAvg.textContent = fmt(spent / 9);
+    var d = (spent - SEP_TOTAL) / SEP_TOTAL * 100;
+    statDelta.textContent = (d > 0 ? '+' : '') + d.toFixed(1) + '%';
+    statDelta.className = 's-val num ' + (d <= 0 ? 'good' : 'bad');
+  }
+
+  function paintEnv() {
+    Object.keys(ENV).forEach(function (k) {
+      var e = ENV[k];
+      var card = document.querySelector('.env[data-env="' + k + '"]');
+      var pct = e.used / e.budget;
+      var fill = card.querySelector('.env-fill');
+      fill.style.width = Math.min(100, pct * 100).toFixed(1) + '%';
+      fill.style.background = pct > 1 ? '#F87171' : (pct >= 0.9 ? '#3B82F6' : '#059669');
+      var lbl = card.querySelector('.env-remain');
+      if (pct > 1) {
+        lbl.textContent = '已超 ' + fmt(e.used - e.budget);
+        lbl.className = 'env-remain num over';
+      } else {
+        lbl.textContent = '剩 ' + fmt(e.budget - e.used);
+        lbl.className = 'env-remain num';
+      }
+      card.querySelector('.env-meta').textContent = fmt(e.used) + ' / ' + fmt(e.budget);
+      card.querySelector('.env-bar').setAttribute('aria-valuenow', Math.round(pct * 100));
+    });
+  }
+
+  function renderChart() {
+    var m = MONTHS[cur];
+    var max = m.rows[0][1];
+    var html = '';
+    m.rows.forEach(function (r) {
+      html += '<div class="bar-row">'
+        + '<p class="bar-meta"><span class="bar-name">' + r[0] + '</span>'
+        + '<span class="bar-val num">' + fmt(r[1]) + ' / ' + (r[1] / m.total * 100).toFixed(1) + '%</span></p>'
+        + '<div class="bar-track"><div class="bar-fill" style="width:' + (r[1] / max * 100).toFixed(1) + '%;background:' + r[2] + '"></div></div>'
+        + '</div>';
+    });
+    barsEl.innerHTML = html;
+  }
+
+  function paintAll() { paintTotals(); paintEnv(); if (cur === 'oct') { renderChart(); } }
+
+  /* 记一笔 */
+  $('#addBtn').addEventListener('click', function () {
+    var v = parseFloat(amt);
+    if (!(v > 0)) { hint.textContent = '请先输入金额，再记一笔'; return; }
+    var name = CATS[cat];
+    spent += v;
+    ENV[cat].used += v;
+    MONTHS.oct.total += v;
+    MONTHS.oct.rows.forEach(function (r) { if (r[0] === name) { r[1] += v; } });
+    addRecent(name, v);
+    amt = '0'; paintAmt(); paintAll();
+    hint.textContent = '已记一笔：' + name + ' ' + fmt(v) + ' 元，本月合计 ' + fmt(spent) + ' 元';
+  });
+
+  /* 月份切换 */
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (b) {
+    b.addEventListener('click', function () {
+      cur = b.getAttribute('data-m');
+      Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (t) {
+        t.setAttribute('aria-pressed', t === b ? 'true' : 'false');
+      });
+      renderChart();
+    });
+  });
+
+  /* 初始渲染 + 一次亮相：本月支出数字滚动（reduced-motion 直接静态呈现） */
+  paintEnv();
+  renderChart();
+  if (reduce) {
+    paintTotals();
+  } else {
+    var t0 = null, DUR = 900;
+    function tick(ts) {
+      if (t0 === null) { t0 = ts; }
+      var p = Math.min(1, (ts - t0) / DUR);
+      var eased = 1 - Math.pow(1 - p, 3);
+      Array.prototype.forEach.call(document.querySelectorAll('[data-total]'), function (el) {
+        el.textContent = fmt(spent * eased);
+      });
+      if (p < 1) { window.requestAnimationFrame(tick); } else { paintTotals(); }
+    }
+    window.requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>

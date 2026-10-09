@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="独立新闻周刊「城事周报」产品模板:当期头条、栏目分区、栏目筛选、往期 archive 与订阅,Hero-Centric + Feature-Rich,Swiss 扁平新闻排版。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / News/Media Platform / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划:官方色板 红 #DC2626 主按钮底/焦点环(白字 4.8:1)、亮红 #EF4444 仅装饰、蓝 #1E40AF 强调/城市栏(白底 8.9:1)、底 #FEF2F2、前景 #450A0A、卡 #FFFFFF、描边 #FECACA、灰 #F0EDF1;文字红 #B91C1C(5.9:1)与次级 #7F1D1D(9.1:1)补足对比;栏目色 蓝城市/红市政/绿民生/琥珀文化 各配浅底 chip;Swiss 网格 + 2px 直角 + 粗规则线 + 衬线 900 头条重量,正文 Noto Sans SC;单次亮相:头条块整体升起,reduced-motion 降级为直接呈现 */
+:root {
+  --primary: #DC2626; --on-primary: #FFFFFF; --secondary: #EF4444;
+  --accent: #1E40AF; --bg: #FEF2F2; --fg: #450A0A; --card: #FFFFFF;
+  --border: #FECACA; --muted: #F0EDF1; --ring: #DC2626;
+  --ink-2: #7F1D1D; --red-text: #B91C1C;
+  --cat-city: #1E40AF; --cat-infra: #B91C1C; --cat-life: #065F46; --cat-culture: #92400E;
+  --tint-city: #DBEAFE; --tint-infra: #FEE2E2; --tint-life: #D1FAE5; --tint-culture: #FEF3C7;
+  --font-display: 'Noto Serif SC', 'Songti SC', serif;
+  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--fg); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: var(--on-primary); }
+[hidden] { display: none !important; }
+svg { max-width: 100%; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 2px; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+.skip { position: absolute; left: 16px; top: -48px; z-index: 100; background: var(--fg); color: #FFFFFF; padding: 10px 18px; font-size: 14px; font-weight: 600; text-decoration: none; transition: top 0.15s ease; }
+.skip:focus-visible { top: 12px; outline-color: #FFFFFF; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 24px; border-radius: 2px; font-family: var(--font-body); font-size: 14.5px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: background 0.15s ease, color 0.15s ease; }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: var(--red-text); }
+.btn-dark { background: var(--fg); color: #FFFFFF; }
+.btn-dark:hover { background: var(--ink-2); }
+.btn-dark:disabled { background: var(--ink-2); cursor: default; }
+
+.chip { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 2px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; }
+.chip-city { background: var(--tint-city); color: var(--cat-city); }
+.chip-infra { background: var(--tint-infra); color: var(--cat-infra); }
+.chip-life { background: var(--tint-life); color: var(--cat-life); }
+.chip-culture { background: var(--tint-culture); color: var(--cat-culture); }
+
+/* ============ 顶部时敏条 ============ */
+.topstrip { background: var(--fg); color: #FECACA; font-size: 13px; }
+.topstrip-inner { display: flex; flex-wrap: wrap; gap: 4px 0; justify-content: space-between; align-items: center; padding: 8px 0; }
+.topstrip-date { color: #FFFFFF; font-weight: 500; }
+.topstrip-meta { display: flex; flex-wrap: wrap; gap: 0 4px; }
+.topstrip-meta > * + *::before { content: " / "; color: var(--secondary); white-space: pre; }
+.topstrip a { color: #FECACA; text-decoration: none; }
+.topstrip a:hover { color: #FFFFFF; text-decoration: underline; text-underline-offset: 4px; }
+
+/* ============ 报头 ============ */
+.masthead { position: sticky; top: 0; z-index: 50; background: var(--card); border-bottom: 1px solid var(--border); }
+.masthead-inner { display: flex; align-items: center; gap: 34px; padding: 14px 0; }
+.brand { display: flex; align-items: center; gap: 11px; font-family: var(--font-display); font-weight: 900; font-size: 26px; color: var(--fg); text-decoration: none; letter-spacing: 0.02em; }
+.brand-mark { width: 13px; height: 13px; background: var(--primary); display: inline-block; flex: none; }
+.brand-en { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--ink-2); letter-spacing: 0.05em; }
+.nav { display: flex; gap: 28px; margin-left: auto; }
+.nav a { color: var(--ink-2); font-size: 15px; font-weight: 600; text-decoration: none; }
+.nav a:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 6px; }
+.masthead .btn { padding: 9px 20px; }
+
+/* ============ 头条 ============ */
+.hero { padding: 64px 0 72px; border-bottom: 1px solid var(--border); }
+.hero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; align-items: start; }
+.hero-rise { animation: rise 0.55s ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.kicker-row { display: flex; align-items: center; gap: 14px; }
+.kicker-chip { background: var(--primary); color: var(--on-primary); padding: 4px 12px; font-size: 13px; font-weight: 700; border-radius: 2px; letter-spacing: 0.04em; }
+.kicker-issue { font-size: 13px; color: var(--ink-2); font-weight: 500; white-space: nowrap; }
+.kicker-line { flex: 1; height: 1px; background: var(--border); min-width: 24px; }
+.hero h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.1rem, 4.4vw, 3.5rem); line-height: 1.18; margin-top: 22px; letter-spacing: 0.005em; }
+.hero-lede { font-size: 17px; line-height: 1.95; color: var(--ink-2); max-width: 36em; margin-top: 20px; }
+.hero-byline { margin-top: 26px; padding-top: 16px; border-top: 2px solid var(--fg); font-size: 14px; color: var(--ink-2); display: flex; flex-wrap: wrap; }
+.hero-byline .byline-item + .byline-item::before { content: " / "; margin: 0 10px; color: var(--red-text); font-weight: 700; }
+.cover-card { background: var(--card); border: 1px solid var(--border); border-top: 4px solid var(--primary); }
+.cover-card svg { display: block; width: 100%; height: auto; }
+.cover-card figcaption { padding: 12px 16px; font-size: 13px; color: var(--ink-2); border-top: 1px solid var(--border); }
+.side-stories { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--fg); margin-top: 54px; }
+.side-item { padding: 20px 22px 6px; border-left: 1px solid var(--border); }
+.side-item:first-child { border-left: none; padding-left: 0; }
+.side-item h3 { font-size: 16.5px; font-weight: 700; line-height: 1.55; margin: 12px 0 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.side-item h3 a { color: var(--fg); text-decoration: none; }
+.side-item h3 a:hover { color: var(--red-text); text-decoration: underline; text-underline-offset: 4px; }
+.side-item time { font-size: 13px; color: var(--ink-2); }
+
+/* ============ 区块公共 ============ */
+.section { padding: 64px 0; }
+.band-white { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
+.sec-mark { width: 12px; height: 12px; background: var(--primary); align-self: center; flex: none; }
+.sec-title { font-family: var(--font-display); font-weight: 900; font-size: 25px; letter-spacing: 0.02em; }
+.sec-note { margin-left: auto; font-size: 13.5px; color: var(--ink-2); }
+.sec-rule { height: 2px; background: var(--fg); margin: 12px 0 0; }
+
+/* ============ 本期文章(筛选列表) ============ */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 20px; }
+.filter-btn { padding: 8px 18px; border: 1px solid var(--border); background: var(--card); color: var(--fg); font-family: var(--font-body); font-size: 14px; font-weight: 600; cursor: pointer; border-radius: 2px; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+.filter-btn:hover { border-color: var(--red-text); color: var(--red-text); }
+.filter-btn.is-active[data-cat="all"] { background: var(--fg); border-color: var(--fg); color: #FFFFFF; }
+.filter-btn.is-active[data-cat="city"] { background: var(--cat-city); border-color: var(--cat-city); color: #FFFFFF; }
+.filter-btn.is-active[data-cat="infra"] { background: var(--cat-infra); border-color: var(--cat-infra); color: #FFFFFF; }
+.filter-btn.is-active[data-cat="life"] { background: var(--cat-life); border-color: var(--cat-life); color: #FFFFFF; }
+.filter-btn.is-active[data-cat="culture"] { background: var(--cat-culture); border-color: var(--cat-culture); color: #FFFFFF; }
+.list-head { display: grid; grid-template-columns: 140px 1fr 120px; gap: 8px 20px; padding: 0 8px 10px; font-size: 13px; font-weight: 600; color: var(--ink-2); border-bottom: 2px solid var(--fg); }
+.list-head .col-time, .row-time { text-align: right; }
+.article-row { display: grid; grid-template-columns: 140px 1fr 120px; grid-template-areas: "cat title time"; gap: 6px 20px; padding: 17px 8px; border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
+.article-row:hover { background: var(--card); }
+.row-cat { grid-area: cat; padding-top: 3px; }
+.row-title { grid-area: title; }
+.row-title a { font-size: 16.5px; font-weight: 700; color: var(--fg); text-decoration: none; line-height: 1.5; }
+.row-title a:hover { color: var(--red-text); text-decoration: underline; text-underline-offset: 4px; }
+.row-excerpt { font-size: 14px; color: var(--ink-2); margin-top: 4px; line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.row-time { grid-area: time; font-size: 13.5px; color: var(--ink-2); padding-top: 4px; }
+
+/* ============ 栏目三栏 ============ */
+.cols-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: stretch; margin-top: 28px; }
+.col-card { background: var(--bg); border: 1px solid var(--border); padding: 26px 26px 18px; display: flex; flex-direction: column; }
+.col-name { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin-top: 12px; }
+.col-desc { font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+.col-lead { border-top: 2px solid var(--fg); margin-top: 16px; padding-top: 16px; }
+.col-lead h4 { font-size: 17.5px; font-weight: 700; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.col-lead h4 a { color: var(--fg); text-decoration: none; }
+.col-lead h4 a:hover { color: var(--red-text); text-decoration: underline; text-underline-offset: 4px; }
+.col-lead p { font-size: 14px; color: var(--ink-2); line-height: 1.7; margin-top: 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.col-links { list-style: none; margin-top: 18px; border-top: 1px solid var(--border); }
+.col-links li { border-bottom: 1px solid var(--border); }
+.col-links li:last-child { border-bottom: none; }
+.col-links a { display: block; padding: 11px 0; font-size: 14.5px; font-weight: 600; color: var(--fg); text-decoration: none; }
+.col-links a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+
+/* ============ 订阅 ============ */
+.subscribe { background: var(--primary); color: #FFFFFF; padding: 66px 0; }
+.sub-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+.subscribe h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.6rem, 2.8vw, 2rem); line-height: 1.3; }
+.subscribe .sub-p { font-size: 15px; line-height: 1.85; margin-top: 14px; }
+.sub-stats { margin-top: 18px; font-size: 13.5px; font-weight: 500; }
+.sub-form { display: flex; flex-wrap: wrap; gap: 12px; }
+.sub-form input { flex: 1; min-width: 220px; padding: 13px 16px; border: 1px solid #FFFFFF; border-radius: 2px; font-family: var(--font-body); font-size: 15px; color: var(--fg); background: var(--card); }
+.sub-form input::placeholder { color: var(--ink-2); }
+.sub-form input:focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
+.sub-note { margin-top: 14px; font-size: 13px; }
+
+/* ============ 往期 archive ============ */
+.archive-list { margin-top: 28px; }
+.archive-row { display: grid; grid-template-columns: 96px 1fr auto 120px; grid-template-areas: "no title chip date"; gap: 8px 20px; align-items: center; padding: 15px 8px; border-bottom: 1px solid var(--border); transition: background 0.15s ease; }
+.archive-row:hover { background: var(--muted); }
+.arch-no { grid-area: no; font-family: var(--font-display); font-weight: 900; font-size: 16.5px; color: var(--red-text); white-space: nowrap; }
+.arch-title { grid-area: title; }
+.arch-title a { font-size: 15.5px; font-weight: 600; color: var(--fg); text-decoration: none; }
+.arch-title a:hover { color: var(--red-text); text-decoration: underline; text-underline-offset: 4px; }
+.arch-chip { grid-area: chip; }
+.arch-date { grid-area: date; text-align: right; font-size: 13.5px; color: var(--ink-2); }
+
+/* ============ 页脚 ============ */
+.site-foot { background: var(--fg); color: #FECACA; padding: 46px 0 36px; }
+.foot-top { display: flex; flex-wrap: wrap; gap: 24px 48px; justify-content: space-between; align-items: flex-start; }
+.foot-brand { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: #FFFFFF; display: flex; align-items: center; gap: 10px; }
+.foot-brand .brand-mark { background: var(--secondary); }
+.foot-line { font-size: 13.5px; margin-top: 10px; }
+.foot-nav { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.foot-nav a { color: #FECACA; text-decoration: none; font-size: 14px; font-weight: 500; }
+.foot-nav a:hover { color: #FFFFFF; text-decoration: underline; text-underline-offset: 5px; }
+.foot-bottom { border-top: 1px solid rgba(254, 202, 202, 0.3); margin-top: 32px; padding-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: 13px; }
+.foot-bottom a { color: #FFFFFF; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.foot-bottom a:hover { color: var(--secondary); }
+
+/* ============ 响应式 ============ */
+@media (max-width: 1000px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .cols-grid { grid-template-columns: 1fr; }
+  .sub-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 880px) {
+  .nav { display: none; }
+  .masthead .btn { margin-left: auto; }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 20px; }
+  .hero { padding: 44px 0 52px; }
+  .section { padding: 48px 0; }
+  .side-stories { grid-template-columns: 1fr; margin-top: 36px; }
+  .side-item { border-left: none; border-top: 1px solid var(--border); padding: 16px 0 6px; }
+  .side-item:first-child { border-top: none; padding-top: 0; }
+  .list-head { display: none; }
+  .article-list { border-top: 2px solid var(--fg); }
+  .article-row { grid-template-columns: 1fr auto; grid-template-areas: "cat time" "title title"; }
+  .list-head .col-time, .row-time { text-align: left; }
+  .archive-row { grid-template-columns: 1fr auto; grid-template-areas: "no date" "title title" "chip chip"; }
+  .arch-date { text-align: left; }
+  .arch-date { text-align: left; }
+  .sec-note { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-rise { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<div class="topstrip">
+  <div class="container topstrip-inner">
+    <span class="topstrip-date">2026年10月09日 星期五</span>
+    <div class="topstrip-meta">
+      <span>总第 217 期</span>
+      <span>本日 09:40 更新</span>
+      <a href="#subscribe">数字版</a>
+      <a href="#archive">往期存档</a>
+    </div>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="container masthead-inner">
+    <a class="brand" href="#main">
+      <span class="brand-mark" aria-hidden="true"></span>
+      城事周报
+      <span class="brand-en">Chengshi Weekly</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#hero">头条</a>
+      <a href="#articles">本期文章</a>
+      <a href="#columns">栏目</a>
+      <a href="#archive">往期</a>
+    </nav>
+    <a class="btn btn-primary" href="#subscribe">订阅本周报</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 头条 -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-rise">
+          <div class="kicker-row">
+            <span class="kicker-chip">封面调查</span>
+            <span class="kicker-line" aria-hidden="true"></span>
+            <span class="kicker-issue">第 217 期头条</span>
+          </div>
+          <h1 id="hero-title">一条地铁环线背后的十年之争：谁在定义这座城市的边界</h1>
+          <p class="hero-lede">一条规划了十年的地铁环线，在上周的评审会上重新回到议程。我们拿到了三版线位方案与四份会议纪要，访谈了七位亲历者，试图还原这条线如何三次接近开工，又三次停下的全过程。</p>
+          <div class="hero-byline">
+            <span class="byline-item">记者 林一苇</span>
+            <span class="byline-item">摄影 苏叠</span>
+            <span class="byline-item">10月09日 06:30 发布</span>
+            <span class="byline-item">阅读约 25 分钟</span>
+          </div>
+        </div>
+        <figure class="cover-card">
+          <svg viewBox="0 0 560 400" role="img" aria-label="本期封面插图：城市天际线之上一条红色环线">
+            <rect x="0" y="0" width="560" height="400" fill="#FFFFFF"></rect>
+            <circle cx="468" cy="86" r="34" fill="#DC2626"></circle>
+            <rect x="36" y="212" width="64" height="126" fill="#FECACA"></rect>
+            <rect x="112" y="162" width="54" height="176" fill="#1E40AF"></rect>
+            <rect x="178" y="242" width="72" height="96" fill="#FEE2E2"></rect>
+            <rect x="262" y="96" width="64" height="242" fill="#450A0A"></rect>
+            <g fill="#FEF2F2">
+              <rect x="274" y="116" width="10" height="14"></rect>
+              <rect x="292" y="116" width="10" height="14"></rect>
+              <rect x="310" y="116" width="10" height="14"></rect>
+              <rect x="274" y="148" width="10" height="14"></rect>
+              <rect x="292" y="148" width="10" height="14"></rect>
+              <rect x="310" y="148" width="10" height="14"></rect>
+              <rect x="274" y="180" width="10" height="14"></rect>
+              <rect x="292" y="180" width="10" height="14"></rect>
+              <rect x="310" y="180" width="10" height="14"></rect>
+            </g>
+            <rect x="338" y="202" width="56" height="136" fill="#DC2626"></rect>
+            <rect x="406" y="248" width="70" height="90" fill="#FECACA"></rect>
+            <rect x="488" y="184" width="44" height="154" fill="#FEE2E2"></rect>
+            <ellipse cx="280" cy="330" rx="230" ry="46" fill="none" stroke="#DC2626" stroke-width="5" stroke-dasharray="18 12"></ellipse>
+            <rect x="0" y="338" width="560" height="3" fill="#450A0A"></rect>
+          </svg>
+          <figcaption>封面插图 / 环线方案涉及的地块与既有铁路走向（示意）</figcaption>
+        </figure>
+      </div>
+      <div class="side-stories">
+        <article class="side-item">
+          <span class="chip chip-life">民生现场</span>
+          <h3><a href="#articles">老菜市场的最后一个月：摊主们的搬迁清单</a></h3>
+          <time datetime="2026-10-09">10月09日</time>
+        </article>
+        <article class="side-item">
+          <span class="chip chip-infra">交通市政</span>
+          <h3><a href="#articles">暴雨预警升级之后，中心城区内涝点少了四成</a></h3>
+          <time datetime="2026-10-08">10月08日</time>
+        </article>
+        <article class="side-item">
+          <span class="chip chip-culture">文化</span>
+          <h3><a href="#articles">老电影院改为城市记忆馆，本周五起免费开放</a></h3>
+          <time datetime="2026-10-07">10月07日</time>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 本期文章：栏目筛选 -->
+  <section class="section" id="articles" aria-labelledby="articles-title">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-mark" aria-hidden="true"></span>
+        <h2 class="sec-title" id="articles-title">本期文章</h2>
+        <span class="sec-note"><span id="article-count">全部 / 9 篇</span> / 按栏目筛选</span>
+      </div>
+      <div class="sec-rule" aria-hidden="true"></div>
+      <div class="filter-bar" id="filter-group" role="group" aria-label="按栏目筛选文章">
+        <button type="button" class="filter-btn is-active" data-cat="all" aria-pressed="true">全部</button>
+        <button type="button" class="filter-btn" data-cat="city" aria-pressed="false">城市观察</button>
+        <button type="button" class="filter-btn" data-cat="infra" aria-pressed="false">交通市政</button>
+        <button type="button" class="filter-btn" data-cat="life" aria-pressed="false">民生现场</button>
+        <button type="button" class="filter-btn" data-cat="culture" aria-pressed="false">文化</button>
+      </div>
+      <div class="list-head" aria-hidden="true">
+        <span>栏别</span>
+        <span>文章标题（导语）</span>
+        <span class="col-time">发表时间</span>
+      </div>
+      <div class="article-list">
+        <article class="article-row" data-cat="city">
+          <div class="row-cat"><span class="chip chip-city">城市观察</span></div>
+          <div class="row-title">
+            <a href="#articles">通勤圈扩容之后：跨城上班的两小时去了哪里</a>
+            <p class="row-excerpt">跨城上班族省下的房租，多数换成了路费与清晨五点半的闹钟。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-09">10月09日</time>
+        </article>
+        <article class="article-row" data-cat="city">
+          <div class="row-cat"><span class="chip chip-city">城市观察</span></div>
+          <div class="row-title">
+            <a href="#articles">城中村改造试点开启，首批三个片区名单公布</a>
+            <p class="row-excerpt">名单涉及约 4,200 户居民，过渡安置方案同步公示征求意见。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-08">10月08日</time>
+        </article>
+        <article class="article-row" data-cat="infra">
+          <div class="row-cat"><span class="chip chip-infra">交通市政</span></div>
+          <div class="row-title">
+            <a href="#articles">地铁 12 号线全线洞通，明年三季度空载试运行</a>
+            <p class="row-excerpt">全线 26 座车站已封顶 23 座，供电与信号系统进入联调准备阶段。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-09">10月09日</time>
+        </article>
+        <article class="article-row" data-cat="infra">
+          <div class="row-cat"><span class="chip chip-infra">交通市政</span></div>
+          <div class="row-title">
+            <a href="#articles">中心城区智慧停车新规下周一实施，首小时免费</a>
+            <p class="row-excerpt">路侧泊位差异化计费，核心区首小时免费、之后每小时 8 元起。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-08">10月08日</time>
+        </article>
+        <article class="article-row" data-cat="life">
+          <div class="row-cat"><span class="chip chip-life">民生现场</span></div>
+          <div class="row-title">
+            <a href="#articles">社区食堂经营调查：一餐 12 元如何活下去</a>
+            <p class="row-excerpt">三家门店首次公开成本明细，房租与人工占支出的六成以上。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-08">10月08日</time>
+        </article>
+        <article class="article-row" data-cat="life">
+          <div class="row-cat"><span class="chip chip-life">民生现场</span></div>
+          <div class="row-title">
+            <a href="#articles">老旧小区加装电梯，补贴上限再提高两成</a>
+            <p class="row-excerpt">单台补贴上限由 24 万元提高至 29 万元，审批流程压缩一半。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-07">10月07日</time>
+        </article>
+        <article class="article-row" data-cat="culture">
+          <div class="row-cat"><span class="chip chip-culture">文化</span></div>
+          <div class="row-title">
+            <a href="#articles">独立书店地图 2026 版：这座城市还剩 37 家</a>
+            <p class="row-excerpt">一年间新开 9 家、歇业 12 家，教辅与咖啡成为两条生命线。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-06">10月06日</time>
+        </article>
+        <article class="article-row" data-cat="culture">
+          <div class="row-cat"><span class="chip chip-culture">文化</span></div>
+          <div class="row-title">
+            <a href="#articles">本周城市漫步路线：沿护城河读完六座桥</a>
+            <p class="row-excerpt">六座桥中三座为清代原构，路线全程 6.8 公里，约需三小时。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-05">10月05日</time>
+        </article>
+        <article class="article-row" data-cat="city">
+          <div class="row-cat"><span class="chip chip-city">城市观察</span></div>
+          <div class="row-title">
+            <a href="#articles">一江两岸天际线评审：新高度如何被说服降低</a>
+            <p class="row-excerpt">评审会第三次讨论建筑限高，两栋超高层方案主动下调 40 米。</p>
+          </div>
+          <time class="row-time" datetime="2026-10-07">10月07日</time>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目三栏 -->
+  <section class="section band-white" id="columns" aria-labelledby="columns-title">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-mark" aria-hidden="true"></span>
+        <h2 class="sec-title" id="columns-title">栏目精选</h2>
+        <span class="sec-note">四个常设栏目 / 三位主笔本周轮值</span>
+      </div>
+      <div class="sec-rule" aria-hidden="true"></div>
+      <div class="cols-grid">
+        <article class="col-card">
+          <span class="chip chip-city">城市观察</span>
+          <h3 class="col-name">城市观察</h3>
+          <p class="col-desc">主笔 陶远 / 关注规划、空间与城市决策</p>
+          <div class="col-lead">
+            <h4><a href="#columns">县城改区五年后，那座新城长出了什么</a></h4>
+            <p>五年前撤县设区的那个新城，此刻有了第一条地铁、第一座大型商场，也有了第一栋空置的写字楼。我们回去看了一眼。</p>
+          </div>
+          <ul class="col-links">
+            <li><a href="#columns">开发区通勤专线一年复盘</a></li>
+            <li><a href="#columns">人口流入出现第三个拐点</a></li>
+            <li><a href="#columns">郊区商业体空铺率调查</a></li>
+          </ul>
+        </article>
+        <article class="col-card">
+          <span class="chip chip-life">民生现场</span>
+          <h3 class="col-name">民生现场</h3>
+          <p class="col-desc">主笔 何知微 / 在现场记录具体的人与账本</p>
+          <div class="col-lead">
+            <h4><a href="#columns">供暖季前的最后一次管网检修</a></h4>
+            <p>检修班赶在降温前完成了 41 公里主管道探伤，其中 6 处缺陷被标记为下季度必须处理。跟班十二小时后，我们记下了这份清单。</p>
+          </div>
+          <ul class="col-links">
+            <li><a href="#columns">社区医院夜诊扩容一周记</a></li>
+            <li><a href="#columns">普惠托位缺口还有两万个</a></li>
+            <li><a href="#columns">老楼雨污水管改造记</a></li>
+          </ul>
+        </article>
+        <article class="col-card">
+          <span class="chip chip-culture">文化</span>
+          <h3 class="col-name">文化</h3>
+          <p class="col-desc">主笔 温叙 / 城市记忆、书店、剧场与放映</p>
+          <div class="col-lead">
+            <h4><a href="#columns">城市记忆馆开馆前夜</a></h4>
+            <p>由老电影院改造的城市记忆馆进入布展最后 72 小时，放映厅的原座椅被留下 120 个，其余空间让给了六段社区口述史。</p>
+          </div>
+          <ul class="col-links">
+            <li><a href="#columns">独立书店的第二个冬天</a></li>
+            <li><a href="#columns">社区剧场里的业余剧团</a></li>
+            <li><a href="#columns">露天放映点回归记</a></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 订阅 -->
+  <section class="subscribe" id="subscribe" aria-labelledby="subscribe-title">
+    <div class="container sub-grid">
+      <div>
+        <h2 id="subscribe-title">把这座城市的复杂性，每周讲给你听</h2>
+        <p class="sub-p">每周五早晨，一封邮件送达：当期封面调查全文、四栏精选与数据附录。无需下载，网页即读，随时一键退订。</p>
+        <p class="sub-stats">已有 28,000 位订阅读者 / 被 41 家媒体同行引用 / 会员制支持独立采编</p>
+      </div>
+      <div>
+        <form class="sub-form" id="sub-form" novalidate>
+          <label class="visually-hidden" for="sub-email">电子邮箱地址</label>
+          <input type="email" id="sub-email" name="email" required placeholder="you@example.com" autocomplete="email">
+          <button class="btn btn-dark" type="submit">订阅每周精选</button>
+        </form>
+        <p class="sub-note" id="sub-note" role="status">每周五 07:00 送达 / 仅用于发送周报，不用于任何广告</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 往期 archive -->
+  <section class="section band-white" id="archive" aria-labelledby="archive-title">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-mark" aria-hidden="true"></span>
+        <h2 class="sec-title" id="archive-title">往期回顾</h2>
+        <span class="sec-note">最近六期 / 更早刊期见数字版存档</span>
+      </div>
+      <div class="sec-rule" aria-hidden="true"></div>
+      <div class="archive-list">
+        <article class="archive-row">
+          <span class="arch-no">第 216 期</span>
+          <span class="arch-title"><a href="#archive">高温之后：城市行道树的存活清单</a></span>
+          <span class="arch-chip"><span class="chip chip-life">民生现场</span></span>
+          <time class="arch-date" datetime="2026-10-02">10月02日</time>
+        </article>
+        <article class="archive-row">
+          <span class="arch-no">第 215 期</span>
+          <span class="arch-title"><a href="#archive">夜班公交的最后一公里</a></span>
+          <span class="arch-chip"><span class="chip chip-infra">交通市政</span></span>
+          <time class="arch-date" datetime="2026-09-25">09月25日</time>
+        </article>
+        <article class="archive-row">
+          <span class="arch-no">第 214 期</span>
+          <span class="arch-title"><a href="#archive">一所小学的抗洪日记</a></span>
+          <span class="arch-chip"><span class="chip chip-city">城市观察</span></span>
+          <time class="arch-date" datetime="2026-09-18">09月18日</time>
+        </article>
+        <article class="archive-row">
+          <span class="arch-no">第 213 期</span>
+          <span class="arch-title"><a href="#archive">旧货市场搬迁考：谁带走了一座仓库</a></span>
+          <span class="arch-chip"><span class="chip chip-culture">文化</span></span>
+          <time class="arch-date" datetime="2026-09-11">09月11日</time>
+        </article>
+        <article class="archive-row">
+          <span class="arch-no">第 212 期</span>
+          <span class="arch-title"><a href="#archive">暴雨内涝点复查报告</a></span>
+          <span class="arch-chip"><span class="chip chip-infra">交通市政</span></span>
+          <time class="arch-date" datetime="2026-09-04">09月04日</time>
+        </article>
+        <article class="archive-row">
+          <span class="arch-no">第 211 期</span>
+          <span class="arch-title"><a href="#archive">菜市场的整个夏天：一份物价记录</a></span>
+          <span class="arch-chip"><span class="chip chip-life">民生现场</span></span>
+          <time class="arch-date" datetime="2026-08-28">08月28日</time>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <div class="foot-top">
+      <div>
+        <p class="foot-brand"><span class="brand-mark" aria-hidden="true"></span>城事周报</p>
+        <p class="foot-line">独立新闻周刊 / 创刊于 2019 年 / 每周五出版 / 本页为产品设计样板</p>
+      </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <a href="#hero">头条</a>
+        <a href="#articles">本期文章</a>
+        <a href="#columns">栏目</a>
+        <a href="#subscribe">订阅</a>
+        <a href="#archive">往期</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <p>UI 设计提示词库 / 产品模板 / News/Media Platform</p>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var group = document.getElementById('filter-group');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.article-row'));
+  var countEl = document.getElementById('article-count');
+  if (!group || rows.length === 0) { return; }
+  var btns = Array.prototype.slice.call(group.querySelectorAll('.filter-btn'));
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btns.forEach(function (other) {
+        var active = other === btn;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      var cat = btn.getAttribute('data-cat');
+      var shown = 0;
+      rows.forEach(function (row) {
+        var match = cat === 'all' || row.getAttribute('data-cat') === cat;
+        row.hidden = !match;
+        if (match) { shown += 1; }
+      });
+      if (countEl) {
+        var label = cat === 'all' ? '全部' : btn.textContent.trim();
+        countEl.textContent = label + ' / ' + shown + ' 篇';
+      }
+    });
+  });
+
+  var form = document.getElementById('sub-form');
+  var note = document.getElementById('sub-note');
+  if (form && note) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var input = document.getElementById('sub-email');
+      if (!input.value || input.validity && !input.checkValidity()) {
+        note.textContent = '请填写有效的电子邮箱地址';
+        input.focus();
+        return;
+      }
+      note.textContent = '订阅成功 / 首期周报将于本周五 07:00 送达你的邮箱';
+      input.disabled = true;
+      form.querySelector('button').disabled = true;
+    });
+  }
+})();
+</script>
+</body>
+</html>

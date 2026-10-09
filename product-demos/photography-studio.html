@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="婚礼摄影工作室拾光纪模板:作品精选、拍摄日全流程、三档套系与 2026 档期查询,黑白银盐基调的叙事式单页。">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Photography Studio / UI 设计提示词库</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* token 计划:官方色板 背景纯黑 #000000 / 前景 #FAFAFA(19:1) / 卡片 #0C0C0C / 描边 #3F3F46 / 次区块底 #181818 / Primary #18181B / 按钮用 accent 白 #F8FAFC 底黑字(19:1) / 焦点环白 #FFFFFF / 次级文字 #A1A1AA(黑底 8.4:1),黑白银盐基调,Swiss 分栏 + 大留白 + 细线分区,衬线展示字 Noto Serif SC 900 表达优雅极简,正文 Noto Sans SC,圆角 4/999,单次亮相:首屏文案一次升起 + 主图揭幕,卡片零入场动画 */
+:root {
+  --primary: #18181B; --on-primary: #FFFFFF; --secondary: #27272A; --accent: #F8FAFC;
+  --bg: #000000; --fg: #FAFAFA; --card: #0C0C0C; --border: #3F3F46; --muted: #181818;
+  --ring: #FFFFFF; --fg-dim: #A1A1AA; --line-soft: #52525B;
+  --radius: 4px; --pill: 999px;
+  --font-display: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--fg); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--fg); color: var(--bg); }
+
+a { color: var(--fg); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; border-radius: var(--radius); }
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap; }
+
+/* ============ 顶栏 ============ */
+.site-head { position: sticky; top: 0; z-index: 60; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); transition: box-shadow 0.2s ease; }
+.site-head.scrolled { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55); }
+.head-inner { display: flex; align-items: center; gap: 32px; padding: 16px 0; }
+.brand { display: flex; flex-direction: column; text-decoration: none; line-height: 1.25; }
+.brand-name { font-family: var(--font-display); font-weight: 900; font-size: 21px; color: var(--fg); letter-spacing: 0.06em; }
+.brand-sub { font-size: 12px; color: var(--fg-dim); letter-spacing: 0.04em; }
+.nav { display: flex; gap: 26px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a { color: var(--fg-dim); text-decoration: none; font-size: 14.5px; font-weight: 500; white-space: nowrap; transition: color 0.15s ease; }
+.nav a:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 6px; }
+.head-cta { display: inline-flex; align-items: center; padding: 9px 20px; border-radius: var(--pill); background: var(--accent); color: #000000; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.head-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(248, 250, 252, 0.16); text-decoration: none; }
+
+/* ============ 首屏 ============ */
+.hero { position: relative; overflow: hidden; padding: 96px 0 88px; border-bottom: 1px solid var(--border); }
+.hero-glow { position: absolute; inset: 0; pointer-events: none; }
+.hero-glow::before { content: ""; position: absolute; top: -220px; right: -120px; width: 560px; height: 560px; border-radius: 50%; background: radial-gradient(circle, rgba(248, 250, 252, 0.10), transparent 65%); }
+.hero-glow::after { content: ""; position: absolute; bottom: -240px; left: -140px; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(248, 250, 252, 0.05), transparent 62%); }
+.hero-grid { position: relative; display: grid; grid-template-columns: 1fr 0.92fr; gap: 64px; align-items: center; }
+.eyebrow { color: var(--fg-dim); font-size: 14px; letter-spacing: 0.06em; }
+.hero h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.4rem, 5vw, 3.9rem); line-height: 1.22; letter-spacing: 0.01em; margin-top: 20px; }
+.hero-sub { color: var(--fg-dim); font-size: 16.5px; line-height: 1.95; max-width: 33em; margin-top: 22px; }
+.hero-sub strong { color: var(--fg); font-weight: 700; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 13px 30px; border-radius: var(--pill); font-family: var(--font-body); font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
+.btn-primary { background: var(--accent); color: #000000; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(248, 250, 252, 0.18); text-decoration: none; }
+.btn-ghost { background: transparent; color: var(--fg); border: 1.5px solid var(--line-soft); }
+.btn-ghost:hover { border-color: var(--fg); transform: translateY(-2px); text-decoration: none; }
+.hero-meta { margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13.5px; color: var(--fg-dim); letter-spacing: 0.03em; }
+.hero-art { position: relative; margin: 0; }
+.hero-photo { border: 1px solid var(--line-soft); padding: 10px; background: var(--card); }
+.hero-photo svg { display: block; width: 100%; height: auto; overflow: hidden; }
+.hero-snap { position: absolute; right: -26px; bottom: -34px; width: 168px; border: 1px solid var(--line-soft); padding: 8px; background: var(--card); box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6); }
+.hero-snap svg { display: block; width: 100%; height: auto; }
+
+/* 一次亮相:仅首屏出场,其余区块零入场动画 */
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes unveil { from { opacity: 0; clip-path: inset(10% 8% 10% 8%); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.06); } }
+.hero-copy { animation: rise 0.8s cubic-bezier(0.22, 0.7, 0.25, 1) both; }
+.hero-art { animation: unveil 1.1s cubic-bezier(0.22, 0.7, 0.25, 1) 0.12s both; }
+.hero-photo svg { animation: kenburns 16s ease-in-out infinite alternate; transform-origin: 50% 42%; }
+
+/* ============ 区块通用 ============ */
+.section { padding: 100px 0; }
+.section-alt { background: var(--muted); border-bottom: 1px solid var(--border); }
+.section[id] { scroll-margin-top: 76px; }
+.sec-head { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: baseline; margin-bottom: 56px; }
+.sec-index { font-family: var(--font-display); font-weight: 900; font-size: 15px; color: var(--fg-dim); letter-spacing: 0.08em; }
+.sec-head h2 { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.8rem, 3.1vw, 2.5rem); line-height: 1.3; }
+.sec-note { grid-column: 1 / -1; max-width: 640px; color: var(--fg-dim); line-height: 1.9; font-size: 15.5px; margin-top: -26px; }
+
+/* ============ 作品精选 ============ */
+.works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.work-card { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.18s ease; }
+.work-card:hover { border-color: var(--line-soft); }
+.work-frame { overflow: hidden; border-bottom: 1px solid var(--border); }
+.work-frame svg { display: block; width: 100%; height: auto; transition: transform 0.5s cubic-bezier(0.22, 0.7, 0.25, 1); }
+.work-card:hover .work-frame svg { transform: scale(1.045); }
+.work-info { display: flex; flex-direction: column; flex: 1; padding: 20px 22px 22px; }
+.work-info h3 { font-family: var(--font-display); font-weight: 700; font-size: 18.5px; letter-spacing: 0.02em; }
+.work-pair { font-size: 13px; color: var(--fg-dim); margin-top: 4px; letter-spacing: 0.03em; }
+.work-story { color: var(--fg-dim); font-size: 14.5px; line-height: 1.85; margin-top: 10px; }
+.work-meta { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--fg-dim); letter-spacing: 0.03em; }
+
+/* ============ 拍摄日流程 ============ */
+.day-list { border-top: 1px solid var(--border); }
+.day-row { display: grid; grid-template-columns: 120px 200px 1fr 96px; gap: 28px; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--border); }
+.day-time { font-family: var(--font-display); font-weight: 700; font-size: 21px; color: var(--fg); letter-spacing: 0.04em; }
+.day-name { font-size: 16px; font-weight: 700; }
+.day-name small { display: block; font-weight: 400; font-size: 12.5px; color: var(--fg-dim); margin-top: 3px; letter-spacing: 0.04em; }
+.day-desc { color: var(--fg-dim); font-size: 14.5px; line-height: 1.85; }
+.day-fig { margin: 0; }
+.day-fig svg { display: block; width: 64px; height: 64px; }
+.day-note { margin-top: 26px; padding: 18px 22px; border: 1px solid var(--border); border-radius: var(--radius); color: var(--fg-dim); font-size: 14px; line-height: 1.85; }
+.day-note strong { color: var(--fg); }
+
+/* ============ 套餐 ============ */
+.plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: stretch; }
+.plan-card { position: relative; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); padding: 34px 30px 30px; }
+.plan-card.feature { border-color: var(--fg); }
+.plan-flag { position: absolute; top: -13px; left: 26px; padding: 4px 14px; background: var(--accent); color: #000000; font-size: 12.5px; font-weight: 700; border-radius: var(--pill); letter-spacing: 0.04em; }
+.plan-name { font-family: var(--font-display); font-weight: 900; font-size: 23px; letter-spacing: 0.04em; }
+.plan-for { color: var(--fg-dim); font-size: 13.5px; margin-top: 6px; }
+.plan-price { font-family: var(--font-display); font-weight: 900; font-size: 34px; margin-top: 20px; letter-spacing: 0.01em; }
+.plan-price small { font-family: var(--font-body); font-weight: 400; font-size: 13px; color: var(--fg-dim); margin-left: 6px; letter-spacing: 0.02em; }
+.plan-list { list-style: none; margin: 22px 0 26px; display: flex; flex-direction: column; gap: 11px; flex: 1; }
+.plan-list li { position: relative; padding-left: 20px; color: var(--fg-dim); font-size: 14.5px; line-height: 1.7; }
+.plan-list li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 10px; height: 1px; background: var(--fg-dim); }
+.plan-list li strong { color: var(--fg); font-weight: 700; }
+.plan-btn { margin-top: auto; width: 100%; }
+
+/* ============ 档期查询 ============ */
+.book-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
+.book-copy p { color: var(--fg-dim); line-height: 1.95; font-size: 15.5px; }
+.book-copy p + p { margin-top: 14px; }
+.book-copy strong { color: var(--fg); }
+.book-form { display: flex; flex-direction: column; gap: 18px; margin-top: 30px; padding: 26px; border: 1px solid var(--border); background: var(--card); }
+.field label { display: block; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.03em; }
+.field select { width: 100%; padding: 12px 14px; background: #000000; color: var(--fg); border: 1px solid var(--line-soft); border-radius: var(--radius); font-family: var(--font-body); font-size: 15px; cursor: pointer; }
+.field select:hover { border-color: var(--fg-dim); }
+.cal-panel { border: 1px solid var(--border); background: var(--card); padding: 26px; }
+.cal-sum { font-size: 14px; color: var(--fg-dim); line-height: 1.8; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.cal-sum strong { color: var(--fg); font-weight: 700; }
+.cal-week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 18px; }
+.cal-week span { text-align: center; font-size: 12.5px; color: var(--fg-dim); letter-spacing: 0.06em; }
+.cal-body { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 8px; }
+.cal-cell { aspect-ratio: 1 / 0.82; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 1px solid transparent; }
+.cal-pad { visibility: hidden; }
+.cal-free { border-color: var(--fg); color: var(--fg); font-weight: 700; }
+.cal-held { background: #26262B; color: var(--fg-dim); }
+.cal-legend { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 18px; font-size: 12.5px; color: var(--fg-dim); }
+.cal-legend i { display: inline-block; width: 11px; height: 11px; margin-right: 7px; vertical-align: -1px; }
+.cal-legend .lg-free { border: 1px solid var(--fg); }
+.cal-legend .lg-held { background: #26262B; }
+
+/* ============ 页脚 ============ */
+.site-foot { border-top: 1px solid var(--border); background: var(--muted); }
+.foot-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 44px; padding: 64px 0 48px; }
+.foot-brand .brand-name { font-size: 24px; }
+.foot-brand p { color: var(--fg-dim); font-size: 14px; line-height: 1.9; margin-top: 14px; max-width: 30em; }
+.foot-col h3 { font-size: 13.5px; font-weight: 700; letter-spacing: 0.05em; color: var(--fg); margin-bottom: 16px; }
+.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.foot-col a, .foot-col span { color: var(--fg-dim); font-size: 14px; text-decoration: none; }
+.foot-col a:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 5px; }
+.foot-base { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 22px 0; border-top: 1px solid var(--border); font-size: 13px; color: var(--fg-dim); }
+.foot-base a { color: var(--fg); text-decoration: underline; text-underline-offset: 4px; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 72px; }
+  .hero-art { max-width: 520px; }
+  .hero-snap { right: -8px; }
+  .day-row { grid-template-columns: 96px 1fr 72px; }
+  .day-desc { grid-column: 1 / -1; margin-top: -4px; }
+  .book-grid { grid-template-columns: 1fr; gap: 44px; }
+}
+@media (max-width: 768px) {
+  .head-cta { display: none; }
+  .hero { padding: 72px 0 68px; }
+  .section { padding: 72px 0; }
+  .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .plans-grid { grid-template-columns: 1fr; max-width: 460px; }
+  .day-row { grid-template-columns: 84px 1fr 64px; gap: 18px; }
+  .foot-grid { grid-template-columns: 1fr; gap: 36px; padding: 52px 0 36px; }
+  .hero-snap { width: 130px; bottom: -26px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 20px; }
+  .works-grid { grid-template-columns: 1fr; }
+  .sec-head { grid-template-columns: 1fr; gap: 10px; }
+  .sec-note { margin-top: 0; }
+  .day-row { grid-template-columns: 1fr 64px; }
+  .day-time { grid-column: 1 / -1; }
+  .day-snap-hide { display: none; }
+  .day-row { padding: 22px 0; }
+  .cal-panel { padding: 18px; }
+  .cal-cell { font-size: 13px; }
+}
+
+/* ============ 动效降级 ============ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .hero-copy, .hero-art { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="container">
+    <div class="head-inner">
+      <a class="brand" href="#top" aria-label="拾光纪,页面顶部">
+        <span class="brand-name">拾光纪</span>
+        <span class="brand-sub">婚礼摄影工作室 / 杭州</span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#works">作品精选</a>
+        <a href="#day">拍摄日</a>
+        <a href="#plans">套系</a>
+        <a href="#booking">档期</a>
+      </nav>
+      <a class="head-cta" href="#booking">查询 2026 档期</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ 首屏 ============ -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">婚礼纪实摄影 / 银盐胶片 / Since 2015</p>
+          <h1>你只管相爱,<br>光交给我们</h1>
+          <p class="hero-sub">拾光纪是驻杭州的婚礼摄影工作室,三位主创立志每年最多承接 <strong>60 场</strong>委托。从清晨六点的造型间到午夜的最后一场舞,我们以纪实与胶片并行的双机位,替你保管这一天里来不及看清的瞬间。</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#works">查看作品精选</a>
+            <a class="btn btn-ghost" href="#booking">查询 2026 档期</a>
+          </div>
+          <p class="hero-meta">11 年婚礼纪录 / 640 余场委托 / 23 座城市跟拍 / 胶片数码双交付</p>
+        </div>
+        <figure class="hero-art">
+          <div class="hero-photo">
+            <svg viewBox="0 0 480 600" role="img" aria-label="逆光窗前的新娘剪影,银盐黑白构图占位">
+              <defs>
+                <linearGradient id="hp-sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3F3F46"/>
+                  <stop offset="0.52" stop-color="#18181B"/>
+                  <stop offset="1" stop-color="#000000"/>
+                </linearGradient>
+                <radialGradient id="hp-glow" cx="0.7" cy="0.26" r="0.58">
+                  <stop offset="0" stop-color="#FAFAFA" stop-opacity="0.20"/>
+                  <stop offset="1" stop-color="#FAFAFA" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="480" height="600" fill="url(#hp-sky)"/>
+              <rect width="480" height="600" fill="url(#hp-glow)"/>
+              <path d="M332 0 V600" stroke="#3F3F46" stroke-width="2" opacity="0.65"/>
+              <path d="M332 196 H480" stroke="#3F3F46" stroke-width="2" opacity="0.5"/>
+              <path d="M416 196 V0" stroke="#3F3F46" stroke-width="1.4" opacity="0.4"/>
+              <rect y="524" width="480" height="76" fill="#FAFAFA" opacity="0.03"/>
+              <g fill="#09090B">
+                <circle cx="172" cy="298" r="30"/>
+                <path d="M138 336 c-9 36 -13 80 -10 130 c2 42 8 68 15 80 h62 c8 -14 14 -42 16 -82 c3 -50 -2 -96 -12 -128 c-11 -7 -29 -9 -45 -6 z"/>
+                <path d="M198 284 c56 28 80 100 68 184 c-8 54 -27 100 -50 136 l36 0 c32 -42 52 -96 58 -156 c8 -82 -14 -154 -64 -190 z" opacity="0.82"/>
+                <path d="M136 300 c-30 24 -42 66 -36 116 c4 34 16 62 32 84 l-16 0 c-20 -24 -32 -56 -36 -94 c-6 -56 10 -104 42 -132 z" opacity="0.6"/>
+              </g>
+              <g fill="#18181B" stroke="#52525B" stroke-width="1">
+                <circle cx="238" cy="436" r="7"/>
+                <circle cx="252" cy="442" r="5"/>
+                <circle cx="247" cy="430" r="4"/>
+              </g>
+              <ellipse cx="240" cy="556" rx="86" ry="7" fill="#FAFAFA" opacity="0.05"/>
+            </svg>
+          </div>
+          <div class="hero-snap" aria-hidden="true">
+            <svg viewBox="0 0 180 120" role="img" aria-label="婚戒与亚麻布的静物特写占位">
+              <rect width="180" height="120" fill="#18181B"/>
+              <path d="M0 96 h180" stroke="#3F3F46" stroke-width="1"/>
+              <circle cx="76" cy="52" r="22" fill="none" stroke="#A1A1AA" stroke-width="2.6"/>
+              <circle cx="104" cy="58" r="22" fill="none" stroke="#52525B" stroke-width="2"/>
+              <path d="M104 30 l5 8 -5 8 -5 -8 z" fill="#FAFAFA"/>
+              <ellipse cx="90" cy="98" rx="52" ry="5" fill="#000000" opacity="0.6"/>
+            </svg>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 作品精选 ============ -->
+  <section id="works" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-index">01</span>
+        <h2>作品精选</h2>
+        <p class="sec-note">每一张照片背后都有一段只属于两个人的时辰。这里选录了六段我们被允许讲述的故事,均为新人授权的成片构图。</p>
+      </div>
+      <div class="works-grid">
+
+        <article class="work-card">
+          <div class="work-frame">
+            <svg viewBox="0 0 400 500" role="img" aria-label="晨雾湖面与船头回望,构图占位">
+              <defs>
+                <linearGradient id="wk1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3F3F46"/>
+                  <stop offset="0.55" stop-color="#18181B"/>
+                  <stop offset="1" stop-color="#09090B"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="500" fill="url(#wk1)"/>
+              <circle cx="292" cy="128" r="58" fill="#FAFAFA" opacity="0.08"/>
+              <path d="M0 344 h400" stroke="#52525B" stroke-width="1" opacity="0.6"/>
+              <path d="M0 396 q 110 -18 208 4 t 192 -8" stroke="#52525B" fill="none" opacity="0.45"/>
+              <path d="M58 500 c 6 -74 -2 -108 12 -150" stroke="#71717A" stroke-width="1.6" fill="none"/>
+              <path d="M82 500 c 7 -62 -3 -92 13 -128" stroke="#71717A" stroke-width="1.2" fill="none" opacity="0.7"/>
+              <path d="M162 392 q 34 -10 70 0 l -10 12 h -50 z" fill="#000000"/>
+              <circle cx="192" cy="376" r="9" fill="#000000"/>
+              <path d="M196 372 q 20 -14 36 -8" stroke="#000000" stroke-width="3" fill="none"/>
+            </svg>
+          </div>
+          <div class="work-info">
+            <h3>雾起西溪</h3>
+            <p class="work-pair">陈屿 / 林晚 / 2026 年 4 月 / 杭州 西溪</p>
+            <p class="work-story">清晨六点的薄雾还没散,她在船头回头,头纱被风掀起一角。我们收起引导,只把船速放慢了半拍。</p>
+            <p class="work-meta">纪实双机位 / 交付 96 张 / 胶片 3 卷</p>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-frame">
+            <svg viewBox="0 0 400 500" role="img" aria-label="教堂拱窗与斜落的光束,构图占位">
+              <rect width="400" height="500" fill="#09090B"/>
+              <path d="M118 420 V210 a82 82 0 0 1 164 0 V420" fill="none" stroke="#52525B" stroke-width="2.4"/>
+              <path d="M200 128 V420" stroke="#3F3F46" stroke-width="1.6"/>
+              <path d="M118 254 h164" stroke="#3F3F46" stroke-width="1.2" opacity="0.7"/>
+              <polygon points="196,140 236,140 312,420 252,420" fill="#FAFAFA" opacity="0.08"/>
+              <rect y="420" width="400" height="80" fill="#18181B"/>
+              <path d="M150 452 h200" stroke="#52525B" stroke-width="1" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="work-info">
+            <h3>拱窗之下</h3>
+            <p class="work-pair">沈叙 / 周眠 / 2025 年 10 月 / 良渚 教堂</p>
+            <p class="work-story">誓言只有三分钟。阳光从拱窗斜进来,恰好落在两只交握的手上,像一场提前彩排过的奇迹。</p>
+            <p class="work-meta">仪式单机位 / 交付 74 张 / 预告片 60 秒</p>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-frame">
+            <svg viewBox="0 0 400 500" role="img" aria-label="树林间背对而立的新人剪影,构图占位">
+              <rect width="400" height="500" fill="#18181B"/>
+              <rect width="400" height="500" fill="none"/>
+              <ellipse cx="200" cy="150" rx="150" ry="90" fill="#FAFAFA" opacity="0.05"/>
+              <path d="M70 0 v500 M330 0 v500" stroke="#27272A" stroke-width="10"/>
+              <path d="M96 0 q 60 190 0 500 M304 0 q -60 190 0 500" stroke="#09090B" stroke-width="14" fill="none"/>
+              <g fill="#09090B">
+                <circle cx="152" cy="252" r="21"/>
+                <path d="M132 282 c-7 30 -10 66 -8 112 c14 8 42 8 56 0 c3 -46 0 -82 -9 -112 z"/>
+                <path d="M170 240 q 30 22 26 78" stroke="#09090B" stroke-width="7" fill="none"/>
+                <circle cx="248" cy="246" r="23"/>
+                <path d="M226 278 c-8 32 -11 70 -9 118 c15 9 45 9 60 0 c3 -48 0 -86 -10 -118 z"/>
+              </g>
+              <path d="M0 402 h400" stroke="#3F3F46" stroke-width="1.4"/>
+              <rect y="402" width="400" height="98" fill="#09090B" opacity="0.55"/>
+            </svg>
+          </div>
+          <div class="work-info">
+            <h3>First Look</h3>
+            <p class="work-pair">顾迟 / 苏一苇 / 2025 年 9 月 / 莫干山</p>
+            <p class="work-story">转过身之前,他深呼吸了三次。我们没有打扰,只退后两步,留住那半秒钟的怔忡。</p>
+            <p class="work-meta">自然光纪实 / 交付 88 张 / 黑白占比四成</p>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-frame">
+            <svg viewBox="0 0 400 500" role="img" aria-label="栀子手捧花的放射特写,构图占位">
+              <rect width="400" height="500" fill="#09090B"/>
+              <circle cx="200" cy="208" r="120" fill="#18181B"/>
+              <g fill="none" stroke="#A1A1AA" stroke-width="1.4">
+                <ellipse cx="200" cy="120" rx="22" ry="34"/>
+                <ellipse cx="200" cy="296" rx="22" ry="34"/>
+                <ellipse cx="112" cy="208" rx="34" ry="22"/>
+                <ellipse cx="288" cy="208" rx="34" ry="22"/>
+                <ellipse cx="138" cy="146" rx="20" ry="30" transform="rotate(-45 138 146)"/>
+                <ellipse cx="262" cy="146" rx="20" ry="30" transform="rotate(45 262 146)"/>
+                <ellipse cx="138" cy="270" rx="20" ry="30" transform="rotate(45 138 270)"/>
+                <ellipse cx="262" cy="270" rx="20" ry="30" transform="rotate(-45 262 270)"/>
+              </g>
+              <circle cx="200" cy="208" r="26" fill="#FAFAFA" opacity="0.14"/>
+              <circle cx="200" cy="208" r="9" fill="#A1A1AA"/>
+              <path d="M200 330 c 6 44 -8 90 4 130" stroke="#52525B" stroke-width="2" fill="none"/>
+              <path d="M204 384 q 30 10 34 40 M198 412 q -26 8 -30 36" stroke="#52525B" stroke-width="1.4" fill="none" opacity="0.7"/>
+            </svg>
+          </div>
+          <div class="work-info">
+            <h3>无名的花</h3>
+            <p class="work-pair">江声 / 何栖 / 2026 年 5 月 / 苏州 园林宅院</p>
+            <p class="work-story">手捧花里的栀子摘自新娘外婆的庭院。特写里能看见别进去的一枝迷迭香,那是外婆的手笔。</p>
+            <p class="work-meta">微距静物 / 交付 61 张 / 胶片 2 卷</p>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-frame">
+            <svg viewBox="0 0 400 500" role="img" aria-label="晚宴灯串与长桌,构图占位">
+              <defs>
+                <linearGradient id="wk5" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#27272A"/>
+                  <stop offset="1" stop-color="#09090B"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="500" fill="url(#wk5)"/>
+              <path d="M-10 70 Q 200 190 410 70" stroke="#3F3F46" stroke-width="1.4" fill="none"/>
+              <path d="M-10 130 Q 200 250 410 130" stroke="#3F3F46" stroke-width="1.2" fill="none" opacity="0.8"/>
+              <g fill="#FAFAFA">
+                <circle cx="70" cy="106" r="3.4" opacity="0.9"/><circle cx="130" cy="128" r="2.2" opacity="0.55"/>
+                <circle cx="196" cy="138" r="4" opacity="0.95"/><circle cx="258" cy="128" r="2.4" opacity="0.6"/>
+                <circle cx="322" cy="106" r="3.2" opacity="0.85"/><circle cx="100" cy="176" r="2.6" opacity="0.7"/>
+                <circle cx="200" cy="198" r="3.6" opacity="0.9"/><circle cx="300" cy="176" r="2" opacity="0.5"/>
+              </g>
+              <rect x="52" y="330" width="296" height="10" fill="#18181B" stroke="#3F3F46" stroke-width="1"/>
+              <rect x="70" y="322" width="42" height="8" fill="#09090B" stroke="#52525B" stroke-width="1"/>
+              <rect x="288" y="322" width="42" height="8" fill="#09090B" stroke="#52525B" stroke-width="1"/>
+              <path d="M52 352 h296" stroke="#52525B" stroke-width="1" opacity="0.5"/>
+              <path d="M0 420 h400" stroke="#3F3F46" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="work-info">
+            <h3>长桌与灯</h3>
+            <p class="work-pair">段砚 / 祝宁 / 2025 年 12 月 / 杭州 湖畔晚宴</p>
+            <p class="work-story">两百盏灯亮起来的那一秒,整桌人都安静了一拍,然后举杯。我们把快门留在安静与举杯之间。</p>
+            <p class="work-meta">晚宴全程 / 交付 132 张 / 灯光实测样张</p>
+          </div>
+        </article>
+
+        <article class="work-card">
+          <div class="work-frame">
+            <svg viewBox="0 0 400 500" role="img" aria-label="舞池斜光带下的旋转剪影,构图占位">
+              <rect width="400" height="500" fill="#09090B"/>
+              <polygon points="150,0 250,0 340,500 60,500" fill="#FAFAFA" opacity="0.06"/>
+              <polygon points="196,0 226,0 292,500 132,500" fill="#FAFAFA" opacity="0.05"/>
+              <g fill="#000000">
+                <circle cx="186" cy="270" r="19"/>
+                <path d="M170 296 c-6 28 -9 62 -7 104 c12 8 36 8 48 0 c2 -42 0 -76 -8 -104 z"/>
+                <circle cx="222" cy="262" r="20"/>
+                <path d="M206 290 c-7 30 -10 66 -8 110 c13 9 39 9 52 0 c2 -44 0 -80 -9 -110 z"/>
+              </g>
+              <path d="M205 244 q 26 -18 44 -2" stroke="#000000" stroke-width="5" fill="none"/>
+              <path d="M0 416 h400" stroke="#3F3F46" stroke-width="1.4"/>
+              <ellipse cx="204" cy="446" rx="96" ry="8" fill="#FAFAFA" opacity="0.04"/>
+            </svg>
+          </div>
+          <div class="work-info">
+            <h3>最后一支舞</h3>
+            <p class="work-pair">闻笛 / 陆则 / 2026 年 1 月 / 上海 外滩源</p>
+            <p class="work-story">舞池只剩他们两个人。慢门里,所有的旋转被收进一道拉长的光,像这一天最后的签名。</p>
+            <p class="work-meta">慢门实验 / 交付 58 张 / 附赠原片序列</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 拍摄日流程 ============ -->
+  <section id="day" class="section section-alt">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-index">02</span>
+        <h2>拍摄日这一天</h2>
+        <p class="sec-note">一场婚礼没有重来。这是我们沿用十一年的当日节奏,精确到小时,只为在每一个不可复制的时刻都恰好站在光里。</p>
+      </div>
+      <div class="day-list">
+        <div class="day-row">
+          <p class="day-time">06:30</p>
+          <div class="day-name">晨间准备<small>造型间 / 90 分钟</small></div>
+          <p class="day-desc">头纱、婚书、戒指与熨平的衬衫,自然光定调全天影调。造型师与母亲的手都会被记录。</p>
+          <figure class="day-fig day-snap-hide" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="#A1A1AA" stroke-width="1.6">
+              <ellipse cx="32" cy="30" rx="17" ry="21"/>
+              <path d="M32 9 v42"/>
+              <path d="M14 56 h36"/>
+            </svg>
+          </figure>
+        </div>
+        <div class="day-row">
+          <p class="day-time">10:18</p>
+          <div class="day-name">仪式时刻<small>双机位 / 约 40 分钟</small></div>
+          <p class="day-desc">固定机位守住全景,游机贴近情绪。誓言、交换戒指与父母的反应,一个都不落下。</p>
+          <figure class="day-fig day-snap-hide" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="#A1A1AA" stroke-width="1.6">
+              <path d="M18 48 V30 a14 14 0 0 1 28 0 V48"/>
+              <path d="M32 16 V48"/>
+              <path d="M12 52 h40"/>
+            </svg>
+          </figure>
+        </div>
+        <div class="day-row">
+          <p class="day-time">15:00</p>
+          <div class="day-name">外景漫步<small>一小时 / 两人独处</small></div>
+          <p class="day-desc">不摆拍,只引导。我们把你们带到光最好的地方,然后像朋友一样走在后面,等你们忘记镜头。</p>
+          <figure class="day-fig day-snap-hide" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="#A1A1AA" stroke-width="1.6">
+              <path d="M8 48 L22 26 L30 36 L40 22 L52 48"/>
+              <circle cx="46" cy="14" r="5"/>
+              <path d="M8 52 h48"/>
+            </svg>
+          </figure>
+        </div>
+        <div class="day-row">
+          <p class="day-time">18:30</p>
+          <div class="day-name">晚宴记录<small>灯光 / 致辞 / 首支舞</small></div>
+          <p class="day-desc">提前两小时测灯,致辞走备用录音,首支舞与抛捧花各预留双卡双电,不怕一万。</p>
+          <figure class="day-fig day-snap-hide" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="#A1A1AA" stroke-width="1.6">
+              <path d="M32 8 v10"/>
+              <path d="M22 30 L42 30 L32 18 z"/>
+              <path d="M14 40 l6 6 M50 40 l-6 6 M32 44 v8"/>
+              <path d="M12 56 h40"/>
+            </svg>
+          </figure>
+        </div>
+        <div class="day-row">
+          <p class="day-time">22:00</p>
+          <div class="day-name">深夜送客<small>冷焰 / 保姆车</small></div>
+          <p class="day-desc">最后一卷胶片留给车尾灯与冷焰。宾客散尽后的空场,我们也会拍一张,给这一天收尾。</p>
+          <figure class="day-fig day-snap-hide" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="#A1A1AA" stroke-width="1.6">
+              <path d="M20 18 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z"/>
+              <path d="M44 34 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z"/>
+              <path d="M8 54 q24 -10 48 0"/>
+            </svg>
+          </figure>
+        </div>
+      </div>
+      <p class="day-note"><strong>预算充足的备选:</strong>加订婚前纪录半日,把请柬手写、试菜与彩排一并入册,婚礼当天成片会因此多出一条完整的来路。</p>
+    </div>
+  </section>
+
+  <!-- ============ 套餐 ============ -->
+  <section id="plans" class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-index">03</span>
+        <h2>三档套系</h2>
+        <p class="sec-note">价格按 2026 年华东地区行情制定,均为双摄影师起步以外的诚实配置。旺季周末请以档期查询结果为准。</p>
+      </div>
+      <div class="plans-grid">
+        <article class="plan-card">
+          <h3 class="plan-name">轻语</h3>
+          <p class="plan-for">适合领证跟拍与三十人内的小型仪式</p>
+          <p class="plan-price">8,800<small>元 / 场</small></p>
+          <ul class="plan-list">
+            <li>单摄影师 <strong>8 小时</strong>当日跟拍</li>
+            <li>数码原片 <strong>400 张</strong>以上,精修 60 张</li>
+            <li>线上交付,含电子相册排版一套</li>
+            <li>可加购胶片两卷,含冲洗扫描</li>
+          </ul>
+          <a class="btn btn-ghost plan-btn" href="#booking">查询轻语档期</a>
+        </article>
+        <article class="plan-card feature">
+          <span class="plan-flag">最受新人选择</span>
+          <h3 class="plan-name">良辰</h3>
+          <p class="plan-for">完整婚礼日,从晨间造型到晚宴首舞</p>
+          <p class="plan-price">15,800<small>元 / 场</small></p>
+          <ul class="plan-list">
+            <li>双摄影师 <strong>12 小时</strong>全程纪录</li>
+            <li>数码原片 <strong>700 张</strong>以上,精修 120 张</li>
+            <li>胶片 <strong>5 卷</strong>,含冲洗与专业扫描</li>
+            <li>12 英寸手工装订相册一本</li>
+            <li>90 秒婚礼预告短片</li>
+          </ul>
+          <a class="btn btn-primary plan-btn" href="#booking">查询良辰档期</a>
+        </article>
+        <article class="plan-card">
+          <h3 class="plan-name">长卷</h3>
+          <p class="plan-for">从婚前纪录到婚礼当天的完整长卷</p>
+          <p class="plan-price">26,800<small>元 / 全案</small></p>
+          <ul class="plan-list">
+            <li>双摄影师加摄像师,<strong>不限时长</strong></li>
+            <li>婚前纪录半日与彩排跟拍</li>
+            <li>精修 <strong>200 张</strong>,胶片 10 卷全交付</li>
+            <li>定制亚克力装裱主视觉一幅</li>
+            <li>三分钟婚礼成片与花絮</li>
+          </ul>
+          <a class="btn btn-ghost plan-btn" href="#booking">查询长卷档期</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 档期查询 ============ -->
+  <section id="booking" class="section section-alt">
+    <div class="container">
+      <div class="sec-head">
+        <span class="sec-index">04</span>
+        <h2>2026 档期查询</h2>
+        <p class="sec-note">我们每年最多承接 60 场委托,旺季周末通常提前八到十个月约满。选择意向月份与城市,立即查看剩余档期。</p>
+      </div>
+      <div class="book-grid">
+        <div class="book-copy">
+          <p>选择月份与城市后,右侧会给出当月日历:<strong>描边空心为可约,实心为已约</strong>。找到心仪日期后,带上年份与日期联系我们,48 小时内回复完整套系方案。</p>
+          <p>若心仪月份已约满,可以登记候补。每年三月与九月我们各有一次因场地变更释放档期的情况,候补名单会第一时间收到通知。</p>
+          <form class="book-form" id="bookForm">
+            <div class="field">
+              <label for="monthSel">意向月份</label>
+              <select id="monthSel" name="month">
+                <option value="2026-05">2026 年 5 月</option>
+                <option value="2026-06">2026 年 6 月</option>
+                <option value="2026-07">2026 年 7 月</option>
+                <option value="2026-08">2026 年 8 月</option>
+                <option value="2026-09">2026 年 9 月</option>
+                <option value="2026-10">2026 年 10 月</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="citySel">拍摄城市</label>
+              <select id="citySel" name="city">
+                <option value="杭州">杭州及周边</option>
+                <option value="苏州">苏州及周边</option>
+                <option value="莫干山">莫干山与湖州</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">查询档期</button>
+          </form>
+        </div>
+        <div class="cal-panel">
+          <p class="cal-sum" id="calSum" aria-live="polite">正在载入档期数据</p>
+          <div class="cal-week" aria-hidden="true">
+            <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+          </div>
+          <div class="cal-body" id="calBody"></div>
+          <div class="cal-legend">
+            <span><i class="lg-free"></i>可约</span>
+            <span><i class="lg-held"></i>已约</span>
+            <span>无标记为待确认</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="brand-name">拾光纪</p>
+        <p>驻杭州的婚礼摄影工作室,三位主创,每年最多六十场委托。银盐与像素并行,替时间保管你来不及看清的瞬间。</p>
+      </div>
+      <nav class="foot-col" aria-label="页脚导航">
+        <h3>导览</h3>
+        <ul>
+          <li><a href="#works">作品精选</a></li>
+          <li><a href="#day">拍摄日流程</a></li>
+          <li><a href="#plans">三档套系</a></li>
+          <li><a href="#booking">2026 档期查询</a></li>
+        </ul>
+      </nav>
+      <div class="foot-col">
+        <h3>预约咨询</h3>
+        <ul>
+          <li><span>微信 / shiguangji2015</span></li>
+          <li><span>邮箱 / hello@shiguangji.studio</span></li>
+          <li><span>工作室 / 杭州市西湖区留和路 139 号</span></li>
+          <li><span>咨询时段 / 周二至周六 10:00 至 19:00</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <p>UI 设计提示词库 / 产品模板 / Photography Studio</p>
+      <p><a href="../style-catalog.html">返回风格目录</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var AVAIL = {
+    '2026-05': { '杭州': { open: [8, 15, 22], held: [1, 2, 3, 9, 10, 16, 17, 23, 24, 31] },
+                 '苏州': { open: [17, 28], held: [1, 2, 9, 10, 16, 23, 24, 30] },
+                 '莫干山': { open: [9, 20, 30], held: [2, 3, 16, 17, 23] } },
+    '2026-06': { '杭州': { open: [6, 13], held: [1, 5, 6, 7, 13, 14, 20, 21, 27, 28] },
+                 '苏州': { open: [12, 26], held: [1, 6, 7, 13, 14, 20, 27] },
+                 '莫干山': { open: [7, 19, 27], held: [1, 13, 14, 20, 21] } },
+    '2026-07': { '杭州': { open: [11, 25], held: [4, 5, 11, 12, 18, 19, 25, 26] },
+                 '苏州': { open: [18, 26], held: [4, 5, 11, 12, 19, 25] },
+                 '莫干山': { open: [4, 24, 31], held: [11, 12, 18, 19] } },
+    '2026-08': { '杭州': { open: [8, 22, 29], held: [1, 2, 8, 9, 15, 16, 22, 23] },
+                 '苏州': { open: [15, 23], held: [1, 2, 8, 9, 16, 22, 29] },
+                 '莫干山': { open: [1, 14, 28], held: [8, 9, 15, 22] } },
+    '2026-09': { '杭州': { open: [11, 26], held: [5, 6, 12, 13, 19, 20, 26, 27] },
+                 '苏州': { open: [4, 18], held: [5, 6, 12, 13, 19, 20, 27] },
+                 '莫干山': { open: [6, 20, 27], held: [12, 13, 19] } },
+    '2026-10': { '杭州': { open: [9, 24], held: [1, 2, 3, 4, 5, 6, 7, 10, 11, 17, 18, 24, 25, 31] },
+                 '苏州': { open: [], held: [1, 2, 3, 4, 5, 6, 11, 12, 17, 18, 24, 25, 31] },
+                 '莫干山': { open: [13, 20], held: [1, 2, 6, 7, 11, 17, 25] } }
+  };
+  var MONTH_CN = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'];
+  var form = document.getElementById('bookForm');
+  var monthSel = document.getElementById('monthSel');
+  var citySel = document.getElementById('citySel');
+  var calBody = document.getElementById('calBody');
+  var calSum = document.getElementById('calSum');
+
+  function render() {
+    var ym = monthSel.value.split('-');
+    var y = Number(ym[0]), m = Number(ym[1]);
+    var data = AVAIL[monthSel.value][citySel.value];
+    var days = new Date(y, m, 0).getDate();
+    var pad = (new Date(y, m - 1, 1).getDay() + 6) % 7;
+    var html = '';
+    for (var i = 0; i < pad; i++) { html += '<span class="cal-cell cal-pad">0</span>'; }
+    for (var d = 1; d <= days; d++) {
+      if (data.held.indexOf(d) > -1) { html += '<span class="cal-cell cal-held">' + d + '</span>'; }
+      else if (data.open.indexOf(d) > -1) { html += '<span class="cal-cell cal-free">' + d + '</span>'; }
+      else { html += '<span class="cal-cell">' + d + '</span>'; }
+    }
+    calBody.innerHTML = html;
+    var mCn = MONTH_CN[m - 1];
+    if (data.open.length) {
+      calSum.innerHTML = y + ' 年 ' + mCn + ' 月 / ' + citySel.value + ' / 剩余可约 <strong>' + data.open.length +
+        ' 天</strong> / 最近可约 ' + mCn + ' 月 <strong>' + data.open[0] + ' 日</strong>,旺季周末建议尽早锁定。';
+    } else {
+      calSum.innerHTML = y + ' 年 ' + mCn + ' 月 / ' + citySel.value + ' / <strong>档期已约满</strong>,可留言登记候补,或试试相邻月份。';
+    }
+  }
+  form.addEventListener('submit', function (e) { e.preventDefault(); render(); });
+  monthSel.addEventListener('change', render);
+  citySel.addEventListener('change', render);
+  render();
+
+  var head = document.querySelector('.site-head');
+  var onScroll = function () { head.classList.toggle('scrolled', window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

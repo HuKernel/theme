@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="铁壁 勒索软件防护平台 / 威胁态势 防护流程 事件响应 SLA 合规 / 产品类型样板 Cybersecurity-Platform">
+<title>产品模板 / Cybersecurity Platform / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* token 计划：底 #000000 / 卡 #0C130E / 边 #1F1F1F / 弱底 #181818 / 主 #00FF41 字 #0F172A / 警 #FF3333 / 琥珀 #FBBF24 / 字 #E0E0E0 / 次字 #94A3B8 / 焦点环 #00FF41 / 数字 JetBrains Mono tabular / 圆角 4-10 / 44px 终端网格纹理 */
+:root {
+  --bg:#000000; --card:#0C130E; --border:#1F1F1F; --muted:#181818;
+  --primary:#00FF41; --on-primary:#0F172A; --secondary:#0D0D0D;
+  --accent:#FF3333; --warn:#FBBF24;
+  --ink:#E0E0E0; --tint:#94A3B8; --ring:#00FF41;
+  --r-lg:10px; --r-md:8px; --r-sm:4px; --r-pill:999px;
+  --mono:'JetBrains Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --head:'Inter','PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+  --body:'Inter','PingFang SC','Microsoft YaHei','Segoe UI',sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:76px; -webkit-text-size-adjust:100%; }
+body {
+  font-family:var(--body); font-size:16px; line-height:1.65; color:var(--ink);
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(820px 540px at 88% -6%, rgba(0,255,65,.07), transparent 62%),
+    radial-gradient(700px 480px at 4% 4%, rgba(0,255,65,.05), transparent 60%),
+    linear-gradient(rgba(0,255,65,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,65,.028) 1px, transparent 1px);
+  background-size:auto, auto, 44px 44px, 44px 44px;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:var(--primary); text-decoration:none; }
+a:hover { text-decoration:underline; }
+:focus-visible { outline:2px solid var(--ring); outline-offset:2px; border-radius:4px; }
+.num { font-family:var(--mono); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+.wrap { max-width:1180px; margin:0 auto; padding:0 26px; }
+.page { min-height:100vh; display:flex; flex-direction:column; animation:reveal .5s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes reveal { from { opacity:0; transform:translateY(10px); } }
+
+/* ---------- 通用控件 ---------- */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--body); font-weight:600; font-size:15px; line-height:1.3;
+  padding:11px 22px; border-radius:var(--r-md); border:1px solid transparent;
+  cursor:pointer; transition:background .2s, color .2s, border-color .2s, box-shadow .2s;
+}
+.btn-pri { background:var(--primary); color:var(--on-primary); }
+.btn-pri:hover { background:#5CFF85; box-shadow:0 0 26px rgba(0,255,65,.22); }
+.btn-sec { background:transparent; color:var(--primary); border-color:rgba(0,255,65,.5); }
+.btn-sec:hover { background:rgba(0,255,65,.08); }
+.btn-sm { padding:7px 14px; font-size:13px; }
+.chip {
+  display:inline-flex; align-items:center; gap:7px; font-size:12px; line-height:1.5;
+  padding:3px 11px; border-radius:var(--r-pill); border:1px solid; white-space:nowrap;
+}
+.chip.live { color:var(--primary); border-color:rgba(0,255,65,.4); background:rgba(0,255,65,.08); }
+.chip.hold { color:var(--warn); border-color:rgba(251,191,36,.45); background:rgba(251,191,36,.08); }
+.chip.risk { color:var(--warn); border-color:rgba(251,191,36,.5); background:rgba(251,191,36,.1); }
+.dot { width:8px; height:8px; border-radius:50%; background:currentColor; animation:pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity:.3; } }
+.ok { color:var(--primary); }
+.hi { color:var(--accent); }
+
+/* ---------- 顶栏 ---------- */
+.topbar { position:sticky; top:0; z-index:20; background:rgba(0,0,0,.86); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+.topbar-in { display:flex; align-items:center; gap:28px; height:62px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; color:var(--ink); }
+.brand svg { filter:drop-shadow(0 0 6px rgba(0,255,65,.45)); }
+.brand:hover { text-decoration:none; }
+.nav { display:flex; gap:24px; margin-left:auto; }
+.nav a { color:var(--tint); font-size:14px; font-weight:600; }
+.nav a:hover { color:var(--primary); text-decoration:none; }
+.topbar .btn { margin-left:4px; }
+
+/* ---------- 主视觉 ---------- */
+.hero { padding:84px 0 64px; }
+.hero-grid { display:grid; grid-template-columns:1.25fr .9fr; gap:52px; align-items:center; }
+.kicker { display:flex; align-items:center; gap:10px; color:var(--primary); font-size:14px; font-weight:600; margin-bottom:18px; }
+.kicker::before { content:""; width:26px; height:2px; background:var(--primary); }
+h1 { font-family:var(--head); font-size:clamp(30px,4.6vw,46px); line-height:1.22; font-weight:800; color:#F4FFF6; letter-spacing:-.01em; }
+h1 .hl { color:var(--primary); }
+.lede { margin-top:18px; max-width:34em; color:var(--tint); font-size:16.5px; }
+.hero-cta { display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+.hero-trust { display:flex; flex-wrap:wrap; gap:8px 0; margin-top:26px; color:var(--tint); font-size:13.5px; }
+.hero-trust span { padding:0 16px; border-left:1px solid var(--border); }
+.hero-trust span:first-child { padding-left:0; border-left:none; }
+.hero-trust b { color:var(--ink); font-weight:600; }
+
+/* 主视觉右侧 / 全网态势卡（静态汇总） */
+.status-card { position:relative; background:var(--card); border:1px solid var(--border); border-top:2px solid var(--primary); border-radius:var(--r-lg); padding:22px 22px 18px; }
+.status-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; }
+.status-head h2 { font-size:15px; font-weight:600; color:#F4FFF6; }
+.fam-row { display:grid; grid-template-columns:96px 1fr 44px; gap:12px; align-items:center; padding:7px 0; font-size:13.5px; }
+.fam-row .name { color:var(--ink); }
+.fam-track { height:6px; border-radius:3px; background:rgba(0,255,65,.13); overflow:hidden; }
+.fam-fill { height:100%; background:var(--primary); border-radius:3px; }
+.fam-row .pct { text-align:right; color:var(--tint); font-size:12.5px; }
+.status-total { margin-top:14px; padding-top:14px; border-top:1px dashed var(--border); display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+.status-total .v { font-size:24px; color:var(--primary); }
+.status-total .l { color:var(--tint); font-size:12.5px; }
+.status-note { margin-top:10px; color:var(--tint); font-size:12px; }
+
+/* ---------- 信任指标 ---------- */
+.metrics { border-block:1px solid var(--border); background:rgba(12,19,14,.55); }
+.metrics-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+.metric { padding:30px 26px; border-left:1px solid var(--border); }
+.metric:first-child { border-left:none; }
+.metric .v { font-size:30px; color:var(--primary); line-height:1.2; }
+.metric .v small { font-size:16px; }
+.metric .l { margin-top:6px; color:var(--tint); font-size:13px; }
+
+/* ---------- 章节骨架 ---------- */
+.sec { padding:76px 0 30px; }
+.sec-head { max-width:46em; margin-bottom:34px; }
+.sec-idx { color:var(--primary); font-size:14px; font-weight:600; letter-spacing:.02em; }
+.sec-head h2 { margin-top:8px; font-family:var(--head); font-size:clamp(24px,3vw,32px); font-weight:800; color:#F4FFF6; line-height:1.3; }
+.sec-head p { margin-top:12px; color:var(--tint); }
+
+/* ---------- 威胁态势面板（签名组件） ---------- */
+.panel { position:relative; background:var(--card); border:1px solid var(--border); border-radius:var(--r-lg); padding:22px; }
+.panel::before { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(0,255,65,.03) 0 1px, transparent 1px 4px); }
+.panel-head { display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px; margin-bottom:20px; }
+.panel-head h3 { font-size:17px; font-weight:800; color:#F4FFF6; margin-right:auto; }
+.stamp { color:var(--tint); font-size:12.5px; }
+.kpi-row { display:grid; grid-template-columns:repeat(4,1fr); border-block:1px solid var(--border); margin-bottom:20px; }
+.kpi { padding:16px 18px; border-left:1px solid var(--border); }
+.kpi:first-child { border-left:none; }
+.kpi .v { font-size:24px; color:#F4FFF6; }
+.kpi .v.acc { color:var(--warn); }
+.kpi .l { margin-top:2px; color:var(--tint); font-size:12.5px; }
+.panel-body { display:grid; grid-template-columns:1.4fr 1fr; gap:22px; }
+.term { background:#060B07; border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; }
+.term-bar { display:flex; align-items:center; gap:8px; padding:9px 14px; border-bottom:1px solid var(--border); color:var(--tint); font-size:12.5px; }
+.term-bar i { width:9px; height:9px; border-radius:50%; background:var(--border); }
+.term-bar i.g { background:var(--primary); }
+.log { padding:6px 14px 12px; min-height:238px; }
+.trow { display:grid; grid-template-columns:var(--cols); gap:6px 18px; align-items:center; }
+.log-row { --cols:74px 118px 96px 1fr 66px; padding:9px 0; border-bottom:1px dashed var(--border); font-size:13px; }
+.log-row:last-child { border-bottom:none; }
+.l-time { color:var(--tint); font-size:12.5px; }
+.l-asset { color:var(--ink); font-size:12.5px; }
+.l-fam { color:var(--ink); }
+.l-beh { color:var(--tint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.l-act { font-weight:600; font-size:12.5px; }
+.log-row.fresh { animation:freshbg .9s ease-out; }
+@keyframes freshbg { from { background:rgba(0,255,65,.14); } }
+.bars-box { display:flex; flex-direction:column; }
+.bars-box h4 { font-size:13.5px; font-weight:600; color:var(--tint); margin-bottom:10px; }
+.bars-box h4 b { color:var(--ink); }
+.bars { flex:1; display:flex; align-items:flex-end; gap:4px; min-height:170px; padding:10px 2px 6px; border-bottom:1px solid var(--border); }
+.bar { flex:1; background:linear-gradient(180deg, var(--primary), rgba(0,255,65,.25)); border-radius:2px 2px 0 0; min-height:8%; transition:height .45s ease; }
+.bar:hover { background:var(--primary); }
+.bars-axis { display:flex; justify-content:space-between; padding-top:8px; color:var(--tint); font-size:11.5px; }
+.panel-foot { margin-top:16px; color:var(--tint); font-size:12.5px; display:flex; flex-wrap:wrap; gap:6px 18px; }
+
+/* ---------- 表格化流程与 SLA（共享栅格保证行对齐） ---------- */
+.tbl { border:1px solid var(--border); border-radius:var(--r-lg); background:var(--card); overflow:hidden; }
+.tbl .trow { padding:16px 20px; border-top:1px solid var(--border); }
+.tbl .trow.head { border-top:none; background:var(--secondary); color:var(--tint); font-size:12.5px; padding-block:11px; }
+.flow .trow { --cols:190px 1fr 132px; }
+.sla .trow { --cols:64px 1.8fr 1fr 1fr 1.2fr; }
+.step { color:var(--primary); font-weight:600; margin-right:10px; }
+.stage { color:#F4FFF6; font-weight:600; }
+.cell-act { color:var(--tint); font-size:14.5px; }
+.cell-ms { color:var(--primary); font-size:14px; }
+.lvl { color:var(--warn); font-weight:600; }
+.sla .trow.p1 { border-left:3px solid var(--accent); }
+.sla-note { margin-top:14px; color:var(--tint); font-size:13px; }
+
+/* ---------- 合规与背书 ---------- */
+.cert-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.cert { background:var(--card); border:1px solid var(--border); border-radius:var(--r-md); padding:20px; }
+.cert svg { color:var(--primary); margin-bottom:12px; }
+.cert h3 { font-size:15.5px; font-weight:600; color:#F4FFF6; }
+.cert p { margin-top:6px; color:var(--tint); font-size:13.5px; }
+.proof { margin-top:16px; display:grid; grid-template-columns:1.15fr .85fr; gap:16px; }
+.quote { background:var(--card); border:1px solid var(--border); border-left:3px solid var(--primary); border-radius:var(--r-md); padding:26px 28px; }
+.quote blockquote { font-size:17px; line-height:1.8; color:#F4FFF6; }
+.quote blockquote::before { content:"“"; color:var(--primary); font-size:30px; line-height:0; margin-right:4px; }
+.quote figcaption { margin-top:16px; color:var(--tint); font-size:13.5px; }
+.verify { background:var(--card); border:1px solid var(--border); border-radius:var(--r-md); padding:24px 26px; }
+.verify h3 { font-size:15.5px; font-weight:600; color:#F4FFF6; margin-bottom:12px; }
+.verify ul { list-style:none; }
+.verify li { position:relative; padding:7px 0 7px 24px; color:var(--tint); font-size:14px; border-top:1px dashed var(--border); }
+.verify li:first-child { border-top:none; }
+.verify li::before { content:""; position:absolute; left:2px; top:14px; width:9px; height:9px; border:2px solid var(--primary); border-radius:2px; }
+
+/* ---------- CTA ---------- */
+.cta-band { margin:80px 0 0; background:var(--card); border:1px solid var(--border); border-top:2px solid var(--primary); border-radius:var(--r-lg); padding:58px 30px; text-align:center; }
+.cta-band h2 { font-family:var(--head); font-size:clamp(24px,3vw,32px); font-weight:800; color:#F4FFF6; }
+.cta-band p { margin:12px auto 28px; max-width:36em; color:var(--tint); }
+.cta-band .hero-cta { justify-content:center; margin-top:0; }
+.cta-note { margin-top:16px; color:var(--tint); font-size:12.5px; }
+
+/* ---------- 页脚 ---------- */
+.footer { margin-top:72px; border-top:1px solid var(--border); background:var(--secondary); padding:38px 0 30px; }
+.footer-grid { display:flex; flex-wrap:wrap; gap:26px 40px; justify-content:space-between; }
+.footer h2 { font-size:15px; font-weight:800; color:#F4FFF6; }
+.footer p { margin-top:8px; color:var(--tint); font-size:13px; max-width:30em; }
+.footer-nav { display:flex; flex-wrap:wrap; gap:8px 22px; }
+.footer-nav a { color:var(--tint); font-size:13.5px; }
+.footer-nav a:hover { color:var(--primary); text-decoration:none; }
+.footer-crumb { margin-top:26px; padding-top:18px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between; color:var(--tint); font-size:13px; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1024px) {
+  .hero-grid { grid-template-columns:1fr; gap:34px; }
+  .cert-grid { grid-template-columns:repeat(2,1fr); }
+  .proof { grid-template-columns:1fr; }
+}
+@media (max-width:768px) {
+  .nav { display:none; }
+  .hero { padding:56px 0 44px; }
+  .metrics-grid { grid-template-columns:repeat(2,1fr); }
+  .metric { border-left:none; border-top:1px solid var(--border); }
+  .metric:nth-child(-n+2) { border-top:none; }
+  .metric:nth-child(even) { border-left:1px solid var(--border); }
+  .panel { padding:16px; }
+  .kpi-row { grid-template-columns:repeat(2,1fr); }
+  .kpi:nth-child(odd) { border-left:none; }
+  .kpi:nth-child(n+3) { border-top:1px solid var(--border); }
+  .panel-body { grid-template-columns:1fr; }
+  .log { min-height:0; }
+  .log-row { --cols:1fr auto; grid-template-areas:"time act" "asset fam" "beh beh"; row-gap:3px; }
+  .l-time { grid-area:time; }
+  .l-act { grid-area:act; justify-self:end; }
+  .l-asset { grid-area:asset; }
+  .l-fam { grid-area:fam; justify-self:end; }
+  .l-beh { grid-area:beh; white-space:normal; }
+  .tbl .trow { grid-template-columns:1fr 1fr; }
+  .tbl .trow.head { display:none; }
+  .tbl .trow.c-first { grid-column:1 / -1; }
+  .tbl .c::before { content:attr(data-l); display:block; color:var(--tint); font-size:11.5px; margin-bottom:2px; }
+}
+@media (max-width:560px) {
+  .cert-grid { grid-template-columns:1fr; }
+  .hero-trust span { display:block; width:100%; padding:2px 0; border-left:none; }
+  .topbar .btn { padding:7px 12px; font-size:13px; }
+  .panel-head h3 { width:100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  .page { animation:none; }
+  .dot { animation:none; }
+  .bar { transition:none; }
+  .log-row.fresh { animation:none; }
+  .btn { transition:none; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="topbar">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#top" aria-label="铁壁 首页">
+        <svg width="20" height="22" viewBox="0 0 20 22" fill="none" aria-hidden="true" focusable="false">
+          <path d="M10 1L19 4.5V11c0 5-3.8 8.6-9 10-5.2-1.4-9-5-9-10V4.5L10 1z" stroke="#00FF41" stroke-width="1.6"/>
+          <path d="M6 11l2.6 2.6L14 8" stroke="#00FF41" stroke-width="1.6" stroke-linecap="square"/>
+        </svg>
+        铁壁
+      </a>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#demo">实时态势</a>
+        <a href="#flow">防护流程</a>
+        <a href="#sla">响应 SLA</a>
+        <a href="#compliance">合规资质</a>
+      </nav>
+      <a class="btn btn-pri btn-sm" href="#cta">申请演练</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- 主视觉 / Trust & Authority：主张 + 信任信号 + 静态态势摘要 -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker">勒索软件防护平台</p>
+          <h1>勒索软件落盘之前，<br><span class="hl">防线已经就位</span></h1>
+          <p class="lede">铁壁以行为诱捕与块级回滚对抗 LockBit、Akira、RansomHub 等活跃家族。从首次异常写入被识别，到加密被拦截、数据被回滚，全程以秒计，无需支付赎金。</p>
+          <div class="hero-cta">
+            <a class="btn btn-pri" href="#cta">申请 30 天攻防演练</a>
+            <a class="btn btn-sec" href="#demo">查看实时态势</a>
+          </div>
+          <p class="hero-trust">
+            <span>在护终端 <b class="num">2,700,000+</b></span>
+            <span>连续 <b class="num">6</b> 年零赎金记录</span>
+            <span>平均开通 <b class="num">15</b> 分钟</span>
+          </p>
+        </div>
+        <aside class="status-card" aria-label="全网勒索态势摘要">
+          <div class="status-head">
+            <h2>全网勒索态势 / 本周</h2>
+            <span class="chip risk">高危</span>
+          </div>
+          <div class="fam-row">
+            <span class="name">RansomHub</span>
+            <span class="fam-track"><span class="fam-fill" style="width:31%"></span></span>
+            <span class="pct num">31%</span>
+          </div>
+          <div class="fam-row">
+            <span class="name">LockBit 衍生</span>
+            <span class="fam-track"><span class="fam-fill" style="width:24%"></span></span>
+            <span class="pct num">24%</span>
+          </div>
+          <div class="fam-row">
+            <span class="name">Akira</span>
+            <span class="fam-track"><span class="fam-fill" style="width:12%"></span></span>
+            <span class="pct num">12%</span>
+          </div>
+          <div class="fam-row">
+            <span class="name">其他家族</span>
+            <span class="fam-track"><span class="fam-fill" style="width:33%"></span></span>
+            <span class="pct num">33%</span>
+          </div>
+          <p class="status-total">
+            <span class="v num">219,407</span>
+            <span class="l">铁壁全网周拦截次数</span>
+          </p>
+          <p class="status-note">按攻击占比排序 / 每小时汇总 / 页面数据为演示样本</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 关键指标 -->
+    <section class="metrics" aria-label="关键指标">
+      <div class="wrap metrics-grid">
+        <div class="metric">
+          <p class="v num">99.98<small>%</small></p>
+          <p class="l">加密行为拦截率 / 近 12 个月实测</p>
+        </div>
+        <div class="metric">
+          <p class="v num">41<small>ms</small></p>
+          <p class="l">平均判定耗时 / P95 为 87ms</p>
+        </div>
+        <div class="metric">
+          <p class="v num">4.2<small>min</small></p>
+          <p class="l">事件平均止损时长 / 含人工确认</p>
+        </div>
+        <div class="metric">
+          <p class="v num">0</p>
+          <p class="l">客户赎金支付记录 / 2019 年至今</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 实时态势面板演示 -->
+    <section class="sec" id="demo">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-idx num">01 / 实时态势</p>
+          <h2>看见每一次加密尝试</h2>
+          <p>威胁态势面板演示：脱敏事件流与近 24 小时拦截分布。默认每 2.4 秒刷新一次，可随时暂停采集。</p>
+        </header>
+        <div class="panel">
+          <div class="panel-head">
+            <h3>铁壁 威胁态势中心</h3>
+            <span class="chip hold" id="liveChip" role="status">样本数据</span>
+            <span class="stamp">更新 <span class="num" id="stamp">--:--:--</span></span>
+            <button class="btn btn-sec btn-sm" type="button" id="pauseBtn" aria-pressed="false">暂停采集</button>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi">
+              <p class="v num" id="kBlock">4,731</p>
+              <p class="l">今日拦截加密行为</p>
+            </div>
+            <div class="kpi">
+              <p class="v num" id="kHosts">12,847</p>
+              <p class="l">本租户在线终端</p>
+            </div>
+            <div class="kpi">
+              <p class="v num" id="kMs">41</p>
+              <p class="l">平均判定耗时 ms</p>
+            </div>
+            <div class="kpi">
+              <p class="v num acc" id="kAlerts">3</p>
+              <p class="l">待处置告警</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="term" aria-label="实时事件流">
+              <div class="term-bar">
+                <i class="g" aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+                <span style="margin-left:6px">事件流 / ransomware.stream</span>
+              </div>
+              <div class="log num" id="logBody" aria-live="off">
+                <div class="trow log-row">
+                  <span class="l-time">14:31:52</span><span class="l-asset">FIN-WIN-0142</span><span class="l-fam">LockBit 3.0</span><span class="l-beh">批量改写 1,284 个文档扩展名</span><span class="l-act ok">已拦截</span>
+                </div>
+                <div class="trow log-row">
+                  <span class="l-time">14:31:28</span><span class="l-asset">SRV-DB-008</span><span class="l-fam hi">Akira</span><span class="l-beh">尝试删除卷影副本 vssadmin delete shadows</span><span class="l-act ok">已阻断</span>
+                </div>
+                <div class="trow log-row">
+                  <span class="l-time">14:30:57</span><span class="l-asset">HR-MAC-0231</span><span class="l-fam">Phobos</span><span class="l-beh">桌面投放勒索信 readme.txt</span><span class="l-act ok">已清除</span>
+                </div>
+                <div class="trow log-row">
+                  <span class="l-time">14:30:11</span><span class="l-asset">ENG-WS-0455</span><span class="l-fam">8Base</span><span class="l-beh">SMB 横向扩散至 17 台主机</span><span class="l-act ok">已遏制</span>
+                </div>
+              </div>
+            </div>
+            <div class="bars-box">
+              <h4>近 24 小时拦截分布 / <b class="num">00-23 时</b></h4>
+              <div class="bars" id="bars" role="img" aria-label="近 24 小时勒索行为拦截量柱状示意，数据为演示样本">
+                <div class="bar" style="height:22%" title="00 时 / 412 次"></div>
+                <div class="bar" style="height:18%" title="01 时 / 337 次"></div>
+                <div class="bar" style="height:26%" title="02 时 / 489 次"></div>
+                <div class="bar" style="height:31%" title="03 时 / 581 次"></div>
+                <div class="bar" style="height:24%" title="04 时 / 450 次"></div>
+                <div class="bar" style="height:19%" title="05 时 / 356 次"></div>
+                <div class="bar" style="height:28%" title="06 时 / 525 次"></div>
+                <div class="bar" style="height:35%" title="07 时 / 657 次"></div>
+                <div class="bar" style="height:42%" title="08 时 / 788 次"></div>
+                <div class="bar" style="height:38%" title="09 时 / 713 次"></div>
+                <div class="bar" style="height:30%" title="10 时 / 563 次"></div>
+                <div class="bar" style="height:44%" title="11 时 / 825 次"></div>
+                <div class="bar" style="height:52%" title="12 时 / 976 次"></div>
+                <div class="bar" style="height:47%" title="13 时 / 882 次"></div>
+                <div class="bar" style="height:39%" title="14 时 / 732 次"></div>
+                <div class="bar" style="height:55%" title="15 时 / 1,032 次"></div>
+                <div class="bar" style="height:61%" title="16 时 / 1,145 次"></div>
+                <div class="bar" style="height:48%" title="17 时 / 901 次"></div>
+                <div class="bar" style="height:57%" title="18 时 / 1,069 次"></div>
+                <div class="bar" style="height:66%" title="19 时 / 1,238 次"></div>
+                <div class="bar" style="height:72%" title="20 时 / 1,350 次"></div>
+                <div class="bar" style="height:58%" title="21 时 / 1,088 次"></div>
+                <div class="bar" style="height:63%" title="22 时 / 1,182 次"></div>
+                <div class="bar" style="height:51%" title="23 时 / 957 次"></div>
+              </div>
+              <div class="bars-axis num" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>23 时</span></div>
+            </div>
+          </div>
+          <p class="panel-foot">
+            <span>处置结果均已在沙箱复核</span>
+            <span>家族判定基于熵值特征与威胁情报比对</span>
+            <span>本面板全部数据为演示样本</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 防护流程 -->
+    <section class="sec" id="flow">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-idx num">02 / 防护流程</p>
+          <h2>从接入到回滚，全程自动化</h2>
+          <p>四个环节构成闭环。策略由平台下发，处置动作留痕可审计，人工只在 P1 事件确认止损。</p>
+        </header>
+        <div class="tbl flow">
+          <div class="trow head" aria-hidden="true">
+            <span class="c">环节</span><span class="c">处置动作</span><span class="c">时效指标</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first stage"><span class="step num">01</span>无代理接入</span>
+            <span class="c cell-act" data-l="处置动作">AD 域与共享存储纳管，诱捕文件布防至 214 个敏感目录，业务零改造</span>
+            <span class="c cell-ms num" data-l="时效指标">部署 15 分钟</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first stage"><span class="step num">02</span>行为基线</span>
+            <span class="c cell-act" data-l="处置动作">对文件改动建模，加密熵值异常与诱捕文件触发双重判定，误报按周回落</span>
+            <span class="c cell-ms num" data-l="时效指标">判定 41ms</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first stage"><span class="step num">03</span>加密拦截</span>
+            <span class="c cell-act" data-l="处置动作">在首次写入前冻结进程树与会话令牌，同步阻断横向移动与影删命令</span>
+            <span class="c cell-ms num" data-l="时效指标">首写前生效</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first stage"><span class="step num">04</span>块级回滚</span>
+            <span class="c cell-act" data-l="处置动作">以块级快照差量回滚被改写数据，保留攻击现场供取证，业务无感恢复</span>
+            <span class="c cell-ms num" data-l="时效指标">RPO &lt; 5 秒</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 事件响应 SLA -->
+    <section class="sec" id="sla">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-idx num">03 / 响应承诺</p>
+          <h2>以分钟计的书面承诺</h2>
+          <p>事件等级与响应时限写入服务合同，未达标按条款赔付。7 x 24 安全运营中心双席位值守。</p>
+        </header>
+        <div class="tbl sla">
+          <div class="trow head" aria-hidden="true">
+            <span class="c">等级</span><span class="c">场景定义</span><span class="c">响应时限</span><span class="c">止损目标</span><span class="c">通报节奏</span>
+          </div>
+          <div class="trow p1">
+            <span class="c c-first lvl num" data-l="事件等级">P1</span>
+            <span class="c cell-act" data-l="场景定义">勒索加密进行中，或已在域内落地</span>
+            <span class="c cell-ms num" data-l="响应时限">15 分钟</span>
+            <span class="c cell-ms num" data-l="止损目标">30 分钟</span>
+            <span class="c cell-act" data-l="通报节奏">2 小时首次根因通报</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first lvl num" data-l="事件等级">P2</span>
+            <span class="c cell-act" data-l="场景定义">疑似入侵，凭据异常与横向移动</span>
+            <span class="c cell-ms num" data-l="响应时限">30 分钟</span>
+            <span class="c cell-ms num" data-l="止损目标">2 小时</span>
+            <span class="c cell-act" data-l="通报节奏">24 小时进展通报</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first lvl num" data-l="事件等级">P3</span>
+            <span class="c cell-act" data-l="场景定义">诱捕网触发与单点行为异常</span>
+            <span class="c cell-ms num" data-l="响应时限">2 小时</span>
+            <span class="c cell-ms num" data-l="止损目标">下一工作日</span>
+            <span class="c cell-act" data-l="通报节奏">3 个工作日报告</span>
+          </div>
+          <div class="trow">
+            <span class="c c-first lvl num" data-l="事件等级">P4</span>
+            <span class="c cell-act" data-l="场景定义">规则咨询与基线调整</span>
+            <span class="c cell-ms num" data-l="响应时限">4 小时</span>
+            <span class="c cell-ms num" data-l="止损目标">按计划排期</span>
+            <span class="c cell-act" data-l="通报节奏">5 个工作日方案</span>
+          </div>
+        </div>
+        <p class="sla-note">响应时限自平台确认告警等级起算 / 赔付上限为当年度服务费 30% / 条款明细见服务协议第 11 节</p>
+      </div>
+    </section>
+
+    <!-- 04 合规与背书 -->
+    <section class="sec" id="compliance">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-idx num">04 / 合规与背书</p>
+          <h2>监管认可的安全边界</h2>
+          <p>平台与流程通过国内外主流认证，支持金融、医疗与政务行业的等保及行业规范测评。</p>
+        </header>
+        <div class="cert-grid">
+          <div class="cert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 2l8 3.5V12c0 4.5-3.4 7.9-8 9-4.6-1.1-8-4.5-8-9V5.5L12 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>等保 2.0 三级</h3>
+            <p>通过公安机关备案测评，覆盖入侵防范与数据恢复备份要求</p>
+          </div>
+          <div class="cert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 2l8 3.5V12c0 4.5-3.4 7.9-8 9-4.6-1.1-8-4.5-8-9V5.5L12 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>ISO/IEC 27001:2022</h3>
+            <p>信息安全管理体系认证，年度监督审核无不符合项</p>
+          </div>
+          <div class="cert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 2l8 3.5V12c0 4.5-3.4 7.9-8 9-4.6-1.1-8-4.5-8-9V5.5L12 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>ISO/IEC 27701</h3>
+            <p>隐私信息管理体系，个人数据处置链路可追溯</p>
+          </div>
+          <div class="cert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 2l8 3.5V12c0 4.5-3.4 7.9-8 9-4.6-1.1-8-4.5-8-9V5.5L12 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>GB/T 35273</h3>
+            <p>个人信息安全规范评估， App 与数据接口双链路合规</p>
+          </div>
+          <div class="cert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 2l8 3.5V12c0 4.5-3.4 7.9-8 9-4.6-1.1-8-4.5-8-9V5.5L12 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>PCI DSS 4.0</h3>
+            <p>支付卡环境适配报告，隔离持卡人数据域</p>
+          </div>
+          <div class="cert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M12 2l8 3.5V12c0 4.5-3.4 7.9-8 9-4.6-1.1-8-4.5-8-9V5.5L12 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12l2.4 2.4 4.6-4.8" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>JR/T 0071</h3>
+            <p>金融行业网络安全规范符合性，支持监管现场检查取数</p>
+          </div>
+        </div>
+        <div class="proof">
+          <figure class="quote">
+            <blockquote>去年 11 月一个 Phobos 变种打进财务网段，铁壁在第 3 个文件被改写前完成拦截并回滚，医保结算当天无感。</blockquote>
+            <figcaption>某三甲医院 信息中心主任 / 华东 / 已连续服务 4 年</figcaption>
+          </figure>
+          <div class="verify">
+            <h3>第三方验证</h3>
+            <ul>
+              <li>连续 3 年通过国家级红队实战演练，零数据外带</li>
+              <li>MITRE ATT&amp;CK 评估覆盖 41 项勒索相关技术</li>
+              <li>每季度发布威胁情报与家族追踪报告，公开可查</li>
+              <li>平台代码与供应链通过 SOC 2 Type II 审计</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec" id="cta">
+      <div class="wrap">
+        <div class="cta-band">
+          <h2>把下一次攻击留在演练场</h2>
+          <p>30 天真实勒索攻防演练：红队按活跃家族战术发起模拟攻击，出具可复现的防护评估报告。</p>
+          <div class="hero-cta">
+            <a class="btn btn-pri" href="#cta">申请攻防演练</a>
+            <a class="btn btn-sec" href="#cta">预约安全顾问</a>
+          </div>
+          <p class="cta-note">演练在生产影子环境进行 / 不触碰真实业务数据 / 报告 5 个工作日内交付</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h2>铁壁 勒索软件防护平台</h2>
+          <p>本页为产品官网演示模板，铁壁为虚构产品，页面内全部指标与事件均为演示样本。</p>
+        </div>
+        <nav class="footer-nav" aria-label="页脚导航">
+          <a href="#demo">实时态势</a>
+          <a href="#flow">防护流程</a>
+          <a href="#sla">响应 SLA</a>
+          <a href="#compliance">合规资质</a>
+        </nav>
+      </div>
+      <div class="footer-crumb">
+        <span>UI 设计提示词库 / 产品模板 / Cybersecurity Platform</span>
+        <a href="../style-catalog.html">返回风格目录</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var state = { running: false, userPaused: false, timer: null, block: 4731, hosts: 12847, alerts: 3 };
+
+  var BEH = [
+    { f: 'LockBit 3.0', t: '批量改写 1,284 个文档扩展名', a: '已拦截', hi: true },
+    { f: 'Akira', t: '尝试删除卷影副本 vssadmin delete shadows', a: '已阻断', hi: true },
+    { f: 'BlackCat', t: '域控凭据转储 lsass 注入尝试', a: '已隔离', hi: true },
+    { f: 'RansomHub', t: '加密共享卷 /finance 437 个文件', a: '已拦截' },
+    { f: 'Phobos', t: '桌面投放勒索信 readme.txt', a: '已清除' },
+    { f: '8Base', t: 'SMB 横向扩散至 17 台主机', a: '已遏制' },
+    { f: 'Play', t: '组策略批量下发恶意计划任务', a: '已阻断' },
+    { f: 'Hive', t: 'ESXi 虚拟机磁盘加密尝试', a: '已隔离', hi: true }
+  ];
+  var HOSTS = ['FIN-WIN-0142', 'HR-MAC-0231', 'SRV-DB-008', 'OA-WIN-1107', 'ENG-WS-0455', 'HIS-SRV-203', 'CRM-SRV-031', 'DEV-K8S-017'];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function nowStr() { var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
+  function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function pick(arr) { return arr[rnd(0, arr.length - 1)]; }
+  function set(id, v) { var el = $(id); if (el) el.textContent = v; }
+
+  function addLog() {
+    var box = $('logBody');
+    if (!box) return;
+    var e = pick(BEH);
+    var row = document.createElement('div');
+    row.className = 'trow log-row' + (reduced ? '' : ' fresh');
+    row.innerHTML =
+      '<span class="l-time">' + nowStr() + '</span>' +
+      '<span class="l-asset">' + pick(HOSTS) + '</span>' +
+      '<span class="l-fam' + (e.hi ? ' hi' : '') + '">' + e.f + '</span>' +
+      '<span class="l-beh">' + e.t + '</span>' +
+      '<span class="l-act ok">' + e.a + '</span>';
+    box.insertBefore(row, box.firstChild);
+    while (box.children.length > 7) box.removeChild(box.lastChild);
+  }
+
+  function setKpi() {
+    state.block += rnd(1, 6);
+    state.hosts = Math.max(12700, state.hosts + rnd(-3, 3));
+    if (Math.random() < 0.3) state.alerts = Math.min(6, Math.max(1, state.alerts + rnd(-1, 1)));
+    set('kBlock', state.block.toLocaleString('en-US'));
+    set('kHosts', state.hosts.toLocaleString('en-US'));
+    set('kMs', rnd(38, 46));
+    set('kAlerts', state.alerts);
+    set('stamp', nowStr());
+  }
+
+  var bars = [];
+  function initBars() {
+    var wrap = $('bars');
+    if (wrap) bars = Array.prototype.slice.call(wrap.children);
+  }
+  function jitterBars() {
+    for (var i = 0; i < 3; i++) {
+      var b = pick(bars);
+      if (!b) continue;
+      var h = Math.min(96, Math.max(16, parseInt(b.style.height, 10) + rnd(-14, 14)));
+      b.style.height = h + '%';
+    }
+  }
+
+  function tick() { addLog(); setKpi(); jitterBars(); }
+
+  function setRunning(on) {
+    state.running = on;
+    var btn = $('pauseBtn');
+    var chip = $('liveChip');
+    if (state.timer) { clearInterval(state.timer); state.timer = null; }
+    if (btn && chip) {
+      if (on) {
+        chip.className = 'chip live';
+        chip.innerHTML = '<span class="dot" aria-hidden="true"></span>实时采集中';
+        btn.textContent = '暂停采集';
+      } else {
+        chip.className = 'chip hold';
+        chip.textContent = '已暂停 / 数据为样本';
+        btn.textContent = '继续采集';
+      }
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    if (on) state.timer = setInterval(tick, 2400);
+  }
+
+  var btn = $('pauseBtn');
+  if (btn) btn.addEventListener('click', function () {
+    state.userPaused = state.running;
+    setRunning(!state.running);
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (state.running) { setRunning(false); state.userPaused = false; }
+    } else if (!state.userPaused && !reduced) {
+      setRunning(true);
+    }
+  });
+
+  initBars();
+  if (reduced) { setKpi(); setRunning(false); } else { setRunning(true); }
+})();
+</script>
+</body>
+</html>
