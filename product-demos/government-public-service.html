@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Government/Public Service / UI 设计提示词库</title>
+<meta name="description" content="Government/Public Service 产品模板演示页：江城区政务服务平台门户，专业蓝高对比色板、大字号清晰信息架构、高频事项、办事指南、办件进度查询与大厅窗口导航。">
+<style>
+/* token 计划: Primary #0F172A / On-Primary #FFFFFF / Secondary #334155 / Accent #0369A1(文字用 #075985 加深保证 4.5:1) / BG #F8FAFC / FG #020617 / Card #FFFFFF / Border #E2E8F0 / Muted #E8ECF1 / Ring #0F172A，状态色绿 #14532D/#DCFCE7 蓝 #075985/#E0F2FE 琥珀 #92400E/#FEF3C7 */
+:root {
+  --primary: #0F172A;
+  --on-primary: #FFFFFF;
+  --secondary: #334155;
+  --accent: #0369A1;
+  --accent-deep: #075985;
+  --bg: #F8FAFC;
+  --fg: #020617;
+  --card: #FFFFFF;
+  --border: #E2E8F0;
+  --muted: #E8ECF1;
+  --ring: #0F172A;
+  --ok-bg: #DCFCE7;
+  --ok-fg: #14532D;
+  --info-bg: #E0F2FE;
+  --info-fg: #075985;
+  --warn-bg: #FEF3C7;
+  --warn-fg: #92400E;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 17px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+.wrap { width: min(1180px, 100% - 40px); margin-inline: auto; }
+a { color: var(--accent-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #0C4A6E; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 6px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* 顶部辅助条 */
+.utility { background: var(--muted); border-bottom: 1px solid var(--border); font-size: 14px; color: var(--secondary); }
+.utility .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 0; flex-wrap: wrap; }
+.utility nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.utility a { color: var(--secondary); text-decoration: none; padding: 2px 10px; border-right: 1px solid var(--border); }
+.utility a:last-child { border-right: 0; }
+.utility a:hover { color: var(--fg); text-decoration: underline; }
+
+/* 门户主视觉页眉 */
+.masthead { background: var(--primary); color: var(--on-primary); }
+.masthead .wrap { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 16px 0; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+.brand:hover { color: inherit; }
+.brand svg { flex: none; }
+.brand-txt strong { display: block; font-size: 22px; letter-spacing: 0.08em; line-height: 1.3; }
+.brand-txt small { display: block; font-size: 13px; color: #CBD5E1; letter-spacing: 0.04em; }
+.mainnav { display: flex; gap: 4px; flex-wrap: wrap; }
+.mainnav a { color: var(--on-primary); text-decoration: none; font-size: 17px; font-weight: 600; padding: 8px 14px; border-radius: 6px; }
+.mainnav a:hover { background: rgba(255, 255, 255, 0.14); }
+.mainnav a[aria-current] { background: rgba(255, 255, 255, 0.22); }
+
+/* 首屏搜索区 */
+.hero { background: var(--card); border-bottom: 1px solid var(--border); }
+.hero-inner { padding: 64px 0 48px; text-align: center; animation: rise 0.6s ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hero-kicker { font-size: 15px; font-weight: 600; color: var(--secondary); letter-spacing: 0.12em; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(36px, 5vw, 54px); line-height: 1.2; letter-spacing: 0.02em; }
+.hero-sub { max-width: 640px; margin: 16px auto 32px; font-size: 18px; color: var(--secondary); }
+.search { width: min(660px, 100%); margin-inline: auto; text-align: left; }
+.search-box { display: flex; align-items: stretch; border: 2px solid var(--primary); border-radius: 8px; background: var(--card); overflow: hidden; }
+.search-box svg { align-self: center; margin: 0 0 0 14px; color: var(--secondary); flex: none; }
+.search-box input { flex: 1; min-width: 0; border: 0; padding: 14px 12px; font-size: 17px; font-family: inherit; color: var(--fg); background: transparent; }
+.search-box input:focus-visible { outline: none; }
+.search-box:focus-within { outline: 3px solid var(--ring); outline-offset: 2px; }
+.search-box input::placeholder { color: #475569; }
+.btn { display: inline-block; border: 0; cursor: pointer; font-family: inherit; font-size: 17px; font-weight: 700; padding: 14px 26px; border-radius: 8px; text-decoration: none; text-align: center; }
+.btn-dark { background: var(--primary); color: var(--on-primary); }
+.btn-dark:hover { background: #1E293B; color: var(--on-primary); }
+.btn-blue { background: var(--accent); color: var(--on-primary); }
+.btn-blue:hover { background: var(--accent-deep); color: var(--on-primary); }
+.sug { list-style: none; background: var(--card); border: 2px solid var(--primary); border-top: 0; border-radius: 0 0 8px 8px; overflow: hidden; }
+.sug li + li { border-top: 1px solid var(--border); }
+.sug button { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; border: 0; background: none; font: inherit; font-size: 16px; color: var(--fg); padding: 10px 16px; cursor: pointer; text-align: left; }
+.sug button:hover, .sug button.active { background: var(--muted); }
+.sug .sug-dept { color: var(--secondary); font-size: 14px; flex: none; }
+.hot { margin-top: 16px; font-size: 15px; color: var(--secondary); display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hot a { text-decoration: none; border-bottom: 2px solid var(--info-bg); }
+.hot a:hover { border-bottom-color: var(--accent-deep); }
+.stats { list-style: none; display: flex; justify-content: center; gap: 0; margin-top: 40px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); flex-wrap: wrap; }
+.stats li { padding: 14px 28px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.stats li + li { border-left: 1px solid var(--border); }
+.stats strong { font-size: 28px; letter-spacing: 0.02em; }
+.stats span { font-size: 15px; color: var(--secondary); }
+
+/* 区块通用 */
+.sec { padding: 64px 0; }
+.band { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.band-muted { background: var(--muted); }
+.sec-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 8px; flex-wrap: wrap; }
+.sec-head h2 { font-size: 30px; letter-spacing: 0.04em; }
+.sec-head p { font-size: 16px; color: var(--secondary); }
+.sec-note { font-size: 15px; color: var(--secondary); margin-bottom: 28px; }
+
+/* 高频事项卡片 */
+.svc-grid { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.svc { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 22px 20px; display: flex; flex-direction: column; gap: 8px; }
+.svc:hover { border-color: var(--accent); }
+.svc-ico { width: 44px; height: 44px; border-radius: 8px; background: var(--info-bg); color: var(--accent-deep); display: grid; place-items: center; margin-bottom: 4px; }
+.svc h3 { font-size: 18px; line-height: 1.4; }
+.svc p { font-size: 15px; color: var(--secondary); flex: 1; }
+.svc-meta { font-size: 14px; font-weight: 600; color: var(--fg); border-top: 1px solid var(--border); padding-top: 10px; margin: 6px 0 0; flex: none; }
+
+/* 办事指南列表（行内 grid 对齐） */
+.guide { border: 1px solid var(--border); border-radius: 8px; background: var(--card); overflow: hidden; }
+.g-head, .g-row { display: grid; grid-template-columns: 3fr 2.1fr 1.5fr 1.2fr 1.1fr; gap: 12px; align-items: center; padding: 12px 20px; }
+.g-head { background: var(--primary); color: var(--on-primary); font-size: 15px; font-weight: 600; }
+.g-row { border-top: 1px solid var(--border); font-size: 16px; }
+.g-row:hover { background: var(--bg); }
+.g-name strong { display: block; font-size: 17px; }
+.g-name small { color: var(--secondary); font-size: 13px; }
+.g-cell { color: var(--secondary); font-size: 15px; }
+.pill { display: inline-block; font-size: 14px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+.pill-ok { background: var(--ok-bg); color: var(--ok-fg); }
+.pill-info { background: var(--info-bg); color: var(--info-fg); }
+.pill-warn { background: var(--warn-bg); color: var(--warn-fg); }
+.flow { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--card); margin-top: 20px; overflow: hidden; }
+.flow li { padding: 16px 20px; }
+.flow li + li { border-left: 1px solid var(--border); }
+.flow .flow-no { font-size: 14px; font-weight: 700; color: var(--accent-deep); display: block; }
+.flow strong { display: block; font-size: 16px; margin: 2px 0; }
+.flow span { font-size: 14px; color: var(--secondary); }
+
+/* 进度查询 */
+.prog-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; align-items: stretch; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 26px 26px 28px; }
+.card h2 { font-size: 22px; margin-bottom: 14px; }
+.field { display: block; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.field input { display: block; width: 100%; border: 2px solid var(--border); border-radius: 6px; padding: 12px 14px; font-size: 17px; font-family: inherit; color: var(--fg); background: var(--card); margin-top: 4px; }
+.field input:focus { border-color: var(--primary); }
+.form-row { display: flex; gap: 12px; align-items: flex-end; }
+.form-row .field { flex: 1; }
+.form-hint { font-size: 14px; color: var(--secondary); margin-top: 10px; }
+.form-err { font-size: 15px; font-weight: 600; color: #B91C1C; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px; padding: 8px 12px; margin-top: 14px; }
+.prog-result { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 20px; }
+.prog-sum { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; font-size: 15px; color: var(--secondary); margin-bottom: 20px; }
+.prog-sum strong { color: var(--fg); font-weight: 600; }
+.steps { list-style: none; display: grid; gap: 0; }
+.step { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--border); font-size: 16px; }
+.step:first-child { border-top: 0; }
+.step-dot { width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--border); place-self: center; }
+.step.done .step-dot { background: var(--primary); border-color: var(--primary); }
+.step.now .step-dot { background: var(--card); border-color: var(--primary); }
+.step strong { font-weight: 600; }
+.step time { font-size: 14px; color: var(--secondary); }
+.step .st-tag { font-size: 14px; font-weight: 700; }
+.step.done .st-tag { color: var(--ok-fg); }
+.step.now .st-tag { color: var(--accent-deep); }
+.step.todo .st-tag { color: var(--secondary); }
+.help-list { list-style: none; display: grid; gap: 12px; font-size: 15px; color: var(--secondary); margin-bottom: 20px; }
+.help-list li { padding-left: 16px; position: relative; }
+.help-list li::before { content: ""; position: absolute; left: 0; top: 10px; width: 8px; height: 8px; background: var(--accent); }
+.help-list strong { color: var(--fg); font-weight: 600; }
+.tip { background: var(--warn-bg); border-radius: 6px; padding: 12px 14px; font-size: 15px; color: var(--warn-fg); margin-bottom: 16px; }
+.hotline { border-top: 1px solid var(--border); padding-top: 16px; font-size: 16px; }
+.hotline strong { font-size: 22px; letter-spacing: 0.04em; }
+
+/* 大厅窗口导航 */
+.hall-grid { display: grid; grid-template-columns: 2fr 3fr; gap: 20px; align-items: stretch; }
+.hall-info dl { display: grid; grid-template-columns: 96px 1fr; gap: 10px 16px; font-size: 15px; }
+.hall-info dt { font-weight: 700; color: var(--fg); }
+.hall-info dd { color: var(--secondary); }
+.h-head, .h-row { display: grid; grid-template-columns: 0.8fr 1.4fr 2.2fr 1.4fr; gap: 12px; align-items: center; padding: 10px 0; }
+.h-head { font-size: 14px; font-weight: 700; color: var(--secondary); border-bottom: 2px solid var(--primary); }
+.h-row { border-bottom: 1px solid var(--border); font-size: 16px; }
+.h-row:last-child { border-bottom: 0; }
+.h-row .h-cell { font-size: 15px; color: var(--secondary); }
+
+/* 通知公告 */
+.n-list { list-style: none; border-top: 1px solid var(--border); }
+.n-list li { border-bottom: 1px solid var(--border); }
+.n-list a { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 14px 4px; text-decoration: none; color: var(--fg); font-size: 17px; }
+.n-list a:hover { color: var(--accent-deep); text-decoration: underline; }
+.n-list time { font-size: 14px; color: var(--secondary); flex: none; }
+
+/* 页脚 */
+.sitefoot { background: var(--primary); color: var(--on-primary); margin-top: 64px; }
+.sitefoot .wrap { padding: 36px 0; display: grid; gap: 10px; font-size: 15px; }
+.sitefoot a { color: var(--on-primary); font-weight: 700; }
+.sitefoot a:hover { color: #CBD5E1; }
+.foot-note { color: #94A3B8; font-size: 14px; }
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .svc-grid { grid-template-columns: repeat(2, 1fr); }
+  .prog-grid, .hall-grid { grid-template-columns: 1fr; }
+  .g-head, .g-row { grid-template-columns: 2.6fr 1.8fr 1.2fr 1.1fr; }
+  .g-head span:nth-child(3), .g-row .g-cell.form { display: none; }
+  .flow { grid-template-columns: repeat(2, 1fr); }
+  .flow li:nth-child(3) { border-left: 0; border-top: 1px solid var(--border); }
+  .flow li:nth-child(4) { border-top: 1px solid var(--border); }
+}
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+  .utility .wrap { justify-content: center; }
+  .masthead .wrap { justify-content: center; text-align: center; }
+  .hero-inner { padding: 44px 0 36px; }
+  .stats { gap: 0; }
+  .stats li { width: 100%; justify-content: center; }
+  .stats li + li { border-left: 0; border-top: 1px solid var(--border); }
+  .svc-grid { grid-template-columns: 1fr; }
+  .g-head { display: none; }
+  .g-row { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 14px 16px; }
+  .g-name { flex-basis: 100%; }
+  .g-row .g-cell.form { display: block; }
+  .flow { grid-template-columns: 1fr; }
+  .flow li + li { border-left: 0; border-top: 1px solid var(--border); }
+  .form-row { flex-direction: column; align-items: stretch; }
+  .card { padding: 18px 18px 20px; }
+  .card h2 { font-size: 19px; margin-bottom: 10px; }
+  .help-list { gap: 8px; font-size: 14px; }
+  .tip { padding: 10px 12px; font-size: 14px; margin-bottom: 12px; }
+  .hotline { padding-top: 12px; font-size: 15px; }
+  .h-head { display: none; }
+  .h-row { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 10px 0; }
+  .h-row strong { flex-basis: 100%; }
+  .n-list a { flex-direction: column; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<div class="utility">
+  <div class="wrap">
+    <span>江城区人民政府门户网站 / 粤公网安备 44170202000123 号</span>
+    <nav aria-label="辅助功能">
+      <a href="#main">无障碍浏览</a>
+      <a href="#main">长辈模式</a>
+      <a href="#main">繁體中文</a>
+      <a href="#progress">个人登录</a>
+    </nav>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="#main">
+      <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 14 L24 4 L42 14 Z" />
+        <path d="M11 19 V33 M18.5 19 V33 M29.5 19 V33 M37 19 V33" />
+        <path d="M8 39 H40" />
+      </svg>
+      <span class="brand-txt">
+        <strong>江城区政务服务中心</strong>
+        <small>江城区人民政府 / 政务服务一网通办</small>
+      </span>
+    </a>
+    <nav class="mainnav" aria-label="主导航">
+      <a href="#main" aria-current="page">首页</a>
+      <a href="#hot">高频事项</a>
+      <a href="#guide">办事指南</a>
+      <a href="#progress">进度查询</a>
+      <a href="#hall">窗口导航</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-t">
+    <div class="wrap hero-inner">
+      <p class="hero-kicker">一件事一次办 / 全程网办与大厅办理并行</p>
+      <h1 id="hero-t">江城区政务服务平台</h1>
+      <p class="hero-sub">集成高频事项办理、办事指南、办件进度查询与大厅窗口导航，个人与企业业务均可在线申办或预约到厅办理。</p>
+      <form class="search" role="search" autocomplete="off">
+        <label class="sr-only" for="q">搜索服务事项</label>
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14 L18 18"/></svg>
+          <input id="q" type="search" name="q" placeholder="请输入事项名称或关键字，如「居住证办理」" aria-describedby="q-hint" aria-expanded="false" aria-controls="sug" role="combobox">
+          <button class="btn btn-dark" type="submit">搜索</button>
+        </div>
+        <p class="sr-only" id="q-hint">输入过程中将显示事项联想，可用上下键选择，回车确认</p>
+        <ul class="sug" id="sug" hidden aria-label="事项联想结果"></ul>
+      </form>
+      <p class="hot">热门搜索：
+        <a href="#guide">社保卡申领</a>
+        <a href="#guide">营业执照办理</a>
+        <a href="#guide">公积金提取</a>
+        <a href="#guide">不动产登记</a>
+      </p>
+      <ul class="stats">
+        <li><strong>1,286</strong><span>在线可办事项（项）</span></li>
+        <li><strong>96.4%</strong><span>事项全程网办率</span></li>
+        <li><strong>3.2</strong><span>平均办理时限（工作日）</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="hot" aria-labelledby="hot-t">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="hot-t">高频事项</h2>
+        <p>按近三十日办理量排序 / 覆盖个人与企业两类主题</p>
+      </div>
+      <p class="sec-note">以下事项均支持在线填表与材料预审，办理时限自受理之日起计算。</p>
+      <ul class="svc-grid">
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><circle cx="6.8" cy="9.5" r="1.8"/><path d="M10.5 8h4 M10.5 11.5h3"/></svg></span>
+          <h3>社会保障卡申领</h3>
+          <p>面向参保人员的首发申领与丢失补换，支持照片回执复用。</p>
+          <p class="svc-meta">10 个工作日 / 网上或网点</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5 L10 4 L16.5 10.5"/><path d="M5.5 9.5 V16 H14.5 V9.5"/></svg></span>
+          <h3>不动产转移登记</h3>
+          <p>买卖、赠与等转移情形，税费缴纳与登记可一次联办。</p>
+          <p class="svc-meta">5 个工作日 / 窗口或网上</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2"/><path d="M3 8.5 H17 M6.5 12 H9.5"/></svg></span>
+          <h3>营业执照设立登记</h3>
+          <p>个体工商户与企业开办，执照免费邮寄送达。</p>
+          <p class="svc-meta">3 个工作日 / 全程网办</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3.5" width="10" height="13" rx="1.5"/><circle cx="10" cy="11" r="1.4"/><path d="M8 3.5 V2 H12 V3.5"/></svg></span>
+          <h3>居住证办理与签注</h3>
+          <p>流动人口居住登记、居住证申领与到期签注。</p>
+          <p class="svc-meta">当日办结 / 网上或窗口</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9 H17"/><path d="M10 2.5 L16.5 9 H3.5 Z"/><path d="M5.5 12.5 V17 M14.5 12.5 V17 M10 12.5 V17"/></svg></span>
+          <h3>公积金购买住房提取</h3>
+          <p>购买自住住房提取与偿还购房贷款本息提取。</p>
+          <p class="svc-meta">3 个工作日 / 窗口或网上</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13.5 L5.2 9 H14.8 L16 13.5"/><rect x="3" y="13.5" width="14" height="3.5" rx="1"/><circle cx="6.6" cy="15.2" r="0.9"/><circle cx="13.4" cy="15.2" r="0.9"/></svg></span>
+          <h3>机动车驾驶证换证</h3>
+          <p>期满换证与损毁换证，体检信息线上核验。</p>
+          <p class="svc-meta">1 个工作日 / 网上或车管所</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 3 H12 L15.5 6.5 V17 H5.5 Z"/><path d="M12 3 V6.5 H15.5 M8 10.5 H12 M8 13.5 H10.5"/></svg></span>
+          <h3>出生医学证明补发</h3>
+          <p>本区助产机构内出生新生儿证明的补发与换发。</p>
+          <p class="svc-meta">5 个工作日 / 窗口办理</p>
+        </li>
+        <li class="svc">
+          <span class="svc-ico"><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="3" width="11" height="15" rx="1.5"/><path d="M7.5 7 H12.5 M7.5 10.5 H12.5 M7.5 14 H10.5"/></svg></span>
+          <h3>灵活就业社保缴费</h3>
+          <p>灵活就业人员养老与医疗保险费按月或按年缴纳。</p>
+          <p class="svc-meta">即时办结 / 网上自助</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec band" id="guide" aria-labelledby="guide-t">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="guide-t">办事指南</h2>
+        <p>受理部门 / 办理形式 / 参考时限逐行对齐，便于横向比对</p>
+      </div>
+      <p class="sec-note">点击事项名称查看材料清单与受理条件，指南信息每季度更新一次。</p>
+      <div class="guide">
+        <div class="g-head" role="row">
+          <span>事项名称</span>
+          <span>受理部门</span>
+          <span>办理形式</span>
+          <span>参考时限</span>
+          <span>办理状态</span>
+        </div>
+        <div class="g-row" role="row">
+          <p class="g-name"><strong><a href="#guide">不动产转移登记（买卖）</a></strong><small>事项编号 441702-GT-012</small></p>
+          <span class="g-cell">区不动产登记中心</span>
+          <span class="g-cell form">窗口或网上</span>
+          <span class="g-cell">5 个工作日</span>
+          <span><span class="pill pill-info">可预约</span></span>
+        </div>
+        <div class="g-row" role="row">
+          <p class="g-name"><strong><a href="#guide">个体工商户设立登记</a></strong><small>事项编号 441702-GS-031</small></p>
+          <span class="g-cell">区市场监督管理局</span>
+          <span class="g-cell form">全程网办</span>
+          <span class="g-cell">3 个工作日</span>
+          <span><span class="pill pill-ok">可网办</span></span>
+        </div>
+        <div class="g-row" role="row">
+          <p class="g-name"><strong><a href="#guide">社会保障卡申领（补换）</a></strong><small>事项编号 441702-SB-004</small></p>
+          <span class="g-cell">区社会保险基金管理局</span>
+          <span class="g-cell form">网上或银行网点</span>
+          <span class="g-cell">10 个工作日</span>
+          <span><span class="pill pill-ok">可网办</span></span>
+        </div>
+        <div class="g-row" role="row">
+          <p class="g-name"><strong><a href="#guide">灵活就业人员社保缴费</a></strong><small>事项编号 441702-SW-017</small></p>
+          <span class="g-cell">区税务局</span>
+          <span class="g-cell form">网上自助</span>
+          <span class="g-cell">即时办结</span>
+          <span><span class="pill pill-ok">可网办</span></span>
+        </div>
+        <div class="g-row" role="row">
+          <p class="g-name"><strong><a href="#guide">公积金购买住房提取</a></strong><small>事项编号 441702-GJJ-009</small></p>
+          <span class="g-cell">市公积金中心江城管理部</span>
+          <span class="g-cell form">窗口或网上</span>
+          <span class="g-cell">3 个工作日</span>
+          <span><span class="pill pill-info">可预约</span></span>
+        </div>
+        <div class="g-row" role="row">
+          <p class="g-name"><strong><a href="#guide">居住证签注（延期）</a></strong><small>事项编号 441702-GA-026</small></p>
+          <span class="g-cell">区公安分局</span>
+          <span class="g-cell form">网上或窗口</span>
+          <span class="g-cell">当日办结</span>
+          <span><span class="pill pill-ok">可网办</span></span>
+        </div>
+      </div>
+      <ol class="flow" aria-label="通用办理流程">
+        <li><span class="flow-no">环节一</span><strong>提交申请</strong><span>线上填表或大厅取号交件</span></li>
+        <li><span class="flow-no">环节二</span><strong>收件受理</strong><span>出具受理回执与受理编号</span></li>
+        <li><span class="flow-no">环节三</span><strong>审核办理</strong><span>部门审核并制作办理结果</span></li>
+        <li><span class="flow-no">环节四</span><strong>结果送达</strong><span>窗口领取或免费邮寄到家</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="progress" aria-labelledby="prog-t">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="prog-t">办件进度查询</h2>
+        <p>输入受理编号，查看当前环节与预计办结时间</p>
+      </div>
+      <p class="sec-note">查询结果每 30 分钟与各业务系统同步一次。</p>
+      <div class="prog-grid">
+        <div class="card">
+          <h2>按受理编号查询</h2>
+          <form id="prog-form" novalidate>
+            <div class="form-row">
+              <label class="field">受理编号
+                <input id="prog-no" name="no" type="text" inputmode="latin" placeholder="JCSL-2026-0918-4387">
+              </label>
+              <button class="btn btn-blue" type="submit">查询进度</button>
+            </div>
+            <p class="form-hint">编号可在受理回执、办结短信或个人办件库中查看。</p>
+            <p class="form-err" id="prog-err" role="alert" hidden></p>
+          </form>
+          <div class="prog-result" id="prog-result" hidden>
+            <ul class="prog-sum">
+              <li><strong>不动产转移登记（买卖）</strong></li>
+              <li>受理日期 <strong>2026-09-18</strong></li>
+              <li>受理方式 <strong>线上申请</strong></li>
+              <li>预计办结 <strong>2026-10-12 前</strong></li>
+            </ul>
+            <ol class="steps">
+              <li class="step done"><span class="step-dot" aria-hidden="true"></span><strong>提交申请</strong><time>2026-09-18 09:42</time><span class="st-tag">已完成</span></li>
+              <li class="step done"><span class="step-dot" aria-hidden="true"></span><strong>收件受理</strong><time>2026-09-18 14:05</time><span class="st-tag">已完成</span></li>
+              <li class="step now"><span class="step-dot" aria-hidden="true"></span><strong>审核办理</strong><time>2026-09-30 10:20 起</time><span class="st-tag">进行中</span></li>
+              <li class="step todo"><span class="step-dot" aria-hidden="true"></span><strong>制证送达</strong><time>预计 2026-10-12</time><span class="st-tag">待办理</span></li>
+            </ol>
+          </div>
+        </div>
+        <div class="card">
+          <h2>查询说明</h2>
+          <ul class="help-list">
+            <li><strong>查询范围：</strong>2026 年 1 月以来在大厅窗口、政务服务网与自助终端提交的申请件。</li>
+            <li><strong>结果效力：</strong>进度信息仅供参考，办理结果以书面决定或电子证照为准。</li>
+            <li><strong>材料补正：</strong>需补正材料时将发送短信至预留手机号，请在 5 个工作日内补充提交。</li>
+          </ul>
+          <p class="tip">温馨提示：高峰时段（每月 1 至 10 日）审核进度可能延迟一日更新，请以短信通知为准。</p>
+          <p class="hotline">咨询监督：12345 政务服务便民热线 / <strong>0662-3391234</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band band-muted" id="hall" aria-labelledby="hall-t">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="hall-t">政务服务大厅窗口导航</h2>
+        <p>出行前先看窗口分布与等待人数，减少现场等候</p>
+      </div>
+      <p class="sec-note">叫号状态每 5 分钟刷新一次，数据来自大厅现场取号系统。</p>
+      <div class="hall-grid">
+        <div class="card hall-info">
+          <h2>大厅信息</h2>
+          <dl>
+            <dt>大厅地址</dt><dd>江城区府前路 9 号区政务服务中心（南门进）</dd>
+            <dt>办公时间</dt><dd>周一至周五 8:30 至 17:30（法定节假日除外）</dd>
+            <dt>咨询电话</dt><dd>0662-3391234（工作日人工接听）</dd>
+            <dt>乘车路线</dt><dd>6 路 / 10 路 / 21 路公交至府前路站，步行约 200 米</dd>
+            <dt>无障碍</dt><dd>南门坡道 / 一层爱心窗口 / 手语视频远程协助</dd>
+          </dl>
+        </div>
+        <div class="card">
+          <h2>楼层窗口分布</h2>
+          <div class="h-head">
+            <span>楼层</span>
+            <span>窗口</span>
+            <span>承办事项</span>
+            <span>当前状态</span>
+          </div>
+          <div class="h-row">
+            <strong>一层</strong>
+            <span class="h-cell">A01 至 A08</span>
+            <span class="h-cell">社会保险综合业务</span>
+            <span><span class="pill pill-info">叫号中 A036</span></span>
+          </div>
+          <div class="h-row">
+            <strong>一层</strong>
+            <span class="h-cell">B01 至 B06</span>
+            <span class="h-cell">医疗保障综合（参保 / 报销）</span>
+            <span><span class="pill pill-warn">等待 2 人</span></span>
+          </div>
+          <div class="h-row">
+            <strong>二层</strong>
+            <span class="h-cell">C01 至 C12</span>
+            <span class="h-cell">不动产登记 / 公积金提取</span>
+            <span><span class="pill pill-warn">等待 5 人</span></span>
+          </div>
+          <div class="h-row">
+            <strong>三层</strong>
+            <span class="h-cell">D01 至 D05</span>
+            <span class="h-cell">企业开办一件事联办</span>
+            <span><span class="pill pill-ok">窗口空闲</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="notice-t">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="notice-t">通知公告</h2>
+        <p>政策通告与办事安排 / 按发布时间排序</p>
+      </div>
+      <ul class="n-list">
+        <li><a href="#notice-t"><span>关于区政务服务中心国庆中秋期间对外办公时间安排的通告</span><time>2026-09-30</time></a></li>
+        <li><a href="#notice-t"><span>2026 年下半年江城区公共租赁住房配租意向登记公告</span><time>2026-09-22</time></a></li>
+        <li><a href="#notice-t"><span>关于调整 2026 年度灵活就业人员社会保险缴费基数的通告</span><time>2026-09-12</time></a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="sitefoot">
+  <div class="wrap">
+    <p>UI 设计提示词库 / 产品模板 / Government/Public Service</p>
+    <p><a href="../style-catalog.html">返回风格目录</a></p>
+    <p class="foot-note">江城区政务服务中心主办 / 粤ICP备2026000123号 / 本页面为设计样板，数据均为演示内容</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var SERVICES = [
+    { name: "居住证办理与签注", dept: "区公安分局" },
+    { name: "居住证签注（延期）", dept: "区公安分局" },
+    { name: "社会保障卡申领", dept: "区社会保险基金管理局" },
+    { name: "社会保障卡申领（补换）", dept: "区社会保险基金管理局" },
+    { name: "不动产转移登记", dept: "区不动产登记中心" },
+    { name: "不动产转移登记（买卖）", dept: "区不动产登记中心" },
+    { name: "个体工商户设立登记", dept: "区市场监督管理局" },
+    { name: "营业执照设立登记", dept: "区市场监督管理局" },
+    { name: "公积金购买住房提取", dept: "市公积金中心江城管理部" },
+    { name: "灵活就业人员社保缴费", dept: "区税务局" },
+    { name: "机动车驾驶证换证", dept: "区公安分局交管大队" },
+    { name: "出生医学证明补发", dept: "区卫生健康局" }
+  ];
+  var input = document.getElementById("q");
+  var sug = document.getElementById("sug");
+  var active = -1;
+
+  function closeSug() {
+    sug.hidden = true;
+    input.setAttribute("aria-expanded", "false");
+    active = -1;
+  }
+  function render(list) {
+    if (!list.length) { closeSug(); return; }
+    sug.innerHTML = list.map(function (s, i) {
+      return '<li role="option" aria-selected="false"><button type="button" data-name="' + s.name + '"><span>' + s.name +
+        '</span><span class="sug-dept">' + s.dept + "</span></button></li>";
+    }).join("");
+    sug.hidden = false;
+    input.setAttribute("aria-expanded", "true");
+    active = -1;
+  }
+  input.addEventListener("input", function () {
+    var kw = input.value.trim().toLowerCase();
+    if (!kw) { closeSug(); return; }
+    render(SERVICES.filter(function (s) {
+      return s.name.toLowerCase().indexOf(kw) > -1 || s.dept.indexOf(kw) > -1;
+    }).slice(0, 6));
+  });
+  sug.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    input.value = btn.dataset.name;
+    closeSug();
+  });
+  input.addEventListener("keydown", function (e) {
+    var items = sug.querySelectorAll("button");
+    if (sug.hidden || !items.length) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      active = e.key === "ArrowDown" ? (active + 1) % items.length : (active - 1 + items.length) % items.length;
+      items.forEach(function (b, i) { b.classList.toggle("active", i === active); });
+    } else if (e.key === "Enter" && active > -1) {
+      e.preventDefault();
+      input.value = items[active].dataset.name;
+      closeSug();
+    } else if (e.key === "Escape") {
+      closeSug();
+    }
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".search")) closeSug();
+  });
+
+  var form = document.getElementById("prog-form");
+  var err = document.getElementById("prog-err");
+  var result = document.getElementById("prog-result");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var no = document.getElementById("prog-no").value.trim();
+    if (no.length < 6) {
+      err.textContent = "请输入完整的受理编号（示例 JCSL-2026-0918-4387），编号区分大小写。";
+      err.hidden = false;
+      result.hidden = true;
+      return;
+    }
+    err.hidden = true;
+    result.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

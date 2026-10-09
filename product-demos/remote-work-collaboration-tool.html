@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品模板 / Remote Work/Collaboration / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #6366F1 / OnPrimary #000 / Secondary #818CF8 / Accent #059669 / BG #F5F3FF / FG #312E81 / Card #FFF / Border #E0E7FF / Muted #EBEFF9 / Ring #6366F1 / 辅助文字 #4338CA（对 BG 7.2:1）/ 深底次级 #A5B4FC（5.7:1）/ 深底正文 #E0E7FF（9.3:1） */
+:root{--primary:#6366F1;--on-primary:#000000;--secondary:#818CF8;--accent:#059669;--bg:#F5F3FF;--fg:#312E81;--card:#FFFFFF;--line:#E0E7FF;--muted:#EBEFF9;--ring:#6366F1;--ink:#312E81;--ink-soft:#4338CA;--on-dark:#E0E7FF;--on-dark-soft:#A5B4FC;--soft:0 1px 2px rgba(49,46,129,.06),0 10px 28px rgba(49,46,129,.12);--soft-lg:0 2px 4px rgba(49,46,129,.08),0 18px 44px rgba(49,46,129,.16)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+a{color:var(--ink-soft);text-decoration:none}
+a:hover{text-decoration:underline}
+svg{display:block}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+.on-dark a:focus-visible,.on-dark button:focus-visible{outline-color:#FFFFFF}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* 顶部实时条 */
+.ticker{background:var(--fg);color:#C7D2FE;font-size:14px}
+.ticker .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.ticker strong{color:#FFFFFF;font-weight:600}
+
+/* 头部 */
+header{background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.navbar{display:flex;align-items:center;gap:28px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--fg)}
+.brand svg{width:32px;height:32px}
+.nav-links{display:flex;gap:24px;list-style:none;margin-left:8px}
+.nav-links a{color:var(--ink);font-weight:500;padding:4px 2px}
+.nav-links a:hover{color:var(--ink-soft);text-decoration:none;box-shadow:0 3px 0 var(--primary)}
+.nav-side{margin-left:auto;display:flex;align-items:center;gap:16px}
+.nav-login{font-weight:600;font-size:15px}
+.btn{display:inline-block;border:1px solid rgba(49,46,129,.22);background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;padding:11px 22px;border-radius:12px;cursor:pointer;box-shadow:var(--soft);transition:transform .16s ease,box-shadow .16s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--soft-lg);text-decoration:none}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 2px rgba(49,46,129,.10)}
+.btn-outline{background:var(--card);color:var(--fg)}
+.btn-light{background:#FFFFFF;color:var(--fg)}
+.btn-deep{background:var(--fg);color:var(--on-dark);border-color:var(--fg)}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--card);border-radius:10px;cursor:pointer;padding:8px 10px}
+.menu-btn svg{width:22px;height:22px;stroke:var(--fg)}
+
+/* 首屏 */
+.hero{background:radial-gradient(640px 340px at 88% 10%,rgba(129,140,248,.30),transparent 70%),radial-gradient(520px 320px at 4% 92%,rgba(5,150,105,.10),transparent 70%),var(--bg)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding-top:72px;padding-bottom:72px}
+.hero-kicker{font-size:14px;font-weight:600;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);display:inline-flex;gap:8px;padding:6px 14px;border-radius:999px;margin-bottom:20px;box-shadow:0 1px 2px rgba(49,46,129,.06)}
+.hero-kicker i{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center}
+.hero h1{font-size:clamp(30px,4vw,50px);line-height:1.24;color:var(--fg);font-weight:800}
+.hero h1 em{font-style:normal;color:#FFFFFF;background:var(--fg);padding:0 12px;border-radius:10px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero-desc{margin-top:18px;font-size:17px;color:var(--ink-soft);max-width:34em}
+.hero-desc strong{color:var(--fg)}
+.hero-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--soft);padding:14px 16px}
+.stat b{display:block;font-size:24px;color:var(--fg);font-weight:800;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-soft)}
+
+/* 语音短帖卡（签名组件） */
+.post-card{background:linear-gradient(180deg,rgba(255,255,255,.92),#FFFFFF 38%);border:1px solid var(--line);border-radius:20px;box-shadow:var(--soft-lg);padding:22px}
+.post-head{display:flex;align-items:center;gap:12px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;flex-shrink:0}
+.post-meta{line-height:1.4;min-width:0}
+.post-meta b{display:block;font-size:16px;color:var(--fg)}
+.post-meta span{font-size:13px;color:var(--ink-soft)}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.pill-voice{background:#EDEAFF;color:var(--ink-soft);margin-left:auto}
+.pill-accent{background:#D1FAE5;color:#065F46}
+.wave{display:flex;align-items:center;gap:3px;height:56px;margin:18px 0 14px;background:var(--muted);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.wave span{flex:1;background:var(--secondary);border-radius:3px;min-height:6%;transform-origin:center}
+.wave.playing span{animation:wpulse .8s ease-in-out calc(var(--i)*.05s) infinite alternate}
+@keyframes wpulse{from{transform:scaleY(.5)}to{transform:scaleY(1)}}
+.post-play{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.play-btn{display:flex;align-items:center;gap:8px;border:1px solid rgba(49,46,129,.22);background:var(--primary);color:var(--on-primary);font-weight:700;font-size:14px;padding:8px 16px;border-radius:999px;cursor:pointer;transition:transform .16s ease}
+.play-btn:hover{transform:translateY(-2px)}
+.play-btn svg{width:14px;height:14px;fill:currentColor}
+.dur{font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.script{margin-top:14px;font-size:15px;color:var(--ink);background:var(--card);border-left:4px solid var(--secondary);padding:10px 14px;border-radius:0 12px 12px 0}
+.post-foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.chip{font-size:13px;font-weight:600;color:var(--ink-soft);background:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+.chip-ghost{background:transparent}
+
+/* 价值条 */
+.assure{background:var(--fg)}
+.assure .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.assure-item{display:flex;gap:14px;align-items:flex-start;padding:26px 26px 26px 0}
+.assure-item + .assure-item{border-left:1px solid rgba(224,231,255,.22);padding-left:26px}
+.assure-item svg{width:36px;height:36px;flex-shrink:0;stroke:var(--on-dark-soft)}
+.assure-item h3{font-size:16px;color:#FFFFFF;font-weight:700}
+.assure-item p{font-size:14px;color:var(--on-dark);margin-top:4px}
+
+/* 区块通用 */
+section{padding:72px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.sec-head h2{font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--fg);line-height:1.25}
+.sec-head p{color:var(--ink-soft);margin-top:8px;max-width:36em}
+.sec-head a{font-weight:600;white-space:nowrap}
+.band-card{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band-muted{background:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band-deep{background:var(--fg)}
+
+/* 产品能力 */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feature{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--soft);padding:24px;display:flex;flex-direction:column;gap:10px;transition:transform .16s ease,box-shadow .16s ease}
+.feature:hover{transform:translateY(-4px);box-shadow:var(--soft-lg)}
+.f-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--muted);color:var(--ink-soft)}
+.f-icon svg{width:24px;height:24px;stroke:currentColor}
+.f-icon.is-accent{background:#D1FAE5;color:#065F46}
+.feature h3{font-size:19px;color:var(--fg);font-weight:700}
+.feature p{font-size:14px;color:var(--ink-soft);flex:1}
+.f-meta{font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:10px}
+
+/* 时区轮盘 */
+.wheel-layout{display:grid;grid-template-columns:.92fr 1.08fr;gap:44px;align-items:center}
+.now-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--soft);padding:20px;margin-top:22px}
+.now-card h3{font-size:16px;color:var(--fg);font-weight:700}
+.now-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.now-row:last-of-type{border-bottom:0}
+.now-row b{font-variant-numeric:tabular-nums;color:var(--fg);font-size:16px}
+.wheel-note{font-size:13px;color:var(--ink-soft);margin-top:12px}
+.wheel-stage{height:330px;display:flex;align-items:center;justify-content:center;perspective:1150px}
+.wheel-ring{position:relative;width:216px;height:220px;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.22,.75,.25,1)}
+.wheel-card{position:absolute;inset:0;backface-visibility:hidden;background:linear-gradient(180deg,rgba(255,255,255,.94),#FFFFFF 42%);border:1px solid var(--line);border-radius:18px;box-shadow:var(--soft-lg);padding:18px 14px;display:flex;flex-direction:column;gap:5px;text-align:center;align-items:center}
+.w-city{font-size:14px;color:var(--ink-soft);font-weight:600}
+.w-time{font-size:34px;color:var(--fg);font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.w-off{font-size:13px;color:var(--ink-soft)}
+.w-status{font-size:12px;font-weight:700;border-radius:999px;padding:3px 12px}
+.st-focus{background:var(--accent);color:#000000}
+.st-collab{background:var(--secondary);color:#000000}
+.st-lunch{background:var(--line);color:var(--fg)}
+.st-rest{background:var(--muted);color:var(--ink-soft)}
+.w-name{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.wheel-ctrl{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.wheel-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(49,46,129,.22);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--soft);transition:transform .16s ease}
+.wheel-btn:hover{transform:translateY(-2px)}
+.wheel-btn svg{width:18px;height:18px;stroke:var(--fg)}
+.wheel-info{font-size:14px;color:var(--fg);font-weight:600;text-align:center;min-height:24px}
+
+/* 团队动态流 */
+.feed-layout{display:grid;grid-template-columns:1.55fr 1fr;gap:26px;align-items:stretch}
+.feed{display:grid;gap:16px}
+.feed-item{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--soft);padding:18px;display:flex;flex-direction:column;gap:10px;transition:transform .16s ease}
+.feed-item:hover{transform:translateY(-2px)}
+.feed-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.feed-head .avatar{width:36px;height:36px;font-size:14px}
+.feed-head b{color:var(--fg);font-size:15px}
+.feed-head span{font-size:13px;color:var(--ink-soft)}
+.feed-head .pill{margin-left:auto}
+.pill-text{background:var(--muted);color:var(--ink-soft)}
+.pill-digest{background:#D1FAE5;color:#065F46}
+.feed-body{font-size:15px;color:var(--ink)}
+.feed-body strong{color:var(--fg)}
+.wave.mini{height:38px;margin:0;padding:6px 10px}
+.feed-foot{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--ink-soft)}
+.feed-foot span{background:var(--muted);border-radius:999px;padding:3px 12px}
+.feed-rail{display:grid;gap:16px;align-content:start}
+.rail-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--soft);padding:20px;display:flex;flex-direction:column}
+.rail-card h3{font-size:16px;color:var(--fg);font-weight:700}
+.rail-big{font-size:40px;font-weight:800;color:var(--fg);font-variant-numeric:tabular-nums;line-height:1.15}
+.rail-big small{font-size:16px;color:var(--ink-soft);font-weight:600}
+.rail-list{margin-top:12px;border-top:1px solid var(--line);padding-top:6px}
+.rail-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:7px 0;font-size:14px;border-bottom:1px solid var(--line)}
+.rail-row:last-child{border-bottom:0}
+.rail-row b{color:var(--fg)}
+.rail-row .ok{color:#065F46;font-weight:600;font-size:13px;background:#D1FAE5;border-radius:999px;padding:2px 10px}
+.rail-row .wait{color:var(--ink-soft);font-weight:600;font-size:13px;background:var(--muted);border-radius:999px;padding:2px 10px}
+.bars{display:flex;gap:8px;align-items:flex-end;height:96px;margin-top:16px}
+.bar{flex:1;background:var(--secondary);border-radius:6px 6px 2px 2px}
+.bar.hot{background:var(--primary)}
+.bars-label{display:flex;gap:8px;margin-top:6px}
+.bars-label span{flex:1;text-align:center;font-size:12px;color:var(--ink-soft)}
+.rail-note{font-size:12px;color:var(--ink-soft);margin-top:12px}
+
+/* 一天的节奏（价值叙事） */
+.rhythm .sec-head h2{color:#FFFFFF}
+.rhythm .sec-head p{color:var(--on-dark)}
+.rhythm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.r-step{background:rgba(224,231,255,.08);border:1px solid rgba(224,231,255,.22);border-radius:18px;padding:24px}
+.r-step time{font-size:32px;font-weight:800;color:#FFFFFF;font-variant-numeric:tabular-nums;display:block}
+.r-step .r-place{font-size:14px;color:var(--on-dark-soft);font-weight:600;margin-top:2px}
+.r-step h3{font-size:18px;color:#FFFFFF;margin-top:14px;font-weight:700}
+.r-step p{font-size:14px;color:var(--on-dark);margin-top:8px}
+
+/* 团队评价 */
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.voice{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--soft);padding:22px;display:flex;flex-direction:column;gap:14px}
+.voice blockquote{font-size:15px;color:var(--ink);flex:1}
+.voice figcaption{font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:12px}
+.voice figcaption b{color:var(--fg);font-size:14px}
+.voice .v-metric{font-size:13px;font-weight:700;color:#065F46;background:#D1FAE5;border-radius:999px;padding:3px 12px;align-self:flex-start}
+
+/* 常见问题 */
+.faq-list{display:grid;gap:14px;max-width:860px}
+.faq details{border:1px solid var(--line);background:var(--card);border-radius:14px;box-shadow:var(--soft)}
+.faq summary{cursor:pointer;padding:16px 18px;font-weight:700;color:var(--fg);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{width:18px;height:18px;flex-shrink:0;transition:transform .2s ease;stroke:var(--ink-soft)}
+.faq details[open] summary svg{transform:rotate(45deg)}
+.faq details p{padding:0 18px 16px;font-size:14px;color:var(--ink-soft)}
+
+/* 行动 CTA */
+.cta{background:var(--primary);border-top:1px solid rgba(49,46,129,.25);border-bottom:1px solid rgba(49,46,129,.25);color:var(--on-primary)}
+.cta h2{font-size:clamp(26px,3vw,36px);font-weight:800;max-width:18em;line-height:1.3}
+.cta p{margin-top:12px;font-weight:500;max-width:32em;color:rgba(0,0,0,.82)}
+.cta-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.cta-small{margin-top:22px;font-size:13px;color:rgba(0,0,0,.72);font-weight:600}
+
+/* 页脚 */
+footer{background:var(--fg);color:var(--on-dark)}
+.foot-main{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-top:48px;padding-bottom:40px}
+.foot-main h4{color:#FFFFFF;font-size:15px;margin-bottom:12px;font-weight:700}
+.foot-main ul{list-style:none;display:grid;gap:8px}
+.foot-main a{color:var(--on-dark-soft);font-size:14px}
+.foot-main a:hover{color:#FFFFFF}
+.foot-brand p{font-size:14px;margin-top:10px;max-width:26em}
+.foot-note{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;border-top:1px solid rgba(224,231,255,.22);padding-top:18px;padding-bottom:22px;font-size:13px}
+.foot-note a{font-weight:600;color:#FFFFFF;text-decoration:underline;text-underline-offset:3px}
+
+/* 亮相动效：仅首屏一次 */
+.reveal{animation:rise .65s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{animation:none}
+  .btn,.feature,.play-btn,.wheel-btn,.feed-item,.wheel-ring{transition:none}
+  .wave.playing span{animation:none}
+}
+
+/* 响应式 */
+@media (max-width:1024px){
+  .hero .wrap{grid-template-columns:1fr;gap:36px}
+  .features{grid-template-columns:repeat(2,1fr)}
+  .wheel-layout{grid-template-columns:1fr;gap:30px}
+  .feed-layout{grid-template-columns:1fr}
+  .rhythm-grid{grid-template-columns:1fr}
+  .voices{grid-template-columns:1fr}
+  .foot-main{grid-template-columns:1fr 1fr}
+}
+@media (max-width:768px){
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);border-bottom:1px solid var(--line);flex-direction:column;gap:0;padding:8px 24px 16px}
+  .nav-links.open{display:flex}
+  .nav-links li{border-bottom:1px solid var(--line)}
+  .nav-links li:last-child{border-bottom:0}
+  .nav-links a{display:block;padding:12px 2px}
+  .menu-btn{display:block}
+  .navbar{position:relative;flex-wrap:wrap}
+  .nav-side{margin-left:auto}
+  .assure .wrap{grid-template-columns:1fr}
+  .assure-item + .assure-item{border-left:0;border-top:1px solid rgba(224,231,255,.22);padding-left:0}
+  .assure-item{padding:18px 0}
+  section{padding:52px 0}
+  .wheel-stage{height:300px}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .ticker .wrap{justify-content:flex-start}
+  .ticker span:last-child{display:none}
+  .nav-login{display:none}
+  .stats{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr}
+  .wheel-ring{width:182px;height:212px}
+  .wheel-stage{height:280px}
+  .foot-main{grid-template-columns:1fr}
+  .hero .wrap{padding-top:48px;padding-bottom:48px}
+}
+</style>
+</head>
+<body>
+
+<!-- 实时条 -->
+<div class="ticker">
+  <div class="wrap">
+    <span><strong>此刻 8 个时区 / 6 位成员在线</strong> / 新站帖正在陆续发布</span>
+    <span>语音帖自动转写 / 支持 21 种语言</span>
+  </div>
+</div>
+
+<!-- 头部 -->
+<header>
+  <div class="wrap navbar">
+    <a class="brand" href="#" aria-label="今日站首页">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="3" y="7" width="34" height="26" rx="8" fill="#6366F1"/><circle cx="14" cy="20" r="3.4" fill="#F5F3FF"/><rect x="21" y="18.6" width="11" height="2.8" rx="1.4" fill="#F5F3FF"/><rect x="21" y="23.4" width="7" height="2.8" rx="1.4" fill="#818CF8"/><path d="M14 12.6v1.4M14 26v1.4M8.6 20H10M18 20h1.4" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round"/></svg>
+      今日站
+    </a>
+    <nav aria-label="主导航">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features">产品能力</a></li>
+        <li><a href="#wheel">时区轮盘</a></li>
+        <li><a href="#feed">团队动态</a></li>
+        <li><a href="#rhythm">一天的节奏</a></li>
+        <li><a href="#faq">常见问题</a></li>
+      </ul>
+    </nav>
+    <div class="nav-side">
+      <a class="nav-login" href="#">登录</a>
+      <a class="btn" href="#cta">免费试用</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="打开菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 首屏 -->
+<div class="hero">
+  <div class="wrap reveal">
+    <div>
+      <p class="hero-kicker"><i aria-hidden="true"></i>异步站会 / 语音短帖 / 时区感知</p>
+      <h1>八个时区的团队，<br>一天只开<em>一场</em>会</h1>
+      <p class="hero-desc">今日站帮分布式团队把每日站会换成语音短帖：每个人在自己清醒的时刻录一段更新，<strong>自动转写成文字</strong>、按时区排进队友的清晨。省下来的会议时间，留给真正需要同时在线的讨论。</p>
+      <div class="hero-actions">
+        <a class="btn" href="#cta">免费开始 14 天试用</a>
+        <a class="btn btn-outline" href="#feed">听一段真实站帖</a>
+      </div>
+      <div class="stats" aria-label="平台数据">
+        <div class="stat"><b>6,800+</b><span>远程团队每日在用</span></div>
+        <div class="stat"><b>74 秒</b><span>平均站帖时长</span></div>
+        <div class="stat"><b>2.6 小时</b><span>每人每周省下的会议时间</span></div>
+      </div>
+    </div>
+    <aside class="post-card" aria-label="语音站帖示例">
+      <div class="post-head">
+        <span class="avatar" aria-hidden="true">绫</span>
+        <div class="post-meta">
+          <b>高桥绫</b>
+          <span>客户端工程 / 东京 UTC+9 / 当地 09:41</span>
+        </div>
+        <span class="pill pill-voice">语音</span>
+      </div>
+      <div class="wave" id="heroWave" aria-hidden="true"><span style="--i:0;height:34%"></span><span style="--i:1;height:58%"></span><span style="--i:2;height:42%"></span><span style="--i:3;height:66%"></span><span style="--i:4;height:82%"></span><span style="--i:5;height:60%"></span><span style="--i:6;height:90%"></span><span style="--i:7;height:72%"></span><span style="--i:8;height:48%"></span><span style="--i:9;height:64%"></span><span style="--i:10;height:38%"></span><span style="--i:11;height:56%"></span><span style="--i:12;height:78%"></span><span style="--i:13;height:46%"></span><span style="--i:14;height:70%"></span><span style="--i:15;height:62%"></span><span style="--i:16;height:36%"></span><span style="--i:17;height:76%"></span><span style="--i:18;height:54%"></span><span style="--i:19;height:44%"></span><span style="--i:20;height:84%"></span><span style="--i:21;height:58%"></span></div>
+      <div class="post-play">
+        <button class="play-btn" id="playBtn" aria-label="播放语音">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v13l11-6.5z"/></svg>
+          <b>播放</b>
+        </button>
+        <span class="dur">时长 74 秒</span>
+        <span class="pill pill-accent">已自动转写</span>
+      </div>
+      <p class="script">「灰度提到 20% 之后崩溃率稳定在 0.3%，这周准备申请全量。风险点是低端机的内存占用，我加了两个埋点，明天出数据。」</p>
+      <div class="post-foot">
+        <span class="chip">收到 6</span>
+        <span class="chip">回复 2</span>
+        <span class="chip chip-ghost">录制于通勤地铁</span>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- 三条价值 -->
+<div class="assure on-dark">
+  <div class="wrap">
+    <div class="assure-item">
+      <svg viewBox="0 0 40 40" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="5" y="8" width="30" height="26" rx="4"/><path d="M5 15h30M13 4v6M27 4v6M16 24l8-8M24 24l-8-8"/></svg>
+      <div>
+        <h3>少开会</h3>
+        <p>把每日例会换成异步短帖，会议时间留给真正需要同时在线的讨论。</p>
+      </div>
+    </div>
+    <div class="assure-item">
+      <svg viewBox="0 0 40 40" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="20" cy="20" r="14"/><path d="M20 6v28M6 20h28M9 11c6.5 5 15.5 5 22 0M9 29c6.5-5 15.5-5 22 0"/></svg>
+      <div>
+        <h3>时区即日常</h3>
+        <p>每条帖自动换算到读者的本地时间，凌晨三点的闹钟可以退休了。</p>
+      </div>
+    </div>
+    <div class="assure-item">
+      <svg viewBox="0 0 40 40" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 8v8a8 8 0 0 0 16 0V8"/><path d="M28 22a8 8 0 0 0 0 12M12 22a8 8 0 0 1 0 12" transform="translate(0,-2)"/><path d="M20 24v8"/></svg>
+      <div>
+        <h3>专注优先</h3>
+        <p>勿扰时段内静默一切通知，摘要按你的清晨定时送达。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 产品能力 -->
+<section class="band-card" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>一个安静的工具，装下吵闹的协作</h2>
+        <p>从录一条语音到读完全队动态，今日站把异步站会需要的每一步都做到顺手，不打断任何人的深度工作。</p>
+      </div>
+      <a href="#wheel">先转一次时区轮盘</a>
+    </div>
+    <div class="features">
+      <article class="feature">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></span>
+        <h3>语音短帖</h3>
+        <p>74 秒说完今天的进展。地铁上也能录，说完即发，说错了就一键重录，不用收拾镜头和背景。</p>
+        <p class="f-meta">一键降噪 / 74 秒上限 / 随时重录</p>
+      </article>
+      <article class="feature">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/></svg></span>
+        <h3>自动转写</h3>
+        <p>中文、英文、日文实时转成文字，队友扫一眼就能跟上，赶时间可以只读转写不听原声。</p>
+        <p class="f-meta">21 种语言 / 准确率 98.2% / 可关停</p>
+      </article>
+      <article class="feature">
+        <span class="f-icon is-accent" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 6.5c4 3.4 8.8 3.4 12.8 0M5.6 17.5c4-3.4 8.8-3.4 12.8 0"/></svg></span>
+        <h3>时区轮盘</h3>
+        <p>每个成员的本地时钟、专注与休息状态，转一圈全知道。发帖前看一眼，别把坏消息砸进别人的深夜。</p>
+        <p class="f-meta">8 时区实测 / 夏令时自动切换</p>
+      </article>
+      <article class="feature">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 5h16M4 10h10M4 15h13M4 20h8"/></svg></span>
+        <h3>团队动态流</h3>
+        <p>站帖、回复、决策与系统事件按时间线聚合。谁在线、谁在睡、谁已读，动态流不撒谎。</p>
+        <p class="f-meta">已读回执 / 关键词订阅 / 按话题过滤</p>
+      </article>
+      <article class="feature">
+        <span class="f-icon is-accent" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></span>
+        <h3>每日聚合摘要</h3>
+        <p>早上九点把过去 24 小时压成一屏：进展、阻塞、需要你表态的决策，三分钟进入状态。</p>
+        <p class="f-meta">定时投递 / 摘要可回溯 90 天</p>
+      </article>
+      <article class="feature">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><path d="M17 13v8M13 17h8"/></svg></span>
+        <h3>集成与开放</h3>
+        <p>接入飞书与 Slack 通知、共享日历与代码仓库动态，站帖里能直接引用提交记录和工单。</p>
+        <p class="f-meta">飞书与 Slack / 数据随时导出</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 时区轮盘 -->
+<section class="band-muted" id="wheel">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>时区轮盘：同一分钟，八种生活</h2>
+        <p>下面是演示团队的实时时钟，每 30 秒同步一次。卡片的颜色告诉你成员此刻的状态，绿色是可以放心打扰的专注时段。</p>
+      </div>
+      <a href="#feed">看看他们的动态流</a>
+    </div>
+    <div class="wheel-layout">
+      <div>
+        <div class="now-card">
+          <h3>同一时刻的团队</h3>
+          <div id="sameNow">
+            <div class="now-row"><span>上海</span><b>--:--</b><span class="w-status st-rest">休息中</span></div>
+          </div>
+          <p class="wheel-note">全队没有一段共同清醒的时间，今日站照样每天运转 / 这正是异步的意义。</p>
+        </div>
+        <div class="wheel-ctrl" style="justify-content:flex-start;margin-top:22px" aria-label="轮盘控制">
+          <button class="wheel-btn" id="wheelPrev" aria-label="上一位成员">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="wheel-btn" id="wheelNext" aria-label="下一位成员">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="wheel-stage">
+          <div class="wheel-ring" id="wheelRing" aria-hidden="true"></div>
+        </div>
+        <p class="wheel-info" id="wheelInfo" aria-live="polite">正在载入团队时钟</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 团队动态流 -->
+<section class="band-card" id="feed">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>动态流：一天的努力，按时间铺开</h2>
+        <p>语音帖、文字更新、系统事件与定时摘要都在同一条时间线里。起床后从上往下读十分钟，就像参加了昨晚所有的会。</p>
+      </div>
+      <a href="#cta">给团队开一个空间</a>
+    </div>
+    <div class="feed-layout">
+      <div class="feed">
+        <article class="feed-item">
+          <div class="feed-head">
+            <span class="avatar" aria-hidden="true">绫</span>
+            <b>高桥绫</b>
+            <span>东京 / 当地 09:41</span>
+            <span class="pill pill-voice">语音 74 秒</span>
+          </div>
+          <div class="wave mini" aria-hidden="true"><span style="--i:0;height:40%"></span><span style="--i:1;height:62%"></span><span style="--i:2;height:50%"></span><span style="--i:3;height:74%"></span><span style="--i:4;height:58%"></span><span style="--i:5;height:80%"></span><span style="--i:6;height:66%"></span><span style="--i:7;height:52%"></span><span style="--i:8;height:70%"></span><span style="--i:9;height:46%"></span><span style="--i:10;height:60%"></span><span style="--i:11;height:54%"></span></div>
+          <p class="feed-body">灰度提到 20% 之后崩溃率稳定在 <strong>0.3%</strong>，这周准备申请全量。风险点是低端机的内存占用，我加了两个埋点，明天出数据。</p>
+          <div class="feed-foot"><span>收到 6</span><span>回复 2</span><span>已转写</span></div>
+        </article>
+        <article class="feed-item">
+          <div class="feed-head">
+            <span class="avatar" aria-hidden="true">M</span>
+            <b>Marc Danner</b>
+            <span>柏林 / 当地 08:15</span>
+            <span class="pill pill-text">文字</span>
+          </div>
+          <p class="feed-body">v2.14.0 已经发布：<strong>迁移脚本跑完 40 万行数据无报错</strong>。今天我盯监控，下午写复盘，明早把结论留成帖。</p>
+          <div class="feed-foot"><span>收到 4</span><span>回复 1</span></div>
+        </article>
+        <article class="feed-item">
+          <div class="feed-head">
+            <span class="avatar" aria-hidden="true">今</span>
+            <b>每日聚合摘要</b>
+            <span>系统聚合 / 定时 09:00 投递</span>
+            <span class="pill pill-digest">摘要</span>
+          </div>
+          <p class="feed-body">昨日要点：支付延迟工单关闭 12 个 / 新客户接入卡在权限配置，已指定 Ana 跟进 / 设计定稿 A 方案进入开发，评审记录见话题归档。</p>
+          <div class="feed-foot"><span>全文 3 分钟读完</span><span>投递至 8 个时区</span></div>
+        </article>
+        <article class="feed-item">
+          <div class="feed-head">
+            <span class="avatar" aria-hidden="true">P</span>
+            <b>Priya Nair</b>
+            <span>班加罗尔 / 当地 11:02</span>
+            <span class="pill pill-voice">语音 41 秒</span>
+          </div>
+          <p class="feed-body">上一周期末实验出结论：<strong>通知改到午后发送，打开率提升 18%</strong>，建议下季度全量。数据表已挂在回复里，欢迎拍砖。</p>
+          <div class="feed-foot"><span>收到 5</span><span>回复 3</span><span>已转写</span></div>
+        </article>
+      </div>
+      <div class="feed-rail">
+        <div class="rail-card">
+          <h3>今日站帖进度</h3>
+          <p class="rail-big">6<small> / 8 已发布</small></p>
+          <div class="rail-list">
+            <div class="rail-row"><b>高桥绫</b><span class="ok">已发 74 秒</span></div>
+            <div class="rail-row"><b>Marc Danner</b><span class="ok">已发 22 秒</span></div>
+            <div class="rail-row"><b>Priya Nair</b><span class="ok">已发 41 秒</span></div>
+            <div class="rail-row"><b>James Ward</b><span class="wait">未发 / 已提醒</span></div>
+          </div>
+        </div>
+        <div class="rail-card" style="flex:1">
+          <h3>本周被保护的专注时段</h3>
+          <div class="bars" role="img" aria-label="一周专注时段柱状图，周四最高，周六最低">
+            <div class="bar" style="height:62%"></div>
+            <div class="bar" style="height:78%"></div>
+            <div class="bar" style="height:85%"></div>
+            <div class="bar hot" style="height:92%"></div>
+            <div class="bar" style="height:74%"></div>
+            <div class="bar" style="height:38%"></div>
+            <div class="bar" style="height:26%"></div>
+          </div>
+          <div class="bars-label" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+          <p class="rail-note">柱高代表当日勿扰时段内的有效专注时长 / 数据来自团队勿扰统计，个体细节仅自己可见。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 一天的节奏 -->
+<section class="rhythm band-deep on-dark" id="rhythm">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>异步团队的一天，是这样的</h2>
+        <p>没有全员到场的时刻表，只有一条不断向前流动的时间线。三个时刻，看清今日站如何替团队运转。</p>
+      </div>
+    </div>
+    <div class="rhythm-grid">
+      <div class="r-step">
+        <time>06:30</time>
+        <p class="r-place">奥克兰 / Kate 的清晨</p>
+        <h3>各自的清晨</h3>
+        <p>Kate 录完 41 秒的站帖，顺手回复了昨天两条问题，然后去送孩子上学。她的一天在多数队友入睡后继续。</p>
+      </div>
+      <div class="r-step">
+        <time>15:00</time>
+        <p class="r-place">北京 / 上海与柏林重合窗口</p>
+        <h3>重合的午后</h3>
+        <p>全队唯一清醒重叠的两小时，只开真正需要同时在线的那一场会。议题在前一晚已被站帖与回复消化大半。</p>
+      </div>
+      <div class="r-step">
+        <time>22:40</time>
+        <p class="r-place">柏林 / Marc 的夜晚</p>
+        <h3>无人值守的夜晚</h3>
+        <p>Marc 下线前把部署结论留成文字帖。上海团队醒来时，聚合摘要已经在各自的收件箱里等了七个小时。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 团队评价 -->
+<section id="voices">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>换成异步站会的团队，怎么说</h2>
+        <p>以下是三位真实场景中的远程团队负责人，他们的团队分布在四个以上时区。</p>
+      </div>
+      <a href="#cta">让我的团队也试试</a>
+    </div>
+    <div class="voices">
+      <figure class="voice">
+        <span class="v-metric">会议时间减少 87%</span>
+        <blockquote>「我们把每日例会换成今日站之后，会议时间从每周 5 小时降到 40 分钟。重合窗口里只剩一场真正需要讨论的会，质量反而更高。」</blockquote>
+        <figcaption><b>James Ward</b> / 工程负责人 / 纽约 / 团队跨 5 个时区</figcaption>
+      </figure>
+      <figure class="voice">
+        <span class="v-metric">告别 21:00 的闹钟</span>
+        <blockquote>「我不再需要为一场晚上九点的会定闹钟。通勤路上听语音像听播客，到公司之前就跟上了全队的进度。」</blockquote>
+        <figcaption><b>Sofia Reis</b> / 增长运营 / 圣保罗 / 团队跨 4 个时区</figcaption>
+      </figure>
+      <figure class="voice">
+        <span class="v-metric">新人上手缩短一半</span>
+        <blockquote>「新人第一周就能靠动态流和每日摘要看懂团队在做什么，不用挨个约一对一。异步留下的记录，就是最好的入职文档。」</blockquote>
+        <figcaption><b>林晚秋</b> / 创始人 / 深圳 / 12 人远程团队</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 常见问题 -->
+<section class="band-card" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>换到异步之前，先弄清四件事</h2>
+        <p>关于时长、时区、隐私与团队习惯，这里是可以直接拿去和队友讨论的答案。</p>
+      </div>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>语音帖会不会越录越长，没人听完？
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <p>单条语音上限 74 秒，超时会自动分段提示重录。转写文字永远排在语音前面，赶时间的队友扫一眼文字就能跟上，点进语音的通常是真正需要细节的人。</p>
+      </details>
+      <details>
+        <summary>跨这么多时区，我怎么知道此刻能不能打扰谁？
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <p>时区轮盘实时显示每个成员的本地时间与状态。进入勿扰时段后，@提醒会转为静默投递，聚合进对方清晨的摘要里，不会在深夜推送。</p>
+      </details>
+      <details>
+        <summary>语音和转写保存在哪里，会不会被拿去训练？
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <p>音频与转写加密存储，默认保留 90 天，团队可自行调整或一键导出后删除。转写可以整体关停，关停后仅保留原始音频；任何数据不用于模型训练，可随时完整导出。</p>
+      </details>
+      <details>
+        <summary>团队不爱发言，换成语音就能解决吗？
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <p>站帖内置三问模板：昨天做了什么 / 今天打算做什么 / 卡在哪里。照着说 30 秒也够用。前两周建议负责人带头每天先发，动态流里的已读与收到会把说话的门槛降到最低。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 行动 CTA -->
+<section class="cta" id="cta">
+  <div class="wrap">
+    <h2>让下一个工作日，从一条 74 秒的语音开始</h2>
+    <p>邀请团队发出第一条站帖只需要三分钟。14 天全功能试用，不用绑卡，也不用迁移任何东西。</p>
+    <div class="cta-actions">
+      <a class="btn btn-light" href="#">创建团队空间</a>
+      <a class="btn btn-deep" href="#feed">先看一段完整演示</a>
+    </div>
+    <p class="cta-small">已有 6,800+ 远程团队每天在今日站开站会 / 数据随时导出 / 支持飞书与 Slack 通知</p>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="on-dark">
+  <div class="wrap">
+    <div class="foot-main">
+      <div class="foot-brand">
+        <h4>今日站</h4>
+        <p>异步站会工具 / 语音短帖 / 时区轮盘 / 团队动态流，让分布式团队不再为一场会对齐时区。</p>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <ul>
+          <li><a href="#features">产品能力</a></li>
+          <li><a href="#wheel">时区轮盘</a></li>
+          <li><a href="#feed">团队动态流</a></li>
+          <li><a href="#faq">常见问题</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <ul>
+          <li><a href="#">远程工作指南</a></li>
+          <li><a href="#">每日摘要示例</a></li>
+          <li><a href="#">更新日志</a></li>
+          <li><a href="#">状态页</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>UI 设计提示词库 / 产品模板 / Remote Work/Collaboration Tool</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 移动菜单 */
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
+  });
+  navLinks.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+
+  /* 时区轮盘 */
+  var members=[
+    {name:'高桥绫',role:'客户端工程',city:'东京',off:'UTC+9',tz:'Asia/Tokyo'},
+    {name:'李一舟',role:'产品设计',city:'上海',off:'UTC+8',tz:'Asia/Shanghai'},
+    {name:'Priya Nair',role:'数据分析',city:'班加罗尔',off:'UTC+5:30',tz:'Asia/Kolkata'},
+    {name:'Marc Danner',role:'后端工程',city:'柏林',off:'UTC+2',tz:'Europe/Berlin'},
+    {name:'Ana Pinto',role:'客户成功',city:'里斯本',off:'UTC+1',tz:'Europe/Lisbon'},
+    {name:'Sofia Reis',role:'增长运营',city:'圣保罗',off:'UTC-3',tz:'America/Sao_Paulo'},
+    {name:'James Ward',role:'工程负责人',city:'纽约',off:'UTC-4',tz:'America/New_York'},
+    {name:'Kate Lowe',role:'文档与支持',city:'奥克兰',off:'UTC+13',tz:'Pacific/Auckland'}
+  ];
+  var ring=document.getElementById('wheelRing');
+  var info=document.getElementById('wheelInfo');
+  var sameNow=document.getElementById('sameNow');
+  var cur=0,radius=0,step=45;
+  function statusOf(h){
+    if(h>=9&&h<12||h>=14&&h<18)return{c:'st-focus',t:'专注中'};
+    if(h>=12&&h<14)return{c:'st-lunch',t:'午间休息'};
+    if(h>=7&&h<9||h>=18&&h<22)return{c:'st-collab',t:'可协作'};
+    return{c:'st-rest',t:'休息中'};
+  }
+  function parts(tz){
+    try{
+      var p=new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:tz}).formatToParts(new Date());
+      var h=-1,m='--';
+      p.forEach(function(x){if(x.type==='hour')h=+x.value;if(x.type==='minute')m=x.value;});
+      if(h===24)h=0;
+      return{h:h,t:m};
+    }catch(e){return{h:-1,t:'--'};}
+  }
+  var cards=members.map(function(mb){
+    var el=document.createElement('article');
+    el.className='wheel-card';
+    el.innerHTML='<span class="w-city">'+mb.city+'</span><b class="w-time">--:--</b><span class="w-off">'+mb.off+'</span><span class="w-status st-rest">休息中</span><span class="w-name">'+mb.name+' / '+mb.role+'</span>';
+    ring.appendChild(el);
+    return el;
+  });
+  function apply(){ring.style.transform='translateZ(-'+radius+'px) rotateY('+(-cur*step)+'deg)';}
+  function layout(){
+    var w=cards[0].offsetWidth+16;
+    radius=Math.round(members.length*w/(2*Math.PI));
+    step=360/members.length;
+    cards.forEach(function(c,i){c.style.transform='rotateY('+(i*step)+'deg) translateZ('+radius+'px)';});
+    if(reduce){ring.style.transition='none';}
+    apply();
+  }
+  function refresh(){
+    cards.forEach(function(c,i){
+      var p=parts(members[i].tz),s=statusOf(p.h);
+      c.querySelector('.w-time').textContent=p.t;
+      var st=c.querySelector('.w-status');
+      st.textContent=s.t;st.className='w-status '+s.c;
+    });
+    var mb=members[cur],p=parts(mb.tz),s=statusOf(p.h);
+    info.textContent='当前 / '+mb.city+' / '+mb.name+' / 本地 '+p.t+' / '+s.t;
+    var picks=['Asia/Shanghai','Europe/Berlin','America/New_York','Pacific/Auckland'];
+    sameNow.innerHTML=picks.map(function(tz){
+      var one=null;
+      members.forEach(function(m){if(m.tz===tz)one=m;});
+      var pp=parts(tz),ss=statusOf(pp.h);
+      return '<div class="now-row"><span>'+one.city+'</span><b>'+pp.t+'</b><span class="w-status '+ss.c+'">'+ss.t+'</span></div>';
+    }).join('');
+  }
+  document.getElementById('wheelPrev').addEventListener('click',function(){cur=(cur-1+members.length)%members.length;apply();refresh();});
+  document.getElementById('wheelNext').addEventListener('click',function(){cur=(cur+1)%members.length;apply();refresh();});
+
+  /* 首屏语音试听（微交互） */
+  var playBtn=document.getElementById('playBtn');
+  var heroWave=document.getElementById('heroWave');
+  playBtn.addEventListener('click',function(){
+    var on=playBtn.classList.toggle('playing');
+    playBtn.setAttribute('aria-label',on?'暂停语音':'播放语音');
+    playBtn.querySelector('b').textContent=on?'暂停':'播放';
+    heroWave.classList.toggle('playing',on);
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(layout,150);});
+  layout();refresh();
+  setInterval(refresh,30000);
+})();
+</script>
+</body>
+</html>

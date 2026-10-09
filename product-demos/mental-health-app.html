@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / Mental Health App / UI 设计提示词库</title>
+<meta name="description" content="Mental Health App 产品模板演示页：情绪日记 app 潮汐心情，柔和紫罗兰安抚色板、拟物卡片、每日情绪打卡、月度情绪地图、4-7-8 呼吸练习与郑重的隐私承诺。">
+<style>
+/* token 计划: Primary #8B5CF6 / On-Primary #000 / Secondary #C4B5FD / Accent #059669 / BG #FAF5FF / FG #4C1D95 / Card #FFF / Border #EDE9FE / Muted #EDEFF9 / Ring #8B5CF6, 文本安全加深色 #6D28D9 与 #047857 保证对比度不低于 4.5:1 */
+:root {
+  --primary: #8B5CF6;
+  --primary-deep: #6D28D9;
+  --on-primary: #000000;
+  --secondary: #C4B5FD;
+  --accent: #059669;
+  --accent-deep: #047857;
+  --bg: #FAF5FF;
+  --fg: #4C1D95;
+  --fg-soft: #6B6480;
+  --card: #FFFFFF;
+  --border: #EDE9FE;
+  --muted: #EDEFF9;
+  --ring: #6D28D9;
+  --ok-bg: #D1FAE5;
+  --ok-fg: #065F46;
+  --warn-bg: #FEF3C7;
+  --warn-fg: #92400E;
+  --calm: #C4B5FD;
+  --calm-deep: #6D28D9;
+  --joy: #A7F3D0;
+  --joy-deep: #047857;
+  --low: #BFDBFE;
+  --low-deep: #1D4ED8;
+  --anx: #FDE68A;
+  --anx-deep: #B45309;
+  --tired: #E2E8F0;
+  --tired-deep: #47506B;
+  --shadow-d: rgba(76, 29, 149, 0.14);
+  --shadow-l: rgba(255, 255, 255, 0.92);
+  --r-lg: 24px;
+  --r-md: 16px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; min-height: 100vh; }
+.wrap { width: min(1200px, 100% - 48px); margin-inline: auto; }
+a { color: var(--primary-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #5B21B6; }
+a:focus-visible, button:focus-visible, textarea:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 10px; }
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 8px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+
+/* 顶部导航 */
+.topbar { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.72); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+.crumb { font-size: 16px; color: var(--fg-soft); }
+.topnav { display: flex; gap: 22px; font-size: 16px; flex-wrap: wrap; }
+.topnav a { text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+
+/* 首屏与社会证明数字 */
+.hero { position: relative; padding: 66px 0 48px; text-align: center; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -40% -20% auto; height: 140%; background: radial-gradient(ellipse 440px 310px at 20% 28%, rgba(139, 92, 246, 0.16), transparent 70%), radial-gradient(ellipse 460px 320px at 80% 22%, rgba(5, 150, 105, 0.10), transparent 70%); pointer-events: none; }
+.hero-inner { position: relative; animation: rise 0.7s ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hero-kicker { font-size: 17px; color: var(--fg-soft); margin-bottom: 10px; }
+.hero h1 { font-size: clamp(44px, 6vw, 62px); letter-spacing: 0.08em; line-height: 1.14; }
+.hero-sub { max-width: 640px; margin: 16px auto 30px; font-size: 19px; color: var(--fg-soft); }
+.hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.stats { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; margin-top: 38px; }
+.stat { background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 18px 26px; min-width: 170px; display: flex; flex-direction: column; gap: 2px; }
+.stat strong { font-size: 30px; color: var(--primary-deep); line-height: 1.2; }
+.stat span { font-size: 16px; color: var(--fg-soft); }
+.hero-note { margin-top: 18px; font-size: 16px; color: var(--fg-soft); }
+
+/* 按钮 */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 28px; border-radius: 999px; font-size: 17px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; }
+.btn-primary { background: var(--primary); color: var(--on-primary); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 7px 7px 16px var(--shadow-d), -7px -7px 12px var(--shadow-l); }
+.btn-primary:active { transform: none; box-shadow: inset 3px 3px 7px rgba(49, 15, 98, 0.28), inset -2px -2px 5px rgba(255, 255, 255, 0.35); }
+.btn-ghost { background: linear-gradient(145deg, #FDFAFF, #F3EBFE); color: var(--fg); border-color: var(--border); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); }
+.btn-ghost:hover { background: #F3EBFE; }
+.btn-mini { min-height: 44px; padding: 8px 20px; font-size: 16px; border-radius: 999px; border: 1px solid var(--border); background: linear-gradient(145deg, #FDFAFF, #F3EBFE); color: var(--fg); font-weight: 600; cursor: pointer; box-shadow: 4px 4px 9px var(--shadow-d), -4px -4px 8px var(--shadow-l); transition: background 0.18s ease, box-shadow 0.18s ease; }
+.btn-mini:hover { background: #F3EBFE; }
+
+/* 舞台: 两侧功能卡 + 居中手机 */
+.stage { padding: 46px 0 24px; }
+.sec-head { text-align: center; margin-bottom: 36px; }
+.sec-head h2 { font-size: clamp(26px, 3.4vw, 34px); }
+.sec-head p { color: var(--fg-soft); margin-top: 8px; font-size: 17px; }
+.stage-grid { display: grid; grid-template-columns: minmax(0, 1fr) 402px minmax(0, 1fr); gap: 32px; align-items: stretch; }
+.side { display: flex; flex-direction: column; gap: 22px; }
+.fcard { flex: 1; background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 24px 26px; display: flex; gap: 16px; align-items: flex-start; }
+.side-right .fcard { flex-direction: row-reverse; text-align: right; }
+.side-right .fcard .fbody { display: flex; flex-direction: column; align-items: flex-end; }
+.ficon { flex: 0 0 50px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(145deg, #FFFFFF, #EFE7FC); border: 1px solid var(--border); box-shadow: inset 2px 2px 5px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); display: grid; place-items: center; color: var(--primary-deep); }
+.fcard h3 { font-size: 19px; margin-bottom: 6px; }
+.fcard p { font-size: 16px; color: var(--fg-soft); }
+
+/* 手机外壳 */
+.phone-col { display: flex; justify-content: center; }
+.phone { width: 402px; max-width: 100%; border-radius: 50px; padding: 14px; background: linear-gradient(160deg, #6D28D9, #4C1D95); box-shadow: 0 28px 56px rgba(76, 29, 149, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+.screen { border-radius: 36px; background: #FBF8FF; border: 1px solid var(--border); overflow: hidden; }
+.sbar { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 12px 26px 2px; font-size: 16px; font-weight: 600; }
+.sbar-icons { display: flex; gap: 7px; align-items: center; color: var(--fg); }
+.notch { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); width: 118px; height: 24px; border-radius: 0 0 14px 14px; background: #4C1D95; }
+.screen-body { padding: 10px 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+.appbar { display: flex; align-items: center; gap: 12px; padding-top: 6px; }
+.avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--secondary); color: #000000; display: grid; place-items: center; font-weight: 700; font-size: 19px; }
+.appbar h3 { font-size: 19px; line-height: 1.3; }
+.appbar p { font-size: 15px; color: var(--fg-soft); }
+
+/* 手机内拟物卡片 */
+.neu { background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 16px 18px; }
+.neu h4 { font-size: 18px; margin-bottom: 10px; }
+
+/* 心情点选 */
+.mood-row { display: flex; justify-content: space-between; gap: 4px; }
+.mood-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: 0; padding: 6px 2px; border-radius: 14px; cursor: pointer; }
+.mood-btn .face { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(145deg, #FFFFFF, #F1EAFB); border: 1px solid var(--border); box-shadow: inset 2px 2px 5px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); transition: background 0.18s ease, border-color 0.18s ease; }
+.mood-btn span { font-size: 15px; color: var(--fg-soft); font-weight: 600; }
+.mood-btn.on .face { box-shadow: inset 3px 3px 7px rgba(49, 15, 98, 0.22), inset -2px -2px 4px rgba(255, 255, 255, 0.5); }
+.mood-btn[data-mood="calm"].on .face { background: #E4DBFB; border-color: var(--calm-deep); }
+.mood-btn[data-mood="joy"].on .face { background: #D9FBE9; border-color: var(--joy-deep); }
+.mood-btn[data-mood="low"].on .face { background: #E0ECFD; border-color: var(--low-deep); }
+.mood-btn[data-mood="anx"].on .face { background: #FEF4D6; border-color: var(--anx-deep); }
+.mood-btn[data-mood="tired"].on .face { background: #EDF0F6; border-color: var(--tired-deep); }
+.mood-btn.on span { color: var(--fg); }
+.mood-cap { margin-top: 10px; font-size: 16px; color: var(--fg-soft); }
+
+/* 一句给自己 */
+.journal textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--r-md); background: #FFFFFF; box-shadow: inset 2px 2px 6px var(--shadow-d), inset -2px -2px 4px var(--shadow-l); padding: 12px 14px; font: inherit; font-size: 16px; color: var(--fg); min-height: 76px; resize: vertical; }
+.journal textarea::placeholder { color: var(--fg-soft); }
+.journal-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.enc { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; color: var(--accent-deep); font-weight: 600; }
+
+/* 本周潮汐 */
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.wd { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 15px; color: var(--fg-soft); }
+.wd i { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: #FFFFFF; box-shadow: inset 2px 2px 4px var(--shadow-d), inset -2px -2px 3px var(--shadow-l); }
+.wd.calm i { background: var(--calm); border-color: #A78BFA; }
+.wd.joy i { background: var(--joy); border-color: #6EE7B7; }
+.wd.low i { background: var(--low); border-color: #93C5FD; }
+.wd.anx i { background: var(--anx); border-color: #FCD34D; }
+.wd.next i { border-style: dashed; box-shadow: none; background: transparent; }
+
+/* 情绪地图 */
+.mapsec { padding: 56px 0 30px; }
+.map-grid { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 28px; align-items: stretch; }
+.map-card { padding: 22px 24px; }
+.map-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.map-head h3 { font-size: 20px; }
+.map-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { font-size: 15px; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: var(--muted); color: var(--fg-soft); border: 1px solid var(--border); }
+.cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.cal-h { text-align: center; font-size: 15px; font-weight: 700; color: var(--fg-soft); padding-bottom: 2px; }
+.cal-pad { visibility: hidden; }
+.cal-day, .cal-off { aspect-ratio: 1; min-height: 40px; border-radius: 13px; display: grid; place-items: center; font-size: 15px; font-weight: 600; }
+.cal-day { border: 1px solid transparent; cursor: pointer; color: var(--fg); transition: box-shadow 0.18s ease, border-color 0.18s ease; }
+.cal-day:hover { border-color: var(--primary-deep); }
+.cal-day.c-calm { background: var(--calm); }
+.cal-day.c-joy { background: var(--joy); }
+.cal-day.c-low { background: var(--low); }
+.cal-day.c-anx { background: var(--anx); }
+.cal-day[aria-pressed="true"] { border: 2px solid var(--primary-deep); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25); }
+.cal-off { background: #FFFFFF; border: 1px dashed #D6CDEA; color: var(--fg-soft); }
+.map-note { margin-top: 16px; font-size: 16px; color: var(--fg-soft); min-height: 28px; }
+.map-side { display: flex; flex-direction: column; gap: 22px; }
+.legend { background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 18px 22px; }
+.legend h3 { font-size: 18px; margin-bottom: 10px; }
+.legend ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.legend li { display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--fg-soft); }
+.legend i { width: 16px; height: 16px; border-radius: 50%; flex: 0 0 16px; }
+.legend .l-calm { background: var(--calm); }
+.legend .l-joy { background: var(--joy); }
+.legend .l-low { background: var(--low); }
+.legend .l-anx { background: var(--anx); }
+.legend .l-tired { background: var(--tired); }
+.insight { flex: 1; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+.insight h3 { font-size: 18px; }
+.insight p { font-size: 16px; color: var(--fg-soft); }
+.insight .tip { color: var(--accent-deep); font-weight: 600; }
+
+/* 呼吸练习 */
+.breathsec { padding: 56px 0 30px; }
+.breath-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 28px; align-items: stretch; }
+.breath-demo { padding: 36px 30px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.breath-ring { width: 280px; height: 280px; border-radius: 50%; border: 1.5px solid #D6CDEA; box-shadow: inset 3px 3px 8px var(--shadow-d), inset -3px -3px 7px var(--shadow-l); display: grid; place-items: center; flex: 0 0 auto; }
+.breath-core { width: 168px; height: 168px; border-radius: 50%; background: radial-gradient(circle at 32% 28%, #EFE9FD, #C4B5FD 72%); box-shadow: 6px 6px 16px var(--shadow-d), inset 0 2px 6px rgba(255, 255, 255, 0.65); display: grid; place-items: center; color: var(--primary-deep); transform: scale(1); }
+.breath-phase { font-size: 20px; font-weight: 700; min-height: 30px; text-align: center; }
+.breath-count { font-size: 16px; color: var(--fg-soft); }
+.breath-copy { display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.breath-copy h2 { font-size: clamp(26px, 3.2vw, 32px); }
+.breath-copy > p { color: var(--fg-soft); }
+.breath-steps { list-style: none; display: flex; flex-direction: column; gap: 12px; padding: 6px 0; }
+.breath-steps li { display: flex; align-items: center; gap: 12px; font-size: 17px; background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: 5px 5px 12px var(--shadow-d), -5px -5px 10px var(--shadow-l); padding: 12px 18px; }
+.breath-steps b { color: var(--primary-deep); font-size: 20px; min-width: 26px; text-align: center; }
+.breath-note { font-size: 15px; color: var(--fg-soft); border-left: 3px solid var(--secondary); padding-left: 14px; }
+
+/* 用户声音 */
+.voices { padding: 56px 0 30px; }
+.carousel { max-width: 860px; margin: 0 auto; }
+.tslide { background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 30px 34px; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 22px; align-items: start; }
+.tslide figure { width: 64px; height: 64px; border-radius: 50%; background: var(--secondary); color: #000000; display: grid; place-items: center; font-size: 24px; font-weight: 700; }
+.tslide blockquote p { font-size: 19px; line-height: 1.7; }
+.tmeta { margin-top: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.tname { font-weight: 700; font-size: 17px; }
+.trole { font-size: 15px; color: var(--fg-soft); }
+.tver { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: var(--accent-deep); }
+.car-ctrl { display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+.car-pos { font-size: 16px; color: var(--fg-soft); min-width: 90px; text-align: center; }
+.voice-pro { text-align: center; margin-top: 26px; font-size: 16px; color: var(--fg-soft); }
+
+/* 隐私承诺 */
+.privacy { padding: 56px 0 30px; }
+.solemn { max-width: 780px; margin: 0 auto 30px; text-align: center; font-size: 21px; line-height: 1.8; padding: 26px 30px; background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); }
+.solemn footer { margin-top: 10px; font-size: 16px; color: var(--fg-soft); font-style: normal; }
+.promise-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; align-items: stretch; }
+.promise { background: linear-gradient(145deg, #FDFAFF, #F3EBFE); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: 6px 6px 14px var(--shadow-d), -6px -6px 12px var(--shadow-l); padding: 24px 24px; display: flex; flex-direction: column; gap: 10px; }
+.promise .ficon { margin-bottom: 4px; }
+.promise h3 { font-size: 19px; }
+.promise p { font-size: 16px; color: var(--fg-soft); }
+
+/* 行动区 */
+.cta { padding: 64px 0; }
+.cta-inner { text-align: center; background: linear-gradient(150deg, #6D28D9, #4C1D95); border-radius: 28px; padding: 52px 30px; box-shadow: 0 24px 48px rgba(76, 29, 149, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.22); color: #FFFFFF; }
+.cta-inner h2 { font-size: clamp(26px, 3.4vw, 34px); }
+.cta-inner > p { margin: 12px auto 26px; max-width: 520px; font-size: 18px; color: #E9DFFC; }
+.btn-light { background: #FFFFFF; color: var(--fg); box-shadow: 0 6px 14px rgba(30, 8, 66, 0.35); }
+.btn-light:hover { transform: translateY(-1px); }
+.cta-note { margin-top: 18px; font-size: 15px; color: #D8C9F9; }
+
+/* 页脚 */
+.foot { border-top: 1px solid var(--border); background: rgba(255, 255, 255, 0.72); }
+.foot-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 20px 0; flex-wrap: wrap; font-size: 16px; color: var(--fg-soft); }
+
+/* 响应式 */
+@media (max-width: 1020px) {
+  .stage-grid { grid-template-columns: 1fr; }
+  .phone-col { order: -1; }
+  .side { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .side .fcard { flex: none; }
+  .map-grid, .breath-grid { grid-template-columns: 1fr; }
+  .promise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .wrap { width: min(1200px, 100% - 32px); }
+  .hero { padding: 48px 0 36px; }
+  .stat { min-width: 140px; padding: 14px 18px; flex: 1 1 140px; }
+  .side { grid-template-columns: 1fr; }
+  .side-right .fcard { flex-direction: row; text-align: left; }
+  .side-right .fcard .fbody { align-items: flex-start; }
+  .promise-grid { grid-template-columns: 1fr; }
+  .tslide { grid-template-columns: 1fr; padding: 24px 22px; }
+  .tslide figure { width: 54px; height: 54px; font-size: 20px; }
+  .breath-ring { width: 240px; height: 240px; }
+  .breath-core { width: 148px; height: 148px; }
+  .cal { gap: 6px; }
+  .cal-day, .cal-off { min-height: 38px; border-radius: 11px; }
+  .mood-row { flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .mood-btn { flex: 0 0 62px; }
+}
+
+/* 一次亮相动效降级 与 呼吸演示停用 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-inner { animation: none; }
+  .breath-core { transition: none !important; transform: none !important; }
+  .btn, .btn-mini, .cal-day, .mood-btn .face { transition: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <p class="crumb">产品模板 / Mental Health App</p>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#features">功能特性</a>
+      <a href="#map">情绪地图</a>
+      <a href="#breath">呼吸练习</a>
+      <a href="#voices">用户声音</a>
+      <a href="#privacy">隐私承诺</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <p class="hero-kicker">情绪日记 / 温柔陪伴 / 郑重守护</p>
+      <h1>潮汐心情</h1>
+      <p class="hero-sub">把心情写下来，像潮水一样被接住。潮汐心情陪你记录每一天的起伏，在月度地图里看见属于自己的节律。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#features">今晚写下第一条心情</a>
+        <a class="btn btn-ghost" href="#features">了解潮汐如何工作</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>4,480,000+</strong><span>条加密保存的情绪记录</span></div>
+        <div class="stat"><strong>4.9 分</strong><span>应用商店平均评分</span></div>
+        <div class="stat"><strong>87%</strong><span>新用户 30 天后仍在记录</span></div>
+        <div class="stat"><strong>0 条</strong><span>情绪数据交予第三方</span></div>
+      </div>
+      <p class="hero-note">无需手机号注册 / 支持面容解锁 / 记录默认仅存于本机</p>
+    </div>
+  </section>
+
+  <section id="features" class="stage">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>四件小事，撑起你的每一天</h2>
+        <p>不评判、不打分、不催促，只是安静地陪你记录</p>
+      </div>
+      <div class="stage-grid">
+        <div class="side side-left">
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1L19.5 7.5a2.12 2.12 0 0 0-3-3L5 16z"/><path d="M13.5 6.5l3 3"/></svg>
+            </span>
+            <div class="fbody">
+              <h3>每日情绪记录</h3>
+              <p>三十秒点选今天的心情，再写一句给自己的话。如实记录，就是照顾的开始。</p>
+            </div>
+          </article>
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
+            </span>
+            <div class="fbody">
+              <h3>月度情绪地图</h3>
+              <p>每天一滴颜色，汇成整月的潮汐图。回看时，你会更懂自己的起落节律。</p>
+            </div>
+          </article>
+        </div>
+        <div class="phone-col">
+          <div class="phone">
+            <div class="screen">
+              <div class="sbar">
+                <span>21:47</span>
+                <span class="notch" aria-hidden="true"></span>
+                <span class="sbar-icons" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="14" width="3.4" height="6" rx="1"/><rect x="7.4" y="10" width="3.4" height="10" rx="1"/><rect x="12.8" y="6" width="3.4" height="14" rx="1"/><rect x="18.2" y="2" width="3.4" height="18" rx="1"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9.5a13 13 0 0 1 18 0"/><path d="M6.5 13a8.5 8.5 0 0 1 11 0"/><path d="M10 16.5a4 4 0 0 1 4 0"/></svg>
+                  <svg width="20" height="16" viewBox="0 0 26 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1.5" y="4" width="19" height="12" rx="3.5"/><rect x="4" y="6.5" width="11" height="7" rx="1.5" fill="currentColor" stroke="none"/><path d="M23 8.5v3"/></svg>
+                </span>
+              </div>
+              <div class="screen-body">
+                <div class="appbar">
+                  <span class="avatar" aria-hidden="true">潮</span>
+                  <div>
+                    <h3>晚安，今天还好吗</h3>
+                    <p>连续记录第 23 天 / 比上周多了些平静</p>
+                  </div>
+                </div>
+                <div class="neu">
+                  <h4>今天的心情是</h4>
+                  <div class="mood-row" role="group" aria-label="选择今天的心情">
+                    <button type="button" class="mood-btn" data-mood="calm" aria-pressed="false">
+                      <span class="face" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M9 10.4h.01M15 10.4h.01" stroke-width="2.6"/><path d="M9 15h6"/></svg></span>
+                      <span>平静</span>
+                    </button>
+                    <button type="button" class="mood-btn" data-mood="joy" aria-pressed="false">
+                      <span class="face" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M9 10.4h.01M15 10.4h.01" stroke-width="2.6"/><path d="M9 14.4c1 1.4 5 1.4 6 0"/></svg></span>
+                      <span>愉快</span>
+                    </button>
+                    <button type="button" class="mood-btn" data-mood="low" aria-pressed="false">
+                      <span class="face" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M9 10.4h.01M15 10.4h.01" stroke-width="2.6"/><path d="M9 15.8c1-1.2 5-1.2 6 0"/></svg></span>
+                      <span>低落</span>
+                    </button>
+                    <button type="button" class="mood-btn" data-mood="anx" aria-pressed="false">
+                      <span class="face" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M9 10.4h.01M15 10.4h.01" stroke-width="2.6"/><path d="M9 15.6c1-1 2-1 3 0s2 1 3 0"/></svg></span>
+                      <span>焦虑</span>
+                    </button>
+                    <button type="button" class="mood-btn" data-mood="tired" aria-pressed="false">
+                      <span class="face" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#47506B" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M8.4 10.4h2.4M13.2 10.4h2.4" stroke-width="2.2"/><path d="M9.6 15.4h4.8"/></svg></span>
+                      <span>疲惫</span>
+                    </button>
+                  </div>
+                  <p class="mood-cap" id="moodCap" aria-live="polite">点选一个最贴近此刻的心情</p>
+                </div>
+                <div class="neu journal">
+                  <h4>一句给自己</h4>
+                  <label class="skip" for="journalText">写下今天想说的话</label>
+                  <textarea id="journalText" placeholder="写点什么好呢：今天的一件小事、一个念头，都可以。只保存在你的设备里。"></textarea>
+                  <div class="journal-foot">
+                    <span class="enc">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+                      端到端加密已开启
+                    </span>
+                    <button type="button" class="btn-mini" id="saveBtn" aria-describedby="saveNote">保存为私密</button>
+                  </div>
+                  <p class="mood-cap" id="saveNote" aria-live="polite">保存后仅你本人可通过面容或密码查看</p>
+                </div>
+                <div class="neu">
+                  <h4>本周潮汐</h4>
+                  <div class="week" aria-label="本周每日情绪">
+                    <span class="wd"><i aria-hidden="true"></i>一</span>
+                    <span class="wd calm"><i aria-hidden="true"></i>二</span>
+                    <span class="wd anx"><i aria-hidden="true"></i>三</span>
+                    <span class="wd low"><i aria-hidden="true"></i>四</span>
+                    <span class="wd joy"><i aria-hidden="true"></i>五</span>
+                    <span class="wd calm"><i aria-hidden="true"></i>六</span>
+                    <span class="wd next"><i aria-hidden="true"></i>日</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="side side-right">
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9c2.4-2.3 4.6-2.3 7 0s4.6 2.3 7 0"/><path d="M3 15c2.4-2.3 4.6-2.3 7 0s4.6 2.3 7 0"/></svg>
+            </span>
+            <div class="fbody">
+              <h3>呼吸练习</h3>
+              <p>焦虑来袭时，跟随 4-7-8 呼吸引导，让身体先慢下来，情绪会跟着落地。</p>
+            </div>
+          </article>
+          <article class="fcard">
+            <span class="ficon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2"/></svg>
+            </span>
+            <div class="fbody">
+              <h3>隐私承诺</h3>
+              <p>端到端加密，记录默认仅存本机。你的日记只属于你，这一点绝不妥协。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="map" class="mapsec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>月度情绪地图</h2>
+        <p>三十天的起伏，汇成一张属于你的潮汐图</p>
+      </div>
+      <div class="map-grid">
+        <div class="map-card neu">
+          <div class="map-head">
+            <h3>2026 年 10 月</h3>
+            <div class="map-chips">
+              <span class="chip">已记录 9 天</span>
+              <span class="chip">平静 4 天</span>
+              <span class="chip">愉快 2 天</span>
+              <span class="chip">低落 2 天</span>
+              <span class="chip">焦虑 1 天</span>
+            </div>
+          </div>
+          <div class="cal" role="group" aria-label="十月情绪日历">
+            <span class="cal-h">一</span><span class="cal-h">二</span><span class="cal-h">三</span><span class="cal-h">四</span><span class="cal-h">五</span><span class="cal-h">六</span><span class="cal-h">日</span>
+            <span class="cal-pad" aria-hidden="true">-</span><span class="cal-pad" aria-hidden="true">-</span><span class="cal-pad" aria-hidden="true">-</span>
+            <button type="button" class="cal-day c-calm" aria-pressed="false" aria-label="10月1日，平静" data-mood="平静" data-note="假期在家，慢慢整理了书桌">1</button>
+            <button type="button" class="cal-day c-joy" aria-pressed="false" aria-label="10月2日，愉快" data-mood="愉快" data-note="和朋友去郊野公园走了大半天的路">2</button>
+            <button type="button" class="cal-day c-calm" aria-pressed="false" aria-label="10月3日，平静" data-mood="平静" data-note="安静的下午，读完了半本书">3</button>
+            <button type="button" class="cal-day c-low" aria-pressed="false" aria-label="10月4日，低落" data-mood="低落" data-note="想起了一些往事，允许自己低落一会儿">4</button>
+            <button type="button" class="cal-day c-calm" aria-pressed="false" aria-label="10月5日，平静" data-mood="平静" data-note="回到日常节奏，心里踏实了些">5</button>
+            <button type="button" class="cal-day c-anx" aria-pressed="false" aria-label="10月6日，焦虑" data-mood="焦虑" data-note="项目临近上线，夜里想法很多">6</button>
+            <button type="button" class="cal-day c-low" aria-pressed="false" aria-label="10月7日，低落" data-mood="低落" data-note="身体有点沉，早点休息了">7</button>
+            <button type="button" class="cal-day c-joy" aria-pressed="false" aria-label="10月8日，愉快" data-mood="愉快" data-note="和家人吃了一顿很暖的晚饭">8</button>
+            <button type="button" class="cal-day c-calm" aria-pressed="false" aria-label="10月9日，平静" data-mood="平静" data-note="周五完成了一件拖了很久的事">9</button>
+            <span class="cal-off">10</span><span class="cal-off">11</span><span class="cal-off">12</span><span class="cal-off">13</span><span class="cal-off">14</span><span class="cal-off">15</span><span class="cal-off">16</span>
+            <span class="cal-off">17</span><span class="cal-off">18</span><span class="cal-off">19</span><span class="cal-off">20</span><span class="cal-off">21</span><span class="cal-off">22</span><span class="cal-off">23</span>
+            <span class="cal-off">24</span><span class="cal-off">25</span><span class="cal-off">26</span><span class="cal-off">27</span><span class="cal-off">28</span><span class="cal-off">29</span><span class="cal-off">30</span>
+            <span class="cal-off">31</span><span class="cal-pad" aria-hidden="true">-</span>
+          </div>
+          <p class="map-note" id="mapNote" aria-live="polite">点选已记录的日期（彩色格子），查看当天的一句话备注。</p>
+        </div>
+        <aside class="map-side">
+          <div class="legend">
+            <h3>图例</h3>
+            <ul>
+              <li><i class="l-calm" aria-hidden="true"></i>平静</li>
+              <li><i class="l-joy" aria-hidden="true"></i>愉快</li>
+              <li><i class="l-low" aria-hidden="true"></i>低落</li>
+              <li><i class="l-anx" aria-hidden="true"></i>焦虑</li>
+              <li><i class="l-tired" aria-hidden="true"></i>疲惫</li>
+            </ul>
+          </div>
+          <div class="insight neu">
+            <h3>本月洞察</h3>
+            <p>平静的日子多集中在工作日中段，焦虑出现在项目上线前夜，低落后往往跟着一个安静的白天。情绪有自己的节律，看见它，是照顾它的第一步。</p>
+            <p class="tip">小建议：忙碌节点的前一晚，提前做一轮 4-7-8 呼吸。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="breath" class="breathsec">
+    <div class="wrap breath-grid">
+      <div class="breath-demo neu">
+        <div class="breath-ring">
+          <div class="breath-core" id="breathCore">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 9c2.4-2.3 4.6-2.3 7 0s4.6 2.3 7 0"/><path d="M3 15c2.4-2.3 4.6-2.3 7 0s4.6 2.3 7 0"/></svg>
+          </div>
+        </div>
+        <p class="breath-phase" id="breathPhase" aria-live="polite">跟随圆的收放，准备开始</p>
+        <p class="breath-count" id="breathCount">已完成 0 轮 / 建议连续 4 轮</p>
+        <button type="button" class="btn btn-primary" id="breathBtn" aria-describedby="breathPhase">开始练习</button>
+      </div>
+      <div class="breath-copy">
+        <h2>四七八呼吸练习</h2>
+        <p>当焦虑像涨潮一样涌来，不必急着把它退回去。跟着潮汐的引导，用一次完整的呼吸，让身体先安静下来。</p>
+        <ol class="breath-steps">
+          <li><b>4</b>缓慢吸气，用鼻子，让腹部轻轻鼓起</li>
+          <li><b>7</b>轻轻屏息，肩膀放松，不要用力</li>
+          <li><b>8</b>缓缓呼气，用嘴巴，把紧张随潮水带走</li>
+        </ol>
+        <p class="breath-note">本练习仅供日常放松引导，不能替代专业心理治疗。如果你正处于持续的情绪困扰或危机之中，请优先联系当地心理援助热线或专业机构。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="voices" class="voices">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>他们把心情托付给潮汐</h2>
+        <p>以下反馈整理自应用商店公开评价与用户回访</p>
+      </div>
+      <div class="carousel" id="carousel" aria-roledescription="轮播" aria-label="用户反馈">
+        <article class="tslide">
+          <figure aria-hidden="true">陈</figure>
+          <div>
+            <blockquote><p>「以前情绪一来就被冲走。现在睡前花一分钟记录，月底看着情绪地图，第一次觉得低落也可以被好好安放。」</p></blockquote>
+            <div class="tmeta">
+              <span class="tname">陈雨桐</span>
+              <span class="trole">产品设计师 / 使用 148 天</span>
+              <span class="tver">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5L19.5 7"/></svg>
+                应用商店真实评价
+              </span>
+            </div>
+          </div>
+        </article>
+        <article class="tslide" hidden>
+          <figure aria-hidden="true">林</figure>
+          <div>
+            <blockquote><p>「我把它推荐给班里的孩子。隐私条款写得清楚明白，孩子们敢写下真话，这一点比任何功能都重要。」</p></blockquote>
+            <div class="tmeta">
+              <span class="tname">林梓航</span>
+              <span class="trole">中学心理教师 / 使用 1 年</span>
+              <span class="tver">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5L19.5 7"/></svg>
+                应用商店真实评价
+              </span>
+            </div>
+          </div>
+        </article>
+        <article class="tslide" hidden>
+          <figure aria-hidden="true">周</figure>
+          <div>
+            <blockquote><p>「夜里喂完奶睡不着，就跟着做一轮 4-7-8 呼吸。它不催我快点变好，只是安静陪着，这就够了。」</p></blockquote>
+            <div class="tmeta">
+              <span class="tname">周蔓</span>
+              <span class="trole">新手妈妈 / 使用 76 天</span>
+              <span class="tver">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5L19.5 7"/></svg>
+                用户回访记录
+              </span>
+            </div>
+          </div>
+        </article>
+        <div class="car-ctrl">
+          <button type="button" class="btn-mini" id="carPrev">上一条</button>
+          <p class="car-pos" id="carPos" aria-live="polite">第 1 / 3 位</p>
+          <button type="button" class="btn-mini" id="carPause" aria-pressed="false">暂停轮播</button>
+          <button type="button" class="btn-mini" id="carNext">下一条</button>
+        </div>
+      </div>
+      <p class="voice-pro">潮汐心情的情绪词表与练习内容，由持证心理咨询师顾问团队逐条审阅。</p>
+    </div>
+  </section>
+
+  <section id="privacy" class="privacy">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>隐私，是我们最郑重的承诺</h2>
+        <p>心理健康的起点，是安全感</p>
+      </div>
+      <blockquote class="solemn">
+        <p>「未经你的明确授权，任何人，包括我们，都无法读取你写下的内容。」</p>
+        <footer>潮汐心情开发者团队，写进用户协议第一条</footer>
+      </blockquote>
+      <div class="promise-grid">
+        <article class="promise">
+          <span class="ficon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2"/></svg>
+          </span>
+          <h3>端到端加密</h3>
+          <p>日记内容在离开设备之前就已完成加密，密钥只在你手中。</p>
+        </article>
+        <article class="promise">
+          <span class="ficon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>
+          </span>
+          <h3>默认仅存本机</h3>
+          <p>记录默认保存在你的设备上，未经你手动开启，不会上传云端。</p>
+        </article>
+        <article class="promise">
+          <span class="ficon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 7.6-7.5 9-4.3-1.4-7.5-4.4-7.5-9V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+          </span>
+          <h3>永不售卖数据</h3>
+          <p>不出售、不共享、不将你的情绪数据用于广告投放，写进协议，接受监督。</p>
+        </article>
+        <article class="promise">
+          <span class="ficon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10"/><path d="M8.5 7.5L12 4l3.5 3.5"/><path d="M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14"/></svg>
+          </span>
+          <h3>一键导出删除</h3>
+          <p>随时导出全部记录，或一键彻底删除。离开时，你的数据也跟你走。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-inner">
+        <h2>今晚睡前，给自己三分钟</h2>
+        <p>第一条心情，可以从今天的一件小事写起。潮汐会替你守好它。</p>
+        <a class="btn btn-light" href="#features">免费开始记录</a>
+        <p class="cta-note">免费使用 / 无广告打扰 / 无需手机号注册</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <p>UI 设计提示词库 / 产品模板 / Mental Health App</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* 心情点选 */
+  var moodBtns = [].slice.call(document.querySelectorAll('.mood-btn'));
+  var moodCap = document.getElementById('moodCap');
+  moodBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      moodBtns.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      btn.setAttribute('aria-pressed', 'true');
+      moodCap.textContent = '已记录：今天感到' + btn.querySelector('span:last-child').textContent + '。明天同一时间，潮汐会轻轻问你一句。';
+    });
+  });
+
+  /* 私密保存 */
+  var saveBtn = document.getElementById('saveBtn');
+  var saveNote = document.getElementById('saveNote');
+  saveBtn.addEventListener('click', function () {
+    saveNote.textContent = '已在设备本地加密保存，仅你本人可查看。';
+    saveBtn.textContent = '已保存';
+  });
+
+  /* 情绪地图备注 */
+  var calDays = [].slice.call(document.querySelectorAll('.cal-day'));
+  var mapNote = document.getElementById('mapNote');
+  calDays.forEach(function (day) {
+    day.addEventListener('click', function () {
+      calDays.forEach(function (d) { d.setAttribute('aria-pressed', 'false'); });
+      day.setAttribute('aria-pressed', 'true');
+      mapNote.textContent = '10 月 ' + day.textContent + ' 日 / ' + day.getAttribute('data-mood') + ' / ' + day.getAttribute('data-note');
+    });
+  });
+
+  /* 4-7-8 呼吸练习 */
+  var breathBtn = document.getElementById('breathBtn');
+  var core = document.getElementById('breathCore');
+  var phase = document.getElementById('breathPhase');
+  var count = document.getElementById('breathCount');
+  var running = false, timer = null, rounds = 0;
+  function breathStep(name, secs, scale, next) {
+    phase.textContent = name + ' / ' + secs + ' 拍';
+    if (!reduce.matches) {
+      core.style.transition = 'transform ' + secs + 's cubic-bezier(0.4, 0, 0.4, 1)';
+      core.style.transform = 'scale(' + scale + ')';
+    }
+    timer = setTimeout(next, secs * 1000);
+  }
+  function cycle() {
+    breathStep('缓慢吸气', 4, 1.32, function () {
+      breathStep('轻轻屏息', 7, 1.32, function () {
+        breathStep('缓缓呼气', 8, 1, function () {
+          rounds += 1;
+          count.textContent = '已完成 ' + rounds + ' 轮 / 建议连续 4 轮';
+          cycle();
+        });
+      });
+    });
+  }
+  breathBtn.addEventListener('click', function () {
+    running = !running;
+    if (running) {
+      breathBtn.textContent = '暂停练习';
+      cycle();
+    } else {
+      clearTimeout(timer);
+      breathBtn.textContent = '继续练习';
+      phase.textContent = '已暂停 / 想继续时随时回来';
+      if (!reduce.matches) {
+        core.style.transition = 'transform 1.5s ease';
+        core.style.transform = 'scale(1)';
+      }
+    }
+  });
+  if (reduce.addEventListener) {
+    reduce.addEventListener('change', function () {
+      if (reduce.matches) {
+        core.style.transition = 'none';
+        core.style.transform = 'none';
+      }
+    });
+  }
+
+  /* 用户反馈轮播 */
+  var carousel = document.getElementById('carousel');
+  var slides = [].slice.call(carousel.querySelectorAll('.tslide'));
+  var carPos = document.getElementById('carPos');
+  var carPause = document.getElementById('carPause');
+  var idx = 0, auto = null, paused = false;
+  function show(i) {
+    idx = (i + slides.length) % slides.length;
+    slides.forEach(function (s, n) { s.hidden = n !== idx; });
+    carPos.textContent = '第 ' + (idx + 1) + ' / ' + slides.length + ' 位';
+  }
+  function stopAuto() { if (auto) { clearInterval(auto); auto = null; } }
+  function startAuto() {
+    if (reduce.matches || paused) return;
+    stopAuto();
+    auto = setInterval(function () { show(idx + 1); }, 6500);
+  }
+  document.getElementById('carPrev').addEventListener('click', function () { show(idx - 1); startAuto(); });
+  document.getElementById('carNext').addEventListener('click', function () { show(idx + 1); startAuto(); });
+  carPause.addEventListener('click', function () {
+    paused = !paused;
+    carPause.textContent = paused ? '继续轮播' : '暂停轮播';
+    carPause.setAttribute('aria-pressed', paused ? 'true' : 'false');
+    if (paused) { stopAuto(); } else { show(idx); startAuto(); }
+  });
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', function () { if (!paused) { startAuto(); } });
+  carousel.addEventListener('focusin', stopAuto);
+  carousel.addEventListener('focusout', function () { if (!paused) { startAuto(); } });
+  show(0);
+  startAuto();
+})();
+</script>
+</body>
+</html>

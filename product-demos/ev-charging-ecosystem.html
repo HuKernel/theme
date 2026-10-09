@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<title>产品模板 / EV/Charging / UI 设计提示词库</title>
+<meta name="description" content="EV/Charging Ecosystem 产品模板演示页：城市快充网络闪充湾，电蓝加绿电色板、站点地图、充电状态实时预览（可暂停）、分时价格与会员计划。">
+<style>
+/* token 计划: Primary #0891B2 / On-Primary #000 / Secondary #22D3EE / Accent #16A34A / BG #ECFEFF / FG #164E63 / Card #FFF / Border #A5F3FC / Muted #E8F1F6 / Ring #0891B2, 深面板复用 FG #164E63, 文本安全色加深 #0E6E86 与 #166534 保证对比度不低于 4.5:1 */
+:root {
+  --primary: #0891B2;
+  --primary-deep: #0E6E86;
+  --on-primary: #000000;
+  --secondary: #22D3EE;
+  --accent: #16A34A;
+  --accent-ink: #166534;
+  --bg: #ECFEFF;
+  --fg: #164E63;
+  --fg-soft: #345C6B;
+  --card: #FFFFFF;
+  --border: #A5F3FC;
+  --muted: #E8F1F6;
+  --ring: #0891B2;
+  --panel: #164E63;
+  --panel-line: rgba(165, 243, 252, 0.28);
+  --ok-bg: #DCFCE7;
+  --warn-bg: #FEF3C7;
+  --warn-ink: #92400E;
+  --shadow: rgba(22, 78, 99, 0.14);
+  --r-lg: 20px;
+  --r-md: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); font-size: 17px; line-height: 1.65; min-height: 100vh; }
+.wrap { width: min(1180px, 100% - 44px); margin-inline: auto; }
+a { color: var(--primary-deep); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #0A5A70; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 8px; }
+.skip { position: absolute; left: -9999px; top: 12px; background: var(--card); color: var(--fg); border: 2px solid var(--ring); border-radius: 8px; padding: 10px 16px; font-size: 16px; z-index: 100; }
+.skip:focus-visible { left: 12px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* 顶部导航 */
+.topbar { border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 50; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 0; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: 0.02em; }
+.brand-mark { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: grid; place-items: center; color: #FFFFFF; }
+.brand-sub { font-size: 14px; font-weight: 500; color: var(--fg-soft); }
+.topnav { display: flex; gap: 24px; font-size: 16px; flex-wrap: wrap; }
+.topnav a { text-decoration: none; font-weight: 600; }
+.topnav a:hover { text-decoration: underline; }
+
+/* 按钮 */
+.btn { display: inline-block; border: none; cursor: pointer; font: inherit; font-weight: 700; border-radius: 999px; padding: 12px 26px; font-size: 16px; text-decoration: none; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--primary); color: var(--on-primary); box-shadow: 0 6px 18px var(--shadow); }
+.btn-primary:hover { background: #0AA0C4; color: var(--on-primary); }
+.btn-ghost { background: var(--card); color: var(--primary-deep); border: 2px solid var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+.btn-dark { background: var(--secondary); color: #083344; }
+.btn-dark:hover { background: #67E8F9; }
+
+/* 首屏 */
+.hero { position: relative; padding: 72px 0 56px; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -30% -15% auto; height: 150%; background: radial-gradient(ellipse 520px 340px at 18% 26%, rgba(34, 211, 238, 0.24), transparent 68%), radial-gradient(ellipse 560px 380px at 82% 20%, rgba(22, 163, 74, 0.14), transparent 70%), radial-gradient(ellipse 420px 320px at 55% 88%, rgba(8, 145, 178, 0.12), transparent 72%); pointer-events: none; }
+.hero .wrap { position: relative; }
+.hero-grid { display: grid; grid-template-columns: 1.25fr 0.9fr; gap: 44px; align-items: stretch; }
+.hero-copy { display: flex; flex-direction: column; justify-content: center; }
+.kicker { font-size: 16px; font-weight: 700; color: var(--primary-deep); letter-spacing: 0.12em; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(40px, 5.4vw, 62px); line-height: 1.12; letter-spacing: 0.01em; }
+.hero h1 em { font-style: normal; color: var(--primary-deep); }
+.hero-sub { margin-top: 16px; font-size: 18px; color: var(--fg-soft); max-width: 560px; }
+.hero-actions { display: flex; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
+.hero-stats { list-style: none; display: flex; gap: 12px 36px; margin-top: 34px; flex-wrap: wrap; }
+.hero-stats strong { display: block; font-size: 26px; font-weight: 800; color: var(--fg); }
+.hero-stats span { font-size: 14px; color: var(--fg-soft); }
+.glass { background: rgba(255, 255, 255, 0.66); border: 1px solid rgba(255, 255, 255, 0.9); backdrop-filter: blur(14px); border-radius: var(--r-lg); box-shadow: 0 14px 40px var(--shadow); }
+.hero-live { padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.live-head { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+.live-head time { margin-left: auto; font-weight: 500; font-size: 13px; color: var(--fg-soft); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+.live-row { display: grid; gap: 4px; padding: 10px 0; border-top: 1px solid var(--border); }
+.live-row b { font-size: 22px; font-weight: 800; }
+.live-row b small { font-size: 13px; font-weight: 600; color: var(--fg-soft); margin-left: 6px; }
+.live-row .lab { font-size: 14px; color: var(--fg-soft); }
+.load-track { height: 10px; border-radius: 999px; background: var(--muted); overflow: hidden; }
+.load-fill { height: 100%; width: 92%; border-radius: 999px; background: linear-gradient(90deg, var(--accent), var(--secondary)); }
+.green-note { margin-top: auto; font-size: 14px; color: var(--accent-ink); background: var(--ok-bg); border: 1px solid #BBF7D0; border-radius: var(--r-md); padding: 10px 14px; }
+
+/* 通用区块 */
+.section { padding: 64px 0; }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+.sec-title { font-size: clamp(26px, 3vw, 34px); line-height: 1.2; }
+.sec-desc { margin-top: 8px; color: var(--fg-soft); max-width: 620px; }
+.chip { border: 2px solid var(--border); background: var(--card); color: var(--fg); font: inherit; font-size: 15px; font-weight: 600; border-radius: 999px; padding: 8px 18px; cursor: pointer; }
+.chip:hover { border-color: var(--primary); }
+.chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.filters { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* 站点地图 */
+.map-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 26px; align-items: stretch; }
+.map-card { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.map-svg { width: 100%; height: auto; border-radius: var(--r-md); background: linear-gradient(160deg, #F4FDFF, #E3F6F9); display: block; }
+.map-legend { display: flex; gap: 10px 22px; flex-wrap: wrap; font-size: 14px; color: var(--fg-soft); padding: 4px 6px 0; }
+.lg-item { display: inline-flex; align-items: center; gap: 8px; }
+.lg-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 2px solid #FFFFFF; box-shadow: 0 0 0 1px var(--border); }
+.pin { cursor: pointer; transition: r 0.15s ease, stroke-width 0.15s ease; }
+.pin-active { stroke: var(--fg); stroke-width: 3; }
+.station-scroll { overflow-x: auto; }
+.station-list { display: grid; grid-template-rows: auto repeat(6, 1fr); min-width: 620px; height: 100%; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 10px 30px var(--shadow); }
+.st-row { display: grid; grid-template-columns: 1.5fr 96px 90px 100px 88px; align-items: center; gap: 8px; padding: 13px 18px; border-top: 1px solid var(--border); font-size: 15px; }
+.st-row:first-child { border-top: none; }
+.st-head { background: var(--muted); font-size: 13.5px; font-weight: 700; color: var(--fg-soft); }
+.st-name { display: flex; flex-direction: column; gap: 2px; }
+.st-name b { font-size: 16px; font-weight: 700; }
+.st-name span { font-size: 13px; color: var(--fg-soft); }
+.badge { display: inline-block; font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 3px 10px; justify-self: start; }
+.badge-super { background: var(--primary); color: var(--on-primary); }
+.badge-fast { background: var(--muted); color: var(--primary-deep); border: 1px solid var(--border); }
+.st-free { font-weight: 800; font-size: 18px; }
+.st-free.ok { color: var(--accent-ink); }
+.st-free.low { color: var(--primary-deep); }
+.st-dist { color: var(--fg-soft); }
+
+/* 实时充电预览 */
+.section-dark { background: var(--panel); color: #F0FDFF; }
+.section-dark .kicker { color: var(--secondary); }
+.section-dark .sec-desc { color: #C8ECF4; }
+.live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; }
+.panel-dark { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--panel-line); border-radius: var(--r-lg); padding: 26px 28px; backdrop-filter: blur(8px); }
+.panel-title { font-size: 15px; font-weight: 700; color: var(--secondary); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.panel-title .badge-super { background: var(--secondary); color: #083344; }
+.soc-big { font-size: clamp(52px, 6vw, 72px); font-weight: 800; line-height: 1; letter-spacing: 0.01em; }
+.soc-big small { font-size: 24px; font-weight: 700; color: #A5E8F5; }
+.soc-track { height: 14px; margin: 18px 0 6px; border-radius: 999px; background: rgba(165, 243, 252, 0.18); overflow: hidden; }
+.soc-fill { height: 100%; width: 62.4%; border-radius: 999px; background: linear-gradient(90deg, var(--secondary), #4ADE80); transition: width 0.8s linear; }
+.soc-hint { font-size: 13.5px; color: #A5E8F5; }
+.charge-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
+.cm-item { background: rgba(165, 243, 252, 0.09); border: 1px solid var(--panel-line); border-radius: var(--r-md); padding: 12px 14px; }
+.cm-item b { display: block; font-size: 21px; font-weight: 800; }
+.cm-item span { font-size: 13px; color: #A5E8F5; }
+.pv-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
+.curve-svg { width: 100%; height: 150px; display: block; background: rgba(165, 243, 252, 0.06); border-radius: var(--r-md); border: 1px solid var(--panel-line); }
+.live-ctrl { display: flex; align-items: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+.state-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #C8ECF4; }
+.dot-live { background: #4ADE80; }
+.dot-paused { background: #FDE68A; }
+.section-dark .btn-dark { background: var(--secondary); color: #083344; }
+.section-dark .btn-dark:hover { background: #A5E8F5; }
+
+/* 价格时段 */
+.price-note { font-size: 15px; color: var(--fg-soft); margin-bottom: 16px; }
+.price-note b { color: var(--accent-ink); }
+.price-scroll { overflow-x: auto; }
+.price-table { display: grid; grid-template-rows: auto repeat(6, auto); min-width: 680px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 10px 30px var(--shadow); }
+.pr-row { display: grid; grid-template-columns: 150px 1fr 110px 110px 110px 130px; align-items: center; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--border); font-size: 15px; }
+.pr-row:first-child { border-top: none; }
+.pr-head { background: var(--muted); font-size: 13.5px; font-weight: 700; color: var(--fg-soft); }
+.pr-slot b { font-weight: 800; font-size: 16px; display: block; }
+.pr-slot span { font-size: 13px; color: var(--fg-soft); }
+.pr-sum { font-weight: 800; font-size: 18px; }
+.pr-mem { color: var(--accent-ink); font-weight: 700; }
+.pr-tag { justify-self: start; font-size: 12.5px; font-weight: 700; border-radius: 999px; padding: 3px 10px; background: var(--muted); color: var(--fg-soft); }
+.pr-valley { background: #F0FDF4; }
+.pr-valley .pr-tag { background: var(--ok-bg); color: var(--accent-ink); }
+.pr-peak { background: #FFFBEB; }
+.pr-peak .pr-tag { background: var(--warn-bg); color: var(--warn-ink); }
+.pr-now { outline: 3px solid var(--ring); outline-offset: -3px; }
+.price-foot { font-size: 13.5px; color: var(--fg-soft); margin-top: 14px; }
+
+/* 特色与会员 */
+.feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.feat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px; box-shadow: 0 8px 24px var(--shadow); }
+.feat-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--muted); color: var(--primary-deep); margin-bottom: 14px; }
+.feat-card h3 { font-size: 18px; margin-bottom: 6px; }
+.feat-card p { font-size: 14.5px; color: var(--fg-soft); }
+.mem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.mem-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 26px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 10px 30px var(--shadow); }
+.mem-hot { border: 2px solid var(--primary); }
+.mem-flag { position: absolute; top: -14px; left: 24px; background: var(--primary); color: var(--on-primary); font-size: 13px; font-weight: 800; border-radius: 999px; padding: 4px 14px; }
+.mem-card h3 { font-size: 20px; }
+.mem-price { display: flex; align-items: baseline; gap: 6px; }
+.mem-price b { font-size: 38px; font-weight: 800; }
+.mem-price span { color: var(--fg-soft); font-size: 14px; }
+.mem-list { list-style: none; display: grid; gap: 10px; font-size: 15px; color: var(--fg-soft); }
+.mem-list li { display: flex; gap: 10px; align-items: flex-start; }
+.mem-list svg { flex: none; margin-top: 5px; color: var(--accent-ink); }
+.mem-foot { margin-top: auto; }
+.mem-foot .btn { width: 100%; text-align: center; }
+
+/* 页脚 */
+.site-foot { border-top: 1px solid var(--border); background: var(--card); padding: 30px 0; }
+.foot-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 15px; color: var(--fg-soft); }
+.foot-inner a { font-weight: 700; }
+
+/* 一次亮相动效 */
+.reveal { animation: rise 0.7s ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { animation: none; }
+  .btn, .pin { transition: none; }
+  .soc-fill { transition: none; }
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .map-grid { grid-template-columns: 1fr; }
+  .live-grid { grid-template-columns: 1fr; }
+  .feat-grid { grid-template-columns: repeat(2, 1fr); }
+  .mem-grid { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .hero { padding: 48px 0 40px; }
+  .section { padding: 48px 0; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .charge-meta, .pv-row { grid-template-columns: 1fr 1fr; }
+  .topbar .wrap { justify-content: center; }
+  .foot-inner { justify-content: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg>
+      </span>
+      闪充湾
+      <span class="brand-sub">城市快充网络</span>
+    </div>
+    <nav class="topnav" aria-label="页面导航">
+      <a href="#stations">站点地图</a>
+      <a href="#live">实时充电</a>
+      <a href="#pricing">价格时段</a>
+      <a href="#membership">会员计划</a>
+    </nav>
+    <a class="btn btn-primary" href="#membership">开通会员</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 首屏：Aurora 光晕 + 左文案右实时概览 -->
+  <section class="hero">
+    <div class="wrap hero-grid reveal">
+      <div class="hero-copy">
+        <p class="kicker">绿电直连 / 液冷超充 / 全城漫游</p>
+        <h1>十分钟，<em>满电</em>出发</h1>
+        <p class="hero-sub">闪充湾在城市 42 座枢纽布设超充与快充桩，风电与水电直连，平均 10.6 分钟补能 300 公里，充电像喝一杯咖啡一样简单。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#stations">查找身边站点</a>
+          <a class="btn btn-ghost" href="#pricing">查看分时价格</a>
+        </div>
+        <ul class="hero-stats">
+          <li><strong class="num">2,860</strong><span>在线桩位</span></li>
+          <li><strong class="num">68%</strong><span>绿电占比</span></li>
+          <li><strong class="num">0.8 分钟</strong><span>平均等候</span></li>
+          <li><strong class="num">4.9 分</strong><span>128 万用户评分</span></li>
+        </ul>
+      </div>
+      <aside class="hero-live glass" aria-label="全网实时概览">
+        <p class="live-head"><span class="dot" aria-hidden="true"></span>全网实时概览<time class="num" datetime="14:32">更新于 14:32</time></p>
+        <div class="live-row">
+          <b class="num">2,860<small>桩 / 共 3,120 桩</small></b>
+          <span class="lab">桩位在线率 91.7%</span>
+          <span class="load-track" role="img" aria-label="在线率进度 92%"><span class="load-fill"></span></span>
+        </div>
+        <div class="live-row">
+          <b class="num">1,424<small>辆</small></b>
+          <span class="lab">正在充电中</span>
+        </div>
+        <div class="live-row">
+          <b class="num">412,380<small>度</small></b>
+          <span class="lab">今日已输送绿电</span>
+        </div>
+        <p class="green-note">本月绿电采购 1,860 万度，相当于减碳 11,240 吨。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 站点地图：SVG 城市路网 + 网格对齐站点列表 -->
+  <section id="stations" class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">站点地图</p>
+          <h2 class="sec-title">42 座枢纽，覆盖全城</h2>
+          <p class="sec-desc">悬停或聚焦列表中的站点，地图上的桩位标记会同步点亮，出发前先看清空闲枪头。</p>
+        </div>
+        <div class="filters" role="group" aria-label="站点类型筛选">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">全部站点</button>
+          <button class="chip" type="button" data-filter="super" aria-pressed="false">超级快充</button>
+          <button class="chip" type="button" data-filter="fast" aria-pressed="false">快速充电</button>
+        </div>
+      </div>
+      <div class="map-grid">
+        <figure class="map-card glass">
+          <svg class="map-svg" viewBox="0 0 560 420" role="img" aria-label="闪充湾城市站点分布示意图，包含六座示范站点">
+            <path d="M-10 300 C 120 260, 200 330, 300 300 S 480 240, 580 270" fill="none" stroke="rgba(34, 211, 238, 0.28)" stroke-width="26" stroke-linecap="round"/>
+            <path d="M-10 300 C 120 260, 200 330, 300 300 S 480 240, 580 270" fill="none" stroke="rgba(8, 145, 178, 0.35)" stroke-width="2" stroke-dasharray="2 8"/>
+            <path d="M60 -10 L 140 430" stroke="#FFFFFF" stroke-width="9"/>
+            <path d="M60 -10 L 140 430" stroke="#CBEDF3" stroke-width="1.5" stroke-dasharray="10 8"/>
+            <path d="M-10 120 L 580 60" stroke="#FFFFFF" stroke-width="7"/>
+            <path d="M300 -10 L 260 430" stroke="#FFFFFF" stroke-width="7"/>
+            <path d="M-10 200 L 580 190" stroke="#FFFFFF" stroke-width="5"/>
+            <path d="M420 -10 L 480 430" stroke="#FFFFFF" stroke-width="5"/>
+            <ellipse cx="440" cy="330" rx="72" ry="48" fill="rgba(22, 163, 74, 0.16)"/>
+            <ellipse cx="120" cy="90" rx="54" ry="38" fill="rgba(22, 163, 74, 0.13)"/>
+            <g font-size="11" fill="#345C6B">
+              <circle id="pin-st1" class="pin" cx="150" cy="175" r="9" fill="#16A34A" stroke="#FFFFFF" stroke-width="2"><title>滨江天环站 / 空闲 5</title></circle>
+              <circle id="pin-st2" class="pin" cx="285" cy="90" r="10" fill="#16A34A" stroke="#FFFFFF" stroke-width="2"><title>云澜中心站 / 空闲 8</title></circle>
+              <circle id="pin-st3" class="pin" cx="330" cy="205" r="8" fill="#16A34A" stroke="#FFFFFF" stroke-width="2"><title>星海广场站 / 空闲 11</title></circle>
+              <circle id="pin-st4" class="pin" cx="90" cy="330" r="8" fill="#16A34A" stroke="#FFFFFF" stroke-width="2"><title>曲溪科创园站 / 空闲 9</title></circle>
+              <circle id="pin-st5" class="pin" cx="455" cy="115" r="10" fill="#0891B2" stroke="#FFFFFF" stroke-width="2"><title>港湾枢纽站 / 空闲 3</title></circle>
+              <circle id="pin-st6" class="pin" cx="440" cy="330" r="8" fill="#16A34A" stroke="#FFFFFF" stroke-width="2"><title>白鹭洲公园站 / 空闲 6</title></circle>
+              <text x="128" y="152">滨江天环</text>
+              <text x="262" y="66">云澜中心</text>
+              <text x="352" y="228">星海广场</text>
+              <text x="42" y="356">曲溪科创园</text>
+              <text x="432" y="90">港湾枢纽</text>
+              <text x="418" y="358">白鹭洲</text>
+            </g>
+          </svg>
+          <figcaption class="map-legend">
+            <span class="lg-item"><span class="lg-dot" style="background:#16A34A"></span>桩位充裕</span>
+            <span class="lg-item"><span class="lg-dot" style="background:#0891B2"></span>桩位紧张</span>
+            <span class="lg-item"><span class="lg-dot" style="background:#ECFEFF"></span>带虚线为滨江水道</span>
+          </figcaption>
+        </figure>
+        <div class="station-scroll">
+          <div class="station-list">
+            <div class="st-row st-head" role="row">
+              <span>站点</span><span>类型</span><span>空闲 / 总数</span><span>最大功率</span><span>距离</span>
+            </div>
+            <div class="st-row" data-type="super" data-station="st1" tabindex="0">
+              <span class="st-name"><b>滨江天环站</b><span>天环路 1 号地下二层 / 24 小时</span></span>
+              <span class="badge badge-super">超级快充</span>
+              <span class="st-free ok num">5 / 12</span>
+              <span class="num">480 kW</span>
+              <span class="st-dist num">1.2 km</span>
+            </div>
+            <div class="st-row" data-type="super" data-station="st2" tabindex="0">
+              <span class="st-name"><b>云澜中心站</b><span>云澜大道 88 号地面广场 / 24 小时</span></span>
+              <span class="badge badge-super">超级快充</span>
+              <span class="st-free ok num">8 / 16</span>
+              <span class="num">600 kW</span>
+              <span class="st-dist num">2.4 km</span>
+            </div>
+            <div class="st-row" data-type="fast" data-station="st3" tabindex="0">
+              <span class="st-name"><b>星海广场站</b><span>星海路 20 号停车场 B 区 / 06:00 至 24:00</span></span>
+              <span class="badge badge-fast">快速充电</span>
+              <span class="st-free ok num">11 / 24</span>
+              <span class="num">250 kW</span>
+              <span class="st-dist num">3.1 km</span>
+            </div>
+            <div class="st-row" data-type="fast" data-station="st4" tabindex="0">
+              <span class="st-name"><b>曲溪科创园站</b><span>曲溪北路 5 号东门 / 24 小时</span></span>
+              <span class="badge badge-fast">快速充电</span>
+              <span class="st-free ok num">9 / 18</span>
+              <span class="num">250 kW</span>
+              <span class="st-dist num">4.6 km</span>
+            </div>
+            <div class="st-row" data-type="super" data-station="st5" tabindex="0">
+              <span class="st-name"><b>港湾枢纽站</b><span>港湾大道 1000 号换乘层 / 24 小时</span></span>
+              <span class="badge badge-super">超级快充</span>
+              <span class="st-free low num">3 / 20</span>
+              <span class="num">600 kW</span>
+              <span class="st-dist num">5.8 km</span>
+            </div>
+            <div class="st-row" data-type="fast" data-station="st6" tabindex="0">
+              <span class="st-name"><b>白鹭洲公园站</b><span>白鹭洲南门生态停车场 / 07:00 至 23:00</span></span>
+              <span class="badge badge-fast">快速充电</span>
+              <span class="st-free ok num">6 / 10</span>
+              <span class="num">180 kW</span>
+              <span class="st-dist num">6.5 km</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 实时充电预览：深色面板，可暂停 -->
+  <section id="live" class="section section-dark">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">充电状态实时预览</p>
+          <h2 class="sec-title">每一度电，都看得见</h2>
+          <p class="sec-desc">以滨江天环站 A07 桩为例，功率曲线与费用实时刷新，数据流支持随时暂停与继续。</p>
+        </div>
+      </div>
+      <div class="live-grid">
+        <div class="panel-dark">
+          <p class="panel-title">滨江天环站 / A07 桩 / 液冷超充枪<span class="badge badge-super">600 kW 桩</span></p>
+          <p class="soc-big"><span class="num" id="socVal">62.4</span><small>%</small></p>
+          <div class="soc-track" role="img" aria-label="当前电量进度"><div class="soc-fill" id="socFill"></div></div>
+          <p class="soc-hint">目标 80%，到达后自动降流保护电池</p>
+          <div class="charge-meta">
+            <div class="cm-item"><b class="num" id="kwVal">176.2</b><span>实时功率 kW</span></div>
+            <div class="cm-item"><b class="num" id="kwhVal">24.8</b><span>已充电量 kWh</span></div>
+            <div class="cm-item"><b class="num" id="feeVal">35.31</b><span>当前费用 元</span></div>
+            <div class="cm-item"><b class="num" id="etaVal">9</b><span>预计剩余 分钟</span></div>
+            <div class="cm-item"><b class="num" id="voltVal">802</b><span>电压 V</span></div>
+            <div class="cm-item"><b class="num" id="ampVal">219</b><span>电流 A</span></div>
+          </div>
+        </div>
+        <div class="panel-dark">
+          <p class="panel-title">近 6 分钟功率曲线 kW</p>
+          <div class="pv-row">
+            <div class="cm-item"><b class="num" id="kwPeak">186.4</b><span>区间峰值</span></div>
+            <div class="cm-item"><b class="num" id="kwAvg">171.3</b><span>区间均值</span></div>
+            <div class="cm-item"><b class="num">0.59</b><span>谷时电价 元 / 度</span></div>
+          </div>
+          <svg class="curve-svg" viewBox="0 0 280 150" preserveAspectRatio="none" role="img" aria-label="充电功率随时间变化曲线">
+            <line x1="0" y1="30" x2="280" y2="30" stroke="rgba(165, 243, 252, 0.25)" stroke-width="1"/>
+            <line x1="0" y1="75" x2="280" y2="75" stroke="rgba(165, 243, 252, 0.25)" stroke-width="1"/>
+            <line x1="0" y1="120" x2="280" y2="120" stroke="rgba(165, 243, 252, 0.25)" stroke-width="1"/>
+            <polyline id="powerLine" fill="none" stroke="#22D3EE" stroke-width="2.5" stroke-linejoin="round" points="10,52 24,49 38,54 52,47 66,51 80,45 94,50 108,46 122,52 136,44 150,49 164,43 178,50 192,45 206,48 220,42 234,49 248,44 262,47 276,44"></polyline>
+          </svg>
+          <div class="live-ctrl">
+            <button class="btn btn-dark" type="button" id="pauseBtn" aria-pressed="false">暂停预览</button>
+            <span class="state-tag"><span class="dot dot-live" id="stateDot" aria-hidden="true"></span><span id="stateText">实时更新中，每 0.9 秒刷新一次</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 价格时段：分时电价，JS 按访问时间高亮当前时段 -->
+  <section id="pricing" class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">价格时段</p>
+          <h2 class="sec-title">跟着电价走，省下一杯咖啡</h2>
+          <p class="sec-desc">电费按电网分时目录价同步，服务费按站型收取，页面上就是到手价。</p>
+        </div>
+      </div>
+      <p class="price-note" id="nowLine">当前时段：<b>正在读取</b>，对应行已在下表中标出。</p>
+      <div class="price-scroll">
+        <div class="price-table">
+          <div class="pr-row pr-head">
+            <span>时段</span><span>电价 元 / 度</span><span>服务费</span><span>合计</span><span>闪电卡会员</span><span>提示</span>
+          </div>
+          <div class="pr-row pr-valley" data-slot="0">
+            <span class="pr-slot"><b>深夜谷</b><span>00:00 至 07:00</span></span>
+            <span class="num">0.41</span><span class="num">0.18</span><span class="pr-sum num">0.59</span><span class="pr-mem num">0.54</span><span class="pr-tag">绿电库存充足</span>
+          </div>
+          <div class="pr-row" data-slot="1">
+            <span class="pr-slot"><b>早平段</b><span>07:00 至 10:00</span></span>
+            <span class="num">0.89</span><span class="num">0.25</span><span class="pr-sum num">1.14</span><span class="pr-mem num">1.05</span><span class="pr-tag">通勤前补能</span>
+          </div>
+          <div class="pr-row pr-peak" data-slot="2">
+            <span class="pr-slot"><b>日间峰</b><span>10:00 至 15:00</span></span>
+            <span class="num">1.26</span><span class="num">0.32</span><span class="pr-sum num">1.58</span><span class="pr-mem num">1.45</span><span class="pr-tag">建议错峰</span>
+          </div>
+          <div class="pr-row" data-slot="3">
+            <span class="pr-slot"><b>傍晚平</b><span>15:00 至 18:00</span></span>
+            <span class="num">0.89</span><span class="num">0.25</span><span class="pr-sum num">1.14</span><span class="pr-mem num">1.05</span><span class="pr-tag">晚高峰前推荐</span>
+          </div>
+          <div class="pr-row pr-peak" data-slot="4">
+            <span class="pr-slot"><b>夜间尖峰</b><span>18:00 至 21:00</span></span>
+            <span class="num">1.52</span><span class="num">0.38</span><span class="pr-sum num">1.90</span><span class="pr-mem num">1.75</span><span class="pr-tag">全天最高价</span>
+          </div>
+          <div class="pr-row pr-valley" data-slot="5">
+            <span class="pr-slot"><b>夜谷</b><span>21:00 至 24:00</span></span>
+            <span class="num">0.61</span><span class="num">0.20</span><span class="pr-sum num">0.81</span><span class="pr-mem num">0.75</span><span class="pr-tag">夜归顺路充</span>
+          </div>
+        </div>
+      </div>
+      <p class="price-foot">以上为示范数据，跟随 2026 年 10 月电网目录电价联动调整，会员价按闪电卡 92 折计算，停车费以各站公示为准。</p>
+    </div>
+  </section>
+
+  <!-- 特色：绿电与速度 -->
+  <section id="features" class="section" aria-label="平台特色">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">为什么是闪充湾</p>
+          <h2 class="sec-title">快，只是基本盘</h2>
+        </div>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="currentColor"/></svg></span>
+          <h3>液冷超充</h3>
+          <p>枪线减重 40%，600 kW 峰值功率，800V 平台车型 10.6 分钟补能 300 公里。</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21 C 7 17, 4 13.5, 4 9.8 V 5 L 12 2.5 L 20 5 V 9.8 C 20 13.5, 17 17, 12 21 Z" fill="currentColor" opacity="0.35"/><path d="M12 21 C 7 17, 4 13.5, 4 9.8 V 5 L 12 2.5 L 20 5 V 9.8 C 20 13.5, 17 17, 12 21 Z" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></span>
+          <h3>绿电直连</h3>
+          <p>与两座风电场和滨河水电站签约直购，每度电可溯源，减碳量按月出具报告。</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="15" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M21 10.5 v 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="6" y="10" width="7" height="4" rx="1" fill="currentColor"/></svg></span>
+          <h3>电池健康报告</h3>
+          <p>每次充电生成温升与内阻快照，异常衰减提前 3 个月预警，报告免费可导出。</p>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 7 v 5 l 3.5 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <h3>即插即充</h3>
+          <p>车辆识别免扫码，插枪即启动，订单自动结算，全程无需掏出手机。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 会员：三档等高 -->
+  <section id="membership" class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="kicker">会员计划</p>
+          <h2 class="sec-title">把每一次充电都省下来</h2>
+          <p class="sec-desc">按月订阅，随时退订，差价按剩余天数折算返还。</p>
+        </div>
+      </div>
+      <div class="mem-grid">
+        <div class="mem-card">
+          <h3>随充卡</h3>
+          <p class="mem-price"><b class="num">0</b><span>元 / 月，注册即享</span></p>
+          <ul class="mem-list">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>全网标准分时电价</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>充电积分 1 倍累积</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>电池健康月报</li>
+          </ul>
+          <p class="mem-foot"><button class="btn btn-ghost" type="button">免费注册</button></p>
+        </div>
+        <div class="mem-card mem-hot">
+          <span class="mem-flag">8 成用户的选择</span>
+          <h3>闪电卡</h3>
+          <p class="mem-price"><b class="num">39</b><span>元 / 月</span></p>
+          <ul class="mem-list">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>全站电价 92 折，叠加谷时更低</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>每月 2 张免服务费券</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>热门站点优先排队叫号</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>充电积分 2 倍累积</li>
+          </ul>
+          <p class="mem-foot"><button class="btn btn-primary" type="button">开通闪电卡</button></p>
+        </div>
+        <div class="mem-card">
+          <h3>湾区通行卡</h3>
+          <p class="mem-price"><b class="num">99</b><span>元 / 月</span></p>
+          <ul class="mem-list">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>全站电价 85 折，含跨城漫游</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>超充站专属车位预留 15 分钟</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>家充桩安装 300 元抵扣</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 L 9.5 18 L 20 6.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>全年 4 次道路救援</li>
+          </ul>
+          <p class="mem-foot"><button class="btn btn-ghost" type="button">开通通行卡</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>UI 设计提示词库 / 产品模板 / EV/Charging Ecosystem</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 站点类型筛选 */
+  var chips = document.querySelectorAll('.chip');
+  var rows = document.querySelectorAll('.st-row[data-type]');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+      var f = chip.getAttribute('data-filter');
+      rows.forEach(function (row) {
+        row.hidden = f !== 'all' && row.getAttribute('data-type') !== f;
+      });
+    });
+  });
+
+  /* 站点列表与地图标记联动 */
+  rows.forEach(function (row) {
+    var pinId = 'pin-' + row.getAttribute('data-station');
+    var pin = document.getElementById(pinId);
+    if (!pin) { return; }
+    function on() { pin.classList.add('pin-active'); pin.setAttribute('r', '13'); }
+    function off() { pin.classList.remove('pin-active'); pin.setAttribute('r', pin.getAttribute('fill') === '#16A34A' ? '8' : '10'); }
+    row.addEventListener('mouseenter', on);
+    row.addEventListener('mouseleave', off);
+    row.addEventListener('focus', on);
+    row.addEventListener('blur', off);
+  });
+
+  /* 价格表：按访问时间高亮当前时段 */
+  var slotNames = ['深夜谷', '早平段', '日间峰', '傍晚平', '夜间尖峰', '夜谷'];
+  var slotEdges = [7, 10, 15, 18, 21, 24];
+  var h = new Date().getHours();
+  var slot = slotEdges.findIndex(function (e) { return h < e; });
+  if (slot < 0) { slot = 5; }
+  var nowRow = document.querySelector('.pr-row[data-slot="' + slot + '"]');
+  if (nowRow) { nowRow.classList.add('pr-now'); }
+  var nowName = slotNames[slot];
+  var nowLine = document.getElementById('nowLine');
+  if (nowLine) {
+    nowLine.innerHTML = '当前时段：<b></b>，对应行已在下表中标出。';
+    nowLine.querySelector('b').textContent = nowName;
+  }
+
+  /* 充电状态实时预览（可暂停） */
+  var socEl = document.getElementById('socVal');
+  var fillEl = document.getElementById('socFill');
+  var kwEl = document.getElementById('kwVal');
+  var kwhEl = document.getElementById('kwhVal');
+  var feeEl = document.getElementById('feeVal');
+  var etaEl = document.getElementById('etaVal');
+  var voltEl = document.getElementById('voltVal');
+  var ampEl = document.getElementById('ampVal');
+  var peakEl = document.getElementById('kwPeak');
+  var avgEl = document.getElementById('kwAvg');
+  var lineEl = document.getElementById('powerLine');
+  var pauseBtn = document.getElementById('pauseBtn');
+  var stateDot = document.getElementById('stateDot');
+  var stateText = document.getElementById('stateText');
+
+  var cap = 75;            /* 电池容量 kWh */
+  var price = 0.59;        /* 深夜谷合计价 元 / 度 */
+  var soc = 62.4, kw = 176.2, kwh = (soc / 100) * cap, fee = kwh * price * 0.8;
+  var history = [168, 172, 176, 180, 174, 178, 183, 176, 171, 179, 184, 177, 173, 181, 186, 178, 175, 182, 176, 179];
+  var paused = false;
+
+  function fmt(n, d) { return n.toFixed(d); }
+
+  function render() {
+    var eta = Math.max(0, Math.round(((80 - soc) / 100) * cap / kw * 60));
+    socEl.textContent = fmt(soc, 1);
+    fillEl.style.width = soc + '%';
+    kwEl.textContent = fmt(kw, 1);
+    kwhEl.textContent = fmt(kwh, 1);
+    feeEl.textContent = fmt(fee, 2);
+    etaEl.textContent = soc >= 80 ? 0 : eta;
+    voltEl.textContent = Math.round(780 + kw * 0.18);
+    ampEl.textContent = Math.round(kw * 1000 / (780 + kw * 0.18));
+    peakEl.textContent = fmt(Math.max.apply(null, history), 1);
+    avgEl.textContent = fmt(history.reduce(function (a, b) { return a + b; }, 0) / history.length, 1);
+    var pts = history.map(function (v, i) {
+      var x = (i / (history.length - 1)) * 280;
+      var y = 140 - ((v - 120) / 100) * 120;
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    });
+    lineEl.setAttribute('points', pts.join(' '));
+  }
+
+  function tick() {
+    if (paused || soc >= 80) { return; }
+    var target = soc < 70 ? 178 : 132;  /* 接近 80% 进入降流保护 */
+    kw += (target - kw) * 0.15 + (Math.random() - 0.5) * 9;
+    kw = Math.min(186, Math.max(108, kw));
+    var delta = kw * (0.9 / 3600);      /* 每 tick 0.9 秒的电量 */
+    kwh += delta;
+    soc = Math.min(80, (kwh / cap) * 100);
+    fee += delta * price;
+    history.push(kw);
+    if (history.length > 20) { history.shift(); }
+    render();
+    if (soc >= 80) {
+      stateText.textContent = '已到达 80% 目标，自动降流保护电池';
+      stateDot.classList.remove('dot-live');
+      stateDot.classList.add('dot-paused');
+    }
+  }
+
+  pauseBtn.addEventListener('click', function () {
+    paused = !paused;
+    pauseBtn.setAttribute('aria-pressed', String(paused));
+    pauseBtn.textContent = paused ? '继续更新' : '暂停预览';
+    stateText.textContent = paused ? '已暂停，数据停留在最后一次刷新' : '实时更新中，每 0.9 秒刷新一次';
+    stateDot.classList.toggle('dot-live', !paused);
+    stateDot.classList.toggle('dot-paused', paused);
+  });
+
+  render();
+  setInterval(tick, 900);
+})();
+</script>
+</body>
+</html>

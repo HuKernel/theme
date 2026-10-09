@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="产品模板：中文播客网络平台「巷口电台」，Dark Mode OLED + Swiss 风格，Storytelling-Driven 布局">
+<title>产品模板 / Podcast Platform / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #1E1B4B / OnPrimary #FFF / Secondary #312E81 / Accent #F97316(深字 #0F0F23 保证 6.4:1) / BG #0F0F23 / FG #F8FAFC / Card #1B1B30 / Border #4338CA / Muted #27273B / Ring #FFF / 正文次级 #C7C9E8 / 弱化文字 #9295BB(卡上 5.4:1) */
+:root{--primary:#1E1B4B;--on-primary:#FFFFFF;--secondary:#312E81;--accent:#F97316;--on-accent:#0F0F23;--bg:#0F0F23;--fg:#F8FAFC;--card:#1B1B30;--border:#4338CA;--muted:#27273B;--ring:#FFFFFF;--ink-soft:#C7C9E8;--ink-dim:#9295BB;--line:rgba(67,56,202,.45)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.7;font-size:16px}
+a{color:var(--fg);text-decoration:none}
+a:hover{color:var(--accent)}
+img,svg{display:block}
+[hidden]{display:none!important}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:var(--on-accent);padding:10px 16px;font-weight:700;z-index:99}
+.skip:focus-visible{left:12px;top:12px}
+
+/* 头部 */
+header{position:sticky;top:0;z-index:50;background:rgba(15,15,35,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--muted)}
+.navbar{display:flex;align-items:center;gap:26px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:1px}
+.brand:hover{color:var(--fg)}
+.brand svg{width:30px;height:30px}
+.brand small{font-weight:500;font-size:12px;color:var(--ink-dim);letter-spacing:2px}
+.nav-links{display:flex;gap:22px;list-style:none;margin-left:6px}
+.nav-links a{font-size:15px;color:var(--ink-soft);padding:4px 2px;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--fg);border-bottom-color:var(--accent)}
+.nav-side{margin-left:auto;display:flex;align-items:center;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:15px;padding:10px 20px;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{background:#FB8C37;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-outline{background:transparent;color:var(--fg);border-color:var(--border)}
+.btn-outline:hover{background:var(--muted);border-color:var(--accent);color:var(--fg)}
+.btn-dark{background:var(--secondary);color:var(--on-primary)}
+.btn-dark:hover{background:var(--border)}
+.btn-sm{padding:8px 14px;font-size:14px}
+.menu-btn{display:none;background:transparent;border:1px solid var(--border);cursor:pointer;padding:8px}
+.menu-btn svg{width:20px;height:20px;stroke:var(--fg)}
+
+/* 首屏 */
+.hero{border-bottom:1px solid var(--muted);background:radial-gradient(720px 420px at 88% 10%,rgba(67,56,202,.22),transparent 70%),radial-gradient(560px 320px at 4% 96%,rgba(249,115,22,.10),transparent 70%)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center;padding-top:72px;padding-bottom:72px}
+.hero-copy{animation:fadeUp .6s ease both}
+.kicker{display:inline-block;font-size:14px;font-weight:600;color:var(--ink-soft);border:1px solid var(--border);padding:4px 12px;margin-bottom:20px}
+.hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.24;font-weight:800;letter-spacing:1px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-desc{margin-top:18px;font-size:17px;color:var(--ink-soft);max-width:32em}
+.hero-actions{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+.stat{border-top:2px solid var(--border);padding-top:10px}
+.stat b{display:block;font-size:24px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-dim)}
+
+/* 正在播出面板（签名组件：声波墙） */
+.panel{background:var(--card);border:1px solid var(--line);padding:22px}
+.panel-head{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-dim)}
+.live{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.panel-head b{color:var(--fg);font-weight:700}
+.panel-show{margin-top:14px;font-size:13px;color:var(--ink-dim)}
+.panel-ep{font-size:20px;font-weight:800;line-height:1.4;margin-top:2px}
+.wave{display:flex;align-items:flex-end;gap:3px;height:92px;margin-top:18px}
+.wave i{flex:1;background:var(--border);border-radius:1px;transform-origin:bottom;animation:grow .8s cubic-bezier(.22,.9,.28,1) both;animation-delay:var(--d,0s);transition:background .25s ease}
+.playing .wave i{background:var(--accent)}
+.panel-time{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-dim);margin-top:8px;font-variant-numeric:tabular-nums}
+.prog{height:4px;background:var(--muted);margin-top:6px}
+.prog i{display:block;height:100%;width:42%;background:var(--accent)}
+.panel-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.panel-host{font-size:13px;color:var(--ink-dim)}
+.pbtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.pbtn:hover{background:var(--muted);border-color:var(--accent)}
+.pbtn svg{width:18px;height:18px;fill:currentColor}
+.pbtn .ic-pause{display:none}
+.pbtn[aria-pressed="true"] .ic-play{display:none}
+.pbtn[aria-pressed="true"] .ic-pause{display:block}
+
+/* 区块通用 */
+section{padding:72px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.sec-idx{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:2px;font-variant-numeric:tabular-nums}
+.sec-head h2{font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.3;margin-top:6px}
+.sec-head p{color:var(--ink-dim);margin-top:10px;max-width:34em}
+.sec-more{font-weight:600;white-space:nowrap;border-bottom:2px solid var(--border);padding-bottom:2px}
+.sec-more:hover{border-bottom-color:var(--accent)}
+
+/* 01 节目矩阵 */
+.cats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.cat-btn{border:1px solid var(--muted);background:transparent;color:var(--ink-soft);font-size:14px;padding:7px 16px;cursor:pointer;transition:border-color .15s ease,color .15s ease}
+.cat-btn:hover{border-color:var(--border);color:var(--fg)}
+.cat-btn[aria-pressed="true"]{background:var(--secondary);border-color:var(--border);color:var(--on-primary)}
+.shows{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.show-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);transition:transform .15s ease,border-color .15s ease}
+.show-card:hover{transform:translateY(-3px);border-color:var(--border)}
+.show-cover{position:relative;aspect-ratio:16/9;display:flex;align-items:flex-end;padding:16px;overflow:hidden}
+.show-cover h3{font-size:22px;font-weight:800;line-height:1.3;position:relative;z-index:1}
+.show-cover svg{position:absolute;right:12px;bottom:12px;width:46%;height:30px;z-index:1}
+.cv1{background:linear-gradient(135deg,#312E81,#1E1B4B)}
+.cv2{background:linear-gradient(135deg,#232156,#17143F)}
+.cv3{background:linear-gradient(135deg,#17143F,#0F0F23);border-bottom:1px solid var(--line)}
+.cv4{background:linear-gradient(135deg,#F97316,#C2410C)}
+.cv4 h3{color:var(--on-accent)}
+.cv5{background:linear-gradient(135deg,#4338CA,#312E81)}
+.cv6{background:linear-gradient(135deg,#1E1B4B,#312E81)}
+.cv3 h3{color:var(--ink-soft)}
+.show-body{padding:16px;display:flex;flex-direction:column;flex:1}
+.show-body p{font-size:14px;color:var(--ink-soft);flex:1}
+.show-meta{font-size:13px;color:var(--ink-dim);margin-top:12px;font-variant-numeric:tabular-nums}
+.show-host{font-size:13px;color:var(--ink-dim);margin-top:4px}
+.show-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.show-tag{font-size:13px;font-weight:600;color:var(--ink-soft);border:1px solid var(--border);padding:3px 10px}
+
+/* 02 最新单集 */
+.eps{border:1px solid var(--line)}
+.ep-row{display:grid;grid-template-columns:56px 110px 1fr 90px 92px;gap:16px;align-items:center;padding:16px 20px}
+.ep-row + .ep-row{border-top:1px solid var(--muted)}
+.ep-row:hover{background:var(--card)}
+.ep-show{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.d1{background:#818CF8}.d2{background:#FB923C}.d3{background:#A5B4FC}.d4{background:#F97316}.d5{background:#6366F1}.d6{background:#C084FC}
+.ep-main h3{font-size:16px;font-weight:700;line-height:1.5}
+.ep-main .ep-meta{font-size:13px;color:var(--ink-dim);margin-top:2px;font-variant-numeric:tabular-nums}
+.ep-row.now{background:var(--card)}
+.ep-row.now h3{color:var(--accent)}
+.ep-dur,.ep-date{font-size:13px;color:var(--ink-dim);text-align:right;font-variant-numeric:tabular-nums}
+
+/* 03 主播招募 */
+.recruit{background:var(--primary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.recruit .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:stretch;padding-top:72px;padding-bottom:72px}
+.recruit .sec-idx{color:var(--accent)}
+.recruit-copy p{color:var(--ink-soft);margin-top:14px;max-width:30em}
+.steps{list-style:none;margin-top:26px}
+.steps li{display:flex;gap:16px;padding:14px 0;border-top:1px solid rgba(199,201,232,.22)}
+.steps b{font-size:20px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.5}
+.steps strong{display:block;font-size:15px;font-weight:700}
+.steps span{font-size:13px;color:var(--ink-soft)}
+.perks{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.perk{font-size:13px;font-weight:600;border:1px solid rgba(199,201,232,.4);color:var(--ink-soft);padding:5px 12px}
+.form-card{background:var(--card);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column}
+.form-card h3{font-size:20px;font-weight:800}
+.form-card > p{font-size:14px;color:var(--ink-dim);margin-top:6px}
+.field{margin-top:16px;display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;font-weight:600}
+.field input,.field textarea{border:1px solid var(--muted);background:var(--bg);color:var(--fg);padding:10px 12px;font-size:15px;font-family:inherit}
+.field input::placeholder,.field textarea::placeholder{color:#7B7EA6}
+.field textarea{resize:vertical;min-height:110px;flex:1}
+.form-card .btn{margin-top:18px}
+.form-ok{margin-top:14px;font-size:14px;color:var(--accent);font-weight:600}
+.form-note{font-size:12px;color:var(--ink-dim);margin-top:12px}
+
+/* 04 会员 */
+.members{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.mem{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);padding:24px}
+.mem.rec{border:2px solid var(--accent);position:relative}
+.mem-badge{position:absolute;top:-13px;left:20px;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;padding:2px 12px}
+.mem h3{font-size:18px;font-weight:800}
+.mem .mem-for{font-size:13px;color:var(--ink-dim);margin-top:4px;min-height:22px}
+.mem-price{margin-top:14px;display:flex;align-items:baseline;gap:6px}
+.mem-price b{font-size:34px;font-weight:800;font-variant-numeric:tabular-nums}
+.mem-price span{font-size:13px;color:var(--ink-dim)}
+.mem ul{list-style:none;margin-top:16px;flex:1}
+.mem li{display:flex;gap:10px;align-items:baseline;font-size:14px;color:var(--ink-soft);padding:7px 0;border-top:1px solid var(--muted)}
+.mem li::before{content:"";width:7px;height:7px;background:var(--border);flex-shrink:0;transform:translateY(-1px)}
+.mem.rec li::before{background:var(--accent)}
+.mem .btn{margin-top:18px}
+
+/* 页脚 */
+footer{border-top:1px solid var(--muted);padding-top:52px;padding-bottom:28px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot-brand p{font-size:14px;color:var(--ink-dim);margin-top:12px;max-width:22em}
+.foot-grid h4{font-size:14px;font-weight:700;color:var(--fg);margin-bottom:10px}
+.foot-grid ul{list-style:none}
+.foot-grid li{margin-bottom:8px}
+.foot-grid ul a{font-size:14px;color:var(--ink-dim)}
+.foot-grid ul a:hover{color:var(--accent)}
+.foot-note{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--muted);margin-top:40px;padding-top:18px;font-size:13px;color:var(--ink-dim)}
+.foot-note a{color:var(--ink-soft);border-bottom:1px solid var(--border);padding-bottom:1px}
+.foot-note a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* 亮相动效：声波条一次升起（降级见 prefers-reduced-motion） */
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.wave i,.hero-copy{animation:none}.btn,.show-card{transition:none}}
+
+/* 响应式 */
+@media (max-width:1023px){
+.hero .wrap{grid-template-columns:1fr;gap:36px;padding-top:56px;padding-bottom:56px}
+.shows{grid-template-columns:repeat(2,1fr)}
+.recruit .wrap{grid-template-columns:1fr;gap:36px}
+.foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:767px){
+.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);flex-direction:column;gap:0;padding:8px 24px 16px}
+.nav-links.open{display:flex}
+.nav-links a{display:block;padding:10px 0;border-bottom:none}
+.menu-btn{display:block}
+.nav-side .btn{display:none}
+section{padding:56px 0}
+.stats{grid-template-columns:repeat(2,1fr);gap:16px}
+.shows{grid-template-columns:1fr}
+.ep-row{grid-template-columns:56px 1fr 80px;grid-template-areas:"play main dur" "play tag dur";row-gap:6px}
+.ep-row .pbtn{grid-area:play}
+.ep-main{grid-area:main}
+.ep-show{grid-area:tag}
+.ep-dur{grid-area:dur}
+.ep-date{display:none}
+.members{grid-template-columns:1fr}
+.foot-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+
+<header>
+  <div class="wrap navbar">
+    <a class="brand" href="#main">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="4" fill="#F97316"/><path d="M8 20V12M13 24V8M18 21V11M23 26V6" stroke="#0F0F23" stroke-width="3" stroke-linecap="round"/></svg>
+      巷口电台<small>播客网络</small>
+    </a>
+    <nav aria-label="主导航">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#shows">节目矩阵</a></li>
+        <li><a href="#episodes">最新单集</a></li>
+        <li><a href="#recruit">主播招募</a></li>
+        <li><a href="#member">会员</a></li>
+      </ul>
+    </nav>
+    <div class="nav-side">
+      <a class="btn btn-sm" href="#member">免费收听</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-label="打开菜单">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 首屏：平台叙事 + 正在播出 -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="kicker">中文播客网络 / 成立于 2021</span>
+        <h1>每条巷子，<br>都有人正在<em>说话</em></h1>
+        <p class="hero-desc">巷口电台是一个扎根城市的中文播客网络：六档常播节目，从早高峰的地铁讲到菜场的猪肉价，把一座城市的日常，做成你耳机里的背景音。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#episodes">开始收听</a>
+          <a class="btn btn-outline" href="#shows">浏览节目矩阵</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>6</b><span>档常播节目</span></div>
+          <div class="stat"><b>739</b><span>期单集库存</span></div>
+          <div class="stat"><b>42万</b><span>周听众</span></div>
+          <div class="stat"><b>21h</b><span>本周更新</span></div>
+        </div>
+      </div>
+      <aside class="panel playing" id="nowPanel" aria-label="正在播出">
+        <div class="panel-head"><span class="live" aria-hidden="true"></span><b>正在播出</b><span>饭后犯罪学</span></div>
+        <p class="panel-show">第 153 期 / 悬疑科普</p>
+        <p class="panel-ep">一九九八年的雨夜快递案</p>
+        <div class="wave" id="heroWave" aria-hidden="true"></div>
+        <div class="prog" aria-hidden="true"><i></i></div>
+        <div class="panel-time"><span>21:35</span><span>51:26</span></div>
+        <div class="panel-foot">
+          <span class="panel-host">主播 阿蟹 / 更新于昨天</span>
+          <button class="btn btn-dark btn-sm" data-play id="heroPlay" aria-pressed="true">暂停播放</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 01 节目矩阵 -->
+  <section id="shows">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-idx">01 / 节目矩阵</span>
+          <h2>六档节目，六种走法</h2>
+          <p>每档节目只做一件事，并把它做透。按分类筛选，找到属于你的那条巷子。</p>
+        </div>
+      </div>
+      <div class="cats" role="group" aria-label="节目分类筛选">
+        <button class="cat-btn" data-cat="all" aria-pressed="true">全部</button>
+        <button class="cat-btn" data-cat="observe" aria-pressed="false">城市观察</button>
+        <button class="cat-btn" data-cat="life" aria-pressed="false">生活方式</button>
+        <button class="cat-btn" data-cat="interview" aria-pressed="false">人物访谈</button>
+        <button class="cat-btn" data-cat="truecrime" aria-pressed="false">悬疑科普</button>
+        <button class="cat-btn" data-cat="nature" aria-pressed="false">自然环境</button>
+        <button class="cat-btn" data-cat="story" aria-pressed="false">都市故事</button>
+      </div>
+      <div class="shows" id="showGrid">
+        <article class="show-card" data-cat="observe">
+          <div class="show-cover cv1">
+            <h3>巷口晨话</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,16 6,6 12,20 18,3 24,17 30,8 36,21 42,5 48,15 54,2 60,18 66,7 72,19 78,4 84,14 90,9 96,20 100,12" fill="none" stroke="#F8FAFC" stroke-width="2" opacity=".85"/></svg>
+          </div>
+          <div class="show-body">
+            <p>十五分钟说清一件城里的事：地铁班次、旧改公示、公交调价，都在早班的豆浆凉掉之前讲完。</p>
+            <p class="show-host">主播 沈一舟</p>
+            <p class="show-meta">每周一至五更新 / 214 期 / 均长 15 分钟</p>
+            <div class="show-foot">
+              <span class="show-tag">城市观察</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放 巷口晨话最新单集">订阅</button>
+            </div>
+          </div>
+        </article>
+        <article class="show-card" data-cat="life">
+          <div class="show-cover cv2">
+            <h3>菜场经济学</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,12 8,4 16,19 24,9 32,21 40,6 48,16 56,3 64,18 72,10 80,22 88,7 96,14 100,12" fill="none" stroke="#FB923C" stroke-width="2" opacity=".9"/></svg>
+          </div>
+          <div class="show-body">
+            <p>从五花肉的价格讲到通货膨胀，从摊位费讲到小城房租。经济学不在课本里，在秤和塑料袋之间。</p>
+            <p class="show-host">主播 阿禾 / 老宋</p>
+            <p class="show-meta">每周三更新 / 128 期 / 均长 38 分钟</p>
+            <div class="show-foot">
+              <span class="show-tag">生活方式</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放 菜场经济学最新单集">订阅</button>
+            </div>
+          </div>
+        </article>
+        <article class="show-card" data-cat="interview">
+          <div class="show-cover cv3">
+            <h3>二手时间铺</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,14 7,3 14,17 21,8 28,20 35,5 42,13 49,2 56,19 63,9 70,21 77,6 84,16 91,4 100,12" fill="none" stroke="#A5B4FC" stroke-width="2" opacity=".9"/></svg>
+          </div>
+          <div class="show-body">
+            <p>一季一季回收这座城市的旧时间和旧决定。辞职的人、搬走的人、留下来的人，都来坐一个下午。</p>
+            <p class="show-host">主播 林晚</p>
+            <p class="show-meta">每周六更新 / 96 期 / 均长 46 分钟</p>
+            <div class="show-foot">
+              <span class="show-tag">人物访谈</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放 二手时间铺最新单集">订阅</button>
+            </div>
+          </div>
+        </article>
+        <article class="show-card" data-cat="truecrime">
+          <div class="show-cover cv4">
+            <h3>饭后犯罪学</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,10 6,22 12,5 18,15 24,2 30,19 36,8 42,21 48,4 54,17 60,7 66,20 72,3 78,14 84,9 92,18 100,12" fill="none" stroke="#0F0F23" stroke-width="2" opacity=".8"/></svg>
+          </div>
+          <div class="show-body">
+            <p>只讲真实案件，且一定在饭后。从卷宗、旧报道和庭审记录里，把一桩案子慢慢拆开给你看。</p>
+            <p class="show-host">主播 阿蟹</p>
+            <p class="show-meta">每周一更新 / 152 期 / 均长 51 分钟</p>
+            <div class="show-foot">
+              <span class="show-tag">悬疑科普</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放 饭后犯罪学最新单集">订阅</button>
+            </div>
+          </div>
+        </article>
+        <article class="show-card" data-cat="nature">
+          <div class="show-cover cv5">
+            <h3>南方气候站</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,18 9,6 18,21 27,11 36,3 45,17 54,8 63,20 72,5 81,15 90,7 100,13" fill="none" stroke="#F8FAFC" stroke-width="2" opacity=".85"/></svg>
+          </div>
+          <div class="show-body">
+            <p>台风、回南天和被晒化的马路。气象图背后的城市生活手册，教你和湿漉漉的南方好好相处。</p>
+            <p class="show-host">主播 陈盐</p>
+            <p class="show-meta">每周日更新 / 88 期 / 均长 27 分钟</p>
+            <div class="show-foot">
+              <span class="show-tag">自然环境</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放 南方气候站最新单集">订阅</button>
+            </div>
+          </div>
+        </article>
+        <article class="show-card" data-cat="story">
+          <div class="show-cover cv6">
+            <h3>失物招领处</h3>
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,12 8,20 16,4 24,13 32,21 40,6 48,17 56,9 64,2 72,16 80,8 88,19 96,5 100,12" fill="none" stroke="#C084FC" stroke-width="2" opacity=".9"/></svg>
+          </div>
+          <div class="show-body">
+            <p>每期认领一件被丢下的东西：一把黑伞、半本日记、一通没人接的电话，和它背后没讲完的故事。</p>
+            <p class="show-host">主播 小满</p>
+            <p class="show-meta">每两周更新 / 61 期 / 均长 33 分钟</p>
+            <div class="show-foot">
+              <span class="show-tag">都市故事</span>
+              <button class="btn btn-outline btn-sm" data-play aria-pressed="false" aria-label="播放 失物招领处最新单集">订阅</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 最新单集 -->
+  <section id="episodes">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-idx">02 / 最新单集</span>
+          <h2>全网络最新更新</h2>
+          <p>六档节目的单集按时间排好，收听进度全设备同步，从哪里断的就从哪里续上。</p>
+        </div>
+        <a class="sec-more" href="#shows">查看完整节目矩阵</a>
+      </div>
+      <div class="eps">
+        <div class="ep-row">
+          <button class="pbtn" data-play aria-pressed="false" aria-label="播放 早高峰的地铁为什么不加密班次">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="ep-show"><span class="dot d1" aria-hidden="true"></span>巷口晨话</span>
+          <div class="ep-main">
+            <h3>第 215 期 / 早高峰的地铁为什么不加密班次</h3>
+            <p class="ep-meta">城市观察 / 今天 07:00</p>
+          </div>
+          <span class="ep-dur">14:32</span>
+          <span class="ep-date">今天</span>
+        </div>
+        <div class="ep-row">
+          <button class="pbtn" data-play aria-pressed="false" aria-label="播放 猪肉摊的定价权在谁手里">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="ep-show"><span class="dot d2" aria-hidden="true"></span>菜场经济学</span>
+          <div class="ep-main">
+            <h3>第 129 期 / 猪肉摊的定价权在谁手里</h3>
+            <p class="ep-meta">生活方式 / 昨天 18:00</p>
+          </div>
+          <span class="ep-dur">38:05</span>
+          <span class="ep-date">昨天</span>
+        </div>
+        <div class="ep-row now">
+          <button class="pbtn" data-play aria-pressed="true" aria-label="暂停 一九九八年的雨夜快递案">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="ep-show"><span class="dot d4" aria-hidden="true"></span>饭后犯罪学</span>
+          <div class="ep-main">
+            <h3>第 153 期 / 一九九八年的雨夜快递案</h3>
+            <p class="ep-meta">悬疑科普 / 收听到 42%</p>
+          </div>
+          <span class="ep-dur">51:26</span>
+          <span class="ep-date">昨天</span>
+        </div>
+        <div class="ep-row">
+          <button class="pbtn" data-play aria-pressed="false" aria-label="播放 辞掉铁饭碗去修钟表的人">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="ep-show"><span class="dot d3" aria-hidden="true"></span>二手时间铺</span>
+          <div class="ep-main">
+            <h3>第 97 期 / 辞掉铁饭碗去修钟表的人</h3>
+            <p class="ep-meta">人物访谈 / 三天前</p>
+          </div>
+          <span class="ep-dur">44:18</span>
+          <span class="ep-date">三天前</span>
+        </div>
+        <div class="ep-row">
+          <button class="pbtn" data-play aria-pressed="false" aria-label="播放 回南天生存指南（修订版）">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="ep-show"><span class="dot d5" aria-hidden="true"></span>南方气候站</span>
+          <div class="ep-main">
+            <h3>第 89 期 / 回南天生存指南（修订版）</h3>
+            <p class="ep-meta">自然环境 / 四天前</p>
+          </div>
+          <span class="ep-dur">26:40</span>
+          <span class="ep-date">四天前</span>
+        </div>
+        <div class="ep-row">
+          <button class="pbtn" data-play aria-pressed="false" aria-label="播放 一把没人认领的黑伞">
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <span class="ep-show"><span class="dot d6" aria-hidden="true"></span>失物招领处</span>
+          <div class="ep-main">
+            <h3>第 62 期 / 一把没人认领的黑伞</h3>
+            <p class="ep-meta">都市故事 / 上周</p>
+          </div>
+          <span class="ep-dur">33:12</span>
+          <span class="ep-date">上周</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 主播招募 -->
+  <section class="recruit" id="recruit">
+    <div class="wrap">
+      <div class="recruit-copy">
+        <span class="sec-idx">03 / 主播招募</span>
+        <h2>巷口还缺几档节目</h2>
+        <p>我们每年开放两批主播招募。你不需要专业设备，也不需要一口播音腔，只需要一个非讲不可的题目，和把它讲上二十期的耐心。</p>
+        <ol class="steps">
+          <li><b>01</b><div><strong>提交节目设想</strong><span>五百字说清：讲什么、讲给谁、为什么是你</span></div></li>
+          <li><b>02</b><div><strong>与制作人聊两轮</strong><span>一轮聊选题，一轮聊样片，线上进行</span></div></li>
+          <li><b>03</b><div><strong>试录三集上线内测</strong><span>数据达标即转常播，排进节目矩阵</span></div></li>
+        </ol>
+        <div class="perks">
+          <span class="perk">广告分成</span>
+          <span class="perk">免费录音棚</span>
+          <span class="perk">专属制作人</span>
+          <span class="perk">剪辑托管</span>
+        </div>
+      </div>
+      <form class="form-card" id="joinForm">
+        <h3>提交节目想法</h3>
+        <p>2026 年秋季批次，截止 11 月 30 日</p>
+        <div class="field">
+          <label for="fName">称呼</label>
+          <input id="fName" name="name" type="text" placeholder="怎么称呼你" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="fMail">邮箱</label>
+          <input id="fMail" name="email" type="email" placeholder="用于接收回复" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="fIdea">节目设想</label>
+          <textarea id="fIdea" name="idea" placeholder="五百字以内：讲什么、讲给谁、为什么是你"></textarea>
+        </div>
+        <button class="btn" type="submit">提交节目想法</button>
+        <p class="form-ok" id="joinOk" hidden>已收到，七个工作日内回复到你的邮箱。</p>
+        <p class="form-note">提交即同意我们仅将信息用于本次招募评审。</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- 04 会员 -->
+  <section id="member">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="sec-idx">04 / 会员</span>
+          <h2>支撑巷口的方式</h2>
+          <p>会员费的三成直接分给节目主播，其余用于录音棚与带宽。免费收听永远保留。</p>
+        </div>
+      </div>
+      <div class="members">
+        <div class="mem">
+          <h3>随听</h3>
+          <p class="mem-for">路过巷口，随便听听</p>
+          <div class="mem-price"><b>0</b><span>元 / 永久</span></div>
+          <ul>
+            <li>全部六档节目免费收听</li>
+            <li>单集发布 7 天内回听</li>
+            <li>社区留言与节目信箱投稿</li>
+            <li>每周更新摘要邮件</li>
+          </ul>
+          <a class="btn btn-outline" href="#episodes">免费开始</a>
+        </div>
+        <div class="mem rec">
+          <span class="mem-badge">最受欢迎</span>
+          <h3>巷口会员</h3>
+          <p class="mem-for">每天都要来巷口走一趟</p>
+          <div class="mem-price"><b>18</b><span>元 / 月</span></div>
+          <ul>
+            <li>无限回听全部单集</li>
+            <li>跳过片头与广告位</li>
+            <li>会员专属节目《巷口夜话》</li>
+            <li>新单集提前 48 小时收听</li>
+            <li>节目信箱提问优先翻牌</li>
+          </ul>
+          <a class="btn" href="#member">成为会员</a>
+        </div>
+        <div class="mem">
+          <h3>台友会</h3>
+          <p class="mem-for">想把整条巷子包下来</p>
+          <div class="mem-price"><b>365</b><span>元 / 年</span></div>
+          <ul>
+            <li>包含巷口会员全部权益</li>
+            <li>年节声音礼盒（实体寄送）</li>
+            <li>线下巷口录音室开放日</li>
+            <li>主播年度见面会优先席</li>
+          </ul>
+          <a class="btn btn-outline" href="#member">加入台友会</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#main">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="4" fill="#F97316"/><path d="M8 20V12M13 24V8M18 21V11M23 26V6" stroke="#0F0F23" stroke-width="3" stroke-linecap="round"/></svg>
+          巷口电台<small>播客网络</small>
+        </a>
+        <p>把一座城市的日常，做成你的耳机背景音。六档节目，每周更新。</p>
+      </div>
+      <div>
+        <h4>收听</h4>
+        <ul>
+          <li><a href="#shows">节目矩阵</a></li>
+          <li><a href="#episodes">最新单集</a></li>
+          <li><a href="#member">会员方案</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>参与</h4>
+        <ul>
+          <li><a href="#recruit">主播招募</a></li>
+          <li><a href="#recruit">提交节目想法</a></li>
+          <li><a href="#member">台友会</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#main">巷口电台</a></li>
+          <li><a href="#recruit">联系我们</a></li>
+          <li><a href="#shows">工作机会</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>UI 设计提示词库 / 产品模板 / Podcast Platform</span>
+      <a href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){
+    var open=navLinks.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    menuBtn.setAttribute('aria-label',open?'关闭菜单':'打开菜单');
+  });
+  navLinks.addEventListener('click',function(e){
+    if(e.target.tagName==='A'){
+      navLinks.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  });
+  var heights=[.28,.52,.36,.68,.22,.58,.42,.76,.3,.62,.18,.48,.7,.34,.56,.24,.66,.4,.74,.28,.5,.36,.6,.2,.64,.44,.32,.72,.26,.54,.38,.78,.22,.48,.58,.3,.66,.36,.5,.24,.62,.42,.56,.34];
+  var wave=document.getElementById('heroWave');
+  heights.forEach(function(h,i){
+    var bar=document.createElement('i');
+    bar.style.height=(h*100)+'%';
+    bar.style.setProperty('--d',(i*18)+'ms');
+    wave.appendChild(bar);
+  });
+  var panel=document.getElementById('nowPanel');
+  var heroPlay=document.getElementById('heroPlay');
+  document.querySelectorAll('[data-play]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')==='true';
+      b.setAttribute('aria-pressed',on?'false':'true');
+      var lbl=b.getAttribute('aria-label');
+      if(lbl){b.setAttribute('aria-label',on?lbl.replace('暂停','播放'):lbl.replace('播放','暂停'));}
+      if(b===heroPlay){
+        b.textContent=on?'继续收听':'暂停播放';
+        panel.classList.toggle('playing',!on);
+      }
+    });
+  });
+  var cards=[].slice.call(document.querySelectorAll('.show-card'));
+  document.querySelectorAll('.cat-btn').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.cat-btn').forEach(function(o){o.setAttribute('aria-pressed',o===t?'true':'false');});
+      var cat=t.getAttribute('data-cat');
+      cards.forEach(function(c){c.hidden=!(cat==='all'||c.getAttribute('data-cat')===cat);});
+    });
+  });
+  var form=document.getElementById('joinForm');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('joinOk').hidden=false;
+    form.reset();
+  });
+})();
+</script>
+</body>
+</html>
