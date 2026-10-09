@@ -6979,10 +6979,10 @@ function apply() {
     if (show) c.classList.add('pending');
     if (show) n++;
   });
-  // 分区标题：全部层时显示全部，选中层时只留该层标题
+  // 分区标题：只在选中具体层时显示该层标题，「全部」视图为纯卡片流
   heads.forEach(function(h) {
     var id = h.id.replace('layer-', '');
-    h.classList.toggle('hidden', curLayer !== 'all' && curLayer !== id);
+    h.classList.toggle('hidden', curLayer !== id);
   });
   countEl.textContent = curLayer === 'all'
     ? '显示 ' + n + ' / ' + cards.length + ' 个模板'
