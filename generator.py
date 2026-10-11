@@ -2541,7 +2541,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
           '    <pre class="prompt">%s</pre>'
           '  </details></div></article>' % (
           'abcd'[pi % 4],
-          html.escape((p['name'] + ' ' + p['keywords'] + ' ' + p['primary_style'] + ' 产品 product').lower()),
+          html.escape((p['name'] + ' ' + p['keywords'] + ' ' + p['primary_style'] + ' ' + pfile.replace('.html', '') + ' 产品 product').lower()),
           html.escape(p['name']), html.escape(p['primary_style'].split('+')[0].strip()[:22]),
           sw, html.escape('官方推荐：' + p['primary_style'][:100]),
           pfile, html.escape(product_prompt(p))))
@@ -2560,7 +2560,7 @@ def build_catalog(manifest, entries, lentries=None, centries=None, pentries=None
           '    <pre class="prompt">%s</pre>'
           '  </details></div></article>' % (
           'abcd'[ci % 4],
-          html.escape((c['Data Type'] + ' ' + c['Keywords'] + ' ' + c['Best Chart Type'] + ' 图表 chart').lower()),
+          html.escape((c['Data Type'] + ' ' + c['Keywords'] + ' ' + c['Best Chart Type'] + ' ' + cfile.replace('.html', '') + ' 图表 chart').lower()),
           html.escape(c['Data Type']), html.escape(c['Best Chart Type'][:24]),
           html.escape('首选：' + c['Best Chart Type']),
           cfile, html.escape(chart_prompt(c))))
