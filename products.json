@@ -1038,5 +1038,57 @@
    "Color_Mood": "Calm blue + success green + alert red + chart accents",
    "Typography_Mood": "Modern + Clear hierarchy"
   }
+ },
+ {
+  "name": "Music Instrument Learning",
+  "keywords": "music, instrument, piano, guitar, learn, lesson, tutorial, notes, play, chord, practice, simply",
+  "primary_style": "Vibrant & Block-based + Motion-Driven",
+  "secondary": "Dark Mode (OLED) , Soft UI Evolution",
+  "pattern": "Interactive Product Demo + Social Proof",
+  "palette_focus": "Musical warm deep red/brown + note color system + skill progress bar",
+  "palette": {
+   "Primary": "#DC2626",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#9A3412",
+   "Accent": "#D97706",
+   "Background": "#FFFBEB",
+   "Foreground": "#0F172A",
+   "Card": "#FFFFFF",
+   "Border": "#FAE4E4",
+   "Muted": "#FCF1F1",
+   "Ring": "#DC2626"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Interactive Product Demo + Social Proof",
+   "Style_Priority": "Vibrant & Block-based + Motion-Driven",
+   "Color_Mood": "Musical warm deep red/brown + note color system + skill progress bar",
+   "Typography_Mood": "Energetic + Bold + Large"
+  }
+ },
+ {
+  "name": "Music Creation & Beat Maker",
+  "keywords": "music, beat, daw, garageband, create, loop, sample, instrument, track, compose, record, midi",
+  "primary_style": "Dark Mode (OLED) + Motion-Driven",
+  "secondary": "Cyberpunk UI , Glassmorphism",
+  "pattern": "Interactive Product Demo + Storytelling",
+  "palette_focus": "Dark studio background + track colors rainbow + waveform accent + BPM pulse",
+  "palette": {
+   "Primary": "#7C3AED",
+   "On Primary": "#FFFFFF",
+   "Secondary": "#6366F1",
+   "Accent": "#22C55E",
+   "Background": "#0F172A",
+   "Foreground": "#FFFFFF",
+   "Card": "#192134",
+   "Border": "rgba(255,255,255,0.08)",
+   "Muted": "#171939",
+   "Ring": "#7C3AED"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Interactive Product Demo + Storytelling",
+   "Style_Priority": "Dark Mode (OLED) + Motion-Driven",
+   "Color_Mood": "Dark studio background + track colors rainbow + waveform accent + BPM pulse",
+   "Typography_Mood": "High contrast + Light on dark"
+  }
  }
 ]

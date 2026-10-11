@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="产品模板：独立摇滚乐队「雾岛电台」官网，暗色演出海报向，新专辑发布、巡演票务、作品试听墙、成员与联系">
+<title>产品模板 / Band Website / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* token 计划：#0A0F1A 夜海底色 / #F2B84D 电台琥珀(唯一强调) / #EDF1F7 雾白正文 / #96A2BA 铁灰蓝次要 / #131C2E 面板 / #28334C 描线 | 字体角色：衬线做大字海报标题 + 系统黑体正文 + 等宽做日期票务数据(票根感) | 布局概念：左字右封的专辑海报式分屏 + 电台刻度肌理分隔 + 票务网格纵列 | 独特性原则：克制的夜海暗 + 单一琥珀，海雾漂移层与刻度肌理贯穿全页，拒绝霓虹堆叠 */
+:root{
+--bg:#0A0F1A;--panel:#131C2E;--panel-2:#1A2540;--line:#28334C;
+--text:#EDF1F7;--ink-soft:#C6CEDF;--muted:#96A2BA;
+--accent:#F2B84D;--on-accent:#0A0F1A;
+--serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong",SimSun,serif;
+--sans:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+--mono:"JetBrains Mono","SFMono-Regular",Consolas,"Courier New",monospace;
+--radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+button{font:inherit}
+::selection{background:var(--accent);color:var(--on-accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 clamp(20px,4vw,44px)}
+.skip{position:fixed;left:16px;top:-64px;z-index:99;background:var(--accent);color:var(--on-accent);padding:10px 18px;border-radius:8px;font-weight:600;transition:top .2s}
+.skip:focus{top:14px}
+/* ---------- 顶栏 ---------- */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
+.site-header.is-scrolled{background:rgba(10,15,26,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom-color:var(--line)}
+.header-inner{display:flex;align-items:center;gap:24px;height:72px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.06em;white-space:nowrap}
+.site-nav{margin-left:auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.site-nav::-webkit-scrollbar{display:none}
+.site-nav a{padding:8px 12px;font-size:14px;color:var(--muted);border-radius:8px;white-space:nowrap;transition:color .15s,background .15s}
+.site-nav a:hover{color:var(--text);background:var(--panel)}
+.onair{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid rgba(242,184,77,.38);padding:5px 13px;border-radius:999px;white-space:nowrap}
+.onair i{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+/* ---------- 首屏海报 ---------- */
+.hero{position:relative;overflow:hidden;padding:168px 0 104px;background:radial-gradient(900px 480px at 82% -10%,rgba(242,184,77,.09),transparent 60%),radial-gradient(720px 420px at -10% 34%,rgba(46,80,128,.32),transparent 62%),linear-gradient(180deg,#0C1322 0%,var(--bg) 80%)}
+.fog{position:absolute;left:-20%;width:140%;height:220px;pointer-events:none;background:radial-gradient(50% 100% at 50% 50%,rgba(237,241,247,.06),transparent 70%);-webkit-filter:blur(26px);filter:blur(26px)}
+.fog-a{top:32%;animation:drift 26s ease-in-out infinite alternate}
+.fog-b{bottom:6%;height:300px;animation:drift 34s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translateX(-4%)}to{transform:translateX(4%)}}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,84px);align-items:center}
+.eyebrow{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.08em}
+h1.display{font-family:var(--serif);font-weight:900;font-size:clamp(54px,8.6vw,112px);line-height:1.05;margin:16px 0 10px;letter-spacing:.02em}
+.display-sub{font-family:var(--mono);font-size:14px;color:var(--muted);letter-spacing:.42em}
+.lead{margin-top:22px;max-width:46ch;color:var(--ink-soft);font-size:17px}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 26px;border-radius:999px;font-size:15px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background .2s,border-color .2s,color .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-solid{background:var(--accent);color:var(--on-accent)}
+.btn-solid:hover{background:#FFC968}
+.btn-line{border-color:var(--line);color:var(--text)}
+.btn-line:hover{border-color:var(--accent);color:var(--accent)}
+.hero-meta{margin-top:28px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.cover-stage{position:relative;justify-self:center}
+.cover{position:relative;width:min(100%,480px);aspect-ratio:1;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:18px 18px 0 rgba(242,184,77,.14),0 34px 90px rgba(0,0,0,.5)}
+.cover svg{width:100%;height:100%}
+.cover-tag{position:absolute;left:16px;bottom:16px;background:rgba(10,15,26,.8);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:10px;padding:11px 15px}
+.cover-tag b{display:block;font-family:var(--serif);font-size:16px;letter-spacing:.04em}
+.cover-tag span{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.ticks{height:14px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 22px);opacity:.75}
+/* ---------- 区块骨架 ---------- */
+.section{padding:clamp(68px,9vw,118px) 0;border-top:1px solid var(--line)}
+.sec-head{margin-bottom:clamp(34px,5vw,54px)}
+.sec-no{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em}
+.sec-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.4vw,48px);line-height:1.15;margin-top:8px}
+.sec-note{margin-top:10px;color:var(--muted);max-width:58ch}
+/* ---------- 乐队故事 ---------- */
+.story-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(36px,5vw,72px);align-items:stretch}
+.story-text p{color:var(--muted)}
+.story-text p + p{margin-top:16px}
+.story-text p:first-child{color:var(--text);font-size:18px}
+.story-text em{font-style:normal;color:var(--accent)}
+.story-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.stat{background:var(--panel);padding:26px 22px}
+.stat b{display:block;font-family:var(--serif);font-size:32px;line-height:1.2}
+.stat span{font-size:13px;color:var(--muted)}
+/* ---------- 新专辑 ---------- */
+.album-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(36px,5vw,72px);align-items:start}
+.cover-sm{width:100%;max-width:440px;box-shadow:12px 12px 0 rgba(242,184,77,.12),0 24px 60px rgba(0,0,0,.45)}
+.meta-list{list-style:none;margin:26px 0 0;display:grid;gap:0}
+.meta-list li{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.meta-list li span{color:var(--muted)}
+.meta-list li b{font-family:var(--mono);font-weight:400;color:var(--ink-soft);text-align:right}
+.album-desc{color:var(--muted);margin-bottom:22px;max-width:62ch}
+.tracklist{list-style:none;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+.track{display:grid;grid-template-columns:42px 34px 1fr 110px 48px;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid var(--line);cursor:pointer;transition:background .15s}
+.track:first-child{border-top:0}
+.track:hover{background:var(--panel-2)}
+.t-play{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+.track:hover .t-play{color:var(--accent);border-color:rgba(242,184,77,.5)}
+.track.is-playing .t-play{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.t-play .i-pause{display:none}
+.track.is-playing .t-play .i-play{display:none}
+.track.is-playing .t-play .i-pause{display:block}
+.t-no{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.t-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track.is-playing .t-name{color:var(--accent)}
+.t-wave{width:100%;height:26px;color:rgba(150,162,186,.5)}
+.track.is-playing .t-wave{color:var(--accent)}
+.t-dur{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-align:right}
+.album-tip{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+/* ---------- 巡演 ---------- */
+.tour-grid{display:grid;grid-template-columns:130px 96px 1fr 168px;grid-template-areas:"date city venue act";gap:6px 18px;align-items:center}
+.tour-head{padding:0 18px 12px;font-family:var(--mono);font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.tour-head .h-date{grid-area:date}.tour-head .h-city{grid-area:city}.tour-head .h-venue{grid-area:venue}.tour-head .h-act{grid-area:act;justify-self:end}
+.tour-row{padding:17px 18px;border-bottom:1px solid var(--line);transition:background .15s}
+.tour-row:hover{background:var(--panel)}
+.tr-date{grid-area:date;font-family:var(--mono)}
+.tr-date b{display:block;font-size:16px;font-weight:500;color:var(--accent)}
+.tr-date i{font-style:normal;font-size:11.5px;color:var(--muted)}
+.tr-city{grid-area:city;font-size:17px;font-weight:700;font-family:var(--serif);letter-spacing:.06em}
+.tr-venue{grid-area:venue;color:var(--muted);font-size:14px}
+.tr-act{grid-area:act;justify-self:end;text-align:right}
+.tr-act .btn{padding:9px 22px;font-size:14px}
+.few{display:block;font-size:11.5px;color:var(--accent);margin-bottom:4px}
+.soldout{display:inline-block;padding:8px 20px;border-radius:999px;border:1px dashed var(--line);color:var(--muted);font-size:13.5px}
+.tour-note{margin-top:18px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+/* ---------- 作品墙 ---------- */
+.works-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.work{display:grid;gap:12px;justify-items:start}
+.work-cover{width:100%;aspect-ratio:1;border-radius:10px;border:1px solid var(--line);overflow:hidden;background:var(--panel);transition:transform .2s ease,border-color .2s}
+.work:hover .work-cover{transform:translateY(-4px);border-color:rgba(242,184,77,.45)}
+.work-cover svg{width:100%;height:100%}
+.work h3{font-family:var(--serif);font-size:19px;letter-spacing:.02em}
+.work p{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.listen{font-size:13px;color:var(--accent);border-bottom:1px solid rgba(242,184,77,.4);padding-bottom:2px;transition:border-color .15s}
+.listen:hover{border-color:var(--accent)}
+/* ---------- 成员 ---------- */
+.members-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.member{display:grid;gap:10px;justify-items:start;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:24px 22px}
+.avatar{width:84px;height:84px;border-radius:12px;overflow:hidden;background:var(--panel-2)}
+.avatar svg{width:100%;height:100%}
+.member h3{font-family:var(--serif);font-size:20px}
+.member .role{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.05em}
+.member .bio{color:var(--muted);font-size:14px}
+/* ---------- 联系 ---------- */
+.contact-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(36px,5vw,72px);align-items:stretch}
+.contact-statement{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.4vw,46px);line-height:1.2}
+.contact-main > p{margin-top:16px;color:var(--muted);max-width:50ch}
+.mail{display:inline-block;margin-top:22px;font-family:var(--mono);font-size:clamp(17px,2.4vw,24px);color:var(--accent);border-bottom:1px solid rgba(242,184,77,.4);padding-bottom:3px}
+.mail:hover{border-color:var(--accent)}
+.contact-panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:28px;display:grid;gap:0;align-content:start}
+.c-row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.c-row span{color:var(--muted)}
+.c-row b{font-family:var(--mono);font-weight:400;color:var(--ink-soft);text-align:right}
+.contact-panel .btn{margin-top:22px;justify-self:start}
+/* ---------- 页脚 ---------- */
+.site-footer{border-top:1px solid var(--line);background:#080C15;padding:44px 0}
+.footer-inner{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between}
+.footer-brand{font-family:var(--serif);font-weight:700;font-size:18px}
+.footer-note{margin-top:6px;font-size:12.5px;color:var(--muted)}
+.footer-meta{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.back{display:inline-block;margin-top:10px;color:var(--accent);border:1px solid rgba(242,184,77,.38);padding:9px 18px;border-radius:999px;font-size:13px;transition:background .2s,color .2s}
+.back:hover{background:var(--accent);color:var(--on-accent)}
+/* ---------- 吸附播放条 ---------- */
+.player{position:fixed;left:50%;bottom:18px;transform:translate(-50%,150%);z-index:60;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:16px;width:min(560px,calc(100vw - 32px));background:rgba(16,23,38,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 18px 50px rgba(0,0,0,.5);transition:transform .35s ease}
+.player.is-active{transform:translate(-50%,0)}
+.p-toggle{width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--on-accent);border:0;display:grid;place-items:center;cursor:pointer}
+.p-toggle .i-pause{display:none}
+.player.is-on .p-toggle .i-play{display:none}
+.player.is-on .p-toggle .i-pause{display:block}
+.p-info{min-width:0}
+.p-title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-meta{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.p-eq{display:flex;align-items:flex-end;gap:3px;height:22px}
+.p-eq span{width:3px;border-radius:2px;background:var(--accent);transform:scaleY(.25);transform-origin:bottom;animation:eq .9s ease-in-out infinite alternate}
+.p-eq span:nth-child(1){height:12px;animation-delay:0s}
+.p-eq span:nth-child(2){height:20px;animation-delay:.15s}
+.p-eq span:nth-child(3){height:9px;animation-delay:.3s}
+.p-eq span:nth-child(4){height:17px;animation-delay:.08s}
+.p-eq span:nth-child(5){height:13px;animation-delay:.22s}
+.player:not(.is-on) .p-eq span{animation-play-state:paused;transform:scaleY(.25)}
+@keyframes eq{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+.p-close{background:none;border:0;color:var(--muted);cursor:pointer;padding:6px;border-radius:6px;transition:color .15s}
+.p-close:hover{color:var(--text)}
+/* ---------- 一次亮相 ---------- */
+.js .rise{opacity:0;transform:translateY(22px);transition:opacity .8s ease var(--d,0s),transform .8s ease var(--d,0s)}
+.js body.is-loaded .rise{opacity:1;transform:none}
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+.hero{padding-top:140px}
+.hero-grid{grid-template-columns:1fr;gap:48px}
+.cover-stage{justify-self:start}
+.story-grid,.album-grid,.contact-grid{grid-template-columns:1fr}
+.works-grid,.members-grid{grid-template-columns:repeat(2,1fr)}
+.tour-head{display:none}
+.tour-grid{grid-template-columns:1fr auto;grid-template-areas:"date act" "city act" "venue venue"}
+.tr-act{align-self:center}
+}
+@media (max-width:640px){
+.header-inner{gap:14px}
+.onair em{display:none}
+h1.display{font-size:clamp(46px,13vw,64px)}
+.cta-row .btn{flex:1 1 auto}
+.track{grid-template-columns:42px 1fr 48px;gap:12px}
+.t-no,.t-wave{display:none}
+.works-grid{grid-template-columns:1fr 1fr}
+.members-grid{grid-template-columns:1fr}
+.player{grid-template-columns:auto 1fr auto;gap:12px}
+.p-eq{display:none}
+.stat b{font-size:26px}
+}
+/* ---------- 降级 ---------- */
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+.js .rise{opacity:1;transform:none}
+.fog{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="site-header">
+  <div class="header-inner wrap">
+    <a class="brand" href="#top" aria-label="雾岛电台 首页">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <circle cx="11" cy="18" r="3.2" fill="#F2B84D"/>
+        <path d="M5 13.5a8.5 8.5 0 0 1 12 0" stroke="#F2B84D" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <path d="M1.5 9.5a13.5 13.5 0 0 1 19 0" stroke="#F2B84D" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".5"/>
+      </svg>
+      <span>雾岛电台</span>
+    </a>
+    <nav class="site-nav" aria-label="页面导航">
+      <a href="#story">故事</a>
+      <a href="#album">新专辑</a>
+      <a href="#tour">巡演</a>
+      <a href="#works">作品</a>
+      <a href="#members">成员</a>
+      <a href="#contact">联系</a>
+    </nav>
+    <div class="onair"><i aria-hidden="true"></i><em>On Air</em></div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="fog fog-a" aria-hidden="true"></div>
+  <div class="fog fog-b" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow rise" style="--d:0s">独立摇滚 / 来自厦门 / 2019 年成立</p>
+        <h1 class="display rise" style="--d:.08s">雾岛电台</h1>
+        <p class="display-sub rise" style="--d:.16s">Wudao Radio / 调频 99.7</p>
+        <p class="lead rise" style="--d:.24s">四个人，一座雾岛，一台修不好的老发射机。后摇式的吉他墙、慢半拍的鼓点，与涨潮一样反复的副歌，在深夜波段里循环播放。</p>
+        <div class="cta-row rise" style="--d:.32s">
+          <a class="btn btn-solid" href="#album">试听新专辑</a>
+          <a class="btn btn-line" href="#tour">查看巡演日程</a>
+        </div>
+        <p class="hero-meta rise" style="--d:.4s">新专辑《潮汐信号》已发行 / 十首曲目 / 自主厂牌 雾岛之声</p>
+      </div>
+      <div class="cover-stage rise" style="--d:.18s">
+        <div class="cover">
+          <svg viewBox="0 0 520 520" role="img" aria-label="专辑《潮汐信号》封面：夜海上的月亮、海雾、灯塔与一道电台电波">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0D1526"/>
+                <stop offset="1" stop-color="#16213B"/>
+              </linearGradient>
+              <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0B1120"/>
+                <stop offset="1" stop-color="#070C16"/>
+              </linearGradient>
+            </defs>
+            <rect width="520" height="520" fill="url(#sky)"/>
+            <circle cx="356" cy="126" r="46" fill="#E8ECF4" opacity=".92"/>
+            <circle cx="356" cy="126" r="80" fill="#F2B84D" opacity=".07"/>
+            <g fill="#E8ECF4">
+              <rect x="0" y="196" width="520" height="12" rx="6" opacity=".05"/>
+              <rect x="40" y="224" width="440" height="9" rx="4" opacity=".07"/>
+              <rect x="0" y="252" width="520" height="14" rx="7" opacity=".04"/>
+              <rect x="90" y="286" width="360" height="8" rx="4" opacity=".06"/>
+            </g>
+            <line x1="96" y1="404" x2="96" y2="300" stroke="#2A3650" stroke-width="4"/>
+            <circle cx="96" cy="300" r="5" fill="#F2B84D"/>
+            <path d="M62 300a34 34 0 0 1 68 0" stroke="#F2B84D" stroke-width="3" fill="none" opacity=".9"/>
+            <path d="M38 300a58 58 0 0 1 116 0" stroke="#F2B84D" stroke-width="3" fill="none" opacity=".45"/>
+            <path d="M14 300a82 82 0 0 1 164 0" stroke="#F2B84D" stroke-width="3" fill="none" opacity=".22"/>
+            <path d="M0 420 Q130 372 236 398 T520 384 L520 520 L0 520 Z" fill="url(#sea)"/>
+            <rect x="236" y="338" width="13" height="36" rx="2" fill="#1B2740"/>
+            <circle cx="242.5" cy="333" r="4" fill="#F2B84D"/>
+            <circle cx="242.5" cy="333" r="10" fill="#F2B84D" opacity=".18"/>
+            <g stroke="#F2B84D" stroke-width="3" stroke-linecap="round" opacity=".35">
+              <line x1="330" y1="452" x2="382" y2="452"/>
+              <line x1="348" y1="470" x2="398" y2="470"/>
+              <line x1="336" y1="488" x2="372" y2="488"/>
+            </g>
+            <g stroke="#2A3650" stroke-width="2">
+              <line x1="496" y1="60" x2="496" y2="68"/>
+              <line x1="496" y1="94" x2="496" y2="110"/>
+              <line x1="496" y1="136" x2="496" y2="144"/>
+              <line x1="496" y1="170" x2="496" y2="186"/>
+              <line x1="496" y1="212" x2="496" y2="220"/>
+              <line x1="496" y1="246" x2="496" y2="262"/>
+              <line x1="496" y1="288" x2="496" y2="296"/>
+              <line x1="496" y1="322" x2="496" y2="338"/>
+              <line x1="496" y1="364" x2="496" y2="372"/>
+              <line x1="496" y1="398" x2="496" y2="414"/>
+              <line x1="496" y1="440" x2="496" y2="448"/>
+            </g>
+          </svg>
+          <div class="cover-tag">
+            <b>潮汐信号</b>
+            <span>2026 / 十首 / 雾岛之声</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticks" aria-hidden="true"></div>
+
+<section class="section" id="story">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="sec-no">01 / 故事</p>
+      <h2 class="sec-title">海雾不散，波段常开</h2>
+      <p class="sec-note">一支把排练室搬进停业滨海旅馆的乐队，名字来自窗外常年不散的海雾，和一台修不好的旧发射机。</p>
+    </header>
+    <div class="story-grid">
+      <div class="story-text">
+        <p>2019 年冬天，四个在厦门某高校电台值夜班的乐手决定一起写歌。他们的第一间排练室在一栋停业的滨海旅馆六层，窗外是渔船的锚地，墙角是一台擦干净还能响的老发射机。</p>
+        <p>2021 年自主发行首张专辑《岛上无人》之后，乐队完成了两轮全国巡演，并在 2024 年的《环岛慢线》里找到了自己的声音：克制的大合唱、失真的潮声采样、永远慢半拍的鼓点。乐评人说他们「把后摇的墙砌进了合成器流行的心脏」。</p>
+        <p>2026 年 1 月，第二张录音室专辑《潮汐信号》发行。十首歌像十段深夜波段，从<em>雾号</em>的低频，到<em>灯塔</em>下的失眠，再到天亮前散开的海雾。</p>
+      </div>
+      <div class="story-stats" aria-label="乐队数据">
+        <div class="stat"><b>2019</b><span>成立于厦门</span></div>
+        <div class="stat"><b>4 张</b><span>录音室作品</span></div>
+        <div class="stat"><b>3 轮</b><span>全国巡演</span></div>
+        <div class="stat"><b>26 城</b><span>巡演足迹</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="album">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="sec-no">02 / 新专辑</p>
+      <h2 class="sec-title">潮汐信号</h2>
+      <p class="sec-note">录于厦门海后路 7 号的滨海旅馆，同期模拟录音，不加修饰的房间混响。</p>
+    </header>
+    <div class="album-grid">
+      <div class="album-side">
+        <div class="cover cover-sm">
+          <svg viewBox="0 0 520 520" role="img" aria-label="专辑《潮汐信号》封面">
+            <rect width="520" height="520" fill="#0D1526"/>
+            <circle cx="356" cy="126" r="46" fill="#E8ECF4" opacity=".92"/>
+            <circle cx="356" cy="126" r="80" fill="#F2B84D" opacity=".07"/>
+            <g fill="#E8ECF4">
+              <rect x="40" y="224" width="440" height="9" rx="4" opacity=".07"/>
+              <rect x="0" y="252" width="520" height="14" rx="7" opacity=".04"/>
+            </g>
+            <line x1="96" y1="404" x2="96" y2="300" stroke="#2A3650" stroke-width="4"/>
+            <circle cx="96" cy="300" r="5" fill="#F2B84D"/>
+            <path d="M62 300a34 34 0 0 1 68 0" stroke="#F2B84D" stroke-width="3" fill="none" opacity=".9"/>
+            <path d="M38 300a58 58 0 0 1 116 0" stroke="#F2B84D" stroke-width="3" fill="none" opacity=".45"/>
+            <path d="M0 420 Q130 372 236 398 T520 384 L520 520 L0 520 Z" fill="#070C16"/>
+            <rect x="236" y="338" width="13" height="36" rx="2" fill="#1B2740"/>
+            <circle cx="242.5" cy="333" r="4" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <ul class="meta-list">
+          <li><span>发行</span><b>2026 年 1 月 16 日</b></li>
+          <li><span>厂牌</span><b>雾岛之声（自主发行）</b></li>
+          <li><span>载体</span><b>黑胶 / CD / 流媒体</b></li>
+          <li><span>录音</span><b>厦门海后路 7 号</b></li>
+          <li><span>母带</span><b>顾昀</b></li>
+        </ul>
+      </div>
+      <div class="album-main">
+        <p class="album-desc">十首歌是十段深夜波段：渔船进港的雾号、旅馆走廊的静电、环岛大巴的引擎，都被录进了这首歌单。点击任意一行试听三十秒片段。</p>
+        <ol class="tracklist">
+          <li class="track" data-title="雾号">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 雾号">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">01</span>
+            <span class="t-name">雾号</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,14 12,6 22,20 32,4 42,22 52,9 62,17 72,3 82,21 92,8 102,19 112,10 118,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">4:12</span>
+          </li>
+          <li class="track" data-title="隔岸调频">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 隔岸调频">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">02</span>
+            <span class="t-name">隔岸调频</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,12 10,20 20,5 30,16 40,3 50,21 60,10 70,23 80,7 90,18 100,4 110,15 118,11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">3:48</span>
+          </li>
+          <li class="track" data-title="台风预警广播">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 台风预警广播">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">03</span>
+            <span class="t-name">台风预警广播</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,16 12,4 22,18 32,8 42,23 52,6 62,20 72,11 82,3 92,19 102,7 112,17 118,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">5:02</span>
+          </li>
+          <li class="track" data-title="港口夜车">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 港口夜车">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">04</span>
+            <span class="t-name">港口夜车</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,14 12,6 22,20 32,4 42,22 52,9 62,17 72,3 82,21 92,8 102,19 112,10 118,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">3:33</span>
+          </li>
+          <li class="track" data-title="未寄出的磁带">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 未寄出的磁带">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">05</span>
+            <span class="t-name">未寄出的磁带</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,12 10,20 20,5 30,16 40,3 50,21 60,10 70,23 80,7 90,18 100,4 110,15 118,11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">4:26</span>
+          </li>
+          <li class="track" data-title="灯塔失眠">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 灯塔失眠">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">06</span>
+            <span class="t-name">灯塔失眠</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,16 12,4 22,18 32,8 42,23 52,6 62,20 72,11 82,3 92,19 102,7 112,17 118,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">6:10</span>
+          </li>
+          <li class="track" data-title="盐与静电">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 盐与静电">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">07</span>
+            <span class="t-name">盐与静电</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,14 12,6 22,20 32,4 42,22 52,9 62,17 72,3 82,21 92,8 102,19 112,10 118,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">3:15</span>
+          </li>
+          <li class="track" data-title="环岛慢线（重录版）">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 环岛慢线（重录版）">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">08</span>
+            <span class="t-name">环岛慢线（重录版）</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,12 10,20 20,5 30,16 40,3 50,21 60,10 70,23 80,7 90,18 100,4 110,15 118,11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">5:44</span>
+          </li>
+          <li class="track" data-title="退潮电台">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 退潮电台">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">09</span>
+            <span class="t-name">退潮电台</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,16 12,4 22,18 32,8 42,23 52,6 62,20 72,11 82,3 92,19 102,7 112,17 118,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">4:05</span>
+          </li>
+          <li class="track" data-title="天亮前的海雾">
+            <button class="t-play" type="button" aria-pressed="false" aria-label="播放 天亮前的海雾">
+              <svg class="i-play" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+              <svg class="i-pause" width="12" height="12" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+            </button>
+            <span class="t-no">10</span>
+            <span class="t-name">天亮前的海雾</span>
+            <svg class="t-wave" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true"><polyline points="2,14 12,6 22,20 32,4 42,22 52,9 62,17 72,3 82,21 92,8 102,19 112,10 118,13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="t-dur">7:28</span>
+          </li>
+        </ol>
+        <p class="album-tip">以上为三十秒片段试听 / 完整曲目请到各流媒体平台收听</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tour">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="sec-no">03 / 巡演</p>
+      <h2 class="sec-title">雾中接线 / 2026 初冬巡演</h2>
+      <p class="sec-note">七城同行，携完整编制与自制灯光塔。票价统一为一百八十元（预售）/ 二百二十元（全价）。</p>
+    </header>
+    <div class="tour-list">
+      <div class="tour-grid tour-head" aria-hidden="true">
+        <span class="h-date">日期</span>
+        <span class="h-city">城市</span>
+        <span class="h-venue">场馆</span>
+        <span class="h-act">票务</span>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>11/14</b><i>周六</i></div>
+        <p class="tr-city">上海</p>
+        <p class="tr-venue">育音堂音乐公园</p>
+        <div class="tr-act"><a class="btn btn-solid" href="https://www.showstart.cn/" target="_blank" rel="noopener">购票</a></div>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>11/21</b><i>周六</i></div>
+        <p class="tr-city">杭州</p>
+        <p class="tr-venue">酒球会</p>
+        <div class="tr-act"><a class="btn btn-solid" href="https://www.showstart.cn/" target="_blank" rel="noopener">购票</a></div>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>11/28</b><i>周六</i></div>
+        <p class="tr-city">南京</p>
+        <p class="tr-venue">欧拉艺术空间</p>
+        <div class="tr-act"><a class="btn btn-solid" href="https://www.showstart.cn/" target="_blank" rel="noopener">购票</a></div>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>12/05</b><i>周六</i></div>
+        <p class="tr-city">成都</p>
+        <p class="tr-venue">正火艺术中心</p>
+        <div class="tr-act"><span class="soldout">售罄</span></div>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>12/12</b><i>周六</i></div>
+        <p class="tr-city">长沙</p>
+        <p class="tr-venue">46 Livehouse</p>
+        <div class="tr-act"><a class="btn btn-solid" href="https://www.showstart.cn/" target="_blank" rel="noopener">购票</a></div>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>12/19</b><i>周六</i></div>
+        <p class="tr-city">广州</p>
+        <p class="tr-venue">声音共和 Livehouse</p>
+        <div class="tr-act"><span class="few">余票紧张</span><a class="btn btn-line" href="https://www.showstart.cn/" target="_blank" rel="noopener">购票</a></div>
+      </div>
+      <div class="tour-grid tour-row">
+        <div class="tr-date"><b>12/26</b><i>周六</i></div>
+        <p class="tr-city">北京</p>
+        <p class="tr-venue">School Livehouse</p>
+        <div class="tr-act"><a class="btn btn-solid" href="https://www.showstart.cn/" target="_blank" rel="noopener">购票</a></div>
+      </div>
+    </div>
+    <p class="tour-note">巡演嘉宾 / 浮标（双人组合）/ 全长约九十分钟 / 部分场次设专辑签售</p>
+  </div>
+</section>
+
+<section class="section" id="works">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="sec-no">04 / 作品</p>
+      <h2 class="sec-title">历年发行</h2>
+      <p class="sec-note">从旅馆demo到同期录音，四张作品记录了一座岛的四年。</p>
+    </header>
+    <div class="works-grid">
+      <article class="work">
+        <div class="work-cover">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <rect width="200" height="200" fill="#101A2E"/>
+            <circle cx="130" cy="74" r="24" fill="#E8ECF4" opacity=".92"/>
+            <rect y="148" width="200" height="52" fill="#070C16"/>
+            <rect x="150" y="156" width="6" height="11" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <h3>岛上无人</h3>
+        <p>专辑 / 2021 / 十首</p>
+        <a class="listen" href="https://music.163.com/" target="_blank" rel="noopener">收听整张</a>
+      </article>
+      <article class="work">
+        <div class="work-cover">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <rect width="200" height="200" fill="#0F1626"/>
+            <g fill="#E8ECF4">
+              <rect x="18" y="52" width="164" height="10" rx="5" opacity=".16"/>
+              <rect x="0" y="80" width="200" height="13" rx="6" opacity=".1"/>
+              <rect x="34" y="110" width="132" height="9" rx="4" opacity=".2"/>
+              <rect x="0" y="134" width="200" height="8" rx="4" opacity=".12"/>
+            </g>
+            <path d="M0 176 Q50 166 100 176 T200 176" stroke="#2A3650" stroke-width="3" fill="none"/>
+          </svg>
+        </div>
+        <h3>咸风</h3>
+        <p>EP / 2022 / 四首</p>
+        <a class="listen" href="https://music.163.com/" target="_blank" rel="noopener">收听整张</a>
+      </article>
+      <article class="work">
+        <div class="work-cover">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <rect width="200" height="200" fill="#0E1526"/>
+            <ellipse cx="100" cy="106" rx="72" ry="46" stroke="#28334C" stroke-width="3" fill="none"/>
+            <ellipse cx="100" cy="106" rx="70" ry="44" stroke="#F2B84D" stroke-width="2.5" fill="none" stroke-dasharray="11 9" opacity=".85"/>
+            <circle cx="149" cy="80" r="5" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <h3>环岛慢线</h3>
+        <p>专辑 / 2024 / 九首</p>
+        <a class="listen" href="https://music.163.com/" target="_blank" rel="noopener">收听整张</a>
+      </article>
+      <article class="work">
+        <div class="work-cover">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <rect width="200" height="200" fill="#0D1526"/>
+            <circle cx="100" cy="132" r="4" fill="#F2B84D"/>
+            <path d="M74 112a36 36 0 0 1 52 0" stroke="#F2B84D" stroke-width="2.5" fill="none" opacity=".9"/>
+            <path d="M58 94a60 60 0 0 1 84 0" stroke="#F2B84D" stroke-width="2.5" fill="none" opacity=".45"/>
+            <path d="M42 76a84 84 0 0 1 116 0" stroke="#F2B84D" stroke-width="2.5" fill="none" opacity=".2"/>
+            <line x1="0" y1="150" x2="200" y2="150" stroke="#28334C" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>潮汐信号</h3>
+        <p>专辑 / 2026 / 十首</p>
+        <a class="listen" href="https://music.163.com/" target="_blank" rel="noopener">收听整张</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="members">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="sec-no">05 / 成员</p>
+      <h2 class="sec-title">值夜班的人</h2>
+      <p class="sec-note">四个人轮班守着同一台发射机，谁写歌谁请宵夜。</p>
+    </header>
+    <div class="members-grid">
+      <article class="member">
+        <div class="avatar">
+          <svg viewBox="0 0 84 84" aria-hidden="true">
+            <rect width="84" height="84" fill="#1A2540"/>
+            <text x="42" y="46" text-anchor="middle" font-family="serif" font-size="32" fill="#EDF1F7">陆</text>
+            <line x1="12" y1="62" x2="72" y2="62" stroke="#28334C" stroke-width="2"/>
+            <line x1="30" y1="58" x2="30" y2="66" stroke="#28334C" stroke-width="2"/>
+            <line x1="54" y1="58" x2="54" y2="66" stroke="#28334C" stroke-width="2"/>
+            <circle cx="26" cy="62" r="3.5" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <h3>陆知远</h3>
+        <p class="role">主唱 / 吉他</p>
+        <p class="bio">写歌的人，习惯在歌词本边缘画潮汐表。</p>
+      </article>
+      <article class="member">
+        <div class="avatar">
+          <svg viewBox="0 0 84 84" aria-hidden="true">
+            <rect width="84" height="84" fill="#1A2540"/>
+            <text x="42" y="46" text-anchor="middle" font-family="serif" font-size="32" fill="#EDF1F7">沈</text>
+            <line x1="12" y1="62" x2="72" y2="62" stroke="#28334C" stroke-width="2"/>
+            <line x1="30" y1="58" x2="30" y2="66" stroke="#28334C" stroke-width="2"/>
+            <line x1="54" y1="58" x2="54" y2="66" stroke="#28334C" stroke-width="2"/>
+            <circle cx="48" cy="62" r="3.5" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <h3>沈屿</h3>
+        <p class="role">贝斯 / 和声</p>
+        <p class="bio">前爵士酒吧乐手，负责让低音像船身一样稳。</p>
+      </article>
+      <article class="member">
+        <div class="avatar">
+          <svg viewBox="0 0 84 84" aria-hidden="true">
+            <rect width="84" height="84" fill="#1A2540"/>
+            <text x="42" y="46" text-anchor="middle" font-family="serif" font-size="32" fill="#EDF1F7">茂</text>
+            <line x1="12" y1="62" x2="72" y2="62" stroke="#28334C" stroke-width="2"/>
+            <line x1="30" y1="58" x2="30" y2="66" stroke="#28334C" stroke-width="2"/>
+            <line x1="54" y1="58" x2="54" y2="66" stroke="#28334C" stroke-width="2"/>
+            <circle cx="36" cy="62" r="3.5" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <h3>阿茂</h3>
+        <p class="role">吉他 / 合成器</p>
+        <p class="bio">噪声收藏者，台上永远堆着五块效果器。</p>
+      </article>
+      <article class="member">
+        <div class="avatar">
+          <svg viewBox="0 0 84 84" aria-hidden="true">
+            <rect width="84" height="84" fill="#1A2540"/>
+            <text x="42" y="46" text-anchor="middle" font-family="serif" font-size="32" fill="#EDF1F7">潮</text>
+            <line x1="12" y1="62" x2="72" y2="62" stroke="#28334C" stroke-width="2"/>
+            <line x1="30" y1="58" x2="30" y2="66" stroke="#28334C" stroke-width="2"/>
+            <line x1="54" y1="58" x2="54" y2="66" stroke="#28334C" stroke-width="2"/>
+            <circle cx="60" cy="62" r="3.5" fill="#F2B84D"/>
+          </svg>
+        </div>
+        <h3>周潮</h3>
+        <p class="role">鼓 / 采样</p>
+        <p class="bio">把海浪声录进打击组的人，节拍器对他无效。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="sec-no">06 / 联系</p>
+      <h2 class="sec-title">来雾里找我们</h2>
+    </header>
+    <div class="contact-grid">
+      <div class="contact-main">
+        <p class="contact-statement">演出预订、配乐合作，<br>或只是想聊聊海边的天气。</p>
+        <p>乐队事务由雾岛之声文化代理。巡演联合主办、音乐节报名、影视与游戏配乐委托，欢迎写信，通常会在两个工作日内回音。</p>
+        <a class="mail" href="mailto:booking@wudao-radio.cn">booking@wudao-radio.cn</a>
+        <div class="cta-row">
+          <a class="btn btn-solid" href="mailto:booking@wudao-radio.cn?subject=演出预订">预订演出</a>
+          <a class="btn btn-line" href="mailto:press@wudao-radio.cn?subject=媒体资料包">索取媒体资料包</a>
+        </div>
+      </div>
+      <div class="contact-panel">
+        <div class="c-row"><span>演出预订</span><b>booking@wudao-radio.cn</b></div>
+        <div class="c-row"><span>媒体与采访</span><b>press@wudao-radio.cn</b></div>
+        <div class="c-row"><span>微信公众号</span><b>雾岛电台</b></div>
+        <div class="c-row"><span>实体邮购</span><b>雾岛之声微店</b></div>
+        <a class="btn btn-line" href="mailto:press@wudao-radio.cn?subject=媒体资料包">获取高清剧照与乐队简介</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <p class="footer-brand">雾岛电台 / Wudao Radio</p>
+      <p class="footer-note">© 2026 雾岛之声文化 / 本页为设计样板，乐队、专辑与巡演信息皆为虚构</p>
+    </div>
+    <div>
+      <p class="footer-meta">UI 设计提示词库 / 产品模板 / Band Website</p>
+      <a class="back" href="../style-catalog.html">返回风格目录</a>
+    </div>
+  </div>
+</footer>
+
+<div class="player" id="player" role="region" aria-label="片段试听播放器">
+  <button class="p-toggle" type="button" aria-label="暂停或继续播放">
+    <svg class="i-play" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>
+    <svg class="i-pause" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><rect x="2.5" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/><rect x="8.3" y="1.5" width="3.2" height="11" rx="1" fill="currentColor"/></svg>
+  </button>
+  <div class="p-info">
+    <p class="p-title">未选择曲目</p>
+    <p class="p-meta">潮汐信号 / 片段试听</p>
+  </div>
+  <div class="p-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <button class="p-close" type="button" aria-label="关闭播放条">
+    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  requestAnimationFrame(function () { document.body.classList.add('is-loaded'); });
+
+  var header = document.querySelector('.site-header');
+  var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 12); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var player = document.getElementById('player');
+  var pTitle = player.querySelector('.p-title');
+  var pToggle = player.querySelector('.p-toggle');
+  var current = null;
+
+  function setRow(row, on) {
+    var btn = row.querySelector('.t-play');
+    row.classList.toggle('is-playing', on);
+    btn.setAttribute('aria-pressed', String(on));
+    btn.setAttribute('aria-label', (on ? '暂停 ' : '播放 ') + row.dataset.title);
+  }
+
+  document.querySelectorAll('.t-play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var row = btn.closest('.track');
+      var on = !row.classList.contains('is-playing');
+      if (current && current !== row) setRow(current, false);
+      current = row;
+      setRow(row, on);
+      if (on) {
+        pTitle.textContent = row.dataset.title;
+        player.classList.add('is-active', 'is-on');
+      } else {
+        player.classList.remove('is-on');
+      }
+    });
+  });
+
+  pToggle.addEventListener('click', function () {
+    if (!current) return;
+    var on = !player.classList.contains('is-on');
+    player.classList.toggle('is-on', on);
+    setRow(current, on);
+  });
+
+  player.querySelector('.p-close').addEventListener('click', function () {
+    if (current) setRow(current, false);
+    player.classList.remove('is-active', 'is-on');
+    pTitle.textContent = '未选择曲目';
+  });
+})();
+</script>
+</body>
+</html>

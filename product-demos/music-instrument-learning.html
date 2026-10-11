@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="产品模板：在线乐器陪练平台「弦上」，真人教师一对一纠错 / 练习打卡 / 分级曲目库 / 成长路径，钢琴与吉他双乐器，Vibrant Block-based + Motion-Driven 风格，Interactive Product Demo + Social Proof 布局">
+<title>产品模板 / Music Instrument Learning / UI 设计提示词库</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+/* tokens: Primary #DC2626(白字 4.8:1) / Secondary #9A3412(米底 7.0:1) / Accent #D97706 仅装饰与深底 / 文字档加深 #B45309(白底 5.0:1) / BG #FFFBEB / FG #0F172A / Card #FFF / Border #FAE4E4 / Muted #FCF1F1 / Ring #DC2626 / 正文 #44403C(7:1) 弱化 #57534E(5.4:1) / 演示舱 OLED #0C0A09 + 面板 #1D1410 + 文字 #FAFAF9 + 弱化 #BDB3A9(7:1) + 深底琥珀 #F59E0B(8.6:1) / 红带加深 #B91C1C(白字 6.5:1) / 音符色系 do红 re琥珀 mi棕 fa墨 */
+:root{
+--primary:#DC2626;--on-primary:#FFFFFF;--secondary:#9A3412;--accent:#D97706;--accent-ink:#B45309;
+--bg:#FFFBEB;--fg:#0F172A;--card:#FFFFFF;--border:#FAE4E4;--muted:#FCF1F1;--ring:#DC2626;
+--ink-soft:#44403C;--ink-dim:#57534E;--band:#B91C1C;--band-soft:#FED7AA;
+--oled:#0C0A09;--panel:#1D1410;--panel-2:#2A1D15;--o-border:#453227;--o-text:#FAFAF9;--o-dim:#BDB3A9;--amber:#F59E0B;--red-soft:#FCA5A5;
+}
+*{margin:0;padding:0;box-sizing:border-box} html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.75;font-size:16px}
+a{color:inherit;text-decoration:none} a:hover{color:var(--accent-ink)} img,svg{display:block} button{font:inherit;cursor:pointer} [hidden]{display:none!important}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:4px}
+.lab :focus-visible{outline-color:var(--amber)} .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--primary);color:var(--on-primary);padding:10px 16px;font-weight:700;z-index:99}
+.skip:focus-visible{left:12px;top:12px}
+
+/* 头部 */
+header{position:sticky;top:0;z-index:50;background:rgba(255,251,235,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.navbar{display:flex;align-items:center;gap:26px;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;color:var(--fg)} .brand svg{width:32px;height:32px}
+.nav-links{display:flex;gap:20px;list-style:none} .nav-links a{font-size:15px;color:var(--ink-soft);padding:4px 2px;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--secondary);border-bottom-color:var(--accent)} .nav-side{margin-left:auto;display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:15px;padding:11px 22px;border-radius:10px;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.btn:hover{background:#B91C1C;transform:translateY(-2px);box-shadow:0 8px 18px rgba(154,52,18,.22);color:var(--on-primary)} .btn:active{transform:translateY(0)}
+.btn-ghost{background:transparent;color:var(--secondary);border-color:var(--secondary)}
+.btn-ghost:hover{background:var(--muted);border-color:var(--secondary);box-shadow:none} .btn-amber{background:var(--amber);color:#1D0F06}
+.btn-amber:hover{background:#FBBF24;box-shadow:0 8px 18px rgba(245,158,11,.25)} .btn-sm{padding:8px 16px;font-size:14px}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* 首屏 */
+.hero{padding:64px 0 56px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;right:-120px;top:-140px;width:460px;height:460px;border-radius:36px;background:var(--muted);border:1px solid var(--border);transform:rotate(14deg)}
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:48px;align-items:center;position:relative}
+.eyebrow{font-weight:800;color:var(--accent-ink);font-size:15px;letter-spacing:.5px}
+.hero h1{font-size:clamp(36px,5vw,58px);line-height:1.22;font-weight:900;letter-spacing:-.5px;margin:12px 0 16px}
+.hero h1 em{font-style:normal;color:var(--primary);box-shadow:inset 0 -14px 0 var(--muted)} .hero p.lead{font-size:17px;color:var(--ink-soft);max-width:34em}
+.hero-cta{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;align-items:center} .book-ok{font-size:14px;font-weight:700;color:var(--secondary)}
+.hero-note{margin-top:14px;font-size:14px;color:var(--ink-dim)}
+/* 一次亮相动效：仅首屏整体一次升起 */
+.reveal{animation:rise .7s ease-out .05s both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.report{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px 24px;box-shadow:0 18px 40px rgba(154,52,18,.12)}
+.report h3{font-size:15px;font-weight:800;color:var(--secondary);display:flex;justify-content:space-between;align-items:center}
+.report h3 span{font-size:13px;font-weight:600;color:var(--ink-dim)} .rp-piece{margin:14px 0 6px;font-weight:800;font-size:17px}
+.rp-piece small{font-weight:600;color:var(--ink-dim);margin-left:8px;font-size:13px}
+.bar{height:10px;border-radius:6px;background:var(--muted);border:1px solid var(--border);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--secondary),var(--accent));width:0;transition:width .9s ease .4s}
+.rp-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-dim);margin-top:6px} .streak{display:flex;align-items:center;gap:10px;margin:16px 0}
+.streak .dots{display:flex;gap:6px} .streak .dots i{width:14px;height:14px;border-radius:50%;background:var(--muted);border:1px solid var(--border)}
+.streak .dots i.hit{background:var(--primary);border-color:var(--primary)} .streak b{font-size:15px}
+.speech{background:var(--muted);border:1px solid var(--border);border-radius:4px 16px 16px 16px;padding:12px 14px;font-size:14px;color:var(--ink-soft)}
+.speech b{color:var(--secondary)}
+
+/* 数据横带 */
+.stats{background:var(--secondary);color:var(--on-primary)} .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding-top:26px;padding-bottom:26px}
+.stat b{display:block;font-size:clamp(22px,2.6vw,30px);font-weight:900;color:var(--band-soft);line-height:1.2} .stat span{font-size:14px;color:#FFF7ED}
+
+/* 演示舱（OLED 深底） */
+.lab{background:var(--oled);color:var(--o-text);padding:72px 0} .lab .eyebrow{color:var(--amber)}
+.lab h2{font-size:clamp(28px,3.4vw,40px);font-weight:900;letter-spacing:-.5px;margin:10px 0 8px} .lab .sub{color:var(--o-dim);max-width:38em}
+.tabs{display:flex;gap:10px;margin:26px 0 18px}
+.tab{display:inline-flex;align-items:center;gap:8px;background:var(--panel);color:var(--o-dim);border:1px solid var(--o-border);border-radius:999px;padding:9px 20px;font-weight:700;font-size:15px;transition:transform .15s ease,background .15s ease,color .15s ease}
+.tab svg{width:20px;height:20px} .tab:hover{transform:translateY(-2px);color:var(--o-text)}
+.tab[aria-pressed="true"]{background:var(--amber);color:#1D0F06;border-color:var(--amber)}
+.lab-grid{display:grid;grid-template-columns:1fr 280px;gap:22px;align-items:stretch}
+.stage{background:var(--panel);border:1px solid var(--o-border);border-radius:20px;padding:22px}
+.stage-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap} .stage-head b{font-size:16px;font-weight:800}
+.stage-head span{font-size:13px;color:var(--o-dim)} .scroll-x{overflow-x:auto;padding-bottom:6px}
+.keys{position:relative;display:flex;height:170px;min-width:520px;border-radius:0 0 12px 12px;overflow:hidden;border:1px solid var(--o-border)}
+.pk{flex:1;background:#F5F0E8;border-right:1px solid #C9B8A2;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:8px;color:#57534E;font-size:12px;transition:background .12s ease,transform .12s ease}
+.pk b{font-size:11px;font-weight:700;color:#A8A29E} .pk:last-child{border-right:0}
+.pk.b{position:absolute;top:0;height:58%;flex:none;width:6.4%;background:#171310;border-right:0;color:transparent;z-index:2;box-shadow:inset 0 -6px 0 #000}
+.pk.on{background:var(--amber);color:#1D0F06;transform:translateY(2px)} .pk.on b{color:#4A2B07} .pk.err{background:var(--primary);color:#fff;animation:shake .32s ease}
+.pk.err b{color:#FFD9D9}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}60%{transform:translateX(4px)}}
+.fix{margin-top:16px;background:var(--panel-2);border:1px solid var(--amber);border-left-width:5px;border-radius:10px;padding:12px 16px;font-size:14px;color:var(--o-text)}
+.fix b{color:var(--amber)} .fret{min-width:430px} .fr{display:grid;grid-template-columns:30px repeat(5,1fr);gap:4px;align-items:center;margin-bottom:4px}
+.sn{font-size:13px;font-weight:800;color:var(--o-dim);text-align:center}
+.fc{height:34px;border-radius:8px;background:var(--panel-2);border:1px solid var(--o-border);position:relative;transition:background .15s ease,transform .15s ease}
+.fc::after{content:"";position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px;border-radius:50%;background:var(--o-border)}
+.fc.on{background:var(--amber);border-color:var(--amber);transform:scale(1.06)} .fc.on::after{background:#1D0F06} .chords{display:flex;gap:10px;margin:14px 0 4px}
+.ch{flex:1;text-align:center;background:var(--panel-2);border:1px solid var(--o-border);border-radius:10px;padding:8px 0;font-weight:800;font-size:15px;color:var(--o-dim)}
+.ch small{display:block;font-size:11px;font-weight:600} .ch.on{background:var(--amber);color:#1D0F06;border-color:var(--amber)} .ch.on small{color:#4A2B07}
+.ch.err{border-color:var(--primary);color:var(--red-soft)} .rail{display:flex;flex-direction:column;gap:18px}
+.rail-card{background:var(--panel);border:1px solid var(--o-border);border-radius:20px;padding:18px 20px}
+.rail-card h4{font-size:14px;font-weight:800;margin-bottom:10px;color:var(--o-text)} .metro{width:96px;margin:2px auto 8px}
+.metro .pend{transform-origin:44px 30px;animation:swing var(--beat,.75s) ease-in-out infinite alternate}
+@keyframes swing{from{transform:rotate(-20deg)}to{transform:rotate(20deg)}}
+.beats{display:flex;gap:8px;justify-content:center}
+.beats i{width:12px;height:12px;border-radius:50%;background:var(--panel-2);border:1px solid var(--o-border);transition:transform .1s ease,background .1s ease}
+.beats i.active{background:var(--amber);border-color:var(--amber);transform:scale(1.25)}
+.bpm-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--o-dim)} .bpm-row input{flex:1;accent-color:var(--amber)}
+.bpm-row output{font-weight:800;color:var(--amber);min-width:56px;text-align:right} .score{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score div{background:var(--panel-2);border:1px solid var(--o-border);border-radius:12px;padding:10px 12px}
+.score b{display:block;font-size:22px;font-weight:900;color:var(--amber)} .score span{font-size:12px;color:var(--o-dim)} .rail-card p{font-size:13px;color:var(--o-dim)}
+.rail-card .go{margin-top:10px} .demo-status{margin-top:14px;font-size:13px;color:var(--o-dim)} .demo-status b{color:var(--amber)}
+
+/* 区块通用 */
+section.block{padding:72px 0} .sec-head{max-width:46em;margin-bottom:34px}
+.sec-head h2{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-.5px;margin:8px 0 10px} .sec-head p{color:var(--ink-soft)}
+.alt{background:var(--muted);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+
+/* 功能矩阵 */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .18s ease}
+.feat:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(154,52,18,.12)}
+.fico{width:46px;height:46px;border-radius:12px;background:var(--muted);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--secondary);margin-bottom:14px}
+.feat:nth-child(3n) .fico{background:#FFF3E2;border-color:#F5D9AE;color:var(--accent-ink)} .fico svg{width:24px;height:24px}
+.feat h3{font-size:18px;font-weight:800;margin-bottom:8px} .feat p{font-size:14.5px;color:var(--ink-soft)}
+.feat .tagline{margin-top:auto;padding-top:14px;font-size:13px;font-weight:700;color:var(--accent-ink)}
+
+/* 分级体系 */
+.lv-grid{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:stretch} .lv-nav{display:flex;flex-direction:column;gap:10px}
+.lv-btn{text-align:left;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 16px;font-weight:700;color:var(--ink-soft);transition:transform .15s ease,border-color .15s ease,background .15s ease}
+.lv-btn small{display:block;font-weight:600;font-size:12.5px;color:var(--ink-dim)} .lv-btn:hover{transform:translateX(3px);border-color:var(--accent)}
+.lv-btn[aria-pressed="true"]{background:var(--secondary);border-color:var(--secondary);color:#fff} .lv-btn[aria-pressed="true"] small{color:var(--band-soft)}
+.lv-detail{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px 28px}
+.lv-detail h3{font-size:22px;font-weight:900;display:flex;align-items:baseline;gap:12px} .lv-detail h3 span{font-size:14px;font-weight:700;color:var(--accent-ink)}
+.lv-detail>p{color:var(--ink-soft);margin:8px 0 18px;max-width:40em} .skills{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px}
+.skill label{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:var(--ink-soft);margin-bottom:5px}
+.skill .bar i{transition:width .8s ease} .skill:nth-of-type(1) .bar i{background:var(--primary)} .skill:nth-of-type(2) .bar i{background:var(--secondary)}
+.skill:nth-of-type(3) .bar i{background:var(--accent)} .skill:nth-of-type(4) .bar i{background:#0F172A}
+.lv-meta{margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);font-size:14px;font-weight:700;color:var(--secondary)}
+
+/* 曲目库 */
+.rp-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:8px 18px;font-weight:700;font-size:14px;color:var(--ink-soft)}
+.chip:hover{border-color:var(--accent)} .chip[aria-pressed="true"]{background:var(--secondary);border-color:var(--secondary);color:#fff}
+.rp-count{margin-left:auto;font-size:13.5px;color:var(--ink-dim)} .rp-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--border);border-radius:16px}
+.rp-row{display:grid;grid-template-columns:minmax(150px,2.1fr) 76px 70px 64px minmax(120px,1fr);gap:10px;align-items:center;padding:13px 20px;min-width:560px;border-bottom:1px solid var(--border)}
+.rp-row:last-child{border-bottom:0} .rp-head{background:var(--muted);font-size:13px;font-weight:800;color:var(--secondary);padding-top:10px;padding-bottom:10px}
+.rp-row .name{font-weight:700} .rp-row .name small{display:block;font-weight:600;font-size:12px;color:var(--ink-dim)}
+.rp-row .cell{font-size:14px;color:var(--ink-soft)}
+.lvl{display:inline-block;background:var(--muted);border:1px solid var(--border);border-radius:6px;padding:1px 8px;font-size:12.5px;font-weight:800;color:var(--secondary)}
+.heat{display:flex;align-items:center;gap:8px} .heat .bar{flex:1;height:8px} .heat .bar i{background:var(--primary)}
+.heat span{font-size:12.5px;color:var(--ink-dim);min-width:26px;text-align:right}
+
+/* 社会证明 */
+.vo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.vo{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.vo .stars{color:var(--accent-ink);display:flex}.vo .stars svg{width:112px;height:21px} .vo blockquote{font-size:15px;color:var(--fg);line-height:1.8}
+.vo .who{margin-top:auto;display:flex;align-items:center;gap:12px}
+.ava{width:44px;height:44px;border-radius:50%;background:var(--secondary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.vo:nth-child(2) .ava{background:var(--primary)} .vo:nth-child(3) .ava{background:var(--accent-ink)} .who b{display:block;font-size:14.5px}
+.who span{font-size:12.5px;color:var(--ink-dim)} .partners{margin-top:30px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--ink-dim)}
+.partners b{color:var(--secondary)}
+.pill{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:7px 16px;font-weight:700;color:var(--ink-soft)}
+
+/* 定价 */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;display:flex;flex-direction:column}
+.plan.hot{border:2px solid var(--secondary);box-shadow:0 16px 34px rgba(154,52,18,.14);position:relative}
+.plan.hot .plan-tag{position:absolute;top:-14px;left:24px;background:var(--secondary);color:#fff;border-radius:999px;padding:4px 14px;font-size:12.5px;font-weight:800}
+.plan h3{font-size:19px;font-weight:900} .plan .price{margin:10px 0 2px;font-size:34px;font-weight:900;color:var(--secondary);letter-spacing:-1px}
+.plan .price small{font-size:14px;font-weight:700;color:var(--ink-dim);letter-spacing:0} .plan .for{font-size:13.5px;color:var(--ink-dim);margin-bottom:16px}
+.plan ul{list-style:none;display:grid;gap:10px;margin-bottom:22px}
+.plan li{display:grid;grid-template-columns:16px 1fr;gap:9px;font-size:14px;color:var(--ink-soft);align-items:baseline}
+.plan li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:8px} .plan .btn{margin-top:auto}
+
+/* 行动横带与页脚 */
+.cta-band{background:var(--band);color:#fff;padding:56px 0} .cta-band .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cta-band h2{font-size:clamp(24px,3vw,34px);font-weight:900;letter-spacing:-.5px} .cta-band p{color:#FFE8E8;font-size:14.5px}
+.cta-band .btn{background:#fff;color:var(--band)} .cta-band .btn:hover{background:#FFF1F1;box-shadow:0 10px 22px rgba(0,0,0,.22);color:var(--band)}
+footer{padding:44px 0 28px;color:var(--ink-dim);font-size:14px}
+.foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.foot-grid .brand{font-size:17px} .foot-grid p{max-width:26em;margin-top:8px} .foot-nav{display:flex;gap:18px;list-style:none;flex-wrap:wrap}
+.foot-nav a:hover{color:var(--secondary)} .foot-base{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding-top:18px}
+.foot-base a{font-weight:700;color:var(--secondary)} .foot-base a:hover{color:var(--primary)}
+
+/* 响应式 */
+@media (max-width:980px){
+.hero-grid{grid-template-columns:1fr;gap:34px} .lab-grid{grid-template-columns:1fr} .feat-grid{grid-template-columns:1fr 1fr}
+.vo-grid,.price-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto} .stats .wrap{grid-template-columns:1fr 1fr;gap:18px} .lv-grid{grid-template-columns:1fr}
+.lv-nav{flex-direction:row;flex-wrap:wrap} .lv-btn{flex:1 1 150px}
+}
+@media (max-width:640px){
+.nav-links{display:none} .feat-grid{grid-template-columns:1fr} .skills{grid-template-columns:1fr} .hero{padding:44px 0 40px} section.block{padding:52px 0}
+.rp-count{margin-left:0;width:100%} .cta-band .wrap{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto} .reveal{animation:none} .metro .pend{animation:none;transform:rotate(8deg)} .pk,.ch,.fc,.feat,.tab,.btn,.lv-btn{transition:none}
+.pk.err{animation:none} .bar i{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主内容</a>
+<header>
+  <div class="wrap navbar">
+    <a class="brand" href="#main" aria-label="弦上 首页">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#DC2626"/><path d="M11 12v16M20 12v16M29 12v16" stroke="#FFFBEB" stroke-width="2.4" stroke-linecap="round"/><path d="M8 27h24" stroke="#FFFBEB" stroke-width="2.4" stroke-linecap="round"/><circle cx="29" cy="14" r="3.4" fill="#D97706"/></svg>
+      弦上
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">功能矩阵</a></li>
+      <li><a href="#demo">纠错演示</a></li>
+      <li><a href="#levels">分级体系</a></li>
+      <li><a href="#songs">曲目库</a></li>
+      <li><a href="#pricing">定价</a></li>
+    </ul>
+    <div class="nav-side">
+      <a class="btn btn-sm" href="#pricing" data-book-hero>免费试课</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- 首屏：主诉求 + 练习日报卡 -->
+<section class="hero">
+  <div class="wrap hero-grid reveal">
+    <div>
+      <p class="eyebrow">真人教师一对一 / 钢琴与吉他 / 分级进阶</p>
+      <h1>每一次按错，<br>都有人<em>立刻</em>告诉你</h1>
+      <p class="lead">弦上是在线乐器陪练平台。上课时教师实时听你练琴、当场标出错音；下课后 AI 逐小节对谱打分，打卡、曲目、级别，一条路径走到底。</p>
+      <div class="hero-cta">
+        <button class="btn" type="button" data-book>预约免费试课</button>
+        <a class="btn btn-ghost" href="#demo">看看一节课怎么上</a>
+        <span class="book-ok" data-book-ok hidden>已登记，课程顾问将在 10 分钟内回电</span>
+      </div>
+      <p class="hero-note">试课含 10 级定级测评 / 不满意全额退 / 3 万家庭正在续费</p>
+    </div>
+    <div class="report" aria-label="练习日报示例">
+      <h3>练习日报 <span>10 月 9 日 / 周五</span></h3>
+      <p class="rp-piece">小星星变奏曲<small>钢琴 2 级 / 第 4 变奏</small></p>
+      <div class="bar" role="img" aria-label="本曲完成度 72%"><i data-fill="72"></i></div>
+      <p class="rp-meta"><span>完成度 72%</span><span>今日 22 分钟</span></p>
+      <div class="streak">
+        <span aria-hidden="true" class="dots"><i class="hit"></i><i class="hit"></i><i class="hit"></i><i class="hit"></i><i class="hit"></i><i class="hit"></i><i></i></span>
+        <b>连续打卡 46 天</b>
+      </div>
+      <div class="speech"><b>王老师 21:04 点评：</b>左手指尖立起来，第 3 小节 do 弹成了 si，已标进纠错谱，明晚我们先过变奏四。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 社会证明：平台数据 -->
+<section class="stats" aria-label="平台数据">
+  <div class="wrap">
+    <div class="stat"><b>128,540</b><span>在学学员 / 覆盖 86 城</span></div>
+    <div class="stat"><b>3,214</b><span>认证陪练教师 / 平均教龄 8 年</span></div>
+    <div class="stat"><b>96.2%</b><span>上课准点率 / 迟到按次赔付</span></div>
+    <div class="stat"><b>4.9</b><span>应用商店评分 / 12 万条评价</span></div>
+  </div>
+</section>
+
+<!-- 交互演示：纠错演示舱 -->
+<section class="lab" id="demo">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">交互演示 / 一节课里发生了什么</p>
+      <h2>错音在第 3 秒被发现，而不是下周</h2>
+      <p class="sub">选择乐器，播放一段上课示例：学员弹奏、教师听音、错音被当场拦下并写进纠错谱。节拍器可以随堂调速。</p>
+    </div>
+    <div class="tabs" role="group" aria-label="选择乐器">
+      <button class="tab" type="button" data-stage="piano" aria-pressed="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v9M11 5v9M15 5v9M19 5v9" stroke-width="2.4"/></svg>
+        钢琴
+      </button>
+      <button class="tab" type="button" data-stage="guitar" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 4l-6.5 6.5"/><circle cx="9.5" cy="14.5" r="5.5"/><circle cx="9.5" cy="14.5" r="1.6"/></svg>
+        吉他
+      </button>
+    </div>
+    <div class="lab-grid">
+      <div class="stage" data-panel="piano">
+        <div class="stage-head">
+          <b>小星星主题 / 学员弹奏</b>
+          <span>目标 C C G G A A G / 教师同步听音</span>
+        </div>
+        <div class="scroll-x">
+          <div class="keys" role="img" aria-label="钢琴键盘，从 do 到高音 do">
+<div class="pk" data-k="C"><span>do</span><b>C</b></div>  <div class="pk" data-k="D"><span>re</span><b>D</b></div>  <div class="pk" data-k="E"><span>mi</span><b>E</b></div>  <div class="pk" data-k="F"><span>fa</span><b>F</b></div>
+            <div class="pk" data-k="G"><span>sol</span><b>G</b></div>  <div class="pk" data-k="A"><span>la</span><b>A</b></div>  <div class="pk" data-k="B"><span>si</span><b>B</b></div>  <div class="pk" data-k="C2"><span>do</span><b>C</b></div>
+            <div class="pk b" style="left:9%" aria-hidden="true"></div>
+<div class="pk b" style="left:21.5%" aria-hidden="true"></div>  <div class="pk b" style="left:46.5%" aria-hidden="true"></div>  <div class="pk b" style="left:59%" aria-hidden="true"></div>  <div class="pk b" style="left:71.5%" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="fix" id="fixP" role="status" aria-live="polite" hidden><b>教师纠错：</b>这里应该是 la，手臂带动手腕抬指，不要折指。我们慢一半速度再来两遍。</div>
+        <p class="demo-status" id="statusP">按「播放上课示例」开始，错音会以红色标出。</p>
+        <div class="go" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-amber btn-sm" type="button" id="playP">播放上课示例</button>
+          <button class="btn btn-sm" type="button" id="resetP" style="background:transparent;color:var(--o-dim);border-color:var(--o-border)">重置</button>
+        </div>
+      </div>
+      <div class="stage" data-panel="guitar" hidden>
+        <div class="stage-head">
+          <b>和弦进行 / 学员扫弦</b>
+          <span>C / G / Am / F / 60 BPM 起速</span>
+        </div>
+        <div class="chords" aria-label="和弦进行">
+          <div class="ch" data-ch="C">C<small>完全和弦</small></div>
+          <div class="ch" data-ch="G">G<small>完全和弦</small></div>
+          <div class="ch" data-ch="Am">Am<small>换把偏慢</small></div>
+          <div class="ch" data-ch="F">F<small>大横按</small></div>
+        </div>
+        <div class="scroll-x">
+          <div class="fret" role="img" aria-label="吉他指板，六弦到一弦，五品" id="fret"></div>
+        </div>
+        <div class="fix" id="fixG" role="status" aria-live="polite" hidden><b>教师纠错：</b>G 换 Am 慢了半拍，先松开拇指再落指，60 BPM 连十遍再提速。</div>
+        <p class="demo-status" id="statusG">按「播放上课示例」开始，指板会点亮当前和弦。</p>
+        <div class="go" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-amber btn-sm" type="button" id="playG">播放上课示例</button>
+          <button class="btn btn-sm" type="button" id="resetG" style="background:transparent;color:var(--o-dim);border-color:var(--o-border)">重置</button>
+        </div>
+      </div>
+      <div class="rail">
+        <div class="rail-card">
+          <h4>随堂节拍器</h4>
+          <svg class="metro" viewBox="0 0 88 116" aria-hidden="true">
+            <path d="M24 112 L34 22 Q44 10 54 22 L64 112 Z" fill="#2A1D15" stroke="#453227" stroke-width="2"/>
+            <g class="pend"><path d="M44 28 L44 96" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/><circle cx="44" cy="86" r="6" fill="#F59E0B"/></g>
+            <rect x="20" y="108" width="48" height="6" rx="3" fill="#453227"/>
+          </svg>
+          <div class="beats" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="bpm-row">
+            <label for="bpm">速度</label>
+            <input type="range" id="bpm" min="60" max="140" value="88" step="2">
+            <output for="bpm" id="bpmVal">88 BPM</output>
+          </div>
+        </div>
+        <div class="rail-card">
+          <h4>本段听音计分</h4>
+          <div class="score">
+            <div><b id="okCount">0</b><span>正确音</span></div>
+            <div><b id="errCount">0</b><span>当场纠错</span></div>
+          </div>
+        </div>
+        <div class="rail-card">
+          <h4>课后你会拿到</h4>
+          <p>逐小节纠错谱 / 音准与节奏双维度评分 / 教师语音点评 / 次日练习清单。所有记录沉淀进成长路径。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 功能矩阵 -->
+<section class="block" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">功能矩阵 / 陪练闭环</p>
+      <h2>从上课、练琴到考级，一块都不缺</h2>
+      <p>六个模块互为咬合：课上纠错决定练什么，打卡数据反哺下一节课。</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat"><div class="fico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3"/><path d="M7 12h1.5M10.5 12H12" stroke-width="2"/></svg></div>
+        <h3>真人一对一纠错</h3>
+        <p>视频连线授课，教师实时在谱面标记错音与指法，课后自动生成逐小节纠错谱，练什么一目了然。</p> <p class="tagline">平均 1.2 秒响应一个错音</p></div>
+      <div class="feat"><div class="fico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4" stroke-width="2"/></svg></div>
+        <h3>每日练习打卡</h3>
+        <p>曲目级打卡任务与连续天数激励，教师每天批改语音点评，漏练当天就有电话回访。</p> <p class="tagline">学员平均连续打卡 61 天</p></div>
+      <div class="feat"><div class="fico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></div>
+        <h3>分级曲目库</h3>
+        <p>4,800 余首钢琴与吉他曲目按 1 至 10 级编排，每首附示范音频、伴奏音轨与分段练习模式。</p> <p class="tagline">每周更新 20 首 / 支持点播</p></div>
+      <div class="feat"><div class="fico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19c4-1 5-12 9-12s3 8 7 8"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="15" r="2"/></svg></div>
+        <h3>成长路径</h3>
+        <p>入学定级测评、阶段目标、考级冲刺连成一张路径图，每一步的进度对学员和家长同时可见。</p> <p class="tagline">对接央音 / 上音 / 英皇考纲</p></div>
+      <div class="feat"><div class="fico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h2M8 6v12M12 3v18M16 8v8M20 11h0.5"/></svg></div>
+        <h3>智能听音评分</h3>
+        <p>练习录音自动对谱，音准与节奏双维度打分，错音位置精确到小节与拍点，回放可逐句对照。</p> <p class="tagline">与教师标注一致率 93%</p></div>
+      <div class="feat"><div class="fico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/></svg></div>
+        <h3>家长周报</h3>
+        <p>每周一页：练习时长、错音分布、教师评语与下阶段目标，陪练进展不再靠追问。</p> <p class="tagline">94% 家长每周完整读完</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 分级体系 -->
+<section class="block alt" id="levels">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">分级体系 / 从第一次触键到登台</p>
+      <h2>十个级别，每级都有明确的出口</h2>
+      <p>点击级别查看能力模型与建议练习量，技能条为该级结业生的平均达标线。</p>
+    </div>
+    <div class="lv-grid">
+      <div class="lv-nav" role="group" aria-label="选择级别">
+        <button class="lv-btn" type="button" data-lv="0" aria-pressed="true">启蒙<small>1 至 2 级 / 双乐器通用</small></button>
+        <button class="lv-btn" type="button" data-lv="1" aria-pressed="false">初级<small>3 至 4 级 / 双手与和弦</small></button>
+        <button class="lv-btn" type="button" data-lv="2" aria-pressed="false">中级<small>5 至 6 级 / 完整作品</small></button>
+        <button class="lv-btn" type="button" data-lv="3" aria-pressed="false">高级<small>7 至 8 级 / 复调与即兴</small></button>
+        <button class="lv-btn" type="button" data-lv="4" aria-pressed="false">演奏级<small>9 至 10 级 / 比赛冲刺</small></button>
+      </div>
+      <div class="lv-detail" aria-live="polite">
+        <h3 id="lvName">启蒙 <span>1 至 2 级</span></h3>
+        <p id="lvDesc">认识键盘与六线谱，单手弹奏短句，跟着节拍器稳定数拍，养成坐姿与手型。</p>
+        <div class="skills" id="lvSkills">
+          <div class="skill"><label>手型与按弦<span>30%</span></label><div class="bar"><i data-fill="30"></i></div></div>
+          <div class="skill"><label>节奏稳定<span>40%</span></label><div class="bar"><i data-fill="40"></i></div></div>
+          <div class="skill"><label>识谱速度<span>25%</span></label><div class="bar"><i data-fill="25"></i></div></div>
+          <div class="skill"><label>模仿表达<span>15%</span></label><div class="bar"><i data-fill="15"></i></div></div>
+        </div>
+        <p class="lv-meta" id="lvMeta">建议练习量：每周 3 次 / 每次 15 分钟</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 曲目库 -->
+<section class="block" id="songs">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">曲目库 / 4,800 首分级曲谱</p>
+      <h2>每首曲子都知道自己该被怎么练</h2>
+      <p>级别、时长、练习热度一屏对齐，示范音频与伴奏音轨随曲附赠。</p>
+    </div>
+    <div class="rp-toolbar" role="group" aria-label="按乐器筛选曲目">
+      <button class="chip" type="button" data-inst="all" aria-pressed="true">全部</button>
+      <button class="chip" type="button" data-inst="piano" aria-pressed="false">钢琴</button>
+      <button class="chip" type="button" data-inst="guitar" aria-pressed="false">吉他</button>
+      <span class="rp-count" id="rpCount">共 10 首</span>
+    </div>
+    <div class="rp-scroll">
+      <div class="rp-row rp-head" aria-hidden="true"><span>曲目</span><span>乐器</span><span>级别</span><span>时长</span><span>练习热度</span></div>
+      <div class="rp-row" data-inst="piano"><div class="name">小星星变奏曲<small>莫扎特 / K.265 主题</small></div><span class="cell">钢琴</span><span><span class="lvl">2 级</span></span><span class="cell">1 分 40 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="96"></i></div><span>96%</span></div></div>
+      <div class="rp-row" data-inst="piano"><div class="name">梦幻曲<small>舒曼 / 童年情景</small></div><span class="cell">钢琴</span><span><span class="lvl">4 级</span></span><span class="cell">2 分 30 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="81"></i></div><span>81%</span></div></div>
+      <div class="rp-row" data-inst="piano"><div class="name">献给爱丽丝（节选）<small>贝多芬 / WoO 59</small></div><span class="cell">钢琴</span><span><span class="lvl">5 级</span></span><span class="cell">3 分 00 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="88"></i></div><span>88%</span></div></div>
+      <div class="rp-row" data-inst="piano"><div class="name">C 大调前奏曲<small>巴赫 / 平均律 上册</small></div><span class="cell">钢琴</span><span><span class="lvl">6 级</span></span><span class="cell">2 分 10 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="64"></i></div><span>64%</span></div></div>
+      <div class="rp-row" data-inst="piano"><div class="name">克罗地亚狂想曲（简编）<small>马克西姆 / 影视改编</small></div><span class="cell">钢琴</span><span><span class="lvl">7 级</span></span><span class="cell">3 分 20 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="73"></i></div><span>73%</span></div></div>
+      <div class="rp-row" data-inst="piano"><div class="name">月光 第一乐章（节选）<small>贝多芬 / Op.27 No.2</small></div><span class="cell">钢琴</span><span><span class="lvl">8 级</span></span><span class="cell">4 分 10 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="59"></i></div><span>59%</span></div></div>
+      <div class="rp-row" data-inst="guitar"><div class="name">晴天前奏<small>周杰伦 / 民谣弹唱版</small></div><span class="cell">吉他</span><span><span class="lvl">3 级</span></span><span class="cell">0 分 50 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="93"></i></div><span>93%</span></div></div>
+      <div class="rp-row" data-inst="guitar"><div class="name">风之诗<small>押尾光太郎 / 指弹</small></div><span class="cell">吉他</span><span><span class="lvl">5 级</span></span><span class="cell">2 分 40 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="76"></i></div><span>76%</span></div></div>
+      <div class="rp-row" data-inst="guitar"><div class="name">卡农（指弹版）<small>帕赫贝尔 / D 大调</small></div><span class="cell">吉他</span><span><span class="lvl">6 级</span></span><span class="cell">3 分 40 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="84"></i></div><span>84%</span></div></div>
+      <div class="rp-row" data-inst="guitar"><div class="name">泪<small>塔雷加 / Lagrima</small></div><span class="cell">吉他</span><span><span class="lvl">7 级</span></span><span class="cell">2 分 00 秒</span>
+        <div class="heat"><div class="bar"><i data-fill="52"></i></div><span>52%</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 社会证明：学员与家长 -->
+<section class="block alt" id="voices">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">学员与家长 / 他们练到了哪一步</p>
+      <h2>被陪出来的，都不只是考级证书</h2>
+    </div>
+    <div class="vo-grid">
+      <div class="vo">
+        <p class="stars" aria-label="评分 5 星"><svg viewBox="0 0 120 22" aria-hidden="true"><path id="star5" fill="currentColor" d="M12 2l2.9 6.2 6.8.9-5 4.7 1.3 6.7L12 17.3 6 20.5l1.3-6.7-5-4.7 6.8-.9z"/><use href="#star5" x="24"/><use href="#star5" x="48"/><use href="#star5" x="72"/><use href="#star5" x="96"/></svg></p><p class="stars" aria-label="评分 5 星"><svg viewBox="0 0 120 22" aria-hidden="true"><use href="#star5"/><use href="#star5" x="24"/><use href="#star5" x="48"/><use href="#star5" x="72"/><use href="#star5" x="96"/></svg></p><p class="stars" aria-label="评分 5 星"><svg viewBox="0 0 120 22" aria-hidden="true"><use href="#star5"/><use href="#star5" x="24"/><use href="#star5" x="48"/><use href="#star5" x="72"/><use href="#star5" x="96"/></svg></p>
+        <blockquote>考级曲目是老师一句一句抠出来的，录音回放对谱这个功能，让我知道自己到底错在哪一拍。</blockquote>
+        <div class="who"><span class="ava" aria-hidden="true">周</span><div><b>周雨桐 / 16 岁</b><span>钢琴 6 级 / 中级进阶中</span></div></div>
+      </div>
+    </div>
+    <div class="partners">
+      <b>考纲同步：</b>
+      <span class="pill">中央音乐学院考级</span>
+      <span class="pill">上海音乐学院考级</span>
+      <span class="pill">英皇考级</span>
+      <span class="pill">中国音乐学院社会艺术水平考级</span>
+    </div>
+  </div>
+</section>
+
+<!-- 定价 -->
+<section class="block" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">定价 / 按陪练强度选择</p>
+      <h2>一节课的价格，一整周的陪伴</h2>
+      <p>所有套餐共享完整曲目库与成长路径，区别只在课频与督学强度。</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan">
+        <h3>体验定级</h3>
+        <p class="price">¥9.9<small> / 单次</small></p>
+        <p class="for">想先试试水的家庭</p>
+        <ul>
+          <li>25 分钟一对一试听课</li>
+          <li>10 级定级测评与报告</li>
+          <li>定制首月练习计划</li>
+          <li>曲目库 30 天完整访问</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" data-book>先上一节试试</button>
+      </div>
+      <div class="plan hot">
+        <span class="plan-tag">82% 学员的选择</span>
+        <h3>月度畅练</h3>
+        <p class="price">¥428<small> / 月</small></p>
+        <p class="for">日常进阶与稳步备考</p>
+        <ul>
+          <li>每周 2 节一对一陪练课</li>
+          <li>每日打卡批改与语音点评</li>
+          <li>逐小节纠错谱与听音评分</li>
+          <li>家长周报与阶段测评</li>
+          <li>请假补课不限次</li>
+        </ul>
+        <button class="btn" type="button" data-book>开通月度畅练</button>
+      </div>
+      <div class="plan">
+        <h3>年度进阶</h3>
+        <p class="price">¥3,980<small> / 年</small></p>
+        <p class="for">考级冲刺与长期学习</p>
+        <ul>
+          <li>每周 3 节一对一陪练课</li>
+          <li>考级冲刺规划与模拟考</li>
+          <li>双教师督学（主课 + 纠错）</li>
+          <li>寒暑假集训营 8 折</li>
+          <li>比赛选曲与登台指导</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" data-book>咨询年度方案</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 行动横带 -->
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>下一节课，就在今晚</h2>
+      <p>工作日 7 点到 10 点高峰段教师充足 / 注册后 10 分钟内可排课</p>
+    </div>
+    <button class="btn" type="button" data-book>预约免费试课</button>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <a class="brand" href="#main" aria-label="弦上 首页">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#DC2626"/><path d="M11 12v16M20 12v16M29 12v16" stroke="#FFFBEB" stroke-width="2.4" stroke-linecap="round"/><path d="M8 27h24" stroke="#FFFBEB" stroke-width="2.4" stroke-linecap="round"/><circle cx="29" cy="14" r="3.4" fill="#D97706"/></svg>
+        弦上
+      </a>
+      <p>真人陪练，让每天的练习都有回应。钢琴与吉他双乐器，覆盖 4 至 70 岁全年龄段学员。</p>
+    </div>
+    <ul class="foot-nav">
+      <li><a href="#features">功能矩阵</a></li>
+      <li><a href="#levels">分级体系</a></li>
+      <li><a href="#songs">曲目库</a></li>
+      <li><a href="#pricing">定价</a></li>
+    </ul>
+  </div>
+  <div class="wrap foot-base">
+    <p>UI 设计提示词库 / 产品模板 / Music Instrument Learning</p>
+    <a href="../style-catalog.html">返回风格目录</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* 首屏与进度条一次性填充 */
+document.querySelectorAll("[data-fill]").forEach(function(el){
+  var v=el.getAttribute("data-fill")+"%";
+  if(reduce){el.style.width=v;}
+  else{window.setTimeout(function(){el.style.width=v;},350);}
+});
+
+/* 预约按钮：就近显示登记回执 */
+document.querySelectorAll("[data-book],[data-book-hero]").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    var ok=document.querySelector("[data-book-ok]");
+    if(ok){ok.hidden=false;}
+  });
+});
+
+/* 乐器页签 */
+var stages={piano:document.querySelector('[data-panel="piano"]'),guitar:document.querySelector('[data-panel="guitar"]')};
+document.querySelectorAll(".tab").forEach(function(tab){
+  tab.addEventListener("click",function(){
+    document.querySelectorAll(".tab").forEach(function(o){o.setAttribute("aria-pressed",o===tab?"true":"false");});
+    var key=tab.getAttribute("data-stage");
+    Object.keys(stages).forEach(function(k){stages[k].hidden=(k!==key);});
+  });
+});
+
+/* 节拍器 */
+var bpmInput=document.getElementById("bpm"),bpmVal=document.getElementById("bpmVal");
+var beatDots=[].slice.call(document.querySelectorAll(".beats i"));
+function beatSec(){return 60/parseInt(bpmInput.value,10);}
+function applyBpm(){
+  bpmVal.textContent=bpmInput.value+" BPM";
+  document.querySelectorAll(".metro .pend").forEach(function(p){p.style.setProperty("--beat",beatSec().toFixed(2)+"s");});
+}
+bpmInput.addEventListener("input",applyBpm);
+applyBpm();
+
+/* 听音计分 */
+var okCount=document.getElementById("okCount"),errCount=document.getElementById("errCount");
+function setScore(ok,err){okCount.textContent=String(ok);errCount.textContent=String(err);}
+
+/* 钢琴演示序列：目标 C C G G A A G，第 5 音学员误按 mi */
+var pianoSeq=[
+  {k:"C",ok:1},{k:"C",ok:1},{k:"G",ok:1},{k:"G",ok:1},
+  {k:"E",err:"fixP"},
+  {k:"A",ok:1},{k:"A",ok:1},{k:"G",ok:1},{k:"C2",ok:1}
+];
+var playP=document.getElementById("playP"),resetP=document.getElementById("resetP"),statusP=document.getElementById("statusP");
+var pTimer=null,pDot=null;
+function clearKeys(){
+  document.querySelectorAll(".pk").forEach(function(k){k.classList.remove("on","err");});
+}
+function stopBeat(){if(pDot){window.clearInterval(pDot);pDot=null;}beatDots.forEach(function(d){d.classList.remove("active");});}
+function runSeq(seq,onStep,onEnd){
+  var i=0,ok=0,err=0;
+  var stepMs=reduce?600:Math.round(beatSec()*1000/2);
+  var step=function(){
+    if(i>=seq.length){window.clearInterval(pTimer);pTimer=null;stopBeat();onEnd(ok,err);return;}
+    var s=seq[i];i++;
+    if(s.ok){ok++;}else{err++;}
+    beatDots[(i-1)%4].classList.add("active");
+    window.setTimeout(function(){beatDots.forEach(function(d){d.classList.remove("active");});},Math.min(220,stepMs*0.7));
+    onStep(s);
+  };
+  step();
+  pTimer=window.setInterval(step,stepMs);
+}
+playP.addEventListener("click",function(){
+  if(pTimer){return;}
+  clearKeys();setScore(0,0);
+  document.getElementById("fixP").hidden=true;
+  playP.disabled=true;
+  statusP.textContent="正在演示上课流程，教师正在同步听音……";
+  runSeq(pianoSeq,
+    function(s){
+      clearKeys();
+      var key=document.querySelector('.pk[data-k="'+s.k+'"]');
+      if(key){key.classList.add(s.err?"err":"on");}
+      if(s.err){document.getElementById(s.err).hidden=false;}
+    },
+    function(ok,err){
+      setScore(ok,err);
+      statusP.innerHTML="本段完成：<b>正确 "+ok+" 音</b> / <b>纠错 "+err+" 处</b>，纠错谱已生成并发送到练习清单。";
+      playP.disabled=false;
+    }
+  );
+});
+resetP.addEventListener("click",function(){
+  if(pTimer){window.clearInterval(pTimer);pTimer=null;}
+  stopBeat();clearKeys();setScore(0,0);
+  document.getElementById("fixP").hidden=true;
+  statusP.textContent="已重置。按「播放上课示例」重新开始。";
+  playP.disabled=false;
+});
+
+/* 吉他演示：指板与和弦进行 */
+var CHORDS={C:[[6,3],[5,2],[2,1]],G:[[6,3],[5,2],[1,3]],Am:[[4,2],[3,2],[2,1]],F:[[6,1],[5,3],[4,3],[3,2],[2,1],[1,1]]};
+var fret=document.getElementById("fret"),fretCells={};
+(function buildFret(){
+  var frag=document.createDocumentFragment();
+  for(var s=6;s>=1;s--){
+    var row=document.createElement("div");row.className="fr";
+    var lab=document.createElement("span");lab.className="sn";lab.textContent="弦 "+s;
+    row.appendChild(lab);
+    for(var f=1;f<=5;f++){
+      var cell=document.createElement("div");cell.className="fc";
+      cell.setAttribute("data-s",String(s));cell.setAttribute("data-f",String(f));
+      fretCells[s+"-"+f]=cell;row.appendChild(cell);
+    }
+    frag.appendChild(row);
+  }
+  fret.appendChild(frag);
+})();
+function paintChord(name,err){
+  Object.keys(fretCells).forEach(function(k){fretCells[k].classList.remove("on");});
+  document.querySelectorAll(".ch").forEach(function(c){
+    var hit=c.getAttribute("data-ch")===name;
+    c.classList.toggle("on",hit&&!err);
+    c.classList.toggle("err",hit&&!!err);
+  });
+  if(CHORDS[name]){CHORDS[name].forEach(function(pos){fretCells[pos[0]+"-"+pos[1]].classList.add("on");});}
+}
+var guitarSeq=[
+  {c:"C"},{c:"G"},
+  {c:"Am",err:"fixG"},
+  {c:"F"},{c:"C"}
+];
+var playG=document.getElementById("playG"),resetG=document.getElementById("resetG"),statusG=document.getElementById("statusG");
+playG.addEventListener("click",function(){
+  if(pTimer){return;}
+  setScore(0,0);
+  document.getElementById("fixG").hidden=true;
+  playG.disabled=true;
+  statusG.textContent="正在演示扫弦课堂，指板点亮当前和弦……";
+  runSeq(guitarSeq,
+    function(s){
+      paintChord(s.c,s.err);
+      if(s.err){document.getElementById(s.err).hidden=false;}
+    },
+    function(ok,err){
+      setScore(ok,err);
+      statusG.innerHTML="本段完成：<b>顺和弦 "+ok+" 个</b> / <b>换把提醒 "+err+" 次</b>，慢速连练任务已加入明日清单。";
+      playG.disabled=false;
+    }
+  );
+});
+resetG.addEventListener("click",function(){
+  if(pTimer){window.clearInterval(pTimer);pTimer=null;}
+  stopBeat();paintChord("");setScore(0,0);
+  document.getElementById("fixG").hidden=true;
+  statusG.textContent="已重置。按「播放上课示例」重新开始。";
+  playG.disabled=false;
+});
+
+/* 分级体系 */
+var LEVELS=[
+  {n:"启蒙",r:"1 至 2 级",d:"认识键盘与六线谱，单手弹奏短句，跟着节拍器稳定数拍，养成坐姿与手型。",s:{ "手型与按弦":30,"节奏稳定":40,"识谱速度":25,"模仿表达":15 },m:"建议练习量：每周 3 次 / 每次 15 分钟"},
+  {n:"初级",r:"3 至 4 级",d:"双手合奏与基础和弦转换，完成两升两降内的视奏条目，能背奏 8 小节短曲。",s:{ "手型与跑动":50,"节奏稳定":55,"视奏能力":45,"乐理应用":35 },m:"建议练习量：每周 4 次 / 每次 25 分钟"},
+  {n:"中级",r:"5 至 6 级",d:"踏板与揉弦进阶，达到车尔尼 849 程度，开始完整演奏小型作品并参加首次登台。",s:{ "技巧跑动":65,"节奏稳定":70,"视奏能力":55,"音乐表现":50 },m:"建议练习量：每周 5 次 / 每次 40 分钟"},
+  {n:"高级",r:"7 至 8 级",d:"复调作品与即兴伴奏，音阶快速跑动，准备大型作品与正式舞台礼仪。",s:{ "技巧跑动":80,"节奏稳定":82,"视奏能力":70,"音乐表现":72 },m:"建议练习量：每周 6 次 / 每次 60 分钟"},
+  {n:"演奏级",r:"9 至 10 级",d:"奏鸣曲式与指弹编曲，比赛与考级冲刺，登台实演并逐场复盘。",s:{ "技巧跑动":92,"节奏稳定":92,"视奏能力":85,"音乐表现":88 },m:"建议练习量：每天 90 分钟 / 双教师督学"}
+];
+var lvName=document.getElementById("lvName"),lvDesc=document.getElementById("lvDesc"),
+    lvSkills=document.getElementById("lvSkills"),lvMeta=document.getElementById("lvMeta");
+var SKILL_COLORS=["var(--primary)","var(--secondary)","var(--accent)","#0F172A"];
+document.querySelectorAll(".lv-btn").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    document.querySelectorAll(".lv-btn").forEach(function(o){o.setAttribute("aria-pressed",o===btn?"true":"false");});
+    var lv=LEVELS[parseInt(btn.getAttribute("data-lv"),10)];
+    lvName.innerHTML=lv.n+" <span>"+lv.r+"</span>";
+    lvDesc.textContent=lv.d;
+    lvMeta.textContent=lv.m;
+    lvSkills.innerHTML="";
+    Object.keys(lv.s).forEach(function(name,idx){
+      var v=lv.s[name];
+      var d=document.createElement("div");d.className="skill";
+      var l=document.createElement("label");
+      var s1=document.createElement("span");s1.textContent=name;
+      var s2=document.createElement("span");s2.textContent=v+"%";
+      l.appendChild(s1);l.appendChild(s2);
+      var bar=document.createElement("div");bar.className="bar";
+      var i=document.createElement("i");i.setAttribute("data-fill",String(v));
+      i.style.background=SKILL_COLORS[idx%4];
+      bar.appendChild(i);d.appendChild(l);d.appendChild(bar);
+      lvSkills.appendChild(d);
+      window.setTimeout(function(){i.style.width=v+"%";},30);
+    });
+  });
+});
+
+/* 曲目筛选 */
+var rows=[].slice.call(document.querySelectorAll(".rp-row")).filter(function(r){return !r.classList.contains("rp-head");});
+document.querySelectorAll(".chip").forEach(function(chip){
+  chip.addEventListener("click",function(){
+    document.querySelectorAll(".chip").forEach(function(o){o.setAttribute("aria-pressed",o===chip?"true":"false");});
+    var inst=chip.getAttribute("data-inst"),shown=0;
+    rows.forEach(function(row){
+      var hit=(inst==="all")||row.getAttribute("data-inst")===inst;
+      row.hidden=!hit;if(hit){shown++;}
+    });
+    document.getElementById("rpCount").textContent="共 "+shown+" 首";
+  });
+});
+})();
+</script>
+</body>
+</html>
