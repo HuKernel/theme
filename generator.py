@@ -2877,6 +2877,9 @@ function apply() {
     : '本区显示 ' + n + ' 个模板';
 }
 searchEl.addEventListener('input', apply);
+// 返回（bfcache 或重新加载）时同步输入框与过滤结果，避免"输入还在、结果已重置"
+window.addEventListener('pageshow', function(ev) { apply(); });
+if (searchEl.value) apply();  // 页面加载时输入框已被浏览器自动回填则立即过滤
 Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(t) {
   t.addEventListener('click', function() {
     Array.prototype.forEach.call(tabsEl.querySelectorAll('.tab'), function(x) {
