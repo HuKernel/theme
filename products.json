@@ -1090,5 +1090,83 @@
    "Color_Mood": "Dark studio background + track colors rainbow + waveform accent + BPM pulse",
    "Typography_Mood": "High contrast + Light on dark"
   }
+ },
+ {
+  "name": "Band Website",
+  "keywords": "band official website tour dates albums merch music artists",
+  "primary_style": "Dark Mode (OLED) + Editorial Grid / Magazine",
+  "secondary": "Kinetic Typography, Retro Analog / Retro Film",
+  "pattern": "Hero (album/visual) > Tour dates > Discography > Band story > Members > Newsletter/Merch",
+  "palette_focus": "Night-sea dark + single amber accent; poster-led, restrained neon",
+  "palette": {
+   "Primary": "#F2B84D",
+   "On Primary": "#0A0F1A",
+   "Secondary": "#96A2BA",
+   "Accent": "#F2B84D",
+   "Background": "#0A0F1A",
+   "Foreground": "#EDF1F7",
+   "Card": "#131C2E",
+   "Border": "#28334C",
+   "Muted": "#28334C",
+   "Ring": "#F2B84D"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Poster-led split hero + strict tour grid",
+   "Style_Priority": "OLED dark base, serif display, mono data",
+   "Color_Mood": "Night sea with radio amber",
+   "Typography_Mood": "Editorial serif + condensed poster + mono tickets"
+  }
+ },
+ {
+  "name": "Album Release",
+  "keywords": "album preorder vinyl record release musician tracklist presale",
+  "primary_style": "Vintage Analog / Retro Film + Minimalism & Swiss Style",
+  "secondary": "Editorial Grid / Magazine, Nature Distilled",
+  "pattern": "Cover hero > Tracklist > Story > Editions (vinyl/CD/digital) > Presale perks > Tour cross-link",
+  "palette_focus": "Warm paper record-inner with one label red",
+  "palette": {
+   "Primary": "#B3421F",
+   "On Primary": "#F9F4E9",
+   "Secondary": "#5C4F44",
+   "Accent": "#B3421F",
+   "Background": "#F3ECDF",
+   "Foreground": "#29221C",
+   "Card": "#F9F4E9",
+   "Border": "#E0D5BE",
+   "Muted": "#EAE0CB",
+   "Ring": "#B3421F"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Record-inner tracklist grid + sleeve hero",
+   "Style_Priority": "Serif-led, grain texture, restrained label red",
+   "Color_Mood": "Warm paper and vinyl",
+   "Typography_Mood": "Serif display + humanist sans"
+  }
+ },
+ {
+  "name": "Live Venue & Tickets",
+  "keywords": "livehouse concert tickets show calendar venue map music events",
+  "primary_style": "Dark Mode (OLED) + Neubrutalism",
+  "secondary": "Vibrant & Block-based, HUD / Sci-Fi FUI",
+  "pattern": "Show calendar > Venue map > Annual pass > Venue rental > Contact",
+  "palette_focus": "Amber-on-dark poster with status lamps",
+  "palette": {
+   "Primary": "#FFB020",
+   "On Primary": "#14110D",
+   "Secondary": "#F2EAD9",
+   "Accent": "#4ADE80",
+   "Background": "#14110D",
+   "Foreground": "#F2EAD9",
+   "Card": "#1E1913",
+   "Border": "#3A3128",
+   "Muted": "#A79B87",
+   "Ring": "#FFB020"
+  },
+  "reasoning": {
+   "Recommended_Pattern": "Ticket-stub rows with punched edges + status lamp column",
+   "Style_Priority": "Condensed poster type + mono ticket data",
+   "Color_Mood": "Stage-dark with amber spots",
+   "Typography_Mood": "Barlow Condensed + IBM Plex Mono"
+  }
  }
 ]
