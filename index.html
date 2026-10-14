@@ -461,6 +461,23 @@ footer a { color: var(--memphis-purple); font-weight: 700; }
 
 <script src="stats.js"></script>
 <script>
+// 八张精修卡按全站复制次数降序排列（并列或零次保持原顺序）
+(function() {
+  var grid = document.querySelector('.grid');
+  if (!grid || !window.ThemeStats) return;
+  function paint() {
+    var counts = ThemeStats.counts || {};
+    var cards = Array.prototype.slice.call(grid.children);
+    cards.sort(function(a, b) {
+      var ca = counts[(a.querySelector('h2') || {}).textContent && a.querySelector('h2').textContent.trim()] || 0;
+      var cb = counts[(b.querySelector('h2') || {}).textContent && b.querySelector('h2').textContent.trim()] || 0;
+      return cb - ca;
+    });
+    cards.forEach(function(c) { grid.appendChild(c); });
+  }
+  paint();
+  ThemeStats.onupdate = paint;
+})();
 Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function(btn) {
   btn.addEventListener('click', function() {
     var pre = document.getElementById(btn.getAttribute('data-target'));
